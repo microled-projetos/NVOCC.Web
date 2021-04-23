@@ -1,0 +1,60 @@
+﻿table {
+    border-collapse: collapse;
+}
+
+td {
+    padding: 4px;
+}
+
+body {
+    font-family: Verdana;
+    font-size: 11px;
+}
+
+.detalhes-cabecalho td {
+    white-space: nowrap;
+    border-bottom: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.detalhes {
+    text-align: left;
+    white-space: nowrap;
+    font-family: 'Courier New';
+}
+
+.cabecalho-di {
+    font-weight: bold;
+    border: 2px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.detalhes-viagem {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.titulo-relatorio {
+    text-align: center;
+    font-size: 18px;
+}
+
+.data-relatorio {
+    text-align: right;
+    font-size: 12px;
+}
+
+.centralizado {
+    text-align: center;
+}
+
+.adireita {
+    text-align: right;
+}
+
+.linha-total {
+    background-color: #F5F5F5;
+    font-weight: bold;
+    font-family: Verdana;
+}

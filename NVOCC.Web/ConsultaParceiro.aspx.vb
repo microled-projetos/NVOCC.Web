@@ -1,0 +1,212 @@
+﻿Public Class ConsultaParceiro
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("Logado") = "False" Or Session("Logado") = Nothing Then
+
+            Response.Redirect("Login.aspx")
+
+        End If
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+
+                Response.Redirect("Default.aspx")
+
+
+            End If
+
+
+        Else
+            Response.Redirect("Default.aspx")
+        End If
+        Con.Fechar()
+    End Sub
+    Private Sub dgvParceiros_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvParceiros.RowCommand
+        diverro.Visible = False
+        divInfo.Visible = False
+        Dim ID As String = e.CommandArgument
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+            Dim ds As DataSet = Con.ExecutarQuery("select count(ID_BL)ID_BL from TB_BL where ID_PARCEIRO_AGENCIA = " & ID & " OR ID_PARCEIRO_AGENTE = " & ID & " OR ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ID & " OR ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ID & " OR ID_PARCEIRO_ARMAZEM_DESCARGA = " & ID & " OR ID_PARCEIRO_ARMAZEM_DESEMBARACO = " & ID & " OR ID_PARCEIRO_CLIENTE = " & ID & " OR ID_PARCEIRO_COLOADER = " & ID & " OR ID_PARCEIRO_COMISSARIA = " & ID & " OR ID_PARCEIRO_EXPORTADOR = " & ID & " OR ID_PARCEIRO_OPERADOR = " & ID & " OR ID_PARCEIRO_RODOVIARIO = " & ID & " OR ID_PARCEIRO_TRANSPORTADOR = " & ID & " OR ID_PARCEIRO_VENDEDOR = " & ID)
+
+
+            If ds.Tables(0).Rows(0).Item("ID_BL") > 0 Then
+                diverro.Visible = True
+                lblErroExcluir.Text = "Não foi possível excluir o registro: existe uma ou mais BL's vinculadas a este parceiro"
+            Else
+                Con.ExecutarQuery("DELETE FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID & " ; DELETE FROM [dbo].[TB_CONTATO] WHERE ID_PARCEIRO =" & ID & " ; DELETE FROM [dbo].[TB_AMR_PESSOA_EVENTO] WHERE ID_PESSOA =" & ID)
+                dgvParceiros.DataBind()
+                divInfo.Visible = True
+                lblInfo.Text = "Parceiro excluído com sucesso"
+            End If
+
+
+        ElseIf e.CommandName = "Taxas" Then
+
+            Dim ds As DataSet = Con.ExecutarQuery("Select FL_TRANSPORTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
+                    Response.Redirect("TaxasLocaisArmador.aspx?id=" & ID)
+
+
+                Else
+                    Response.Redirect("TaxaParceiro.aspx?id=" & ID)
+
+                End If
+
+            End If
+        End If
+        Con.Fechar()
+    End Sub
+
+    Private Sub dgvParceiros_PreRender(sender As Object, e As EventArgs) Handles dgvParceiros.PreRender
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        'exibe botão de excluir apenas para administradores
+        If Session("ID_TIPO_USUARIO") <> 1 Then
+
+            dgvParceiros.Columns(8).Visible = False
+
+        End If
+
+        'verifica se o usuario tem permissão de alterações de parceiro
+        Dim ds As DataSet = Con.ExecutarQuery("Select FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 And  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+
+                dgvParceiros.Columns(5).Visible = False
+
+            End If
+        Else
+            dgvParceiros.Columns(5).Visible = False
+
+        End If
+
+        'verifica se o usuario tem permissão de acesso ao cadastro de Email x Eventos
+        ds = Con.ExecutarQuery("Select FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+
+                dgvParceiros.Columns(6).Visible = False
+
+            End If
+        Else
+            dgvParceiros.Columns(6).Visible = False
+
+        End If
+
+        'verifica se o usuario tem permissão de acesso ao cadastro de Cliente Final
+        ds = Con.ExecutarQuery("Select FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+
+                dgvParceiros.Columns(7).Visible = False
+
+            End If
+        Else
+            dgvParceiros.Columns(7).Visible = False
+
+        End If
+        Con.Fechar()
+
+    End Sub
+
+    Private Sub ddlConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlConsulta.SelectedIndexChanged
+
+        If ddlConsulta.SelectedValue = 1 Then
+            txtConsulta.Text = ""
+            divPesquisa.Visible = True
+            txtConsulta.CssClass = "form-control cnpj"
+        ElseIf ddlConsulta.SelectedValue = 2 Then
+            txtConsulta.Text = ""
+            divPesquisa.Visible = True
+            txtConsulta.CssClass = "form-control"
+        ElseIf ddlConsulta.SelectedValue = 3 Then
+            txtConsulta.Text = ""
+            divPesquisa.Visible = True
+            txtConsulta.CssClass = "form-control cpf"
+        Else
+            divPesquisa.Visible = False
+        End If
+    End Sub
+
+    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
+        msgerro.Text = ""
+        Dim FILTRO As String = ""
+
+        If txtConsulta.Text = "" Then
+            dsParceiros.SelectCommand = "Select ID_PARCEIRO As Id, CNPJ, NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
+            dgvParceiros.DataBind()
+        Else
+            If ddlConsulta.SelectedValue = 1 Then
+                If Len(txtConsulta.Text) = 18 Then
+                    FILTRO = " WHERE CNPJ = '" & txtConsulta.Text & "'"
+                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                    dgvParceiros.DataBind()
+                Else
+                    msgerro.Text = "CNPJ é composto de 14 caracteres."
+                End If
+
+            ElseIf ddlConsulta.SelectedValue = 3 Then
+                If Len(txtConsulta.Text) = 14 Then
+                    FILTRO = " WHERE CPF = '" & txtConsulta.Text & "'"
+                    dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                    dgvParceiros.DataBind()
+                Else
+                    msgerro.Text = "CPF é composto de 11 caracteres."
+                End If
+            Else
+                FILTRO = " WHERE NM_RAZAO LIKE '%" & txtConsulta.Text & "%' "
+                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                dgvParceiros.DataBind()
+            End If
+        End If
+
+    End Sub
+
+
+
+    Protected Sub dgvParceiros_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
+        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+
+        If dt IsNot Nothing Then
+            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+            Session("TaskTable") = dt
+            dgvParceiros.DataSource = Session("TaskTable")
+            dgvParceiros.DataBind()
+            dgvParceiros.HeaderRow.TableSection = TableRowSection.TableHeader
+        End If
+    End Sub
+
+    Private Function GetSortDirection(ByVal column As String) As String
+        Dim sortDirection As String = "ASC"
+        Dim sortExpression As String = TryCast(ViewState("SortExpression"), String)
+
+        If sortExpression IsNot Nothing Then
+
+            If sortExpression = column Then
+                Dim lastDirection As String = TryCast(ViewState("SortDirection"), String)
+
+                If (lastDirection IsNot Nothing) AndAlso (lastDirection = "ASC") Then
+                    sortDirection = "DESC"
+                End If
+            End If
+        End If
+
+        ViewState("SortDirection") = sortDirection
+        ViewState("SortExpression") = column
+        Return sortDirection
+    End Function
+End Class

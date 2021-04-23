@@ -1,0 +1,873 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{CD8E53D2-B177-494B-AE08-1CEEF98E43D7}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NVOCC.Web</RootNamespace>
+    <AssemblyName>NVOCC.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>WebForms_Basic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>WebForms_Basic.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Users\Grace\Music\ABAINFRA.Web 13042021\bin\ABAINFRA.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.12.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.12.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf, Version=2021.1.29.0, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPdf.2021.1.29\lib\net45\IronPdf.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPdf.Assets.Rendering.Windows, Version=21.0.0.0, Culture=neutral, PublicKeyToken=94e1c31412563c75, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronPdf.Assets.Rendering.Windows.21.0.0\lib\net40\IronPdf.Assets.Rendering.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13.2\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.3.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.3.6\lib\net46\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.12.0.4518.1014\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\net46\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64">
+      <HintPath>..\packages\ODP.Oracle.DataAccess.x64.4.121.2\lib\net40\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.19.10.1\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Reports, Version=0.9.7114.24548, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Report.NET.0.9.8\lib\net472\Reports.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.7.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.bootstrap">
+      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.4.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.3.4.1\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.MSAjax">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.WebForms">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.WebForms.5.0.0\lib\net45\Microsoft.ScriptManager.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Traking.Site">
+      <HintPath>..\..\..\..\..\..\Users\Grace\Desktop\Traking.Site\bin\Release\net5.0\Traking.Site.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Web.Optimization.WebForms">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.WebForms.1.1.3\lib\net45\Microsoft.AspNet.Web.Optimization.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FriendlyUrls">
+      <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.2\lib\net45\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.Routing" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BL_PDF.aspx" />
+    <Content Include="BuscaFreteTransportador.aspx" />
+    <Content Include="CadastrarEmbarqueHouse.aspx" />
+    <Content Include="CadastrarMaster.aspx" />
+    <Content Include="CadastrarOrigemDestino.aspx" />
+    <Content Include="CadastrarParceiro.aspx" />
+    <Content Include="CadastrarPermissao.aspx" />
+    <Content Include="CadastrarUsuario.aspx" />
+    <Content Include="CadastrarUsuarioGrupo.aspx" />
+    <Content Include="CadastroCotacao.aspx" />
+    <Content Include="CadastroNavios.aspx" />
+    <Content Include="ClienteFinal.aspx" />
+    <Content Include="ConsultaParceiro.aspx" />
+    <Content Include="ConsultarWeek.aspx" />
+    <Content Include="ConsultarWeek.aspx.cs" />
+    <Content Include="ConsultarWeek.aspx.designer.cs" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\easy-autocomplete.min.css" />
+    <Content Include="Content\css\easy-autocomplete.themes.min.css" />
+    <Content Include="Content\css\fontawesome-all.css" />
+    <Content Include="Content\css\jquery.dataTables.min.css" />
+    <Content Include="Content\css\relatorios.css" />
+    <Content Include="Content\css\select2.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\signup.css" />
+    <Content Include="Content\css\smart_wizard.css" />
+    <Content Include="Content\css\smart_wizard_theme_dots.css" />
+    <Content Include="Content\css\toastr.css" />
+    <Content Include="Content\fonts\fa-brands-400.svg" />
+    <Content Include="Content\fonts\fa-regular-400.svg" />
+    <Content Include="Content\fonts\fa-solid-900.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\imagens\000000.png" />
+    <Content Include="Content\imagens\0672d6.png" />
+    <Content Include="Content\imagens\159e1b.png" />
+    <Content Include="Content\imagens\7517c2.png" />
+    <Content Include="Content\imagens\b2b4eb.png" />
+    <Content Include="Content\imagens\bg.png" />
+    <Content Include="Content\imagens\e72c17.png" />
+    <Content Include="Content\imagens\e77817.png" />
+    <Content Include="Content\imagens\e7d617.png" />
+    <Content Include="Content\imagens\f5d4cb.png" />
+    <Content Include="Content\imagens\CABECALHO.png" />
+    <Content Include="Content\imagens\FCA.png" />
+    <Content Include="Content\imagens\fundo-conteineres.png" />
+    <Content Include="Content\imagens\fundoteste.png" />
+    <Content Include="Content\imagens\Fundo_FCA.png" />
+    <Content Include="Content\imagens\LOGOnegativo.png" />
+    <Content Include="Content\imagens\minus.png" />
+    <Content Include="Content\imagens\plus.png" />
+    <Content Include="Content\imagens\RODAPE.png" />
+    <Content Include="Content\imagens\search.png" />
+    <Content Include="Content\imagens\seta.png" />
+    <Content Include="Content\imagens\sort_asc.png" />
+    <Content Include="Content\imagens\sort_both.png" />
+    <Content Include="Content\imagens\sort_desc.png" />
+    <Content Include="Content\imagens\teste.png" />
+    <Content Include="Content\imagens\testefundo.png" />
+    <Content Include="Content\js\1-basics.js" />
+    <Content Include="Content\js\2-output-file.js" />
+    <Content Include="Content\js\3-upload.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\campos-numericos.js" />
+    <Content Include="Content\js\dataTables.checkboxes.min.js" />
+    <Content Include="Content\js\datetime-moment.js" />
+    <Content Include="Content\js\jquery.dataTables.min.js" />
+    <Content Include="Content\js\jquery.easy-autocomplete.min.js" />
+    <Content Include="Content\js\jquery.mask.js" />
+    <Content Include="Content\js\jquery.mask.min.js" />
+    <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\js\jquery.smartWizard.js" />
+    <Content Include="Content\js\jquery.smartWizard.min.js" />
+    <Content Include="Content\js\moment-with-locales.js" />
+    <Content Include="Content\js\origem-foto.js" />
+    <Content Include="Content\js\select2.min.js" />
+    <Content Include="Content\js\set-data-hora.js" />
+    <Content Include="Content\js\site.js" />
+    <Content Include="Content\js\toastr.js" />
+    <Content Include="Content\js\viacep.js" />
+    <Content Include="Content\js\webcam.js" />
+    <Content Include="Content\js\webcam.min.js" />
+    <Content Include="Content\ScrollableGridPlugin.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Financeiro.aspx" />
+    <Content Include="CotacaoPDF_ING.aspx" />
+    <Content Include="Courrier.aspx" />
+    <Content Include="Courrier.aspx.cs" />
+    <Content Include="Courrier.aspx.designer.cs" />
+    <Content Include="CourrierInfo.cs" />
+    <Content Include="DBS.cs" />
+    <Content Include="DemurrageControl.cs" />
+    <Content Include="DemurragesCls.cs" />
+    <Content Include="DemurrageService.asmx" />
+    <Content Include="DemurrageService.asmx.cs" />
+    <Content Include="EmissaoBL.aspx" />
+    <Content Include="FreteTransportador.aspx" />
+    <Content Include="CotacaoComercial.aspx" />
+    <Content Include="Default.aspx" />
+    <Content Include="EmailParceiro.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\fa-brands-400.svg" />
+    <Content Include="fonts\fa-regular-400.svg" />
+    <Content Include="fonts\fa-solid-900.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="AntigoCadastrarFreteTransportador.aspx" />
+    <Content Include="GeraPDFSimples.aspx" />
+    <Content Include="GeraPDF.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\fonts\fa-brands-400.eot" />
+    <Content Include="Content\fonts\fa-brands-400.ttf" />
+    <Content Include="Content\fonts\fa-brands-400.woff" />
+    <Content Include="Content\fonts\fa-brands-400.woff2" />
+    <Content Include="Content\fonts\fa-regular-400.eot" />
+    <Content Include="Content\fonts\fa-regular-400.ttf" />
+    <Content Include="Content\fonts\fa-regular-400.woff" />
+    <Content Include="Content\fonts\fa-regular-400.woff2" />
+    <Content Include="Content\fonts\fa-solid-900.eot" />
+    <Content Include="Content\fonts\fa-solid-900.ttf" />
+    <Content Include="Content\fonts\fa-solid-900.woff" />
+    <Content Include="Content\fonts\fa-solid-900.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\js\pt-br.json" />
+    <Content Include="fonts\fa-brands-400.eot" />
+    <Content Include="fonts\fa-brands-400.ttf" />
+    <Content Include="fonts\fa-brands-400.woff" />
+    <Content Include="fonts\fa-brands-400.woff2" />
+    <Content Include="fonts\fa-regular-400.eot" />
+    <Content Include="fonts\fa-regular-400.ttf" />
+    <Content Include="fonts\fa-regular-400.woff" />
+    <Content Include="fonts\fa-regular-400.woff2" />
+    <Content Include="fonts\fa-solid-900.eot" />
+    <Content Include="fonts\fa-solid-900.ttf" />
+    <Content Include="fonts\fa-solid-900.woff" />
+    <Content Include="fonts\fa-solid-900.woff2" />
+    <Content Include="Content\css\bootstrap.min.css.map" />
+    <Content Include="CadastrarFreteTransportador.aspx" />
+    <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ModuloOperacional.aspx" />
+    <Content Include="Processos.cs" />
+    <Content Include="ProcessosBL.aspx" />
+    <Content Include="ProcessosBL.aspx.cs" />
+    <Content Include="ProcessosBL.aspx.designer.cs" />
+    <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="TaxaParceiro.aspx" />
+    <Content Include="TaxaParceiro.aspx.cs" />
+    <Content Include="TaxaParceiro.aspx.designer.cs" />
+    <Content Include="Taxas.cs" />
+    <Content Include="TaxasLocaisArmador.aspx" />
+    <Content Include="TaxasLocaisImpo_PDF.aspx" />
+    <Content Include="TaxasLocaisExpo_PDF.aspx" />
+    <Content Include="WebForm1.aspx" />
+    <Content Include="WebService1.asmx" />
+    <Content Include="WebService1.asmx.cs" />
+    <Content Include="Content\CotacaoPDF.pdf" />
+    <Content Include="Content\PDFAuxiliar.pdf" />
+    <Content Include="Content\SOA.pdf" />
+    <Content Include="Week.cs" />
+    <Content Include="Bundle.config" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="ItemDespesa.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="MoedaFrete.aspx" />
+    <Content Include="MoedaFreteArmador.aspx" />
+    <Content Include="RecuperarSenha.aspx" />
+    <Content Include="Registrar.aspx" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\DetailsView.js" />
+    <Content Include="Scripts\Focus.js" />
+    <Content Include="Scripts\GridView.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\Menu.js" />
+    <Content Include="Scripts\MenuStandards.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\SmartNav.js" />
+    <Content Include="Scripts\TreeView.js" />
+    <Content Include="Scripts\WebForms.js" />
+    <Content Include="Scripts\WebForms\DetailsView.js" />
+    <Content Include="Scripts\WebForms\Focus.js" />
+    <Content Include="Scripts\WebForms\GridView.js" />
+    <Content Include="Scripts\WebForms\Menu.js" />
+    <Content Include="Scripts\WebForms\MenuStandards.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="Scripts\WebForms\SmartNav.js" />
+    <Content Include="Scripts\WebForms\TreeView.js" />
+    <Content Include="Scripts\WebForms\WebForms.js" />
+    <Content Include="Scripts\WebForms\WebParts.js" />
+    <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="Scripts\WebParts.js" />
+    <Content Include="Scripts\WebUIValidation.js" />
+    <Content Include="Site.Master" />
+    <Content Include="TrocarSenha.aspx" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.vb" />
+    <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="BL_PDF.aspx.designer.vb">
+      <DependentUpon>BL_PDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BL_PDF.aspx.vb">
+      <DependentUpon>BL_PDF.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="BuscaFreteTransportador.aspx.designer.vb">
+      <DependentUpon>BuscaFreteTransportador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BuscaFreteTransportador.aspx.vb">
+      <DependentUpon>BuscaFreteTransportador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarEmbarqueHouse.aspx.designer.vb">
+      <DependentUpon>CadastrarEmbarqueHouse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEmbarqueHouse.aspx.vb">
+      <DependentUpon>CadastrarEmbarqueHouse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarMaster.aspx.designer.vb">
+      <DependentUpon>CadastrarMaster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarMaster.aspx.vb">
+      <DependentUpon>CadastrarMaster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarOrigemDestino.aspx.designer.vb">
+      <DependentUpon>CadastrarOrigemDestino.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarOrigemDestino.aspx.vb">
+      <DependentUpon>CadastrarOrigemDestino.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarParceiro.aspx.designer.vb">
+      <DependentUpon>CadastrarParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarParceiro.aspx.vb">
+      <DependentUpon>CadastrarParceiro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarPermissao.aspx.designer.vb">
+      <DependentUpon>CadastrarPermissao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarPermissao.aspx.vb">
+      <DependentUpon>CadastrarPermissao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarUsuario.aspx.designer.vb">
+      <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarUsuario.aspx.vb">
+      <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarUsuarioGrupo.aspx.designer.vb">
+      <DependentUpon>CadastrarUsuarioGrupo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarUsuarioGrupo.aspx.vb">
+      <DependentUpon>CadastrarUsuarioGrupo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastroCotacao.aspx.designer.vb">
+      <DependentUpon>CadastroCotacao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroCotacao.aspx.vb">
+      <DependentUpon>CadastroCotacao.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastroNavios.aspx.designer.vb">
+      <DependentUpon>CadastroNavios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroNavios.aspx.vb">
+      <DependentUpon>CadastroNavios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ClienteFinal.aspx.designer.vb">
+      <DependentUpon>ClienteFinal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ClienteFinal.aspx.vb">
+      <DependentUpon>ClienteFinal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Conexao_oracle.vb" />
+    <Compile Include="Conexao_sql.vb" />
+    <Compile Include="ConsultaParceiro.aspx.designer.vb">
+      <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultaParceiro.aspx.vb">
+      <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Excel.vb" />
+    <Compile Include="Financeiro.aspx.designer.vb">
+      <DependentUpon>Financeiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Financeiro.aspx.vb">
+      <DependentUpon>Financeiro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CotacaoPDF_ING.aspx.designer.vb">
+      <DependentUpon>CotacaoPDF_ING.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CotacaoPDF_ING.aspx.vb">
+      <DependentUpon>CotacaoPDF_ING.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EmissaoBL.aspx.designer.vb">
+      <DependentUpon>EmissaoBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmissaoBL.aspx.vb">
+      <DependentUpon>EmissaoBL.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Exportacao.vb" />
+    <Compile Include="FreteTransportador.aspx.designer.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FreteTransportador.aspx.vb">
+      <DependentUpon>FreteTransportador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CotacaoComercial.aspx.designer.vb">
+      <DependentUpon>CotacaoComercial.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CotacaoComercial.aspx.vb">
+      <DependentUpon>CotacaoComercial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailParceiro.aspx.designer.vb">
+      <DependentUpon>EmailParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailParceiro.aspx.vb">
+      <DependentUpon>EmailParceiro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AntigoCadastrarFreteTransportador.aspx.designer.vb">
+      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AntigoCadastrarFreteTransportador.aspx.vb">
+      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GeraPDFSimples.aspx.designer.vb">
+      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GeraPDFSimples.aspx.vb">
+      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GeraPDF.aspx.designer.vb">
+      <DependentUpon>GeraPDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GeraPDF.aspx.vb">
+      <DependentUpon>GeraPDF.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Global.asax.vb">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\CalculaBL.vb" />
+    <Compile Include="Helpers\Criptografia.vb" />
+    <Compile Include="Helpers\ValidaCNPJ.vb" />
+    <Compile Include="Helpers\ValidaCPF.vb" />
+    <Compile Include="Helpers\ValidaEmail.vb" />
+    <Compile Include="CotacaoPDF_PT.aspx.designer.vb">
+      <DependentUpon>CotacaoPDF_PT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CotacaoPDF_PT.aspx.vb">
+      <DependentUpon>CotacaoPDF_PT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ItemDespesa.aspx.designer.vb">
+      <DependentUpon>ItemDespesa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ItemDespesa.aspx.vb">
+      <DependentUpon>ItemDespesa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModuloOperacional.aspx.designer.vb">
+      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModuloOperacional.aspx.vb">
+      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="MoedaFrete.aspx.designer.vb">
+      <DependentUpon>MoedaFrete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoedaFrete.aspx.vb">
+      <DependentUpon>MoedaFrete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoedaFreteArmador.aspx.designer.vb">
+      <DependentUpon>MoedaFreteArmador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoedaFreteArmador.aspx.vb">
+      <DependentUpon>MoedaFreteArmador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\MyExtensions\MyWebExtension.vb">
+      <VBMyExtensionTemplateID>Microsoft.VisualBasic.Web.MyExtension</VBMyExtensionTemplateID>
+      <VBMyExtensionTemplateVersion>1.0.0.0</VBMyExtensionTemplateVersion>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="CadastrarFreteTransportador.aspx.designer.vb">
+      <DependentUpon>CadastrarFreteTransportador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarFreteTransportador.aspx.vb">
+      <DependentUpon>CadastrarFreteTransportador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecuperarSenha.aspx.designer.vb">
+      <DependentUpon>RecuperarSenha.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RecuperarSenha.aspx.vb">
+      <DependentUpon>RecuperarSenha.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Registrar.aspx.designer.vb">
+      <DependentUpon>Registrar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Registrar.aspx.vb">
+      <DependentUpon>Registrar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SelecionaPerfil.aspx.designer.vb">
+      <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SelecionaPerfil.aspx.vb">
+      <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Services\EmailService.vb" />
+    <Compile Include="Site.Master.designer.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.vb">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TaxasLocaisArmador.aspx.designer.vb">
+      <DependentUpon>TaxasLocaisArmador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TaxasLocaisArmador.aspx.vb">
+      <DependentUpon>TaxasLocaisArmador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TaxasLocaisImpo_PDF.aspx.designer.vb">
+      <DependentUpon>TaxasLocaisImpo_PDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TaxasLocaisImpo_PDF.aspx.vb">
+      <DependentUpon>TaxasLocaisImpo_PDF.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="TaxasLocaisExpo_PDF.aspx.designer.vb">
+      <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TaxasLocaisExpo_PDF.aspx.vb">
+      <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="TrocarSenha.aspx.designer.vb">
+      <DependentUpon>TrocarSenha.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrocarSenha.aspx.vb">
+      <DependentUpon>TrocarSenha.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerificaData.vb" />
+    <Compile Include="ViewSwitcher.ascx.vb">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.designer.vb">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.vb">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="ViewSwitcher.ascx" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>61899</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:61899/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
