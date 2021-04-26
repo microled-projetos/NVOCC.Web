@@ -244,6 +244,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BL_PDF.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
     <Content Include="CadastrarEmbarqueHouse.aspx" />
@@ -255,6 +256,7 @@
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
     <Content Include="CadastroNavios.aspx" />
+    <Content Include="CalcularRecebimento.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
@@ -332,6 +334,7 @@
     <Content Include="Content\js\webcam.min.js" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="EmissaoND.aspx" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -398,11 +401,13 @@
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
     <Content Include="ModuloOperacional.aspx" />
+    <Content Include="MontagemPagamento.aspx" />
     <Content Include="Processos.cs" />
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
     <Content Include="ProcessosBL.aspx.designer.cs" />
     <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
     <Content Include="TaxaParceiro.aspx.cs" />
     <Content Include="TaxaParceiro.aspx.designer.cs" />
@@ -472,6 +477,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="BaixasCancelamentos.aspx.designer.vb">
+      <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaixasCancelamentos.aspx.vb">
+      <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="BL_PDF.aspx.designer.vb">
       <DependentUpon>BL_PDF.aspx</DependentUpon>
     </Compile>
@@ -549,6 +561,13 @@
       <DependentUpon>CadastroNavios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="CalcularRecebimento.aspx.designer.vb">
+      <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CalcularRecebimento.aspx.vb">
+      <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ClienteFinal.aspx.designer.vb">
       <DependentUpon>ClienteFinal.aspx</DependentUpon>
     </Compile>
@@ -563,6 +582,13 @@
     </Compile>
     <Compile Include="ConsultaParceiro.aspx.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmissaoND.aspx.designer.vb">
+      <DependentUpon>EmissaoND.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmissaoND.aspx.vb">
+      <DependentUpon>EmissaoND.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Excel.vb" />
     <Compile Include="Financeiro.aspx.designer.vb">
@@ -686,6 +712,13 @@
       <DependentUpon>MoedaFreteArmador.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="MontagemPagamento.aspx.designer.vb">
+      <DependentUpon>MontagemPagamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MontagemPagamento.aspx.vb">
+      <DependentUpon>MontagemPagamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -740,6 +773,13 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SolicitacaoPagamento.aspx.designer.vb">
+      <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SolicitacaoPagamento.aspx.vb">
+      <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TaxasLocaisArmador.aspx.designer.vb">
       <DependentUpon>TaxasLocaisArmador.aspx</DependentUpon>
