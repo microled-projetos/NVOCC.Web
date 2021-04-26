@@ -529,6 +529,8 @@ WHERE ID_CNTR_BL = " & ID)
                     txtTara_CNTRMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TARA")
                 End If
 
+                txtControle.Text = 1
+
                 mpeCNTRMaritimo.Show()
 
             End If

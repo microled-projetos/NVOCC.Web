@@ -370,7 +370,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO">
+                                                                            <asp:RadioButtonList ID="rdNavios" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -428,7 +428,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios1" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO">
+                                                                            <asp:RadioButtonList ID="rdNavios1" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -485,15 +485,13 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios2" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO">
+                                                                            <asp:RadioButtonList ID="rdNavios2" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-
 
                                                         </div>
                                                         <div class="modal-footer">
@@ -542,7 +540,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios3" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO">
+                                                                            <asp:RadioButtonList ID="rdNavios3" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>

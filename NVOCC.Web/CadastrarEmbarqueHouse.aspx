@@ -275,7 +275,7 @@
                                                     <Columns>
                                                        
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
-                                                        <asp:BoundField DataField="TIPO_CONTAINER" HeaderText="Container" SortExpression="TIPO_CONTAINER" />
+                                                        <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
                                                         <asp:BoundField DataField="MERCADORIA" HeaderText="Mercadoria" SortExpression="MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -391,19 +391,19 @@
                                                                         <asp:DropDownList ID="ddlEmbalagem_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Número do Container:</label>
-                                                                        <asp:TextBox ID="txtNumeroContainer_CargaMaritimo" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo Container:</label>
-                                                                        <asp:DropDownList ID="ddlTipoContainer_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
+                                                                        <asp:DropDownList ID="ddlTipoContainer_CargaMaritimo" AutoPostBack="True" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Número do Container:</label>
+                                                                        <asp:TextBox ID="txtNumeroContainer_CargaMaritimo" runat="server" CssClass="form-control" Visible="false"></asp:TextBox>
+                                                                        <asp:DropDownList ID="ddlNumeroCNTR_CargaMaritimo" AutoPostBack="True" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NR_CNTR" DataSourceID="dsCNTR" DataValueField="ID_CNTR_BL"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>                                       
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Número do Lacre:</label>
@@ -430,7 +430,8 @@
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaMaritimo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaMaritimo" />
-
+                                                <asp:AsyncPostBackTrigger ControlID="ddlTipoContainer_CargaMaritimo" />  
+                                                <asp:AsyncPostBackTrigger ControlID="ddlNumeroCNTR_CargaMaritimo" />                                                   
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1082,7 +1083,7 @@
                                                 <asp:GridView ID="dgvCargaAereo" DataKeyNames="ID_CARGA_BL" DataSourceID="dsCargaAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                     <Columns>
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
-                                                        <asp:BoundField DataField="TIPO_CONTAINER" HeaderText="Container" SortExpression="TIPO_CONTAINER" />
+                                                        <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
                                                         <asp:BoundField DataField="MERCADORIA" HeaderText="Mercadoria" SortExpression="MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -1696,6 +1697,14 @@ union SELECT  0, 'Selecione' FROM TB_STATUS_PAGAMENTO ORDER BY ID_STATUS_PAGAMEN
         SelectCommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsCNTR" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_CNTR_BL, NR_CNTR FROM TB_CNTR_BL WHERE ID_TIPO_CNTR = 0
+union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL">
+         <%--<SelectParameters>
+            <asp:ControlParameter Name="TIPO_CNTR" Type="Int32" ControlID="ddlNumeroCNTR_CargaMaritimo" />
+        </SelectParameters>--%>
+    </asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM [dbo].[TB_MERCADORIA]
 union SELECT 0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_MERCADORIA"></asp:SqlDataSource>
@@ -1738,7 +1747,7 @@ union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO"></asp:SqlDat
     <asp:SqlDataSource ID="dsCargaMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
-(SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_CNTR_BL)TIPO_CONTAINER,
+(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
 ID_MERCADORIA,
 (SELECT NM_MERCADORIA FROM TB_MERCADORIA WHERE ID_MERCADORIA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
@@ -1755,8 +1764,7 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
     <asp:SqlDataSource ID="dsCargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
-(SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_CNTR_BL)TIPO_CONTAINER,
-ID_MERCADORIA,
+(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,ID_MERCADORIA,
 (SELECT NM_MERCADORIA FROM TB_MERCADORIA WHERE ID_MERCADORIA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,

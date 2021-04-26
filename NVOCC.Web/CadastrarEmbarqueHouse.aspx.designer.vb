@@ -500,6 +500,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlEmbalagem_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlTipoContainer_CargaMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoContainer_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtNumeroContainer_CargaMaritimo.
     '''</summary>
     '''<remarks>
@@ -509,13 +518,13 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtNumeroContainer_CargaMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlTipoContainer_CargaMaritimo.
+    '''Controle ddlNumeroCNTR_CargaMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlTipoContainer_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlNumeroCNTR_CargaMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtNumeroLacre_CargaMaritimo.
@@ -2271,6 +2280,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsCNTR.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsCNTR As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMercadoria.
