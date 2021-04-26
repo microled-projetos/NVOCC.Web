@@ -1,4 +1,5 @@
-﻿Public Class ModuloOperacional
+﻿Imports System.Configuration
+Public Class ModuloOperacional
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -463,183 +464,183 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     End Sub
 
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
-            divSuccessMaster.Visible = False
-            divErroMaster.Visible = False
-            If e.CommandName = "Selecionar" Then
-                If txtLinhaMaster.Text <> "" Then
-                    dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "Normal"
-                End If
-                Dim ID As String = e.CommandArgument
-
-
-                txtID_Master.Text = ID.Substring(0, ID.IndexOf("|"))
-
-                txtLinhaMaster.Text = ID.Substring(ID.IndexOf("|"))
-                txtLinhaMaster.Text = txtLinhaMaster.Text.Replace("|", "")
-
-
-                For i As Integer = 0 To dgvMaster.Rows.Count - 1
-                    dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "Normal"
-
-                Next
-
-                dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "selected1"
-
+        divSuccessMaster.Visible = False
+        divErroMaster.Visible = False
+        If e.CommandName = "Selecionar" Then
+            If txtLinhaMaster.Text <> "" Then
+                dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "Normal"
             End If
-        End Sub
-
-        Private Sub dgvEmbarque_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvEmbarque.RowCommand
-            divSuccess.Visible = False
-            divErroEmbarque.Visible = False
-            If e.CommandName = "Selecionar" Then
-                If txtLinhaEmbarque.Text <> "" Then
-                    dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "Normal"
-                End If
-                Dim ID As String = e.CommandArgument
+            Dim ID As String = e.CommandArgument
 
 
-                txtID_Embarque.Text = ID.Substring(0, ID.IndexOf("|"))
+            txtID_Master.Text = ID.Substring(0, ID.IndexOf("|"))
 
-                txtLinhaEmbarque.Text = ID.Substring(ID.IndexOf("|"))
-                txtLinhaEmbarque.Text = txtLinhaEmbarque.Text.Replace("|", "")
+            txtLinhaMaster.Text = ID.Substring(ID.IndexOf("|"))
+            txtLinhaMaster.Text = txtLinhaMaster.Text.Replace("|", "")
 
 
-                For i As Integer = 0 To dgvEmbarque.Rows.Count - 1
-                    dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "Normal"
+            For i As Integer = 0 To dgvMaster.Rows.Count - 1
+                dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "Normal"
 
-                Next
+            Next
 
-                dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "selected1"
+            dgvMaster.Rows(txtLinhaMaster.Text).CssClass = "selected1"
 
+        End If
+    End Sub
+
+    Private Sub dgvEmbarque_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvEmbarque.RowCommand
+        divSuccess.Visible = False
+        divErroEmbarque.Visible = False
+        If e.CommandName = "Selecionar" Then
+            If txtLinhaEmbarque.Text <> "" Then
+                dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "Normal"
             End If
-        End Sub
+            Dim ID As String = e.CommandArgument
 
-        Private Sub lkAlterarEmbarque_Click(sender As Object, e As EventArgs) Handles lkAlterarEmbarque.Click
-            divSuccessEmbarque.Visible = False
-            divErroEmbarque.Visible = False
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
 
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                    divErroEmbarque.Visible = True
-                    lblErroEmbarque.Text = "Usuário não possui permissão."
+            txtID_Embarque.Text = ID.Substring(0, ID.IndexOf("|"))
 
-                    Exit Sub
-                Else
-                    If txtID_Embarque.Text = "" Then
-                        divErroEmbarque.Visible = True
-                        lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
-                    Else
-                        Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
-                        url = String.Format(url, txtID_Embarque.Text)
-                        Response.Redirect(url)
-                    End If
-                End If
-            Else
+            txtLinhaEmbarque.Text = ID.Substring(ID.IndexOf("|"))
+            txtLinhaEmbarque.Text = txtLinhaEmbarque.Text.Replace("|", "")
+
+
+            For i As Integer = 0 To dgvEmbarque.Rows.Count - 1
+                dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "Normal"
+
+            Next
+
+            dgvEmbarque.Rows(txtLinhaEmbarque.Text).CssClass = "selected1"
+
+        End If
+    End Sub
+
+    Private Sub lkAlterarEmbarque_Click(sender As Object, e As EventArgs) Handles lkAlterarEmbarque.Click
+        divSuccessEmbarque.Visible = False
+        divErroEmbarque.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
                 divErroEmbarque.Visible = True
                 lblErroEmbarque.Text = "Usuário não possui permissão."
-            End If
-        End Sub
 
-        Private Sub lkAlterarMaster_Click(sender As Object, e As EventArgs) Handles lkAlterarMaster.Click
-            divSuccessMaster.Visible = False
-            divErroMaster.Visible = False
-            Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "Usuário não possui permissão."
-
-                    Exit Sub
-                Else
-                    If txtID_Master.Text = "" Then
-                        divErroMaster.Visible = True
-                        lblErroMaster.Text = "Selecione o registro que deseja editar!"
-                    Else
-                        Dim url As String = "CadastrarMaster.aspx?id={0}"
-                        url = String.Format(url, txtID_Master.Text)
-                        Response.Redirect(url)
-                    End If
-                End If
+                Exit Sub
             Else
+                If txtID_Embarque.Text = "" Then
+                    divErroEmbarque.Visible = True
+                    lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
+                Else
+                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
+                    url = String.Format(url, txtID_Embarque.Text)
+                    Response.Redirect(url)
+                End If
+            End If
+        Else
+            divErroEmbarque.Visible = True
+            lblErroEmbarque.Text = "Usuário não possui permissão."
+        End If
+    End Sub
+
+    Private Sub lkAlterarMaster_Click(sender As Object, e As EventArgs) Handles lkAlterarMaster.Click
+        divSuccessMaster.Visible = False
+        divErroMaster.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
                 divErroMaster.Visible = True
                 lblErroMaster.Text = "Usuário não possui permissão."
-            End If
-        End Sub
 
-        Private Sub rdTRansporteEmbarque_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporteEmbarque.SelectedIndexChanged
-            GridEmbarque()
-        End Sub
-
-        Private Sub rdServicoEmbarque_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServicoEmbarque.SelectedIndexChanged
-            GridEmbarque()
-        End Sub
-
-        Private Sub rdServicoMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServicoMaster.SelectedIndexChanged
-            GridMaster()
-        End Sub
-
-        Private Sub rdTransporteMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTransporteMaster.SelectedIndexChanged
-            GridMaster()
-        End Sub
-
-        Private Sub btnPesquisaEmbarque_Click(sender As Object, e As EventArgs) Handles btnPesquisaEmbarque.Click
-            If ddlFiltroEmbarque.SelectedValue = 0 Or txtPesquisaEmbarque.Text = "" Then
-                dgvEmbarque.DataBind()
+                Exit Sub
             Else
-                Dim FILTRO As String
-
-
-                If ddlFiltroEmbarque.SelectedValue = 1 Then
-                    FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-                ElseIf ddlFiltroEmbarque.SelectedValue = 2 Then
-                    FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-                ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
-                    FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
-                    'ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
-                    '    FILTRO = " ID_BL_MASTER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+                If txtID_Master.Text = "" Then
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "Selecione o registro que deseja editar!"
+                Else
+                    Dim url As String = "CadastrarMaster.aspx?id={0}"
+                    url = String.Format(url, txtID_Master.Text)
+                    Response.Redirect(url)
                 End If
+            End If
+        Else
+            divErroMaster.Visible = True
+            lblErroMaster.Text = "Usuário não possui permissão."
+        End If
+    End Sub
+
+    Private Sub rdTRansporteEmbarque_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporteEmbarque.SelectedIndexChanged
+        GridEmbarque()
+    End Sub
+
+    Private Sub rdServicoEmbarque_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServicoEmbarque.SelectedIndexChanged
+        GridEmbarque()
+    End Sub
+
+    Private Sub rdServicoMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServicoMaster.SelectedIndexChanged
+        GridMaster()
+    End Sub
+
+    Private Sub rdTransporteMaster_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTransporteMaster.SelectedIndexChanged
+        GridMaster()
+    End Sub
+
+    Private Sub btnPesquisaEmbarque_Click(sender As Object, e As EventArgs) Handles btnPesquisaEmbarque.Click
+        If ddlFiltroEmbarque.SelectedValue = 0 Or txtPesquisaEmbarque.Text = "" Then
+            dgvEmbarque.DataBind()
+        Else
+            Dim FILTRO As String
+
+
+            If ddlFiltroEmbarque.SelectedValue = 1 Then
+                FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+            ElseIf ddlFiltroEmbarque.SelectedValue = 2 Then
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+            ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
+                FILTRO = " PARCEIRO_CLIENTE LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+                'ElseIf ddlFiltroEmbarque.SelectedValue = 4 Then
+                '    FILTRO = " ID_BL_MASTER LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+            End If
 
             Dim sql As String = "select * from [dbo].[View_Embarque] WHERE " & FILTRO
             dsEmbarque.SelectCommand = sql
-                dgvEmbarque.DataBind()
+            dgvEmbarque.DataBind()
 
-            End If
-        End Sub
+        End If
+    End Sub
 
-        Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
-            If ddFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
-                dgvMaster.DataBind()
-            Else
-                Dim FILTRO As String
+    Private Sub btnPesquisaMaster_Click(sender As Object, e As EventArgs) Handles btnPesquisaMaster.Click
+        If ddFiltroMaster.SelectedValue = 0 Or txtPesquisaMaster.Text = "" Then
+            dgvMaster.DataBind()
+        Else
+            Dim FILTRO As String
 
 
-                If ddFiltroMaster.SelectedValue = 1 Then
+            If ddFiltroMaster.SelectedValue = 1 Then
                 FILTRO = " NR_BL LIKE '%" & txtPesquisaMaster.Text & "%' "
             ElseIf ddFiltroMaster.SelectedValue = 2 Then
-                    FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaMaster.Text & "%' "
-                ElseIf ddFiltroMaster.SelectedValue = 3 Then
-                    FILTRO = " Origem LIKE '%" & txtPesquisaMaster.Text & "%' "
-                ElseIf ddFiltroMaster.SelectedValue = 4 Then
-                    FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
-                End If
+                FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaMaster.Text & "%' "
+            ElseIf ddFiltroMaster.SelectedValue = 3 Then
+                FILTRO = " Origem LIKE '%" & txtPesquisaMaster.Text & "%' "
+            ElseIf ddFiltroMaster.SelectedValue = 4 Then
+                FILTRO = " Destino LIKE '%" & txtPesquisaMaster.Text & "%' "
+            End If
 
             Dim sql As String = "select * from [dbo].[View_Master] WHERE " & FILTRO
             dsMaster.SelectCommand = sql
-                dgvMaster.DataBind()
+            dgvMaster.DataBind()
 
-            End If
-        End Sub
+        End If
+    End Sub
 
-        Private Sub btnFiltrar_Embarque_Click(sender As Object, e As EventArgs) Handles btnFiltrar_Embarque.Click
-            Dim sql As String = "select * from [dbo].[View_BL] WHERE ID_BL_MASTER IS NOT NULL AND"
+    Private Sub btnFiltrar_Embarque_Click(sender As Object, e As EventArgs) Handles btnFiltrar_Embarque.Click
+        Dim sql As String = "select * from [dbo].[View_BL] WHERE ID_BL_MASTER IS NOT NULL AND"
 
-            If txtAgente_Embarque.Text = "" And
+        If txtAgente_Embarque.Text = "" And
             txtExportador_Embarque.Text = "" And
             txtTransportador_Embarque.Text = "" And
             txtCliente_Embarque.Text = "" And
@@ -659,71 +660,71 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             txtInicialChegada_Embarque.Text = "" And
             txtFimChegada_Embarque.Text = "" Then
 
-                dgvEmbarque.DataBind()
+            dgvEmbarque.DataBind()
 
-            Else
+        Else
 
-                If txtAgente_Embarque.Text <> "" Then
-                    sql &= " PARCEIRO_AGENTE LIKE '%" & txtAgente_Embarque.Text & "%' "
+            If txtAgente_Embarque.Text <> "" Then
+                sql &= " PARCEIRO_AGENTE LIKE '%" & txtAgente_Embarque.Text & "%' "
 
-                ElseIf txtExportador_Embarque.Text <> "" Then
-                    sql &= " PARCEIRO_EXPORTADOR LIKE '%" & txtExportador_Embarque.Text & "%' "
+            ElseIf txtExportador_Embarque.Text <> "" Then
+                sql &= " PARCEIRO_EXPORTADOR LIKE '%" & txtExportador_Embarque.Text & "%' "
 
-                ElseIf txtTransportador_Embarque.Text <> "" Then
-                    sql &= " PARCEIRO_TRANSPORTADOR LIKE '%" & txtTransportador_Embarque.Text & "%' "
+            ElseIf txtTransportador_Embarque.Text <> "" Then
+                sql &= " PARCEIRO_TRANSPORTADOR LIKE '%" & txtTransportador_Embarque.Text & "%' "
 
-                ElseIf txtCliente_Embarque.Text <> "" Then
-                    sql &= " PARCEIRO_CLIENTE LIKE '%" & txtCliente_Embarque.Text & "%' "
+            ElseIf txtCliente_Embarque.Text <> "" Then
+                sql &= " PARCEIRO_CLIENTE LIKE '%" & txtCliente_Embarque.Text & "%' "
 
-                ElseIf txtRefCliente_Embarque.Text <> "" Then
-                    sql &= " NR_REFERENCIA_CLIENTE LIKE '%" & txtRefCliente_Embarque.Text & "%' "
+            ElseIf txtRefCliente_Embarque.Text <> "" Then
+                sql &= " NR_REFERENCIA_CLIENTE LIKE '%" & txtRefCliente_Embarque.Text & "%' "
 
-                ElseIf txtEstufagem_Embarque.Text <> "" Then
-                    sql &= " TIPO_ESTUFAGEM LIKE '%" & txtEstufagem_Embarque.Text & "%' "
+            ElseIf txtEstufagem_Embarque.Text <> "" Then
+                sql &= " TIPO_ESTUFAGEM LIKE '%" & txtEstufagem_Embarque.Text & "%' "
 
-                ElseIf txtOrigem_Embarque.Text <> "" Then
-                    sql &= " ORIGEM LIKE '%" & txtOrigem_Embarque.Text & "%' "
+            ElseIf txtOrigem_Embarque.Text <> "" Then
+                sql &= " ORIGEM LIKE '%" & txtOrigem_Embarque.Text & "%' "
 
-                ElseIf txtDestino_Embarque.Text <> "" Then
-                    sql &= " DESTINO LIKE '%" & txtDestino_Embarque.Text & "%' "
+            ElseIf txtDestino_Embarque.Text <> "" Then
+                sql &= " DESTINO LIKE '%" & txtDestino_Embarque.Text & "%' "
 
-                ElseIf txtTipoFrete_Embarque.Text <> "" Then
-                    sql &= " TIPO_FRETE LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
+            ElseIf txtTipoFrete_Embarque.Text <> "" Then
+                sql &= " TIPO_FRETE LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
 
-                ElseIf txtNavio_Embarque.Text <> "" Then
-                    sql &= " NAVIO LIKE '%" & txtNavio_Embarque.Text & "%' "
+            ElseIf txtNavio_Embarque.Text <> "" Then
+                sql &= " NAVIO LIKE '%" & txtNavio_Embarque.Text & "%' "
 
-                ElseIf txtNavioTransb_Embarque.Text <> "" Then
-                    sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
+            ElseIf txtNavioTransb_Embarque.Text <> "" Then
+                sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
 
-                ElseIf txtPrevInicialEmbarque_Embarque.Text <> "" And txtPrevFimEmbarque_Embarque.Text <> "" Then
-                    sql &= "DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
+            ElseIf txtPrevInicialEmbarque_Embarque.Text <> "" And txtPrevFimEmbarque_Embarque.Text <> "" Then
+                sql &= "DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
 
-                ElseIf txtInicialEmbarque_Embarque.Text <> "" And txtFimEmbarque_Embarque.Text <> "" Then
-                    sql &= "DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
+            ElseIf txtInicialEmbarque_Embarque.Text <> "" And txtFimEmbarque_Embarque.Text <> "" Then
+                sql &= "DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
 
-                ElseIf txtPrevInicialChegada_Embarque.Text <> "" And txtPrevFimChegada_Embarque.Text <> "" Then
-                    sql &= "DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
+            ElseIf txtPrevInicialChegada_Embarque.Text <> "" And txtPrevFimChegada_Embarque.Text <> "" Then
+                sql &= "DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
 
-                ElseIf txtInicialChegada_Embarque.Text <> "" And txtFimChegada_Embarque.Text <> "" Then
-                    sql &= "DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
-
-                End If
-
-                dsEmbarque.SelectCommand = sql
-                dgvEmbarque.DataBind()
+            ElseIf txtInicialChegada_Embarque.Text <> "" And txtFimChegada_Embarque.Text <> "" Then
+                sql &= "DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
 
             End If
 
-            FecharFiltros()
+            dsEmbarque.SelectCommand = sql
+            dgvEmbarque.DataBind()
 
-        End Sub
+        End If
 
-        Private Sub btnFiltrar_House_Click(sender As Object, e As EventArgs) Handles btnFiltrar_House.Click
+        FecharFiltros()
 
-            Dim sql As String = "select * from [dbo].[View_BL] WHERE ID_BL_MASTER IS NOT NULL "
+    End Sub
 
-            If txtAgente_House.Text = "" And
+    Private Sub btnFiltrar_House_Click(sender As Object, e As EventArgs) Handles btnFiltrar_House.Click
+
+        Dim sql As String = "select * from [dbo].[View_BL] WHERE ID_BL_MASTER IS NOT NULL "
+
+        If txtAgente_House.Text = "" And
             txtExportador_House.Text = "" And
             txtTransportador_House.Text = "" And
         txtCliente_House.Text = "" And
@@ -742,120 +743,120 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         txtFimPrevChegada_House.Text = "" And
         txtInicioChegada_House.Text = "" And
         txtFimChegada_House.Text = "" Then
-                dgvHouse.DataBind()
-            Else
-                If txtAgente_House.Text <> "" Then
-                    sql &= "AND PARCEIRO_AGENTE LIKE '%" & txtAgente_House.Text & "%' "
+            dgvHouse.DataBind()
+        Else
+            If txtAgente_House.Text <> "" Then
+                sql &= "AND PARCEIRO_AGENTE LIKE '%" & txtAgente_House.Text & "%' "
 
-                ElseIf txtExportador_House.Text <> "" Then
-                    sql &= "AND PARCEIRO_EXPORTADOR LIKE '%" & txtExportador_House.Text & "%' "
+            ElseIf txtExportador_House.Text <> "" Then
+                sql &= "AND PARCEIRO_EXPORTADOR LIKE '%" & txtExportador_House.Text & "%' "
 
-                ElseIf txtTransportador_House.Text <> "" Then
-                    sql &= "AND PARCEIRO_TRANSPORTADOR LIKE '%" & txtTransportador_House.Text & "%' "
+            ElseIf txtTransportador_House.Text <> "" Then
+                sql &= "AND PARCEIRO_TRANSPORTADOR LIKE '%" & txtTransportador_House.Text & "%' "
 
-                ElseIf txtCliente_House.Text <> "" Then
-                    sql &= "AND PARCEIRO_CLIENTE LIKE '%" & txtCliente_House.Text & "%' "
+            ElseIf txtCliente_House.Text <> "" Then
+                sql &= "AND PARCEIRO_CLIENTE LIKE '%" & txtCliente_House.Text & "%' "
 
-                ElseIf txtRefCliente_House.Text <> "" Then
-                    sql &= "AND NR_REFERENCIA_CLIENTE LIKE '%" & txtRefCliente_House.Text & "%' "
+            ElseIf txtRefCliente_House.Text <> "" Then
+                sql &= "AND NR_REFERENCIA_CLIENTE LIKE '%" & txtRefCliente_House.Text & "%' "
 
-                ElseIf txtEstufagem_House.Text <> "" Then
-                    sql &= "AND TIPO_ESTUFAGEM LIKE '%" & txtEstufagem_House.Text & "%' "
+            ElseIf txtEstufagem_House.Text <> "" Then
+                sql &= "AND TIPO_ESTUFAGEM LIKE '%" & txtEstufagem_House.Text & "%' "
 
-                ElseIf txtOrigem_House.Text <> "" Then
-                    sql &= "AND ORIGEM LIKE '%" & txtOrigem_House.Text & "%' "
+            ElseIf txtOrigem_House.Text <> "" Then
+                sql &= "AND ORIGEM LIKE '%" & txtOrigem_House.Text & "%' "
 
-                ElseIf txtDestino_House.Text <> "" Then
-                    sql &= "AND DESTINO LIKE '%" & txtDestino_House.Text & "%' "
+            ElseIf txtDestino_House.Text <> "" Then
+                sql &= "AND DESTINO LIKE '%" & txtDestino_House.Text & "%' "
 
-                ElseIf txtTipoFrete_House.Text <> "" Then
-                    sql &= "AND TIPO_PAGAMENTO LIKE '%" & txtTipoFrete_House.Text & "%' "
+            ElseIf txtTipoFrete_House.Text <> "" Then
+                sql &= "AND TIPO_PAGAMENTO LIKE '%" & txtTipoFrete_House.Text & "%' "
 
-                ElseIf txtNavio_House.Text <> "" Then
-                    sql &= "AND NAVIO LIKE '%" & txtNavio_House.Text & "%' "
+            ElseIf txtNavio_House.Text <> "" Then
+                sql &= "AND NAVIO LIKE '%" & txtNavio_House.Text & "%' "
 
-                ElseIf txtNavioTransb_House.Text <> "" Then
-                    sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
+            ElseIf txtNavioTransb_House.Text <> "" Then
+                sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
 
-                ElseIf txtInicioPrevEmbarque_House.Text <> "" And txtFimPrevEmbarque_House.Text <> "" Then
-                    sql &= "AND DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "
+            ElseIf txtInicioPrevEmbarque_House.Text <> "" And txtFimPrevEmbarque_House.Text <> "" Then
+                sql &= "AND DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "
 
-                ElseIf txtInicioEmbarque_House.Text <> "" And txtFimEmbarque_House.Text <> "" Then
-                    sql &= "AND DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_House.Text & "',103) "
+            ElseIf txtInicioEmbarque_House.Text <> "" And txtFimEmbarque_House.Text <> "" Then
+                sql &= "AND DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_House.Text & "',103) "
 
-                ElseIf txtInicioPrevChegada_House.Text <> "" And txtFimPrevChegada_House.Text <> "" Then
-                    sql &= "AND DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtInicioPrevChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevChegada_House.Text & "',103) "
+            ElseIf txtInicioPrevChegada_House.Text <> "" And txtFimPrevChegada_House.Text <> "" Then
+                sql &= "AND DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtInicioPrevChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevChegada_House.Text & "',103) "
 
-                ElseIf txtInicioChegada_House.Text <> "" And txtFimChegada_House.Text <> "" Then
-                    sql &= "AND DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicioChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimChegada_House.Text & "',103) "
-
-                End If
-
-                dsHouse.SelectCommand = sql
-                dgvHouse.DataBind()
+            ElseIf txtInicioChegada_House.Text <> "" And txtFimChegada_House.Text <> "" Then
+                sql &= "AND DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicioChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimChegada_House.Text & "',103) "
 
             End If
 
-            FecharFiltros()
+            dsHouse.SelectCommand = sql
+            dgvHouse.DataBind()
 
-        End Sub
+        End If
 
-        Private Sub btnFechar_House_Click(sender As Object, e As EventArgs) Handles btnFechar_House.Click
-            FecharFiltros()
+        FecharFiltros()
 
+    End Sub
 
-        End Sub
-        Sub FecharFiltros()
-            txtAgente_House.Text = ""
-            txtExportador_House.Text = ""
-            txtTransportador_House.Text = ""
-            txtCliente_House.Text = ""
-            txtRefCliente_House.Text = ""
-            txtEstufagem_House.Text = ""
-            txtOrigem_House.Text = ""
-            txtDestino_House.Text = ""
-            txtTipoFrete_House.Text = ""
-            txtNavio_House.Text = ""
-            txtNavioTransb_House.Text = ""
-            txtInicioPrevEmbarque_House.Text = ""
-            txtFimPrevEmbarque_House.Text = ""
-            txtInicioEmbarque_House.Text = ""
-            txtFimEmbarque_House.Text = ""
-            txtInicioPrevChegada_House.Text = ""
-            txtFimPrevChegada_House.Text = ""
-            txtInicioChegada_House.Text = ""
-            txtFimChegada_House.Text = ""
-
-            mpe_House.Hide()
+    Private Sub btnFechar_House_Click(sender As Object, e As EventArgs) Handles btnFechar_House.Click
+        FecharFiltros()
 
 
-            txtAgente_Embarque.Text = ""
-            txtExportador_Embarque.Text = ""
-            txtTransportador_Embarque.Text = ""
-            txtCliente_Embarque.Text = ""
-            txtRefCliente_Embarque.Text = ""
-            txtEstufagem_Embarque.Text = ""
-            txtOrigem_Embarque.Text = ""
-            txtDestino_Embarque.Text = ""
-            txtTipoFrete_Embarque.Text = ""
-            txtNavio_Embarque.Text = ""
-            txtNavioTransb_Embarque.Text = ""
-            txtPrevInicialEmbarque_Embarque.Text = ""
-            txtPrevFimEmbarque_Embarque.Text = ""
-            txtInicialEmbarque_Embarque.Text = ""
-            txtFimEmbarque_Embarque.Text = ""
-            txtPrevInicialChegada_Embarque.Text = ""
-            txtPrevFimChegada_Embarque.Text = ""
-            txtInicialChegada_Embarque.Text = ""
-            txtFimChegada_Embarque.Text = ""
+    End Sub
+    Sub FecharFiltros()
+        txtAgente_House.Text = ""
+        txtExportador_House.Text = ""
+        txtTransportador_House.Text = ""
+        txtCliente_House.Text = ""
+        txtRefCliente_House.Text = ""
+        txtEstufagem_House.Text = ""
+        txtOrigem_House.Text = ""
+        txtDestino_House.Text = ""
+        txtTipoFrete_House.Text = ""
+        txtNavio_House.Text = ""
+        txtNavioTransb_House.Text = ""
+        txtInicioPrevEmbarque_House.Text = ""
+        txtFimPrevEmbarque_House.Text = ""
+        txtInicioEmbarque_House.Text = ""
+        txtFimEmbarque_House.Text = ""
+        txtInicioPrevChegada_House.Text = ""
+        txtFimPrevChegada_House.Text = ""
+        txtInicioChegada_House.Text = ""
+        txtFimChegada_House.Text = ""
+
+        mpe_House.Hide()
 
 
-            mpe_Embarque.Hide()
-        End Sub
-        Private Sub btnFechar_Embarque_Click(sender As Object, e As EventArgs) Handles btnFechar_Embarque.Click
-            FecharFiltros()
+        txtAgente_Embarque.Text = ""
+        txtExportador_Embarque.Text = ""
+        txtTransportador_Embarque.Text = ""
+        txtCliente_Embarque.Text = ""
+        txtRefCliente_Embarque.Text = ""
+        txtEstufagem_Embarque.Text = ""
+        txtOrigem_Embarque.Text = ""
+        txtDestino_Embarque.Text = ""
+        txtTipoFrete_Embarque.Text = ""
+        txtNavio_Embarque.Text = ""
+        txtNavioTransb_Embarque.Text = ""
+        txtPrevInicialEmbarque_Embarque.Text = ""
+        txtPrevFimEmbarque_Embarque.Text = ""
+        txtInicialEmbarque_Embarque.Text = ""
+        txtFimEmbarque_Embarque.Text = ""
+        txtPrevInicialChegada_Embarque.Text = ""
+        txtPrevFimChegada_Embarque.Text = ""
+        txtInicialChegada_Embarque.Text = ""
+        txtFimChegada_Embarque.Text = ""
 
-        End Sub
+
+        mpe_Embarque.Hide()
+    End Sub
+    Private Sub btnFechar_Embarque_Click(sender As Object, e As EventArgs) Handles btnFechar_Embarque.Click
+        FecharFiltros()
+
+    End Sub
 
     Private Sub lkDuplicarMaster_Click(sender As Object, e As EventArgs) Handles lkDuplicarMaster.Click
         divSuccessMaster.Visible = False
@@ -922,22 +923,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     Private Sub lkTracking_Click(sender As Object, e As EventArgs) Handles lkTracking.Click
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
-        ''http://172.17.30.237:8081/parametro
-
+        Dim SiteApiTracking As String = ConfigurationSettings.AppSettings("SiteApiTracking")
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT BL_TOKEN FROM [TB_BL] WHERE BL_TOKEN IS NOT NULL AND ID_BL = " & txtID_Master.Text)
+
         If ds.Tables(0).Rows.Count > 0 Then
-            Response.Redirect("https://localhost:8081/" & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
+            ' Response.Redirect("https://localhost:8081/" & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
+            Response.Redirect(SiteApiTracking & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
 
         Else
-            Response.Redirect("https://localhost:8081/0")
+            Response.Redirect(SiteApiTracking & 0)
 
             'divErroHouse.Visible = True
             'lblErroHouse.Text = "BL não cadastrada no Logcomex."
             'Exit Sub
         End If
-
 
     End Sub
 End Class

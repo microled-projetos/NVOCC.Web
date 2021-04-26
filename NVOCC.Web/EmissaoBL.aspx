@@ -32,7 +32,7 @@ display:none;
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">EMISSÃO DO BL - <asp:label runat="server" ID="lblNumHBL" class="control-label" />
+                    <h3 class="panel-title">EMISSÃO DO BL - <asp:label runat="server" ID="lblNumHBL" class="control-label" Style="font-size:17px" />
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -193,12 +193,7 @@ display:none;
 <asp:TextBox ID="txtM3" runat="server" CssClass="form-control" ></asp:TextBox>                    
 </div>
 </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Place:</label>
-                            <asp:TextBox ID="txtOrigemPagamento" runat="server" CssClass="form-control" ></asp:TextBox>                    
-                        </div>
-                    </div>
+           
 </div>
                 <div class="row">
                  <div class="col-md-6">
@@ -225,6 +220,12 @@ display:none;
                         <div class="form-group">
                             <label class="control-label">Impressao:</label>
                             <asp:TextBox ID="txtImpressao" runat="server" Text="EXPRESS RELEASE" CssClass="form-control" ></asp:TextBox>                    
+                        </div>
+                    </div>
+                             <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Place:</label>
+                            <asp:TextBox ID="txtOrigemPagamento" runat="server" CssClass="form-control" ></asp:TextBox>                    
                         </div>
                     </div>
                 <div class="col-md-3">
@@ -387,10 +388,9 @@ An enlarged copy of back clauses is available from the Carrier upon request.</di
 </tr>
 <tr>
 <td><strong>PLACE AND DATE OF ISSUE</strong><br/>
-    SANTOS, <asp:Label ID="lblCampoEditavel7" class="lblCampoEditavel7" runat="server"></asp:Label></td>
-</tr>
-<tr>
-<td><strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong></td>
+     <asp:Label ID="lblOrigemPagamento" class="lblOrigemPagamento" runat="server"></asp:Label>, <asp:Label ID="lblCampoEditavel7" class="lblCampoEditavel7" runat="server"></asp:Label><br/><br/><br/><br/>
+   <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
+</td>
 </tr>
 </table></td>
 </tr>
@@ -695,7 +695,7 @@ The contract evidenced by or contained in this Bill of Lading, and the rights an
             document.getElementById('<%= lblCampoEditavel5.ClientID %>').innerHTML = CampoEditavel5;
 <%--            document.getElementById('<%= lblMoeda.ClientID %>').innerHTML = Moeda;--%>
 <%--            document.getElementById('<%= lblFrete.ClientID %>').innerHTML = Frete;--%>
-<%--            document.getElementById('<%= lblOrigemPagamento.ClientID %>').innerHTML = OrigemPagamento;--%>
+            document.getElementById('<%= lblOrigemPagamento.ClientID %>').innerHTML = OrigemPagamento;
             document.getElementById('<%= lblPesoBruto.ClientID %>').innerHTML = PesoBruto;
             document.getElementById('<%= lblPesoLiquido.ClientID %>').innerHTML = PesoLiquido;
             document.getElementById('<%= lblM3.ClientID %>').innerHTML = M3;

@@ -12,6 +12,7 @@
             Dim Con As New Conexao_sql
             Dim ID As String = Request.QueryString("id")
             Con.Conectar()
+            Con.ExecutarQuery("UPDATE TB_BL SET DT_EMISSAO_BL = GETDATE() WHERE ID_BL = " & ID)
             Dim ds As DataSet = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Emissao_BL] WHERE ID_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 txtID.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
@@ -23,13 +24,13 @@
                 txtPesoLiquido.Text = "0,000"
                 txtCampoEditavel7.Text = Now.Date.ToString("dd-MM-yyyy")
 
-                txtImportador1.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_CLIENTE").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_CLIENTE").ToString()
+                txtImportador1.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_IMPORTADOR").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_IMPORTADOR").ToString()
 
-                txtImportador2.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_CLIENTE").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_CLIENTE").ToString()
+                txtImportador2.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_IMPORTADOR").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_IMPORTADOR").ToString()
 
                 'txtCampoEditavel.Text = ds.Tables(0).Rows(0).Item("ID_USUARIO").ToString()
 
-                txtImportador3.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_CLIENTE").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_CLIENTE").ToString()
+                txtImportador3.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_IMPORTADOR").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_IMPORTADOR").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_IMPORTADOR").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_IMPORTADOR").ToString()
 
                 txtViagem.Text = ds.Tables(0).Rows(0).Item("NR_VIAGEM_MASTER").ToString()
                 txtNavio.Text = ds.Tables(0).Rows(0).Item("NAVIO_MASTER").ToString()

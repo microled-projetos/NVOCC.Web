@@ -239,15 +239,6 @@ Partial Public Class EmissaoBL
     Protected WithEvents txtM3 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtOrigemPagamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtOrigemPagamento As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtAgente.
     '''</summary>
     '''<remarks>
@@ -282,6 +273,15 @@ Partial Public Class EmissaoBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtImpressao As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtOrigemPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtOrigemPagamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtCampoEditavel7.
@@ -489,6 +489,15 @@ Partial Public Class EmissaoBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblFreteTaxa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblOrigemPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblOrigemPagamento As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblCampoEditavel7.

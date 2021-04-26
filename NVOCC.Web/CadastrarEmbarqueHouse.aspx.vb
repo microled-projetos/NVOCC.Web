@@ -18,9 +18,6 @@
 
                 Response.Redirect("Default.aspx")
             Else
-                'Maritimo.Attributes("class") = "tab-pane fade"
-                'Aereo.Attributes("class") = "tab-pane fade active in"
-
 
                 If Request.QueryString("tipo") = "e" Then
                     lblTipoModulo.Text = " EMBARQUE"
@@ -289,10 +286,6 @@
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")) Then
                         txtResumoMercadoria_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")
                     End If
-
-
-
-
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
                         txtObsCliente_ObsAereo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
@@ -817,19 +810,11 @@ WHERE ID_CARGA_BL = " & ID)
         ddlDestinatarioCob_TaxaAereo.SelectedValue = 0
         ddlBaseCalculo_TaxaAereo.SelectedValue = 0
         ddlMoedaCompra_TaxaAereo.SelectedValue = 0
-        ' ddlMoedaVenda_TaxaAereo.SelectedValue = 0
         ddlEmpresa_TaxaAereo.SelectedValue = 0
         txtValorCompra_TaxaAereo.Text = ""
         txtBaseCompra_TaxaAereo.Text = ""
-        'txtAcrescimoCompra_TaxaAereo.Text = ""
-        'txtDescontoCompra_TaxaAereo.Text = ""
-        ' txtValorVenda_TaxaAereo.Text = ""
-        ' txtBaseVenda_TaxaAereo.Text = ""
-        'txtAcrescimoVenda_TaxaAereo.Text = ""
-        'txtDescontoVenda_TaxaAereo.Text = ""
         txtObs_TaxaAereo.Text = ""
         txtMinCompra_TaxaAereo.Text = ""
-        'txtMinVenda_TaxaAereo.Text = ""
         txtID_TaxaAereo.Text = ""
 
         mpeTaxaAereo.Hide()
@@ -846,19 +831,11 @@ WHERE ID_CARGA_BL = " & ID)
         ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0
         ddlBaseCalculo_TaxaMaritimo.SelectedValue = 0
         ddlMoedaCompra_TaxaMaritimo.SelectedValue = 0
-        ' ddlMoedaVenda_TaxaMaritimo.SelectedValue = 0
         ddlEmpresa_TaxaMaritimo.SelectedValue = 0
         txtValorCompra_TaxaMaritimo.Text = ""
         txtBaseCompra_TaxaMaritimo.Text = ""
-        ' txtAcrescimoCompra_TaxaMaritimo.Text = ""
-        ' txtDescontoCompra_TaxaMaritimo.Text = ""
-        'txtValorVenda_TaxaMaritimo.Text = ""
-        'txtBaseVenda_TaxaMaritimo.Text = ""
-        'txtAcrescimoVenda_TaxaMaritimo.Text = ""
-        'txtDescontoVenda_TaxaMaritimo.Text = ""
         txtObs_TaxaMaritimo.Text = ""
         txtMinCompra_TaxaMaritimo.Text = ""
-        ' txtMinVenda_TaxaMaritimo.Text = ""
 
         mpeTaxaMaritimo.Hide()
     End Sub

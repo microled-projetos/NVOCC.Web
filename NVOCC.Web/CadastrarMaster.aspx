@@ -825,10 +825,17 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Item de Despesa:</label>
-                                                                                <asp:DropDownList ID="ddlDespesa_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
+                                                                                <asp:DropDownList ID="ddlDespesa_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" AutoPostBack="true" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
+                                                                         <div class="col-sm-4" style="display:none">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbPremiacao_TaxasMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Empresa:</label>
@@ -912,7 +919,7 @@
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxasMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxasMaritimo" />
-
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxasMaritimo" />                
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -941,13 +948,7 @@
                                             <div class="row">
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
-                                                        <%--<div id="NaoVinculada" style="border: ridge 1px; margin-left: 10px">
-<label class="control-label" style="margin: 10px">Houses em Instrução de Embarque:</label>
-<br />
-<asp:CheckBoxList ID="chkbox1" runat="server" DataSourceID="dsNaoVinculadas" DataTextField="Descr"
-DataValueField="ID_BL">
-</asp:CheckBoxList>
-</div>--%>
+
     HOUSES EM INSTRUÇÃO DE EMBARQUE
                                                         <asp:GridView ID="dgvNaoVinculadas"
                                                             Style="max-height: 600px; overflow: auto;"
@@ -958,7 +959,8 @@ DataValueField="ID_BL">
                                                             BorderStyle="None"
                                                             BorderWidth="0px"
                                                             GridLines="None"
-                                                            DataSourceID="dsNaoVinculadas">
+                                                            DataSourceID="dsNaoVinculadas"
+                                                            EmptyDataText="Nenhum registro encontrado.">
 
                                                             <Columns>
                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -991,12 +993,6 @@ DataValueField="ID_BL">
                                                 </div>
                                                 <div class="col-sm-5">
                                                     <div class="form-group">
-                                                        <%-- <div id="Vinculadas" style="border: ridge 1px; margin-right: 10px">
-<label class="control-label" style="margin: 10px">Houses vinculadas ao Master:</label><br />
-<asp:CheckBoxList ID="CheckBoxList1" runat="server" DataSourceID="dsVinculadas" DataTextField="Descr"
-DataValueField="ID_BL">
-</asp:CheckBoxList>
-</div>--%>
         HOUSES VINCULADOS AO MASTER
                                                         <asp:GridView ID="dgvVinculadas"
                                                             Style="max-height: 600px; overflow: auto;"
@@ -1007,7 +1003,8 @@ DataValueField="ID_BL">
                                                             BorderStyle="None"
                                                             BorderWidth="0px"
                                                             GridLines="None"
-                                                            DataSourceID="dsVinculadas">
+                                                            DataSourceID="dsVinculadas"
+                                                            EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                                     <ItemTemplate>
@@ -1389,10 +1386,17 @@ DataValueField="ID_BL">
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Item de Despesa:</label>
-                                                                                <asp:DropDownList ID="ddlDespesa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
+                                                                                <asp:DropDownList ID="ddlDespesa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" AutoPostBack="true" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
+                                                                         <div class="col-sm-4" style="display:none">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbPremiacao_TaxaAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Empresa:</label>
@@ -1477,7 +1481,7 @@ DataValueField="ID_BL">
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaAereo" />
-
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />     
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -1643,6 +1647,7 @@ union SELECT 0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSo
     <asp:SqlDataSource ID="dsAgenciaMaritima" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR = 1
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+
 
     <asp:SqlDataSource ID="dsNavios" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_NAVIO, NM_NAVIO FROM [dbo].[TB_NAVIO] where (NM_NAVIO like '%' + @Nome + '%' Or @Nome = '0')">
