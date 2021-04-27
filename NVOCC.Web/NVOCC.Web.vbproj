@@ -347,6 +347,7 @@
     <Content Include="DemurrageService.asmx" />
     <Content Include="DemurrageService.asmx.cs" />
     <Content Include="EmissaoBL.aspx" />
+    <Content Include="FollowUp.aspx" />
     <Content Include="FreteTransportador.aspx" />
     <Content Include="CotacaoComercial.aspx" />
     <Content Include="Default.aspx" />
@@ -614,6 +615,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Exportacao.vb" />
+    <Compile Include="FollowUp.aspx.designer.vb">
+      <DependentUpon>FollowUp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FollowUp.aspx.vb">
+      <DependentUpon>FollowUp.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="FreteTransportador.aspx.designer.vb">
       <DependentUpon>FreteTransportador.aspx</DependentUpon>
     </Compile>
