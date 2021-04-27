@@ -941,11 +941,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         'End If
 
         Session("NR_BL") = 0
+        Session("TRAKING_BL") = 0
+
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
         'Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND GRAU = 'M'")
         Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+        Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+
         Response.Redirect("RastreioBL.aspx")
 
 
