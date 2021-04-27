@@ -23,7 +23,10 @@ body {
 /*    border-top: 10px solid #e77817;*/
 /*}*/
 
-
+.navbar-inverse {
+    background-color: #222;
+    border-color: #e77817;
+}
 
 .fundo {
     opacity: 0.4;

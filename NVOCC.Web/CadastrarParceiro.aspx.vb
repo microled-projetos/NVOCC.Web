@@ -88,7 +88,9 @@ SPREAD_AEREO_EXPO,
 ID_ACORDO_CAMBIO_MARITIMO_IMPO,
 ID_ACORDO_CAMBIO_MARITIMO_EXPO,
 ID_ACORDO_CAMBIO_AEREO,
-QT_DIAS_FATURAMENTO
+QT_DIAS_FATURAMENTO,
+FL_VENDEDOR_DIRETO,
+FL_EQUIPE_INSIDE_SALES
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -132,7 +134,8 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlAcordoCambioMaritimoImpo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO")
                 ddlAcordoCambioMaritimoExpo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO")
                 txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
-
+                ckbVendedorDireto.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR_DIRETO")
+                ckbEquipeInsideSales.Checked = ds.Tables(0).Rows(0).Item("FL_EQUIPE_INSIDE_SALES")
 
                 txtAliquotaISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS").ToString()
 
@@ -201,14 +204,6 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
-            'ElseIf ddlTipoPessoa.SelectedValue <> 3 And txtInscEstadual.Text = "" Then
-            '    msgErro.Text = "Preencha todos os campos obrigatórios."
-            '    divmsg1.Visible = True
-            '    msgErro.Visible = True
-            'ElseIf ddlTipoPessoa.SelectedValue <> 3 And txtInscMunicipal.Text = "" Then
-            '    msgErro.Text = "Preencha todos os campos obrigatórios."
-            '    divmsg1.Visible = True
-            '    msgErro.Visible = True
         ElseIf ddlTipoPessoa.SelectedValue = 0 Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
@@ -512,7 +507,9 @@ ID_ACORDO_CAMBIO_MARITIMO_IMPO,
 ID_ACORDO_CAMBIO_MARITIMO_EXPO,
 ID_ACORDO_CAMBIO_AEREO,
 QT_DIAS_FATURAMENTO,
-EMAIL 
+EMAIL,
+FL_VENDEDOR_DIRETO,
+FL_EQUIPE_INSIDE_SALES
 ) 
 VALUES ( 
 '" & ckbImportador.Checked & "',
@@ -561,7 +558,9 @@ VALUES (
 " & ddlAcordoCambioMaritimoExpo.SelectedValue & ",
 " & ddlAcordoCambioAereo.SelectedValue & ",
 " & txtQtdFaturamento.Text & ",
-" & txtEmailParceiro.Text & "
+" & txtEmailParceiro.Text & ",
+'" & ckbVendedorDireto.Checked & "',
+'" & ckbEquipeInsideSales.Checked & "'
 ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -898,7 +897,9 @@ ID_ACORDO_CAMBIO_MARITIMO_IMPO = " & ddlAcordoCambioMaritimoImpo.SelectedValue &
 ID_ACORDO_CAMBIO_MARITIMO_EXPO = " & ddlAcordoCambioMaritimoExpo.SelectedValue & ",
 ID_ACORDO_CAMBIO_AEREO = " & ddlAcordoCambioAereo.SelectedValue & ",
 QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
-EMAIL =  " & txtEmailParceiro.Text & "
+EMAIL =  " & txtEmailParceiro.Text & ",
+FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
+FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
 where ID_PARCEIRO = " & ID)
 
                                 SQL = SQL.Replace("#filtro", FILTRO)

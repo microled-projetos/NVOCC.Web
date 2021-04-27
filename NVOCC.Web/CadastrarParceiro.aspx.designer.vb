@@ -608,6 +608,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbPrestador As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle ckbEquipeInsideSales.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbEquipeInsideSales As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle ckbVendedor.
     '''</summary>
     '''<remarks>
@@ -615,6 +624,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbVendedor As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbVendedorDireto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbVendedorDireto As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle divVendedor.

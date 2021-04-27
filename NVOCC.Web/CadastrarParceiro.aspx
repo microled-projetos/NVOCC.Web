@@ -420,13 +420,29 @@
                                     </div>
                                 </div>
                                
-                                    
-                                <div class="col-sm-4">
+                                     <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbEquipeInsideSales" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Equipe Inside Sales" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                 
+                                
+                        </div>        
+        <div class="row">
+            <div class="col-sm-4">
                                     <div class="form-group">
                                         <asp:Checkbox ID="ckbVendedor" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Vendedor" ></asp:Checkbox>
                                     </div>
                                 </div>
-</div>              
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbVendedorDireto" runat="server" CssClass="form-control" text="&nbsp;Vendedor Direto" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                      
+                                    
+                               
+                        </div>        
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
                                  <div class="row" >
                                 <div class="col-sm-9">

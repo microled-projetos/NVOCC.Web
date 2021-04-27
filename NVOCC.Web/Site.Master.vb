@@ -20,6 +20,7 @@
             Menus()
         End If
 
+        lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
     End Sub
     Sub Menus()

@@ -77,6 +77,15 @@ Partial Public Class ItemDespesa
     Protected WithEvents ckbIntegraPA As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle ckbPremiacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbPremiacao As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle txtNome.
     '''</summary>
     '''<remarks>

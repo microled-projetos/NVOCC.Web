@@ -51,6 +51,8 @@
                                         <asp:TextBox ID="txtIDItemDespesa" runat="server"  CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
+                                </div>
+                            <div class="row">
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label"></label>
@@ -62,6 +64,12 @@
                                     <div class="form-group">
                                        <label class="control-label"></label>
                                         <asp:Checkbox ID="ckbIntegraPA" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Integra PA" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <asp:Checkbox ID="ckbPremiacao" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Premiação" ></asp:Checkbox>
                                     </div>
                                 </div>
                             </div>
