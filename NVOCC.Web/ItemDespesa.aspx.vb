@@ -75,6 +75,7 @@
             divErro.Visible = True
 
         Else
+
             If txtNatureza.Text = "" Then
                 txtNatureza.Text = "NULL"
             Else

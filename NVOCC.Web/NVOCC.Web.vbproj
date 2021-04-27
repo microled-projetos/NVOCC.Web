@@ -406,6 +406,7 @@
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
     <Content Include="ProcessosBL.aspx.designer.cs" />
+    <Content Include="RastreioBL.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
@@ -744,6 +745,13 @@
     <Compile Include="CadastrarFreteTransportador.aspx.vb">
       <DependentUpon>CadastrarFreteTransportador.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RastreioBL.aspx.designer.vb">
+      <DependentUpon>RastreioBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RastreioBL.aspx.vb">
+      <DependentUpon>RastreioBL.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
       <DependentUpon>RecuperarSenha.aspx</DependentUpon>
