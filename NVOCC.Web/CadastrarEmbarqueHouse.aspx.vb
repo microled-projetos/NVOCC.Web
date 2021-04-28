@@ -2172,7 +2172,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If ds.Tables(0).Rows(0).Item("AnoSequencialProcesso") = ano_atual Then
+                If AnoSequencialProcesso = ano_atual Then
 
                     NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
@@ -2205,7 +2205,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If ds.Tables(0).Rows(0).Item("AnoSequencialProcesso") = ano_atual Then
+                If AnoSequencialProcesso = ano_atual Then
 
                     NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual

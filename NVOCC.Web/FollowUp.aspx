@@ -47,11 +47,11 @@ clear: both;}
 
 </style>
 
-                     <div id="divConteudoDinamico" visible="false"  runat="server">
+                     <div id="divConteudoDinamico"  runat="server">
         </div> 
                     
 
-    <div id="TESTE" style="overflow:scroll" runat="server">
+    <div id="TESTE" style="overflow:scroll" visible="false"  runat="server">
         
         </div>
 </asp:Content>
