@@ -357,6 +357,7 @@
                                         <asp:LinkButton ID="lkAlterarMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                         <asp:LinkButton ID="lkDuplicarMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Duplicar</asp:LinkButton>
                                         <asp:LinkButton ID="lkTracking" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-map-marker"></i>&nbsp;Tracking</asp:LinkButton>
+                                                <asp:LinkButton ID="lkFollowUp" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                         <asp:LinkButton Visible="false" ID="lkRemoverMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
 
                                     </div>

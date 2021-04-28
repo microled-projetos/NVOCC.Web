@@ -753,12 +753,14 @@
                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                  <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
                             <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate>  
+                                               <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -991,7 +993,7 @@
                                         <asp:BoundField DataField="NM_TIPO_ITEM_DESPESA" HeaderText="Item Despesa"  SortExpression="NM_TIPO_ITEM_DESPESA"/>
                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="Origem de Pagamento"  SortExpression="NM_ORIGEM_PAGAMENTO" />
                                         <asp:BoundField DataField="DECLARADO" HeaderText="Declarado"   SortExpression="DECLARADO"/>
-                                             <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc."  SortExpression="NM_BASE_CALCULO_TAXA" />
+                                        <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc."  SortExpression="NM_BASE_CALCULO_TAXA" />
                                         <asp:BoundField DataField="NM_MOEDA_COMPRA" HeaderText="Moeda de Compra"  SortExpression="NM_MOEDA_COMPRA" />
                                         <asp:BoundField DataField="VL_TAXA_COMPRA" HeaderText="Valor de Compra"  SortExpression="VL_TAXA_COMPRA"  />
                                         <asp:BoundField DataField="NM_MOEDA_VENDA" HeaderText="Moeda de Venda"  SortExpression="NM_MOEDA_VENDA" />
@@ -1001,12 +1003,14 @@
                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                  <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
                             <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate>    
+                                               <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />

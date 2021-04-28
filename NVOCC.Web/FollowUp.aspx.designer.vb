@@ -12,4 +12,13 @@ Option Explicit On
 
 
 Partial Public Class FollowUp
+
+    '''<summary>
+    '''Controle divConteudoDinamico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class
