@@ -6,7 +6,9 @@ ul li { list-style:none;}
 position: relative;
 max-width: 1024px;height: auto;
 padding: 0px;margin: 0px auto;
-overflow: hidden;}
+overflow: hidden;
+margin-bottom:5px
+}
 .marcador {
 width: 50%;float: left;
 height: 100%;position: absolute;
@@ -16,7 +18,8 @@ font-weight: 600;
 font-size: 15px;
 letter-spacing: 3px;
 color: #f0f0f0;
-background-color: rgb(231, 120, 23);background-image: -webkit-linear-gradient(140deg,
+background-color: rgb(231, 120, 23);
+background-image: -webkit-linear-gradient(140deg,
 rgba(255, 255, 255, .2) 50%,
 transparent 50%,
 transparent);
@@ -48,40 +51,9 @@ clear: both;}
         </div> 
                     
 
-    <div id="TESTE"  runat="server">
+    <div id="TESTE" style="overflow:scroll" runat="server">
         
         </div>
-
-
-    <%--<ul class="linha-do-tempo">
-<div class="marcador"></div>
-<li class="Evento"><p>2016</p></li>
- <li class='item' href="#">
-<p>STATUS:</p> 
-</li>
-<li class='item' href="#">
-<p>DETALHES.</p> 
-</li>
-
-<li class="Evento"><p>2015</p></li>
-	
-<li class='item' href="#">
-<p>STATUS:</p> 
-</li>
-<li class='item' href="#">
-<p>DETALHES.</p> 
-</li>
-	
-<li class="Evento"><p>2014</p></li>
- 
-<li class='item' href="#">
-<p>STATUS:</p> 
-</li>
-<li class='item' href="#">
-<p>DETALHES.</p> 
-</li>
-  
-</ul>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script src="Content/js/jquery.smartWizard.js"></script>
