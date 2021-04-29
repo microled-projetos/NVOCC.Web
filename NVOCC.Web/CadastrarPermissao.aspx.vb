@@ -8,7 +8,11 @@
         Dim grupo As Integer = cbGrupo.SelectedValue
         Con.Conectar()
 
-        If Session("ID_TIPO_USUARIO") = 1 Then
+        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO A 
+LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
+WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
+
+        If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
 
             For Each linha As GridViewRow In dgvMenus.Rows
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
@@ -93,24 +97,35 @@
 
         msgSucesso.Visible = False
 
-        If Session("ID_TIPO_USUARIO") <> 1 Then
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_VINCULO_USUARIO A 
+LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
+WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
+
+        If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
             btnGravar.Enabled = False
             btnSelecionarTodos.Enabled = False
         End If
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 3 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+        'Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 3 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+        'If ds.Tables(0).Rows.Count > 0 Then
 
-                Response.Redirect("Default.aspx")
+        '    If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
 
-            End If
+        '        Response.Redirect("Default.aspx")
+
+        '    End If
 
 
-        Else
+        'Else
+        '    Response.Redirect("Default.aspx")
+        'End If
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 3 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
             Response.Redirect("Default.aspx")
+
         End If
         Con.Fechar()
     End Sub

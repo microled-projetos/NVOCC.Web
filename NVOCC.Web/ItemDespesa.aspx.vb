@@ -20,18 +20,6 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        'If ds.Tables(0).Rows.Count > 0 Then
-
-        '    If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-        '        Response.Redirect("Default.aspx")
-
-        '    End If
-
-        'Else
-        '    Response.Redirect("Default.aspx")
-        'End If
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -129,39 +117,7 @@
                 End If
 
 
-                'ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                'If ds.Tables(0).Rows.Count > 0 Then
 
-                '    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                '        divErro.Visible = True
-                '        lblErro.Text = "Usuário não possui permissão para cadastrar."
-                '    Else
-
-                '        ds = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA FROM [TB_ITEM_DESPESA] WHERE NM_ITEM_DESPESA = '" & txtNome.Text & "' AND FL_ATIVO = 1")
-
-                '        If ds.Tables(0).Rows.Count > 0 Then
-
-                '            lblErro.Text = "Já existe despesa com este nome."
-                '            divErro.Visible = True
-                '            txtNatureza.Text = ""
-
-
-                '        Else
-                '            Con.ExecutarQuery("INSERT INTO [dbo].[TB_ITEM_DESPESA] (ID_TIPO_ITEM_DESPESA,NM_ITEM_DESPESA, CD_NATUREZA, FL_ATIVO,FL_INTEGRA_PA,FL_PREMIACAO) VALUES (" & TipoItemDespesa & " , '" & txtNome.Text & "' , " & txtNatureza.Text & " , '" & ckbAtivo.Checked & "', '" & ckbIntegraPA.Checked & "','" & ckbPremiacao.Checked & "')")
-                '            Con.Fechar()
-
-                '            divmsg.Visible = True
-                '            dgvItemDespesa.DataBind()
-                '            txtIDItemDespesa.Text = ""
-                '            txtNome.Text = ""
-                '            txtNatureza.Text = ""
-                '            ddlTipoItemDespesa.SelectedValue = 0
-                '        End If
-                '    End If
-                'Else
-                '    divErro.Visible = True
-                '    lblErro.Text = "Usuário não possui permissão para cadastrar."
-                'End If
 
             Else
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
