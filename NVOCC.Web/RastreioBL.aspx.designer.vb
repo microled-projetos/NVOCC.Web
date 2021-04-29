@@ -30,4 +30,391 @@ Partial Public Class RastreioBL
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents pais_procedencia As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''porto_embarque control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents porto_embarque As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''porto_origem control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents porto_origem As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''pais_destino control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pais_destino As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''porto_descarga control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents porto_descarga As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''porto_destino control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents porto_destino As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''ce control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ce As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''manifesto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents manifesto As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''consignatario control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents consignatario As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''armador control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents armador As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''agente_carga control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents agente_carga As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''agencia_maritima control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents agencia_maritima As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''armador_informado control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents armador_informado As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''agente_internacional control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents agente_internacional As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''atividade control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents atividade As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''telefone control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents telefone As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''natureza control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents natureza As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''email control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents email As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_cadastro control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_cadastro As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_emissao_bl control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_emissao_bl As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_embarque control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_embarque As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_operacao2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_operacao2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_eta_armador control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_eta_armador As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_ultima_atualizacao control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_ultima_atualizacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_emissao_ce control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_emissao_ce As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_manifesto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_manifesto As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_presenca_carga control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_presenca_carga As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''eta2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents eta2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''status control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents status As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''bl control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents bl As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''consig_informado control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents consig_informado As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''fluxo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fluxo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''navio control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents navio As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''imo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents imo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''conta control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents conta As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''booking control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents booking As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''embarque control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents embarque As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''tipo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents tipo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''tipo_carga control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents tipo_carga As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''data_operacao control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents data_operacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''viagem control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents viagem As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''identificador_token control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents identificador_token As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''situacao control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents situacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''eta control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
 End Class
