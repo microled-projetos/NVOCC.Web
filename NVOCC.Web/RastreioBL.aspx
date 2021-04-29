@@ -2,10 +2,24 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <%--    COLOCAR SEU CODIGO AQUI--%>
+    <style>
+        .panel-heading {
+            background: #d5dce6 !important;
+            border-color: #d5dce6 !important;
+            color: #003663 !important;
+            padding: 1px !important;
+            padding-left: 10px !important;
+        }
 
+        .titulo {
+            background: #003663 !important;
+            border-color: #003663 !important;
+            color: white !important;
+        }
+    </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            <div class="panel-heading titulo">
                 <h4>NUMERO DA BL:
                     <asp:Label runat="server" ID="nr_bl"></asp:Label></h4>
             </div>
@@ -15,7 +29,7 @@
     <div class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5>Transporte/Logistica</h5>
+                <h5>TRANSPORTE/LOGISTICA</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -50,12 +64,14 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>CE:
+                        <p>
+                            CE:
                             <asp:Label Font-Bold="true" runat="server" ID="ce"></asp:Label>
                         </p>
                     </div>
                     <div class="col-lg-6">
-                        <p>MANIFESTO:
+                        <p>
+                            MANIFESTO:
                             <asp:Label Font-Bold="true" runat="server" ID="manifesto"></asp:Label>
                         </p>
                     </div>
@@ -68,7 +84,6 @@
                 <h5>MERCADORIA</h5>
             </div>
             <div class="panel-body">
-                
             </div>
         </div>
         <!-- ENVOLVIDOS -->
@@ -79,14 +94,20 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>CONSIGNATARIO: <asp:Label runat="server" Font-Bold="true" Font-Italic="true"  ID="consignatario"></asp:Label></p>
-                        <p>ARMADOR: <asp:Label runat="server" Font-Bold="true" ID="armador"></asp:Label></p>
-                        <p>AGENTE DE CARGA: <asp:Label runat="server" Font-Bold="true" ID="agente_carga"></asp:Label></p>
+                        <p>CONSIGNATARIO:
+                            <asp:Label runat="server" Font-Bold="true" Font-Italic="true" ID="consignatario"></asp:Label></p>
+                        <p>ARMADOR:
+                            <asp:Label runat="server" Font-Bold="true" ID="armador"></asp:Label></p>
+                        <p>AGENTE DE CARGA:
+                            <asp:Label runat="server" Font-Bold="true" ID="agente_carga"></asp:Label></p>
                     </div>
                     <div class="col-lg-6">
-                        <p>AGENCIA MARITIMA: <asp:Label runat="server" Font-Bold="true" ID="agencia_maritima"></asp:Label></p>
-                        <p>ARMADOR INFORMADO: <asp:Label runat="server" Font-Bold="true" ID="armador_informado"></asp:Label></p>
-                        <p>AGENTE INTERNACIONAL: <asp:Label runat="server" Font-Bold="true" ID="agente_internacional"></asp:Label></p>
+                        <p>AGENCIA MARITIMA:
+                            <asp:Label runat="server" Font-Bold="true" ID="agencia_maritima"></asp:Label></p>
+                        <p>ARMADOR INFORMADO:
+                            <asp:Label runat="server" Font-Bold="true" ID="armador_informado"></asp:Label></p>
+                        <p>AGENTE INTERNACIONAL:
+                            <asp:Label runat="server" Font-Bold="true" ID="agente_internacional"></asp:Label></p>
                     </div>
                 </div>
             </div>
@@ -99,12 +120,16 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>ATIVIDADE: <asp:Label Font-Bold="true" runat="server" ID="atividade"></asp:Label></p>
-                        <p>TELEFONE: <asp:Label Font-Bold="true" runat="server" ID="telefone"></asp:Label></p>
+                        <p>ATIVIDADE:
+                            <asp:Label Font-Bold="true" runat="server" ID="atividade"></asp:Label></p>
+                        <p>TELEFONE:
+                            <asp:Label Font-Bold="true" runat="server" ID="telefone"></asp:Label></p>
                     </div>
                     <div class="col-lg-6">
-                        <p>NATUREZA: <asp:Label Font-Bold="true" runat="server" ID="natureza"></asp:Label></p>
-                        <p>EMAIL: <asp:Label Font-Bold="true" runat="server" ID="email"></asp:Label></p>
+                        <p>NATUREZA:
+                            <asp:Label Font-Bold="true" runat="server" ID="natureza"></asp:Label></p>
+                        <p>EMAIL:
+                            <asp:Label Font-Bold="true" runat="server" ID="email"></asp:Label></p>
                     </div>
                 </div>
             </div>
@@ -117,18 +142,28 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p>DATA CADASTRO: <asp:Label Font-Bold="true" runat="server" ID="data_cadastro"></asp:Label></p>
-                        <p>DATA EMISSÃO BL: <asp:Label Font-Bold="true" runat="server" ID="data_emissao_bl"></asp:Label></p>
-                        <p>DATA EMBARQUE: <asp:Label Font-Bold="true" runat="server" ID="data_embarque"></asp:Label></p>
-                        <p>DATA OPERAÇÃO: <asp:Label Font-Bold="true" runat="server" ID="data_operacao2"></asp:Label></p>
-                        <p>DATA ETA ARMADOR: <asp:Label Font-Bold="true" runat="server" ID="data_eta_armador"></asp:Label></p>
+                        <p>DATA CADASTRO:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_cadastro"></asp:Label></p>
+                        <p>DATA EMISSÃO BL:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_emissao_bl"></asp:Label></p>
+                        <p>DATA EMBARQUE:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_embarque"></asp:Label></p>
+                        <p>DATA OPERAÇÃO:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_operacao2"></asp:Label></p>
+                        <p>DATA ETA ARMADOR:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_eta_armador"></asp:Label></p>
                     </div>
                     <div class="col-lg-6">
-                        <p>DATA ULTIMA ATUALIZAÇÃO: <asp:Label Font-Bold="true" runat="server" ID="data_ultima_atualizacao"></asp:Label></p>
-                        <p>DATA EMISSÃO CE: <asp:Label Font-Bold="true" runat="server" ID="data_emissao_ce"></asp:Label></p>
-                        <p>DATA MANIFESTO: <asp:Label Font-Bold="true" runat="server" ID="data_manifesto"></asp:Label></p>
-                        <p>DATA PRESENÇA DE CARGA: <asp:Label Font-Bold="true" runat="server" ID="data_presenca_carga"></asp:Label></p>
-                        <p>ETA: <asp:Label Font-Bold="true" runat="server" ID="eta2"></asp:Label></p>
+                        <p>DATA ULTIMA ATUALIZAÇÃO:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_ultima_atualizacao"></asp:Label></p>
+                        <p>DATA EMISSÃO CE:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_emissao_ce"></asp:Label></p>
+                        <p>DATA MANIFESTO:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_manifesto"></asp:Label></p>
+                        <p>DATA PRESENÇA DE CARGA:
+                            <asp:Label Font-Bold="true" runat="server" ID="data_presenca_carga"></asp:Label></p>
+                        <p>ETA:
+                            <asp:Label Font-Bold="true" runat="server" ID="eta2"></asp:Label></p>
                     </div>
                 </div>
             </div>

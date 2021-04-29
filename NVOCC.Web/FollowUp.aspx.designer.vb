@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class FollowUp
 
     '''<summary>
-    '''Controle divConteudoDinamico.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle NumeroBL.
     '''</summary>
     '''<remarks>
@@ -32,11 +23,29 @@ Partial Public Class FollowUp
     Protected WithEvents NumeroBL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle teste2.
+    '''Controle txtID_BL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents teste2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle gdvFollowUp.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents gdvFollowUp As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dsFollowUp.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFollowUp As Global.System.Web.UI.WebControls.SqlDataSource
 End Class
