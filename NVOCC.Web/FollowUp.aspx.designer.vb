@@ -23,11 +23,20 @@ Partial Public Class FollowUp
     Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle TESTE.
+    '''Controle NumeroBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TESTE As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents NumeroBL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle teste2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents teste2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class

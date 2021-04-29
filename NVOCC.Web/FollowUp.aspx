@@ -1,59 +1,255 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="FollowUp.aspx.vb" Inherits="NVOCC.Web.FollowUp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-ul li { list-style:none;}
-.linha-do-tempo {
-position: relative;
-max-width: 1024px;height: auto;
-padding: 0px;margin: 0px auto;
-overflow: hidden;
-margin-bottom:5px
-}
-.marcador {
-width: 50%;float: left;
-height: 100%;position: absolute;
-z-index: -1;border-right: 2px dashed rgb(0, 54, 99);box-sizing: border-box;} 
-.Evento {
-font-weight: 600;
-font-size: 15px;
-letter-spacing: 3px;
-color: #f0f0f0;
-background-color: rgb(231, 120, 23);
-background-image: -webkit-linear-gradient(140deg,
-rgba(255, 255, 255, .2) 50%,
-transparent 50%,
-transparent);
-text-align: center;
-margin-top:  7%;
-margin: 1% auto;
-clear: both;}
-.item {
-  width: 44%;
-  float: right;}
-.item:nth-of-type(2n) {
-  float: left; 
-}
-.item p {
-  color:rgb(66, 65, 60);
-  text-align: center;}
-.item p a {
-  color: #e44b4b;
-  text-align: center;}
-.linha-do-tempo{
-    padding:0px;
-}
-@media all and (max-width: 650px) {
-.item {width: 80%;}}  
 
-</style>
-
-                     <div id="divConteudoDinamico"  runat="server">
+                     <div id="divConteudoDinamico" visible="false"   runat="server">
         </div> 
                     
 
-    <div id="TESTE" style="overflow:scroll" visible="false"  runat="server">
-        
+    <style>
+.r-title{
+  margin-top: var(--rTitleMarginTop, 0) !important;
+  margin-bottom: var(--rTitleMarginBottom, 0) !important;
+}
+
+.linha-colorida {
+    background-color: #003663;
+    color:white;
+}
+
+p:not([class]){
+  line-height: var(--cssTypographyLineHeight, 1.78);
+  margin-top: var(--cssTypographyBasicMargin, 1em);
+  margin-bottom: 0;
+}
+
+p:not([class]):first-child{
+  margin-top: 0;
+}
+
+/*
+text component
+*/
+
+.text{
+  display: var(--textDisplay, inline-flex);
+  font-size: var(--textFontSize, 1rem);  
+}
+
+/*
+time component
+*/
+
+/*
+core styles
+*/
+
+.time{
+  display: var(--timeDisplay, inline-flex);
+}
+
+/*
+extensions
+*/
+
+.time__month{
+  margin-left: var(--timelineMounthMarginLeft, .25em);
+}
+
+/*
+skin
+*/
+
+.time{
+  padding: var(--timePadding, .25rem 1.25rem .25rem);
+  background-color: var(--timeBackgroundColor, #f0f0f0);
+
+/*  font-size: var(--timeFontSize, .75rem);
+*/    font-size: 15px;
+  font-weight: var(--timeFontWeight, 700);
+  text-transform: var(--timeTextTransform, uppercase);
+  color: var(--timeColor, currentColor);
+}
+
+/*
+card component
+*/
+
+/*
+core styles
+*/
+
+.card{
+  padding: var(--timelineCardPadding, 1.5rem 1.5rem 1.25rem);
+  margin-right:20px
+}
+
+.card__content{
+  margin-top: var(--cardContentMarginTop, .5rem);
+}
+
+/*
+skin
+*/
+
+.card{
+  border-radius: var(--timelineCardBorderRadius, 2px);
+  border-left: var(--timelineCardBorderLeftWidth, 3px) solid var(--timelineCardBorderLeftColor, var(--uiTimelineMainColor));
+  box-shadow: var(--timelineCardBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24));
+/*  background-color: var(--timelineCardBackgroundColor, #fff);
+*/   background-color: #f2faff;
+}
+
+/*
+extensions
+*/
+
+.card__title{
+  --rTitleMarginTop: var(--cardTitleMarginTop, 1rem);
+  font-size: var(--cardTitleFontSize, 1.25rem);
+}
+
+/*
+=====
+CORE STYLES
+=====
+*/
+
+.timeline{
+  display: var(--timelineDisplay, grid);
+  grid-row-gap: var(--timelineGroupsGap, 2rem);
+}
+
+/*
+1. If timeline__year isn't displaed the gap between it and timeline__cards isn't displayed too
+*/
+
+.timeline__year{
+  margin-bottom: 1.25rem; /* 1 */
+  font-weight: bold;
+   color: #031b4c;
+}
+
+.timeline__cards{
+  display: var(--timeloneCardsDisplay, grid);
+  grid-row-gap: var(--timeloneCardsGap, 1.5rem);
+}
+
+
+/*
+=====
+SKIN
+=====
+*/
+
+.timeline{
+  --uiTimelineMainColor: var(--timelineMainColor, #222);
+  --uiTimelineSecondaryColor: var(--timelineSecondaryColor, #fff);
+
+  border-left: var(--timelineLineWidth, 3px) solid var(--timelineLineBackgroundColor, var(--uiTimelineMainColor));
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.timeline__year{
+  --timePadding: var(--timelineYearPadding, .5rem 1.5rem);
+  --timeColor: var(--uiTimelineSecondaryColor);
+/*  --timeBackgroundColor: var(--uiTimelineMainColor);*/
+  --timeBackgroundColor: #e77817;
+  --timeFontWeight: var(--timelineYearFontWeight, 400);
+}
+
+.timeline__card{
+  position: relative;
+  margin-left: var(--timelineCardLineGap, 1rem);
+      margin-bottom: 10px;
+
+}
+
+/*
+1. Stoping cut box shadow
+*/
+
+.timeline__cards{
+  overflow: hidden;
+  padding-top: .25rem; /* 1 */
+  padding-bottom: .25rem; /* 1 */
+}
+
+.timeline__card::before{
+  content: "";
+  width: 100%;
+  height: var(--timelineCardLineWidth, 2px);
+  background-color: var(--timelineCardLineBackgroundColor, var(--uiTimelineMainColor));
+
+  position: absolute;
+  top: var(--timelineCardLineTop, 1rem);
+  left: -50%;
+  z-index: -1;
+}
+
+/*
+=====
+SETTINGS
+=====
+*/
+/**/
+.timeline{
+  --timelineMainColor: #003663;
+}
+
+/*
+=====
+DEMO
+=====
+*/
+
+/*body{
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+  color: #222;
+
+  background-color: #f0f0f0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}*/
+
+p{
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size:10px
+}
+
+p:last-child{
+  margin-bottom: 0;
+}
+
+/*.page{
+  max-width: 47rem;
+  padding: 5rem 2rem 3rem;
+  margin-left: auto;
+  margin-right: auto;
+}*/
+
+#imgFundo { 
+display:none; 
+
+}
+
+            </style>
+    <div class="linha-colorida"><center><h3 class='panel-title'>FOLLOW UP <asp:Label runat="server" ID="NumeroBL"></asp:Label>
+                    </h3></center></div>
+    <div class='row'>
+                           <br/>             <br/>              
+
+                    
+   <div id="teste2" runat="server" class="row"> 
+    
+
+      
+
         </div>
+              </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script src="Content/js/jquery.smartWizard.js"></script>

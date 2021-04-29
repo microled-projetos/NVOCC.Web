@@ -104,6 +104,15 @@ Partial Public Class ModuloOperacional
     Protected WithEvents lkDuplicarEmbarque As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkFollowUpEmbarque.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkFollowUpEmbarque As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle lkRemoverEmbarque.
     '''</summary>
     '''<remarks>
@@ -536,13 +545,13 @@ Partial Public Class ModuloOperacional
     Protected WithEvents lkTracking As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkFollowUp.
+    '''Controle lkFollowUpMaster.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkFollowUp As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkFollowUpMaster As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkRemoverMaster.
@@ -759,6 +768,15 @@ Partial Public Class ModuloOperacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkBLHouse As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkFollowUpHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkFollowUpHouse As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle Label9.

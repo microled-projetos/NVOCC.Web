@@ -8,14 +8,24 @@
 
         End If
 
-        If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
-            CarregaCampos()
-            CarregaCampos2()
-        End If
-
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        Dim ds As DataSet
+
+        If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
+            CarregaCampos()
+            CarregaCampos3()
+
+
+            ds = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE ID_BL = " & Request.QueryString("id"))
+            If ds.Tables(0).Rows.Count > 0 Then
+                NumeroBL.Text = " - " & ds.Tables(0).Rows(0).Item("NR_BL")
+            End If
+
+        End If
+
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
@@ -28,7 +38,7 @@
     Sub CarregaCampos()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT * FROM View_FollowUp")
+        Dim ds As DataSet = Con.ExecutarQuery("EXEC [dbo].[PROC_FOLLOWUP]" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
 
             Dim Lista As String = "<div class='row'>
@@ -37,7 +47,7 @@
                     <h3 class='panel-title'>FOLLOWUP
                     </h3>
                 </div>
-                <div class='panel-body'><ul class='DB_Timeline'><div class='marcador'></div>
+                <div class='panel-body'><ul class='DB_Timeline'>
 "
 
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -62,42 +72,58 @@
 
     End Sub
 
-    Sub CarregaCampos2()
+
+    Sub CarregaCampos3()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT * FROM View_FollowUp")
+        Dim ds As DataSet = Con.ExecutarQuery("EXEC [dbo].[PROC_FOLLOWUP]" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
 
-            Dim Lista As String = "<ul class='linha-do-tempo'><div class='marcador'></div>
-"
+            Dim Lista As String = "<div class='page'>
+  <div class='timeline'>
+    <div class='timeline__group'>"
 
             For Each linha As DataRow In ds.Tables(0).Rows
                 If linha("STATUS_ETAPA") = "ETAPA REALIZADA" Then
-                    Lista &= "<li runat='server' ID='" & linha("ID_FOLLOWUP") & "' class='Evento'><p>" & linha("NM_EVENTO") & "</p></li>
- <li class='item' href='#'><p style='color:green'>STATUS:" & linha("STATUS_ETAPA") & " <i class='glyphicon glyphicon-ok'></i></p></li>
-<li class='item' href='#'>
-<p>DATA:11/10/2020<br/>
-USUÁRIO: JULIANE</p> 
-</li>"
+                    Lista &= "<span class='timeline__year time' aria-hidden='true'>" & linha("NM_EVENTO") & "</span>
+      <div class='timeline__cards'>
+        <div class='timeline__card card'>
+          <header class='card__header'>
+<time class='time' datetime='2008-07-14' style='background-color: #d3e8d1;'>
+              <span class='time__day' style='color:green;'><strong>" & linha("STATUS_ETAPA") & "</strong><i class='glyphicon glyphicon-ok'></i></span>
+            </time>
+          </header>
+          <div class='card__content'>
+            <p>" & linha("VALOR_CAMPO") & "<br/>
+</p>
+        </div>
+       
+        </div>
+      </div>"
 
                 Else
-                    Lista &= "<li runat='server' ID='" & linha("ID_FOLLOWUP") & "' class='Evento'><p>" & linha("NM_EVENTO") & "</p></li>
- <li class='item' href='#'><p style='color:red'>STATUS:" & linha("STATUS_ETAPA") & " <i class='glyphicon glyphicon-remove'></i></p></li>
-<li class='item' href='#'>
-<p>SEM INFORMAÇÃO</p> 
-</li>"
+                    Lista &= "<span class='timeline__year time' aria-hidden='true'>" & linha("NM_EVENTO") & "</span>
+      <div class='timeline__cards'>
+        <div class='timeline__card card'>
+          <header class='card__header'>
+<time class='time' datetime='2008-07-14' style='background-color: #e8d1d1;'>
+              <span class='time__day' style='color:red;'><strong>" & linha("STATUS_ETAPA") & "</strong><i class='glyphicon glyphicon-remove'></i></span>
+            </time>
+          </header>
+          <div class='card__content'></div>
+       
+        </div>
+      </div>"
 
                 End If
             Next
 
-            Lista &= "</ul>"
-            TESTE.InnerHtml &= Lista
+            Lista &= "</div></div>
+</div>"
+            teste2.InnerHtml &= Lista
 
 
         End If
 
     End Sub
-
-
-
 End Class

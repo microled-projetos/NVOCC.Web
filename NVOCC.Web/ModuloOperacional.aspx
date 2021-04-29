@@ -61,6 +61,7 @@
                                         <asp:LinkButton ID="lkInserirEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
                                         <asp:LinkButton ID="lkAlterarEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                         <asp:LinkButton ID="lkDuplicarEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Duplicar</asp:LinkButton>
+                                        <asp:LinkButton ID="lkFollowUpEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                         <asp:LinkButton Visible="false" ID="lkRemoverEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                         <asp:LinkButton ID="lkFiltrarEmbarque" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
 
@@ -331,6 +332,8 @@
                                     <asp:AsyncPostBackTrigger ControlID="btnFiltrar_Embarque" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarEmbarque" />
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarEmbarque" />
+                                   <asp:AsyncPostBackTrigger ControlID="lkFollowUpEmbarque" />                                    
+
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -357,7 +360,7 @@
                                         <asp:LinkButton ID="lkAlterarMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                         <asp:LinkButton ID="lkDuplicarMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Duplicar</asp:LinkButton>
                                         <asp:LinkButton ID="lkTracking" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-map-marker"></i>&nbsp;Tracking</asp:LinkButton>
-                                                <asp:LinkButton ID="lkFollowUp" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
+                                        <asp:LinkButton ID="lkFollowUpMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                         <asp:LinkButton Visible="false" ID="lkRemoverMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
 
                                     </div>
@@ -460,6 +463,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="rdServicoMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarMaster" />
+                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpMaster" />                             
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -489,6 +493,7 @@
                                         <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                         <asp:LinkButton ID="lkCourrierHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-transfer"></i>&nbsp;Courrier</asp:LinkButton>
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
+                                         <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                     </div>
                                     <br />
                                     <br />
@@ -769,7 +774,8 @@
                                     <asp:AsyncPostBackTrigger ControlID="lkCalcularHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarHouse" />
-                                    <asp:AsyncPostBackTrigger ControlID="lkBLHouse" />                                    
+                                    <asp:AsyncPostBackTrigger ControlID="lkBLHouse" />
+                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpHouse" />                                    
                                 </Triggers>
                             </asp:UpdatePanel>
 

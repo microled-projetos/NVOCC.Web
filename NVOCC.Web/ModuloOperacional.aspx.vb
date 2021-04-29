@@ -955,13 +955,30 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
     End Sub
 
-    Private Sub lkFollowUp_Click(sender As Object, e As EventArgs) Handles lkFollowUp.Click
+    Private Sub lkFollowUpMaster_Click(sender As Object, e As EventArgs) Handles lkFollowUpMaster.Click
         If txtID_Master.Text = "" Then
+            divErroMaster.Visible = True
+            lblErroMaster.Text = "Selecione o registro que deseja consultar!"
+        Else
+            Response.Redirect("FollowUp.aspx?id=" & txtID_Master.Text)
+        End If
+    End Sub
+
+    Private Sub lkFollowUpHouse_Click(sender As Object, e As EventArgs) Handles lkFollowUpHouse.Click
+        If txtIDHouse.Text = "" Then
+            divErroHouse.Visible = True
+            lblErroHouse.Text = "Selecione o registro que deseja consultar!"
+        Else
+            Response.Redirect("FollowUp.aspx?id=" & txtIDHouse.Text)
+        End If
+    End Sub
+
+    Private Sub lkFollowUpEmbarque_Click(sender As Object, e As EventArgs) Handles lkFollowUpEmbarque.Click
+        If txtID_Embarque.Text = "" Then
             divErroEmbarque.Visible = True
             lblErroEmbarque.Text = "Selecione o registro que deseja consultar!"
         Else
-            Response.Redirect("FollowUp.aspx?id=" & txtID_Master.Text)
-
+            Response.Redirect("FollowUp.aspx?id=" & txtID_Embarque.Text)
         End If
     End Sub
 End Class
