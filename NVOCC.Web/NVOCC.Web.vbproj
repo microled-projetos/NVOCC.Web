@@ -569,6 +569,15 @@
       <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Class\Aduana.vb" />
+    <Compile Include="Class\BL.vb" />
+    <Compile Include="Class\Consignee.vb" />
+    <Compile Include="Class\Dates.vb" />
+    <Compile Include="Class\Lock.vb" />
+    <Compile Include="Class\Logistics.vb" />
+    <Compile Include="Class\References.vb" />
+    <Compile Include="Class\Traking.vb" />
+    <Compile Include="Class\Transport.vb" />
     <Compile Include="ClienteFinal.aspx.designer.vb">
       <DependentUpon>ClienteFinal.aspx</DependentUpon>
     </Compile>
