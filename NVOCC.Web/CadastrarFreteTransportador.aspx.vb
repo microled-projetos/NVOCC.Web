@@ -697,22 +697,34 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             lblErroTaxa.Text = "Antes de inserir Taxa é necessario cadastrar Frete Transportador na Aba de Informações Basicas"
             divErroTaxa.Visible = True
 
-        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlMoedaVenda.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or txtValorTaxaVendaMin.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
+        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
         Else
 
 
-            txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
-            txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(",", ".")
+            'txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", "")
+            'txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(",", ".")
 
-            txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(".", "")
-            txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(",", ".")
+            'txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(".", "")
+            'txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(",", ".")
 
-            txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", "")
-            txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(",", ".")
+            'txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", "")
+            'txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(",", ".")
 
+
+            'If txtValorTaxaVenda.Text = "" Then
+            '    txtValorTaxaVenda.Text = "NULL"
+            'Else
+            '    txtValorTaxaVenda.Text = "'" & txtservico.Text & "'"
+            'End If
+
+            'If txtValorTaxaVendaMin.Text = "" Then
+            '    txtValorTaxaVendaMin.Text = "NULL"
+            'Else
+            '    txtValorTaxaVendaMin.Text = "'" & txtValorTaxaVendaMin.Text & "'"
+            'End If
 
 
 

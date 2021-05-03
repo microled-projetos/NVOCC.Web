@@ -8,6 +8,11 @@
 
         End If
 
+
+        'CHAMA SERVIÇO DE RASTREIO
+        Dim rastreio As New RastreioService
+        rastreio.PostAsyncBl("COSU6279259300", "61064838016560", "andre.rodrigues@abainfra.com.br", "185")
+
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
@@ -985,6 +990,11 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Exit Sub
 
                 Else
+
+                    'CHAMA SERVIÇO DE RASTREIO
+                    'Dim rastreio As New RastreioService
+                    'rastreio.IniciarRastreio("COSU6279259300", "61064838016560", "andre.rodrigues@abainfra.com.br", "185")
+
 
                     'INSERE 
                     ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_MOEDA_FRETE, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,ID_SERVICO,DT_ABERTURA) VALUES ('M'," & txtNumeroBL_BasicoAereo.Text & "," & ddltransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & txtNumeroVoo_BasicoAereo.Text & "," & txtVoo1_BasicoAereo.Text & "," & txtVoo2_BasicoAereo.Text & "," & txtVoo3_BasicoAereo.Text & "," & txtDataPrevista1_BasicoAereo.Text & "," & txtDataPrevista2_BasicoAereo.Text & "," & txtDataPrevista3_BasicoAereo.Text & "," & ddlAeroporto1_BasicoAereo.SelectedValue & "," & ddlAeroporto2_BasicoAereo.SelectedValue & "," & ddlAeroporto3_BasicoAereo.SelectedValue & "," & ddlMoedaFrete_BasicoAereo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoAereo.Text & ", " & txtPrevisaoChegada_BasicoAereo.Text & ", " & txtChegada_BasicoAereo.Text & ", " & txtEmbarque_BasicoAereo.Text & "," & txtDataConhecimento_BasicoAereo.Text & ", " & txtTarifaMaster_BasicoAereo.Text & ", " & ddlServico_BasicoAereo.Text & ",GETDATE()) Select SCOPE_IDENTITY() as ID_BL ")

@@ -792,6 +792,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Services\EmailService.vb" />
+    <Compile Include="Services\RastreioService.vb" />
     <Compile Include="Site.Master.designer.vb">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
