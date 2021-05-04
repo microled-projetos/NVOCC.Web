@@ -70,7 +70,6 @@
                             End If
                         ElseIf Externo = False Then
 
-
                             ds = Con.ExecutarQuery("Select A.ID_TIPO_USUARIO FROM TB_VINCULO_USUARIO A 
 Left Join TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
 WHERE a.ID_USUARIO = " & Session("ID_USUARIO"))
