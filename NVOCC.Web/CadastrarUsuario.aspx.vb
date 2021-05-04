@@ -19,20 +19,6 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        'If ds.Tables(0).Rows.Count > 0 Then
-
-        '    If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-        '        Response.Redirect("Default.aspx")
-
-
-        '    End If
-
-
-        'Else
-        '    Response.Redirect("Default.aspx")
-        'End If
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
@@ -105,77 +91,6 @@
             lblerro.Text = "e-Mail Inválido."
         Else
             If txtID.Text = "" Then
-                'ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                'If ds.Tables(0).Rows.Count > 0 Then
-
-                '    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                '        diverro.Visible = True
-                '        lblerro.Text = "Usuário não possui permissão para cadastrar."
-                '    Else
-                '        ds = Con.ExecutarQuery("SELECT LOGIN FROM [TB_USUARIO] where LOGIN = '" & txtLogin.Text & "'")
-                '        If ds.Tables(0).Rows.Count > 0 Then
-                '            diverro.Visible = True
-                '            lblerro.Text = "Já existe usuário cadastrado com esse login"
-
-                '        Else
-
-                '            ds = Con.ExecutarQuery("SELECT EMAIL FROM [TB_USUARIO] where EMAIL = '" & txtEmail.Text & "'")
-                '            If ds.Tables(0).Rows.Count > 0 Then
-                '                diverro.Visible = True
-                '                lblerro.Text = "Já existe usuário cadastrado com esse email"
-                '            Else
-                '                ds = Con.ExecutarQuery("SELECT CPF FROM [TB_USUARIO] where CPF = '" & txtCPF.Text & "'")
-                '                If ds.Tables(0).Rows.Count > 0 Then
-                '                    diverro.Visible = True
-                '                    lblerro.Text = "Já existe usuário cadastrado com esse CPF"
-
-                '                Else
-
-                '                    If txtSenha.Text <> txtConfirmaSenha.Text Then
-                '                        diverro.Visible = True
-                '                        lblerro.Text = "As senhas não correspondem"
-                '                    Else
-
-                '                        Dim Criptografar As New Criptografia
-
-                '                        Dim Ativo As String
-                '                        Dim Senha As String = Criptografar.CriptografarSenha(txtSenha.Text)
-
-                '                        If ckbAtivo.Checked = True Then
-                '                            Ativo = 1
-                '                        Else
-                '                            Ativo = 0
-                '                        End If
-                '                        If txtSenha.Text = "" Then
-                '                            diverro.Visible = True
-                '                            lblerro.Text = "É necessário preencher o campo de senha"
-
-                '                        Else
-
-
-                '                            Con.Conectar()
-                '                            Con.ExecutarQuery("INSERT INTO [dbo].[TB_USUARIO] (LOGIN, SENHA,NOME, EMAIL, TELEFONE,CPF,FL_ATIVO,DT_CADASTRO, FL_EXTERNO, CELULAR,FL_GRAVAR_MASTER_BASICO,FL_GRAVAR_MASTER_CONTAINER,FL_GRAVAR_MASTER_TAXAS,FL_GRAVAR_MASTER_VINCULAR,FL_GRAVAR_HOUSE_BASICO,FL_GRAVAR_HOUSE_CARGA,FL_GRAVAR_HOUSE_TAXAS) VALUES ('" & txtLogin.Text & "' ,'" & Senha & "','" & txtNome.Text & "','" & txtEmail.Text & "' , '" & txtTelefone.Text & "' ,'" & txtCPF.Text & "' , " & Ativo & ", GetDate(), '" & ckbExterno.Checked & "','" & txtCelular.Text & "','" & ckbMasterBasico.Checked & "','" & ckbMasterCNTR.Checked & "','" & ckbMasterTaxas.Checked & "','" & ckbMasterVinculo.Checked & "','" & ckbHouseBasico.Checked & "','" & ckbHouseCarga.Checked & "','" & ckbHouseTaxas.Checked & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
-                '                            Con.Fechar()
-                '                            divmsg.Visible = True
-                '                            'Call Limpar(Me)
-                '                            dgvUsuarios.DataBind()
-                '                            divTipoUsuario.Attributes.CssStyle.Add("display", "block")
-
-                '                        End If
-                '                    End If
-                '                End If
-                '            End If
-                '        End If
-
-                '    End If
-                'Else
-                '    diverro.Visible = True
-                '    lblerro.Text = "Usuário não possui permissão para cadastrar."
-                'End If
-
-
-
-
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
@@ -241,79 +156,7 @@
                     End If
                 End If
 
-
-
-
-
-
-
             Else
-
-
-                'ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                'If ds.Tables(0).Rows.Count > 0 Then
-
-                '    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                '        diverro.Visible = True
-                '        lblerro.Text = "Usuário não possui permissão para alterar."
-                '    Else
-
-                '        Dim ID As String = Request.QueryString("id")
-
-                '        ds = Con.ExecutarQuery("SELECT LOGIN FROM [TB_USUARIO] where LOGIN = '" & txtLogin.Text & "' AND ID_USUARIO <> " & ID)
-                '        If ds.Tables(0).Rows.Count > 0 Then
-                '            diverro.Visible = True
-                '            lblerro.Text = "Já existe usuário cadastrado com esse login"
-
-                '        Else
-
-                '            ds = Con.ExecutarQuery("SELECT EMAIL FROM [TB_USUARIO] where EMAIL = '" & txtEmail.Text & "' AND ID_USUARIO <> " & ID)
-                '            If ds.Tables(0).Rows.Count > 0 Then
-                '                diverro.Visible = True
-                '                lblerro.Text = "Já existe usuário cadastrado com esse email"
-                '            Else
-                '                ds = Con.ExecutarQuery("SELECT CPF FROM [TB_USUARIO] where CPF = '" & txtCPF.Text & "' AND ID_USUARIO <> " & ID)
-                '                If ds.Tables(0).Rows.Count > 0 Then
-                '                    diverro.Visible = True
-                '                    lblerro.Text = "Já existe usuário cadastrado com esse CPF"
-
-                '                Else
-
-                '                    If txtSenha.Text <> txtConfirmaSenha.Text Then
-                '                        diverro.Visible = True
-                '                        lblerro.Text = "As senhas não correspondem"
-                '                    Else
-                '                        Dim Ativo As String
-
-                '                        If ckbAtivo.Checked = True Then
-                '                            Ativo = 1
-                '                        Else
-                '                            Ativo = 0
-                '                        End If
-                '                        Con.Conectar()
-
-                '                        If txtSenha.Text = "" Then
-                '                            Con.ExecutarQuery("UPDATE [dbo].[TB_USUARIO] SET [NOME] = '" & txtNome.Text & "' , FL_ATIVO =  " & Ativo & ", FL_EXTERNO =  '" & ckbExterno.Checked & "', [EMAIL] = '" & txtEmail.Text & "' , [TELEFONE] = '" & txtTelefone.Text & "' ,[CPF] = '" & txtCPF.Text & "' , [LOGIN] = '" & txtLogin.Text & "' , [CELULAR] = '" & txtCelular.Text & "', FL_GRAVAR_MASTER_BASICO = '" & ckbMasterBasico.Checked & "',FL_GRAVAR_MASTER_CONTAINER = '" & ckbMasterCNTR.Checked & "',FL_GRAVAR_MASTER_TAXAS = '" & ckbMasterTaxas.Checked & "',FL_GRAVAR_MASTER_VINCULAR = '" & ckbMasterVinculo.Checked & "',FL_GRAVAR_HOUSE_BASICO =  '" & ckbHouseBasico.Checked & "',FL_GRAVAR_HOUSE_CARGA = '" & ckbHouseCarga.Checked & "',FL_GRAVAR_HOUSE_TAXAS = '" & ckbHouseTaxas.Checked & "'WHERE ID_USUARIO =" & ID & "; SELECT CAST(SCOPE_IDENTITY() AS INT)")
-
-                '                        Else
-                '                            Dim Criptografar As New Criptografia
-                '                            Dim Senha As String = Criptografar.CriptografarSenha(txtSenha.Text)
-                '                            Con.ExecutarQuery("UPDATE [dbo].[TB_USUARIO] SET [SENHA] = '" & Senha & "' , [NOME] = '" & txtNome.Text & "' , FL_ATIVO =  " & Ativo & ", FL_EXTERNO =  '" & ckbExterno.Checked & "' , [EMAIL] = '" & txtEmail.Text & "' , [TELEFONE] = '" & txtTelefone.Text & "' ,[CPF] = '" & txtCPF.Text & "' , [LOGIN] = '" & txtLogin.Text & "' , [CELULAR] = '" & txtCelular.Text & "',FL_GRAVAR_MASTER_BASICO = '" & ckbMasterBasico.Checked & "',FL_GRAVAR_MASTER_CONTAINER = '" & ckbMasterCNTR.Checked & "',FL_GRAVAR_MASTER_TAXAS = '" & ckbMasterTaxas.Checked & "',FL_GRAVAR_MASTER_VINCULAR = '" & ckbMasterVinculo.Checked & "',FL_GRAVAR_HOUSE_BASICO =  '" & ckbHouseBasico.Checked & "',FL_GRAVAR_HOUSE_CARGA = '" & ckbHouseCarga.Checked & "',FL_GRAVAR_HOUSE_TAXAS = '" & ckbHouseTaxas.Checked & "' WHERE ID_USUARIO =" & ID & "; SELECT CAST(SCOPE_IDENTITY() AS INT)")
-                '                        End If
-                '                        divmsg.Visible = True
-                '                        Con.Fechar()
-                '                    End If
-
-                '                End If
-                '            End If
-                '        End If
-
-
-                '    End If
-                'Else
-                '    diverro.Visible = True
-                '    lblerro.Text = "Usuário não possui permissão para alterar."
-                'End If
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
@@ -429,8 +272,6 @@
         Con.Conectar()
 
         Dim ds As DataSet
-        'Con.ExecutarQuery("SELECT FL_EXCLUIR,FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 

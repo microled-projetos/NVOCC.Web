@@ -13,22 +13,17 @@ Public Class TaxasLocaisArmador
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-            Else
-
-                dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
-                dgvTaxas.DataBind()
-                ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+        Else
+            dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
+            dgvTaxas.DataBind()
+            ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
+
         End If
+
         Con.Fechar()
     End Sub
 
@@ -56,24 +51,18 @@ Public Class TaxasLocaisArmador
                 txtValorTaxaLocal.Text = txtValorTaxaLocal.Text.Replace(",", ".")
 
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErro.Visible = True
-                        lblmsgErro.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-                    Else
-                        ds = Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = '" & txtValorTaxaLocal.Text & "', DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103) FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
-                        divSuccess.Visible = True
-                        dgvTaxas.DataBind()
-                        'mpe.Show()
-                    End If
-                Else
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
 
+                Else
+                    ds = Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = '" & txtValorTaxaLocal.Text & "', DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103) FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
+                    divSuccess.Visible = True
+                    dgvTaxas.DataBind()
+                    'mpe.Show()
                 End If
 
 
@@ -84,11 +73,6 @@ Public Class TaxasLocaisArmador
 
         Con.Fechar()
     End Sub
-
-
-
-
-
 
     Private Sub btnSalvarNovo_Click(sender As Object, e As EventArgs) Handles btnSalvarNovo.Click
         divErroNovo.Visible = False
@@ -113,27 +97,20 @@ Public Class TaxasLocaisArmador
                 txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", "")
                 txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(",", ".")
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErroNovo.Visible = True
-                        lblmsgErroNovo.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-                    Else
-
-                        ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO ) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ")")
-                        divSuccessNovo.Visible = True
-                        Call Limpar(Me)
-                        dgvTaxas.DataBind()
-                        ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
-
-                    End If
-                Else
-
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroNovo.Visible = True
                     lblmsgErroNovo.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
+                Else
+
+                    ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO ) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ")")
+                    divSuccessNovo.Visible = True
+                    Call Limpar(Me)
+                    dgvTaxas.DataBind()
+                    ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
+
                 End If
 
             End If
@@ -143,13 +120,6 @@ Public Class TaxasLocaisArmador
 
         Con.Fechar()
     End Sub
-
-
-
-
-
-
-
     Public Sub Limpar(ByVal controlP As Control)
 
         txtIDTaxa.Text = ""
@@ -210,25 +180,20 @@ Public Class TaxasLocaisArmador
 
             Dim ds As DataSet
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1024 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Dim id As String = e.CommandArgument
-
-
-                    Con.ExecutarQuery("DELETE FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR =" & id)
-
-                    dgvTaxas.DataBind()
-                    divExcluir_Success.Visible = True
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1024 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblExcluir_Erro.Text = "Usuário não tem permissão para realizar exclusões"
+                divExcluir_Erro.Visible = True
+            Else
+                Dim id As String = e.CommandArgument
 
 
-                Else
-                    lblExcluir_Erro.Text = "Usuário não tem permissão para realizar exclusões"
-                    divExcluir_Erro.Visible = True
-                End If
+                Con.ExecutarQuery("DELETE FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR =" & id)
+
+                dgvTaxas.DataBind()
+                divExcluir_Success.Visible = True
+
             End If
-
 
         End If
 

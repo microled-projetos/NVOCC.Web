@@ -34,10 +34,11 @@
         Con.Conectar()
 
         'Faz uma busca no banco de dados pelo usuario
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_USUARIO,SENHA,LOGIN,ID_TIPO_USUARIO,ISNULL(FL_ATIVO,0)FL_ATIVO FROM [dbo].[TB_USUARIO] WHERE LOGIN = '" & txtUsuario.Text & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_USUARIO,SENHA,LOGIN,ID_TIPO_USUARIO,ISNULL(FL_ATIVO,0)FL_ATIVO,ISNULL(FL_EXTERNO,0)FL_EXTERNO FROM [dbo].[TB_USUARIO] WHERE LOGIN = '" & txtUsuario.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             'Salva login, ID do usuario e criptografa a senha digitada pelo usuario
             Dim ID As String = ds.Tables(0).Rows(0).Item("ID_USUARIO").ToString()
+            Dim Externo As Boolean = ds.Tables(0).Rows(0).Item("FL_EXTERNO").ToString()
             Dim Login As String = ds.Tables(0).Rows(0).Item("LOGIN").ToString()
             Dim Senha As String = Criptografar.CriptografarSenha(txtSenha.Text)
 
@@ -54,18 +55,42 @@
                         ' Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
                         ' Response.Redirect("SelecionaPerfil.aspx?ID=" & ID)
                         ' Response.Redirect("Default.aspx?ID=" & ID)
+                        Session("Externo") = Externo
+                        If Externo = True Then
+                            ds = Con.ExecutarQuery("SELECT ID_TIPO_USUARIO FROM [dbo].[TB_VINCULO_USUARIO] WHERE ID_USUARIO = " & Session("ID_USUARIO"))
+                            If ds.Tables(0).Rows.Count = 0 Then
+                                msgErro.Visible = True
+                                lblMsg.Text = "Usuário sem grupo vinculado"
+                            ElseIf ds.Tables(0).Rows.Count = 1 Then
+                                Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
+                                Response.Redirect("Default.aspx?ID=" & ID)
+                            Else
+                                Session("ID_TIPO_USUARIO") = 0
+                                Response.Redirect("SelecionaPerfil.aspx?ID=" & ID)
+                            End If
+                        ElseIf Externo = False Then
 
-                        ds = Con.ExecutarQuery("SELECT ID_TIPO_USUARIO FROM [dbo].[TB_VINCULO_USUARIO] WHERE ID_USUARIO = " & Session("ID_USUARIO"))
-                        If ds.Tables(0).Rows.Count = 0 Then
-                            msgErro.Visible = True
-                            lblMsg.Text = "Usuário sem grupo vinculado"
-                        ElseIf ds.Tables(0).Rows.Count = 1 Then
-                            Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
-                            Response.Redirect("Default.aspx?ID=" & ID)
-                        Else
-                            Session("ID_TIPO_USUARIO") = 0
-                            Response.Redirect("SelecionaPerfil.aspx?ID=" & ID)
+
+                            ds = Con.ExecutarQuery("Select A.ID_TIPO_USUARIO FROM TB_VINCULO_USUARIO A 
+Left Join TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
+WHERE a.ID_USUARIO = " & Session("ID_USUARIO"))
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                For Each linha As DataRow In ds.Tables(0).Rows
+                                    If Session("ID_TIPO_USUARIO") <> "" Then
+                                        Session("ID_TIPO_USUARIO") &= "," & linha.Item("ID_TIPO_USUARIO").ToString()
+                                    Else
+                                        Session("ID_TIPO_USUARIO") &= linha.Item("ID_TIPO_USUARIO").ToString()
+                                    End If
+                                Next
+                                Response.Redirect("Default.aspx?ID=" & ID)
+
+                            End If
+
+
+
+
                         End If
+
 
                     Else
                         msgErro.Visible = True

@@ -25,20 +25,14 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                Response.Redirect("Default.aspx")
-
-
-            End If
-
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
+
         Con.Fechar()
     End Sub
 
@@ -114,19 +108,19 @@ WHERE B.ID = " & ID)
             Dim ds As DataSet
             If txtID.Text <> "" Then
 
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                ds = Con.ExecutarQuery("SELECT FL_Atualizar FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 7 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblerro.Text = "Usuário não tem permissão para realizar alterações"
+                    divmsg2.Visible = True
 
-                    If ds.Tables(0).Rows(0).Item("FL_Atualizar").ToString() = True Then
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS = LOWER('" & Email & "') WHERE ID = " & txtID.Text)
-                        lblmsg.Text = "Email atualizado com sucesso!"
-                        divmsg.Visible = True
-                    Else
-                        lblerro.Text = "Usuário não tem permissão para realizar alterações"
-                        divmsg2.Visible = True
-                    End If
+                Else
+
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS = LOWER('" & Email & "') WHERE ID = " & txtID.Text)
+                    lblmsg.Text = "Email atualizado com sucesso!"
+                    divmsg.Visible = True
                 End If
+
 
             Else
                 Dim TIPO As String = "E"
@@ -145,24 +139,21 @@ WHERE B.ID = " & ID)
                 End If
 
 
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                ds = Con.ExecutarQuery("SELECT FL_Cadastrar FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 7 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblerro.Text = "Usuário não tem permissão para realizar novos cadastros"
+                    divmsg2.Visible = True
+                Else
+                    'Insere informaçoes no banco
+                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "', LOWER('" & Email & "'))")
 
-                    If ds.Tables(0).Rows(0).Item("FL_Cadastrar").ToString() = True Then
-                        'Insere informaçoes no banco
-                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "', LOWER('" & Email & "'))")
-
-                        ddlPorto.SelectedValue = 0
-                        ddlEvento.SelectedValue = 0
-                        lblmsg.Text = "Email cadastrado com sucesso!"
-                        divmsg.Visible = True
-                        Con.Fechar()
-                        Call Limpar(Me)
-                    Else
-                        lblerro.Text = "Usuário não tem permissão para realizar novos cadastros"
-                        divmsg2.Visible = True
-                    End If
+                    ddlPorto.SelectedValue = 0
+                    ddlEvento.SelectedValue = 0
+                    lblmsg.Text = "Email cadastrado com sucesso!"
+                    divmsg.Visible = True
+                    Con.Fechar()
+                    Call Limpar(Me)
                 End If
 
 
@@ -382,24 +373,19 @@ WHERE B.ID = " & ID)
     Private Sub dgvEmail_PreRender(sender As Object, e As EventArgs) Handles dgvEmail.PreRender
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR,FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-
-                dgvEmail.Columns(7).Visible = False
-
-            End If
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR") <> True Then
-
-                dgvEmail.Columns(8).Visible = False
-
-            End If
-
-        Else
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             dgvEmail.Columns(7).Visible = False
+
+        End If
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             dgvEmail.Columns(8).Visible = False
         End If
+
         Con.Fechar()
 
     End Sub
@@ -412,19 +398,19 @@ WHERE B.ID = " & ID)
             Con.Conectar()
             Dim ID As String = e.CommandArgument
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 7 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE FROM [TB_AMR_PESSOA_EVENTO] WHERE ID =" & ID)
-                    lblMsgExcluir.Text = "Registro deletado!"
-                    divMsgExcluir.Visible = True
-                    dgvEmail.DataBind()
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                Else
-                    lblMsgErro.Text = "Usuário não tem permissão para realizar exclusões"
-                    divMsgErro.Visible = True
-                End If
+                lblMsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divMsgErro.Visible = True
+
+            Else
+
+                Con.ExecutarQuery("DELETE FROM [TB_AMR_PESSOA_EVENTO] WHERE ID =" & ID)
+                lblMsgExcluir.Text = "Registro deletado!"
+                divMsgExcluir.Visible = True
+                dgvEmail.DataBind()
             End If
             Con.Fechar()
 

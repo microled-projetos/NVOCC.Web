@@ -108,19 +108,6 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
             btnSelecionarTodos.Enabled = False
         End If
 
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 3 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        'If ds.Tables(0).Rows.Count > 0 Then
-
-        '    If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-        '        Response.Redirect("Default.aspx")
-
-        '    End If
-
-
-        'Else
-        '    Response.Redirect("Default.aspx")
-        'End If
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 3 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 

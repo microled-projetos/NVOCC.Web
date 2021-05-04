@@ -16,21 +16,6 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        'If ds.Tables(0).Rows.Count > 0 Then
-
-        '    If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-        '        Response.Redirect("Default.aspx")
-
-
-        '    End If
-
-
-        'Else
-        '    Response.Redirect("Default.aspx")
-        'End If
-
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN (" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
@@ -66,52 +51,6 @@
         Dim ds As DataSet
 
         If txtID.Text = "" Then
-            'ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            'If ds.Tables(0).Rows.Count > 0 Then
-
-            '    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-            '        msgErro.Visible = True
-            '        lblErro.Text = "Usuário não possui permissão para cadastrar."
-            '    Else
-            '        ds = Con.ExecutarQuery("SELECT ID_TIPO_USUARIO FROM TB_TIPO_USUARIO WHERE NM_TIPO_USUARIO = '" & txtDescricao.Text & "'")
-            '        If ds.Tables(0).Rows.Count > 0 Then
-            '            msgErro.Visible = True
-            '            lblErro.Text = "Já existe grupo de usuário cadastrado com nome"
-            '        Else
-
-
-
-            '            Dim Admin As String
-            '            If ckbAdmin.Checked = True Then
-            '                Admin = 1
-            '            Else
-            '                Admin = 0
-            '            End If
-            '            ds = Con.ExecutarQuery("INSERT INTO [dbo].[TB_TIPO_USUARIO] ([NM_TIPO_USUARIO],[DT_CADASTRO], FL_ADMIN) VALUES ('" & txtDescricao.Text & "' ,GetDate(), " & Admin & "); Select SCOPE_IDENTITY() as ID_TIPO_USUARIO")
-            '            Con.Fechar()
-            '            Dim ID_TIPO_USUARIO As String = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
-            '            If ckbAdmin.Checked Then
-
-
-            '                Call Permissoes(ID_TIPO_USUARIO)
-            '            End If
-            '            txtDescricao.Text = ""
-            '            divmsg.Visible = True
-            '            dgvUsuariosGrupos.DataBind()
-            '        End If
-
-            '    End If
-            'Else
-            '    msgErro.Visible = True
-            '    lblErro.Text = "Usuário não possui permissão para cadastrar."
-            'End If
-
-
-
-
-
-
-
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN (" & Session("ID_TIPO_USUARIO") & " )")
 
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -148,54 +87,7 @@
             End If
 
 
-
-
-
-
-
-
-
         Else
-
-            'ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            'If ds.Tables(0).Rows.Count > 0 Then
-
-            '    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-            '        msgErro.Visible = True
-            '        lblErro.Text = "Usuário não possui permissão para alterar."
-            '    Else
-            '        ds = Con.ExecutarQuery("SELECT ID_TIPO_USUARIO FROM TB_TIPO_USUARIO WHERE NM_TIPO_USUARIO = '" & txtDescricao.Text & "' and ID_TIPO_USUARIO <> " & txtID.Text)
-            '        If ds.Tables(0).Rows.Count > 0 Then
-            '            msgErro.Visible = True
-            '            lblErro.Text = "Já existe grupo de usuário cadastrado com nome"
-            '        Else
-            '            Dim ID As String = txtID.Text
-            '            Dim Admin As String
-            '            If ckbAdmin.Checked = True Then
-            '                Admin = 1
-            '            Else
-            '                Admin = 0
-            '            End If
-
-            '            ds = Con.ExecutarQuery("UPDATE [dbo].[TB_TIPO_USUARIO] SET [NM_TIPO_USUARIO] = '" & txtDescricao.Text & "' , FL_ADMIN =  " & Admin & " WHERE ID_TIPO_USUARIO =" & ID & "; SELECT CAST(SCOPE_IDENTITY() AS INT)")
-            '            Dim ID_TIPO_USUARIO As String = ID
-            '            If ckbAdmin.Checked Then
-            '                Call Permissoes(ID_TIPO_USUARIO)
-            '            End If
-            '            Con.Fechar()
-            '            txtDescricao.Text = ""
-            '            txtID.Text = ""
-            '            divmsg.Visible = True
-            '            dgvUsuariosGrupos.DataBind()
-            '        End If
-
-            '    End If
-
-            'Else
-            '    msgErro.Visible = True
-            '    lblErro.Text = "Usuário não possui permissão para alterar."
-            'End If
-
 
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN (" & Session("ID_TIPO_USUARIO") & " )")
 
@@ -243,7 +135,7 @@
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
-        'Con.ExecutarQuery("SELECT FL_EXCLUIR,FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
+
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             dgvUsuariosGrupos.Columns(2).Visible = False

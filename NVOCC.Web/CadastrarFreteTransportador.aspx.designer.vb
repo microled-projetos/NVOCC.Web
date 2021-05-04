@@ -389,7 +389,7 @@ Partial Public Class CadastrarFreteTransportador
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValorTaxaVenda As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtservico As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckfcl.
@@ -722,7 +722,7 @@ Partial Public Class CadastrarFreteTransportador
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtservico As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtValorTaxaVenda As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtValorTaxaVendaMin.

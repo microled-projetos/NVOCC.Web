@@ -157,7 +157,6 @@
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
-        '= Con.ExecutarQuery("SELECT FL_EXCLUIR,FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
 
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then

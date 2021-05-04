@@ -1,7 +1,7 @@
 ﻿Public Class SiteMaster
     Inherits MasterPage
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
-        If Session("Logado") = "False" Or Session("Logado") = Nothing  Then
+        If Session("Logado") = "False" Or Session("Logado") = Nothing Then
             Response.Redirect("Login.aspx")
 
         Else
@@ -14,14 +14,34 @@
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim Nome As String = ds.Tables(0).Rows(0).Item("Login").ToString()
                 lbllogin.Text = Nome
+
             End If
 
             Con.Fechar()
-            Menus()
+            If Session("Externo") = True Then
+                Menus()
+            ElseIf Session("Externo") = False Then
+                SeparaUsuario(Session("ID_TIPO_USUARIO"))
+            End If
+
         End If
 
-        lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
+            lblVersion.Text = "ver " & Me.GetType.Assembly.GetName.Version.ToString
 
+    End Sub
+
+    Sub SeparaUsuario(ByVal ID_TIPO_USUARIO As String)
+        Dim ID_TIPO_USUARIO_JUNTO As String = ID_TIPO_USUARIO
+        'quebrar a string
+        Dim palavras As String() = ID_TIPO_USUARIO.Split(New String() _
+          {","}, StringSplitOptions.RemoveEmptyEntries)
+
+        'exibe o resultado
+        For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+            Session("ID_TIPO_USUARIO") = palavras(i)
+            Menus()
+        Next
+        Session("ID_TIPO_USUARIO") = ID_TIPO_USUARIO_JUNTO
     End Sub
     Sub Menus()
         If Session("ID_TIPO_USUARIO") = 0 Then
@@ -34,10 +54,10 @@
                      M.ID_MENUS as Id,
                         M.NM_MENUS As Descricao, 
                         M.NM_OBJETO as Objeto,
-                        (SELECT FL_Acessar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO") & ") As Acessar, 
-                     (SELECT FL_Cadastrar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO") & ") As Cadastrar, 
-                     (SELECT FL_Atualizar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO") & ") As Atualizar, 
-                     (SELECT FL_Excluir FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO") & ") As Excluir 
+                        (SELECT FL_Acessar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO") & ") As Acessar, 
+                     (SELECT FL_Cadastrar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO") & ") As Cadastrar, 
+                     (SELECT FL_Atualizar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO") & ") As Atualizar, 
+                     (SELECT FL_Excluir FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS And ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO") & ") As Excluir 
                     FROM
         [dbo].[TB_MENUS] M
                     ORDER BY 

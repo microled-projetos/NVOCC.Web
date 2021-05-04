@@ -243,7 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BaixasCancelamentos.aspx" />
-    <Content Include="BL_PDF.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
     <Content Include="CadastrarEmbarqueHouse.aspx" />
     <Content Include="CadastrarMaster.aspx" />
@@ -355,8 +354,6 @@
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="AntigoCadastrarFreteTransportador.aspx" />
-    <Content Include="GeraPDFSimples.aspx" />
     <Content Include="GeraPDF.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -483,13 +480,6 @@
     </Compile>
     <Compile Include="BaixasCancelamentos.aspx.vb">
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="BL_PDF.aspx.designer.vb">
-      <DependentUpon>BL_PDF.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BL_PDF.aspx.vb">
-      <DependentUpon>BL_PDF.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="BuscaFreteTransportador.aspx.designer.vb">
@@ -657,20 +647,6 @@
     </Compile>
     <Compile Include="EmailParceiro.aspx.vb">
       <DependentUpon>EmailParceiro.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AntigoCadastrarFreteTransportador.aspx.designer.vb">
-      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="AntigoCadastrarFreteTransportador.aspx.vb">
-      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="GeraPDFSimples.aspx.designer.vb">
-      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="GeraPDFSimples.aspx.vb">
-      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GeraPDF.aspx.designer.vb">

@@ -35,18 +35,13 @@ Public Class FreteTransportador
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
+
         Con.Fechar()
     End Sub
 
@@ -285,18 +280,11 @@ WHERE A.ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND A.ID_
 
 
 
-    Private Sub dgvCotacao_PreRender(sender As Object, e As EventArgs) Handles dgvFreteTranportador.PreRender
+    Private Sub dgvFreteTranportador_PreRender(sender As Object, e As EventArgs) Handles dgvFreteTranportador.PreRender
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-
-                dgvFreteTranportador.Columns(10).Visible = False
-
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             dgvFreteTranportador.Columns(10).Visible = False
         End If
         Con.Fechar()
@@ -315,23 +303,30 @@ WHERE A.ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND A.ID_
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1024 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet
 
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                If txtID.Text = "" Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Selecione o registro que deseja excluir!"
-                Else
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+            divErro.Visible = True
+        Else
+            If txtID.Text = "" Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Selecione o registro que deseja excluir!"
+            Else
+
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_COTACAO)QTD FROM TB_COTACAO WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
                     Con.ExecutarQuery("DELETE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
                     lblmsgSuccess.Text = "Registro deletado!"
                     divSuccess.Visible = True
                     dgvFreteTranportador.DataBind()
+                Else
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Há uma ou mais cotações utilizando essa tabela de frete!"
                 End If
 
-            Else
-                lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
-                divErro.Visible = True
             End If
         End If
         Con.Fechar()

@@ -35,18 +35,13 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
+
         Con.Fechar()
     End Sub
 
@@ -237,6 +232,8 @@ FROM  TB_COTACAO A
         txtQtdMercadoria.Text = ""
         txtDsMercadoria.Text = ""
         txtIDMercadoria.Text = ""
+        txtFreteVendaMinima.Text = ""
+        txtFreteCompraMinima.Text = ""
 
         mpeNovoMercadoria.Hide()
     End Sub
@@ -292,11 +289,13 @@ ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
 ID_PORTO_DESTINO, 
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) Destino
-FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE")
+FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_ESTUFAGEM = " & Session("estufagem")
         dgvHistoricoCotacao.DataBind()
 
 
         dsHistoricoCotacao.SelectParameters("ID_CLIENTE").DefaultValue = Session("ID_CLIENTE")
+        dsHistoricoCotacao.SelectParameters("ID_TIPO_ESTUFAGEM").DefaultValue = Session("estufagem")
+
         dgvHistoricoCotacao.DataBind()
     End Sub
     Sub GridHistoricoFrete()
@@ -422,13 +421,7 @@ FROM  TB_COTACAO WHERE ID_COTACAO = " & ID)
                     txtFreteVenda.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")
                 End If
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN")) Then
-                    txtFreteCompraMinima.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_COMPRA_MIN")
-                End If
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")) Then
-                    txtFreteVendaMinima.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")
-                End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE")) Then
                     ddlDivisaoProfit.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_DIVISAO_FRETE")
@@ -477,19 +470,16 @@ FROM  TB_COTACAO WHERE ID_COTACAO = " & ID)
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1025 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
-                    lblDeleteTaxas.Text = "Registro deletado!"
-                    divDeleteTaxas.Visible = True
-                    dgvTaxas.DataBind()
-
-                Else
-                    lblDeleteErroTaxas.Text = "Usuário não tem permissão para realizar exclusões"
-                    divDeleteErroTaxas.Visible = True
-                End If
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblDeleteErroTaxas.Text = "Usuário não tem permissão para realizar exclusões"
+                divDeleteErroTaxas.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
+                lblDeleteTaxas.Text = "Registro deletado!"
+                divDeleteTaxas.Visible = True
+                dgvTaxas.DataBind()
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -588,19 +578,16 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1025 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblDeleteErroMercadoria.Text = "Usuário não tem permissão para realizar exclusões"
+                divDeleteErroMercadoria.Visible = True
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA Where ID_COTACAO_MERCADORIA = " & ID)
-                    lblDeleteMercadoria.Text = "Registro deletado!"
-                    divDeleteMercadoria.Visible = True
-                    dgvMercadoria.DataBind()
-
-                Else
-                    lblDeleteErroMercadoria.Text = "Usuário não tem permissão para realizar exclusões"
-                    divDeleteErroMercadoria.Visible = True
-                End If
+            Else
+                Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA Where ID_COTACAO_MERCADORIA = " & ID)
+                lblDeleteMercadoria.Text = "Registro deletado!"
+                divDeleteMercadoria.Visible = True
+                dgvMercadoria.DataBind()
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -608,8 +595,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             ds = Con.ExecutarQuery("SELECT 
 A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,
-A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA
-FROM TB_COTACAO_MERCADORIA A
+A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,A.QT_MERCADORIA,A.VL_FRETE_COMPRA_MIN,A.VL_FRETE_VENDA_MIN FROM TB_COTACAO_MERCADORIA A
 WHERE ID_COTACAO_MERCADORIA = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO_MERCADORIA")) Then
@@ -658,6 +644,15 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_MERCADORIA")) Then
                     txtQtdMercadoria.Text = ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
                 End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_FRETE_VENDA_MIN")) Then
+                    txtFreteVendaMinima.Text = ds.Tables(0).Rows(0).Item("VL_FRETE_VENDA_MIN")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA_MIN")) Then
+                    txtFreteCompraMinima.Text = ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA_MIN")
+                End If
+
                 mpeNovoMercadoria.Show()
 
             End If
@@ -751,17 +746,15 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
 
             If txtID.Text = "" Then
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    diverro.Visible = True
+                    lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
+                    Exit Sub
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        diverro.Visible = True
-                        lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
+                Else
 
-                    Else
-
-                        Session("estufagem") = ddlEstufagem.SelectedValue
+                    Session("estufagem") = ddlEstufagem.SelectedValue
                         Session("transporte") = ddlServico.SelectedValue
 
                         VerificaEstufagem()
@@ -792,26 +785,19 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
                         dgvHistoricoFrete.DataBind()
                         dgvHistoricoCotacao.DataBind()
                     End If
+
+
+
                 Else
+
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     diverro.Visible = True
-                    lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
+                    lblmsgErro.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
 
-                End If
-
-
-            Else
-
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        diverro.Visible = True
-                        lblmsgErro.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
-                        If ddlStatusCotacao.SelectedValue <> Session("ID_STATUS") Then
+                Else
+                    If ddlStatusCotacao.SelectedValue <> Session("ID_STATUS") Then
 
                             'SEPARA E ENVIA EMAIL CASO COTAÇÃO ESTEJA APROVADA
                             If ddlStatusCotacao.SelectedValue = 9 Then
@@ -862,19 +848,8 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
                         dgvHistoricoFrete.DataBind()
                         dgvHistoricoCotacao.DataBind()
                     End If
-                Else
-
-                    diverro.Visible = True
-                    lblmsgErro.Text = "Usuário não possui permissão para alterar."
-                    Exit Sub
 
                 End If
-
-
-
-
-
-            End If
 
 
         End If
@@ -895,10 +870,13 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             lblErroFrete.Text = "Antes de inserir o Frete é necessário cadastrar as Informações Basicas"
             divErroFrete.Visible = True
 
-        ElseIf ddlTransportadorFrete.SelectedValue = 0 Or ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Or txtTTimeFreteInicial.Text = "" Or txtTTimeFreteFinal.Text = "" Or ddlTipoCargaFrete.SelectedValue = 0 Or ddlRotaFrete.SelectedValue = 0 Or ddlFrequenciaFrete.SelectedValue = 0 Or ddlDivisaoProfit.SelectedValue = 0 Or txtValorDivisaoProfit.Text = "" Or ddlMoedaFrete.SelectedValue = 0 Or ddlEstufagemFrete.SelectedValue = 0 Then
+        ElseIf ddlTransportadorFrete.SelectedValue = 0 Or ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Or txtTTimeFreteInicial.Text = "" Or txtTTimeFreteFinal.Text = "" Or ddlTipoCargaFrete.SelectedValue = 0 Or ddlRotaFrete.SelectedValue = 0 Or ddlFrequenciaFrete.SelectedValue = 0 Or ddlMoedaFrete.SelectedValue = 0 Or ddlEstufagemFrete.SelectedValue = 0 Then
             lblErroFrete.Text = "Preencha todos os campos obrigatórios"
             divErroFrete.Visible = True
 
+        ElseIf ddlEstufagemFrete.SelectedValue = 1 And (ddlDivisaoProfit.SelectedValue = 0 Or txtValorDivisaoProfit.Text = "") Then
+            lblErroFrete.Text = "Preencha os campos <strong>Tipo Divisão Profit</strong> e/ou <strong>Valor Divisão Profit</strong>"
+            divErroFrete.Visible = True
         Else
 
             Dim TTInicial As Integer = txtTTimeFreteInicial.Text
@@ -924,38 +902,41 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             txtFreteVenda.Text = txtFreteVenda.Text.Replace(".", "")
             txtFreteVenda.Text = txtFreteVenda.Text.Replace(",", ".")
 
-            txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(".", "")
-            txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(",", ".")
-
-            txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", "")
-            txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(",", ".")
-
             txtValorDivisaoProfit.Text = txtValorDivisaoProfit.Text.Replace(".", "")
             txtValorDivisaoProfit.Text = txtValorDivisaoProfit.Text.Replace(",", ".")
 
-            If txtFreteCompraMinima.Text = "" Then
-                txtFreteCompraMinima.Text = "0"
+            txtVendaMinimaFCL.Text = txtVendaMinimaFCL.Text.Replace(".", "")
+            txtVendaMinimaFCL.Text = txtVendaMinimaFCL.Text.Replace(",", ".")
+
+            txtCompraMinimaFCL.Text = txtCompraMinimaFCL.Text.Replace(".", "")
+            txtCompraMinimaFCL.Text = txtCompraMinimaFCL.Text.Replace(",", ".")
+
+            If txtCompraMinimaFCL.Text = "" Then
+                txtCompraMinimaFCL.Text = "0"
             End If
 
-            If txtFreteVendaMinima.Text = "" Then
-                txtFreteVendaMinima.Text = "0"
+            If txtVendaMinimaFCL.Text = "" Then
+                txtVendaMinimaFCL.Text = "0"
             End If
 
             If txtValorFrequenciaFrete.Text = "" Then
                 txtValorFrequenciaFrete.Text = "0"
             End If
-            ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
 
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                    divErroFrete.Visible = True
-                    lblErroFrete.Text = "Usuário não possui permissão."
+            If txtValorDivisaoProfit.Text = "" Then
+                txtValorDivisaoProfit.Text = "0"
+            End If
 
-                Else
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                divErroFrete.Visible = True
+                lblErroFrete.Text = "Usuário não possui permissão."
+
+            Else
 
 
-                    'ALTERA FRETE
-                    ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
+                'ALTERA FRETE
+                ds = Con.ExecutarQuery("UPDATE TB_COTACAO SET 
 ID_PORTO_ORIGEM = " & ddlOrigemFrete.SelectedValue & ",
 ID_PORTO_DESTINO = " & ddlDestinoFrete.SelectedValue & ", 
 ID_PORTO_ESCALA1 = " & ddlEscala1Frete.SelectedValue & ",
@@ -970,10 +951,10 @@ NM_TAXAS_INCLUDED =  " & TaxasIncluded & ",
 ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & ",
 ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ",
 ID_MOEDA_FRETE = " & ddlMoedaFrete.SelectedValue & ",
-VL_TOTAL_FRETE_VENDA_MIN = '" & txtFreteVendaMinima.Text & "', 
-VL_TOTAL_FRETE_COMPRA_MIN = '" & txtFreteCompraMinima.Text & "',
+VL_TOTAL_FRETE_VENDA_MIN = " & txtVendaMinimaFCL.Text & ", 
+VL_TOTAL_FRETE_COMPRA_MIN = " & txtCompraMinimaFCL.Text & ",
 ID_TIPO_DIVISAO_FRETE = " & ddlDivisaoProfit.SelectedValue & ",
-VL_DIVISAO_FRETE = '" & txtValorDivisaoProfit.Text & "', 
+VL_DIVISAO_FRETE = " & txtValorDivisaoProfit.Text & ", 
 ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & ",
 ID_TIPO_CARGA = " & ddlTipoCargaFrete.SelectedValue & ",
 ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ", 
@@ -987,14 +968,9 @@ WHERE ID_COTACAO = " & txtID.Text)
                     dgvFrete.DataBind()
 
                 End If
-            Else
-                divErroFrete.Visible = True
-                lblErroFrete.Text = "Usuário não possui permissão para alterar."
+
 
             End If
-
-
-        End If
 
         mpeNovoFrete.Show()
 
@@ -1118,6 +1094,12 @@ WHERE ID_COTACAO = " & txtID.Text)
             txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(".", "")
             txtValorCargaMercadoria.Text = txtValorCargaMercadoria.Text.Replace(",", ".")
 
+            txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(".", "")
+            txtFreteVendaMinima.Text = txtFreteVendaMinima.Text.Replace(",", ".")
+
+            txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", "")
+            txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(",", ".")
+
             If txtFreeTimeMercadoria.Text = "" Then
                 txtFreeTimeMercadoria.Text = "0"
             End If
@@ -1169,132 +1151,147 @@ WHERE ID_COTACAO = " & txtID.Text)
             End If
 
 
+            If txtFreteCompraMinima.Text = "" Then
+                txtFreteCompraMinima.Text = "0"
+            End If
+
+            If txtFreteVendaMinima.Text = "" Then
+                txtFreteVendaMinima.Text = "0"
+            End If
+
+            'Dim CompraMin As String
+            'Dim VendaMin As String
+
+            'If Session("estufagem") = 1 Then
+            '    CompraMin =
+            '        VendaMin =
+            'ElseIf Session("estufagem") = 2 Then
+            '         CompraMin = txt
+            '    VendaMin =
+
+            'End If
 
             If txtIDMercadoria.Text = "" Then
 
-
-
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErroMercadoria.Visible = True
-                        lblErroMercadoria.Text = "Usuário não possui permissão para cadastrar."
-                        mpeNovoMercadoria.Show()
-
-                    Else
-
-                        'INSERE MERCADORIA
-                        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
-ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoria.Text & "," & txtFreteVendaMercadoria.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & txtDsMercadoria.Text & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & ")")
-
-
-                        ddlMercadoria.SelectedValue = 0
-                        ddlTipoContainerMercadoria.SelectedValue = 0
-                        txtQtdContainerMercadoria.Text = ""
-                        txtFreteCompraMercadoria.Text = ""
-                        txtFreteVendaMercadoria.Text = ""
-                        txtPesoBrutoMercadoria.Text = ""
-                        txtM3Mercadoria.Text = ""
-                        txtDsMercadoria.Text = ""
-                        txtComprimentoMercadoria.Text = ""
-                        txtLarguraMercadoria.Text = ""
-                        txtAlturaMercadoria.Text = ""
-                        txtValorCargaMercadoria.Text = ""
-                        txtFreeTimeMercadoria.Text = ""
-                        txtQtdMercadoria.Text = ""
-
-                        Con.Fechar()
-                        dgvMercadoria.DataBind()
-                        divSuccessMercadoria.Visible = True
-                        mpeNovoMercadoria.Show()
-
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
-(SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA =
-(SELECT SUM(ISNULL(VL_FRETE_VENDA,0))VL_FRETE_VENDA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ") WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_PESO_BRUTO=
-(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 =
-(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroMercadoria.Visible = True
                     lblErroMercadoria.Text = "Usuário não possui permissão para cadastrar."
                     mpeNovoMercadoria.Show()
 
+                Else
+
+                    'INSERE MERCADORIA
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
+ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoria.Text & "," & txtFreteVendaMercadoria.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & txtDsMercadoria.Text & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & " )")
+
+
+                    ddlMercadoria.SelectedValue = 0
+                    ddlTipoContainerMercadoria.SelectedValue = 0
+                    txtQtdContainerMercadoria.Text = ""
+                    txtFreteCompraMercadoria.Text = ""
+                    txtFreteVendaMercadoria.Text = ""
+                    txtPesoBrutoMercadoria.Text = ""
+                    txtM3Mercadoria.Text = ""
+                    txtDsMercadoria.Text = ""
+                    txtComprimentoMercadoria.Text = ""
+                    txtLarguraMercadoria.Text = ""
+                    txtAlturaMercadoria.Text = ""
+                    txtValorCargaMercadoria.Text = ""
+                    txtFreeTimeMercadoria.Text = ""
+                    txtQtdMercadoria.Text = ""
+                    txtFreteCompraMinima.Text = ""
+                    txtFreteVendaMinima.Text = ""
+
+                    Con.Fechar()
+                    dgvMercadoria.DataBind()
+                    divSuccessMercadoria.Visible = True
+                    mpeNovoMercadoria.Show()
+
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
+(SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA =
+(SELECT SUM(ISNULL(VL_FRETE_VENDA,0))VL_FRETE_VENDA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ") WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_PESO_BRUTO=
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 =
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA_MIN =
+(SELECT SUM(ISNULL(VL_FRETE_COMPRA_MIN,0))VL_FRETE_COMPRA_MIN FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA_MIN =
+(SELECT SUM(ISNULL(VL_FRETE_VENDA_MIN,0))VL_FRETE_VENDA_MIN FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+
                 End If
+
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErroMercadoria.Visible = True
-                        lblErroMercadoria.Text = "Usuário não possui permissão para alterar."
-                        mpeNovoMercadoria.Show()
-
-                    Else
-
-
-                        'ALTERA MERCADORIA
-                        ds = Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET ID_COTACAO = " & txtID.Text & ",
-ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddlTipoContainerMercadoria.SelectedValue & ",QT_CONTAINER = " & txtQtdContainerMercadoria.Text & ",VL_FRETE_COMPRA =  " & txtFreteCompraMercadoria.Text & ",VL_FRETE_VENDA = " & txtFreteVendaMercadoria.Text & ",VL_PESO_BRUTO = " & txtPesoBrutoMercadoria.Text & ",VL_M3 = " & txtM3Mercadoria.Text & ",DS_MERCADORIA = " & txtDsMercadoria.Text & ",VL_COMPRIMENTO = " & txtComprimentoMercadoria.Text & ",VL_LARGURA = " & txtLarguraMercadoria.Text & ",VL_ALTURA = " & txtAlturaMercadoria.Text & ",VL_CARGA = " & txtValorCargaMercadoria.Text & " ,QT_DIAS_FREETIME = " & txtFreeTimeMercadoria.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
-
-                        ddlMercadoria.SelectedValue = 0
-                        ddlTipoContainerMercadoria.SelectedValue = 0
-                        txtQtdContainerMercadoria.Text = ""
-                        txtFreteCompraMercadoria.Text = ""
-                        txtFreteVendaMercadoria.Text = ""
-                        txtPesoBrutoMercadoria.Text = ""
-                        txtM3Mercadoria.Text = ""
-                        txtDsMercadoria.Text = ""
-                        txtComprimentoMercadoria.Text = ""
-                        txtLarguraMercadoria.Text = ""
-                        txtAlturaMercadoria.Text = ""
-                        txtValorCargaMercadoria.Text = ""
-                        txtFreeTimeMercadoria.Text = ""
-                        txtQtdMercadoria.Text = ""
-                        txtDsMercadoria.Text = ""
-                        divSuccessMercadoria.Visible = True
-                        Con.Fechar()
-                        dgvMercadoria.DataBind()
-                        mpeNovoMercadoria.Show()
-
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
-(SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA =
-(SELECT SUM(ISNULL(VL_FRETE_VENDA,0))VL_FRETE_VENDA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ") WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_PESO_BRUTO=
-(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 =
-(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroMercadoria.Visible = True
                     lblErroMercadoria.Text = "Usuário não possui permissão para alterar."
                     mpeNovoMercadoria.Show()
 
+                Else
+
+
+                    'ALTERA MERCADORIA
+                    ds = Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET ID_COTACAO = " & txtID.Text & ",
+ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddlTipoContainerMercadoria.SelectedValue & ",QT_CONTAINER = " & txtQtdContainerMercadoria.Text & ",VL_FRETE_COMPRA =  " & txtFreteCompraMercadoria.Text & ",VL_FRETE_VENDA = " & txtFreteVendaMercadoria.Text & ",VL_PESO_BRUTO = " & txtPesoBrutoMercadoria.Text & ",VL_M3 = " & txtM3Mercadoria.Text & ",DS_MERCADORIA = " & txtDsMercadoria.Text & ",VL_COMPRIMENTO = " & txtComprimentoMercadoria.Text & ",VL_LARGURA = " & txtLarguraMercadoria.Text & ",VL_ALTURA = " & txtAlturaMercadoria.Text & ",VL_CARGA = " & txtValorCargaMercadoria.Text & " ,QT_DIAS_FREETIME = " & txtFreeTimeMercadoria.Text & " ,VL_FRETE_COMPRA_MIN = " & txtFreteCompraMinima.Text & ",VL_FRETE_VENDA_MIN = " & txtFreteVendaMinima.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+
+                    ddlMercadoria.SelectedValue = 0
+                    ddlTipoContainerMercadoria.SelectedValue = 0
+                    txtQtdContainerMercadoria.Text = ""
+                    txtFreteCompraMercadoria.Text = ""
+                    txtFreteVendaMercadoria.Text = ""
+                    txtPesoBrutoMercadoria.Text = ""
+                    txtM3Mercadoria.Text = ""
+                    txtDsMercadoria.Text = ""
+                    txtComprimentoMercadoria.Text = ""
+                    txtLarguraMercadoria.Text = ""
+                    txtAlturaMercadoria.Text = ""
+                    txtValorCargaMercadoria.Text = ""
+                    txtFreeTimeMercadoria.Text = ""
+                    txtQtdMercadoria.Text = ""
+                    txtDsMercadoria.Text = ""
+                    txtFreteCompraMinima.Text = ""
+                    txtFreteVendaMinima.Text = ""
+
+                    divSuccessMercadoria.Visible = True
+                    Con.Fechar()
+                    dgvMercadoria.DataBind()
+                    mpeNovoMercadoria.Show()
+
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
+(SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA =
+(SELECT SUM(ISNULL(VL_FRETE_VENDA,0))VL_FRETE_VENDA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ") WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_PESO_BRUTO=
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_M3 =
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA_MIN =
+(SELECT SUM(ISNULL(VL_FRETE_COMPRA_MIN,0))VL_FRETE_COMPRA_MIN FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_VENDA_MIN =
+(SELECT SUM(ISNULL(VL_FRETE_VENDA_MIN,0))VL_FRETE_VENDA_MIN FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+
                 End If
 
-
-
-
-
             End If
-
 
         End If
 
@@ -1358,22 +1355,18 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
             If txtIDTaxa.Text = "" Then
 
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divErroTaxa.Visible = True
+                    lblErroTaxa.Text = "Usuário não possui permissão para cadastrar."
+                    Exit Sub
 
-
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErroTaxa.Visible = True
-                        lblErroTaxa.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-
-                    Else
+                Else
 
 
 
-                        'INSERE TAXAS
-                        ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA ( 
+                    'INSERE TAXAS
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA ( 
 ID_COTACAO,
 ID_ITEM_DESPESA,
 ID_TIPO_PAGAMENTO,
@@ -1391,47 +1384,39 @@ VL_TAXA_VENDA_MIN,
 OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & ",'" & txtValorTaxaCompra.Text & "','" & txtValorTaxaCompraMin.Text & "'," & ddlMoedaVendaTaxa.SelectedValue & ",'" & txtValorTaxaVenda.Text & "','" & txtValorTaxaVendaMin.Text & "','" & txtObsTaxa.Text & "')")
 
 
-                        txtIDTaxa.Text = ""
-                        ddlItemDespesaTaxa.SelectedValue = 0
-                        ddlOrigemPagamentoTaxa.SelectedValue = 0
-                        ddlBaseCalculoTaxa.SelectedValue = 0
-                        ddlMoedaCompraTaxa.SelectedValue = 0
-                        ddlMoedaVendaTaxa.SelectedValue = 0
-                        ddlTipoPagamentoTaxa.SelectedValue = 0
-                        ddlDestinatarioCobrancaTaxa.SelectedValue = 0
-                        txtValorTaxaCompra.Text = ""
-                        txtValorTaxaVenda.Text = ""
-                        txtValorTaxaVendaMin.Text = ""
-                        txtValorTaxaCompraMin.Text = ""
+                    txtIDTaxa.Text = ""
+                    ddlItemDespesaTaxa.SelectedValue = 0
+                    ddlOrigemPagamentoTaxa.SelectedValue = 0
+                    ddlBaseCalculoTaxa.SelectedValue = 0
+                    ddlMoedaCompraTaxa.SelectedValue = 0
+                    ddlMoedaVendaTaxa.SelectedValue = 0
+                    ddlTipoPagamentoTaxa.SelectedValue = 0
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 0
+                    txtValorTaxaCompra.Text = ""
+                    txtValorTaxaVenda.Text = ""
+                    txtValorTaxaVendaMin.Text = ""
+                    txtValorTaxaCompraMin.Text = ""
 
-                        Con.Fechar()
-                        dgvTaxas.DataBind()
-                        divSuccessTaxa.Visible = True
-
-                    End If
-                Else
-                    divErroTaxa.Visible = True
-                    lblErroTaxa.Text = "Usuário não possui permissão para cadastrar."
-                    Exit Sub
+                    Con.Fechar()
+                    dgvTaxas.DataBind()
+                    divSuccessTaxa.Visible = True
 
                 End If
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divErroTaxa.Visible = True
+                    lblErroTaxa.Text = "Usuário não possui permissão para alterar."
+                    Exit Sub
 
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErroTaxa.Visible = True
-                        lblErroTaxa.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
+                Else
 
 
-                        'ALTERA TAXAS
-                        ds = Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET 
+                    'ALTERA TAXAS
+                    ds = Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET 
 ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue & ",
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamentoTaxa.SelectedValue & " ,
 ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamentoTaxa.SelectedValue & ",
@@ -1465,21 +1450,12 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                         dgvTaxas.DataBind()
 
                     End If
-                Else
-                    divErroTaxa.Visible = True
-                    lblErroTaxa.Text = "Usuário não possui permissão para alterar."
-                    Exit Sub
+
 
                 End If
 
 
-
-
-
             End If
-
-
-        End If
 
         mpeNovoTaxa.Show()
 
@@ -1671,6 +1647,10 @@ union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL"
             RedPesoBruto.Visible = False
             RedM3.Visible = False
 
+            divMinimosFCL.Visible = True
+            divCompraMinimaLCL.Visible = False
+            divVendaMinimaLCL.Visible = False
+
         ElseIf Session("estufagem") = 2 Then
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "block")
@@ -1681,6 +1661,11 @@ union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL"
             RedQTDContainer.Visible = False
             RedContainer.Visible = False
             RedFree.Visible = False
+
+            divMinimosFCL.Visible = False
+            divCompraMinimaLCL.Visible = True
+            divVendaMinimaLCL.Visible = True
+
         Else
             DivFreetime.Attributes.CssStyle.Add("display", "none")
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")

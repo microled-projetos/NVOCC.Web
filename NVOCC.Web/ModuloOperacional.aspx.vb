@@ -12,17 +12,11 @@ Public Class ModuloOperacional
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
         Con.Fechar()
     End Sub
@@ -32,20 +26,15 @@ Public Class ModuloOperacional
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                Exit Sub
-            Else
-                Response.Redirect("CadastrarMaster.aspx")
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
+            Exit Sub
+        Else
+            Response.Redirect("CadastrarMaster.aspx")
         End If
+
     End Sub
 
     Private Sub lkInserirEmbarque_Click(sender As Object, e As EventArgs) Handles lkInserirEmbarque.Click
@@ -53,20 +42,15 @@ Public Class ModuloOperacional
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                Exit Sub
-            Else
-                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e")
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
+            Exit Sub
+        Else
+            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=e")
         End If
+
     End Sub
 
     Private Sub lkInserirHouse_Click(sender As Object, e As EventArgs) Handles lkInserirHouse.Click
@@ -74,20 +58,15 @@ Public Class ModuloOperacional
         divErroHouse.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                divErroHouse.Visible = True
-                lblErroHouse.Text = "Usuário não possui permissão."
-                Exit Sub
-            Else
-                Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h")
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Usuário não possui permissão."
+            Exit Sub
+        Else
+            Response.Redirect("CadastrarEmbarqueHouse.aspx?tipo=h")
         End If
+
     End Sub
 
     Private Sub lkBLHouse_Click(sender As Object, e As EventArgs) Handles lkBLHouse.Click
@@ -95,26 +74,21 @@ Public Class ModuloOperacional
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-                divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                Exit Sub
-            Else
-                If txtIDHouse.Text = "" Then
-                    divErroHouse.Visible = True
-                    lblErroHouse.Text = "Selecione um registro!"
-                Else
-                    Response.Redirect("EmissaoBL.aspx?id=" & txtIDHouse.Text)
-                End If
-
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
+            Exit Sub
+        Else
+            If txtIDHouse.Text = "" Then
+                divErroHouse.Visible = True
+                lblErroHouse.Text = "Selecione um registro!"
+            Else
+                Response.Redirect("EmissaoBL.aspx?id=" & txtIDHouse.Text)
+            End If
+
         End If
+
     End Sub
 
     Private Sub rdServicoHouse_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServicoHouse.SelectedIndexChanged
@@ -353,28 +327,23 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divErroHouse.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                divErroHouse.Visible = True
-                lblErroHouse.Text = "Usuário não possui permissão."
-
-                Exit Sub
-            Else
-                If txtIDHouse.Text = "" Then
-                    divErroHouse.Visible = True
-                    lblErroHouse.Text = "Selecione o registro que deseja editar!"
-                Else
-                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
-                    url = String.Format(url, txtIDHouse.Text)
-                    Response.Redirect(url)
-                End If
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Usuário não possui permissão."
+
+            Exit Sub
+        Else
+            If txtIDHouse.Text = "" Then
+                divErroHouse.Visible = True
+                lblErroHouse.Text = "Selecione o registro que deseja editar!"
+            Else
+                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                url = String.Format(url, txtIDHouse.Text)
+                Response.Redirect(url)
+            End If
         End If
+
     End Sub
 
     'ROTINA A SER DEFINIDA
@@ -385,24 +354,22 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1026 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblErroHouse.Text = "Usuário não tem permissão para realizar exclusões"
+            divErroHouse.Visible = True
+        Else
 
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                If txtIDHouse.Text = "" Then
-                    divErroHouse.Visible = True
-                    lblErroHouse.Text = "Selecione o registro que deseja remover!"
-                Else
-                    Con.ExecutarQuery("DELETE FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
-                    lblSuccessHouse.Text = "Registro deletado!"
-                    divSuccessHouse.Visible = True
-                    dgvHouse.DataBind()
-                End If
-
-            Else
-                lblErroHouse.Text = "Usuário não tem permissão para realizar exclusões"
+            If txtIDHouse.Text = "" Then
                 divErroHouse.Visible = True
+                lblErroHouse.Text = "Selecione o registro que deseja remover!"
+            Else
+                Con.ExecutarQuery("DELETE FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+                lblSuccessHouse.Text = "Registro deletado!"
+                divSuccessHouse.Visible = True
+                dgvHouse.DataBind()
             End If
+
         End If
         Con.Fechar()
 
@@ -419,24 +386,21 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErroHouse.Visible = True
+            lblErroHouse.Text = "Usuário não possui permissão."
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+            Exit Sub
+        Else
+            If txtIDHouse.Text = "" Then
                 divErroHouse.Visible = True
-                lblErroHouse.Text = "Usuário não possui permissão."
-
-                Exit Sub
+                lblErroHouse.Text = "Selecione o registro que deseja duplicar!"
             Else
-                If txtIDHouse.Text = "" Then
-                    divErroHouse.Visible = True
-                    lblErroHouse.Text = "Selecione o registro que deseja duplicar!"
-                Else
-                    DUPLICAR(txtIDHouse.Text, "HOUSE")
-                    dgvHouse.DataBind()
-                    divSuccessHouse.Visible = True
-                    lblSuccessHouse.Text = "Item duplicado com sucesso!"
-                End If
+                DUPLICAR(txtIDHouse.Text, "HOUSE")
+                dgvHouse.DataBind()
+                divSuccessHouse.Visible = True
+                lblSuccessHouse.Text = "Item duplicado com sucesso!"
             End If
         End If
         Con.Fechar()
@@ -520,28 +484,23 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divErroEmbarque.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                divErroEmbarque.Visible = True
-                lblErroEmbarque.Text = "Usuário não possui permissão."
-
-                Exit Sub
-            Else
-                If txtID_Embarque.Text = "" Then
-                    divErroEmbarque.Visible = True
-                    lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
-                Else
-                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
-                    url = String.Format(url, txtID_Embarque.Text)
-                    Response.Redirect(url)
-                End If
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroEmbarque.Visible = True
             lblErroEmbarque.Text = "Usuário não possui permissão."
+
+            Exit Sub
+        Else
+            If txtID_Embarque.Text = "" Then
+                divErroEmbarque.Visible = True
+                lblErroEmbarque.Text = "Selecione o registro que deseja editar!"
+            Else
+                Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=e&id={0}"
+                url = String.Format(url, txtID_Embarque.Text)
+                Response.Redirect(url)
+            End If
         End If
+
     End Sub
 
     Private Sub lkAlterarMaster_Click(sender As Object, e As EventArgs) Handles lkAlterarMaster.Click
@@ -549,28 +508,23 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divErroMaster.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                divErroMaster.Visible = True
-                lblErroMaster.Text = "Usuário não possui permissão."
-
-                Exit Sub
-            Else
-                If txtID_Master.Text = "" Then
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "Selecione o registro que deseja editar!"
-                Else
-                    Dim url As String = "CadastrarMaster.aspx?id={0}"
-                    url = String.Format(url, txtID_Master.Text)
-                    Response.Redirect(url)
-                End If
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Usuário não possui permissão."
+
+            Exit Sub
+        Else
+            If txtID_Master.Text = "" Then
+                divErroMaster.Visible = True
+                lblErroMaster.Text = "Selecione o registro que deseja editar!"
+            Else
+                Dim url As String = "CadastrarMaster.aspx?id={0}"
+                url = String.Format(url, txtID_Master.Text)
+                Response.Redirect(url)
+            End If
         End If
+
     End Sub
 
     Private Sub rdTRansporteEmbarque_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTRansporteEmbarque.SelectedIndexChanged
@@ -864,24 +818,21 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErroMaster.Visible = True
+            lblErroMaster.Text = "Usuário não possui permissão."
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+            Exit Sub
+        Else
+            If txtID_Master.Text = "" Then
                 divErroMaster.Visible = True
-                lblErroMaster.Text = "Usuário não possui permissão."
-
-                Exit Sub
+                lblErroMaster.Text = "Selecione o registro que deseja duplicar!"
             Else
-                If txtID_Master.Text = "" Then
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "Selecione o registro que deseja duplicar!"
-                Else
-                    DUPLICAR(txtID_Master.Text, "MASTER")
-                    dgvMaster.DataBind()
-                    divSuccessMaster.Visible = True
-                    lblSuccessMaster.Text = "Item duplicado com sucesso!"
-                End If
+                DUPLICAR(txtID_Master.Text, "MASTER")
+                dgvMaster.DataBind()
+                divSuccessMaster.Visible = True
+                lblSuccessMaster.Text = "Item duplicado com sucesso!"
             End If
         End If
         Con.Fechar()
@@ -893,24 +844,21 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErroEmbarque.Visible = True
+            lblErroEmbarque.Text = "Usuário não possui permissão."
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+            Exit Sub
+        Else
+            If txtID_Embarque.Text = "" Then
                 divErroEmbarque.Visible = True
-                lblErroEmbarque.Text = "Usuário não possui permissão."
-
-                Exit Sub
+                lblErroEmbarque.Text = "Selecione o registro que deseja duplicar!"
             Else
-                If txtID_Embarque.Text = "" Then
-                    divErroEmbarque.Visible = True
-                    lblErroEmbarque.Text = "Selecione o registro que deseja duplicar!"
-                Else
-                    DUPLICAR(txtID_Embarque.Text, "EMBARQUE")
-                    dgvEmbarque.DataBind()
-                    divSuccessEmbarque.Visible = True
-                    lblSuccessEmbarque.Text = "Item duplicado com sucesso!"
-                End If
+                DUPLICAR(txtID_Embarque.Text, "EMBARQUE")
+                dgvEmbarque.DataBind()
+                divSuccessEmbarque.Visible = True
+                lblSuccessEmbarque.Text = "Item duplicado com sucesso!"
             End If
         End If
         Con.Fechar()

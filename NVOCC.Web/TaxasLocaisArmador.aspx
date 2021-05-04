@@ -290,7 +290,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                            <asp:LinkButton ID="btnExcluir" Style="margin-right:5px" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
                                                                     OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>
                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
