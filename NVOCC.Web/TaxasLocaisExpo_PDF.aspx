@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
  <title>Taxas Locais Exportação</title>
  <style>
-        .teste{
+        .porto{
          float:left;
          margin: 20px;
         }

@@ -151,7 +151,7 @@
                                         <asp:LinkButton ID="lkExportaTarifario" runat="server" style="font-size:15px">Tarifario Importação</asp:LinkButton><br />
                                             <a href="TaxasLocaisImpo_PDF.aspx" target="_blank" >Taxas Locais FCL - Impo</a>  <br />                    
                                        <a href="TaxasLocaisExpo_PDF.aspx" target="_blank"  >Taxas Locais FCL - Expo</a> 
-                                        <br />   <%--<a visible="false" href="GeraPDF.aspx?d=1" target="_blank"  >teste</a>--%> 
+                                        <br />
                                          <asp:LinkButton ID="lkExportaImpo" runat="server" Visible="false"  style="font-size:15px">Taxas Locais FCL - Impo</asp:LinkButton><br />
 
                                          <asp:LinkButton ID="lkExportaExpo" runat="server" Visible="false"  style="font-size:15px">Taxas Locais FCL - Expo</asp:LinkButton>

@@ -52,24 +52,28 @@
                     If Senha = ds.Tables(0).Rows(0).Item("SENHA").ToString() Then
                         Session("Logado") = "True"
                         Session("ID_USUARIO") = ds.Tables(0).Rows(0).Item("ID_USUARIO").ToString()
-                        ' Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
-                        ' Response.Redirect("SelecionaPerfil.aspx?ID=" & ID)
-                        ' Response.Redirect("Default.aspx?ID=" & ID)
                         Session("Externo") = Externo
+
+                        'Verifica se é usuario externo 
                         If Externo = True Then
+                            'Verifica se pertence a mais de um grupo de usuario
                             ds = Con.ExecutarQuery("SELECT ID_TIPO_USUARIO FROM [dbo].[TB_VINCULO_USUARIO] WHERE ID_USUARIO = " & Session("ID_USUARIO"))
                             If ds.Tables(0).Rows.Count = 0 Then
+                                'Caso seja usuario externo, se o mesmo pertencer nao pertencer a grupo de usuario retorna msg de erro
                                 msgErro.Visible = True
                                 lblMsg.Text = "Usuário sem grupo vinculado"
+                                Session("Logado") = "False"
                             ElseIf ds.Tables(0).Rows.Count = 1 Then
+                                'Caso seja usuario externo e se pertenca a um unico grupo de usuario é direcionado a tela default
                                 Session("ID_TIPO_USUARIO") = ds.Tables(0).Rows(0).Item("ID_TIPO_USUARIO").ToString()
                                 Response.Redirect("Default.aspx?ID=" & ID)
                             Else
+                                'Caso seja usuario externo e se pertenca a mais de grupo de usuario é direcionado a tela de seleção de perfil
                                 Session("ID_TIPO_USUARIO") = 0
                                 Response.Redirect("SelecionaPerfil.aspx?ID=" & ID)
                             End If
                         ElseIf Externo = False Then
-
+                            'Caso seja usuario interno, se o mesmo pertencer a mais de um grupo de usuario e concatena todos os tipos na session
                             ds = Con.ExecutarQuery("Select A.ID_TIPO_USUARIO FROM TB_VINCULO_USUARIO A 
 Left Join TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
 WHERE a.ID_USUARIO = " & Session("ID_USUARIO"))
@@ -82,7 +86,12 @@ WHERE a.ID_USUARIO = " & Session("ID_USUARIO"))
                                     End If
                                 Next
                                 Response.Redirect("Default.aspx?ID=" & ID)
-
+                            Else
+                                'Caso seja usuario interno, se o mesmo pertencer nao pertencer a grupo de usuario retorna msg de erro
+                                msgErro.Visible = True
+                                lblMsg.Text = "Usuário sem grupo vinculado"
+                                Session("ID_TIPO_USUARIO") = 0
+                                Session("Logado") = "False"
                             End If
 
 

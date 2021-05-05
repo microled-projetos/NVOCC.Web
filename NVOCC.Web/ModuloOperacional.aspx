@@ -15,6 +15,7 @@
                 font-size: 8pt;
                 background-color: #e6c3a5;
             }
+           
         </style>
         <div class="row principal">
             <div class="panel panel-primary">

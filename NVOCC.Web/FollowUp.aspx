@@ -5,10 +5,7 @@
         .none {
             display: none;
         }
-
-        .teste {
-            text-align: left
-        }
+       
     </style>
 
     <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -54,7 +51,7 @@
                                     <Columns>
                                         <asp:BoundField DataField="ID_FOLLOWUP" Visible="false" HeaderText="ID_FOLLOWUP" SortExpression="ID_FOLLOWUP" />
                                         <asp:BoundField DataField="NM_EVENTO" HeaderText="ETAPA" SortExpression="NM_EVENTO" />
-                                        <asp:TemplateField HeaderText="STATUS" SortExpression="STATUS_ETAPA" ItemStyle-CssClass="teste">
+                                        <asp:TemplateField HeaderText="STATUS" SortExpression="STATUS_ETAPA">
                                             <ItemTemplate>
 
                                                 <asp:Image ID="Image1" runat="server" />

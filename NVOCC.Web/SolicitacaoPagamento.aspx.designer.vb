@@ -23,22 +23,22 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle txtID_Embarque.
+    '''Controle txtID_BL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtID_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtLinhaEmbarque.
+    '''Controle txtLinhaBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtLinhaEmbarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divSuccessEmbarque.
@@ -77,40 +77,67 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents lblErroEmbarque As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle ddlFiltroEmbarque.
+    '''Controle ddlFornecedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlFiltroEmbarque As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtPesquisaEmbarque.
+    '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtPesquisaEmbarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle btnPesquisaEmbarque.
+    '''Controle dgvMoedas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnPesquisaEmbarque As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dgvMoedas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle dgvEmbarque.
+    '''Controle lblTotal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvEmbarque As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblTotal As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtVencimento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnSolicitar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSolicitar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnCancelar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle Panel1.
@@ -356,11 +383,29 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents btnFechar_Embarque As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle dsEmbarque.
+    '''Controle dsTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsEmbarque As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMoeda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

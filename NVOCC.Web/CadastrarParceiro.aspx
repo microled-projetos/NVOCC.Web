@@ -368,7 +368,7 @@
                                  <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="teste form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
+                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">

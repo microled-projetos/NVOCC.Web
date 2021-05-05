@@ -23,6 +23,8 @@
 
             If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
                 CarregaCampos()
+                PermissoesEspeciais()
+
             End If
         End If
 
