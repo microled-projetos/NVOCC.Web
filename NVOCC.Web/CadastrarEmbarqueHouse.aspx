@@ -10,7 +10,12 @@
                     </h3>
                 </div>
                 <div class="panel-body">
-
+                    <div class="row">
+                                    <div class="col-sm-offset-9 col-sm-3">
+                                    <asp:linkButton ID="btnCapaMaritimo" runat="server" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#"  onclientclick="CapaMaritimo()"/>
+                                     <asp:linkButton ID="btnCapaAereo" runat="server" CssClass="btn btn-success btn-block" Text="Imprimir Capa do Processo" href="#"  onclientclick="CapaAereo()" />
+                                    </div>
+                                    </div>
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active">
                             <a href="#Maritimo" role="tab" data-toggle="tab">
@@ -59,6 +64,7 @@
                             </ul>
 
                             <div class="tab-content">
+                                
                                 <div class="tab-pane fade active in" id="BasicoMaritimo">
                                     <div class="alert alert-success" id="divSuccess_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccess_BasicoMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
@@ -1831,4 +1837,26 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL
     </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+
+      
+        function CapaMaritimo() {
+            
+            var ID_BasicoMaritimo = document.getElementById('<%= txtID_BasicoMaritimo.ClientID %>').value;
+            console.log(ID_BasicoMaritimo);
+
+            window.open('CapaProcesso.aspx?id=' + ID_BasicoMaritimo, '_blank');
+        }
+
+
+        function CapaAereo() {
+
+            
+            var ID_BasicoAereo = document.getElementById('<%= txtID_BasicoAereo.ClientID %>').value;
+            console.log(ID_BasicoAereo);
+
+            window.open('CapaProcesso.aspx?id=' + ID_BasicoAereo, '_blank');
+
+        }
+    </script>
 </asp:Content>

@@ -254,6 +254,7 @@
     <Content Include="CadastroCotacao.aspx" />
     <Content Include="CadastroNavios.aspx" />
     <Content Include="CalcularRecebimento.aspx" />
+    <Content Include="CapaProcesso.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
@@ -558,6 +559,13 @@
     </Compile>
     <Compile Include="CalcularRecebimento.aspx.vb">
       <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CapaProcesso.aspx.designer.vb">
+      <DependentUpon>CapaProcesso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CapaProcesso.aspx.vb">
+      <DependentUpon>CapaProcesso.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Class\Aduana.vb" />

@@ -19,6 +19,8 @@
 
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
+                btnCapaMaritimo.Visible = False
+                btnCapaAereo.Visible = False
 
 
             ElseIf Request.QueryString("tipo") = "h" Then
@@ -27,7 +29,8 @@
                 ddlDestino_BasicoMaritimo.Enabled = False
                 ddlOrigem_BasicoAereo.Enabled = False
                 ddlDestino_BasicoAereo.Enabled = False
-
+                btnCapaMaritimo.Visible = True
+                btnCapaAereo.Visible = True
             End If
 
             If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
@@ -185,6 +188,8 @@
                     btnGravar_ObsAereo.Visible = False
                     btnLimpar_ObsAereo.Visible = False
 
+                    btnCapaAereo.Visible = False
+
                 ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
                     'AGENCIAMENTO DE IMPORTACAO AEREO
@@ -324,6 +329,7 @@
                     btnGravar_ObsMaritimo.Visible = False
                     btnLimpar_ObsMaritimo.Visible = False
 
+                    btnCapaMaritimo.Visible = False
 
                 End If
 
