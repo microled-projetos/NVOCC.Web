@@ -46,7 +46,7 @@
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
-            Response.Redirect("BaixaCancelamentos.aspx?id=" & txtID.Text)
+            Response.Redirect("BaixasCancelamentos.aspx?t=p&id=" & txtID.Text)
         End If
 
     End Sub
@@ -73,7 +73,7 @@
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
-            Response.Redirect("BaixaCancelamentos.aspx?id=" & txtID.Text)
+            Response.Redirect("BaixaCancelamentos.aspx?t=r&id=" & txtID.Text)
         End If
 
     End Sub

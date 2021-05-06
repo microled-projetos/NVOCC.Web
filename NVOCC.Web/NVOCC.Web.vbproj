@@ -332,6 +332,7 @@
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
     <Content Include="EmissaoND.aspx" />
+    <Content Include="Faturamento.aspx" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -592,6 +593,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Excel.vb" />
+    <Compile Include="Faturamento.aspx.designer.vb">
+      <DependentUpon>Faturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Faturamento.aspx.vb">
+      <DependentUpon>Faturamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Financeiro.aspx.designer.vb">
       <DependentUpon>Financeiro.aspx</DependentUpon>
     </Compile>
