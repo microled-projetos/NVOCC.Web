@@ -428,7 +428,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios1" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
+                                                                            <asp:RadioButtonList ID="rdNavios1" runat="server" AutoPostBack="true" DataSourceID="dsNavios1" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -485,7 +485,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios2" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
+                                                                            <asp:RadioButtonList ID="rdNavios2" runat="server" AutoPostBack="true" DataSourceID="dsNavios2" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -540,7 +540,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNavios3" runat="server" AutoPostBack="true" DataSourceID="dsNavios" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
+                                                                            <asp:RadioButtonList ID="rdNavios3" runat="server" AutoPostBack="true" DataSourceID="dsNavios3" DataTextField="NM_NAVIO" DataValueField="ID_NAVIO" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -1712,7 +1712,26 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp
         </SelectParameters>
     </asp:SqlDataSource>
 
+        <asp:SqlDataSource ID="dsNavios1" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_NAVIO, NM_NAVIO FROM [dbo].[TB_NAVIO] where (NM_NAVIO like '%' + @Nome + '%' Or @Nome = '0')">
+        <SelectParameters>
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNavioFiltro1" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
+        <asp:SqlDataSource ID="dsNavios2" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_NAVIO, NM_NAVIO FROM [dbo].[TB_NAVIO] where (NM_NAVIO like '%' + @Nome + '%' Or @Nome = '0')">
+        <SelectParameters>
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNavioFiltro2" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsNavios3" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_NAVIO, NM_NAVIO FROM [dbo].[TB_NAVIO] where (NM_NAVIO like '%' + @Nome + '%' Or @Nome = '0')">
+        <SelectParameters>
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNavioFiltro3" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
