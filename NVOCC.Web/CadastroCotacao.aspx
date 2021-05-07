@@ -24,7 +24,7 @@
                         </li>
                          <li>
                             <a href="#mercadorias" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right:8px;"></i>Mercadorias
+                                <i class="fa fa-edit" style="padding-right:8px;"></i>Embalagem
                             </a>
                         </li>
                               <li>
@@ -405,42 +405,10 @@
                                 </div>
                                   
                               </div>  
+                                        
+                                
                                         <div class="row">
-                                  <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Compra):</label>
-                                        <asp:TextBox ID="txtFreteCompra" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Venda):</label>
-                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                      <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
-                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                            </div>
-                                        <div class="row">
-                                      <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
-                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
                                             <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Moeda Frete:</label>
-                                         <asp:DropDownList ID="ddlMoedaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
-                                        </asp:DropDownList> 
-                                    </div>
-
-                                </div>
-                                             <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Estufagem:</label>
                                          <asp:DropDownList ID="ddlEstufagemFrete" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
@@ -448,9 +416,6 @@
                                     </div>
 
                                 </div> 
-                                            </div>
-                                
-                                        <div class="row">
                                         <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo Divisão Profit:</label>
@@ -466,7 +431,43 @@
                                     </div>
                                 </div>
                                 </div>
-                                 
+                                 <div class="row">
+                                            <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Moeda Frete:</label>
+                                         <asp:DropDownList ID="ddlMoedaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
+                                        </asp:DropDownList> 
+                                    </div>
+
+                                </div>
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra):</label>
+                                        <asp:TextBox ID="txtFreteCompra" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda):</label>
+                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                      
+                                            </div>
+                                        <div class="row" id="divMinimosFCL" runat="server">                                            
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
+                                        <asp:TextBox ID="txtCompraMinimaFCL" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
+                                        <asp:TextBox ID="txtVendaMinimaFCL" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>                                     
+                           </div>
                    <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -633,54 +634,68 @@
                                         <asp:TextBox ID="txtFreteCompraMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                  
-                                  <div class="col-sm-3">
+                                 <div class="col-sm-3" runat="server" id="divCompraMinimaLCL">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
+                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>     
+                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda):</label>
                                         <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                  <div class="col-sm-3" runat="server" id="divVendaMinimaLCL">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
+                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                          </div> 
+                                                            <div class="row">
+                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Peso(Bruto):</label><asp:label Visible="false" runat="server" ID="RedPesoBruto" style="color:red" >*</asp:label>
                                         <asp:TextBox ID="txtPesoBrutoMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                   
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3:</label><asp:label Visible="false" runat="server" ID="RedM3" style="color:red" >*</asp:label>
                                         <asp:TextBox ID="txtM3Mercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                                                   <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor da Carga:</label>
+                                        <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>
                            
                            
                                  <div class="row">                              
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Comprimento:</label>
                                         <asp:TextBox ID="txtComprimentoMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Altura:</label>
-                                        <asp:TextBox ID="txtAlturaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                     <div class="col-sm-3">
+                                </div>                                
+                                     <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Largura:</label>
                                         <asp:TextBox ID="txtLarguraMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                     <div class="col-sm-3">
+                                     <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor da Carga:</label>
-                                        <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <label class="control-label">Altura:</label>
+                                        <asp:TextBox ID="txtAlturaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
+
                                 </div>
                        
                                   
@@ -1367,9 +1382,10 @@ ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
 ID_PORTO_DESTINO, 
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) Destino
-FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE ">
+FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIPO_ESTUFAGEM ">
         <SelectParameters>
                 <asp:Parameter Name="ID_CLIENTE" Type="Int32"  />
+                <asp:Parameter Name="ID_TIPO_ESTUFAGEM" Type="Int32"  />
             </SelectParameters>
 </asp:SqlDataSource>
 

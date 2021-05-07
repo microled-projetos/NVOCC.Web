@@ -19,17 +19,11 @@
         'Verifica se usuario possui permissao de acesso a tela
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
         Con.Fechar()
     End Sub
@@ -96,76 +90,69 @@ WHERE ID_MOEDA_FRETE_ARMADOR = " & Request.QueryString("id"))
 
             If txtIDMoedaFreteArmador.Text = "" Then
                 'Verifica permissão de usuario para inserir
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                'Verifica se o Registro já existe
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErro.Visible = True
-                        lblErro.Text = "Usuário não possui permissão para cadastrar."
-                    Else
-                        'Verifica se o Registro já existe
-                        ds = Con.ExecutarQuery("SELECT ID_MOEDA_FRETE_ARMADOR FROM [TB_MOEDA_FRETE_ARMADOR] WHERE ID_ARMADOR = " & ddlArmador.SelectedValue & " AND ID_MOEDA = " & ddlMoeda.SelectedValue & " AND Convert(date, DT_CAMBIO, 103)  = Convert(date, '" & txtDataCambio.Text & "', 103) ")
-                        If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                            lblErro.Text = "Este registro já existe."
-                            divErro.Visible = True
-
-                        Else
-                            'Insere informaçoes no banco
-                            Con.ExecutarQuery("INSERT INTO [dbo].[TB_MOEDA_FRETE_ARMADOR] (ID_ARMADOR,ID_MOEDA,DT_CAMBIO,VL_TXOFICIAL ) VALUES (" & ddlArmador.SelectedValue & " , " & ddlMoeda.SelectedValue & " , Convert(date, '" & txtDataCambio.Text & "', 103) , '" & txtTxOficial.Text & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
-                            Con.Fechar()
-
-                            divmsg.Visible = True
-                            dgvMoedaFrete.DataBind()
-                            txtIDMoedaFreteArmador.Text = ""
-                            txtDataCambio.Text = ""
-                            txtTxOficial.Text = ""
-                            ddlMoeda.SelectedValue = 0
-                            ddlArmador.SelectedValue = 0
-
-                        End If
-
-                    End If
-                Else
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro.Visible = True
                     lblErro.Text = "Usuário não possui permissão para cadastrar."
+                Else
+                    ds = Con.ExecutarQuery("SELECT ID_MOEDA_FRETE_ARMADOR FROM [TB_MOEDA_FRETE_ARMADOR] WHERE ID_ARMADOR = " & ddlArmador.SelectedValue & " AND ID_MOEDA = " & ddlMoeda.SelectedValue & " AND Convert(date, DT_CAMBIO, 103)  = Convert(date, '" & txtDataCambio.Text & "', 103) ")
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        lblErro.Text = "Este registro já existe."
+                        divErro.Visible = True
+
+                    Else
+                        'Insere informaçoes no banco
+                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_MOEDA_FRETE_ARMADOR] (ID_ARMADOR,ID_MOEDA,DT_CAMBIO,VL_TXOFICIAL ) VALUES (" & ddlArmador.SelectedValue & " , " & ddlMoeda.SelectedValue & " , Convert(date, '" & txtDataCambio.Text & "', 103) , '" & txtTxOficial.Text & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
+                        Con.Fechar()
+
+                        divmsg.Visible = True
+                        dgvMoedaFrete.DataBind()
+                        txtIDMoedaFreteArmador.Text = ""
+                        txtDataCambio.Text = ""
+                        txtTxOficial.Text = ""
+                        ddlMoeda.SelectedValue = 0
+                        ddlArmador.SelectedValue = 0
+
+                    End If
                 End If
+
 
             Else
                 'Verifica se usuario tem permissao para alterar
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
 
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErro.Visible = True
-                        lblErro.Text = "Usuário não possui permissão para alterar."
-                    Else
-                        'Verifica se o Registro já existe
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                        ds = Con.ExecutarQuery("SELECT ID_MOEDA_FRETE_ARMADOR FROM [TB_MOEDA_FRETE_ARMADOR] WHERE ID_ARMADOR = " & ddlArmador.SelectedValue & " AND ID_MOEDA = " & ddlMoeda.SelectedValue & " AND Convert(date, DT_CAMBIO, 103)  = Convert(date, '" & txtDataCambio.Text & "', 103)  AND ID_MOEDA_FRETE_ARMADOR <> " & txtIDMoedaFreteArmador.Text)
-                        If ds.Tables(0).Rows.Count > 0 Then
-
-                            lblErro.Text = "Este registro já existe."
-                            divErro.Visible = True
-
-                        Else
-                            'Realiza alterações
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_MOEDA_FRETE_ARMADOR] SET ID_ARMADOR = " & ddlArmador.SelectedValue & " ,ID_MOEDA = " & ddlMoeda.SelectedValue & " , DT_CAMBIO = Convert(date, '" & txtDataCambio.Text & "', 103)  , VL_TXOFICIAL = '" & txtTxOficial.Text & "' WHERE ID_MOEDA_FRETE_ARMADOR = " & txtIDMoedaFreteArmador.Text)
-                            Con.Fechar()
-                            txtIDMoedaFreteArmador.Text = ""
-                            txtDataCambio.Text = ""
-                            txtTxOficial.Text = ""
-                            ddlMoeda.SelectedValue = 0
-                            ddlArmador.SelectedValue = 0
-
-                            divmsg.Visible = True
-                            dgvMoedaFrete.DataBind()
-                        End If
-
-                    End If
-                Else
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro.Visible = True
-                    lblErro.Text = "Usuário não possui permissão para alterar."
+                    lblErro.Text = "Usuário não possui permissão."
+                Else
+
+                    'Verifica se o Registro já existe
+
+                    ds = Con.ExecutarQuery("SELECT ID_MOEDA_FRETE_ARMADOR FROM [TB_MOEDA_FRETE_ARMADOR] WHERE ID_ARMADOR = " & ddlArmador.SelectedValue & " AND ID_MOEDA = " & ddlMoeda.SelectedValue & " AND Convert(date, DT_CAMBIO, 103)  = Convert(date, '" & txtDataCambio.Text & "', 103)  AND ID_MOEDA_FRETE_ARMADOR <> " & txtIDMoedaFreteArmador.Text)
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        lblErro.Text = "Este registro já existe."
+                        divErro.Visible = True
+
+                    Else
+                        'Realiza alterações
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_MOEDA_FRETE_ARMADOR] SET ID_ARMADOR = " & ddlArmador.SelectedValue & " ,ID_MOEDA = " & ddlMoeda.SelectedValue & " , DT_CAMBIO = Convert(date, '" & txtDataCambio.Text & "', 103)  , VL_TXOFICIAL = '" & txtTxOficial.Text & "' WHERE ID_MOEDA_FRETE_ARMADOR = " & txtIDMoedaFreteArmador.Text)
+                        Con.Fechar()
+                        txtIDMoedaFreteArmador.Text = ""
+                        txtDataCambio.Text = ""
+                        txtTxOficial.Text = ""
+                        ddlMoeda.SelectedValue = 0
+                        ddlArmador.SelectedValue = 0
+
+                        divmsg.Visible = True
+                        dgvMoedaFrete.DataBind()
+                    End If
+
                 End If
 
             End If
@@ -180,24 +167,22 @@ WHERE ID_MOEDA_FRETE_ARMADOR = " & Request.QueryString("id"))
         Dim Con As New Conexao_sql
         Con.Conectar()
         'Verfica permissoes de alteração e exclusão de usuários
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR,FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                dgvMoedaFrete.Columns(5).Visible = False
-
-            End If
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR") <> True Then
-
-                dgvMoedaFrete.Columns(6).Visible = False
-
-            End If
-
-        Else
             dgvMoedaFrete.Columns(5).Visible = False
-            dgvMoedaFrete.Columns(6).Visible = False
+
         End If
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 10 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            dgvMoedaFrete.Columns(6).Visible = False
+
+        End If
+
+
         Con.Fechar()
     End Sub
 

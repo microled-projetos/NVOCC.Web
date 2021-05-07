@@ -143,7 +143,7 @@
                     
                          
                     <li>
-                        <a href="Financeiro.aspx" runat="server" id="A3">Módulo Financeiro</a>     
+                        <a href="Financeiro.aspx" runat="server" id="mnFinanceiro">Módulo Financeiro</a>     
                     </li>    
                       
                 </ul>
@@ -162,7 +162,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Olá, <asp:label runat="server" ID="lbllogin" /> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="TrocarSenha.aspx">Trocar Senha</a></li>
-                            <li><a href="SelecionaPerfil.aspx">Trocar Perfil</a></li>
+                            <li><a  id="mnTrocaPerfil" runat="server" href="SelecionaPerfil.aspx">Trocar Perfil</a></li>
                             <li><a href="Login.aspx">Sair</a></li>
                         </ul>
                     </li>

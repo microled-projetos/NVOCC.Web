@@ -84,7 +84,7 @@
              <asp:Button runat="server" Text="Pesquisar" Style="display:none" id="Button1" CssClass="btn btn-success" />
 
                             
-           <ajaxToolkit:ModalPopupExtender id="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkImprimir"  CancelControlID="Close"></ajaxToolkit:ModalPopupExtender>
+           <ajaxToolkit:ModalPopupExtender id="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkImprimir"  CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
    <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">

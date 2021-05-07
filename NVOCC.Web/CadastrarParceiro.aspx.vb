@@ -18,19 +18,11 @@ Public Class CadastrarParceiro
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-
-            End If
-
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
         Con.Fechar()
     End Sub
@@ -85,8 +77,10 @@ SPREAD_MARITIMO_EXPO_FCL,
 SPREAD_MARITIMO_EXPO_LCL,
 SPREAD_AEREO_IMPO,
 SPREAD_AEREO_EXPO,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO,
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
 ID_ACORDO_CAMBIO_AEREO,
 QT_DIAS_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
@@ -131,8 +125,10 @@ WHERE ID_PARCEIRO =" & ID)
                 txtAereoImpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
                 txtAereoExpo.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
                 ddlAcordoCambioAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO")
-                ddlAcordoCambioMaritimoImpo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO")
-                ddlAcordoCambioMaritimoExpo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO")
+                ddlAcordoCambioMaritimoImpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
+                ddlAcordoCambioMaritimoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
+                ddlAcordoCambioMaritimoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
+                ddlAcordoCambioMaritimoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
                 txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
                 ckbVendedorDireto.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR_DIRETO")
                 ckbEquipeInsideSales.Checked = ds.Tables(0).Rows(0).Item("FL_EQUIPE_INSIDE_SALES")
@@ -282,184 +278,183 @@ WHERE ID_PARCEIRO =" & ID)
 
             If txtID.Text = "" Then
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4  AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divmsg1.Visible = True
+                    msgErro.Visible = True
+                    msgErro.Text = "Usuário não possui permissão para cadastrar."
+                Else
+                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "'")
+                    If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+                        msgErro.Text = "Já existe Parceiro com este CNPJ"
                         divmsg1.Visible = True
                         msgErro.Visible = True
-                        msgErro.Text = "Usuário não possui permissão para cadastrar."
                     Else
-                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "'")
+                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
                         If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
-                            msgErro.Text = "Já existe Parceiro com este CNPJ"
+                            msgErro.Text = "Já existe Parceiro com este CPF"
                             divmsg1.Visible = True
                             msgErro.Visible = True
                         Else
-                            ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "'")
-                            If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
-                                msgErro.Text = "Já existe Parceiro com este CPF"
-                                divmsg1.Visible = True
-                                msgErro.Visible = True
+                            Dim FILTRO As String
+                            If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
+
+                                FILTRO = "'" & txtCNPJ.Text & "', NULL ,"
                             Else
-                                Dim FILTRO As String
-                                If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
 
-                                    FILTRO = "'" & txtCNPJ.Text & "', NULL ,"
-                                Else
+                                FILTRO = " NULL, '" & txtCPF.Text & "',"
 
-                                    FILTRO = " NULL, '" & txtCPF.Text & "',"
-
-                                End If
+                            End If
 
 
 
-                                If txtInscEstadual.Text = "" Then
-                                    txtInscEstadual.Text = "NULL"
-                                Else
-                                    txtInscEstadual.Text = "'" & txtInscEstadual.Text & "'"
-                                End If
+                            If txtInscEstadual.Text = "" Then
+                                txtInscEstadual.Text = "NULL"
+                            Else
+                                txtInscEstadual.Text = "'" & txtInscEstadual.Text & "'"
+                            End If
 
-                                If txtInscMunicipal.Text = "" Then
-                                    txtInscMunicipal.Text = "NULL"
-                                Else
-                                    txtInscMunicipal.Text = "'" & txtInscMunicipal.Text & "'"
-                                End If
+                            If txtInscMunicipal.Text = "" Then
+                                txtInscMunicipal.Text = "NULL"
+                            Else
+                                txtInscMunicipal.Text = "'" & txtInscMunicipal.Text & "'"
+                            End If
 
 
 
-                                If txtAliquotaISS.Text = "" Then
-                                    txtAliquotaISS.Text = "0"
-                                Else
+                            If txtAliquotaISS.Text = "" Then
+                                txtAliquotaISS.Text = "0"
+                            Else
 
-                                    txtAliquotaISS.Text = txtAliquotaISS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                                txtAliquotaISS.Text = txtAliquotaISS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtAliquotaPIS.Text = "" Then
-                                    txtAliquotaPIS.Text = "0"
-                                Else
+                            If txtAliquotaPIS.Text = "" Then
+                                txtAliquotaPIS.Text = "0"
+                            Else
 
-                                    txtAliquotaPIS.Text = txtAliquotaPIS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                                txtAliquotaPIS.Text = txtAliquotaPIS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtAliquotaCOFINS.Text = "" Then
-                                    txtAliquotaCOFINS.Text = "0"
-                                Else
-                                    txtAliquotaCOFINS.Text = txtAliquotaCOFINS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtAliquotaCOFINS.Text = "" Then
+                                txtAliquotaCOFINS.Text = "0"
+                            Else
+                                txtAliquotaCOFINS.Text = txtAliquotaCOFINS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
 
 
 
 
-                                If txtMaritimoImpoFCL.Text = "" Then
-                                    txtMaritimoImpoFCL.Text = "0"
-                                Else
-                                    txtMaritimoImpoFCL.Text = txtMaritimoImpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtMaritimoImpoFCL.Text = "" Then
+                                txtMaritimoImpoFCL.Text = "0"
+                            Else
+                                txtMaritimoImpoFCL.Text = txtMaritimoImpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtMaritimoImpoLCL.Text = "" Then
-                                    txtMaritimoImpoLCL.Text = "0"
-                                Else
-                                    txtMaritimoImpoLCL.Text = txtMaritimoImpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtMaritimoImpoLCL.Text = "" Then
+                                txtMaritimoImpoLCL.Text = "0"
+                            Else
+                                txtMaritimoImpoLCL.Text = txtMaritimoImpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtMaritimoExpoFCL.Text = "" Then
-                                    txtMaritimoExpoFCL.Text = "0"
-                                Else
-                                    txtMaritimoExpoFCL.Text = txtMaritimoExpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtMaritimoExpoFCL.Text = "" Then
+                                txtMaritimoExpoFCL.Text = "0"
+                            Else
+                                txtMaritimoExpoFCL.Text = txtMaritimoExpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtMaritimoExpoLCL.Text = "" Then
-                                    txtMaritimoExpoLCL.Text = "0"
-                                Else
-                                    txtMaritimoExpoLCL.Text = txtMaritimoExpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtMaritimoExpoLCL.Text = "" Then
+                                txtMaritimoExpoLCL.Text = "0"
+                            Else
+                                txtMaritimoExpoLCL.Text = txtMaritimoExpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtAereoImpo.Text = "" Then
-                                    txtAereoImpo.Text = "0"
-                                Else
-                                    txtAereoImpo.Text = txtAereoImpo.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
+                            If txtAereoImpo.Text = "" Then
+                                txtAereoImpo.Text = "0"
+                            Else
+                                txtAereoImpo.Text = txtAereoImpo.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
-                                If txtAereoExpo.Text = "" Then
-                                    txtAereoExpo.Text = "0"
-                                Else
-                                    txtAereoExpo.Text = txtAereoExpo.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-
-                                If txtCEP.Text = "" Then
-                                    txtCEP.Text = "NULL"
-                                Else
-                                    txtCEP.Text = "'" & txtCEP.Text & "'"
-                                End If
-
-                                If txtBairro.Text = "" Then
-                                    txtBairro.Text = "NULL"
-                                Else
-                                    txtBairro.Text = "'" & txtBairro.Text & "'"
-                                End If
+                            If txtAereoExpo.Text = "" Then
+                                txtAereoExpo.Text = "0"
+                            Else
+                                txtAereoExpo.Text = txtAereoExpo.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
 
 
-                                If txtEndereco.Text = "" Then
-                                    txtEndereco.Text = "NULL"
-                                Else
-                                    txtEndereco.Text = "'" & txtEndereco.Text & "'"
-                                End If
+                            If txtCEP.Text = "" Then
+                                txtCEP.Text = "NULL"
+                            Else
+                                txtCEP.Text = "'" & txtCEP.Text & "'"
+                            End If
+
+                            If txtBairro.Text = "" Then
+                                txtBairro.Text = "NULL"
+                            Else
+                                txtBairro.Text = "'" & txtBairro.Text & "'"
+                            End If
 
 
-                                If txtNumero.Text = "" Then
-                                    txtNumero.Text = "NULL"
-                                Else
-                                    txtNumero.Text = "'" & txtNumero.Text & "'"
-                                End If
+                            If txtEndereco.Text = "" Then
+                                txtEndereco.Text = "NULL"
+                            Else
+                                txtEndereco.Text = "'" & txtEndereco.Text & "'"
+                            End If
 
 
-                                If txtCDIATA.Text = "" Then
-                                    txtCDIATA.Text = "NULL"
-                                Else
-                                    txtCDIATA.Text = "'" & txtCDIATA.Text & "'"
-                                End If
+                            If txtNumero.Text = "" Then
+                                txtNumero.Text = "NULL"
+                            Else
+                                txtNumero.Text = "'" & txtNumero.Text & "'"
+                            End If
 
 
-                                If txtNomeFantasia.Text = "" Then
-                                    txtNomeFantasia.Text = "NULL"
-                                Else
-                                    txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
-                                End If
+                            If txtCDIATA.Text = "" Then
+                                txtCDIATA.Text = "NULL"
+                            Else
+                                txtCDIATA.Text = "'" & txtCDIATA.Text & "'"
+                            End If
 
-                                If txtTelefone.Text = "" Then
-                                    txtTelefone.Text = "NULL"
-                                Else
-                                    txtTelefone.Text = "'" & txtTelefone.Text & "'"
-                                End If
 
-                                If txtComplemento.Text = "" Then
-                                    txtComplemento.Text = "NULL"
-                                Else
-                                    txtComplemento.Text = "'" & txtComplemento.Text & "'"
-                                End If
+                            If txtNomeFantasia.Text = "" Then
+                                txtNomeFantasia.Text = "NULL"
+                            Else
+                                txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
+                            End If
 
-                                If txtEmailParceiro.Text = "" Then
-                                    txtEmailParceiro.Text = "NULL "
-                                Else
-                                    txtEmailParceiro.Text = "'" & txtEmailParceiro.Text & "'"
-                                End If
+                            If txtTelefone.Text = "" Then
+                                txtTelefone.Text = "NULL"
+                            Else
+                                txtTelefone.Text = "'" & txtTelefone.Text & "'"
+                            End If
 
-                                If txtEmailNF.Text = "" Then
-                                    txtEmailNF.Text = "NULL "
-                                Else
-                                    txtEmailNF.Text = "'" & txtEmailNF.Text & "'"
-                                End If
+                            If txtComplemento.Text = "" Then
+                                txtComplemento.Text = "NULL"
+                            Else
+                                txtComplemento.Text = "'" & txtComplemento.Text & "'"
+                            End If
 
-                                If txtQtdFaturamento.Text = "" Then
-                                    txtQtdFaturamento.Text = 0
-                                End If
+                            If txtEmailParceiro.Text = "" Then
+                                txtEmailParceiro.Text = "NULL "
+                            Else
+                                txtEmailParceiro.Text = "'" & txtEmailParceiro.Text & "'"
+                            End If
 
-                                Con.Conectar()
+                            If txtEmailNF.Text = "" Then
+                                txtEmailNF.Text = "NULL "
+                            Else
+                                txtEmailNF.Text = "'" & txtEmailNF.Text & "'"
+                            End If
 
-                                Dim SQL As String = ("INSERT INTO [dbo].[TB_PARCEIRO] (
+                            If txtQtdFaturamento.Text = "" Then
+                                txtQtdFaturamento.Text = 0
+                            End If
+
+                            Con.Conectar()
+
+                            Dim SQL As String = ("INSERT INTO [dbo].[TB_PARCEIRO] (
 FL_IMPORTADOR, 
 FL_EXPORTADOR, 
 FL_AGENTE, 
@@ -503,8 +498,10 @@ SPREAD_MARITIMO_EXPO_FCL,
 SPREAD_MARITIMO_EXPO_LCL,
 SPREAD_AEREO_IMPO,
 SPREAD_AEREO_EXPO,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO,
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
 ID_ACORDO_CAMBIO_AEREO,
 QT_DIAS_FATURAMENTO,
 EMAIL,
@@ -554,8 +551,10 @@ VALUES (
 '" & txtMaritimoExpoLCL.Text & "',
 '" & txtAereoImpo.Text & "',
 '" & txtAereoExpo.Text & "',
-" & ddlAcordoCambioMaritimoImpo.SelectedValue & ",
-" & ddlAcordoCambioMaritimoExpo.SelectedValue & ",
+" & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
+" & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
+" & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
+" & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
 " & ddlAcordoCambioAereo.SelectedValue & ",
 " & txtQtdFaturamento.Text & ",
 " & txtEmailParceiro.Text & ",
@@ -566,292 +565,286 @@ VALUES (
 
 
 
-                                SQL = SQL.Replace("#filtro", FILTRO)
-                                ds = Con.ExecutarQuery(SQL)
-                                Dim ID_Parceiro As String = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
+                            SQL = SQL.Replace("#filtro", FILTRO)
+                            ds = Con.ExecutarQuery(SQL)
+                            Dim ID_Parceiro As String = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
 
-                                If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
-                                    divInformativa.Visible = True
-                                    lblInformacao.Text = "Parceiro cadastrado sem informações de contato"
+                            If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
+                                divInformativa.Visible = True
+                                lblInformacao.Text = "Parceiro cadastrado sem informações de contato"
+                            Else
+                                If txtNomeContato.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de nome na aba contatos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
                                 Else
-                                    If txtNomeContato.Text = "" Then
-                                        msgErro.Text = "Preencha o campo de nome na aba contatos."
-                                        divmsg1.Visible = True
-                                        msgErro.Visible = True
+
+                                    If txtTelContato.Text = "" Then
+                                        txtTelContato.Text = "NULL "
                                     Else
-
-                                        If txtTelContato.Text = "" Then
-                                            txtTelContato.Text = "NULL "
-                                        Else
-                                            txtTelContato.Text = "'" & txtTelContato.Text & "'"
-                                        End If
-
-                                        If txtEmailContato.Text = "" Then
-                                            txtEmailContato.Text = "NULL "
-                                        Else
-                                            txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
-                                        End If
-
-                                        If txtDepartamento.Text = "" Then
-                                            txtDepartamento.Text = "NULL "
-                                        Else
-                                            txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
-                                        End If
-
-                                        If txtCelularContato.Text = "" Then
-                                            txtCelularContato.Text = "NULL "
-                                        Else
-                                            txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
-                                        End If
-
-                                        'insere contatos
-                                        Dim sqlContatos As String = "INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID_Parceiro & ",'" & txtNomeContato.Text & "'," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")"
-                                        Con.ExecutarQuery(sqlContatos)
-                                    End If
-                                End If
-
-
-                                If txtEmail.Text = "" And ddlPorto.SelectedValue = 0 And ddlEvento.SelectedValue = 0 Then
-                                    divInformativa.Visible = True
-                                    lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
-                                Else
-                                    If txtEmail.Text = "" Then
-                                        msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
-                                        divmsg1.Visible = True
-                                        msgErro.Visible = True
-                                    Else
-
-                                        Dim TIPO As String = "E"
-                                        Dim TIPO_PESSOA As String = ""
-
-                                        'Verifica qual o tipo de pessoa
-                                        If ckbArmazemAtracacao.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbArmazemDesembaraco.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbArmazemDescarga.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbPrestador.Checked = True Then
-                                            TIPO_PESSOA = "P"
-                                        Else
-                                            TIPO_PESSOA = "C"
-                                        End If
-
-
-                                        'insere emails
-                                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
-
-
-
-                                        'REPLICA EMAILS
-                                        If ckbReplica.Checked = True Then
-
-                                            ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
-
-
-                                            If ds.Tables(0).Rows.Count > 0 Then
-
-                                                For Each linha As DataRow In ds.Tables(0).Rows
-                                                    Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
-                                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
-                                                Next
-
-                                            End If
-                                        End If
-
+                                        txtTelContato.Text = "'" & txtTelContato.Text & "'"
                                     End If
 
+                                    If txtEmailContato.Text = "" Then
+                                        txtEmailContato.Text = "NULL "
+                                    Else
+                                        txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
+                                    End If
+
+                                    If txtDepartamento.Text = "" Then
+                                        txtDepartamento.Text = "NULL "
+                                    Else
+                                        txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
+                                    End If
+
+                                    If txtCelularContato.Text = "" Then
+                                        txtCelularContato.Text = "NULL "
+                                    Else
+                                        txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
+                                    End If
+
+                                    'insere contatos
+                                    Dim sqlContatos As String = "INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID_Parceiro & ",'" & txtNomeContato.Text & "'," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")"
+                                    Con.ExecutarQuery(sqlContatos)
                                 End If
-
-
-                                Con.Fechar()
-                                Call Limpar(Me)
-                                divmsg.Visible = True
                             End If
-                        End If
 
+
+                            If txtEmail.Text = "" And ddlPorto.SelectedValue = 0 And ddlEvento.SelectedValue = 0 Then
+                                divInformativa.Visible = True
+                                lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
+                            Else
+                                If txtEmail.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
+                                Else
+
+                                    Dim TIPO As String = "E"
+                                    Dim TIPO_PESSOA As String = ""
+
+                                    'Verifica qual o tipo de pessoa
+                                    If ckbArmazemAtracacao.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDesembaraco.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDescarga.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbPrestador.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    Else
+                                        TIPO_PESSOA = "C"
+                                    End If
+
+
+                                    'insere emails
+                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+
+
+                                    'REPLICA EMAILS
+                                    If ckbReplica.Checked = True Then
+
+                                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                                        If ds.Tables(0).Rows.Count > 0 Then
+
+                                            For Each linha As DataRow In ds.Tables(0).Rows
+                                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+                                                Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID_Parceiro & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+                                            Next
+
+                                        End If
+                                    End If
+
+                                End If
+
+                            End If
+
+
+                            Con.Fechar()
+                            Call Limpar(Me)
+                            divmsg.Visible = True
+                        End If
                     End If
-                Else
-                    divmsg1.Visible = True
-                    msgErro.Visible = True
-                    msgErro.Text = "Usuário não possui permissão para cadastrar."
+
                 End If
+
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divmsg1.Visible = True
+                    msgErro.Visible = True
+                    msgErro.Text = "Usuário não possui permissão para alterar."
+                Else
+                    ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
+                    If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
+                        msgErro.Text = "Já existe Parceiro com este CNPJ"
                         divmsg1.Visible = True
                         msgErro.Visible = True
-                        msgErro.Text = "Usuário não possui permissão para alterar."
                     Else
-                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CNPJ = '" & txtCNPJ.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
-                        If ds.Tables(0).Rows.Count > 0 And ddlTipoPessoa.SelectedValue <> 3 Then
-                            msgErro.Text = "Já existe Parceiro com este CNPJ"
+                        ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            msgErro.Text = "Já existe Parceiro com este CPF"
                             divmsg1.Visible = True
                             msgErro.Visible = True
                         Else
-                            ds = Con.ExecutarQuery("SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" & txtCPF.Text & "' AND ID_PARCEIRO <> " & txtID.Text)
-                            If ds.Tables(0).Rows.Count > 0 Then
-                                msgErro.Text = "Já existe Parceiro com este CPF"
-                                divmsg1.Visible = True
-                                msgErro.Visible = True
+
+                            Dim FILTRO As String
+                            If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
+
+                                FILTRO = "CNPJ ='" & txtCNPJ.Text & "', CPF = NULL ,"
                             Else
 
-                                Dim FILTRO As String
-                                If ddlTipoPessoa.SelectedValue = 1 Or ddlTipoPessoa.SelectedValue = 3 Then
+                                FILTRO = "CNPJ= NULL, CPF ='" & txtCPF.Text & "',"
 
-                                    FILTRO = "CNPJ ='" & txtCNPJ.Text & "', CPF = NULL ,"
-                                Else
+                            End If
 
-                                    FILTRO = "CNPJ= NULL, CPF ='" & txtCPF.Text & "',"
+                            If txtCDIATA.Text = "" Then
+                                txtCDIATA.Text = "NULL"
+                            Else
+                                txtCDIATA.Text = "'" & txtCDIATA.Text & "'"
+                            End If
 
-                                End If
-
-                                If txtCDIATA.Text = "" Then
-                                    txtCDIATA.Text = "NULL"
-                                Else
-                                    txtCDIATA.Text = "'" & txtCDIATA.Text & "'"
-                                End If
-
-                                If txtNomeFantasia.Text = "" Then
-                                    txtNomeFantasia.Text = "NULL"
-                                Else
-                                    txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
-                                End If
+                            If txtNomeFantasia.Text = "" Then
+                                txtNomeFantasia.Text = "NULL"
+                            Else
+                                txtNomeFantasia.Text = "'" & txtNomeFantasia.Text & "'"
+                            End If
 
 
 
-                                If txtCEP.Text = "" Then
-                                    txtCEP.Text = "NULL"
-                                Else
-                                    txtCEP.Text = "'" & txtCEP.Text & "'"
-                                End If
+                            If txtCEP.Text = "" Then
+                                txtCEP.Text = "NULL"
+                            Else
+                                txtCEP.Text = "'" & txtCEP.Text & "'"
+                            End If
 
-                                If txtBairro.Text = "" Then
-                                    txtBairro.Text = "NULL"
-                                Else
-                                    txtBairro.Text = "'" & txtBairro.Text & "'"
-                                End If
-
-
-                                If txtEndereco.Text = "" Then
-                                    txtEndereco.Text = "NULL"
-                                Else
-                                    txtEndereco.Text = "'" & txtEndereco.Text & "'"
-                                End If
+                            If txtBairro.Text = "" Then
+                                txtBairro.Text = "NULL"
+                            Else
+                                txtBairro.Text = "'" & txtBairro.Text & "'"
+                            End If
 
 
-                                If txtNumero.Text = "" Then
-                                    txtNumero.Text = "NULL"
-                                Else
-                                    txtNumero.Text = "'" & txtNumero.Text & "'"
-                                End If
-
-                                If txtEmailParceiro.Text = "" Then
-                                    txtEmailParceiro.Text = "NULL "
-                                Else
-                                    txtEmailParceiro.Text = "'" & txtEmailParceiro.Text & "'"
-                                End If
-
-                                If txtTelefone.Text = "" Then
-                                    txtTelefone.Text = "NULL"
-                                Else
-                                    txtTelefone.Text = "'" & txtTelefone.Text & "'"
-                                End If
-
-                                If txtComplemento.Text = "" Then
-                                    txtComplemento.Text = "NULL "
-                                Else
-                                    txtComplemento.Text = "'" & txtComplemento.Text & "'"
-                                End If
-
-                                If txtEmailNF.Text = "" Then
-                                    txtEmailNF.Text = "NULL "
-                                Else
-                                    txtEmailNF.Text = "'" & txtEmailNF.Text & "'"
-                                End If
-
-                                If txtAliquotaISS.Text = "" Then
-                                    txtAliquotaISS.Text = "0"
-                                Else
-
-                                    txtAliquotaISS.Text = txtAliquotaISS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtAliquotaPIS.Text = "" Then
-                                    txtAliquotaPIS.Text = "0"
-                                Else
-
-                                    txtAliquotaPIS.Text = txtAliquotaPIS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtAliquotaCOFINS.Text = "" Then
-                                    txtAliquotaCOFINS.Text = "0"
-                                Else
-                                    txtAliquotaCOFINS.Text = txtAliquotaCOFINS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtMaritimoImpoFCL.Text = "" Then
-                                    txtMaritimoImpoFCL.Text = "0"
-                                Else
-                                    txtMaritimoImpoFCL.Text = txtMaritimoImpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtMaritimoImpoLCL.Text = "" Then
-                                    txtMaritimoImpoLCL.Text = "0"
-                                Else
-                                    txtMaritimoImpoLCL.Text = txtMaritimoImpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtMaritimoExpoFCL.Text = "" Then
-                                    txtMaritimoExpoFCL.Text = "0"
-                                Else
-                                    txtMaritimoExpoFCL.Text = txtMaritimoExpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtMaritimoExpoLCL.Text = "" Then
-                                    txtMaritimoExpoLCL.Text = "0"
-                                Else
-                                    txtMaritimoExpoLCL.Text = txtMaritimoExpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtAereoImpo.Text = "" Then
-                                    txtAereoImpo.Text = "0"
-                                Else
-                                    txtAereoImpo.Text = txtAereoImpo.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtAereoExpo.Text = "" Then
-                                    txtAereoExpo.Text = "0"
-                                Else
-                                    txtAereoExpo.Text = txtAereoExpo.Text.Replace(".", String.Empty).Replace(",", ".")
-                                End If
-
-                                If txtQtdFaturamento.Text = "" Then
-                                    txtQtdFaturamento.Text = 0
-                                End If
+                            If txtEndereco.Text = "" Then
+                                txtEndereco.Text = "NULL"
+                            Else
+                                txtEndereco.Text = "'" & txtEndereco.Text & "'"
+                            End If
 
 
+                            If txtNumero.Text = "" Then
+                                txtNumero.Text = "NULL"
+                            Else
+                                txtNumero.Text = "'" & txtNumero.Text & "'"
+                            End If
 
-                                If txtInscEstadual.Text = "" Then
-                                    txtInscEstadual.Text = "NULL"
-                                Else
-                                    txtInscEstadual.Text = "'" & txtInscEstadual.Text & "'"
-                                End If
+                            If txtEmailParceiro.Text = "" Then
+                                txtEmailParceiro.Text = "NULL "
+                            Else
+                                txtEmailParceiro.Text = "'" & txtEmailParceiro.Text & "'"
+                            End If
 
-                                If txtInscMunicipal.Text = "" Then
-                                    txtInscMunicipal.Text = "NULL"
-                                Else
-                                    txtInscMunicipal.Text = "'" & txtInscMunicipal.Text & "'"
-                                End If
+                            If txtTelefone.Text = "" Then
+                                txtTelefone.Text = "NULL"
+                            Else
+                                txtTelefone.Text = "'" & txtTelefone.Text & "'"
+                            End If
 
-                                Dim ID As String = Request.QueryString("id")
-                                Con.Conectar()
+                            If txtComplemento.Text = "" Then
+                                txtComplemento.Text = "NULL "
+                            Else
+                                txtComplemento.Text = "'" & txtComplemento.Text & "'"
+                            End If
 
-                                Dim SQL As String = ("UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
+                            If txtEmailNF.Text = "" Then
+                                txtEmailNF.Text = "NULL "
+                            Else
+                                txtEmailNF.Text = "'" & txtEmailNF.Text & "'"
+                            End If
+
+                            If txtAliquotaISS.Text = "" Then
+                                txtAliquotaISS.Text = "0"
+                            Else
+
+                                txtAliquotaISS.Text = txtAliquotaISS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtAliquotaPIS.Text = "" Then
+                                txtAliquotaPIS.Text = "0"
+                            Else
+
+                                txtAliquotaPIS.Text = txtAliquotaPIS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtAliquotaCOFINS.Text = "" Then
+                                txtAliquotaCOFINS.Text = "0"
+                            Else
+                                txtAliquotaCOFINS.Text = txtAliquotaCOFINS.Text.Replace("R", String.Empty).Replace("$", String.Empty).Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtMaritimoImpoFCL.Text = "" Then
+                                txtMaritimoImpoFCL.Text = "0"
+                            Else
+                                txtMaritimoImpoFCL.Text = txtMaritimoImpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtMaritimoImpoLCL.Text = "" Then
+                                txtMaritimoImpoLCL.Text = "0"
+                            Else
+                                txtMaritimoImpoLCL.Text = txtMaritimoImpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtMaritimoExpoFCL.Text = "" Then
+                                txtMaritimoExpoFCL.Text = "0"
+                            Else
+                                txtMaritimoExpoFCL.Text = txtMaritimoExpoFCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtMaritimoExpoLCL.Text = "" Then
+                                txtMaritimoExpoLCL.Text = "0"
+                            Else
+                                txtMaritimoExpoLCL.Text = txtMaritimoExpoLCL.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtAereoImpo.Text = "" Then
+                                txtAereoImpo.Text = "0"
+                            Else
+                                txtAereoImpo.Text = txtAereoImpo.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtAereoExpo.Text = "" Then
+                                txtAereoExpo.Text = "0"
+                            Else
+                                txtAereoExpo.Text = txtAereoExpo.Text.Replace(".", String.Empty).Replace(",", ".")
+                            End If
+
+                            If txtQtdFaturamento.Text = "" Then
+                                txtQtdFaturamento.Text = 0
+                            End If
+
+
+
+                            If txtInscEstadual.Text = "" Then
+                                txtInscEstadual.Text = "NULL"
+                            Else
+                                txtInscEstadual.Text = "'" & txtInscEstadual.Text & "'"
+                            End If
+
+                            If txtInscMunicipal.Text = "" Then
+                                txtInscMunicipal.Text = "NULL"
+                            Else
+                                txtInscMunicipal.Text = "'" & txtInscMunicipal.Text & "'"
+                            End If
+
+                            Dim ID As String = Request.QueryString("id")
+                            Con.Conectar()
+
+                            Dim SQL As String = ("UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
 FL_EXPORTADOR = '" & ckbExportador.Checked & "',
 FL_AGENTE = '" & ckbAgente.Checked & "' ,
 FL_AGENTE_INTERNACIONAL= '" & ckbAgenteInternacional.Checked & "',
@@ -893,8 +886,10 @@ SPREAD_MARITIMO_EXPO_FCL = '" & txtMaritimoExpoFCL.Text & "',
 SPREAD_MARITIMO_EXPO_LCL = '" & txtMaritimoExpoLCL.Text & "',
 SPREAD_AEREO_IMPO = '" & txtAereoImpo.Text & "',
 SPREAD_AEREO_EXPO = '" & txtAereoExpo.Text & "',
-ID_ACORDO_CAMBIO_MARITIMO_IMPO = " & ddlAcordoCambioMaritimoImpo.SelectedValue & ",
-ID_ACORDO_CAMBIO_MARITIMO_EXPO = " & ddlAcordoCambioMaritimoExpo.SelectedValue & ",
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL = " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
+ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL = " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL = " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
+ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
 ID_ACORDO_CAMBIO_AEREO = " & ddlAcordoCambioAereo.SelectedValue & ",
 QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
 EMAIL =  " & txtEmailParceiro.Text & ",
@@ -902,100 +897,96 @@ FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
 FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
 where ID_PARCEIRO = " & ID)
 
-                                SQL = SQL.Replace("#filtro", FILTRO)
-                                Con.ExecutarQuery(SQL)
+                            SQL = SQL.Replace("#filtro", FILTRO)
+                            Con.ExecutarQuery(SQL)
 
-                                If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
+                            If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
 
-                                    Con.ExecutarQuery("DELETE FROM TB_CONTATO WHERE ID_Parceiro = " & ID)
+                                Con.ExecutarQuery("DELETE FROM TB_CONTATO WHERE ID_Parceiro = " & ID)
 
+                            Else
+
+                                If txtNomeContato.Text = "" Then
+                                    txtNomeContato.Text = "NULL"
                                 Else
-
-                                    If txtNomeContato.Text = "" Then
-                                        txtNomeContato.Text = "NULL"
-                                    Else
-                                        txtNomeContato.Text = "'" & txtNomeContato.Text & "'"
-                                    End If
-
-                                    If txtTelContato.Text = "" Then
-                                        txtTelContato.Text = "NULL"
-                                    Else
-                                        txtTelContato.Text = "'" & txtTelContato.Text & "'"
-                                    End If
-
-                                    If txtEmailContato.Text = "" Then
-                                        txtEmailContato.Text = "NULL"
-                                    Else
-                                        txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
-                                    End If
-
-                                    If txtDepartamento.Text = "" Then
-                                        txtDepartamento.Text = "NULL"
-                                    Else
-                                        txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
-                                    End If
-
-                                    If txtCelularContato.Text = "" Then
-                                        txtCelularContato.Text = "NULL"
-                                    Else
-                                        txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
-                                    End If
-
-                                    Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT count(ID_CONTATO)ID_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ID)
-
-
-                                    If dsContatos.Tables(0).Rows(0).Item("ID_CONTATO") > 0 Then
-                                        'update contatos
-                                        Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = " & txtNomeContato.Text & " ,[TELEFONE_CONTATO] =" & txtTelContato.Text & ",[EMAIL_CONTATO] =  " & txtEmailContato.Text & ",[NM_DEPARTAMENTO] =" & txtDepartamento.Text & ", [CELULAR_CONTATO] =" & txtCelularContato.Text & " where ID_Parceiro = " & ID)
-                                    Else
-                                        'insere contatos
-                                        Con.ExecutarQuery("INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID & "," & txtNomeContato.Text & "," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")")
-                                    End If
-
+                                    txtNomeContato.Text = "'" & txtNomeContato.Text & "'"
                                 End If
 
-                                If txtEmail.Text <> "" And ddlPorto.SelectedValue <> 0 And ddlEvento.SelectedValue <> 0 Then
-
-                                    If txtEmail.Text = "" Then
-                                        msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
-                                        divmsg1.Visible = True
-                                        msgErro.Visible = True
-                                    Else
-                                        Dim TIPO As String = "E"
-                                        Dim TIPO_PESSOA As String = ""
-
-                                        'Verifica qual o tipo de pessoa
-                                        If ckbArmazemAtracacao.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbArmazemDesembaraco.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbArmazemDescarga.Checked = True Then
-                                            TIPO_PESSOA = "T"
-                                        ElseIf ckbPrestador.Checked = True Then
-                                            TIPO_PESSOA = "P"
-                                        Else
-                                            TIPO_PESSOA = "C"
-                                        End If
-
-
-                                        'update emails
-                                        Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID_PESSOA = " & ID)
-                                    End If
-
+                                If txtTelContato.Text = "" Then
+                                    txtTelContato.Text = "NULL"
+                                Else
+                                    txtTelContato.Text = "'" & txtTelContato.Text & "'"
                                 End If
-                                Call Limpar(Me)
-                                Con.Fechar()
-                                divmsg.Visible = True
+
+                                If txtEmailContato.Text = "" Then
+                                    txtEmailContato.Text = "NULL"
+                                Else
+                                    txtEmailContato.Text = "'" & txtEmailContato.Text & "'"
+                                End If
+
+                                If txtDepartamento.Text = "" Then
+                                    txtDepartamento.Text = "NULL"
+                                Else
+                                    txtDepartamento.Text = "'" & txtDepartamento.Text & "'"
+                                End If
+
+                                If txtCelularContato.Text = "" Then
+                                    txtCelularContato.Text = "NULL"
+                                Else
+                                    txtCelularContato.Text = "'" & txtCelularContato.Text & "'"
+                                End If
+
+                                Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT count(ID_CONTATO)ID_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ID)
+
+
+                                If dsContatos.Tables(0).Rows(0).Item("ID_CONTATO") > 0 Then
+                                    'update contatos
+                                    Con.ExecutarQuery("UPDATE TB_CONTATO SET [NM_CONTATO] = " & txtNomeContato.Text & " ,[TELEFONE_CONTATO] =" & txtTelContato.Text & ",[EMAIL_CONTATO] =  " & txtEmailContato.Text & ",[NM_DEPARTAMENTO] =" & txtDepartamento.Text & ", [CELULAR_CONTATO] =" & txtCelularContato.Text & " where ID_Parceiro = " & ID)
+                                Else
+                                    'insere contatos
+                                    Con.ExecutarQuery("INSERT INTO TB_CONTATO ([ID_PARCEIRO],[NM_CONTATO],[TELEFONE_CONTATO],[EMAIL_CONTATO],[NM_DEPARTAMENTO],[CELULAR_CONTATO]) VALUES (" & ID & "," & txtNomeContato.Text & "," & txtTelContato.Text & "," & txtEmailContato.Text & "," & txtDepartamento.Text & ", " & txtCelularContato.Text & ")")
+                                End If
 
                             End If
-                        End If
 
+                            If txtEmail.Text <> "" And ddlPorto.SelectedValue <> 0 And ddlEvento.SelectedValue <> 0 Then
+
+                                If txtEmail.Text = "" Then
+                                    msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
+                                    divmsg1.Visible = True
+                                    msgErro.Visible = True
+                                Else
+                                    Dim TIPO As String = "E"
+                                    Dim TIPO_PESSOA As String = ""
+
+                                    'Verifica qual o tipo de pessoa
+                                    If ckbArmazemAtracacao.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDesembaraco.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbArmazemDescarga.Checked = True Then
+                                        TIPO_PESSOA = "T"
+                                    ElseIf ckbPrestador.Checked = True Then
+                                        TIPO_PESSOA = "P"
+                                    Else
+                                        TIPO_PESSOA = "C"
+                                    End If
+
+
+                                    'update emails
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID_PESSOA = " & ID)
+                                End If
+
+                            End If
+                            Call Limpar(Me)
+                            Con.Fechar()
+                            divmsg.Visible = True
+
+                        End If
                     End If
-                Else
-                    divmsg1.Visible = True
-                    msgErro.Visible = True
-                    msgErro.Text = "Usuário não possui permissão para alterar."
+
                 End If
+
             End If
         End If
 

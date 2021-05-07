@@ -12,29 +12,24 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                Response.Redirect("Default.aspx")
-            Else
-                ds = Con.ExecutarQuery("SELECT count(ID_COTACAO)Aprovadas FROM TB_COTACAO A
+            Response.Redirect("Default.aspx")
+        Else
+
+            ds = Con.ExecutarQuery("SELECT count(ID_COTACAO)Aprovadas FROM TB_COTACAO A
 LEFT JOIN TB_STATUS_COTACAO B ON B.ID_STATUS_COTACAO = A.ID_STATUS_COTACAO
 WHERE FL_COTACAO_APROVADA = 1")
-                lblAprovadas.Text = "Total de cotações aprovadas: " & ds.Tables(0).Rows(0).Item("Aprovadas")
+            lblAprovadas.Text = "Total de cotações aprovadas: " & ds.Tables(0).Rows(0).Item("Aprovadas")
 
-                ds = Con.ExecutarQuery("SELECT count(ID_COTACAO)Rejeitadas FROM TB_COTACAO A
+            ds = Con.ExecutarQuery("SELECT count(ID_COTACAO)Rejeitadas FROM TB_COTACAO A
 WHERE A.ID_STATUS_COTACAO = 8")
-                lblRejeitadas.Text = "Total de cotações rejeitadas: " & ds.Tables(0).Rows(0).Item("Rejeitadas")
+            lblRejeitadas.Text = "Total de cotações rejeitadas: " & ds.Tables(0).Rows(0).Item("Rejeitadas")
 
-
-
-            End If
-
-        Else
-            Response.Redirect("Default.aspx")
         End If
+
         Con.Fechar()
     End Sub
     Private Sub dgvCotacao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCotacao.RowCommand
@@ -100,21 +95,16 @@ WHERE A.ID_STATUS_COTACAO = 8")
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                dgvCotacao.Columns(11).Visible = False
-
-                Exit Sub
-            Else
-                Response.Redirect("CadastroCotacao.aspx")
-            End If
-        Else
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
+            dgvCotacao.Columns(11).Visible = False
+
+            Exit Sub
+        Else
+            Response.Redirect("CadastroCotacao.aspx")
         End If
 
     End Sub
@@ -124,28 +114,24 @@ WHERE A.ID_STATUS_COTACAO = 8")
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                dgvCotacao.Columns(11).Visible = False
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                Exit Sub
-            Else
-                If txtID.Text = "" Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Selecione o registro que deseja editar!"
-                Else
-                    Dim url As String = "/CadastroCotacao.aspx?id={0}"
-                    url = String.Format(url, txtID.Text)
-                    Response.Redirect(url)
-                End If
-            End If
-        Else
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
+            dgvCotacao.Columns(11).Visible = False
+
+            Exit Sub
+        Else
+            If txtID.Text = "" Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Selecione o registro que deseja editar!"
+            Else
+                Dim url As String = "/CadastroCotacao.aspx?id={0}"
+                url = String.Format(url, txtID.Text)
+                Response.Redirect(url)
+            End If
         End If
 
     End Sub
@@ -191,22 +177,21 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Usuário não possui permissão."
+            dgvCotacao.Columns(11).Visible = False
+
+            Exit Sub
+        Else
+            If txtID.Text = "" Then
                 divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                dgvCotacao.Columns(11).Visible = False
-
-                Exit Sub
+                lblmsgErro.Text = "Selecione o registro que deseja duplicar!"
             Else
-                If txtID.Text = "" Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Selecione o registro que deseja duplicar!"
-                Else
-                    Dim numero_cotacao As String = NumeroCotacao()
-                    Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, DT_ENVIO_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, DT_CALCULO_COTACAO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN 
+                Dim numero_cotacao As String = NumeroCotacao()
+                Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, DT_ENVIO_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, DT_CALCULO_COTACAO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN 
 )    SELECT '" & numero_cotacao & "', DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, DT_ENVIO_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, DT_CALCULO_COTACAO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_COTACAO;
 
 INSERT INTO TB_COTACAO_TAXA ( ID_COTACAO,
@@ -220,12 +205,12 @@ INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO, ID_MERCADORIA, ID_TIPO_CONTAINER
 SELECT (SELECT MAX(ID_COTACAO) FROM TB_COTACAO ), ID_MERCADORIA, ID_TIPO_CONTAINER, QT_CONTAINER, VL_FRETE_COMPRA,
  VL_FRETE_VENDA, VL_PESO_BRUTO, VL_M3, DS_MERCADORIA, VL_COMPRIMENTO, VL_LARGURA, VL_ALTURA, VL_CARGA, QT_DIAS_FREETIME
 FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
-                    dgvCotacao.DataBind()
-                    divSuccess.Visible = True
-                    lblmsgSuccess.Text = "Item duplicado com sucesso!"
-                End If
+                dgvCotacao.DataBind()
+                divSuccess.Visible = True
+                lblmsgSuccess.Text = "Item duplicado com sucesso!"
             End If
         End If
+
         Con.Fechar()
     End Sub
 
@@ -269,17 +254,14 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
     Private Sub dgvCotacao_PreRender(sender As Object, e As EventArgs) Handles dgvCotacao.PreRender
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                dgvCotacao.Columns(11).Visible = False
-
-            End If
-        Else
             dgvCotacao.Columns(11).Visible = False
+
         End If
+
         Con.Fechar()
 
     End Sub
@@ -290,80 +272,75 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
         divErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Usuário não possui permissão."
+            dgvCotacao.Columns(11).Visible = False
 
-            If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+            Exit Sub
+        Else
+            If txtID.Text = "" Then
                 divErro.Visible = True
-                lblmsgErro.Text = "Usuário não possui permissão."
-                dgvCotacao.Columns(11).Visible = False
-
-                Exit Sub
+                lblmsgErro.Text = "Selecione o registro que deseja calcular!"
             Else
-                If txtID.Text = "" Then
+
+
+
+                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
+                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
                     divErro.Visible = True
-                    lblmsgErro.Text = "Selecione o registro que deseja calcular!"
+                    lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
                 Else
 
 
-
-                    ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
-                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
-                        divErro.Visible = True
-                        lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
-                    Else
+                    Dim M3 As Double
+                    Dim PESO_BRUTO As Double
+                    'NUMERO SEQUENCIAL
 
 
-                        Dim M3 As Double
-                        Dim PESO_BRUTO As Double
-                        'NUMERO SEQUENCIAL
-
-
-                        ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+                    ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
                                                     (SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
                                                     from TB_COTACAO A 
                                                     left JOIN TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
                                                     Where A.ID_COTACAO = " & txtID.Text)
-                        M3 = ds.Tables(0).Rows(0).Item("VL_M3")
-                        PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+                    M3 = ds.Tables(0).Rows(0).Item("VL_M3")
+                    PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
 
 
 
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
-                        '        CÁLCULO DO PESO TAXADO
-                        Dim PESO_TAXADO As Double
-                        Dim PV As Double = M3 * 0.167
-                        If PESO_BRUTO >= PV Then
-                            PESO_TAXADO = PESO_BRUTO
-                        Else
-                            PESO_TAXADO = M3
-                        End If
-
-
-                        PESO_TAXADO = PESO_TAXADO.ToString.Replace(".", "")
-                        PESO_TAXADO = PESO_TAXADO.ToString.Replace(",", ".")
-
-                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = '" & PESO_TAXADO & "' WHERE ID_COTACAO = " & txtID.Text)
-
-                        divSuccess.Visible = True
-                        lblmsgSuccess.Text = "Taxa calculada com sucesso"
-                        CalcTaxas()
-
-
-                        dgvCotacao.DataBind()
+                    '        CÁLCULO DO PESO TAXADO
+                    Dim PESO_TAXADO As Double
+                    Dim PV As Double = M3 * 0.167
+                    If PESO_BRUTO >= PV Then
+                        PESO_TAXADO = PESO_BRUTO
+                    Else
+                        PESO_TAXADO = M3
                     End If
 
 
+                    PESO_TAXADO = PESO_TAXADO.ToString.Replace(".", "")
+                    PESO_TAXADO = PESO_TAXADO.ToString.Replace(",", ".")
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = '" & PESO_TAXADO & "' WHERE ID_COTACAO = " & txtID.Text)
+
+                    divSuccess.Visible = True
+                    lblmsgSuccess.Text = "Taxa calculada com sucesso"
+                    CalcTaxas()
 
 
-
+                    dgvCotacao.DataBind()
                 End If
+
+
+
+
+
             End If
-        Else
-            divErro.Visible = True
-            lblmsgErro.Text = "Usuário não possui permissão."
         End If
+
 
     End Sub
 
@@ -911,25 +888,26 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1025 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                If txtID.Text = "" Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Selecione o registro que deseja excluir!"
-                Else
-                    Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-                    lblmsgSuccess.Text = "Registro deletado!"
-                    divSuccess.Visible = True
-                    dgvCotacao.DataBind()
-                End If
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            Else
-                lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+            lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+            divErro.Visible = True
+        Else
+
+            If txtID.Text = "" Then
                 divErro.Visible = True
+                lblmsgErro.Text = "Selecione o registro que deseja excluir!"
+            Else
+                Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                lblmsgSuccess.Text = "Registro deletado!"
+                divSuccess.Visible = True
+                dgvCotacao.DataBind()
             End If
         End If
+
+
         Con.Fechar()
 
     End Sub

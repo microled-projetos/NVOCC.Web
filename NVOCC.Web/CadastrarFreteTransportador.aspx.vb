@@ -21,18 +21,13 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-            End If
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
+
         Con.Fechar()
     End Sub
     Sub CarregaCampos()
@@ -140,75 +135,55 @@
 
             If txtID_FreteTransportador.Text = "" Then
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        diverro.Visible = True
-                        lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-
-                    Else
-                        'INSERE FRETE TRANSPORTADOR
-                        ds = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA,NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,ID_VIATRANSPORTE) VALUES (" & ddlTransportador.SelectedValue & "," & ddlAgente.SelectedValue & "," & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & ", " & ddlEscala1.SelectedValue & ", " & ddlEscala2.SelectedValue & ", " & ddlEscala3.SelectedValue & "," & ddlMoeda.SelectedValue & ", " & ddlTipoCarga.SelectedValue & ", " & ddlRota.SelectedValue & ", " & ddlComex.SelectedValue & ",'" & txtTransittimeInicial.Text & "','" & txtTransittimeFinal.Text & "','" & TTMedia & "'," & ddlFrequencia.SelectedIndex & "," & TaxasIncluded & ",'" & ckbAtivo.Checked & "',convert(date,'" & txtValidadeFinal.Text & "',103)," & ddlViaTransporte.SelectedValue & " ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
-
-                        'PREENCHE SESSÃO E CAMPOS DO TARIFARIO E DA TAXA COM O ID DO NOVO FRETE TRANSPORTADOR
-                        Session("ID_FRETE_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
-                        txtID_FreteTransportador.Text = Session("ID_FRETE_TRANSPORTADOR")
-                        txtFreteTransportadorTarifario.Text = Session("ID_FRETE_TRANSPORTADOR")
-                        txtFreteTransportadorTaxa.Text = Session("ID_FRETE_TRANSPORTADOR")
-
-                        Con.Fechar()
-
-                        'IMPORTA TAXAS LOCAIS ARMADOR
-                        ImportaTaxas()
-                        dgvTaxas.DataBind()
-
-
-                        divsuccess.Visible = True
-
-                    End If
-                Else
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     diverro.Visible = True
                     lblmsgErro.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
 
+                Else
+                    'INSERE FRETE TRANSPORTADOR
+                    ds = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA,NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,ID_VIATRANSPORTE) VALUES (" & ddlTransportador.SelectedValue & "," & ddlAgente.SelectedValue & "," & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & ", " & ddlEscala1.SelectedValue & ", " & ddlEscala2.SelectedValue & ", " & ddlEscala3.SelectedValue & "," & ddlMoeda.SelectedValue & ", " & ddlTipoCarga.SelectedValue & ", " & ddlRota.SelectedValue & ", " & ddlComex.SelectedValue & ",'" & txtTransittimeInicial.Text & "','" & txtTransittimeFinal.Text & "','" & TTMedia & "'," & ddlFrequencia.SelectedIndex & "," & TaxasIncluded & ",'" & ckbAtivo.Checked & "',convert(date,'" & txtValidadeFinal.Text & "',103)," & ddlViaTransporte.SelectedValue & " ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
+
+                    'PREENCHE SESSÃO E CAMPOS DO TARIFARIO E DA TAXA COM O ID DO NOVO FRETE TRANSPORTADOR
+                    Session("ID_FRETE_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
+                    txtID_FreteTransportador.Text = Session("ID_FRETE_TRANSPORTADOR")
+                    txtFreteTransportadorTarifario.Text = Session("ID_FRETE_TRANSPORTADOR")
+                    txtFreteTransportadorTaxa.Text = Session("ID_FRETE_TRANSPORTADOR")
+
+                    Con.Fechar()
+
+                    'IMPORTA TAXAS LOCAIS ARMADOR
+                    ImportaTaxas()
+                    dgvTaxas.DataBind()
+
+
+                    divsuccess.Visible = True
+
                 End If
+
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        diverro.Visible = True
-                        lblmsgErro.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
-
-                        'REALIZA UPDATE DO FRETE TRANSPORTADOR
-                        ds = Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "', DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal.Text & "',103), ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
-
-
-
-
-
-                        divsuccess.Visible = True
-                        Con.Fechar()
-
-
-                    End If
-                Else
-
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     diverro.Visible = True
                     lblmsgErro.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
 
+                Else
+
+                    'REALIZA UPDATE DO FRETE TRANSPORTADOR
+                    ds = Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "', DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal.Text & "',103), ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
+
+
+                    divsuccess.Visible = True
+                    Con.Fechar()
+
+
                 End If
-
-
 
 
 
@@ -297,19 +272,16 @@
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1024 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divMsgErro.Visible = True
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE From TB_TARIFARIO_FRETE_TRANSPORTADOR Where ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
-                    lblMsgExcluir.Text = "Registro deletado!"
-                    divMsgExcluir.Visible = True
-                    dgvFreteTarifario.DataBind()
-
-                Else
-                    lblmsgErro.Text = "Usuário não tem permissão para realizar exclusões"
-                    divMsgErro.Visible = True
-                End If
+            Else
+                Con.ExecutarQuery("DELETE From TB_TARIFARIO_FRETE_TRANSPORTADOR Where ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
+                lblMsgExcluir.Text = "Registro deletado!"
+                divMsgExcluir.Visible = True
+                dgvFreteTarifario.DataBind()
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -368,24 +340,19 @@ WHERE B.ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
         Dim ds As DataSet
         Con.Conectar()
         If e.CommandName = "Excluir" Then
-
-
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1024 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE From TB_TABELA_FRETE_TAXA Where ID_TABELA_FRETE_TAXA = " & ID)
-                    lblDeleteTaxas.Text = "Registro deletado!"
-                    divDeleteTaxas.Visible = True
-                    dgvTaxas.DataBind()
-
-                Else
-                    lblDeleteErro.Text = "Usuário não tem permissão para realizar exclusões"
-                    divDeleteErro.Visible = True
-                End If
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblDeleteErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divDeleteErro.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE From TB_TABELA_FRETE_TAXA Where ID_TABELA_FRETE_TAXA = " & ID)
+                lblDeleteTaxas.Text = "Registro deletado!"
+                divDeleteTaxas.Visible = True
+                dgvTaxas.DataBind()
             End If
+
 
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
@@ -564,110 +531,92 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
             If txtIDTarifario.Text = "" Then
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErroTarifario.Visible = True
-                        lblmsgErroTarifario.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-
-                    Else
-
-
-                        'VERIFIFA SE HÁ TARIFARIO EM ABERTO
-                        ds = Con.ExecutarQuery("SELECT ID_TARIFARIO_FRETE_TRANSPORTADOR FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " AND DT_VALIDADE_FINAL >= convert(date,getdate(),103) and ID_FRETE_TRANSPORTADOR =" & txtFreteTransportadorTarifario.Text)
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            Dim data As DateTime = txtValidadeFinal_Tarifario.Text
-                            data = data.AddDays(-1)
-                            'ALTERA DATA DO TAFIFARIO EM ABERTO
-                            For Each linha As DataRow In ds.Tables(0).Rows
-                                Dim FreteTransportador As Integer = linha.Item("ID_TARIFARIO_FRETE_TRANSPORTADOR").ToString()
-                                Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = convert(date,'" & data & "',103) WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & FreteTransportador)
-                            Next
-
-                        End If
-
-                        If txtservico.Text = "" Then
-                            txtservico.Text = "NULL"
-                        Else
-                            txtservico.Text = "'" & txtservico.Text & "'"
-                        End If
-
-                        'VERIFICA TIPO DE ESTUFAGEM
-                        If estufagem = 2 Then
-
-                            'INSERE TARIFARIO
-                            ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM, VL_COMPRA, VL_MINIMO,FL_IMO,FL_CARGA_ESPECIAL,VL_M3_INICIAL,VL_M3_FINAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & estufagem & ",'" & txtValorCompra.Text & "','" & txtValorMinimo.Text & "','" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "','" & txtM3Inicial.Text & "', '" & txtM3Final.Text & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & " )")
-                        Else
-                            'INSERE TARIFARIO
-                            ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER,ID_TIPO_ESTUFAGEM,DT_VALIDADE_INICIAL,DT_VALIDADE_FINAL,VL_COMPRA, QT_DIAS_FREETIME,FL_IMO,FL_CARGA_ESPECIAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & ddlContainer.SelectedValue & "," & estufagem & " , convert(date,'" & txtValidadeInicial.Text & "',103),convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103),'" & txtValorCompra.Text & "' ," & txtFreetime.Text & ",'" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & ")")
-                        End If
-
-                        txtIDTarifario.Text = ""
-                        txtEstufagem.Text = ""
-                        txtValorCompra.Text = ""
-                        txtM3Inicial.Text = ""
-                        txtM3Final.Text = ""
-                        txtValorMinimo.Text = ""
-                        ddlContainer.SelectedValue = 0
-                        txtValidadeInicial.Text = ""
-                        txtValidadeFinal_Tarifario.Text = ""
-                        txtFreetime.Text = ""
-                        ddlMercadoria.SelectedValue = 0
-                        txtservico.Text = ""
-                        dgvFreteTarifario.DataBind()
-                        Con.Fechar()
-                        divSuccessTarifario.Visible = True
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroTarifario.Visible = True
                     lblmsgErroTarifario.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
+
+                Else
+
+
+                    'VERIFIFA SE HÁ TARIFARIO EM ABERTO
+                    ds = Con.ExecutarQuery("SELECT ID_TARIFARIO_FRETE_TRANSPORTADOR FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " AND DT_VALIDADE_FINAL >= convert(date,getdate(),103) and ID_FRETE_TRANSPORTADOR =" & txtFreteTransportadorTarifario.Text)
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        Dim data As DateTime = txtValidadeFinal_Tarifario.Text
+                        data = data.AddDays(-1)
+                        'ALTERA DATA DO TAFIFARIO EM ABERTO
+                        For Each linha As DataRow In ds.Tables(0).Rows
+                            Dim FreteTransportador As Integer = linha.Item("ID_TARIFARIO_FRETE_TRANSPORTADOR").ToString()
+                            Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = convert(date,'" & data & "',103) WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & FreteTransportador)
+                        Next
+
+                    End If
+
+                    If txtservico.Text = "" Then
+                        txtservico.Text = "NULL"
+                    Else
+                        txtservico.Text = "'" & txtservico.Text & "'"
+                    End If
+
+                    'VERIFICA TIPO DE ESTUFAGEM
+                    If estufagem = 2 Then
+
+                        'INSERE TARIFARIO
+                        ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM, VL_COMPRA, VL_MINIMO,FL_IMO,FL_CARGA_ESPECIAL,VL_M3_INICIAL,VL_M3_FINAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & estufagem & ",'" & txtValorCompra.Text & "','" & txtValorMinimo.Text & "','" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "','" & txtM3Inicial.Text & "', '" & txtM3Final.Text & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & " )")
+                    Else
+                        'INSERE TARIFARIO
+                        ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER,ID_TIPO_ESTUFAGEM,DT_VALIDADE_INICIAL,DT_VALIDADE_FINAL,VL_COMPRA, QT_DIAS_FREETIME,FL_IMO,FL_CARGA_ESPECIAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & ddlContainer.SelectedValue & "," & estufagem & " , convert(date,'" & txtValidadeInicial.Text & "',103),convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103),'" & txtValorCompra.Text & "' ," & txtFreetime.Text & ",'" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & ")")
+                    End If
+
+                    txtIDTarifario.Text = ""
+                    txtEstufagem.Text = ""
+                    txtValorCompra.Text = ""
+                    txtM3Inicial.Text = ""
+                    txtM3Final.Text = ""
+                    txtValorMinimo.Text = ""
+                    ddlContainer.SelectedValue = 0
+                    txtValidadeInicial.Text = ""
+                    txtValidadeFinal_Tarifario.Text = ""
+                    txtFreetime.Text = ""
+                    ddlMercadoria.SelectedValue = 0
+                    txtservico.Text = ""
+                    dgvFreteTarifario.DataBind()
+                    Con.Fechar()
+                    divSuccessTarifario.Visible = True
 
                 End If
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErroTarifario.Visible = True
-                        lblmsgErroTarifario.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
-
-                        If txtservico.Text = "" Then
-                            txtservico.Text = "NULL"
-                        Else
-                            txtservico.Text = "'" & txtservico.Text & "'"
-                        End If
-
-                        'VERIFICA TIPO DE ESTUFAGEM
-                        If estufagem = 2 Then
-                            'ALTERA TARIFARIO
-                            ds = Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTarifario.Text & ",ID_TIPO_ESTUFAGEM = " & estufagem & ",VL_COMPRA = '" & txtValorCompra.Text & "', VL_MINIMO = '" & txtValorMinimo.Text & "',FL_IMO = '" & ckbIMO.Checked & "',FL_CARGA_ESPECIAL = '" & ckbCargaEspecial.Checked & "', VL_M3_INICIAL = '" & txtM3Inicial.Text & "', VL_M3_FINAL = '" & txtM3Final.Text & "', ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", SERVICO = " & txtservico.Text & " WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTarifario.Text)
-                        Else
-                            'ALTERA TARIFARIO
-                            ds = Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTarifario.Text & ", ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " ,ID_TIPO_ESTUFAGEM = " & estufagem & ",DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicial.Text & "',103),DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103), VL_COMPRA = '" & txtValorCompra.Text & "', QT_DIAS_FREETIME = " & txtFreetime.Text & ",FL_IMO = '" & ckbIMO.Checked & "',FL_CARGA_ESPECIAL =  '" & ckbCargaEspecial.Checked & "', ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", SERVICO = " & txtservico.Text & " WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTarifario.Text)
-                        End If
-
-                        dgvFreteTarifario.DataBind()
-                        divSuccessTarifario.Visible = True
-                        Con.Fechar()
-
-
-                    End If
-                Else
-
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroTarifario.Visible = True
                     lblmsgErroTarifario.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
+
+                Else
+
+                    If txtservico.Text = "" Then
+                        txtservico.Text = "NULL"
+                    Else
+                        txtservico.Text = "'" & txtservico.Text & "'"
+                    End If
+
+                    'VERIFICA TIPO DE ESTUFAGEM
+                    If estufagem = 2 Then
+                        'ALTERA TARIFARIO
+                        ds = Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTarifario.Text & ",ID_TIPO_ESTUFAGEM = " & estufagem & ",VL_COMPRA = '" & txtValorCompra.Text & "', VL_MINIMO = '" & txtValorMinimo.Text & "',FL_IMO = '" & ckbIMO.Checked & "',FL_CARGA_ESPECIAL = '" & ckbCargaEspecial.Checked & "', VL_M3_INICIAL = '" & txtM3Inicial.Text & "', VL_M3_FINAL = '" & txtM3Final.Text & "', ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", SERVICO = " & txtservico.Text & " WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTarifario.Text)
+                    Else
+                        'ALTERA TARIFARIO
+                        ds = Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTarifario.Text & ", ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " ,ID_TIPO_ESTUFAGEM = " & estufagem & ",DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicial.Text & "',103),DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103), VL_COMPRA = '" & txtValorCompra.Text & "', QT_DIAS_FREETIME = " & txtFreetime.Text & ",FL_IMO = '" & ckbIMO.Checked & "',FL_CARGA_ESPECIAL =  '" & ckbCargaEspecial.Checked & "', ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", SERVICO = " & txtservico.Text & " WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTarifario.Text)
+                    End If
+
+                    dgvFreteTarifario.DataBind()
+                    divSuccessTarifario.Visible = True
+                    Con.Fechar()
+
 
                 End If
 
@@ -697,7 +646,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             lblErroTaxa.Text = "Antes de inserir Taxa é necessario cadastrar Frete Transportador na Aba de Informações Basicas"
             divErroTaxa.Visible = True
 
-        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlMoedaVenda.SelectedValue = 0 Or txtValorTaxaVenda.Text = "" Or txtValorTaxaVendaMin.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
+        ElseIf ddlItemDespesa.SelectedValue = 0 Or ddlOrigemPagamento.SelectedValue = 0 Or ddlBaseCalculoTaxa.SelectedValue = 0 Or ddlMoedaCompra.SelectedValue = 0 Or txtValorTaxaCompra.Text = "" Or ddlEstufagemTaxa.SelectedValue = 0 Then
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
@@ -713,82 +662,78 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", "")
             txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(",", ".")
 
+            If ddlMoedaVenda.SelectedValue = 0 Then
+                ddlMoedaVenda.SelectedValue = ddlMoedaCompra.SelectedValue
+            End If
+
+            If txtValorTaxaVenda.Text = "" Then
+                txtValorTaxaVenda.Text = txtValorTaxaCompra.Text
+            Else
+                txtValorTaxaVenda.Text = "" & txtValorTaxaVenda.Text & ""
+            End If
+
+            If txtValorTaxaVendaMin.Text = "" Then
+                txtValorTaxaVendaMin.Text = "NULL"
+            Else
+                txtValorTaxaVendaMin.Text = "" & txtValorTaxaVendaMin.Text & ""
+            End If
 
 
 
 
             If txtIDTaxa.Text = "" Then
 
-
-
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErroTaxa.Visible = True
-                        lblErroTaxa.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-
-                    Else
-
-
-
-                        'INSERE TAXAS
-                        ds = Con.ExecutarQuery("INSERT INTO TB_TABELA_FRETE_TAXA ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM,ID_ITEM_DESPESA,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN) VALUES (" & txtFreteTransportadorTaxa.Text & "," & ddlEstufagemTaxa.SelectedValue & " ," & ddlItemDespesa.SelectedValue & "," & ddlOrigemPagamento.SelectedValue & "," & ddlBaseCalculoTaxa.Text & "," & ddlMoedaCompra.Text & ",'" & txtValorTaxaCompra.Text & "'," & ddlMoedaVenda.SelectedValue & ",'" & txtValorTaxaVenda.Text & "', '" & txtValorTaxaVendaMin.Text & "' )")
-
-
-                        txtIDTaxa.Text = ""
-                        ddlItemDespesa.SelectedValue = 0
-                        ddlOrigemPagamento.SelectedValue = 0
-                        ddlBaseCalculoTaxa.SelectedValue = 0
-                        ddlMoedaCompra.SelectedValue = 0
-                        ddlMoedaVenda.SelectedValue = 0
-                        txtValorTaxaCompra.Text = ""
-                        txtValorTaxaVenda.Text = ""
-                        txtValorTaxaVendaMin.Text = ""
-                        Con.Fechar()
-                        divSuccessTaxa.Visible = True
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroTaxa.Visible = True
                     lblErroTaxa.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
+
+                Else
+
+
+
+                    'INSERE TAXAS
+                    ds = Con.ExecutarQuery("INSERT INTO TB_TABELA_FRETE_TAXA ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM,ID_ITEM_DESPESA,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN) VALUES (" & txtFreteTransportadorTaxa.Text & "," & ddlEstufagemTaxa.SelectedValue & " ," & ddlItemDespesa.SelectedValue & "," & ddlOrigemPagamento.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompra.SelectedValue & "," & txtValorTaxaCompra.Text & "," & ddlMoedaVenda.SelectedValue & "," & txtValorTaxaVenda.Text & ", " & txtValorTaxaVendaMin.Text & " )")
+
+
+                    txtIDTaxa.Text = ""
+                    ddlItemDespesa.SelectedValue = 0
+                    ddlOrigemPagamento.SelectedValue = 0
+                    ddlBaseCalculoTaxa.SelectedValue = 0
+                    ddlMoedaCompra.SelectedValue = 0
+                    ddlMoedaVenda.SelectedValue = 0
+                    txtValorTaxaCompra.Text = ""
+                    txtValorTaxaVenda.Text = ""
+                    txtValorTaxaVendaMin.Text = ""
+                    Con.Fechar()
+                    divSuccessTaxa.Visible = True
 
                 End If
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
 
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErroTaxa.Visible = True
-                        lblErroTaxa.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
-
-
-                        'ALTERA TAXAS
-                        ds = Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTaxa.Text & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagemTaxa.SelectedValue & ", ID_ITEM_DESPESA =  " & ddlItemDespesa.SelectedValue & " , ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ",ID_BASE_CALCULO_TAXA =  " & ddlBaseCalculoTaxa.SelectedValue & " ,ID_MOEDA_COMPRA =  " & ddlMoedaCompra.SelectedValue & ",VL_TAXA_COMPRA = '" & txtValorTaxaCompra.Text & "',ID_MOEDA_VENDA = " & ddlMoedaVenda.SelectedValue & ",VL_TAXA_VENDA = '" & txtValorTaxaVenda.Text & "', VL_TAXA_VENDA_MIN = '" & txtValorTaxaVendaMin.Text & "' WHERE ID_TABELA_FRETE_TAXA = " & txtIDTaxa.Text)
-
-                        divSuccessTaxa.Visible = True
-                        Con.Fechar()
-
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErroTaxa.Visible = True
                     lblErroTaxa.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
 
+                Else
+
+
+                    'ALTERA TAXAS
+                    ds = Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTaxa.Text & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagemTaxa.SelectedValue & ", ID_ITEM_DESPESA =  " & ddlItemDespesa.SelectedValue & " , ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ",ID_BASE_CALCULO_TAXA =  " & ddlBaseCalculoTaxa.SelectedValue & " ,ID_MOEDA_COMPRA =  " & ddlMoedaCompra.SelectedValue & ",VL_TAXA_COMPRA = " & txtValorTaxaCompra.Text & ",ID_MOEDA_VENDA = " & ddlMoedaVenda.SelectedValue & ",VL_TAXA_VENDA = " & txtValorTaxaVenda.Text & ", VL_TAXA_VENDA_MIN = " & txtValorTaxaVendaMin.Text & " WHERE ID_TABELA_FRETE_TAXA = " & txtIDTaxa.Text)
+
+                    divSuccessTaxa.Visible = True
+                    Con.Fechar()
+                    txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace("NULL", "")
+                    txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace("NULL", "")
+
+
                 End If
-
-
-
-
 
             End If
 

@@ -547,19 +547,19 @@
                            
                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Moeda Venda:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Moeda Venda:</label>
                                         <asp:DropDownList ID="ddlMoedaVenda" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                         </asp:DropDownList>                                    </div>
                                 </div>
                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor Taxa Venda:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Valor Taxa Venda:</label>
                                         <asp:TextBox ID="txtValorTaxaVenda" runat="server" CssClass="form-control moeda" ></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor Taxa Venda(Min):</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Valor Taxa Venda(Min):</label>
                                         <asp:TextBox ID="txtValorTaxaVendaMin" runat="server" CssClass="form-control moeda" ></asp:TextBox>
                                     </div>
                                 </div>

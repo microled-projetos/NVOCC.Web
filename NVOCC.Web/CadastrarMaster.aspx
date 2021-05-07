@@ -842,60 +842,84 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label">Valor Cálculo:</label>
-                                                                                <asp:TextBox ID="txtCalculo_TaxasMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label">Valor Mínimo:</label>
-                                                                                <asp:TextBox ID="txtMinimo_TaxasMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="row">
-
-                                                                        <div class="col-sm-4">
+                                                                    <div class="row" runat="server" id="divCompraMaritimo">
+                                                                       <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Moeda de Compra:</label>
                                                                                 <asp:DropDownList ID="ddlMoedaCompra_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Valor da Taxa:</label>
-                                                                                <asp:TextBox ID="txtTaxa_TaxasMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                                                <label class="control-label">Valor Mínimo de Compra:</label>
+                                                                                <asp:TextBox ID="txtMinimoCompra_TaxasMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                              <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Taxa de Compra:</label>
+                                                                                <asp:TextBox ID="txtTaxaCompra_TaxasMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>                                                                  
+                                                                         <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Cálculo de Compra:</label>
+                                                                                <asp:TextBox ID="txtCalculoCompra_TaxasMaritimo" runat="server" CssClass="form-control" Enabled="false" ></asp:TextBox>
+                                                                            </div>
+                                                                        </div>                                                                        
+                                                                          </div>
+                                                                      <div class="row" runat="server" id="divVendaMaritimo">
+                                                                       <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Moeda de Venda:</label>
+                                                                                <asp:DropDownList ID="ddlMoedaVenda_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
+                                                                                </asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Mínimo de Venda:</label>
+                                                                                <asp:TextBox ID="txtMinimoVenda_TaxasMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                              <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Taxa de Venda:</label>
+                                                                                <asp:TextBox ID="txtTaxaVenda_TaxasMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>                                                                  
+                                                                         <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Cálculo de Venda:</label>
+                                                                                <asp:TextBox ID="txtCalculoVenda_TaxasMaritimo" runat="server" CssClass="form-control" Enabled="false" ></asp:TextBox>
+                                                                            </div>
+                                                                        </div>                                                                        
+                                                                          </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Base de Cálculo:</label>
                                                                                 <asp:DropDownList ID="ddlBaseCalculo_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
+                                                               
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Tipo de Pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlTipoPagamento_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Origem Pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Status de pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlStatusPagamento_TaxasMaritimo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_PAGAMENTO" DataSourceID="dsStatusPagamento" DataValueField="ID_STATUS_PAGAMENTO">
@@ -1402,53 +1426,87 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label">Valor Cálculo:</label>
-                                                                                <asp:TextBox ID="txtCalculo_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-sm-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label">Valor Mínimo:</label>
-                                                                                <asp:TextBox ID="txtMinimo_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="row">
-
-                                                                        <div class="col-sm-4">
+                                                                    <div class="row" runat="server" id="divCompraAereo">
+                                                                     <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Moeda de Compra:</label>
                                                                                 <asp:DropDownList ID="ddlMoedaCompra_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Valor da Taxa:</label>
-                                                                                <asp:TextBox ID="txtTaxa_TaxaAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                                                <label class="control-label">Valor Mínimo de Compra:</label>
+                                                                                <asp:TextBox ID="txtMinimoCompra_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                    <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor de Compra:</label>
+                                                                                <asp:TextBox ID="txtTaxaCompra_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Cálculo de Compra:</label>
+                                                                                <asp:TextBox ID="txtCalculoCompra_TaxaAereo" runat="server" CssClass="form-control" Enabled="false" ></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
+                                                                                                                                        <div class="row" runat="server" id="divVendaAereo">
+                                                                     <div class="col-sm-3" >
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Moeda de Venda:</label>
+                                                                                <asp:DropDownList ID="ddlMoedaVenda_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA">
+                                                                                </asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                    <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Mínimo de Venda:</label>
+                                                                                <asp:TextBox ID="txtMinimoVenda_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor de Venda:</label>
+                                                                                <asp:TextBox ID="txtTaxaVenda_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Cálculo de Venda:</label>
+                                                                                <asp:TextBox ID="txtCalculoVenda_TaxaAereo" runat="server" CssClass="form-control" Enabled="false" ></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+
+                                                                    </div>
+
+                                                                    <div class="row">
+
+                                                                       
+                                                                        
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Base de Cálculo:</label>
                                                                                 <asp:DropDownList ID="ddlBaseCalculo_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-sm-4">
+                                                                    
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Tipo de Pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlTipoPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Origem Pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxasAereo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
@@ -1457,7 +1515,7 @@
 
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-sm-4">
+                                                                        <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Status de pagamento:</label>
                                                                                 <asp:DropDownList ID="ddlStatusPagamento_TaxaAereo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_PAGAMENTO" DataSourceID="dsStatusPagamento" DataValueField="ID_STATUS_PAGAMENTO">

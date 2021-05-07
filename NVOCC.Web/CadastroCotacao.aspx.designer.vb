@@ -545,51 +545,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtPesoTaxadoFrete As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtFreteCompra.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtFreteCompra As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtFreteVenda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtFreteVenda As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtFreteVendaMinima.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtFreteVendaMinima As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtFreteCompraMinima.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtFreteCompraMinima As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlMoedaFrete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoedaFrete As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlEstufagemFrete.
     '''</summary>
     '''<remarks>
@@ -615,6 +570,60 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorDivisaoProfit As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlMoedaFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoedaFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtFreteCompra.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteCompra As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFreteVenda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteVenda As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divMinimosFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMinimosFCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtCompraMinimaFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCompraMinimaFCL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVendaMinimaFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVendaMinimaFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtIncludedFrete.
@@ -896,6 +905,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtFreteCompraMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle divCompraMinimaLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCompraMinimaLCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtFreteCompraMinima.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteCompraMinima As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtFreteVendaMercadoria.
     '''</summary>
     '''<remarks>
@@ -903,6 +930,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtFreteVendaMercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divVendaMinimaLCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divVendaMinimaLCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtFreteVendaMinima.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteVendaMinima As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle RedPesoBruto.
@@ -941,6 +986,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtM3Mercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtValorCargaMercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorCargaMercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtComprimentoMercadoria.
     '''</summary>
     '''<remarks>
@@ -948,15 +1002,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtComprimentoMercadoria As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtAlturaMercadoria.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAlturaMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtLarguraMercadoria.
@@ -968,13 +1013,13 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtLarguraMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtValorCargaMercadoria.
+    '''Controle txtAlturaMercadoria.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValorCargaMercadoria As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAlturaMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtDsMercadoria.

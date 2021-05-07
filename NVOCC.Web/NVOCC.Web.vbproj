@@ -243,7 +243,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BaixasCancelamentos.aspx" />
-    <Content Include="BL_PDF.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
     <Content Include="CadastrarEmbarqueHouse.aspx" />
     <Content Include="CadastrarMaster.aspx" />
@@ -255,6 +254,7 @@
     <Content Include="CadastroCotacao.aspx" />
     <Content Include="CadastroNavios.aspx" />
     <Content Include="CalcularRecebimento.aspx" />
+    <Content Include="CapaProcesso.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
@@ -333,6 +333,7 @@
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
     <Content Include="EmissaoND.aspx" />
+    <Content Include="Faturamento.aspx" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -355,8 +356,6 @@
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="AntigoCadastrarFreteTransportador.aspx" />
-    <Content Include="GeraPDFSimples.aspx" />
     <Content Include="GeraPDF.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -485,13 +484,6 @@
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="BL_PDF.aspx.designer.vb">
-      <DependentUpon>BL_PDF.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BL_PDF.aspx.vb">
-      <DependentUpon>BL_PDF.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="BuscaFreteTransportador.aspx.designer.vb">
       <DependentUpon>BuscaFreteTransportador.aspx</DependentUpon>
     </Compile>
@@ -569,6 +561,22 @@
       <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="CapaProcesso.aspx.designer.vb">
+      <DependentUpon>CapaProcesso.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CapaProcesso.aspx.vb">
+      <DependentUpon>CapaProcesso.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Class\Aduana.vb" />
+    <Compile Include="Class\BL.vb" />
+    <Compile Include="Class\Consignee.vb" />
+    <Compile Include="Class\Dates.vb" />
+    <Compile Include="Class\Lock.vb" />
+    <Compile Include="Class\Logistics.vb" />
+    <Compile Include="Class\References.vb" />
+    <Compile Include="Class\Traking.vb" />
+    <Compile Include="Class\Transport.vb" />
     <Compile Include="ClienteFinal.aspx.designer.vb">
       <DependentUpon>ClienteFinal.aspx</DependentUpon>
     </Compile>
@@ -593,6 +601,13 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Excel.vb" />
+    <Compile Include="Faturamento.aspx.designer.vb">
+      <DependentUpon>Faturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Faturamento.aspx.vb">
+      <DependentUpon>Faturamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Financeiro.aspx.designer.vb">
       <DependentUpon>Financeiro.aspx</DependentUpon>
     </Compile>
@@ -648,20 +663,6 @@
     </Compile>
     <Compile Include="EmailParceiro.aspx.vb">
       <DependentUpon>EmailParceiro.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="AntigoCadastrarFreteTransportador.aspx.designer.vb">
-      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="AntigoCadastrarFreteTransportador.aspx.vb">
-      <DependentUpon>AntigoCadastrarFreteTransportador.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="GeraPDFSimples.aspx.designer.vb">
-      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="GeraPDFSimples.aspx.vb">
-      <DependentUpon>GeraPDFSimples.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="GeraPDF.aspx.designer.vb">
@@ -783,6 +784,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Services\EmailService.vb" />
+    <Compile Include="Services\RastreioService.vb" />
     <Compile Include="Site.Master.designer.vb">
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>

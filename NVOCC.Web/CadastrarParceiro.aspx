@@ -248,44 +248,58 @@
                                 </div>
                              </div >
                             <div class="row"> <div class="linha-colorida">SPREAD MARITIMO IMPORTAÇÃO</div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">FCL:</label>
                                         <asp:TextBox ID="txtMaritimoImpoFCL" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                  <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Acordo Câmbio</label>
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                            </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">LCL:</label>
                                         <asp:TextBox ID="txtMaritimoImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Acordo Câmbio</label>
-                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpo" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
         <div class="row">                                                     <div class="linha-colorida">SPREAD MARITIMO EXPORTAÇÃO</div>
             
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">FCL:</label>
                                         <asp:TextBox ID="txtMaritimoExpoFCL" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+            <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Acordo Câmbio</label>
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                            </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">LCL:</label>
                                         <asp:TextBox ID="txtMaritimoExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;"  MaxLength="6"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Acordo Câmbio</label>
-                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpo" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>
@@ -354,7 +368,7 @@
                                  <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="teste form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
+                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">
