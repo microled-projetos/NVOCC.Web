@@ -63,11 +63,11 @@
                     tabela &= "<tr><td style='padding-right:10px'>" & linha("NR_REFERENCIA_CLIENTE") & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("NR_BL") & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("PARCEIRO_CLIENTE") & "</td>"
-                    tabela &= "<td style='padding-right:10px'>?????</td>"
-                    tabela &= "<td style='padding-right:10px'>?????</td>"
-                    tabela &= "<td style='padding-right:10px'>?????</td>"
-                    tabela &= "<td style='padding-right:10px'>?????</td>"
-                    tabela &= "<td style='padding-right:10px'>?????</td></tr>"
+                    tabela &= "<td style='padding-right:10px'></td>"
+                    tabela &= "<td style='padding-right:10px'>" & linha("PARCEIRO_CLIENTE") & "</td>"
+                    tabela &= "<td style='padding-right:10px'></td>"
+                    tabela &= "<td style='padding-right:10px'></td>"
+                    tabela &= "<td style='padding-right:10px'></td></tr>"
                 Next
 
                 tabela &= "</table>"

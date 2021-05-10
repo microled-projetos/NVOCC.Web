@@ -19,18 +19,8 @@
 
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
-                btnCapaMaritimo.Visible = False
-                btnCapaAereo.Visible = False
-
-
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
-                ddlOrigem_BasicoMaritimo.Enabled = False
-                ddlDestino_BasicoMaritimo.Enabled = False
-                ddlOrigem_BasicoAereo.Enabled = False
-                ddlDestino_BasicoAereo.Enabled = False
-                btnCapaMaritimo.Visible = True
-                btnCapaAereo.Visible = True
             End If
 
             If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
@@ -189,6 +179,7 @@
                     btnLimpar_ObsAereo.Visible = False
 
                     btnCapaAereo.Visible = False
+                    btnCapaMaritimo.Visible = True
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
@@ -330,6 +321,7 @@
                     btnLimpar_ObsMaritimo.Visible = False
 
                     btnCapaMaritimo.Visible = False
+                    btnCapaAereo.Visible = True
 
                 End If
 
@@ -1184,9 +1176,9 @@ WHERE ID_CARGA_BL = " & ID)
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        If txtDataCE_BasicoMaritimo.Text <> "" And v.ValidaData(txtDataCE_BasicoMaritimo.Text) = False Then
+        If ddlServico_BasicoMaritimo.SelectedValue = 0 Then
             divErro_BasicoMaritimo.Visible = True
-            lblErro_BasicoMaritimo.Text = "O valor informado no campo Data CE é inválido."
+            lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
 
         Else
 
@@ -1229,20 +1221,11 @@ WHERE ID_CARGA_BL = " & ID)
 
             If txtCE_BasicoMaritimo.Text = "" Then
                 txtCE_BasicoMaritimo.Text = "NULL"
+                txtDataCE_BasicoMaritimo.Text = "NULL"
+
             Else
                 txtCE_BasicoMaritimo.Text = "'" & txtCE_BasicoMaritimo.Text & "'"
-            End If
-
-            If txtDataCE_BasicoMaritimo.Text = "" Then
-                txtDataCE_BasicoMaritimo.Text = "NULL"
-            Else
-                If v.ValidaData(txtDataCE_BasicoMaritimo.Text) = False Then
-                    divErro_BasicoMaritimo.Visible = True
-                    lblErro_BasicoMaritimo.Text = "O valor informado no campo Data de CE é inválido."
-                Else
-                    txtDataCE_BasicoMaritimo.Text = "CONVERT(date,'" & txtDataCE_BasicoMaritimo.Text & "',103)"
-
-                End If
+                txtDataCE_BasicoMaritimo.Text = " getdate() "
             End If
 
 
@@ -1380,10 +1363,9 @@ WHERE ID_CARGA_BL = " & ID)
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        If txtDataCE_BasicoAereo.Text <> "" And v.ValidaData(txtDataCE_BasicoAereo.Text) = False Then
-            divErro_BasicoAereo.Visible = True
-            lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
-
+        If ddlServico_BasicoAereo.SelectedValue = 0 Then
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
         Else
 
             If txtResumoMercadoria_BasicoAereo.Text = "" Then
@@ -1424,21 +1406,11 @@ WHERE ID_CARGA_BL = " & ID)
 
             If txtNumeroCE_BasicoAereo.Text = "" Then
                 txtNumeroCE_BasicoAereo.Text = "NULL"
+                txtDataCE_BasicoAereo.Text = "NULL"
+
             Else
                 txtNumeroCE_BasicoAereo.Text = "'" & txtNumeroCE_BasicoAereo.Text & "'"
-            End If
-
-
-            If txtDataCE_BasicoAereo.Text = "" Then
-                txtDataCE_BasicoAereo.Text = "NULL"
-            Else
-                If v.ValidaData(txtDataCE_BasicoAereo.Text) = False Then
-                    divErro_BasicoAereo.Visible = True
-                    lblErro_BasicoAereo.Text = "O valor informado no campo Data de CE é inválido."
-                Else
-                    txtDataCE_BasicoAereo.Text = "CONVERT(date,'" & txtDataCE_BasicoAereo.Text & "',103)"
-
-                End If
+                txtDataCE_BasicoAereo.Text = " getdate() "
             End If
 
 
