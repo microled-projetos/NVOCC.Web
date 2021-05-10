@@ -32,13 +32,13 @@ Partial Public Class CapaProcesso
     Protected WithEvents lblProcesso_FCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblCliente_FCL.
+    '''Controle lblImportador_FCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblCliente_FCL As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblImportador_FCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblRefCliente_FCL.
