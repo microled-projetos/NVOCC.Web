@@ -2264,13 +2264,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dsArmazemDesembaraco As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsFornecedor.
+    '''Controle dsFornecedorMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsFornecedorMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsFornecedorAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFornecedorAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsIncoterm.

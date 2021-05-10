@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class CalcularRecebimento
 
     '''<summary>
+    '''Controle lblMBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>

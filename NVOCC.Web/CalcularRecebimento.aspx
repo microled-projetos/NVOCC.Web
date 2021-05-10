@@ -3,7 +3,8 @@
      <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">CALCULAR RECEBIMENTO
+                <h3 class="panel-title">CALCULAR RECEBIMENTO <asp:Label runat="server" ID="lblMBL" CssClass="control-label" />
+
                 </h3>
             </div>
             <div class="panel-body">

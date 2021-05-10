@@ -887,6 +887,8 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         '    'lblErroHouse.Text = "BL não cadastrada no Logcomex."
         '    'Exit Sub
         'End If
+        divSuccessMaster.Visible = False
+        divErroMaster.Visible = False
 
         Session("NR_BL") = 0
         Session("TRAKING_BL") = 0
@@ -895,10 +897,16 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
         'Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND GRAU = 'M'")
-        Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-        Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+        If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+            Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+            Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
 
-        Response.Redirect("RastreioBL.aspx")
+            Response.Redirect("RastreioBL.aspx")
+
+        Else
+            divErroMaster.Visible = True
+            lblErroMaster.Text = "BL não cadastrada no Logcomex."
+        End If
 
 
     End Sub
@@ -928,5 +936,31 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         Else
             Response.Redirect("FollowUp.aspx?id=" & txtID_Embarque.Text)
         End If
+    End Sub
+
+    Private Sub lkRemoverMaster_Click(sender As Object, e As EventArgs) Handles lkRemoverMaster.Click
+        divSuccessMaster.Visible = False
+        divErroMaster.Visible = False
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErroMaster.Visible = True
+            lblErroMaster.Text = "Usuário não possui permissão."
+
+            Exit Sub
+        Else
+            If txtID_Master.Text = "" Then
+                divErroMaster.Visible = True
+                lblErroMaster.Text = "Selecione o registro que deseja excluir!"
+            Else
+                Con.ExecutarQuery("UPDATE TB_BL SET DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
+                dgvMaster.DataBind()
+                divSuccessMaster.Visible = True
+                lblSuccessMaster.Text = "Item deletado com sucesso!"
+            End If
+        End If
+        Con.Fechar()
     End Sub
 End Class

@@ -1121,51 +1121,6 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtCalculoCompra_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle divVendaMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divVendaMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle ddlMoedaVenda_TaxasMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoedaVenda_TaxasMaritimo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtMinimoVenda_TaxasMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtMinimoVenda_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtTaxaVenda_TaxasMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtTaxaVenda_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtCalculoVenda_TaxasMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtCalculoVenda_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ddlBaseCalculo_TaxasMaritimo.
     '''</summary>
     '''<remarks>
@@ -1821,51 +1776,6 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtCalculoCompra_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle divVendaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divVendaAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle ddlMoedaVenda_TaxaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlMoedaVenda_TaxaAereo As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtMinimoVenda_TaxaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtMinimoVenda_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtTaxaVenda_TaxaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtTaxaVenda_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtCalculoVenda_TaxaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtCalculoVenda_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlBaseCalculo_TaxaAereo.

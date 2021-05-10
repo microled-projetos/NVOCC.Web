@@ -15,7 +15,6 @@
                 font-size: 8pt;
                 background-color: #e6c3a5;
             }
-           
         </style>
         <div class="row principal">
             <div class="panel panel-primary">
@@ -132,15 +131,15 @@
                                     <div class="table-responsive tableFixHead">
                                         <asp:GridView ID="dgvEmbarque" DataKeyNames="ID_BL" DataSourceID="dsEmbarque" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvEmbarque_Sorting">
                                             <Columns>
-                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" visible="false"/>
+                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
-                                                <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente Internacional" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />                                              
-                                                <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />                                              
-                                                <asp:BoundField DataField="NR_CE" HeaderText="CE" SortExpression="NR_CE" />                                                
+                                                <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente Internacional" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
+                                                <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
+                                                <asp:BoundField DataField="NR_CE" HeaderText="CE" SortExpression="NR_CE" />
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -154,7 +153,7 @@
                                         </asp:GridView>
                                     </div>
 
-                                    <ajaxToolkit:ModalPopupExtender id="mpe_Embarque" runat="server" PopupControlID="Panel1" TargetControlID="lkFiltrarEmbarque" ></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxToolkit:ModalPopupExtender ID="mpe_Embarque" runat="server" PopupControlID="Panel1" TargetControlID="lkFiltrarEmbarque"></ajaxToolkit:ModalPopupExtender>
 
                                     <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none">
                                         <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -164,8 +163,8 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Filtro Avançado - Embarque</h5>
                                                         </div>
-                                                <div class="modal-body">
-                                                     <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                                        <div class="modal-body">
+                                                            <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                                                 <asp:Label ID="lblmsgSuccess" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                                             </div>
                                                             <div class="alert alert-danger" id="divErro" runat="server" visible="false">
@@ -230,7 +229,7 @@
                                                                         <label class="control-label">Tipo Frete:</label>
                                                                         <asp:TextBox ID="txtTipoFrete_Embarque" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
-                                                                </div>  
+                                                                </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-sm-4">
@@ -311,10 +310,10 @@
                                                             <asp:Button runat="server" Text="Filtrar" ID="btnFiltrar_Embarque" CssClass="btn btn-success" />
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_Embarque" Text="Close" />
 
-                                                    </div>
+                                                        </div>
 
-                                                </div>
                                                     </div>
+                                                </div>
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvEmbarque" />
@@ -333,7 +332,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="btnFiltrar_Embarque" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarEmbarque" />
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarEmbarque" />
-                                   <asp:AsyncPostBackTrigger ControlID="lkFollowUpEmbarque" />                                    
+                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpEmbarque" />
 
                                 </Triggers>
                             </asp:UpdatePanel>
@@ -362,7 +361,7 @@
                                         <asp:LinkButton ID="lkDuplicarMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Duplicar</asp:LinkButton>
                                         <asp:LinkButton ID="lkTracking" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-map-marker"></i>&nbsp;Tracking</asp:LinkButton>
                                         <asp:LinkButton ID="lkFollowUpMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
-                                        <asp:LinkButton Visible="false" ID="lkRemoverMaster" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
+                                        <asp:LinkButton ID="lkRemoverMaster" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
 
                                     </div>
                                     <br />
@@ -431,7 +430,7 @@
                                     <div runat="server" class="table-responsive tableFixHead">
                                         <asp:GridView ID="dgvMaster" DataKeyNames="ID_BL" DataSourceID="dsMaster" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvMaster_Sorting">
                                             <Columns>
-                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" visible="false"/>
+                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
@@ -464,7 +463,9 @@
                                     <asp:AsyncPostBackTrigger ControlID="rdServicoMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarMaster" />
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarMaster" />
-                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpMaster" />                             
+                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpMaster" />
+                                    <asp:AsyncPostBackTrigger ControlID="lkRemoverMaster" />
+                                    <asp:AsyncPostBackTrigger ControlID="lkTracking" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -494,7 +495,7 @@
                                         <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                         <asp:LinkButton ID="lkCourrierHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-transfer"></i>&nbsp;Courrier</asp:LinkButton>
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
-                                         <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
+                                        <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                     </div>
                                     <br />
                                     <br />
@@ -561,7 +562,7 @@
                                     <div class="table-responsive tableFixHead">
                                         <asp:GridView ID="dgvHouse" DataKeyNames="ID_BL" DataSourceID="dsHouse" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvHouse_Sorting">
                                             <Columns>
-                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" visible="false"/>
+                                                <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
@@ -592,7 +593,7 @@
                                         </asp:GridView>
                                     </div>
 
-                                    <ajaxToolkit:ModalPopupExtender ID="mpe_House" runat="server" PopupControlID="Panel2" TargetControlID="lkFiltrarHouse" ></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxToolkit:ModalPopupExtender ID="mpe_House" runat="server" PopupControlID="Panel2" TargetControlID="lkFiltrarHouse"></ajaxToolkit:ModalPopupExtender>
 
                                     <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none">
                                         <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -660,14 +661,14 @@
                                                                         <asp:TextBox ID="txtDestino_House" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                 <div class="col-sm-4">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo Frete:</label>
                                                                         <asp:TextBox ID="txtTipoFrete_House" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                
-                                                                </div>
+
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
@@ -681,7 +682,7 @@
                                                                         <asp:TextBox ID="txtNavioTransb_House" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                               
+
 
                                                             </div>
                                                             <div class="row">
@@ -776,7 +777,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="lkAlterarHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkBLHouse" />
-                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpHouse" />                                    
+                                    <asp:AsyncPostBackTrigger ControlID="lkFollowUpHouse" />
                                 </Triggers>
                             </asp:UpdatePanel>
 
@@ -798,13 +799,13 @@
 
     <asp:SqlDataSource ID="dsHouse" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM View_House
-WHERE  ID_BL_MASTER IS NOT NULL AND ID_SERVICO = 1 AND GRAU = 'C'  "></asp:SqlDataSource>
+WHERE  ID_BL_MASTER IS NOT NULL AND ID_SERVICO = 1 AND GRAU = 'C' ORDER BY ID_BL DESC "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMaster" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM View_Master
-WHERE GRAU = 'M' and ID_SERVICO = 1 "></asp:SqlDataSource>
+WHERE GRAU = 'M' and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsEmbarque" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM View_Embarque
-WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 "></asp:SqlDataSource>
+WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
