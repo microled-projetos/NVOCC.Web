@@ -665,7 +665,7 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Valor da Venda:</label>
-                                                                                <asp:TextBox ID="txtValorVenda_TaxaMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtValorVenda_TaxaMaritimo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -691,6 +691,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaMaritimo" />                                                       
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -1466,7 +1467,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor da Venda:</label>
-                                                                        <asp:TextBox ID="txtValorVenda_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtValorVenda_TaxaAereo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1497,6 +1498,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaAereo" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaAereo" />                                                
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
@@ -1919,7 +1921,7 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL
 
 
         function Func() {
-            confirm("O valor de venda é menor que o valor de compra. Deseja prosseguir com a gravação?");
+            alert("O valor de venda é menor que o valor de compra!");
         }
     </script>
 </asp:Content>
