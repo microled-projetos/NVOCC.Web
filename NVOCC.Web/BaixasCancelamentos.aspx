@@ -8,7 +8,7 @@
             <div class="panel-body">
 
                 <div class="tab-content">
-                    <div class="tab-pane fade active in" id="Embarque">
+                    <div class="tab-pane fade active in">
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
@@ -16,20 +16,20 @@
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
-                                <div class="alert alert-success" id="divSuccessEmbarque" runat="server" visible="false">
-                                    <asp:Label ID="lblSuccessEmbarque" runat="server"></asp:Label>
+                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                                 </div>
-                                <div class="alert alert-danger" id="divErroEmbarque" runat="server" visible="false">
-                                    <asp:Label ID="lblErroEmbarque" runat="server"></asp:Label>
+                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
+                                    <asp:Label ID="lblErro" runat="server"></asp:Label>
                                 </div>
                                 <br />
 
                              
                                     <div class="row linhabotao text-center" style="margin-left: 20px;border: ridge 1px;">
-                                             <div class="col-sm-2">
+                                             <div class="col-sm-1">
                                             <div class="form-group">
-                                                <label class="control-label" style="text-align: left">VENCIMENTO:</label>
-                                                <asp:TextBox ID="TextBox1" runat="server" placeholder="__/__/____" CssClass="form-control data" Width="210px"></asp:TextBox>
+                                                <label class="control-label" style="text-align: left"></label>
+                                                <asp:TextBox ID="txtData" runat="server" placeholder="__/__/____" CssClass="form-control data"></asp:TextBox>
                                             </div>
                                         </div>
                                          <div class="col-sm-2" runat="server" id="botoesPagamento">
@@ -68,7 +68,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_FATURA_FORNECEDOR" HeaderText="Nº Fatura" SortExpression="NR_FATURA_FORNECEDOR" />
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
-                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA" />
+<%--                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA" />--%>
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
                                                 <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
@@ -95,7 +95,7 @@
                                                  <asp:BoundField DataField="NR_FATURA_FORNECEDOR" HeaderText="Nº Fatura" SortExpression="NR_FATURA_FORNECEDOR" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
-                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA" />
+<%--                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA" />--%>
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
                                                 <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
@@ -128,16 +128,7 @@
       <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] ORDER BY DT_VENCIMENTO DESC, NR_PROCESSO">       
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A"></asp:SqlDataSource>
-
-     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE ID_BL = @ID_BL)
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
-         <SelectParameters>
-            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
-        </SelectParameters>
-     </asp:SqlDataSource>
+   
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>
