@@ -95,13 +95,13 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle botoesPagamento.
+    '''Controle btnBaixarRecebimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents botoesPagamento As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents btnBaixarRecebimento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnBaixarPagamento.
@@ -113,40 +113,13 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents btnBaixarPagamento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnCancelarPagamento.
+    '''Controle btnCancelar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnCancelarPagamento As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle botoesRecebimento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents botoesRecebimento As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle btnBaixarRecebimento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnBaixarRecebimento As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnCancelarRecebimento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnCancelarRecebimento As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle gridPagar.
@@ -183,6 +156,87 @@ Partial Public Class BaixasCancelamentos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasReceber As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle mpeObs.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeObs As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lblFatura.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblFatura As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblNomeFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblNomeFornecedor As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblNomeCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblNomeCliente As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtObs.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObs As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnFechar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFechar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSalvarCancelamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSalvarCancelamento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle dsPagar.

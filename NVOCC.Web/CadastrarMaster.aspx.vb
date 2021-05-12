@@ -432,7 +432,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         'txtCalculoVenda_TaxaAereo.Text = ""
         'txtTaxaVenda_TaxaAereo.Text = ""
         'txtMinimoVenda_TaxaAereo.Text = ""
-        Session("TIPO_TAXA") = 0
+        Session("CD_PR") = 0
         'divVendaAereo.Visible = True
         divCompraAereo.Visible = True
 
@@ -464,7 +464,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         'txtTaxaVenda_TaxasMaritimo.Text = ""
         'txtMinimoVenda_TaxasMaritimo.Text = ""
         txtID_TaxasMaritimo.Text = ""
-        Session("TIPO_TAXA") = 0
+        Session("CD_PR") = 0
         'divVendaMaritimo.Visible = True
         divCompraMaritimo.Visible = True
 
@@ -595,7 +595,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,TIPO_TAXA 
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR 
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -655,19 +655,6 @@ WHERE A.ID_BL_TAXA = " & ID)
                     ddlEmpresa_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("TIPO_TAXA")) Then
-                '    Session("TIPO_TAXA") = ds.Tables(0).Rows(0).Item("TIPO_TAXA")
-                '    If ds.Tables(0).Rows(0).Item("TIPO_TAXA") = "C" Then
-                '        divVendaMaritimo.Visible = False
-
-                '        divCompraMaritimo.Visible = True
-                '    ElseIf ds.Tables(0).Rows(0).Item("TIPO_TAXA") = "V" Then
-                '        divVendaMaritimo.Visible = True
-
-                '        divCompraMaritimo.Visible = False
-                '    End If
-                'End If
-
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
                     If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
                         btnSalvar_TaxasMaritimo.Visible = False
@@ -696,7 +683,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             Else
 
 
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,TIPO_TAXA)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,TIPO_TAXA from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
+                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
                 lblSuccess_TaxasMaritimo1.Text = "Registro duplicado!"
                 divSuccess_TaxasMaritimo1.Visible = True
                 dgvTaxasMaritimo.DataBind()
@@ -745,7 +732,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,TIPO_TAXA  from TB_BL_TAXA A
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR  from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID)
@@ -805,19 +792,6 @@ WHERE A.ID_BL_TAXA =" & ID)
                     ' txtMinimoVenda_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("TIPO_TAXA")) Then
-                '    Session("TIPO_TAXA") = ds.Tables(0).Rows(0).Item("TIPO_TAXA")
-                '    If ds.Tables(0).Rows(0).Item("TIPO_TAXA") = "C" Then
-                '        divVendaAereo.Visible = False
-
-                '        divCompraAereo.Visible = True
-                '    ElseIf ds.Tables(0).Rows(0).Item("TIPO_TAXA") = "V" Then
-                '        divVendaAereo.Visible = True
-
-                '        divCompraAereo.Visible = False
-                '    End If
-                'End If
-
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
                     If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
                         btnSalvar_TaxaAereo.Visible = False
@@ -846,7 +820,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
             Else
 
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,TIPO_TAXA)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,TIPO_TAXA from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
+                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
                 lblSuccess_TaxaAereo1.Text = "Registro duplicado!"
                 divSuccess_TaxaAereo1.Visible = True
                 dgvTaxasAereo.DataBind()
@@ -1565,12 +1539,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
                     'REALIZA INSERT TAXA COMPRA
-                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,TIPO_TAXA ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','C') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
-
-
-
-                    'REALIZA INSERT TAXA VENDA
-                    'Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,TIPO_TAXA ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaVenda_TaxaAereo.SelectedValue & "," & txtTaxaVenda_TaxaAereo.Text & "," & txtMinimoVenda_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','V') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
 
 
@@ -1673,12 +1642,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
 
                     'REALIZA INSERT TAXA COMPRA
-                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,TIPO_TAXA) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxaCompra_TaxasMaritimo.Text & "," & txtMinimoCompra_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','C') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
-
-
-                    'REALIZA INSERT TAXA VENDA
-                    'Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,TIPO_TAXA) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaVenda_TaxasMaritimo.SelectedValue & "," & txtTaxaVenda_TaxasMaritimo.Text & "," & txtMinimoVenda_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','V') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
-
+                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxaCompra_TaxasMaritimo.Text & "," & txtMinimoCompra_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
 
                     dgvTaxasMaritimo.DataBind()
