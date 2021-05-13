@@ -43,10 +43,10 @@
                     <div class="tab-content">
                         <div class="table-responsive tableFixHead">
                             <asp:GridView ID="dgvNotas" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsNotas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                <Columns>
+                                  <Columns>
                                     <asp:TemplateField HeaderText="ID" Visible="False">
                                         <ItemTemplate>
-                                            <asp:Label ID="lblID_BL" runat="server" Text='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' />
+                                            <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor de Lançamento" SortExpression="VL_LANCAMENTO" />
@@ -58,11 +58,12 @@
                                     <asp:TemplateField HeaderText="">
                                         <ItemTemplate>
                                             <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Imprimir Nota"></asp:LinkButton>
+                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Imprimir Nota" OnClientClick="javascript:return confirm('Deseja realmente faturar esta pendencia?');"></asp:LinkButton>
                                         </ItemTemplate>
                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                     </asp:TemplateField>
                                 </Columns>
+
                                 <HeaderStyle CssClass="headerStyle" />
                             </asp:GridView>
                         </div>
@@ -272,7 +273,7 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
     <asp:SqlDataSource ID="dsNotas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Emissao_ND]"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber]"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

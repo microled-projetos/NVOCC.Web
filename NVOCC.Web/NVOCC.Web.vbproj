@@ -334,6 +334,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="Faturamento.aspx" />
+    <Content Include="FaturarRecebimento.aspx" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -606,6 +607,13 @@
     </Compile>
     <Compile Include="Faturamento.aspx.vb">
       <DependentUpon>Faturamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="FaturarRecebimento.aspx.designer.vb">
+      <DependentUpon>FaturarRecebimento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FaturarRecebimento.aspx.vb">
+      <DependentUpon>FaturarRecebimento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Financeiro.aspx.designer.vb">

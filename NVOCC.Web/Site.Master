@@ -145,7 +145,12 @@
                     <li>
                         <a href="Financeiro.aspx" runat="server" id="mnFinanceiro">Módulo Financeiro</a>     
                     </li>    
-                      
+                      <li>
+                        <a href="MontagemPagamento.aspx" runat="server" id="A3">Montagem de Pagamento</a>     
+                    </li>
+                    <li>
+                        <a href="EmissaoND.aspx" runat="server" id="A5">Notas de Débito</a>     
+                    </li>
                 </ul>
            </li>
                 </ul>

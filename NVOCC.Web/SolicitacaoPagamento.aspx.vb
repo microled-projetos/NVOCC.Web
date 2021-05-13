@@ -17,9 +17,18 @@
         Else
             If Request.QueryString("id") <> "" Then
                 txtID_BL.Text = Request.QueryString("id")
-                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,GRAU,ID_BL_MASTER, (SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)NR_BL_MASTER FROM TB_BL A WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then
-                    lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL")
+
+                    If Not IsDBNull(ds1.Tables(0).Rows(0).Item("GRAU")) Then
+
+                        If ds1.Tables(0).Rows(0).Item("GRAU") = "M" Then
+                            lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL")
+                        ElseIf ds1.Tables(0).Rows(0).Item("GRAU") = "C" Then
+                            lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL_MASTER")
+                        End If
+
+                    End If
                 End If
             End If
         End If
@@ -35,7 +44,7 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE ID_BL = " & txtID_BL.Text & "  AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 
 

@@ -160,49 +160,60 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
         divErro.Visible = False
         divSuccess.Visible = False
 
-
         Dim Con As New Conexao_sql
-            Con.Conectar()
-            Dim ds As DataSet
-        Dim ID_CONTA_PAGAR_RECEBER As String
+        Con.Conectar()
+        Dim ds As DataSet
+        ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+        Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
         For Each linha As GridViewRow In dgvTaxas.Rows
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                If check.Checked Then
-                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
-                    valor = valor.Replace(".", "")
-                    valor = valor.Replace(",", ".")
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] WHERE ID_BL_TAXA =" & ID)
-                    If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
-                        lblErro.Text = "Há taxas já cadastradas em contas a pagar"
-                        divErro.Visible = True
-                    Else
-                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO)
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            If check.Checked Then
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
+                valor = valor.Replace(".", "")
+                valor = valor.Replace(",", ".")
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] WHERE ID_BL_TAXA =" & ID)
+                If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    lblErro.Text = "Há taxas já cadastradas em contas a pagar"
+                    divErro.Visible = True
+                Else
+                    Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO)
 SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO," & valor & "  FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
-                    End If
                 End If
-            Next
-            Con.Fechar()
-            lblSuccess.Text = "Montagem realizada com sucesso!"
-            divSuccess.Visible = True
+            End If
+        Next
+        Con.Fechar()
+        lblSuccess.Text = "Montagem realizada com sucesso!"
+        divSuccess.Visible = True
         txtVencimento.Text = ""
         ddlFornecedor.SelectedValue = 0
         dgvTaxas.DataBind()
-
-
-
 
     End Sub
 
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
         Dim Con As New Conexao_sql
+        Dim i As Integer = 0
+
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-
             If check.Checked Then
-                btnCalcularRecebimento.Enabled = True
+                i = i + 1
             End If
         Next
+
+        If i > 0 Then
+            btnCalcularRecebimento.Enabled = True
+
+        Else
+            btnCalcularRecebimento.Enabled = False
+
+        End If
     End Sub
+
+
+
+
+
 End Class

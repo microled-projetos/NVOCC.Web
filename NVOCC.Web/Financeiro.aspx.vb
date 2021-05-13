@@ -29,26 +29,13 @@
         Else
             Response.Redirect("SolicitacaoPagamento.aspx?id=" & txtID.Text)
         End If
-
     End Sub
 
     Private Sub lkMontagemPagamento_Click(sender As Object, e As EventArgs) Handles lkMontagemPagamento.Click
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("MontagemPagamento.aspx?id=" & txtID.Text)
-        End If
-
+        Response.Redirect("MontagemPagamento.aspx?id=" & txtID.Text)
     End Sub
     Private Sub lkBaixaCancel_Pagar_Click(sender As Object, e As EventArgs) Handles lkBaixaCancel_Pagar.Click
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("BaixasCancelamentos.aspx?t=p&id=" & txtID.Text)
-        End If
-
+        Response.Redirect("BaixasCancelamentos.aspx?t=p")
     End Sub
     Private Sub lkCalcularRecebimento_Click(sender As Object, e As EventArgs) Handles lkCalcularRecebimento.Click
         If txtID.Text = "" Then
@@ -57,35 +44,16 @@
         Else
             Response.Redirect("CalcularRecebimento.aspx?id=" & txtID.Text)
         End If
-
     End Sub
     Private Sub lkEmissaoND_Click(sender As Object, e As EventArgs) Handles lkEmissaoND.Click
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("EmissaoND.aspx?id=" & txtID.Text)
-        End If
-
+        Response.Redirect("EmissaoND.aspx")
     End Sub
     Private Sub lkBaixaCancel_Receber_Click(sender As Object, e As EventArgs) Handles lkBaixaCancel_Receber.Click
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("BaixaCancelamentos.aspx?t=r&id=" & txtID.Text)
-        End If
-
+        Response.Redirect("BaixasCancelamentos.aspx?t=r")
     End Sub
 
     Private Sub lkFaturar_Click(sender As Object, e As EventArgs) Handles lkFaturar.Click
-        If txtID.Text = "" Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Selecione um registro"
-        Else
-            Response.Redirect("Faturamento.aspx?id=" & txtID.Text)
-        End If
-
+        Response.Redirect("FaturarRecebimento.aspx")
     End Sub
 
     Private Sub dgvFinanceiro_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFinanceiro.RowCommand
@@ -112,6 +80,42 @@
 
             dgvFinanceiro.Rows(txtlinha.Text).CssClass = "selected1"
 
+
+        End If
+    End Sub
+
+    Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+
+        Dim filtro As String = ""
+
+        Dim sql As String = ""
+
+        If ddlFiltro.SelectedValue = 1 Then
+
+            filtro &= "AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+
+        ElseIf ddlFiltro.SelectedValue = 2 Then
+            filtro &= "AND NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
+
+
+        ElseIf ddlFiltro.SelectedValue = 3 Then
+            filtro &= "AND NM_PARCEIRO_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+
+        ElseIf ddlFiltro.SelectedValue = 4 Then
+            filtro &= "AND REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+
+        End If
+
+        If ckStatus.Items.FindByValue(1).Selected Then
+            filtro &= "AND (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
+
+        End If
+        If ckStatus.Items.FindByValue(2).Selected Then
+            filtro &= "AND (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
+
+        End If
+        If ckStatus.Items.FindByValue(3).Selected Then
+            filtro &= "AND (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
 
         End If
     End Sub

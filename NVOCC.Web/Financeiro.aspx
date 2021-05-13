@@ -62,7 +62,7 @@
                                    <asp:ListItem Value="1">Número do processo</asp:ListItem>
                                    <asp:ListItem Value="2">Número do Master</asp:ListItem>
                                    <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
-                                   <asp:ListItem Value="3">Referência  do Cliente</asp:ListItem>
+                                   <asp:ListItem Value="4">Referência  do Cliente</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
@@ -78,8 +78,8 @@
 
                                <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
                                    <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Fechados</asp:ListItem>
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Cancelados</asp:ListItem>
+                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
                                </asp:CheckBoxList>
                            </div>
                        </div>
@@ -194,7 +194,7 @@
                                     <div class="row">
                                      <div class="col-sm-3">
                                     <div class="form-group">
-                                                                                                                             <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar</asp:LinkButton>
+                                                                                                                             <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton>
 
                                         </div>
                                          </div>
@@ -356,7 +356,7 @@
 </div>
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Financeiro] ORDER BY NR_PROCESSO"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Financeiro] WHERE TOTAL_A_PAGAR_ABERTAS > 0 OR TOTAL_A_RECEBER_ABERTAS > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
