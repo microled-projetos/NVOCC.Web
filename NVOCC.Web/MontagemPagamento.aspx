@@ -10,7 +10,7 @@
             <div class="panel-body">
 
                 <div class="tab-content">
-                    <div class="tab-pane fade active in" id="Embarque">
+                    <div class="tab-pane fade active in">
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
@@ -18,11 +18,11 @@
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
-                                <div class="alert alert-success" id="divSuccessEmbarque" runat="server" visible="false">
-                                    <asp:Label ID="lblSuccessEmbarque" runat="server"></asp:Label>
+                                <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                                 </div>
-                                <div class="alert alert-danger" id="divErroEmbarque" runat="server" visible="false">
-                                    <asp:Label ID="lblErroEmbarque" runat="server"></asp:Label>
+                                <div class="alert alert-danger" id="divErro" runat="server" visible="false">
+                                    <asp:Label ID="lblErro" runat="server"></asp:Label>
                                 </div>
                                 <br />
 
@@ -60,29 +60,30 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Pesquisar" ID="Button1" CssClass="btn btn-success" />
+                                            <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" />
                                         </div>
                                     </div>
                                         
                                     </div>
-                                </div>
+
 
 
 
                                 <br />
                                 <br />
-                                <div class="row">
+                                <div id="divgrid" visible="false" runat="server">
+                                <div class="row" >
                                     <div class="table-responsive tableFixHead">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL,ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID_BL" runat="server" Text='<%# Eval("ID_BL") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbCalculado" runat="server" Enabled='<%# (Eval("FL_CALCULADO") = 1) %>' ToolTip="Só é possivel selecionar taxas calculadas"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -92,7 +93,11 @@
                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" />
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
-
+                                                                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_BR") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -153,12 +158,14 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                </div>
                                 
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
+                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFornecedor" />
+                                <asp:PostBackTrigger ControlID="btnPesquisar" />                                                             
                             </Triggers>
                         </asp:UpdatePanel>
 

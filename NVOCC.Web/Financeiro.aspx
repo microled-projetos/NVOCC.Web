@@ -52,42 +52,6 @@
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
 
-
-
-<%--                                <div class="row linhabotao">
-                                    <div class="col-sm-4" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
-
-                                        <asp:Label ID="Label4" Style="padding-left: 35px;" runat="server">Contas a Pagar</asp:Label><br />
-                                        <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Solicitação Pagamento</asp:LinkButton>
-                                        <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Montagem Pagamento</asp:LinkButton>
-                                        <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixas e Cancel</asp:LinkButton>
-                                    </div>
-                                    <div class="col-sm-4" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
-
-                                        <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">Contas a Receber</asp:Label><br />
-                                        <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Calcular Recebimento</asp:LinkButton>
-                                        <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emissão ND</asp:LinkButton>
-                                        <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixas e Cancel</asp:LinkButton>
-                                        <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar</asp:LinkButton>
-
-                                    </div>
-                                    <div class="col-sm-2" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
-
-                                        <asp:Label ID="Label5" Style="padding-left: 35px" runat="server">Integração TOTVS</asp:Label><br />
-                                        <asp:LinkButton ID="lkNotaDespesa" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Nota Despesa</asp:LinkButton>
-                                        <asp:LinkButton ID="lkPA" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">PA</asp:LinkButton>
-
-                                    </div>
-                                    <div class="col-sm-2" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
-
-                                        <asp:Label ID="Label3" Style="padding-left: 35px" runat="server">Indicadores</asp:Label><br />
-
-                                        <asp:LinkButton ID="lkInternacional" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Internacional</asp:LinkButton>
-                                        <asp:LinkButton ID="lkNacional" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Nacional</asp:LinkButton>
-
-                                    </div>
-                                </div>--%>
-
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
 
@@ -98,7 +62,7 @@
                                    <asp:ListItem Value="1">Número do processo</asp:ListItem>
                                    <asp:ListItem Value="2">Número do Master</asp:ListItem>
                                    <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
-                                   <asp:ListItem Value="3">Referência  do Cliente</asp:ListItem>
+                                   <asp:ListItem Value="4">Referência  do Cliente</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
@@ -114,8 +78,8 @@
 
                                <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
                                    <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Fechados</asp:ListItem>
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Cancelados</asp:ListItem>
+                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
                                </asp:CheckBoxList>
                            </div>
                        </div>
@@ -230,7 +194,7 @@
                                     <div class="row">
                                      <div class="col-sm-3">
                                     <div class="form-group">
-                                                                                                                             <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar</asp:LinkButton>
+                                                                                                                             <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton>
 
                                         </div>
                                          </div>
@@ -392,7 +356,7 @@
 </div>
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Conta_Pagar_Receber] ORDER BY NR_PROCESSO"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Financeiro] WHERE TOTAL_A_PAGAR_ABERTAS > 0 OR TOTAL_A_RECEBER_ABERTAS > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

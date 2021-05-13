@@ -38,7 +38,7 @@ display:none;
             <table>
                 <tr>
                     <td>
-                        <strong>Consignee:</strong>&nbsp;<asp:Label ID="lblCliente_FCL"  runat="server"/>
+                        <strong>Consignee:</strong>&nbsp;<asp:Label ID="lblImportador_FCL"  runat="server"/>
                         <br />
                     </td>
                     <td>

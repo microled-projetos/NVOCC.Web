@@ -11,34 +11,16 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class SolicitacaoPagamento
+Partial Public Class FaturarRecebimento
 
     '''<summary>
-    '''Controle UpdatePanel5.
+    '''Controle UpdatePanel1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle txtID_BL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtLinhaBL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
     '''Controle divSuccess.
@@ -50,13 +32,13 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents divSuccess As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblSuccess.
+    '''Controle lblmsgSuccess.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblSuccess As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblmsgSuccess As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divErro.
@@ -68,119 +50,101 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents divErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblErro.
+    '''Controle lblmsgErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMBL.
+    '''Controle ddlFiltro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlFiltro As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlFornecedor.
+    '''Controle txtPesquisa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle dgvTaxas.
+    '''Controle btnPesquisa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents btnPesquisa As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle dgvMoedas.
+    '''Controle btnPesquisar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvMoedas As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents btnPesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnAtualizaValor.
+    '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnAtualizaValor As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents divAuxiliar As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblTotal.
+    '''Controle txtID.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTotal As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtVencimento.
+    '''Controle txtlinha.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle btnSolicitar.
+    '''Controle dgvContasReceber.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnSolicitar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dgvContasReceber As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle btnCancelar.
+    '''Controle dsContasReceber.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dsContasReceber As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTaxas.
+    '''Controle dsParceiros.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsMoeda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsFornecedor.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

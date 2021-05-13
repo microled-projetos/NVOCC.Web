@@ -41,40 +41,40 @@ Partial Public Class MontagemPagamento
     Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle divSuccessEmbarque.
+    '''Controle divSuccess.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divSuccessEmbarque As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divSuccess As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblSuccessEmbarque.
+    '''Controle lblSuccess.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblSuccessEmbarque As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSuccess As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle divErroEmbarque.
+    '''Controle divErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divErroEmbarque As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblErroEmbarque.
+    '''Controle lblErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblErroEmbarque As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle ddlFornecedor.
@@ -122,13 +122,22 @@ Partial Public Class MontagemPagamento
     Protected WithEvents txtProcesso As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Button1.
+    '''Controle btnPesquisar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnPesquisar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle divgrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divgrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle dgvTaxas.

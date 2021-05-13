@@ -30,15 +30,102 @@
 
     Private Sub btnDesmarcar_Click(sender As Object, e As EventArgs) Handles btnDesmarcar.Click
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
-            Dim ckbCalculado = CType(Me.dgvTaxas.Rows(i).FindControl("ckbCalculado"), CheckBox)
-            ckbCalculado.Checked = False
+            Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = False
+            txtValor.Text = 0
         Next
     End Sub
 
     Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
+        txtValor.Text = 0
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
-            Dim ckbCalculado = CType(Me.dgvTaxas.Rows(i).FindControl("ckbCalculado"), CheckBox)
-            ckbCalculado.Checked = True
+            Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+            Dim valor As Double = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
+            txtValor.Text = txtValor.Text + valor
         Next
+    End Sub
+
+    Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If ddlFornecedor.SelectedValue <> 0 And txtVencimentoBusca.Text <> "" Then
+            dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
+WHERE ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE, '" & txtVencimentoBusca.Text & "', 103) "
+            dgvTaxas.DataBind()
+
+
+            dsTaxas.SelectParameters("DATA").DefaultValue = txtVencimentoBusca.Text
+            dsTaxas.SelectParameters("ID_PARCEIRO_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
+
+            dgvTaxas.DataBind()
+            divgrid.Visible = True
+        Else
+            lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
+            divErro.Visible = True
+        End If
+    End Sub
+    Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
+        Dim Con As New Conexao_sql
+        txtValor.Text = 0
+        For Each linha As GridViewRow In dgvTaxas.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
+            Dim valor2 As Double = txtValor.Text
+
+            If check.Checked Then
+                txtValor.Text = valor2 + valor
+            End If
+        Next
+
+    End Sub
+
+    Private Sub btnMontar_Click(sender As Object, e As EventArgs) Handles btnMontar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+
+        If txtVencimento.Text = "" Then
+            lblErro.Text = "É necessário informar a Data de Vencimento!"
+            divErro.Visible = True
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet
+            If ckbBaixaAutomatica.Checked = True Then
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR,DT_LIQUIDACAO) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "',CONVERT(DATE, '" & txtVencimento.Text & "',103)) Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
+
+            Else
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+            End If
+            Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+
+            For Each linha As GridViewRow In dgvTaxas.Rows
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                If check.Checked Then
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
+                    valor = valor.Replace(".", "")
+                    valor = valor.Replace(",", ".")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] WHERE ID_BL_TAXA =" & ID)
+                    If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        lblErro.Text = "Há taxas já cadastradas em contas a pagar"
+                        divErro.Visible = True
+                    Else
+                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO)
+SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO," & valor & "  FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                    End If
+                End If
+            Next
+            Con.Fechar()
+            lblSuccess.Text = "Montagem realizada com sucesso!"
+            divSuccess.Visible = True
+            txtValor.Text = 0
+            txtVencimento.Text = ""
+            dgvTaxas.DataBind()
+
+
+        End If
+
     End Sub
 End Class
