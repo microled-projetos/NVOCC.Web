@@ -49,7 +49,24 @@ FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
                 lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
                 lblDiasFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
 
-                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
+FROM [TB_BL] A WHERE A.ID_BL == " & txtID_BL.Text)
+
+                If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                    txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
+                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                    Dim DATA As Date = ds.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                    DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                    Dim DATA As Date = ds.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                    DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                End If
+
+
+
+                ds1 = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then
                     If ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
 
