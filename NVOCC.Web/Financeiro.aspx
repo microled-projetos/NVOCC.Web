@@ -90,22 +90,22 @@
                            </div>
                        </div>
                        <div class="col-sm-offset-2 col-sm-4">
-                                                                   <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
+                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
 
-                                        <asp:LinkButton ID="lkContasPagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Pagar</asp:LinkButton>
-                                        <asp:LinkButton ID="lkContasReceber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Receber</asp:LinkButton>
-                                        <asp:LinkButton ID="lkIntegracao" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Integração TOTVS</asp:LinkButton>
-                                        <asp:LinkButton ID="lkIndicadores" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Indicadores</asp:LinkButton>
+                           <asp:LinkButton ID="lkContasPagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Pagar</asp:LinkButton>
+                           <asp:LinkButton ID="lkContasReceber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Receber</asp:LinkButton>
+                           <asp:LinkButton ID="lkIntegracao" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Integração TOTVS</asp:LinkButton>
+                           <asp:LinkButton ID="lkIndicadores" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Indicadores</asp:LinkButton>
 
-                                    </div>
+                       </div>
                    </div>
                                 <br />
 
                                 <asp:Button runat="server" Text="Pesquisar" Style="display: none" ID="Button1" CssClass="btn btn-success" />
-                                
-                                                           <ajaxToolkit:ModalPopupExtender id="mpeImprimir" runat="server" PopupControlID="pnlContasPagar" TargetControlID="lkContasPagar"  CancelControlID="btnFecharContasPagar"></ajaxToolkit:ModalPopupExtender>
-   <asp:Panel ID="pnlContasPagar" runat="server" CssClass="modalPopup" style="display:none;" >            
-                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+
+                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="pnlContasPagar" TargetControlID="lkContasPagar" CancelControlID="btnFecharContasPagar"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlContasPagar" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A PAGAR</h5>
@@ -149,13 +149,13 @@
                                                     
                                                 </div>
       
-                                       </div>     </center>       
-     </asp:Panel>
+                                       </div>     </center>
+                                </asp:Panel>
 
 
-                                                                                           <ajaxToolkit:ModalPopupExtender id="ModalPopupExtender1" runat="server" PopupControlID="pnlContasReceber" TargetControlID="lkContasReceber"  CancelControlID="btnFecharContasReceber"></ajaxToolkit:ModalPopupExtender>
-   <asp:Panel ID="pnlContasReceber" runat="server" CssClass="modalPopup" style="display:none;" >            
-                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlContasReceber" TargetControlID="lkContasReceber" CancelControlID="btnFecharContasReceber"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlContasReceber" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A RECEBER</h5>
@@ -211,12 +211,12 @@
                                                     
                                                 </div>
       
-                                       </div>     </center>       
-     </asp:Panel>
+                                       </div>     </center>
+                                </asp:Panel>
 
-                                                                                           <ajaxToolkit:ModalPopupExtender id="ModalPopupExtender3" runat="server" PopupControlID="pnlIntegracao" TargetControlID="lkIntegracao"  CancelControlID="btnFecharIntegracao"></ajaxToolkit:ModalPopupExtender>
-   <asp:Panel ID="pnlIntegracao" runat="server" CssClass="modalPopup" style="display:none;" >            
-                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlIntegracao" TargetControlID="lkIntegracao" CancelControlID="btnFecharIntegracao"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlIntegracao" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">INTEGRAÇÃO TOTVS</h5>
@@ -255,12 +255,12 @@
                                                     
                                                 </div>
       
-                                       </div>     </center>       
-     </asp:Panel>
+                                       </div>     </center>
+                                </asp:Panel>
 
-                                                                                                                         <ajaxToolkit:ModalPopupExtender id="ModalPopupExtender2" runat="server" PopupControlID="pnlIndicadores" TargetControlID="lkIndicadores"  CancelControlID="btnFecharIndicadores"></ajaxToolkit:ModalPopupExtender>
-   <asp:Panel ID="pnlIndicadores" runat="server" CssClass="modalPopup" style="display:none;" >            
-                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlIndicadores" TargetControlID="lkIndicadores" CancelControlID="btnFecharIndicadores"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlIndicadores" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">INDICADORES</h5>
@@ -294,8 +294,8 @@
                                                     
                                                 </div>
       
-                                       </div>     </center>       
-     </asp:Panel>
+                                       </div>     </center>
+                                </asp:Panel>
                             </ContentTemplate>
                             <Triggers>
                                 <%--<asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
@@ -315,21 +315,21 @@
                                         <Columns>
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
                                             <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
-                                            <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />                 
+                                            <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
                                             <asp:BoundField DataField="NM_PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
                                             <asp:BoundField DataField="TOTAL_A_PAGAR" HeaderText="Qtd. de taxas a Pagar" SortExpression="TOTAL_A_PAGAR" />
                                             <asp:BoundField DataField="TOTAL_A_PAGAR_QUITADAS" HeaderText="Qtd. de taxas Pagas" SortExpression="TOTAL_A_PAGAR_QUITADAS" />
                                             <asp:BoundField DataField="TOTAL_A_PAGAR_ABERTAS" HeaderText="Qtd. de taxas (a Pagar) em aberto" SortExpression="TOTAL_A_PAGAR_ABERTAS" />
                                             <asp:BoundField DataField="TOTAL_A_RECEBER" HeaderText="Qtd. de taxas a Receber" SortExpression="TOTAL_A_RECEBER" />
                                             <asp:BoundField DataField="TOTAL_A_RECEBER_QUITADAS" HeaderText="Qtd. Quantidade de taxas Recebidas" SortExpression="TOTAL_A_RECEBER_QUITADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_ABERTAS" HeaderText="Quantidade de taxas (a Receber) em aberto" SortExpression="TOTAL_A_RECEBER_ABERTAS" />  
+                                            <asp:BoundField DataField="TOTAL_A_RECEBER_ABERTAS" HeaderText="Quantidade de taxas (a Receber) em aberto" SortExpression="TOTAL_A_RECEBER_ABERTAS" />
                                             <asp:TemplateField HeaderText="">
-                                              <ItemTemplate>
-                                                 <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
-                                CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>'   CommandName="Selecionar" Text="Selecionar"></asp:linkButton>                     
-                                              </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>  
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                        CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                </ItemTemplate>
+                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                            </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -353,13 +353,10 @@
             </div>
         </div>
 
-</div>
+    </div>
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Financeiro] WHERE TOTAL_A_PAGAR_ABERTAS > 0 OR TOTAL_A_RECEBER_ABERTAS > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
-
-    <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

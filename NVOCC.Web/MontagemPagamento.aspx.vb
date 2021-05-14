@@ -15,11 +15,6 @@
 
             Response.Redirect("Default.aspx")
         Else
-            '    If Request.QueryString("id") <> "" Then
-            '        txtID_BL.Text = Request.QueryString("id")
-
-            '    End If
-
             txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
             txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
 
@@ -50,15 +45,42 @@
         divErro.Visible = False
         divSuccess.Visible = False
         If ddlFornecedor.SelectedValue <> 0 And txtVencimentoBusca.Text <> "" Then
+            Dim filtro As String = ""
+
+            If txtMaster.Text <> "" Then
+                filtro &= " AND NR_BL_MASTER LIKE '%" & txtMaster.Text & "%'"
+
+            End If
+
+
+            If txtHouse.Text <> "" Then
+                filtro &= " AND NR_BL LIKE '%" & txtHouse.Text & "%' AND GRAU = 'C' AND ID_BL_MASTER IS NOT NULL"
+
+            End If
+
+
+            If txtProcesso.Text <> "" Then
+                filtro &= " AND NR_PROCESSO LIKE '%" & txtProcesso.Text & "%'"
+
+            End If
+
+
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE, '" & txtVencimentoBusca.Text & "', 103) "
+WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE, '" & txtVencimentoBusca.Text & "', 103) " & filtro
+
+
             dgvTaxas.DataBind()
 
 
-            dsTaxas.SelectParameters("DATA").DefaultValue = txtVencimentoBusca.Text
-            dsTaxas.SelectParameters("ID_PARCEIRO_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
+            'dsTaxas.SelectParameters("DATA").DefaultValue = txtVencimentoBusca.Text
+            'dsTaxas.SelectParameters("ID_PARCEIRO_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
 
-            dgvTaxas.DataBind()
+
+
+
+
+
+            'dgvTaxas.DataBind()
             divgrid.Visible = True
         Else
             lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
@@ -93,10 +115,10 @@ WHERE ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AND DT_SOLICITACA
             Con.Conectar()
             Dim ds As DataSet
             If ckbBaixaAutomatica.Checked = True Then
-                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR,DT_LIQUIDACAO) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "',CONVERT(DATE, '" & txtVencimento.Text & "',103)) Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR,DT_LIQUIDACAO) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "',CONVERT(DATE, '" & txtVencimento.Text & "',103)) Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
 
             Else
-                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
             End If
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
 
@@ -112,8 +134,7 @@ WHERE ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AND DT_SOLICITACA
                         lblErro.Text = "Há taxas já cadastradas em contas a pagar"
                         divErro.Visible = True
                     Else
-                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO)
-SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO," & valor & "  FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA  )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO," & valor & ",ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
                     End If
                 End If
             Next

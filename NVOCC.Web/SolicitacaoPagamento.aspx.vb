@@ -59,6 +59,8 @@ WHERE  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") A
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
         Dim Con As New Conexao_sql
         lblTotal.Text = 0
+        Dim i As Integer = 0
+
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -68,6 +70,11 @@ WHERE  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") A
             If check.Checked Then
                 lblTotal.Text = valor2 + valor
             End If
+
+            If valor = 0 Then
+                btnSolicitar.Enabled = False
+            End If
+
         Next
 
     End Sub
@@ -127,4 +134,9 @@ WHERE  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") A
         divSuccess.Visible = True
     End Sub
 
+    Private Sub dgvMoedas_Load(sender As Object, e As EventArgs) Handles dgvMoedas.Load
+        For Each linha As GridViewRow In dgvTaxas.Rows
+            btnAtualizaValor.Enabled = True
+        Next
+    End Sub
 End Class

@@ -37,14 +37,14 @@
                                     <div class="col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixarRecebimento"  OnClientClick="javascript:return confirm('Deseja realmente liquidar este registro?');" Visible="false" CssClass="btn btn-success" />
-                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixarPagamento"  OnClientClick="javascript:return confirm('Deseja realmente liquidar este registro?');" Visible="false" CssClass="btn btn-success" />
+                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
                                         </div>
                                     </div>
                                     <div class="col-sm-offset-7 col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
+
                                         </div>
                                     </div>
 
@@ -64,21 +64,21 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" />
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Nº Fatura" SortExpression="NR_FATURA_FORNECEDOR">
+                                                <asp:TemplateField HeaderText="Nº Fatura" SortExpression="NR_FATURA_FORNECEDOR">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFatura" runat="server" Text='<%# Eval("NR_FATURA_FORNECEDOR") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
-                                                <%--<asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
+                                                <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>--%>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
                                                 <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
@@ -98,14 +98,21 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" />
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"  AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="NR_FATURA_FORNECEDOR" HeaderText="Nº Fatura" SortExpression="NR_FATURA_FORNECEDOR" />
-                                                <%--                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />--%>
+                                                <asp:TemplateField HeaderText="Nº Processo" SortExpression="NM_PARCEIRO_EMPRESA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblProcesso" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
-                                                <%--                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA" />--%>
+                                                <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
                                                 <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
@@ -123,16 +130,13 @@
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">OBSERVAÇÃO DE CANCELAMENTO</h5>
+                                                            <h5 class="modal-title">OBSERVAÇÃO DE CANCELAMENTO</h5>
                                                         </div>
                                                         <div class="modal-body">    
-                                                             <br/>
                                    
-                                            <h4><asp:label runat="server" ID="lblFatura" CssClass="control-label" /><br/><br/>
-                                            <asp:label runat="server" ID="lblNomeFornecedor" CssClass="control-label" />
-
-                                            <asp:label runat="server" ID="lblProcesso" CssClass="control-label" /><br/><br/>
-                                            <asp:label runat="server" ID="lblNomeCliente" CssClass="control-label" /></h4>
+                                            <h5><asp:label runat="server" ID="lblFaturaCancelamento" />                       
+                                            <asp:label runat="server" ID="lblProcessoCancelamento" />
+                                            <asp:label runat="server" ID="lblClienteCancelamento" /></h5>
                         
                                             <asp:TextBox ID="txtObs" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                         
@@ -152,12 +156,45 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+
+
+
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">BAIXA</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                            <h5>
+                                                <asp:label runat="server" ID="lblFaturaBaixa"  />
+                                                <asp:label runat="server" ID="lblProcessoBaixa"  />                                          
+                                            <asp:label runat="server" ID="lblClienteBaixa" /></h5>
+                        
+                                           <h3>CONFIRMAÇÃO DA LIQUIDAÇÃO</h3>
+                                        
+                                         </div>
+                                                                                       
+                                                                        
+                                                        <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasPagar" />
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasReceber" />
-                                <asp:AsyncPostBackTrigger ControlID="btnBaixarPagamento" />
-                                <asp:AsyncPostBackTrigger ControlID="btnBaixarRecebimento" />
+                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasPagar" />
+                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
                             </Triggers>
                         </asp:UpdatePanel>

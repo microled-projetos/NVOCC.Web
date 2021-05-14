@@ -116,7 +116,7 @@
                                     <div class="col-sm-offset-10 col-sm-2">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" CssClass="btn btn-warning btn-block" />
+                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" Enabled="false" CssClass="btn btn-warning btn-block" />
                                         </div>
                                         </div>
                                 </div>

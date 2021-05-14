@@ -248,15 +248,6 @@ Partial Public Class MontagemPagamento
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsMoeda.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsFornecedor.
     '''</summary>
     '''<remarks>
