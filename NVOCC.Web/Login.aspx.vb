@@ -11,11 +11,15 @@
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT [MensagemUsuarioRegistrado],[MensagemUsuarioRegistrado],[ExibirLinkCadastre_se] FROM [TB_PARAMETROS]")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT [MensagemUsuarioRegistrado],[MensagemUsuarioRegistrado],[ExibirLinkCadastre_se],VL_ALIQUOTA_ISS, VL_ALIQUOTA_PIS, VL_ALIQUOTA_COFINS FROM [TB_PARAMETROS]")
             If ds.Tables(0).Rows.Count > 0 Then
                 Session("MensagemEmailRedefinicaoSenha") = ds.Tables(0).Rows(0).Item("MensagemUsuarioRegistrado").ToString()
                 Session("MensagemUsuarioRegistrado") = ds.Tables(0).Rows(0).Item("MensagemUsuarioRegistrado").ToString()
                 Session("ExibirLinkCadastre_se") = ds.Tables(0).Rows(0).Item("ExibirLinkCadastre_se").ToString()
+
+                Session("VL_ALIQUOTA_PIS") = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS").ToString()
+                Session("VL_ALIQUOTA_COFINS") = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS").ToString()
+                Session("VL_ALIQUOTA_ISS") = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS").ToString()
 
                 If Session("ExibirLinkCadastre_se") = True Then
                     lnkCadastre_se.Visible = True

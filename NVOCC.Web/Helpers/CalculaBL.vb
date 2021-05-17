@@ -21,12 +21,12 @@
         Dim z As Double
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("select B.ID_BL_TAXA, isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO, CONVERT(varchar,B.DT_ATUALIZACAO_CAMBIO,103) DT_ATUALIZACAO_CAMBIO,C.ID_CONTA_PAGAR_RECEBER_ITENS, D.DT_CANCELAMENTO 
+        Dim ds As DataSet = Con.ExecutarQuery("select B.ID_BL_TAXA, isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,(SELECT MAX(DT_CAMBIO) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA)DT_CAMBIO,C.ID_CONTA_PAGAR_RECEBER_ITENS, D.DT_CANCELAMENTO 
 from TB_BL  A
-Left Join TB_BL_TAXA B ON A.ID_BL = B.ID_BL 
+LEFT JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL 
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON C.ID_BL_TAXA = B.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
- WHERE A.ID_BL =  " & ID_BL)
+ WHERE A.ID_BL  =" & ID_BL)
 
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -40,13 +40,13 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                 ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
                     Return msg2
 
-                ElseIf IsDBNull(linha.Item("DT_ATUALIZACAO_CAMBIO")) Then
+                ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
                     Return msg3
 
-                ElseIf linha.Item("DT_ATUALIZACAO_CAMBIO") < dataatual Then
+                ElseIf linha.Item("DT_CAMBIO") < dataatual Then
                     Return msg3
 
-                ElseIf linha.Item("DT_ATUALIZACAO_CAMBIO") > dataatual Then
+                ElseIf linha.Item("DT_CAMBIO") > dataatual Then
                     Return msg3
 
                 ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 1 Then
@@ -342,7 +342,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     Taxa = Taxa.Replace(".", String.Empty).Replace(",", ".")
 
 
-                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_CALCULADO = '" & Taxa & "' , DT_CALCULO = GetDate() WHERE ID_BL_TAXA = " & linha.Item("ID_BL_TAXA") & " ; UPDATE TB_BL SET FL_CALCULADO = 1 WHERE ID_BL =" & ID_BL)
+                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 1, VL_TAXA_CALCULADO = '" & Taxa & "' , DT_CALCULO = GetDate() WHERE ID_BL_TAXA = " & linha.Item("ID_BL_TAXA") & " ; UPDATE TB_BL SET FL_CALCULADO = 1 WHERE ID_BL =" & ID_BL)
 
 
 

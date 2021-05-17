@@ -31,7 +31,10 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label class="control-label">CIDADE DO PARCEIRO:</label><br />
-                                            <asp:Label runat="server" ID="lblCidade" CssClass="control-label" />
+                                            <asp:Label runat="server" ID="lblCidade" CssClass="control-label"/>
+                                             <asp:Label runat="server" ID="lbl_ISS" CssClass="control-label" Style="display: none"/>
+                                             <asp:Label runat="server" ID="lbl_PIS" CssClass="control-label" Style="display: none"/>
+                                             <asp:Label runat="server" ID="lbl_COFINS" CssClass="control-label" Style="display: none" />
                                         </div>
                                     </div>
                                 </div>
@@ -96,17 +99,27 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField>
                                                             <ItemTemplate>
-                                                                <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" />
+                                                                <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"  />
                                                             </ItemTemplate>
                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
                                                         <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Fornecedor" SortExpression="NM_PARCEIRO_EMPRESA" />
                                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
+                                                       <asp:TemplateField HeaderText="ItemDespesa" Visible="False">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblItemDespesa" runat="server" Text='<%# Eval("ID_ITEM_DESPESA") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" />
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="Valor da compra" SortExpression="VL_TAXA_CALCULADO" />
-                                                        <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
 
+                                                        <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
+                                                        <asp:TemplateField HeaderText="Calculado" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblCalculado" runat="server" Text='<%# Eval("FL_CALCULADO") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
@@ -118,16 +131,20 @@
                                                 <asp:GridView ID="dgvMoedaFreteArmador" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoedaFreteArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
+                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
+                                                        <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
+                                                     
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
                                                 <asp:GridView ID="dgvMoedaFrete" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoedaFrete" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
+                                                       <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                         <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
-                                                        <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
+                                                        <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
+
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
