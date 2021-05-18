@@ -2,10 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-     /*   #DivImpressao, #imgFundo {
+        #DivImpressao, #imgFundo {
             display: none;
         }
-*/
         @media print {
 
             @page {
@@ -58,7 +57,7 @@
                                     <asp:TemplateField HeaderText="">
                                         <ItemTemplate>
                                             <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Imprimir Nota" OnClientClick="javascript:return confirm('Deseja realmente faturar esta pendencia?');"></asp:LinkButton>
+                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Imprimir Nota"></asp:LinkButton>
                                         </ItemTemplate>
                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                     </asp:TemplateField>
@@ -107,7 +106,7 @@
                 </td>
             </tr>
         </table>
-        <table  style="border-style:solid;">
+        <table  style="border-style:solid;border-width: thin;">
             <tr>
                 <td>
                     <strong>CLIENTE</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
@@ -162,7 +161,7 @@
                 </td>
             </tr>
         </table>
-        <table>
+        <table style="border-style:solid;border-width: thin;">
             <tr>
                 <td>
                     <strong>EXPORTADOR</strong>&nbsp;<asp:Label ID="lblExportador" runat="server" />
@@ -235,7 +234,7 @@
         </table>
            <br />
             <br />
-        <div id="divConteudoDinamico" runat="server" >
+        <div id="divConteudoDinamico" runat="server" style="border-style:solid;border-width: thin;" >
         </div>
 <%--        <div style="float: right;"><asp:Label ID="lbltotal" runat="server" /></div>--%>
            <br />
@@ -273,7 +272,7 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
     <asp:SqlDataSource ID="dsNotas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber]"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

@@ -500,6 +500,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtQtdFaturamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ckbAtivo.
     '''</summary>
     '''<remarks>
@@ -876,4 +885,13 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsAcordoCambio As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoFaturamento As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

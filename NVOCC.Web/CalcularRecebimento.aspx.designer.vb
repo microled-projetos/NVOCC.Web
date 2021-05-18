@@ -86,6 +86,24 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divInfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlFornecedor.
     '''</summary>
     '''<remarks>
@@ -102,6 +120,33 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblCidade As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lbl_ISS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbl_ISS As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lbl_PIS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbl_PIS As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lbl_COFINS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbl_COFINS As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtCambio.

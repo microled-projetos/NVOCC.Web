@@ -61,7 +61,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/><%--Enabled='<%# (Eval("FL_CALCULADO") = 1) %>'--%>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -80,6 +80,11 @@
                                                  <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                 <asp:TemplateField HeaderText="Calculado" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblCalculado" runat="server" Text='<%# Eval("FL_CALCULADO") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -116,7 +121,7 @@
                                     <div class="col-sm-offset-10 col-sm-2">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" CssClass="btn btn-warning btn-block" />
+                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" Enabled="false" CssClass="btn btn-warning btn-block" />
                                         </div>
                                         </div>
                                 </div>

@@ -71,6 +71,7 @@
                                     <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
                                     <asp:BoundField DataField="PARCEIRO_EMPRESA" HeaderText="Cliente" SortExpression="PARCEIRO_EMPRESA" />
                                     <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias Faturamento" SortExpression="QT_DIAS_FATURAMENTO" />
+                                    <asp:BoundField DataField="REFERENCIA_CLIENTE" HeaderText="Ref. Cliente" SortExpression="REFERENCIA_CLIENTE" />
                                     <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Valor" SortExpression="VL_LIQUIDO" />
                                     <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Data de Vencimento" SortExpression="DT_VENCIMENTO" />
                                     <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
@@ -103,7 +104,7 @@
 </div>
 
    <asp:SqlDataSource ID="dsContasReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber]"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

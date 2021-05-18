@@ -18,13 +18,13 @@
         Else
             If Request.QueryString("t") = "p" Then
                 lblTipo.Text = "CONTAS A PAGAR"
-                btnBaixarPagamento.Visible = True
+                'btnBaixarPagamento.Visible = True
                 gridPagar.Visible = True
                 gridReceber.Visible = False
 
             ElseIf Request.QueryString("t") = "r" Then
                 lblTipo.Text = "CONTAS A RECEBER"
-                btnBaixarRecebimento.Visible = True
+                'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
                 gridReceber.Visible = True
 
@@ -33,61 +33,61 @@
         Con.Fechar()
     End Sub
 
-    Private Sub btnBaixarPagamento_Click(sender As Object, e As EventArgs) Handles btnBaixarPagamento.Click
-        divErro.Visible = False
-        divSuccess.Visible = False
+    'Private Sub btnBaixarPagamento_Click(sender As Object, e As EventArgs) Handles btnBaixarPagamento.Click
+    '    divErro.Visible = False
+    '    divSuccess.Visible = False
 
-        If txtData.Text = "" Then
-            lblErro.Text = "É necessário informar a data para efetuar a baixa!"
-            divErro.Visible = True
-        Else
-            Dim Con As New Conexao_sql
-            Con.Conectar()
+    '    If txtData.Text = "" Then
+    '        lblErro.Text = "É necessário informar a data para efetuar a baixa!"
+    '        divErro.Visible = True
+    '    Else
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
 
-            For Each linha As GridViewRow In dgvTaxasPagar.Rows
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                If check.Checked Then
-                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-                End If
-            Next
-            Con.Fechar()
-            lblSuccess.Text = "Baixa realizada com sucesso!"
-            divSuccess.Visible = True
-            txtData.Text = ""
-            dgvTaxasPagar.DataBind()
+    '        For Each linha As GridViewRow In dgvTaxasPagar.Rows
+    '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '            If check.Checked Then
+    '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+    '            End If
+    '        Next
+    '        Con.Fechar()
+    '        lblSuccess.Text = "Baixa realizada com sucesso!"
+    '        divSuccess.Visible = True
+    '        txtData.Text = ""
+    '        dgvTaxasPagar.DataBind()
 
-        End If
+    '    End If
 
-    End Sub
+    'End Sub
 
-    Private Sub btnBaixarRecebimento_Click(sender As Object, e As EventArgs) Handles btnBaixarRecebimento.Click
-        divErro.Visible = False
-        divSuccess.Visible = False
+    'Private Sub btnBaixarRecebimento_Click(sender As Object, e As EventArgs) Handles btnBaixarRecebimento.Click
+    '    divErro.Visible = False
+    '    divSuccess.Visible = False
 
-        If txtData.Text = "" Then
-            lblErro.Text = "É necessário informar a data para efetuar a baixa!"
-            divErro.Visible = True
-        Else
-            Dim Con As New Conexao_sql
-            Con.Conectar()
+    '    If txtData.Text = "" Then
+    '        lblErro.Text = "É necessário informar a data para efetuar a baixa!"
+    '        divErro.Visible = True
+    '    Else
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
 
-            For Each linha As GridViewRow In dgvTaxasReceber.Rows
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                If check.Checked Then
-                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-                End If
-            Next
-            Con.Fechar()
-            lblSuccess.Text = "Baixa realizada com sucesso!"
-            divSuccess.Visible = True
-            txtData.Text = ""
-            dgvTaxasReceber.DataBind()
+    '        For Each linha As GridViewRow In dgvTaxasReceber.Rows
+    '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '            If check.Checked Then
+    '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+    '            End If
+    '        Next
+    '        Con.Fechar()
+    '        lblSuccess.Text = "Baixa realizada com sucesso!"
+    '        divSuccess.Visible = True
+    '        txtData.Text = ""
+    '        dgvTaxasReceber.DataBind()
 
-        End If
+    '    End If
 
-    End Sub
+    'End Sub
 
     Private Sub btnSalvarCancelamento_Click(sender As Object, e As EventArgs) Handles btnSalvarCancelamento.Click
         divErro.Visible = False
@@ -131,20 +131,107 @@
 
     End Sub
 
-    'Private Sub dgvTaxasPagar_Load(sender As Object, e As EventArgs) Handles dgvTaxasPagar.Load
-    '    Dim Con As New Conexao_sql
-    '    lblFatura.Text = ""
-    '    lblNomeFornecedor.Text = ""
-    '    For Each linha As GridViewRow In dgvTaxasPagar.Rows
-    '        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-    '        Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-    '        Dim fatura As String = CType(linha.FindControl("lblFatura"), Label).Text
-    '        Dim fornecedor As String = CType(linha.FindControl("lblFornecedor"), Label).Text
+    Private Sub btnSalvarBaixa_Click(sender As Object, e As EventArgs) Handles btnSalvarBaixa.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
 
-    '        If check.Checked Then
-    '            lblFatura.Text &= "Nº Fatura: " & fatura & "<br/>"
-    '            lblNomeFornecedor.Text &= "Fornecedor: " & fornecedor & "<br/>"
-    '        End If
-    '    Next
-    'End Sub
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtData.Text = "" Then
+            lblErro.Text = "É necessário informar a data para efetuar a baixa!"
+            divErro.Visible = True
+            Exit Sub
+
+        Else
+            If Request.QueryString("t") = "p" Then
+
+                For Each linha As GridViewRow In dgvTaxasPagar.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+                Next
+
+                dgvTaxasPagar.DataBind()
+
+            ElseIf Request.QueryString("t") = "r" Then
+
+                For Each linha As GridViewRow In dgvTaxasReceber.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+                Next
+
+                dgvTaxasReceber.DataBind()
+
+            End If
+
+
+            Con.Fechar()
+            lblSuccess.Text = "Baixa realizada com sucesso!"
+            divSuccess.Visible = True
+            txtData.Text = ""
+            txtObs.Text = ""
+            mpeObs.Hide()
+
+        End If
+    End Sub
+
+
+    Private Sub dgvTaxasPagar_Load(sender As Object, e As EventArgs) Handles dgvTaxasPagar.Load
+        Dim Con As New Conexao_sql
+        lblFaturaCancelamento.Text = ""
+        lblProcessoCancelamento.Text = ""
+        lblClienteCancelamento.Text = ""
+
+        lblFaturaBaixa.Text = ""
+        lblProcessoBaixa.Text = ""
+        lblClienteBaixa.Text = ""
+        For Each linha As GridViewRow In dgvTaxasPagar.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim fatura As String = CType(linha.FindControl("lblFatura"), Label).Text
+            Dim fornecedor As String = CType(linha.FindControl("lblFornecedor"), Label).Text
+
+            If check.Checked Then
+                lblFaturaCancelamento.Text &= "Nº Fatura: " & fatura & "<br/>"
+                lblClienteCancelamento.Text &= "Fornecedor: " & fornecedor & "<br/>"
+
+
+                lblFaturaBaixa.Text &= "Nº Fatura: " & fatura & "<br/>"
+                lblClienteBaixa.Text &= "Fornecedor: " & fornecedor & "<br/>"
+            End If
+        Next
+    End Sub
+
+
+    Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
+        Dim Con As New Conexao_sql
+        lblFaturaCancelamento.Text = ""
+        lblProcessoCancelamento.Text = ""
+        lblClienteCancelamento.Text = ""
+
+        lblFaturaBaixa.Text = ""
+        lblProcessoBaixa.Text = ""
+        lblClienteBaixa.Text = ""
+        For Each linha As GridViewRow In dgvTaxasReceber.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim processo As String = CType(linha.FindControl("lblProcesso"), Label).Text
+            Dim fornecedor As String = CType(linha.FindControl("lblFornecedor"), Label).Text
+
+            If check.Checked Then
+                lblProcessoCancelamento.Text &= "Nº Processo: " & processo & "<br/>"
+                lblClienteCancelamento.Text &= "Fornecedor: " & fornecedor & "<br/>"
+
+
+                lblProcessoBaixa.Text &= "Nº Processo: " & processo & "<br/>"
+                lblClienteBaixa.Text &= "Fornecedor: " & fornecedor & "<br/>"
+            End If
+        Next
+    End Sub
 End Class

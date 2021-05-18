@@ -1355,8 +1355,8 @@ WHERE ID_CARGA_BL = " & ID)
         Dim v As New VerificaData
 
         If ddlServico_BasicoAereo.SelectedValue = 0 Then
-            divErro_BasicoMaritimo.Visible = True
-            lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "É necesário informar o tipo de serviço."
         Else
 
             If txtResumoMercadoria_BasicoAereo.Text = "" Then

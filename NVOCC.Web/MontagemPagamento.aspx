@@ -176,18 +176,15 @@
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE ID_PARCEIRO_EMPRESA = @ID_PARCEIRO_EMPRESA AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE, @DATA, 103) ">
+WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = @ID_PARCEIRO_EMPRESA AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE, @DATA, 103) ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_EMPRESA" Type="Int32" ControlID="ddlFornecedor" />
             <asp:ControlParameter Name="DATA" Type="string" ControlID="txtVencimentoBusca" />
         </SelectParameters>
     </asp:SqlDataSource>
-   
-    <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA )
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P')
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">        
      </asp:SqlDataSource>
 
