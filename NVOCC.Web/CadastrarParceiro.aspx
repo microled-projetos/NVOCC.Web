@@ -341,10 +341,17 @@
                                         <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="50" ></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Qtd. Dias de Faturamento:</label>
                                         <asp:TextBox ID="txtQtdFaturamento" runat="server" CssClass="form-control inteiro" MaxLength="50" ></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de Faturamento:</label>
+                                       <asp:DropDownList ID="ddlTipoFaturamento" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                            </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -654,6 +661,10 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
     
         <asp:SqlDataSource ID="dsAcordoCambio" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' FROM [dbo].[TB_ACORDO_CAMBIO] ORDER BY ID_ACORDO_CAMBIO">
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_FATURAMENTO] ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
 </asp:Content>
 

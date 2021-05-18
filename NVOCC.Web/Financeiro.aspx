@@ -110,7 +110,7 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A PAGAR</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
                             <div class="row">
                                    <div class="row">
                                      <div class="col-sm-3">
@@ -160,7 +160,7 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A RECEBER</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
                             <div class="row">
                                    <div class="row">
                                      <div class="col-sm-3">
@@ -317,12 +317,14 @@
                                             <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
                                             <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
                                             <asp:BoundField DataField="NM_PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR" HeaderText="Qtd. de taxas a Pagar" SortExpression="TOTAL_A_PAGAR" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR_QUITADAS" HeaderText="Qtd. de taxas Pagas" SortExpression="TOTAL_A_PAGAR_QUITADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR_ABERTAS" HeaderText="Qtd. de taxas (a Pagar) em aberto" SortExpression="TOTAL_A_PAGAR_ABERTAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER" HeaderText="Qtd. de taxas a Receber" SortExpression="TOTAL_A_RECEBER" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_QUITADAS" HeaderText="Qtd. Quantidade de taxas Recebidas" SortExpression="TOTAL_A_RECEBER_QUITADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_ABERTAS" HeaderText="Quantidade de taxas (a Receber) em aberto" SortExpression="TOTAL_A_RECEBER_ABERTAS" />
+                                            <asp:BoundField DataField="TOTAL_A_PAGAR" HeaderText="Qtd. taxas a Pagar" SortExpression="TOTAL_A_PAGAR" />
+                                            <asp:BoundField DataField="TOTAL_A_PAGAR_QUITADAS" HeaderText="Qtd. taxas Pagas" SortExpression="TOTAL_A_PAGAR_QUITADAS" />
+                                            <asp:BoundField DataField="TOTAL_A_PAGAR_ABERTAS" HeaderText="Qtd. taxas (a Pagar) em aberto" SortExpression="TOTAL_A_PAGAR_ABERTAS" />
+                                            <asp:BoundField DataField="TOTAL_A_PAGAR_CANCELADAS" HeaderText="Qtd. taxas (a Pagar) Canceladas" SortExpression="TOTAL_A_PAGAR_CANCELADAS" />
+                                            <asp:BoundField DataField="TOTAL_A_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="TOTAL_A_RECEBER" />
+                                            <asp:BoundField DataField="TOTAL_A_RECEBER_QUITADAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="TOTAL_A_RECEBER_QUITADAS" />
+                                            <asp:BoundField DataField="TOTAL_A_RECEBER_ABERTAS" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="TOTAL_A_RECEBER_ABERTAS" />
+                                            <asp:BoundField DataField="TOTAL_A_RECEBER_CANCELADAS" HeaderText="Qtd. taxas (a Receber) Canceladas" SortExpression="TOTAL_A_RECEBER_CANCELADAS" />
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

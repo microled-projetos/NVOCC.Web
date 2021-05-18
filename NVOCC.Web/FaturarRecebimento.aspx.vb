@@ -46,4 +46,30 @@
         End If
 
     End Sub
+
+    Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+        Dim filtro As String = ""
+
+        If ddlFiltro.SelectedValue = 1 Then
+
+            filtro &= "AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+
+        ElseIf ddlFiltro.SelectedValue = 2 Then
+            filtro &= "AND NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
+
+
+        ElseIf ddlFiltro.SelectedValue = 3 Then
+            filtro &= "AND PARCEIRO_EMPRESA LIKE '%" & txtPesquisa.Text & "%'"
+
+        ElseIf ddlFiltro.SelectedValue = 4 Then
+            filtro &= "AND REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+
+        End If
+
+        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')" & filtro
+        dgvContasReceber.DataBind()
+
+        ddlFiltro.SelectedValue = 0
+        txtPesquisa.Text = ""
+    End Sub
 End Class

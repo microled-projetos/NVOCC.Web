@@ -66,9 +66,17 @@ WHERE  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") A
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor2 As Double = lblTotal.Text
+            Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
 
             If check.Checked Then
                 lblTotal.Text = valor2 + valor
+                If Calculado = False Then
+                    lblErro.Text = "TAXA NECESSITA DE CÁLCULO"
+                    divErro.Visible = True
+                    btnSolicitar.Enabled = False
+                    Exit Sub
+
+                End If
             End If
 
             If valor = 0 Then

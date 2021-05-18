@@ -141,6 +141,8 @@
         If txtData.Text = "" Then
             lblErro.Text = "É necessário informar a data para efetuar a baixa!"
             divErro.Visible = True
+            Exit Sub
+
         Else
             If Request.QueryString("t") = "p" Then
 
@@ -167,16 +169,16 @@
                 dgvTaxasReceber.DataBind()
 
             End If
+
+
+            Con.Fechar()
+            lblSuccess.Text = "Baixa realizada com sucesso!"
+            divSuccess.Visible = True
+            txtData.Text = ""
+            txtObs.Text = ""
+            mpeObs.Hide()
+
         End If
-
-        Con.Fechar()
-        lblSuccess.Text = "Baixa realizada com sucesso!"
-        divSuccess.Visible = True
-        txtData.Text = ""
-        txtObs.Text = ""
-        mpeObs.Hide()
-
-
     End Sub
 
 

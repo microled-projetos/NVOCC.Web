@@ -147,9 +147,10 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
 
                         valores = valores + linha("VALORES")
-                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
+
 
                     Next
+                    tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
                     tabela &= "</table>"
                     divConteudoDinamico.InnerHtml = tabela
                     'lbltotal.Text = "Total: " & valores

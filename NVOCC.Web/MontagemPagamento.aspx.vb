@@ -115,7 +115,7 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Con.Conectar()
             Dim ds As DataSet
             If ckbBaixaAutomatica.Checked = True Then
-                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR,DT_LIQUIDACAO) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "',CONVERT(DATE, '" & txtVencimento.Text & "',103)) Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "') Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
 
             Else
                 ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
@@ -148,5 +148,9 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
 
         End If
 
+    End Sub
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Response.Redirect("Financeiro.aspx")
     End Sub
 End Class

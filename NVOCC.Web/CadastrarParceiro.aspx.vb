@@ -83,6 +83,8 @@ ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
 ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
 ID_ACORDO_CAMBIO_AEREO,
 QT_DIAS_FATURAMENTO,
+QT_DIAS_FATURAMENTO,
+ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES
 FROM TB_PARCEIRO 
@@ -130,6 +132,8 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlAcordoCambioMaritimoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
                 ddlAcordoCambioMaritimoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
                 txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
+                ddlTipoFaturamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
+
                 ckbVendedorDireto.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR_DIRETO")
                 ckbEquipeInsideSales.Checked = ds.Tables(0).Rows(0).Item("FL_EQUIPE_INSIDE_SALES")
 
@@ -504,6 +508,7 @@ ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
 ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
 ID_ACORDO_CAMBIO_AEREO,
 QT_DIAS_FATURAMENTO,
+ID_TIPO_FATURAMENTO,
 EMAIL,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES
@@ -557,6 +562,7 @@ VALUES (
 " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
 " & ddlAcordoCambioAereo.SelectedValue & ",
 " & txtQtdFaturamento.Text & ",
+" & ddlTipoFaturamento.SelectedValue & ",
 " & txtEmailParceiro.Text & ",
 '" & ckbVendedorDireto.Checked & "',
 '" & ckbEquipeInsideSales.Checked & "'
@@ -892,6 +898,7 @@ ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL = " & ddlAcordoCambioMaritimoExpoFCL.Selected
 ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
 ID_ACORDO_CAMBIO_AEREO = " & ddlAcordoCambioAereo.SelectedValue & ",
 QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
+ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
 EMAIL =  " & txtEmailParceiro.Text & ",
 FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
 FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
