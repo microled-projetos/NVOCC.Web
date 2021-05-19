@@ -30,6 +30,9 @@
 
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         divInfo.Visible = False
+        divErro.Visible = False
+        divSuccess.Visible = False
+
         If ddlFornecedor.SelectedValue <> 0 Then
             Dim Con As New Conexao_sql
             Con.Conectar()
