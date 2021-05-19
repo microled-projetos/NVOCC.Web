@@ -175,6 +175,15 @@
                             <li>
                                 <a href="Faturamento.aspx" runat="server" id="A12">Faturamento</a>
                             </li>
+                            <li>
+                                <a href="#"  runat="server" id="A14">Notas Fiscais</a>
+                            </li>
+                            <li>
+                                <a href="#"  runat="server" id="A15">Comissões</a>
+                            </li>
+                             <li>
+                                <a href="#" runat="server" id="A16">TOTVS</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

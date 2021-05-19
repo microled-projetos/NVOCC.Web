@@ -91,7 +91,8 @@
                            <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
-                           <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
+                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+                           <asp:LinkButton ID="lkNotasFiscais" Visible="false" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
 
                        </div>
                    </div>

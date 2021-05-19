@@ -105,10 +105,10 @@
 
         If ckStatus.Items.FindByValue(1).Selected Then
             If filtro = "" Then
-                filtro &= "WHERE (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
+                filtro &= " WHERE (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
 
             Else
-                filtro &= "OR (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
+                filtro &= " OR (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
 
             End If
 
@@ -117,20 +117,20 @@
         If ckStatus.Items.FindByValue(2).Selected Then
 
             If filtro = "" Then
-                filtro &= "WHERE (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
+                filtro &= " WHERE (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
 
             Else
-                filtro &= "OR (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
+                filtro &= " OR (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
 
             End If
 
         End If
         If ckStatus.Items.FindByValue(3).Selected Then
             If filtro = "" Then
-                filtro &= "WHERE (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
+                filtro &= " WHERE (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
 
             Else
-                filtro &= "OR (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
+                filtro &= " OR (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
 
             End If
         End If

@@ -49,16 +49,16 @@
             filtro &= " WHERE NR_RECIBO LIKE '%" & txtPesquisa.Text & "%'"
 
         ElseIf ddlFiltro.SelectedValue = 9 Then
-            filtro &= " WHERE DT_LIQUIDACAO LIKE '%" & txtPesquisa.Text & "%'"
+            filtro &= " WHERE DT_LIQUIDACAO >= '%" & txtPesquisa.Text & "%'"
 
         End If
 
         If ckStatus.Items.FindByValue(1).Selected Then
             If filtro = "" Then
-                filtro &= "WHERE DT_LIQUIDACAO IS NULL"
+                filtro &= " WHERE DT_LIQUIDACAO IS NULL"
 
             Else
-                filtro &= "OR DT_LIQUIDACAO IS NULL"
+                filtro &= " OR DT_LIQUIDACAO IS NULL"
 
             End If
 
@@ -67,20 +67,20 @@
         If ckStatus.Items.FindByValue(2).Selected Then
 
             If filtro = "" Then
-                filtro &= "WHERE DT_LIQUIDACAO IS NOT NULL"
+                filtro &= " WHERE DT_LIQUIDACAO IS NOT NULL"
 
             Else
-                filtro &= "OR DT_LIQUIDACAO IS NOT NULL"
+                filtro &= " OR DT_LIQUIDACAO IS NOT NULL"
 
             End If
 
         End If
         If ckStatus.Items.FindByValue(3).Selected Then
             If filtro = "" Then
-                filtro &= "WHERE DT_CANCELAMENTO IS NOT NULL"
+                filtro &= " WHERE DT_CANCELAMENTO IS NOT NULL"
 
             Else
-                filtro &= "OR DT_CANCELAMENTO IS NOT NULL"
+                filtro &= " OR DT_CANCELAMENTO IS NOT NULL"
 
             End If
         End If
@@ -95,10 +95,12 @@
     Private Sub ddlFiltro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltro.SelectedIndexChanged
         If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
             txtPesquisa.CssClass = "form-control data"
+            txtPesquisa.Text = Now.Date.AddDays(-1)
+            txtPesquisa.Text = FinalSemana(txtPesquisa.Text)
 
         Else
             txtPesquisa.CssClass = "form-control"
-
+            txtPesquisa.Text = ""
         End If
     End Sub
 
@@ -198,7 +200,18 @@
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
-            Response.Redirect("ReciboPagamento.aspx?id=" & txtID.Text)
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO FROM [TB_FATURAMENTO] A
+LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
+WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                Response.Redirect("ReciboPagamento.aspx?id=" & txtID.Text)
+            Else
+                divErro.Visible = True
+                lblmsgErro.Text = "Nota sem liquidação!"
+            End If
         End If
     End Sub
 
@@ -209,7 +222,36 @@
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro"
         Else
-            Response.Redirect("ReciboProvisorioServico.aspx?id=" & txtID.Text)
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT DT_RPS FROM [TB_FATURAMENTO] WHERE DT_RPS IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                Response.Redirect("ReciboProvisorioServico.aspx?id=" & txtID.Text)
+            Else
+                divErro.Visible = True
+                lblmsgErro.Text = "Nota sem RPS!"
+            End If
         End If
     End Sub
+
+    Private Sub lkGerarRPS_Click(sender As Object, e As EventArgs) Handles lkGerarRPS.Click
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+        End If
+    End Sub
+
+    Public Function FinalSemana(ByVal data As Date)
+        If data.DayOfWeek = DayOfWeek.Saturday Then
+            data = DateAdd(DateInterval.Day, 2, data)
+        ElseIf data.DayOfWeek = DayOfWeek.Sunday Then
+            data = DateAdd(DateInterval.Day, 1, data)
+        End If
+        Return data.ToString("dd/MM/yyyy")
+    End Function
+
+
 End Class
