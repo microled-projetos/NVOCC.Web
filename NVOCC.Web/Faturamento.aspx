@@ -95,9 +95,9 @@
 
                        </div>
                    </div>
-                                <div runat="server" id="divAuxiliar" visible="false">
-                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
-                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
+                                <div runat="server" id="divAuxiliar" style="display:none">
+                                    <asp:TextBox ID="txtID" runat="server" CssClass="form-control" ></asp:TextBox>
+                                    <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                                 <div class="table-responsive tableFixHead">
                                     <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
@@ -217,7 +217,7 @@
                                      <div class="col-sm-10">
                                     <div class="form-group">
                                            
-<asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Nota de Débito</asp:LinkButton>
+<asp:LinkButton ID="lkNotaDebito" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px"  href="#" OnClientClick="teste()" >Nota de Débito</asp:LinkButton>
 
 
                                     </div>
@@ -227,14 +227,14 @@
                                      <div class="col-sm-10">
                                     <div class="form-group">
                                              
-                                                                                <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Recibo Provisório de Serviço</asp:LinkButton>
+                                                                                <asp:LinkButton ID="lkReciboServico" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Recibo Provisório de Serviço</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div>      
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">
-                                                                                     <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Recibo de Pagamento</asp:LinkButton>
+                                                                                     <asp:LinkButton ID="lkReciboPagamento" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Recibo de Pagamento</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div>      
@@ -269,7 +269,10 @@
         </div>
 
     </div>
-
+    <div id="dialog-message" title="Agendamento REDEX">
+        <p id="dialog-message-text">
+        </p>
+    </div>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Faturamento] WHERE DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
 
@@ -277,4 +280,28 @@
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+
+        function ND() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('EmissaoNDFaturamento.aspx?id=' + ID, '_blank');
+
+        }
+
+
+        function teste() {
+            var resultado = confirm("Deseja emitir nota de débito da fatura selecionada?");
+            if (resultado == true) {
+                var ID = document.getElementById('<%= txtID.ClientID %>').value;
+                console.log(ID);
+
+                window.open('EmissaoNDFaturamento.aspx?id=' + ID, '_blank');
+            }
+            
+        }
+    </script>
 </asp:Content>

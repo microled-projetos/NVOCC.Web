@@ -338,31 +338,31 @@ Partial Public Class Faturamento
     Protected WithEvents pnlDesmosntrativos As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle lkSolicitacaoPagamento.
+    '''Controle lkNotaDebito.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkSolicitacaoPagamento As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkNotaDebito As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkMontagemPagamento.
+    '''Controle lkReciboServico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkMontagemPagamento As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkReciboServico As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkBaixaCancel_Pagar.
+    '''Controle lkReciboPagamento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkBaixaCancel_Pagar As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkReciboPagamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharDesmosntrativos.

@@ -179,4 +179,37 @@
 
         End If
     End Sub
+
+    Private Sub lkNotaDebito_Click(sender As Object, e As EventArgs) Handles lkNotaDebito.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            Response.Redirect("EmissaoNDFaturamento.aspx?id=" & txtID.Text)
+        End If
+    End Sub
+
+    Private Sub lkReciboPagamento_Click(sender As Object, e As EventArgs) Handles lkReciboPagamento.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            Response.Redirect("ReciboPagamento.aspx?id=" & txtID.Text)
+        End If
+    End Sub
+
+    Private Sub lkReciboServico_Click(sender As Object, e As EventArgs) Handles lkReciboServico.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            Response.Redirect("ReciboProvisorioServico.aspx?id=" & txtID.Text)
+        End If
+    End Sub
 End Class

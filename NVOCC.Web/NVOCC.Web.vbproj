@@ -332,6 +332,7 @@
     <Content Include="Content\js\webcam.min.js" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="Faturamento.aspx" />
     <Content Include="FaturarRecebimento.aspx" />
@@ -407,6 +408,8 @@
     <Content Include="ProcessosBL.aspx.cs" />
     <Content Include="ProcessosBL.aspx.designer.cs" />
     <Content Include="RastreioBL.aspx" />
+    <Content Include="ReciboPagamento.aspx" />
+    <Content Include="ReciboProvisorioServico.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
@@ -594,6 +597,13 @@
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="EmissaoNDFaturamento.aspx.designer.vb">
+      <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EmissaoNDFaturamento.aspx.vb">
+      <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="EmissaoND.aspx.designer.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
     </Compile>
@@ -768,6 +778,20 @@
     </Compile>
     <Compile Include="RastreioBL.aspx.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ReciboPagamento.aspx.designer.vb">
+      <DependentUpon>ReciboPagamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReciboPagamento.aspx.vb">
+      <DependentUpon>ReciboPagamento.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ReciboProvisorioServico.aspx.designer.vb">
+      <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReciboProvisorioServico.aspx.vb">
+      <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
