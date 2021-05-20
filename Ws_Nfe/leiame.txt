@@ -2,3 +2,8 @@ WebService tera a rotina :
 IntegraNfePrefeitura
 Dados de entrada : RPS, CodEmpresa e Banco
 Retorno : Nfe(numero) ou critica
+
+
+Validacao dos dados:
+tb_faturamento.nr_rps
+tb_faturamento.nr_nota_fiscal
