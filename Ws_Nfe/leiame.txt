@@ -1,0 +1,4 @@
+WebService tera a rotina :
+IntegraNfe
+recebe RPS, CodEmpresa e Banco
+Devolve Nfe(numero) ou critica
