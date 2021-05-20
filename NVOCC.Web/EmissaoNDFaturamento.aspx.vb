@@ -18,7 +18,7 @@
             If Request.QueryString("id") <> "" Then
                 Con.Conectar()
                 Dim ID As String = Request.QueryString("id")
-                ds = Con.ExecutarQuery("SELECT F.ID_FATURAMENTO,A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_VENCIMENTO,103)DT_VENCIMENTO,NR_FATURA_FORNECEDOR,
+                ds = Con.ExecutarQuery("SELECT F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO,F.ID_FATURAMENTO,A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_VENCIMENTO,103)DT_VENCIMENTO,NR_FATURA_FORNECEDOR,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = D.ID_PORTO_ORIGEM)ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = D.ID_PORTO_DESTINO)DESTINO,
 CONVERT(VARCHAR,DT_EMBARQUE,103)EMBARQUE,
@@ -32,7 +32,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONT
 LEFT JOIN TB_BL_TAXA C ON C.ID_BL_TAXA = B.ID_BL_TAXA
 LEFT JOIN TB_BL D ON D.ID_BL = C.ID_BL
 WHERE F.ID_FATURAMENTO = " & ID & "
-GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_FORNECEDOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,DT_EMBARQUE,DT_CHEGADA,ID_NAVIO,NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,D.ID_BL,F.ID_FATURAMENTO")
+GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_FORNECEDOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,DT_EMBARQUE,DT_CHEGADA,ID_NAVIO,NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,D.ID_BL,F.ID_FATURAMENTO,F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO")
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")) Then
                         lblVencimento.Text = ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")
@@ -142,13 +142,23 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                         'lbltotal.Text = "Total: " & valores
                     End If
 
+                    If IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) And IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_DEBITO")) Then
+                        Dim NumeracaoDoc As New NumeracaoDoc
+                        Dim numero As String = NumeracaoDoc.Numerar(1)
+
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_NOTA_DEBITO = getdate(), NR_NOTA_DEBITO = '" & numero & "' WHERE ID_FATURAMENTO =" & ID)
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_NOTA_DEBITO = '" & numero & "' WHERE ID_NUMERACAO = 5")
+                    End If
+
                     ds = Con.ExecutarQuery("SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = " & Session("ID_USUARIO"))
                     If ds.Tables(0).Rows.Count > 0 Then
                         lblUsuario.Text = ds.Tables(0).Rows(0).Item("NOME")
                     End If
 
                     lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_NOTA_DEBITO] = getdate() WHERE ID_FATURAMENTO =" & ID)
+
+
+
 
                     Con.Fechar()
                 End If

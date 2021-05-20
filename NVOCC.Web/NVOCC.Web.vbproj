@@ -693,6 +693,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\NumeracaoDoc.vb" />
     <Compile Include="Helpers\CalculaBL.vb" />
     <Compile Include="Helpers\Criptografia.vb" />
     <Compile Include="Helpers\ValidaCNPJ.vb" />
