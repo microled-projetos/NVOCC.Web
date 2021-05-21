@@ -284,6 +284,33 @@ Partial Public Class SiteMaster
     Protected WithEvents A12 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle A14.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A14 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A15.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A15 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A16.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A16 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle lbllogin.
     '''</summary>
     '''<remarks>

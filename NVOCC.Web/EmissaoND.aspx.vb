@@ -166,7 +166,14 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
                 lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
 
+
+                ds = Con.ExecutarQuery("SELECT NR_PROCESSO FROM View_Contas_Receber WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    lblProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                End If
+
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)
+
             End If
 
             Con.Fechar()
