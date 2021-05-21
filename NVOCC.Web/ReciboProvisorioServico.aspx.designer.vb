@@ -158,13 +158,13 @@ Partial Public Class ReciboProvisorioServico
     Protected WithEvents lblRefCliente As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblViaTransp.
+    '''Controle lblServico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblViaTransp As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblServico As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblMercadoria.

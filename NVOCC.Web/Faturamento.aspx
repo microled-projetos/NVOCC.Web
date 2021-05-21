@@ -391,5 +391,20 @@
             var Processo = document.getElementById('<%= lblProcessoBaixa.ClientID %>').innerHTML;
             return Processo;
         }
+
+        function FuncImprimirRPS() {
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('ReciboProvisorioServico.aspx?id=' + ID, '_blank');
+        }
+
+
+        function FuncRecibo() {
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('ReciboPagamento.aspx?id=' + ID, '_blank');
+        }
     </script>
 </asp:Content>

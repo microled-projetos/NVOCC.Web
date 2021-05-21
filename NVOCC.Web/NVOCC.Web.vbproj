@@ -486,7 +486,7 @@
     </Compile>
     <Compile Include="BaixasCancelamentos.aspx.vb">
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="BuscaFreteTransportador.aspx.designer.vb">
       <DependentUpon>BuscaFreteTransportador.aspx</DependentUpon>
@@ -563,14 +563,14 @@
     </Compile>
     <Compile Include="CalcularRecebimento.aspx.vb">
       <DependentUpon>CalcularRecebimento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CapaProcesso.aspx.designer.vb">
       <DependentUpon>CapaProcesso.aspx</DependentUpon>
     </Compile>
     <Compile Include="CapaProcesso.aspx.vb">
       <DependentUpon>CapaProcesso.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
@@ -602,14 +602,14 @@
     </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EmissaoND.aspx.designer.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
     </Compile>
     <Compile Include="EmissaoND.aspx.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Excel.vb" />
     <Compile Include="Faturamento.aspx.designer.vb">
@@ -617,14 +617,14 @@
     </Compile>
     <Compile Include="Faturamento.aspx.vb">
       <DependentUpon>Faturamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FaturarRecebimento.aspx.designer.vb">
       <DependentUpon>FaturarRecebimento.aspx</DependentUpon>
     </Compile>
     <Compile Include="FaturarRecebimento.aspx.vb">
       <DependentUpon>FaturarRecebimento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Financeiro.aspx.designer.vb">
       <DependentUpon>Financeiro.aspx</DependentUpon>
@@ -645,7 +645,7 @@
     </Compile>
     <Compile Include="EmissaoBL.aspx.vb">
       <DependentUpon>EmissaoBL.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Exportacao.vb" />
     <Compile Include="FollowUp.aspx.designer.vb">
@@ -653,7 +653,7 @@
     </Compile>
     <Compile Include="FollowUp.aspx.vb">
       <DependentUpon>FollowUp.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FreteTransportador.aspx.designer.vb">
       <DependentUpon>FreteTransportador.aspx</DependentUpon>
@@ -693,6 +693,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />
     <Compile Include="Helpers\CalculaBL.vb" />
     <Compile Include="Helpers\Criptografia.vb" />
@@ -725,7 +726,7 @@
     </Compile>
     <Compile Include="ModuloOperacional.aspx.vb">
       <DependentUpon>ModuloOperacional.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MoedaFrete.aspx.designer.vb">
       <DependentUpon>MoedaFrete.aspx</DependentUpon>
@@ -746,7 +747,7 @@
     </Compile>
     <Compile Include="MontagemPagamento.aspx.vb">
       <DependentUpon>MontagemPagamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -779,21 +780,21 @@
     </Compile>
     <Compile Include="RastreioBL.aspx.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReciboPagamento.aspx.designer.vb">
       <DependentUpon>ReciboPagamento.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReciboPagamento.aspx.vb">
       <DependentUpon>ReciboPagamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.designer.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
       <DependentUpon>RecuperarSenha.aspx</DependentUpon>
@@ -830,7 +831,7 @@
     </Compile>
     <Compile Include="SolicitacaoPagamento.aspx.vb">
       <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TaxasLocaisArmador.aspx.designer.vb">
       <DependentUpon>TaxasLocaisArmador.aspx</DependentUpon>
@@ -844,14 +845,14 @@
     </Compile>
     <Compile Include="TaxasLocaisImpo_PDF.aspx.vb">
       <DependentUpon>TaxasLocaisImpo_PDF.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TaxasLocaisExpo_PDF.aspx.designer.vb">
       <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
     </Compile>
     <Compile Include="TaxasLocaisExpo_PDF.aspx.vb">
       <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TrocarSenha.aspx.designer.vb">
       <DependentUpon>TrocarSenha.aspx</DependentUpon>

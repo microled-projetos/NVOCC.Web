@@ -75,10 +75,10 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                     End If
 
 
-                    Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,ENDERECO,NR_ENDERECO,CNPJ,CPF,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,BAIRRO,TELEFONE FROM TB_PARCEIRO A WHERE ID_PARCEIRO = " & ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA"))
+                    Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_CLIENTE,ENDERECO,NR_ENDERECO,CNPJ,CEP,CIDADE,BAIRRO,ESTADO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO = " & ID)
 
-                    If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO")) Then
-                        lblEmpresa.Text = dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO")
+                    If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("NM_CLIENTE")) Then
+                        lblEmpresa.Text = dsParceiro.Tables(0).Rows(0).Item("NM_CLIENTE")
                     End If
 
                     If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("ENDERECO")) Then
@@ -105,15 +105,13 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                         lblCNPJ.Text = dsParceiro.Tables(0).Rows(0).Item("CNPJ")
                     End If
 
-                    If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("TELEFONE")) Then
-                        lblTelefone.Text = dsParceiro.Tables(0).Rows(0).Item("TELEFONE")
-                    End If
+                    lblProcesso.Text = Session("ProcessoFaturamento")
 
 
                     Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
-WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID & " )")
 
                     Dim valores As Double = 0
                     If dsTaxas.Tables(0).Rows.Count > 0 Then
@@ -156,8 +154,6 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                     End If
 
                     lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
-
-
 
 
                     Con.Fechar()

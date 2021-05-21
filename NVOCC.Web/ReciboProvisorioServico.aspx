@@ -1,9 +1,9 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="ReciboProvisorioServico.aspx.vb" Inherits="NVOCC.Web.ReciboProvisorioServico" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        /*#DivImpressao, #imgFundo {
+        #DivImpressao, #imgFundo {
             display: none;
-        }*/
+        }
         @media print {
 
             @page {
@@ -114,7 +114,7 @@
             </tr>
             <tr>
                 <td>
-                    <strong>VIA TRANSPORTE:</strong>&nbsp;<asp:Label ID="lblViaTransp" runat="server" />
+                    <strong>SERVICO:</strong>&nbsp;<asp:Label ID="lblServico" runat="server" />
                     <br />
                 </td>
                   <td>                    
@@ -180,10 +180,10 @@
                 </td>
             </tr>
         </table>
-           <br />
+                            <br />
             <br />
         <div id="divConteudoDinamico" runat="server" >
-
+        </div>
             <div id="div1" runat="server" style="border-style:solid;border-width: thin;padding:10px;" >
                  <strong>OBSERVAÇÕES:</strong>&nbsp;<asp:Label ID="lblObs" runat="server" /><br/>
         </div>
@@ -191,7 +191,6 @@
                     <strong>_____________________________________________________________________________________________________________________________</strong><br />
                     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
 
-        </div>
         </div>
            <br />
             <br />
@@ -203,9 +202,9 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <%--<script>             
+    <script>             
         $(window).load(function () {
             window.print();
         });
-    </script>--%>
+    </script>
 </asp:Content>

@@ -46,7 +46,7 @@
 
             <tr>
                 <td>
-                    <div style="text-align: center;">NOTA DE DÉBITO: XXXXXXXXXXXX</div>
+                    <div style="text-align: center;">NOTA DE DÉBITO: <asp:Label ID="lblProcesso" runat="server" /></div>
                 </td>
             </tr>
         </table>

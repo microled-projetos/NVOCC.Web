@@ -95,6 +95,15 @@ Partial Public Class EmissaoND
     Protected WithEvents dgvNotas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle lblProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblEmpresa.
     '''</summary>
     '''<remarks>

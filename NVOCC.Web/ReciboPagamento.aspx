@@ -2,9 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        /*#DivImpressao, #imgFundo {
+        #DivImpressao, #imgFundo {
             display: none;
-        }*/
+        }
         @media print {
 
             @page {
@@ -49,7 +49,7 @@
                                 </div>
                             </td>
                             <td>
-                                <strong>Nº:</strong>&nbsp;<asp:Label ID="Label1" runat="server" /><asp:Label ID="lblNumeroRPS" runat="server" /><br />
+                                <strong>Nº:</strong>&nbsp;<asp:Label ID="Label1" runat="server" /><asp:Label ID="lblNumeroRecibo" runat="server" /><br />
                                 <strong>EMISSÃO:</strong>&nbsp;<asp:Label ID="Label3" runat="server" /><asp:Label ID="lblEmissao" runat="server" /><br />
                             </td>
                         </tr>
@@ -123,9 +123,9 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <%--<script>             
+    <script>             
         $(window).load(function () {
             window.print();
         });
-    </script>--%>
+    </script>
 </asp:Content>
