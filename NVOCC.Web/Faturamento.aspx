@@ -371,6 +371,24 @@
     <script>
 
         function ImprimirND() {
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            if (ID == "") {
+                alert("Selecione um registro!");
+                console.log(0);
+            }
+            else {
+
+                var resultado = confirm("Deseja emitir nota de débito da fatura selecionada?");
+                if (resultado == true) {
+                    console.log(ID);
+
+                  window.open('EmissaoNDFaturamento.aspx?id=' + ID, '_blank');
+                  
+                }
+            }
+        }
+
+        <%--function ImprimirND2() {
             var resultado = confirm("Deseja emitir nota de débito da fatura selecionada?");
             if (resultado == true) {
                 var ID = document.getElementById('<%= txtID.ClientID %>').value;
@@ -379,8 +397,7 @@
                 window.open('EmissaoNDFaturamento.aspx?id=' + ID, '_blank');
             }
 
-        }
-
+        }--%>
 
         function getCliente() {
             var Cliente = document.getElementById('<%= lblClienteBaixa.ClientID %>').innerHTML;

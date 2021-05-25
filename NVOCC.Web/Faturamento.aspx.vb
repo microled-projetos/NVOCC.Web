@@ -22,6 +22,8 @@
     End Sub
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
+        txtID.Text = ""
+        txtlinha.Text = ""
 
         Dim filtro As String = ""
 
@@ -171,11 +173,16 @@
                 divErro.Visible = True
                 lblmsgErro.Text = "É necessario preencher o campo de observações!"
             Else
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,NR_NOTA_FISCAL FROM [TB_FATURAMENTO] A
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,A.NR_NOTA_FISCAL,A.DT_CANCELAMENTO FROM [TB_FATURAMENTO] A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
 WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: fatura já cancelada!"
+                        Exit Sub
+
+                    ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
                         If lblContador.Text = "" Then
                             divInfo.Visible = True
                             lblmsgInfo.Text = "A NOTA FISCAL JÁ FOI GERADA.<br/>CONFIRMA O CANCELAMENTO DA FATURA ASSIM MESMO?"
