@@ -165,6 +165,9 @@
                                      <li><a id="A11" runat="server" href="FaturarRecebimento.aspx">Faturar Recebimento</a></li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="ModuloDemurrage.aspx" runat="server" id="A17">Demurrage</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

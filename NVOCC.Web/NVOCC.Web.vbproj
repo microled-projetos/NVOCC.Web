@@ -50,7 +50,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Users\Grace\Music\ABAINFRA.Web 13042021\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\ABAINFRA_25052021\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -400,6 +400,9 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ModuloDemurrage.aspx" />
+    <Content Include="ModuloDemurrage.aspx.cs" />
+    <Content Include="ModuloDemurrage.aspx.designer.cs" />
     <Content Include="ModuloOperacional.aspx" />
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />

@@ -195,8 +195,8 @@
                              <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
     <ContentTemplate>
 
-                            <div id="DivGrid" runat="server" class="table-responsive tableFixHead DivGrid" >
-                                <asp:GridView ID="dgvFreteTranportador" DataKeyNames="Id,ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" onscroll="javascript:document.getElementById('scroll').value = this.scrollTop" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." >
+                            <div id="DivGrid" class="table-responsive tableFixHead DivGrid" >
+                                <asp:GridView ID="dgvFreteTranportador" DataKeyNames="Id,ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." >
                                     <Columns>
                                         <asp:TemplateField>
 	                                        <ItemTemplate>                                                                
@@ -221,7 +221,7 @@
                                         &nbsp;<asp:Button ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btn btn-danger" />
                                     </EditItemTemplate>
                                     <ItemTemplate>
-                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="Edit" Text="Selecionar"  CssClass="btn btn-primary" OnClientClick="teste()" CommandArgument='<%# Eval("id") %>'/>
+                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="Edit" Text="Selecionar"  CssClass="btn btn-primary" OnClientClick="SalvaPosicao()" CommandArgument='<%# Eval("id") %>'/>
                                     </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
 
@@ -231,7 +231,7 @@
                                     <HeaderStyle CssClass="headerStyle" />
                                 </asp:GridView>
                             </div>
-          
+             
          </ContentTemplate>
   <Triggers>
        <asp:AsyncPostBackTrigger ControlID="bntPesquisarOcean" />
@@ -302,99 +302,42 @@ union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
 union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
 
-<input id="div_position" name="div_position" hidden="hidden" class="div_position"/>
+<input id="div_position" name="div_position" hidden="hidden" class="div_position"/><%--hidden="hidden"--%>
 
+                  <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript">
- <%--       window.onload = function () {
-            var div = document.getElementById("DivGrid");
-            var div_position = document.getElementById("div_position");
-            var position = parseInt('<%=Request.Form("DivGrid") %>');
-            if (isNaN(position)) {
-                position = 0;
-            }
-            div.scrollTop = position;
-            div.onscroll = function () {
-                div_position.value = div.scrollTop;
-            };
-        };--%>
-
-        ////$(window).load(function () {
-        ////    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        ////});
-
-        ////$('html, body').animate({
-        ////    scrollTop: $('.dgvFreteTranportador').offset().top
-        ////}, 500);
-
-        //var xPos, yPos;
-        //var prm = Sys.WebForms.PageRequestManager.getInstance();
-        //prm.add_beginRequest(BeginRequestHandler);
-        //prm.add_endRequest(EndRequestHandler);
-        //function BeginRequestHandler(sender, args) {
-        //    xPos = $get('DivGrid').scrollLeft;
-        //    yPos = $get('DivGrid').scrollTop;
-        //}
-        //function EndRequestHandler(sender, args) {
-        //    $get('DivGrid').scrollLeft = xPos;
-        //    $get('DivGrid').scrollTop = yPos;
-        //    console.log(xPos)
-        //    console.log(yPos)
-
-        //}
-
-        function teste() {
-            var posicao = document.getElementById('<%= DivGrid.ClientID %>').scrollTop;
-
+ 
+      function SalvaPosicao() {
+          var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
-                document.getElementById('<%= DivGrid.ClientID %>').scrollTo = posicao;
-                div_position.value = posicao;
-                document.getElementById('<%= DivGrid.ClientID %>').scrollTop = posicao;
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('if:' + posicao);
-                document.getElementById('<%= DivGrid.ClientID %>').scrollTop = div_position;
 
             }
             else {
-                posicao = document.getElementById('<%= DivGrid.ClientID %>').scrollTop;
-                div_position.value = posicao;
-                document.getElementById('<%= DivGrid.ClientID %>').scrollTop = posicao;
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
                 console.log('else:' + posicao);
-                document.getElementById('<%= DivGrid.ClientID %>').scrollTop = div_position;
 
             }
-        };
+      };
+     
+     
 
-        window.onload = function () {
-            var div_position = document.getElementById("div_position").value;
-            document.getElementById('<%= DivGrid.ClientID %>').scrollTop = div_position;
-            console.log('load:' + div_position);
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
 
-        };
-
-        function x() {
-            var div_position = document.getElementById("div_position").value;
-            document.getElementById('<%= DivGrid.ClientID %>').scrollTop = div_position;
-            console.log('load3:' + div_position);
-        };
-
-        function pageLoad(sender, args) {
-            var div_position = document.getElementById("div_position").value;
-            document.getElementById('<%= DivGrid.ClientID %>').scrollTop = div_position;
-            console.log('load2:' + div_position);
-
-        };
-
-        var pageRequestManager = Sys.WebForms.PageRequestManager.getInstance();
-        pageRequestManager.add_endRequest(window.onload);
 
        
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+            scrollTop: $('#DivGrid').offset().top;
+                $('html, body').animate({
+                    scrollTop: $('#DivGrid').offset().top,
+                }, valor);
+        };
 
-            //< body onload = "javascript:document.getElementById('div1').scrollTop = document.getElementById('scroll').value;" >
-
-            //    <input type="hidden" id="scroll" runat="server" />
-
-            //    <div id="div1" onscroll="javascript:document.getElementById('scroll').value = this.scrollTop">    
     </script> 
 </asp:Content>

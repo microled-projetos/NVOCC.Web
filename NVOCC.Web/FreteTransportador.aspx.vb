@@ -162,7 +162,6 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
             dgvFreteTranportador.DataBind()
             dgvFreteTranportador.HeaderRow.TableSection = TableRowSection.TableHeader
         End If
-        DivGrid.Page.SetFocus(dgvFreteTranportador)
 
     End Sub
 
@@ -881,7 +880,5 @@ ORDER BY A.ID_PORTO"
 
     End Sub
 
-    Private Sub updPainel1_Load(sender As Object, e As EventArgs) Handles updPainel1.Load
-        DivGrid.Focus()
-    End Sub
+
 End Class

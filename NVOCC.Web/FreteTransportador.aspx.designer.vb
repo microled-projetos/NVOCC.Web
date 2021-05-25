@@ -374,15 +374,6 @@ Partial Public Class FreteTransportador
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle DivGrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents DivGrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle dgvFreteTranportador.
     '''</summary>
     '''<remarks>
@@ -437,11 +428,11 @@ Partial Public Class FreteTransportador
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle scroll.
+    '''Controle TextBox1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents scroll As Global.System.Web.UI.HtmlControls.HtmlInputHidden
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 End Class
