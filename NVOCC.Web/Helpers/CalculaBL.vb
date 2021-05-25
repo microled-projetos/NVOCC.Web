@@ -46,21 +46,23 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                 ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
                     Return msg2
 
-                ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
-                    Return msg3
-
-                ElseIf linha.Item("DT_CAMBIO") < dataatual Then
-                    Return msg3
-
-                ElseIf linha.Item("DT_CAMBIO") > dataatual Then
-                    Return msg3
-
                 ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 1 Then
                     Return msg2
 
                 Else
 
+                    If linha.Item("ID_MOEDA") <> 124 Then
+                        If IsDBNull(linha.Item("DT_CAMBIO")) Then
+                            Return msg3
 
+                        ElseIf linha.Item("DT_CAMBIO") < dataatual Then
+                            Return msg3
+
+                        ElseIf linha.Item("DT_CAMBIO") > dataatual Then
+                            Return msg3
+
+                        End If
+                    End If
 
                     If linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
                         '% VR DO FRETE
@@ -366,8 +368,8 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON C.ID_BL_TAXA = B.ID_BL_TAXA
 LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
  WHERE A.ID_BL = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ")")
 
-        If ds.Tables(0).Rows.Count > 0 Then
-            For Each linha As DataRow In ds.Tables(0).Rows
+        If dsMaster.Tables(0).Rows.Count > 0 Then
+            For Each linha As DataRow In dsMaster.Tables(0).Rows
                 ID_BL = linha.Item("ID_BL")
 
                 If IsDBNull(linha.Item("ID_BL_TAXA")) Then
@@ -379,20 +381,24 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                 ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
                     Return msg7
 
-                ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
-                    Return msg6
-
-                ElseIf linha.Item("DT_CAMBIO") < dataatual Then
-                    Return msg6
-
-                ElseIf linha.Item("DT_CAMBIO") > dataatual Then
-                    Return msg6
-
                 ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 1 Then
                     Return msg7
 
+
                 Else
 
+                    If linha.Item("ID_MOEDA") <> 124 Then
+                        If IsDBNull(linha.Item("DT_CAMBIO")) Then
+                            Return msg6
+
+                        ElseIf linha.Item("DT_CAMBIO") < dataatual Then
+                            Return msg6
+
+                        ElseIf linha.Item("DT_CAMBIO") > dataatual Then
+                            Return msg6
+
+                        End If
+                    End If
 
 
                     If linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
