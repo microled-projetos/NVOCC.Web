@@ -97,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\BD.vb" />
+    <Compile Include="classes\Conexao_sql.vb" />
+    <Compile Include="classes\Funcoes.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

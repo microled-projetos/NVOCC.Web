@@ -451,7 +451,7 @@
                                     </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="TaxasMaritimo">
-                                    <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                    <asp:UpdatePanel ID="UpdatePanel13" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False" AllowCustomErrorsRedirect="True" >
                                         <ContentTemplate>
                                             <br />
                                             <div class="row">
