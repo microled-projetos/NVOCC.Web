@@ -223,6 +223,13 @@
                                                 <asp:TextBox ID="txtCE_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
+                                         <div class="col-sm-3">
+                                        <div class="form-group">
+                                                <label class="control-label">Status Frete Agente:</label>
+                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
+                                                </asp:DropDownList>
+                                            </div>
+                                             </div>
                                         <div class="col-sm-3" style="display:none">
                                             <div class="form-group">
                                                 <label class="control-label">Data CE:</label>
@@ -1109,14 +1116,15 @@
                                                         <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
+                                                                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do Processo:</label>
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row">
+
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Numero do Voo:</label>
@@ -1136,6 +1144,13 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
+                                                 <div class="col-sm-3">
+                                                <div class="form-group">
+                                                <label class="control-label">Status Frete Agente:</label>
+                                                <asp:DropDownList ID="ddlStatusFreteAgente_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
+                                                </asp:DropDownList>
+                                            </div>
+                                                     </div>
                                             </div>
                                             <div class="row">
 
@@ -1736,6 +1751,11 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp
         <SelectParameters>
             <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNavioFiltro3" />
         </SelectParameters>
+    </asp:SqlDataSource>
+
+           <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" 
+               SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
+union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE">
     </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

@@ -137,7 +137,7 @@
               <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
               <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
           </div>
-                            <div class="table-responsive tableFixHead" style="text-align:center" >
+                            <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align:center" >
                                 <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" HeaderStyle-CssClass="teste">
                                     <Columns >
                                        <asp:BoundField DataField="ID_COTACAO" HeaderText="#" visible="false" />
@@ -160,7 +160,7 @@
                                           <asp:TemplateField HeaderText="">
                                               <ItemTemplate>
                                                  <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
-                                CommandArgument='<%# Eval("ID_COTACAO") & "|" & Container.DataItemIndex %>'   CommandName="Selecionar" Text="Selecionar"></asp:linkButton>                     
+                                CommandArgument='<%# Eval("ID_COTACAO") & "|" & Container.DataItemIndex %>'   CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicao()"></asp:linkButton>                     
                                               </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>               
@@ -226,8 +226,31 @@ FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
+                      <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script type="text/javascript">
+     function SalvaPosicao() {
+          var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
     
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
+        </script>
 </asp:Content>

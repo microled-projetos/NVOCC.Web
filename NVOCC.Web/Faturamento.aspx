@@ -102,7 +102,7 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
-                                <div class="table-responsive tableFixHead">
+                                <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                     <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
@@ -127,7 +127,7 @@
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>
@@ -360,7 +360,7 @@
 
     </div>
     <asp:TextBox ID="txtResultado" runat="server" Style="display: none" CssClass="form-control"></asp:TextBox>
-
+    <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Faturamento] WHERE DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
 
@@ -388,17 +388,7 @@
             }
         }
 
-        <%--function ImprimirND2() {
-            var resultado = confirm("Deseja emitir nota de débito da fatura selecionada?");
-            if (resultado == true) {
-                var ID = document.getElementById('<%= txtID.ClientID %>').value;
-                console.log(ID);
-
-                window.open('EmissaoNDFaturamento.aspx?id=' + ID, '_blank');
-            }
-
-        }--%>
-
+     
         function getCliente() {
             var Cliente = document.getElementById('<%= lblClienteBaixa.ClientID %>').innerHTML;
             return Cliente;
@@ -423,5 +413,28 @@
 
             window.open('ReciboPagamento.aspx?id=' + ID, '_blank');
         }
+
+
+        function SalvaPosicao() {
+            var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+        };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
     </script>
 </asp:Content>

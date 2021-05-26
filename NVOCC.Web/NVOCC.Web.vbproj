@@ -256,6 +256,9 @@
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
     <Content Include="ClienteFinal.aspx" />
+    <Content Include="ComissaoIndicadorInternacional.aspx" />
+    <Content Include="ComissaoIndicadorNacional.aspx" />
+    <Content Include="ComissaoVendedor.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
     <Content Include="ConsultarWeek.aspx.cs" />
@@ -590,6 +593,27 @@
     <Compile Include="ClienteFinal.aspx.vb">
       <DependentUpon>ClienteFinal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoIndicadorInternacional.aspx.designer.vb">
+      <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoIndicadorInternacional.aspx.vb">
+      <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoIndicadorNacional.aspx.designer.vb">
+      <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoIndicadorNacional.aspx.vb">
+      <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoVendedor.aspx.designer.vb">
+      <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoVendedor.aspx.vb">
+      <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Conexao_sql.vb" />

@@ -311,19 +311,12 @@ union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CON
             }
       };
      
-     
-
+    
   Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
 
-
-       
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
-            scrollTop: $('#DivGrid').offset().top;
-                $('html, body').animate({
-                    scrollTop: $('#DivGrid').offset().top,
-                }, valor);
         };
 
     </script> 
