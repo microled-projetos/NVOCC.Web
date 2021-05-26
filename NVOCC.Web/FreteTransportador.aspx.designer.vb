@@ -14,24 +14,6 @@ Option Explicit On
 Partial Public Class FreteTransportador
 
     '''<summary>
-    '''Controle btnExport.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnExport As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle Button1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>
@@ -336,24 +318,6 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkExportaTarifario As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkExportaImpo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkExportaImpo As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkExportaExpo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkExportaExpo As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFechar.

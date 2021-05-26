@@ -9,9 +9,6 @@
        
     </style>
       <div class="row principal">
-            <asp:Button runat="server" Text="TESTE" Visible="false" id="btnExport" CssClass="btn btn-success" />
-                      <asp:Button runat="server" Visible="false"  Text="TESTE1" id="Button1" CssClass="btn btn-success" />
-
 
           <div runat="server" id="divAuxiliar" visible="false" >
               <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" Enabled="false"></asp:TextBox>
@@ -152,10 +149,7 @@
                                             <a href="TaxasLocaisImpo_PDF.aspx" target="_blank" >Taxas Locais FCL - Impo</a>  <br />                    
                                        <a href="TaxasLocaisExpo_PDF.aspx" target="_blank"  >Taxas Locais FCL - Expo</a> 
                                         <br />
-                                         <asp:LinkButton ID="lkExportaImpo" runat="server" Visible="false"  style="font-size:15px">Taxas Locais FCL - Impo</asp:LinkButton><br />
-
-                                         <asp:LinkButton ID="lkExportaExpo" runat="server" Visible="false"  style="font-size:15px">Taxas Locais FCL - Expo</asp:LinkButton>
-
+                                       
                                    </div>      
                                 </div>  
                              </div>
@@ -182,12 +176,6 @@
              <asp:AsyncPostBackTrigger ControlID="bntPesquisarLocais" />
             <asp:PostBackTrigger ControlID="lkExportar" />
                   <asp:PostBackTrigger ControlID="lkExportaTarifario" />
-                  <asp:PostBackTrigger ControlID="lkExportaImpo" />
-                  <asp:PostBackTrigger ControlID="lkExportaExpo" />
-
-
-
-
     </Triggers>
    </asp:UpdatePanel>
                             <br />        
@@ -302,7 +290,6 @@ union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
 union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
 
-<input id="div_position" name="div_position" hidden="hidden" class="div_position"/><%--hidden="hidden"--%>
 
                   <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
