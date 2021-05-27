@@ -4,9 +4,9 @@ Imports System.Xml
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
-<System.Web.Services.WebService(Namespace:="http://tempuri.org/")> _
-<System.Web.Services.WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)> _
-<ToolboxItem(False)> _
+<System.Web.Services.WebService(Namespace:="http://tempuri.org/")>
+<System.Web.Services.WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)>
+<ToolboxItem(False)>
 Public Class WsNvocc
     Inherits System.Web.Services.WebService
 
@@ -42,6 +42,26 @@ Public Class WsNvocc
     Public Function IntegraNFePrefeitura(ByVal RPS As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
         Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
 
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE STATUS_NFE = 0 AND NR_RPS = '" & RPS & "'")
+        If ds.Tables(0).Rows.Count > 0 Then
+            For I = 0 To ds.Tables(0).Rows.Count - 1
+                Call montaLoteRPS2(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+            Next
+        End If
+
+    End Function
+    Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
+    End Function
+    Public Function CancelaNFePrefeitura(ByVal Rps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
+    End Function
+
+    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
+    End Function
+
+    Public Sub montaLoteRPS2(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()
         Dim ret As Boolean = False
@@ -53,16 +73,15 @@ Public Class WsNvocc
             Dim rsRPSs As DataSet
             Dim sSql As String
             If Reprocessamento Then
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS_REP WHERE IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE IDFATURA =" & IDFatura
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
-            Else
-
+                Exit Sub
             End If
 
             Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd"
@@ -75,7 +94,7 @@ Public Class WsNvocc
             loteNumero = Funcoes.obtemNumeroLote()
 
 
-            sSql = "INSERT INTO TB_LOTE_NFSE (AUTONUM, DT_ENVIO_LOTE, NUMERO_RPS) "
+            sSql = "INSERT INTO TB_LOTE_NFSE (ID_LOTE, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & loteNumero & ",GETDATE()," & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & ") "
             Con.ExecutarQuery(sSql)
 
@@ -87,7 +106,7 @@ Public Class WsNvocc
             noLoteRPS.Attributes.Append(att)
 
 
-            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE AUTONUM=" & CodEmpresa)
+            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
 
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
@@ -119,22 +138,22 @@ Public Class WsNvocc
 
 
 
-            Call montaInfRps2_IPA(loteNumero, NFeNamespacte, rsRPSs.Tables(0), CodEmpresa)
+            Call montaInfRps2_IPA(loteNumero, NFeNamespacte, rsRPSs.Tables(0), Cod_Empresa)
 
 
             If erroValor Then
-                sSql = "INSERT INTO TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & tipo & "','ENCONTRADA DIVERGENCIA DE VALORES',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'ENCONTRADA DIVERGENCIA DE VALORES',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
 
 
-                sSql = "UPDATE FATURANOTA SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
 
 
 
                 Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='ENCONTRADA DIVERGENCIA DE VALORES' WHERE AUTONUM =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='ENCONTRADA DIVERGENCIA DE VALORES' WHERE ID_LOTE =" & loteNumero
                 Con.ExecutarQuery(sSql)
 
 
@@ -157,33 +176,33 @@ Public Class WsNvocc
 
 
             Dim docAssinado As New XmlDocument
-            docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & Funcoes.AssinarXML(Funcoes.tiraCaracEspXML(doc.OuterXml), "InfRps", CodEmpresa))
+            docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & Funcoes.AssinarXML(Funcoes.tiraCaracEspXML(doc.OuterXml), "InfRps", Cod_Empresa))
             docAssinado.Save(nomeArquivo)
 
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
 
 
-                sSql = "INSERT INTO TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
 
 
-                sSql = "UPDATE FATURANOTA SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
 
 
                 Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE AUTONUM =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_LOTE =" & loteNumero
                 Con.ExecutarQuery(sSql)
 
                 Exit Sub
             Else
 
-                sSql = "UPDATE FATURANOTA SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 1 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 1 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
                 Con.ExecutarQuery(sSql)
 
-                sSql = "INSERT INTO TB_LOG_NFSE (IDFATURA, TIPO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Right(nomeArquivo, 100) & "',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',SYSDATE," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
             End If
 
@@ -196,20 +215,7 @@ Public Class WsNvocc
                 MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")
             End If
         End Try
-
-    End Function
-    Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
-        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
-    End Function
-    Public Function CancelaNFePrefeitura(ByVal Rps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
-        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
-    End Function
-
-    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
-        Return "00000000RSP NAO ENCONTRADA NO BANCO DE DADOS"
-    End Function
-
-
+    End Sub
     Public Sub montaInfRps2_IPA(ByVal numeroLote As Long, Optional ByVal NFeNamespacte As String = "", Optional ByVal rsRPS As DataTable = Nothing, Optional Cod_Empresa As Integer = 1)
         Dim sP As New ServicoEspecial()
         Con.Conectar()
@@ -218,7 +224,7 @@ Public Class WsNvocc
             erroValor = False
 
 
-            sP.carrega(Long.Parse(Not IsDBNull(rsRPS.Rows(0)("IDFATURA").ToString, 0)), 0)
+            sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Rows(0)("IDFATURA").ToString, 0)), 0)
             If sP.TemDivergencia Then
                 erroValor = True
                 Exit Sub
@@ -312,12 +318,12 @@ Public Class WsNvocc
             Dim sSql As String
 
             If InStr(rsRPS.Rows(0)("SEQ_GR").ToString, ",") > 0 Then
-                sSql = " SELECT ROUND(SUM(NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)),2) AS VALOR, "
-                sSql = sSql & " ROUND(SUM(NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)),2) AS VALOR_GR, "
+                sSql = " SELECT ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR, "
+                sSql = sSql & " ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR_GR, "
                 If sP.Aliq > 0 Then
-                    sSql = sSql & " ROUND(SUM((NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
+                    sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
                 Else
-                    sSql = sSql & " ROUND(SUM((NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
+                    sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
                 End If
                 sSql = sSql & "  FROM TB_SERVICOS_FATURADOS SERV LEFT JOIN "
                 sSql = sSql & "  (SELECT SUM(VALOR_IMPOSTO) VAL, AUTONUM_SERVICO_FATURADO "
@@ -331,11 +337,11 @@ Public Class WsNvocc
 
                 If Funcoes.NNull(rsRPS.Rows(0)("SEQ_GR").ToString, 0) > 0 Then
 
-                    sSql = " SELECT GR.VALOR_GR AS VALOR_GR, ROUND(SUM(NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)),2) AS VALOR, "
+                    sSql = " SELECT GR.VALOR_GR AS VALOR_GR, ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR, "
                     If sP.Aliq > 0 Then
-                        sSql = sSql & " ROUND(SUM((NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
+                        sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
                     Else
-                        sSql = sSql & " ROUND(SUM((NVL(SERV.VALOR,0) + NVL(SERV.ADICIONAL,0) + NVL(SERV.DESCONTO,0) + NVL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
+                        sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
                     End If
                     sSql = sSql & "  FROM TB_SERVICOS_FATURADOS SERV LEFT JOIN "
                     sSql = sSql & "  (SELECT SUM(VALOR_IMPOSTO) VAL, AUTONUM_SERVICO_FATURADO "
@@ -347,7 +353,7 @@ Public Class WsNvocc
                     sSql = sSql & " GROUP BY GR.VALOR_GR "
                 Else
                     sSql = "SELECT FAT.VALOR AS VALOR_GR, FAT.VALOR,  ROUND(FAT.VALOR * 0.05 ,2) AS VALOR_ISS  "
-                    sSql = sSql & " FROM FATURANOTA FAT"
+                    sSql = sSql & " FROM TB_FATURAMENTO FAT"
                     sSql = sSql & " WHERE ID =" & rsRPS.Rows(0)("IDFATURA").ToString
 
                 End If
@@ -356,7 +362,7 @@ Public Class WsNvocc
 
             For I = 0 To rsServicos.Tables(0).Rows.Count - 1
                 If Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(0).ToString, 0)) <> Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(1).ToString, 0)) Then
-                    sSql = "SELECT COUNT(1) FROM FATURANOTA WHERE TIPO = 'GR' AND SEQ_GR ='" & rsRPS.Rows(0)("SEQ_GR").ToString & "' "
+                    sSql = "SELECT COUNT(1) FROM TB_FATURAMENTO WHERE TIPO = 'GR' AND SEQ_GR ='" & rsRPS.Rows(0)("SEQ_GR").ToString & "' "
                     sSql = sSql & " AND FLAG_RPS = 1 AND CANCELADA = 0 "
                     If Funcoes.NNull(Con.ExecutarQuery(sSql).Tables(0).Rows(0)(0), 0) = 1 Then
                         erroValor = True
@@ -372,7 +378,7 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT NVL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
+                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
                 sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='PIS') "
                 sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
                 sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
@@ -392,7 +398,7 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT NVL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
+                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
                 sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='COFINS') "
                 sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
                 sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ")"
@@ -413,7 +419,7 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT NVL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
+                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
                 sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='INSS') "
                 sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
                 sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
@@ -428,7 +434,7 @@ Public Class WsNvocc
                 noValServ.AppendChild(No)
 
 
-                sSql = "SELECT NVL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
+                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
                 sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='IRPJ') "
                 sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
                 sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
@@ -447,7 +453,7 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT NVL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
+                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
                 sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='CSLL') "
                 sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
                 sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
@@ -819,7 +825,7 @@ Public Class WsNvocc
                 retProtocolo = uri(0).InnerText
 
 
-                sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE NVL(PROTOCOLO,' ') = ' ' AND AUTONUM =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
 
                 'frmProcessamento.lstValida.Items.Add("Numero do Protocolo:" & retProtocolo)
 
@@ -830,26 +836,26 @@ Public Class WsNvocc
                     uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
                     retProtocolo = uri(0)("ns4:Mensagem").InnerText
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE NVL(PROTOCOLO,' ') = ' ' AND AUTONUM =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
                 Catch ex2 As Exception
                     retProtocolo = "XML Recusado"
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE NVL(PROTOCOLO,' ') = ' ' AND AUTONUM =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
@@ -878,12 +884,11 @@ Public Class WsNvocc
                 uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
                 retRps = uri(0)("ns4:Numero").InnerText
 
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM FATURANOTA WHERE LOTE_RPS = " & loteNumero)
+                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
                 If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 2"
-                    sSql = sSql & " , NUMERO ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , NUMERO_NFE ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_EMISSAO_NFE =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
@@ -897,12 +902,11 @@ Public Class WsNvocc
                 End If
                 rsGR.Dispose()
 
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM FATURANOTA WHERE LOTE_RPS = " & loteNumero)
+                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
                 If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 2"
-                    sSql = sSql & " , NUMERO ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , NUMERO_NFE ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_EMISSAO_NFE =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
@@ -914,7 +918,7 @@ Public Class WsNvocc
                 End If
                 rsGR.Dispose()
 
-                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = SYSDATE, CRITICA = NULL WHERE AUTONUM =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = SYSDATE, CRITICA = NULL WHERE ID_LOTE =" & loteNumero
                 sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
                 Con.ExecutarQuery(sSql)
 
@@ -933,26 +937,26 @@ Public Class WsNvocc
                     End If
 
                     If retCodErro = "E4" Then
-                        sSql = "UPDATE FATURANOTA SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE FATURANOTA SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
                         Con.ExecutarQuery(sSql)
 
                         GoTo saida
                     End If
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5"
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 5"
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
                     sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
-                    sSql = sSql & " WHERE AUTONUM = " & loteNumero
+                    sSql = sSql & " WHERE ID_LOTE = " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retNFSE)
@@ -985,12 +989,11 @@ Public Class WsNvocc
                 uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
                 retRps = uri(0)("ns4:Numero").InnerText
 
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM FATURANOTA WHERE LOTE_RPS = " & loteNumero)
+                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
                 If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 2"
-                    sSql = sSql & " , NUMERO ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , NUMERO_NFE ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_EMISSAO_NFE =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
@@ -1004,12 +1007,11 @@ Public Class WsNvocc
                 End If
                 rsGR.Dispose()
 
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM FATURANOTA WHERE LOTE_RPS = " & loteNumero)
+                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
                 If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE FATURANOTA SET STATUS_NFE = 2"
-                    sSql = sSql & " , NUMERO ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , NUMERO_NFE ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_EMISSAO_NFE =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
@@ -1021,7 +1023,7 @@ Public Class WsNvocc
                 End If
                 rsGR.Dispose()
 
-                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = SYSDATE, CRITICA = NULL WHERE AUTONUM =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = SYSDATE, CRITICA = NULL WHERE ID_LOTE =" & loteNumero
                 sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
                 Con.ExecutarQuery(sSql)
 
@@ -1039,10 +1041,10 @@ Public Class WsNvocc
                     End If
 
                     If retCodErro = "E4" Then
-                        sSql = "UPDATE FATURANOTA SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE FATURANOTA SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
                         Con.ExecutarQuery(sSql)
 
                         GoTo saida
@@ -1070,23 +1072,23 @@ Public Class WsNvocc
 
                 If retNFSE.ToUpper = "TRUE" Then
 atualizaCancel:
-                    sSql = "UPDATE " & DAO.Owner & "FATURANOTA SET STATUS_NFE = 3 "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
                     sSql = sSql & " , DT_SOL_CANCELA =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , DT_CANCELAMENTO =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , CANCELA_NFE = 1 "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    DAO.Execute(sSql)
+                    Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE " & DAO.bancoOperador & "FATURANOTA SET STATUS_NFE = 3 "
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
                     sSql = sSql & " , DT_SOL_CANCELA =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , DT_CANCELAMENTO =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
                     sSql = sSql & " , CANCELA_NFE = 1 "
                     sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    DAO.Execute(sSql)
+                    Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE " & DAO.Owner & "TB_LOTE_NFSE SET DT_RETORNO_CANCEL = SYSDATE WHERE AUTONUM =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = SYSDATE WHERE ID_LOTE =" & loteNumero
                     sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
-                    DAO.Execute(sSql)
+                    Con.ExecutarQuery(sSql)
                 ElseIf retNFSE.ToUpper = "FALSE" Then
                     uri = docRetorno.GetElementsByTagName("ns5:MensagemRetorno")
                     codRetCan = uri(0)("ns3:Codigo").InnerText
@@ -1099,19 +1101,19 @@ atualizaCancel:
                 uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
                 retNFSE = uri(0)("ns4:Mensagem").InnerText
 
-                sSql = "UPDATE " & DAO.Owner & "TB_LOTE_NFSE SET DT_RETORNO_CANCEL = SYSDATE "
+                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = SYSDATE "
                 sSql = sSql & " , CRITICA_CAN ='" & retNFSE & "' "
-                sSql = sSql & " WHERE AUTONUM = " & loteNumero
+                sSql = sSql & " WHERE ID_LOTE = " & loteNumero
                 sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
-                DAO.Execute(sSql)
+                Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE " & DAO.Owner & "FATURANOTA SET STATUS_NFE = 5"
+                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
                 sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                DAO.Execute(sSql)
+                Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE " & DAO.bancoOperador & "FATURANOTA SET STATUS_NFE = 5"
+                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
                 sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                DAO.Execute(sSql)
+                Con.ExecutarQuery(sSql)
             End Try
 
         End If
@@ -1135,4 +1137,7 @@ saida:
         seqGR = ""
         rsGR = Nothing
     End Sub
+
+
+
 End Class

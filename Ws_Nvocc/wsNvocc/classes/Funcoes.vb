@@ -1,20 +1,27 @@
-﻿Public Class Funcoes
+﻿Imports System.Xml
+Imports System.Xml.Schema
+Imports System.Security.Cryptography.X509Certificates
+Imports System.Security.Cryptography.Xml
+Public Class Funcoes
     Dim Con As New Conexao_sql
+    Dim ret As Boolean = True
+    Public msgValidacao As String = ""
 
     Public nomeEmpresa As String
     Public codABTRA As String
     Public modoAutomatico As Boolean = True
-    Public diretorioLoteRps As String = Application.StartupPath & "\LoteRpsEnviado\"
-    Public diretorioLoteRpsRet As String = Application.StartupPath & "\LoteRpsRet\"
-    Public diretorioConultaLoteRps As String = Application.StartupPath & "\LoteRpsConsulta\"
-    Public diretorioLoteRpsConsultaRet As String = Application.StartupPath & "\LoteRpsConsultaRet\"
-    Public diretorioCancEnv As String = Application.StartupPath & "\CancelamentoEnv\"
-    Public diretorioCancRet As String = Application.StartupPath & "\CancelamentoRet\"
-    Public diretorioConRPS As String = Application.StartupPath & "\RpsConsulta\"
-    Public diretorioConRPSRet As String = Application.StartupPath & "\RpsConsultaRet\"
-    Public diretorioAnexoEmail As String = Application.StartupPath & "\AnexosEmail\"
-    Public diretorioXSD As String = Application.StartupPath & "\XSD\"
+    Public diretorioLoteRps As String = AppContext.BaseDirectory & "\LoteRpsEnviado\" 'Application.StartupPath 
+    Public diretorioLoteRpsRet As String = AppContext.BaseDirectory & "\LoteRpsRet\"
+    Public diretorioConultaLoteRps As String = AppContext.BaseDirectory & "\LoteRpsConsulta\"
+    Public diretorioLoteRpsConsultaRet As String = AppContext.BaseDirectory & "\LoteRpsConsultaRet\"
+    Public diretorioCancEnv As String = AppContext.BaseDirectory & "\CancelamentoEnv\"
+    Public diretorioCancRet As String = AppContext.BaseDirectory & "\CancelamentoRet\"
+    Public diretorioConRPS As String = AppContext.BaseDirectory & "\RpsConsulta\"
+    Public diretorioConRPSRet As String = AppContext.BaseDirectory & "\RpsConsultaRet\"
+    Public diretorioAnexoEmail As String = AppContext.BaseDirectory & "\AnexosEmail\"
+    Public diretorioXSD As String = AppContext.BaseDirectory & "\XSD\"
     Public nomeCertificado As String = "eudmarco"
+
     Public Function NNull(ByVal Valor As String, ByVal Tipo As Integer) As String
         If Valor <> Nothing Then
             If Tipo = 0 Then
@@ -176,6 +183,133 @@
         Return ret
     End Function
 
+    Public Function obtemUF(Optional ByVal COD As Integer = 0) As String
+        Dim ret As String
+        Try
+            'Select Case COD
+            '    Case "12"
+            '        ret = "AC"
+            '    Case "27"
+            '        ret = "AL"
+            '    Case "13"
+            '        ret = "AM"
+            '    Case "16"
+            '        ret = "AP"
+            '    Case "29"
+            '        ret = "BA"
+            '    Case "23"
+            '        ret = "CE"
+            '    Case "53"
+            '        ret = "DF"
+            '    Case "32"
+            '        ret = "ES"
+            '    Case "52"
+            '        ret = "GO"
+            '    Case "21"
+            '        ret = "MA"
+            '    Case "31"
+            '        ret = "MG"
+            '    Case "50"
+            '        ret = "MS"
+            '    Case "51"
+            '        ret = "MT"
+            '    Case "15"
+            '        ret = "PA"
+            '    Case "25"
+            '        ret = "PB"
+            '    Case "26"
+            '        ret = "PE"
+            '    Case "22"
+            '        ret = "PI"
+            '    Case "41"
+            '        ret = "PR"
+            '    Case "33"
+            '        ret = "RJ"
+            '    Case "24"
+            '        ret = "RN"
+            '    Case "11"
+            '        ret = "RO"
+            '    Case "14"
+            '        ret = "RR"
+            '    Case "43"
+            '        ret = "RS"
+            '    Case "42"
+            '        ret = "SC"
+            '    Case "28"
+            '        ret = "SE"
+            '    Case "35"
+            '        ret = "SP"
+            '    Case "17"
+            '        ret = "TO"
+            '    Case Else
+            '        ret = ""
+            'End Select
+
+            Select Case COD
+                Case 12
+                    ret = "AC"
+                Case 27
+                    ret = "AL"
+                Case 13
+                    ret = "AM"
+                Case 16
+                    ret = "AP"
+                Case 29
+                    ret = "BA"
+                Case 23
+                    ret = "CE"
+                Case 53
+                    ret = "DF"
+                Case 32
+                    ret = "ES"
+                Case 52
+                    ret = "GO"
+                Case 21
+                    ret = "MA"
+                Case 31
+                    ret = "MG"
+                Case 50
+                    ret = "MS"
+                Case 51
+                    ret = "MT"
+                Case 15
+                    ret = "PA"
+                Case 25
+                    ret = "PB"
+                Case 26
+                    ret = "PE"
+                Case 22
+                    ret = "PI"
+                Case 41
+                    ret = "PR"
+                Case 33
+                    ret = "RJ"
+                Case 24
+                    ret = "RN"
+                Case 11
+                    ret = "RO"
+                Case 14
+                    ret = "RR"
+                Case 43
+                    ret = "RS"
+                Case 42
+                    ret = "SC"
+                Case 28
+                    ret = "SE"
+                Case 35
+                    ret = "SP"
+                Case 17
+                    ret = "To"
+                Case Else
+                    ret = ""
+            End Select
+
+        Catch ex As Exception
+            Err.Clear()
+            ret = ""
+        End Try
+        Return ret
+    End Function
     Public Function obtemDescricao(ByVal idFatura As Long, Optional ByVal Tipo As String = "IPA", Optional Cod_Empresa As Integer = 1) As String
         Dim ret As String = ""
         Dim sSql As String
@@ -183,9 +317,9 @@
         Try
             If Tipo = "IPA" Then
                 If Cod_Empresa = 1 Then
-                    rsDescr = Con.ExecutarQuery("SELECT * FROM FATURA_ITEM WHERE IDFATURA =" & idFatura & " ORDER BY ITEM ")
+                    rsDescr = Con.ExecutarQuery("Select * FROM FATURA_ITEM WHERE IDFATURA =" & idFatura & " ORDER BY ITEM ")
                 Else
-                    rsDescr = Con.ExecutarQuery("SELECT sum(VALOR) AS VALOR, 1 AS ITEM,'PACOTE LOGISTICO LCL' as DESCRICAO  FROM FATURA_ITEM WHERE IDFATURA =" & idFatura)
+                    rsDescr = Con.ExecutarQuery("Select sum(VALOR) As VALOR, 1 As ITEM,'PACOTE LOGISTICO LCL' as DESCRICAO  FROM FATURA_ITEM WHERE IDFATURA =" & idFatura)
                 End If
             Else
                 rsDescr = Con.ExecutarQuery("SELECT * FROM FATURA_ITEM WHERE IDFATURA =" & idFatura & " ORDER BY ITEM ")
@@ -275,12 +409,24 @@
     End Function
     Public Function obtemNumeroLote() As Long
         Dim sSql As String
-        Dim rsNumero As DataTable
-        sSql = "SELECT " & DAO.Owner & "SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-        rsNumero = DAO.Consultar(sSql)
-        obtemNumeroLote = Long.Parse(NNull(rsNumero.Rows(0)(0).ToString, 0))
+        Dim rsNumero As DataSet
+        sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+        rsNumero = Con.ExecutarQuery(sSql)
+        obtemNumeroLote = Long.Parse(NNull(rsNumero.Tables(0).Rows(0)(0).ToString, 0))
     End Function
 
+    Enum ResultadoAssinatura As Integer
+        XMLAssinadoSucesso
+        CertificadoDigitalInexistente
+        TagAssinaturaNaoExiste
+        TagAssinaturaNaoUnica
+        ErroAssinarDocumento
+        XMLMalFormado
+        ProblemaAcessoCertificadoDigital
+    End Enum
+
+    Private Resultado As ResultadoAssinatura
+    Private Mensagem As String
     Public Function AssinarXML(ByVal pArquivoXML As String, ByVal pUri As String, Optional Cod_Empresa As Integer = 1) As String
         Dim XML As String = pArquivoXML
         Dim XMLAssinado As String = String.Empty
@@ -296,7 +442,8 @@
             Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
-            nomeCertificado = DAO.ExecuteScalar("SELECT NVL(NOME_CERTIFICADO,'') FROM SGIPA.TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NVL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+            nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
 
@@ -413,4 +560,189 @@
 
     End Function
 
+    Public Sub ValidationEventHandler(ByVal sender As Object, ByVal args As ValidationEventArgs)
+        Try
+            ret = False
+            msgValidacao = msgValidacao & vbCrLf & "Erro de Validação : " & args.Message
+
+            If args.Severity = XmlSeverityType.Warning Then
+                msgValidacao = msgValidacao & vbCrLf & "Nenhum arquivo de Schema foi encontrado para efetuar a validação..."
+            ElseIf args.Severity = XmlSeverityType.Error Then
+                msgValidacao = msgValidacao & vbCrLf & "Ocorreu um erro durante a validação...."
+            End If
+            If Not (args.Exception Is Nothing) Then ' Erro na validação do schema XSD
+                msgValidacao = msgValidacao & vbCrLf & args.Exception.SourceUri + "," & args.Exception.LinePosition & "," & args.Exception.LineNumber
+            End If
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Class
+
+Public Class ServicoEspecial
+
+    Dim _especial As Boolean
+    Dim _temDivergencia As Boolean
+    Dim _codServ As String
+    Dim _codTrib As String
+    Dim _aliq As Double
+    Dim _pis As Double
+    Dim _cofins As Double
+    Dim _csll As Double
+    Dim _ir As Double
+
+
+
+
+    Public Sub carrega(idFat As Long, tipo As Integer)
+        'Tipo : 0 - IPA \ 1 - RED
+        Dim sSql As String
+        Dim rsAux As New DataTable
+        Try
+            Especial = False
+            CodServ = ""
+            CodTrib = ""
+            Aliq = 0
+            Pis = 0
+            Cofins = 0
+            Csll = 0
+            Ir = 0
+
+            If tipo = 0 Then
+                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
+                sSql = sSql & " AND NVL(S.COD_SER,' ') <> ' ' "
+                rsAux = DAO.Consultar(sSql)
+                If rsAux.Rows.Count > 0 Then
+                    Especial = True
+                    CodServ = rsAux.Rows(0)("COD_SER").ToString
+                    CodTrib = rsAux.Rows(0)("COD_TRIB").ToString
+                    Aliq = Double.Parse(NNull(rsAux.Rows(0)("ISS").ToString, 0)) / 100
+                    Pis = Double.Parse(NNull(rsAux.Rows(0)("PIS").ToString, 0)) / 100
+                    Cofins = Double.Parse(NNull(rsAux.Rows(0)("COFINS").ToString, 0)) / 100
+                    Csll = Double.Parse(NNull(rsAux.Rows(0)("CSLL").ToString, 0)) / 100
+                    Ir = Double.Parse(NNull(rsAux.Rows(0)("IR").ToString, 0)) / 100
+                Else
+                    Exit Sub
+                End If
+
+                TemDivergencia = False
+                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
+                sSql = sSql & " AND NVL(S.COD_SER,' ') = ' ' "
+                rsAux = DAO.Consultar(sSql)
+                If rsAux.Rows.Count > 0 Then
+                    TemDivergencia = True
+                End If
+            ElseIf tipo = 1 Then
+                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
+                sSql = sSql & " AND NVL(S.COD_SER,' ') <> ' ' "
+                rsAux = DAO.Consultar(sSql)
+                If rsAux.Rows.Count > 0 Then
+                    Especial = True
+                    CodServ = rsAux.Rows(0)("COD_SER").ToString
+                    CodTrib = rsAux.Rows(0)("COD_TRIB").ToString
+                    Aliq = Double.Parse(NNull(rsAux.Rows(0)("ISS").ToString, 0)) / 100
+                    Pis = Double.Parse(NNull(rsAux.Rows(0)("PIS").ToString, 0)) / 100
+                    Cofins = Double.Parse(NNull(rsAux.Rows(0)("COFINS").ToString, 0)) / 100
+                    Csll = Double.Parse(NNull(rsAux.Rows(0)("CSLL").ToString, 0)) / 100
+                    Ir = Double.Parse(NNull(rsAux.Rows(0)("IR").ToString, 0)) / 100
+                Else
+                    Exit Sub
+                End If
+
+                TemDivergencia = False
+                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
+                sSql = sSql & " AND NVL(S.COD_SER,' ') = ' ' "
+                rsAux = DAO.Consultar(sSql)
+                If rsAux.Rows.Count > 0 Then
+                    TemDivergencia = True
+                End If
+
+            End If
+        Catch ex As Exception
+            Err.Clear()
+        End Try
+
+    End Sub
+
+    Public Property Especial As Boolean
+        Get
+            Return _especial
+        End Get
+        Set(value As Boolean)
+            _especial = value
+        End Set
+    End Property
+
+    Public Property CodServ As String
+        Get
+            Return _codServ
+        End Get
+        Set(value As String)
+            _codServ = value
+        End Set
+    End Property
+
+    Public Property CodTrib As String
+        Get
+            Return _codTrib
+        End Get
+        Set(value As String)
+            _codTrib = value
+        End Set
+    End Property
+
+    Public Property Aliq As Double
+        Get
+            Return _aliq
+        End Get
+        Set(value As Double)
+            _aliq = value
+        End Set
+    End Property
+
+    Public Property TemDivergencia As Boolean
+        Get
+            Return _temDivergencia
+        End Get
+        Set(value As Boolean)
+            _temDivergencia = value
+        End Set
+    End Property
+
+    Public Property Pis As Double
+        Get
+            Return _pis
+        End Get
+        Set(value As Double)
+            _pis = value
+        End Set
+    End Property
+
+    Public Property Cofins As Double
+        Get
+            Return _cofins
+        End Get
+        Set(value As Double)
+            _cofins = value
+        End Set
+    End Property
+
+    Public Property Csll As Double
+        Get
+            Return _csll
+        End Get
+        Set(value As Double)
+            _csll = value
+        End Set
+    End Property
+
+    Public Property Ir As Double
+        Get
+            Return _ir
+        End Get
+        Set(value As Double)
+            _ir = value
+        End Set
+    End Property
+End Class
+
