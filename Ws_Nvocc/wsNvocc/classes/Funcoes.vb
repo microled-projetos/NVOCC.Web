@@ -2,6 +2,8 @@
 Imports System.Xml.Schema
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Security.Cryptography.Xml
+Imports System.IO
+
 Public Class Funcoes
     Dim Con As New Conexao_sql
     Dim ret As Boolean = True
@@ -395,13 +397,13 @@ Public Class Funcoes
 
     Public Function aliquotaISS() As Double
         Dim sSql As String
-        Dim rsAux As New DataTable
+        Dim rsAux As New DataSet
         Try
             aliquotaISS = 0.03
             sSql = "SELECT TAXA/100 FROM TB_CAD_IMPOSTOS WHERE DESCRICAO = 'ISS' "
-            rsAux = DAO.Consultar(sSql)
-            If Not rsAux.Rows.Count <= 0 Then
-                aliquotaISS = NNull(rsAux.Rows(0)(0).ToString, 0)
+            rsAux = Con.ExecutarQuery(sSql)
+            If Not rsAux.Tables(0).Rows.Count <= 0 Then
+                aliquotaISS = NNull(rsAux.Tables(0).Rows(0)(0).ToString, 0)
             End If
         Catch ex As Exception
             Err.Clear()
@@ -442,7 +444,7 @@ Public Class Funcoes
             Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NVL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
             nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
@@ -577,6 +579,79 @@ Public Class Funcoes
 
         End Try
     End Sub
+
+    Public Sub AssinarDocumentoXML(ByVal ArqXMLAssinar As String, ByVal TagXML As String, Optional Cod_Empresa As Integer = 1)
+
+        'XML que sera assinado
+        Dim srdDocXML As StreamReader
+        Dim strXML As String
+        Dim strTagXML As String = TagXML
+
+        'SelecionarCertificado()
+
+        srdDocXML = File.OpenText(ArqXMLAssinar)
+        strXML = srdDocXML.ReadToEnd()
+        srdDocXML.Close()
+
+        Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
+        Dim objCertificadoX509 As New X509Certificate2
+        Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+        getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+        nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
+
+        objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
+
+        If objColecaoCertificadosX509.Count = 1 Then
+
+            objCertificadoX509 = objColecaoCertificadosX509.Item(0)
+
+            Dim docXML = New XmlDocument()
+            docXML.PreserveWhitespace = False
+            docXML.Load(ArqXMLAssinar)
+
+            If docXML.GetElementsByTagName(strTagXML).Count = 1 Then
+
+                Dim signedXml As New System.Security.Cryptography.Xml.SignedXml(docXML)
+                signedXml.SigningKey = objCertificadoX509.PrivateKey
+
+
+                Dim Referencia As New System.Security.Cryptography.Xml.Reference()
+                Referencia.Uri = ""
+
+                Dim env As New XmlDsigEnvelopedSignatureTransform
+                Referencia.AddTransform(env)
+
+                Dim c14 As New XmlDsigC14NTransform
+                Referencia.AddTransform(c14)
+
+                signedXml.AddReference(Referencia)
+
+                Dim keyInfo As New KeyInfo
+                keyInfo.AddClause(New KeyInfoX509Data(objCertificadoX509))
+                signedXml.KeyInfo = keyInfo
+
+                signedXml.ComputeSignature()
+
+
+                Dim XmlDigitalSignature As XmlElement
+                XmlDigitalSignature = signedXml.GetXml()
+
+
+
+                docXML.DocumentElement.AppendChild(docXML.ImportNode(XmlDigitalSignature, True))
+
+                Dim EscreverXML As New StreamWriter(ArqXMLAssinar)
+                EscreverXML.Write(docXML.OuterXml)
+                EscreverXML.Close()
+            End If
+
+        End If
+
+
+    End Sub
+
 End Class
 
 Public Class ServicoEspecial
@@ -592,12 +667,13 @@ Public Class ServicoEspecial
     Dim _ir As Double
 
 
-
+    Dim Con As New Conexao_sql
+    Dim Funcoes As New Funcoes
 
     Public Sub carrega(idFat As Long, tipo As Integer)
         'Tipo : 0 - IPA \ 1 - RED
         Dim sSql As String
-        Dim rsAux As New DataTable
+        Dim rsAux As New DataSet
         Try
             Especial = False
             CodServ = ""
@@ -610,50 +686,50 @@ Public Class ServicoEspecial
 
             If tipo = 0 Then
                 sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND NVL(S.COD_SER,' ') <> ' ' "
-                rsAux = DAO.Consultar(sSql)
-                If rsAux.Rows.Count > 0 Then
+                sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
+                rsAux = Con.ExecutarQuery(sSql)
+                If rsAux.Tables(0).Rows.Count > 0 Then
                     Especial = True
-                    CodServ = rsAux.Rows(0)("COD_SER").ToString
-                    CodTrib = rsAux.Rows(0)("COD_TRIB").ToString
-                    Aliq = Double.Parse(NNull(rsAux.Rows(0)("ISS").ToString, 0)) / 100
-                    Pis = Double.Parse(NNull(rsAux.Rows(0)("PIS").ToString, 0)) / 100
-                    Cofins = Double.Parse(NNull(rsAux.Rows(0)("COFINS").ToString, 0)) / 100
-                    Csll = Double.Parse(NNull(rsAux.Rows(0)("CSLL").ToString, 0)) / 100
-                    Ir = Double.Parse(NNull(rsAux.Rows(0)("IR").ToString, 0)) / 100
+                    CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
+                    CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
+                    Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
+                    Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
+                    Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
+                    Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
+                    Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
                 Else
                     Exit Sub
                 End If
 
                 TemDivergencia = False
                 sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND NVL(S.COD_SER,' ') = ' ' "
-                rsAux = DAO.Consultar(sSql)
-                If rsAux.Rows.Count > 0 Then
+                sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
+                rsAux = Con.ExecutarQuery(sSql)
+                If rsAux.Tables(0).Rows.Count > 0 Then
                     TemDivergencia = True
                 End If
             ElseIf tipo = 1 Then
                 sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND NVL(S.COD_SER,' ') <> ' ' "
-                rsAux = DAO.Consultar(sSql)
-                If rsAux.Rows.Count > 0 Then
+                sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
+                rsAux = Con.ExecutarQuery(sSql)
+                If rsAux.Tables(0).Rows.Count > 0 Then
                     Especial = True
-                    CodServ = rsAux.Rows(0)("COD_SER").ToString
-                    CodTrib = rsAux.Rows(0)("COD_TRIB").ToString
-                    Aliq = Double.Parse(NNull(rsAux.Rows(0)("ISS").ToString, 0)) / 100
-                    Pis = Double.Parse(NNull(rsAux.Rows(0)("PIS").ToString, 0)) / 100
-                    Cofins = Double.Parse(NNull(rsAux.Rows(0)("COFINS").ToString, 0)) / 100
-                    Csll = Double.Parse(NNull(rsAux.Rows(0)("CSLL").ToString, 0)) / 100
-                    Ir = Double.Parse(NNull(rsAux.Rows(0)("IR").ToString, 0)) / 100
+                    CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
+                    CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
+                    Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
+                    Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
+                    Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
+                    Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
+                    Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
                 Else
                     Exit Sub
                 End If
 
                 TemDivergencia = False
                 sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND NVL(S.COD_SER,' ') = ' ' "
-                rsAux = DAO.Consultar(sSql)
-                If rsAux.Rows.Count > 0 Then
+                sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
+                rsAux = Con.ExecutarQuery(sSql)
+                If rsAux.Tables(0).Rows.Count > 0 Then
                     TemDivergencia = True
                 End If
 

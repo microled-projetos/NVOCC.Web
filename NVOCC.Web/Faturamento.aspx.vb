@@ -382,6 +382,24 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                             Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "', NM_CLIENTE = '" & dsRPS.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsRPS.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsRPS.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsRPS.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsRPS.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsRPS.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsRPS.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsRPS.Tables(0).Rows(0).Item("ESTADO").ToString & "',VL_ISS =" & VL_ISS & ",VL_NOTA = " & Session("Valor") & ",VL_NOTA_EXTENSO = '" & Session("ValorExtenso") & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
+
+
+
+
+
+
+                            'If Not String.IsNullOrEmpty(txtID.Text) Then
+
+                            '    Using correios = New WsNvocc.AtendeClienteClient()
+                            '        Dim consulta = correios.consultaCEP(txtCep.Text.Replace("-", ""))
+
+                            '    End Using
+
+
+                            'End If
+
+
+
                             divSuccess.Visible = True
                             lblmsgSuccess.Text = "RPS gerada com sucesso!"
                             dgvFaturamento.DataBind()
@@ -541,6 +559,8 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             Else
                 Return False
             End If
+        Else
+            Return False
         End If
 
     End Function
@@ -562,6 +582,8 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             Else
                 Return False
             End If
+        Else
+            Return False
         End If
 
     End Function

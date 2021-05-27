@@ -92,7 +92,7 @@
                            <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
-                           <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+                           <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" onclick="gerarRPS()">Gerar RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
 
                        </div>
@@ -436,5 +436,34 @@
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
         };
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function gerarRPS() {
+            
+                //$.ajax({
+                //    type: "POST",
+                //    url: "wsNvocc.asmx/IntegraNFePrefeitura",
+                //    data: '{idCont:"' + id + '" }',
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "json",
+                //    success: function (dado) {
+                //        alert("DEU CERTO!");
+
+                //    }
+                //})
+           
+        }
+
     </script>
 </asp:Content>
