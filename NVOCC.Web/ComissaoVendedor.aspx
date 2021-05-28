@@ -48,15 +48,8 @@
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                   <asp:ListItem Value="1">Data Vencimento</asp:ListItem>
+                                   <asp:ListItem Value="1">Vendedor(a)</asp:ListItem>
                                    <asp:ListItem Value="2">Número do processo</asp:ListItem>
-                                   <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
-                                   <asp:ListItem Value="4">Referência  do Cliente</asp:ListItem>
-                                   <asp:ListItem Value="5">Nº Nota Débito</asp:ListItem>
-                                   <asp:ListItem Value="6">Nº RPS</asp:ListItem>
-                                   <asp:ListItem Value="7">Nº Nota Fiscal</asp:ListItem>
-                                   <asp:ListItem Value="8">Nº Recibo</asp:ListItem>
-                                   <asp:ListItem Value="9">Data Liquidação</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
@@ -66,17 +59,7 @@
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                        </div>
-                       <div class="col-sm-1">
-
-                           <div class="form-group">
-
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
-                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
-                               </asp:CheckBoxList>
-                           </div>
-                       </div>
+                      
                        <div class="col-sm-1" style="padding-top: 20px;">
                            <div class="form-group">
                                <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" />
