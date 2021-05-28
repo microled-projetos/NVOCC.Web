@@ -12,7 +12,7 @@ Public Class Funcoes
     Public nomeEmpresa As String
     Public codABTRA As String
     Public modoAutomatico As Boolean = True
-    Public diretorioLoteRps As String = AppContext.BaseDirectory & "\LoteRpsEnviado\" 'Application.StartupPath 
+    Public diretorioLoteRps As String = AppContext.BaseDirectory & "LoteRpsEnviado\" 'Application.StartupPath 
     Public diretorioLoteRpsRet As String = AppContext.BaseDirectory & "\LoteRpsRet\"
     Public diretorioConultaLoteRps As String = AppContext.BaseDirectory & "\LoteRpsConsulta\"
     Public diretorioLoteRpsConsultaRet As String = AppContext.BaseDirectory & "\LoteRpsConsultaRet\"
@@ -21,7 +21,7 @@ Public Class Funcoes
     Public diretorioConRPS As String = AppContext.BaseDirectory & "\RpsConsulta\"
     Public diretorioConRPSRet As String = AppContext.BaseDirectory & "\RpsConsultaRet\"
     Public diretorioAnexoEmail As String = AppContext.BaseDirectory & "\AnexosEmail\"
-    Public diretorioXSD As String = AppContext.BaseDirectory & "\XSD\"
+    Public diretorioXSD As String = AppContext.BaseDirectory & "XSD_WS\"
     Public nomeCertificado As String = "eudmarco"
 
     Public Function NNull(ByVal Valor As String, ByVal Tipo As Integer) As String
@@ -316,16 +316,11 @@ Public Class Funcoes
         Dim ret As String = ""
         Dim sSql As String
         Dim rsDescr As DataSet
+        Con.Conectar()
+
         Try
-            If Tipo = "IPA" Then
-                If Cod_Empresa = 1 Then
-                    rsDescr = Con.ExecutarQuery("Select * FROM FATURA_ITEM WHERE IDFATURA =" & idFatura & " ORDER BY ITEM ")
-                Else
-                    rsDescr = Con.ExecutarQuery("Select sum(VALOR) As VALOR, 1 As ITEM,'PACOTE LOGISTICO LCL' as DESCRICAO  FROM FATURA_ITEM WHERE IDFATURA =" & idFatura)
-                End If
-            Else
-                rsDescr = Con.ExecutarQuery("SELECT * FROM FATURA_ITEM WHERE IDFATURA =" & idFatura & " ORDER BY ITEM ")
-            End If
+
+            rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
             For i = 0 To rsDescr.Tables(0).Rows.Count - 1
                 If ret <> "" Then ret = ret & " * "
                 ret = ret & "ITEM " & rsDescr.Tables(0).Rows(i)("ITEM").ToString & " - " & rsDescr.Tables(0).Rows(i)("DESCRICAO").ToString & " - R$ " & rsDescr.Tables(0).Rows(i)("VALOR").ToString
@@ -399,8 +394,10 @@ Public Class Funcoes
         Dim sSql As String
         Dim rsAux As New DataSet
         Try
+            Con.Conectar()
+
             aliquotaISS = 0.03
-            sSql = "SELECT TAXA/100 FROM TB_CAD_IMPOSTOS WHERE DESCRICAO = 'ISS' "
+            sSql = "SELECT VL_ALIQUOTA_ISS FROM TB_PARAMETROS "
             rsAux = Con.ExecutarQuery(sSql)
             If Not rsAux.Tables(0).Rows.Count <= 0 Then
                 aliquotaISS = NNull(rsAux.Tables(0).Rows(0)(0).ToString, 0)
@@ -409,13 +406,13 @@ Public Class Funcoes
             Err.Clear()
         End Try
     End Function
-    Public Function obtemNumeroLote() As Long
-        Dim sSql As String
-        Dim rsNumero As DataSet
-        sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-        rsNumero = Con.ExecutarQuery(sSql)
-        obtemNumeroLote = Long.Parse(NNull(rsNumero.Tables(0).Rows(0)(0).ToString, 0))
-    End Function
+    'Public Function obtemNumeroLote() As Long
+    '    Dim sSql As String
+    '    Dim rsNumero As DataSet
+    '    sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+    '    rsNumero = Con.ExecutarQuery(sSql)
+    '    obtemNumeroLote = Long.Parse(NNull(rsNumero.Tables(0).Rows(0)(0).ToString, 0))
+    'End Function
 
     Enum ResultadoAssinatura As Integer
         XMLAssinadoSucesso
@@ -444,7 +441,7 @@ Public Class Funcoes
             Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA = " & Cod_Empresa)
             nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
@@ -670,8 +667,7 @@ Public Class ServicoEspecial
     Dim Con As New Conexao_sql
     Dim Funcoes As New Funcoes
 
-    Public Sub carrega(idFat As Long, tipo As Integer)
-        'Tipo : 0 - IPA \ 1 - RED
+    Public Sub carrega(idFat As Long)
         Dim sSql As String
         Dim rsAux As New DataSet
         Try
@@ -683,57 +679,34 @@ Public Class ServicoEspecial
             Cofins = 0
             Csll = 0
             Ir = 0
+            Con.Conectar()
 
-            If tipo = 0 Then
-                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
-                rsAux = Con.ExecutarQuery(sSql)
-                If rsAux.Tables(0).Rows.Count > 0 Then
-                    Especial = True
-                    CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
-                    CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
-                    Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
-                    Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
-                    Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
-                    Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
-                    Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
-                Else
-                    Exit Sub
-                End If
-
-                TemDivergencia = False
-                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN TB_SERVICOS_IPA S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
-                rsAux = Con.ExecutarQuery(sSql)
-                If rsAux.Tables(0).Rows.Count > 0 Then
-                    TemDivergencia = True
-                End If
-            ElseIf tipo = 1 Then
-                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS, S.PIS, S.COFINS, S.CSLL, S.IR FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
-                rsAux = Con.ExecutarQuery(sSql)
-                If rsAux.Tables(0).Rows.Count > 0 Then
-                    Especial = True
-                    CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
-                    CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
-                    Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
-                    Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
-                    Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
-                    Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
-                    Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
-                Else
-                    Exit Sub
-                End If
-
-                TemDivergencia = False
-                sSql = "SELECT S.COD_SER, S.COD_TRIB, S.ISS FROM FATURA_ITEM F INNER JOIN REDEX.TB_SERVICOS_REDEX S ON F.SERVICO = S.AUTONUM WHERE F.IDFATURA IN(" & idFat & ")"
-                sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
-                rsAux = Con.ExecutarQuery(sSql)
-                If rsAux.Tables(0).Rows.Count > 0 Then
-                    TemDivergencia = True
-                End If
-
+            sSql = "SELECT NULL AS COD_SER, NULL AS  COD_TRIB, VL_ISS AS ISS, VL_PIS AS PIS, VL_COFINS AS COFINS, NULL AS CSLL, VL_IR AS IR
+FROM TB_CONTA_PAGAR_RECEBER_ITENS  
+WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN(" & idFat & "))"
+            'sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
+            rsAux = Con.ExecutarQuery(sSql)
+            If rsAux.Tables(0).Rows.Count > 0 Then
+                Especial = True
+                CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
+                CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
+                Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
+                Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
+                Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
+                Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
+                Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
+            Else
+                Exit Sub
             End If
+
+            TemDivergencia = False
+            sSql = "SELECT NULL AS COD_SER, NULL AS  COD_TRIB, VL_ISS AS ISS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER  = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN(" & idFat & "))"
+            'sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
+            rsAux = Con.ExecutarQuery(sSql)
+            If rsAux.Tables(0).Rows.Count > 0 Then
+                'TemDivergencia = True
+            End If
+
         Catch ex As Exception
             Err.Clear()
         End Try

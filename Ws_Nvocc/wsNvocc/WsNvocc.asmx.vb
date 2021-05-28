@@ -46,7 +46,6 @@ Public Class WsNvocc
             For I = 0 To ds.Tables(0).Rows.Count - 1
                 Call montaLoteRPS2(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
             Next
-            Return "SUCCESS!"
 
         Else
             Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
@@ -61,7 +60,6 @@ Public Class WsNvocc
             For I = 0 To ds.Tables(0).Rows.Count - 1
                 Call montaConsultaRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_RPS").ToString, 0), ds.Tables(0).Rows(I)("LOTE_RPS").ToString, ds.Tables(0).Rows(I)("SERIE_RPS").ToString, 1)
             Next
-            Return "SUCCESS!"
 
         Else
             Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
@@ -74,7 +72,6 @@ Public Class WsNvocc
             For I = 0 To ds.Tables(0).Rows.Count - 1
                 Call montaCancelamentoNFSE(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("LOTE_RPS").ToString)
             Next
-            Return "SUCCESS!"
 
         Else
             Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
@@ -115,11 +112,11 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            loteNumero = Funcoes.obtemNumeroLote()
+            loteNumero = IDFatura 'Funcoes.obtemNumeroLote()
 
 
-            sSql = "INSERT INTO TB_LOTE_NFSE (ID_LOTE, DT_ENVIO_LOTE, NUMERO_RPS) "
-            sSql = sSql & " VALUES (" & loteNumero & ",GETDATE()," & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & ") "
+            sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
+            sSql = sSql & " VALUES (" & IDFatura & ",GETDATE()," & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & ") "
             Con.ExecutarQuery(sSql)
 
 
@@ -171,13 +168,13 @@ Public Class WsNvocc
                 Con.ExecutarQuery(sSql)
 
 
-                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
 
 
 
                 Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='ENCONTRADA DIVERGENCIA DE VALORES' WHERE ID_LOTE =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='ENCONTRADA DIVERGENCIA DE VALORES' WHERE ID_FATURAMENTO =" & loteNumero
                 Con.ExecutarQuery(sSql)
 
 
@@ -250,7 +247,7 @@ Public Class WsNvocc
             erroValor = False
 
 
-            sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Rows(0)("IDFATURA").ToString, 0)), 0)
+            sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Rows(0)("IDFATURA").ToString, 0)))
             If sP.TemDivergencia Then
                 erroValor = True
                 Exit Sub
@@ -296,9 +293,7 @@ Public Class WsNvocc
             noInfRps.AppendChild(No)
 
             No = doc.CreateElement("OptanteSimplesNacional", NFeNamespacte)
-            noText = doc.CreateTextNode(IIf(Funcoes.NNull(rsEmpresa.Tables(0).Rows(0).Item("SIMPLES").ToString, 0) = 0, 2, 1))
-            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0).Item("NAT_OPERACAO").ToString)
-
+            noText = doc.CreateTextNode(IIf(Funcoes.NNull(rsEmpresa.Tables(0).Rows(0)("SIMPLES").ToString, 0) = 0, 2, 1))
             No.AppendChild(noText)
             noInfRps.AppendChild(No)
 
@@ -312,84 +307,25 @@ Public Class WsNvocc
             No.AppendChild(noText)
             noInfRps.AppendChild(No)
 
-            If Val(Funcoes.NNull(rsRPS.Rows(0)("NUMERO_SUB").ToString, 0)) > 0 Then
-                Dim noSubst As XmlElement
-                noSubst = doc.CreateElement("RpsSubstituido", NFeNamespacte)
-
-                No = doc.CreateElement("Numero", NFeNamespacte)
-                noText = doc.CreateTextNode("1")
-                noText = doc.CreateTextNode(rsRPS.Rows(0)("NUMERO_SUB").ToString)
-                No.AppendChild(noText)
-                noSubst.AppendChild(No)
-
-                No = doc.CreateElement("Serie", NFeNamespacte)
-                noText = doc.CreateTextNode(rsRPS.Rows(0)("SERIE_RPS").ToString)
-                No.AppendChild(noText)
-                noSubst.AppendChild(No)
-
-                No = doc.CreateElement("Tipo", NFeNamespacte)
-                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0).Item("TIPO_RPS").ToString)
-                No.AppendChild(noText)
-                noSubst.AppendChild(No)
-
-                noInfRps.AppendChild(noSubst)
-            End If
 
             Dim noServicos As XmlElement
             Dim noValServ As XmlElement
             noServicos = doc.CreateElement("Servico", NFeNamespacte)
 
             Dim rsServicos As DataSet
-            Dim rsValImp As DataSet
             Dim sSql As String
 
-            If InStr(rsRPS.Rows(0)("SEQ_GR").ToString, ",") > 0 Then
-                sSql = " SELECT ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR, "
-                sSql = sSql & " ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR_GR, "
-                If sP.Aliq > 0 Then
-                    sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
-                Else
-                    sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
-                End If
-                sSql = sSql & "  FROM TB_SERVICOS_FATURADOS SERV LEFT JOIN "
-                sSql = sSql & "  (SELECT SUM(VALOR_IMPOSTO) VAL, AUTONUM_SERVICO_FATURADO "
-                sSql = sSql & " FROM TB_SERVICOS_FATURADOS_IMPOSTOS GROUP BY AUTONUM_SERVICO_FATURADO) IMP "
-                sSql = sSql & " ON SERV.AUTONUM = IMP.AUTONUM_SERVICO_FATURADO   "
-                sSql = sSql & " LEFT JOIN TB_GR_BL GR ON SERV.SEQ_GR = GR.SEQ_GR "
-                sSql = sSql & " WHERE SERV.SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                sSql = sSql & " AND SERV.SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
 
-            Else
+            sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VL_LIQUIDO, SUM(ISNULL(VL_LIQUIDO,0)) + SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VALOR, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS
+ FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
 
-                If Funcoes.NNull(rsRPS.Rows(0)("SEQ_GR").ToString, 0) > 0 Then
 
-                    sSql = " SELECT GR.VALOR_GR AS VALOR_GR, ROUND(SUM(ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)),2) AS VALOR, "
-                    If sP.Aliq > 0 Then
-                        sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & sP.Aliq.ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
-                    Else
-                        sSql = sSql & " ROUND(SUM((ISNULL(SERV.VALOR,0) + ISNULL(SERV.ADICIONAL,0) + ISNULL(SERV.DESCONTO,0) + ISNULL(IMP.VAL,0)) * " & Funcoes.aliquotaISS().ToString.Replace(",", ".") & "),2) AS VALOR_ISS "
-                    End If
-                    sSql = sSql & "  FROM TB_SERVICOS_FATURADOS SERV LEFT JOIN "
-                    sSql = sSql & "  (SELECT SUM(VALOR_IMPOSTO) VAL, AUTONUM_SERVICO_FATURADO "
-                    sSql = sSql & " FROM TB_SERVICOS_FATURADOS_IMPOSTOS GROUP BY AUTONUM_SERVICO_FATURADO) IMP "
-                    sSql = sSql & " ON SERV.AUTONUM = IMP.AUTONUM_SERVICO_FATURADO   "
-                    sSql = sSql & " LEFT JOIN TB_GR_BL GR ON SERV.SEQ_GR = GR.SEQ_GR "
-                    sSql = sSql & " WHERE SERV.SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                    sSql = sSql & " AND SERV.SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                    sSql = sSql & " GROUP BY GR.VALOR_GR "
-                Else
-                    sSql = "SELECT FAT.VALOR AS VALOR_GR, FAT.VALOR,  ROUND(FAT.VALOR * 0.05 ,2) AS VALOR_ISS  "
-                    sSql = sSql & " FROM TB_FATURAMENTO FAT"
-                    sSql = sSql & " WHERE ID =" & rsRPS.Rows(0)("IDFATURA").ToString
-
-                End If
-            End If
             rsServicos = Con.ExecutarQuery(sSql)
 
             For I = 0 To rsServicos.Tables(0).Rows.Count - 1
                 If Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(0).ToString, 0)) <> Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(1).ToString, 0)) Then
-                    sSql = "SELECT COUNT(1) FROM TB_FATURAMENTO WHERE TIPO = 'GR' AND SEQ_GR ='" & rsRPS.Rows(0)("SEQ_GR").ToString & "' "
-                    sSql = sSql & " AND FLAG_RPS = 1 AND CANCELADA = 0 "
+                    sSql = "SELECT COUNT(1) FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER ='" & rsRPS.Rows(0)("ID_CONTA_PAGAR_RECEBER").ToString & "' "
+                    sSql = sSql & " AND FL_RPS = 1 AND DT_CANCELAMENTO IS NULL"
                     If Funcoes.NNull(Con.ExecutarQuery(sSql).Tables(0).Rows(0)(0), 0) = 1 Then
                         erroValor = True
                         Exit Sub
@@ -404,114 +340,48 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
-                sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='PIS') "
-                sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
-                sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                sSql = sSql & " AND SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                sSql = sSql & " )"
-                rsValImp = Con.ExecutarQuery(sSql)
-
-
-                Dim valPis As Double = Funcoes.NNull(0, 0)
-                If sP.Pis > 0 Then
-                    valPis = Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString) * sP.Pis
-                End If
-                valPis = FormatNumber(valPis, 2)
 
                 No = doc.CreateElement("ValorPis", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Double.Parse(valPis), "0.00").Replace(",", "."))
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_PIS").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
-                sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='COFINS') "
-                sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
-                sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ")"
-                sSql = sSql & " AND SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                sSql = sSql & " ) "
 
-                rsValImp = Con.ExecutarQuery(sSql)
 
                 No = doc.CreateElement("ValorCofins", NFeNamespacte)
-
-                Dim valCofins As Double = Funcoes.NNull(0, 0)
-                If sP.Cofins > 0 Then
-                    valCofins = Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString) * sP.Cofins
-                End If
-                valCofins = FormatNumber(valCofins, 2)
-
-                noText = doc.CreateTextNode(Format(Double.Parse(valCofins), "0.00").Replace(",", "."))
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_COFINS").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
-                sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='INSS') "
-                sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
-                sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                sSql = sSql & " AND SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                sSql = sSql & " ) "
-                rsValImp = Con.ExecutarQuery(sSql)
                 No = doc.CreateElement("ValorInss", NFeNamespacte)
-
                 Dim valInss As Double = Funcoes.NNull(0, 0)
                 noText = doc.CreateTextNode(Format(Double.Parse(valInss), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
 
-                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
-                sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='IRPJ') "
-                sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
-                sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                sSql = sSql & " AND SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                sSql = sSql & " ) "
-                rsValImp = Con.ExecutarQuery(sSql)
                 No = doc.CreateElement("ValorIr", NFeNamespacte)
-
-                Dim valIr As Double = Funcoes.NNull(0, 0)
-                If sP.Ir > 0 Then
-                    valIr = Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString) * sP.Ir
-                End If
-                valIr = FormatNumber(valIr, 2)
-
-                noText = doc.CreateTextNode(Format(Double.Parse(valIr), "0.00").Replace(",", "."))
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                sSql = "SELECT ISNULL(SUM(VALOR_IMPOSTO),0) VAL FROM TB_SERVICOS_FATURADOS_IMPOSTOS "
-                sSql = sSql & "  WHERE AUTONUM_IMPOSTO IN(SELECT AUTONUM FROM TB_CAD_IMPOSTOS WHERE DESCRICAO ='CSLL') "
-                sSql = sSql & "  AND AUTONUM_SERVICO_FATURADO IN(SELECT AUTONUM FROM TB_SERVICOS_FATURADOS "
-                sSql = sSql & " WHERE SEQ_GR IN(" & rsRPS.Rows(0)("SEQ_GR").ToString & ") "
-                sSql = sSql & " AND SERVICO IN(SELECT SERVICO FROM FATURA_ITEM WHERE IDFATURA = " & rsRPS.Rows(0)("IDFATURA").ToString & ") "
-                sSql = sSql & " ) "
-                rsValImp = Con.ExecutarQuery(sSql)
 
                 Dim valCsll As Double = Funcoes.NNull(0, 0)
-                If sP.Csll > 0 Then
-                    valCsll = Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString) * sP.Csll
-                End If
+                'If sP.Csll > 0 Then
+                '    valCsll = Double.Parse(rsServicos.Rows(I)("VALOR").ToString) * sP.Csll
+                'End If
                 valCsll = FormatNumber(valCsll, 2)
-
-
                 No = doc.CreateElement("ValorCsll", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                No = doc.CreateElement("IssRetido", NFeNamespacte)
-                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    noText = doc.CreateTextNode("1")
-                Else
-                    noText = doc.CreateTextNode("2")
-                End If
+
+                No = doc.CreateElement("ValorIss", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                No = doc.CreateElement("ValorIss", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR_ISS").ToString), "0.00").Replace(",", "."))
-                No.AppendChild(noText)
-                noValServ.AppendChild(No)
 
                 If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                     No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
@@ -529,129 +399,43 @@ Public Class WsNvocc
                 If sP.Aliq > 0 Then
                     noText = doc.CreateTextNode(sP.Aliq.ToString.Replace(",", "."))
                 Else
-                    If rsRPS.Rows(0)("TIPO_NF").ToString = "TRANSP" Then
-                        noText = doc.CreateTextNode("0.03")
-                    Else
-                        noText = doc.CreateTextNode(Funcoes.aliquotaISS().ToString.Replace(",", "."))
-                    End If
+
+                    noText = doc.CreateTextNode(Funcoes.aliquotaISS().ToString.Replace(",", "."))
                 End If
 
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                valPis = FormatNumber(valPis, 2)
-                valCofins = FormatNumber(valCofins, 2)
-                valInss = FormatNumber(valInss, 2)
-                valIr = FormatNumber(valIr, 2)
-                valCsll = FormatNumber(valCsll, 2)
-
-                Dim valorLiquido As Double
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
-
-                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    valorLiquido = Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VALOR").ToString, 0) - Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VALOR_ISS").ToString, 0)
-                    valorLiquido = valorLiquido - valPis - valCofins - valInss - valIr - valCsll
-                    noText = doc.CreateTextNode(Format(Double.Parse(valorLiquido.ToString), "0.00").Replace(",", "."))
-                Else
-                    valorLiquido = Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VALOR").ToString, 0)
-                    valorLiquido = valorLiquido - valPis - valCofins - valInss - valIr - valCsll
-                    noText = doc.CreateTextNode(Format(Double.Parse(valorLiquido), "0.00").Replace(",", "."))
-                End If
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
                 noServicos.AppendChild(noValServ)
 
+                Dim dfinal As String
+
+                Dim dDescr As String
+                dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                dDescr = dDescr & " " & Funcoes.obtemDocumento(rsRPS.Rows(0)("ID_CONTA_PAGAR_RECEBER").ToString)
+                dfinal = "Valor aproximado dos tributos R$ "
+                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0) ' Format(Double.Parse(valorLiquido.ToString), "0.00")
+                dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                dfinal = Funcoes.tiraCaracEspXML(dfinal)
+
+                dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                dDescr = dDescr.Trim & " " & dfinal
+
                 No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                 If sP.CodServ <> "" Then
                     noText = doc.CreateTextNode(sP.CodServ)
                 Else
-                    If rsRPS.Rows(0)("TIPO_NF").ToString = "TRANSP" Or rsRPS.Rows(0)("TIPO_NF").ToString = "SCANNER" Then
-                        noText = doc.CreateTextNode(rsRPS.Rows(0)("CODISS").ToString)
-                    Else
-                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0).Item("COD_SERVICO").ToString)
-                    End If
+
+                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
                 End If
 
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
-
-                No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
-                If sP.CodTrib <> "" Then
-                    noText = doc.CreateTextNode(sP.CodTrib)
-                Else
-                    If rsRPS.Rows(0)("TIPO_NF").ToString = "TRANSP" Or rsRPS.Rows(0)("TIPO_NF").ToString = "SCANNER" Then
-                        noText = doc.CreateTextNode(rsRPS.Rows(0)("COD_CNAE").ToString)
-                    Else
-                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0).Item("COD_TRIB_MUN").ToString)
-                    End If
-                End If
-
-                No.AppendChild(noText)
-                noServicos.AppendChild(No)
-
-                Dim dfinal As String
-
-                Dim dDescr As String
-                valorLiquido = Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VALOR").ToString, 0)
-                If rsRPS.Rows(0)("TIPO_NF").ToString = "TRANSP" Then
-                    valorLiquido = valorLiquido * 0.1225
-                    dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                    dDescr = dDescr & " " & Funcoes.obtemDocumento(rsRPS.Rows(0)("SEQ_GR").ToString)
-
-                    dfinal = "Valor aproximado dos tributos R$ "
-                    dfinal = dfinal & Format(Double.Parse(valorLiquido.ToString), "0.00")
-                    dfinal = dfinal & " (12,25%) conforme LEI 12741/2012"
-                    dfinal = Funcoes.tiraCaracEspXML(dfinal)
-
-                    dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                    dDescr = dDescr.Trim & " " & dfinal
-
-
-                ElseIf rsRPS.Rows(0)("TIPO_NF").ToString = "SCANNER" Then
-
-
-                    valorLiquido = valorLiquido * Funcoes.aliquotaImpostos()
-                    dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                    dDescr = dDescr & " " & Funcoes.obtemOBS(rsRPS.Rows(0)("IDFATURA").ToString)
-
-                    dfinal = "Valor aproximado dos tributos R$ "
-                    dfinal = dfinal & Format(Double.Parse(valorLiquido.ToString), "0.00")
-                    dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
-                    dfinal = Funcoes.tiraCaracEspXML(dfinal)
-
-                    dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                    dDescr = dDescr.Trim & " " & dfinal
-
-
-                Else
-                    If sP.Aliq > 0 Then
-                        valorLiquido = valorLiquido * sP.Aliq
-                        dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                        dDescr = dDescr & " " & Funcoes.obtemDocumento(rsRPS.Rows(0)("SEQ_GR").ToString)
-
-                        dfinal = "Valor aproximado dos tributos R$ "
-                        dfinal = dfinal & Format(Double.Parse(valorLiquido.ToString), "0.00")
-                        dfinal = dfinal & " (" & sP.Aliq * 100 & "%) conforme LEI 12741/2012"
-                        dfinal = Funcoes.tiraCaracEspXML(dfinal)
-
-                        dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                        dDescr = dDescr.Trim & " " & dfinal
-                    Else
-                        valorLiquido = valorLiquido * Funcoes.aliquotaImpostos()
-                        dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                        dDescr = dDescr & " " & Funcoes.obtemDocumento(rsRPS.Rows(0)("SEQ_GR").ToString)
-
-                        dfinal = "Valor aproximado dos tributos R$ "
-                        dfinal = dfinal & Format(Double.Parse(valorLiquido.ToString), "0.00")
-                        dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
-                        dfinal = Funcoes.tiraCaracEspXML(dfinal)
-
-                        dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                        dDescr = dDescr.Trim & " " & dfinal
-
-                    End If
-                End If
 
                 dDescr = Funcoes.tiraCaracEspXML(dDescr)
                 No = doc.CreateElement("Discriminacao", NFeNamespacte)
@@ -865,10 +649,10 @@ Public Class WsNvocc
                     sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
@@ -878,10 +662,10 @@ Public Class WsNvocc
                     sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE LOTE_RPS =  " & loteNumero
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)

@@ -103,6 +103,99 @@
     </None>
     <Content Include="Web.config" />
     <Content Include="WsNvocc.asmx" />
+    <None Include="XSD_WS\cabecalho_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\cabecalho_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_cancelar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_cancelar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_nfse_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_nfse_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_situacao_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_consultar_situacao_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_enviar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\servico_enviar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\tipos_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\schemas_v301\xmldsig-core-schema20020212_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_cancelar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_cancelar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_cancelar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_nfse_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_nfse_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_situacao_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_consultar_situacao_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_enviar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\servico_enviar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\tipos_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD_WS\xmldsig-core-schema20020212_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\BD.vb" />
@@ -166,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LoteRpsEnviado\" />
+    <Folder Include="XSD\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
