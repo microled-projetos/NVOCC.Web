@@ -32,60 +32,75 @@ Namespace NotaFiscal
         Inherits System.Web.Services.Protocols.SoapHttpClientProtocol
         
         Private IntegraNFePrefeituraOperationCompleted As System.Threading.SendOrPostCallback
-        
+
+        Private ConsultaNFePrefeituraOperationCompleted As System.Threading.SendOrPostCallback
+
+        Private CancelaNFePrefeituraOperationCompleted As System.Threading.SendOrPostCallback
+
+        Private SubstituiNFePrefeituraOperationCompleted As System.Threading.SendOrPostCallback
+
         Private useDefaultCredentialsSetExplicitly As Boolean
-        
+
         '''<remarks/>
         Public Sub New()
             MyBase.New
             Me.Url = Global.NVOCC.Web.My.MySettings.Default.NVOCC_Web_NotaFiscal_WsNvocc
-            If (Me.IsLocalFileSystemWebService(Me.Url) = true) Then
-                Me.UseDefaultCredentials = true
-                Me.useDefaultCredentialsSetExplicitly = false
+            If (Me.IsLocalFileSystemWebService(Me.Url) = True) Then
+                Me.UseDefaultCredentials = True
+                Me.useDefaultCredentialsSetExplicitly = False
             Else
-                Me.useDefaultCredentialsSetExplicitly = true
+                Me.useDefaultCredentialsSetExplicitly = True
             End If
         End Sub
-        
+
         Public Shadows Property Url() As String
             Get
                 Return MyBase.Url
             End Get
             Set
-                If (((Me.IsLocalFileSystemWebService(MyBase.Url) = true)  _
-                            AndAlso (Me.useDefaultCredentialsSetExplicitly = false))  _
-                            AndAlso (Me.IsLocalFileSystemWebService(value) = false)) Then
-                    MyBase.UseDefaultCredentials = false
+                If (((Me.IsLocalFileSystemWebService(MyBase.Url) = True) _
+                            AndAlso (Me.useDefaultCredentialsSetExplicitly = False)) _
+                            AndAlso (Me.IsLocalFileSystemWebService(Value) = False)) Then
+                    MyBase.UseDefaultCredentials = False
                 End If
-                MyBase.Url = value
+                MyBase.Url = Value
             End Set
         End Property
-        
+
         Public Shadows Property UseDefaultCredentials() As Boolean
             Get
                 Return MyBase.UseDefaultCredentials
             End Get
             Set
-                MyBase.UseDefaultCredentials = value
-                Me.useDefaultCredentialsSetExplicitly = true
+                MyBase.UseDefaultCredentials = Value
+                Me.useDefaultCredentialsSetExplicitly = True
             End Set
         End Property
-        
+
         '''<remarks/>
         Public Event IntegraNFePrefeituraCompleted As IntegraNFePrefeituraCompletedEventHandler
-        
+
         '''<remarks/>
-        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IntegraNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Event ConsultaNFePrefeituraCompleted As ConsultaNFePrefeituraCompletedEventHandler
+
+        '''<remarks/>
+        Public Event CancelaNFePrefeituraCompleted As CancelaNFePrefeituraCompletedEventHandler
+
+        '''<remarks/>
+        Public Event SubstituiNFePrefeituraCompleted As SubstituiNFePrefeituraCompletedEventHandler
+
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IntegraNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>
         Public Function IntegraNFePrefeitura(ByVal RPS As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
             Dim results() As Object = Me.Invoke("IntegraNFePrefeitura", New Object() {RPS, CodEmpresa, BancoDestino, StringConexaoDestino, Reprocessamento})
-            Return CType(results(0),String)
+            Return CType(results(0), String)
         End Function
-        
+
         '''<remarks/>
         Public Overloads Sub IntegraNFePrefeituraAsync(ByVal RPS As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal Reprocessamento As Boolean)
             Me.IntegraNFePrefeituraAsync(RPS, CodEmpresa, BancoDestino, StringConexaoDestino, Reprocessamento, Nothing)
         End Sub
-        
+
         '''<remarks/>
         Public Overloads Sub IntegraNFePrefeituraAsync(ByVal RPS As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal Reprocessamento As Boolean, ByVal userState As Object)
             If (Me.IntegraNFePrefeituraOperationCompleted Is Nothing) Then
@@ -93,56 +108,218 @@ Namespace NotaFiscal
             End If
             Me.InvokeAsync("IntegraNFePrefeitura", New Object() {RPS, CodEmpresa, BancoDestino, StringConexaoDestino, Reprocessamento}, Me.IntegraNFePrefeituraOperationCompleted, userState)
         End Sub
-        
+
         Private Sub OnIntegraNFePrefeituraOperationCompleted(ByVal arg As Object)
             If (Not (Me.IntegraNFePrefeituraCompletedEvent) Is Nothing) Then
-                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg,System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg, System.Web.Services.Protocols.InvokeCompletedEventArgs)
                 RaiseEvent IntegraNFePrefeituraCompleted(Me, New IntegraNFePrefeituraCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
             End If
         End Sub
-        
+
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ConsultaNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>
+        Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
+            Dim results() As Object = Me.Invoke("ConsultaNFePrefeitura", New Object() {LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino})
+            Return CType(results(0), String)
+        End Function
+
+        '''<remarks/>
+        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
+            Me.ConsultaNFePrefeituraAsync(LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
+        End Sub
+
+        '''<remarks/>
+        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
+            If (Me.ConsultaNFePrefeituraOperationCompleted Is Nothing) Then
+                Me.ConsultaNFePrefeituraOperationCompleted = AddressOf Me.OnConsultaNFePrefeituraOperationCompleted
+            End If
+            Me.InvokeAsync("ConsultaNFePrefeitura", New Object() {LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.ConsultaNFePrefeituraOperationCompleted, userState)
+        End Sub
+
+        Private Sub OnConsultaNFePrefeituraOperationCompleted(ByVal arg As Object)
+            If (Not (Me.ConsultaNFePrefeituraCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg, System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent ConsultaNFePrefeituraCompleted(Me, New ConsultaNFePrefeituraCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CancelaNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>
+        Public Function CancelaNFePrefeitura(ByVal Rps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
+            Dim results() As Object = Me.Invoke("CancelaNFePrefeitura", New Object() {Rps, CodEmpresa, BancoDestino, StringConexaoDestino})
+            Return CType(results(0), String)
+        End Function
+
+        '''<remarks/>
+        Public Overloads Sub CancelaNFePrefeituraAsync(ByVal Rps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
+            Me.CancelaNFePrefeituraAsync(Rps, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
+        End Sub
+
+        '''<remarks/>
+        Public Overloads Sub CancelaNFePrefeituraAsync(ByVal Rps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
+            If (Me.CancelaNFePrefeituraOperationCompleted Is Nothing) Then
+                Me.CancelaNFePrefeituraOperationCompleted = AddressOf Me.OnCancelaNFePrefeituraOperationCompleted
+            End If
+            Me.InvokeAsync("CancelaNFePrefeitura", New Object() {Rps, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.CancelaNFePrefeituraOperationCompleted, userState)
+        End Sub
+
+        Private Sub OnCancelaNFePrefeituraOperationCompleted(ByVal arg As Object)
+            If (Not (Me.CancelaNFePrefeituraCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg, System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent CancelaNFePrefeituraCompleted(Me, New CancelaNFePrefeituraCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SubstituiNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>
+        Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
+            Dim results() As Object = Me.Invoke("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino})
+            Return CType(results(0), String)
+        End Function
+
+        '''<remarks/>
+        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
+            Me.SubstituiNFePrefeituraAsync(RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
+        End Sub
+
+        '''<remarks/>
+        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
+            If (Me.SubstituiNFePrefeituraOperationCompleted Is Nothing) Then
+                Me.SubstituiNFePrefeituraOperationCompleted = AddressOf Me.OnSubstituiNFePrefeituraOperationCompleted
+            End If
+            Me.InvokeAsync("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.SubstituiNFePrefeituraOperationCompleted, userState)
+        End Sub
+
+        Private Sub OnSubstituiNFePrefeituraOperationCompleted(ByVal arg As Object)
+            If (Not (Me.SubstituiNFePrefeituraCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg, System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent SubstituiNFePrefeituraCompleted(Me, New SubstituiNFePrefeituraCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+
         '''<remarks/>
         Public Shadows Sub CancelAsync(ByVal userState As Object)
             MyBase.CancelAsync(userState)
         End Sub
-        
+
         Private Function IsLocalFileSystemWebService(ByVal url As String) As Boolean
-            If ((url Is Nothing)  _
+            If ((url Is Nothing) _
                         OrElse (url Is String.Empty)) Then
-                Return false
+                Return False
             End If
             Dim wsUri As System.Uri = New System.Uri(url)
-            If ((wsUri.Port >= 1024)  _
+            If ((wsUri.Port >= 1024) _
                         AndAlso (String.Compare(wsUri.Host, "localHost", System.StringComparison.OrdinalIgnoreCase) = 0)) Then
-                Return true
+                Return True
             End If
-            Return false
+            Return False
         End Function
     End Class
-    
+
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>
     Public Delegate Sub IntegraNFePrefeituraCompletedEventHandler(ByVal sender As Object, ByVal e As IntegraNFePrefeituraCompletedEventArgs)
-    
+
     '''<remarks/>
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),  _
-     System.Diagnostics.DebuggerStepThroughAttribute(),  _
-     System.ComponentModel.DesignerCategoryAttribute("code")>  _
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),
+     System.Diagnostics.DebuggerStepThroughAttribute(),
+     System.ComponentModel.DesignerCategoryAttribute("code")>
     Partial Public Class IntegraNFePrefeituraCompletedEventArgs
         Inherits System.ComponentModel.AsyncCompletedEventArgs
-        
+
         Private results() As Object
-        
+
         Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
             MyBase.New(exception, cancelled, userState)
             Me.results = results
         End Sub
-        
+
         '''<remarks/>
         Public ReadOnly Property Result() As String
             Get
-                Me.RaiseExceptionIfNecessary
-                Return CType(Me.results(0),String)
+                Me.RaiseExceptionIfNecessary()
+                Return CType(Me.results(0), String)
+            End Get
+        End Property
+    End Class
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>
+    Public Delegate Sub ConsultaNFePrefeituraCompletedEventHandler(ByVal sender As Object, ByVal e As ConsultaNFePrefeituraCompletedEventArgs)
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),
+     System.Diagnostics.DebuggerStepThroughAttribute(),
+     System.ComponentModel.DesignerCategoryAttribute("code")>
+    Partial Public Class ConsultaNFePrefeituraCompletedEventArgs
+        Inherits System.ComponentModel.AsyncCompletedEventArgs
+
+        Private results() As Object
+
+        Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+            MyBase.New(exception, cancelled, userState)
+            Me.results = results
+        End Sub
+
+        '''<remarks/>
+        Public ReadOnly Property Result() As String
+            Get
+                Me.RaiseExceptionIfNecessary()
+                Return CType(Me.results(0), String)
+            End Get
+        End Property
+    End Class
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>
+    Public Delegate Sub CancelaNFePrefeituraCompletedEventHandler(ByVal sender As Object, ByVal e As CancelaNFePrefeituraCompletedEventArgs)
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),
+     System.Diagnostics.DebuggerStepThroughAttribute(),
+     System.ComponentModel.DesignerCategoryAttribute("code")>
+    Partial Public Class CancelaNFePrefeituraCompletedEventArgs
+        Inherits System.ComponentModel.AsyncCompletedEventArgs
+
+        Private results() As Object
+
+        Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+            MyBase.New(exception, cancelled, userState)
+            Me.results = results
+        End Sub
+
+        '''<remarks/>
+        Public ReadOnly Property Result() As String
+            Get
+                Me.RaiseExceptionIfNecessary()
+                Return CType(Me.results(0), String)
+            End Get
+        End Property
+    End Class
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>
+    Public Delegate Sub SubstituiNFePrefeituraCompletedEventHandler(ByVal sender As Object, ByVal e As SubstituiNFePrefeituraCompletedEventArgs)
+
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),
+     System.Diagnostics.DebuggerStepThroughAttribute(),
+     System.ComponentModel.DesignerCategoryAttribute("code")>
+    Partial Public Class SubstituiNFePrefeituraCompletedEventArgs
+        Inherits System.ComponentModel.AsyncCompletedEventArgs
+
+        Private results() As Object
+
+        Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+            MyBase.New(exception, cancelled, userState)
+            Me.results = results
+        End Sub
+
+        '''<remarks/>
+        Public ReadOnly Property Result() As String
+            Get
+                Me.RaiseExceptionIfNecessary()
+                Return CType(Me.results(0), String)
             End Get
         End Property
     End Class

@@ -88,7 +88,7 @@
 
                        <div class="col-sm-offset-1 col-sm-5">
                            <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
-                           <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">TESTE</asp:LinkButton>
+<%--                           <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">TESTE</asp:LinkButton>--%>
                            <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
@@ -270,10 +270,10 @@
                                         </div>
                                          </div>
                                    </div>      
-                                    <div class="row" visible="false" runat="server">
+                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">
-                                                                                     <asp:LinkButton ID="lkConsultarNotas" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Consultar Notas</asp:LinkButton>
+                                                                                     <asp:LinkButton ID="lkVisualizarNota" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Visualizar Nota</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div>      

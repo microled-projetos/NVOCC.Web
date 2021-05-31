@@ -369,6 +369,7 @@
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="GeraPDF.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -432,10 +433,10 @@
     <Content Include="TaxasLocaisArmador.aspx" />
     <Content Include="TaxasLocaisImpo_PDF.aspx" />
     <Content Include="TaxasLocaisExpo_PDF.aspx" />
-    <Content Include="Web References\NotaFiscal\Reference.map">
+    <None Include="Web References\NotaFiscal\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
-    </Content>
+    </None>
     <None Include="Web References\NotaFiscal\WsNvocc.disco" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebService1.asmx" />
@@ -815,6 +816,12 @@
     <Compile Include="EmailParceiro.aspx.vb">
       <DependentUpon>EmailParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GeraPDF.aspx.designer.vb">
+      <DependentUpon>GeraPDF.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GeraPDF.aspx.vb">
+      <DependentUpon>GeraPDF.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>

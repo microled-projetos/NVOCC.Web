@@ -39,6 +39,7 @@ Public Class WsNvocc
     Dim Con As New Conexao_sql
     Dim Funcoes As New Funcoes
     Public msgValidacao As String = ""
+
     <WebMethod()>
     Public Function IntegraNFePrefeitura(ByVal RPS As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
         Con.Conectar()
@@ -55,12 +56,15 @@ Public Class WsNvocc
         End If
 
     End Function
+
+
+    <WebMethod()>
     Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
-
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,LOTE_RPS,SERIE_RPS FROM TB_FATURAMENTO WHERE LOTE_RPS = '" & LoteRps & "'")
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,SERIE_RPS FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = '" & LoteRps & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaConsultaRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_RPS").ToString, 0), ds.Tables(0).Rows(I)("LOTE_RPS").ToString, ds.Tables(0).Rows(I)("SERIE_RPS").ToString, 1)
+                Call montaConsultaRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_RPS").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, ds.Tables(0).Rows(I)("SERIE_RPS").ToString, 1)
             Next
 
         Else
@@ -68,20 +72,28 @@ Public Class WsNvocc
 
         End If
     End Function
+
+
+    <WebMethod()>
     Public Function CancelaNFePrefeitura(ByVal Rps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,NR_NOTA_FISCAL,LOTE_RPS FROM TB_FATURAMENTO WHERE NR_RPS = '" & Rps & "'")
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE NR_RPS = '" & Rps & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaCancelamentoNFSE(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("LOTE_RPS").ToString)
+                ' Call montaCancelamentoNFSE(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
+                ' Call montaCancelamentoNFSEv1(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
+                Call montaCancelamentoNFSEv2(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
             Next
-
         Else
             Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
 
         End If
     End Function
 
+
+    <WebMethod()>
     Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+
         Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
     End Function
     Public Sub montaLoteRPS2(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
@@ -224,8 +236,8 @@ Public Class WsNvocc
                 sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 1 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
                 Con.ExecutarQuery(sSql)
 
-                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & ") "
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
             End If
 
@@ -635,7 +647,7 @@ Public Class WsNvocc
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
         Dim objXML As New XmlDocument
-        Dim client As New NFsE_Santos.ServiceGinfesImplClient
+        Dim client As New NFSe_Homologa.ServiceGinfesImplClient 'NFsE_Santos.ServiceGinfesImplClient
         Dim docCab As New XmlDocument
         Dim Retorno
         Dim seqGR As String = ""
@@ -660,316 +672,250 @@ Public Class WsNvocc
 
 
             If tipo = "LOTE-RPS" Then
-            Retorno = client.RecepcionarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
-            nomeArq = Funcoes.diretorioLoteRpsRet & "NFsE_" & Format(loteNumero, "00000000") & "_ret.xml"
-            docRetorno.LoadXml(Retorno)
-            docRetorno.Save(nomeArq)
+                Retorno = client.RecepcionarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
+                nomeArq = Funcoes.diretorioLoteRpsRet & "NFsE_" & Format(loteNumero, "00000000") & "_ret.xml"
+                docRetorno.LoadXml(Retorno)
+                docRetorno.Save(nomeArq)
 
-            sSql = "UPDATE TB_LOG_NFSE SET NOME_ARQ_RET ='" & Right(nomeArq, 100) & "' WHERE LOTE_RPS =" & loteNumero
-            sSql = sSql & " AND NOME_ARQ_RET IS NULL "
-            Con.ExecutarQuery(sSql)
-
-            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
-
-            docRetorno.Load(nomeArq)
-            Try
-
-                uri = docRetorno.GetElementsByTagName("ns3:Protocolo")
-                retProtocolo = uri(0).InnerText
-
-
-                sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
-
-                'frmProcessamento.lstValida.Items.Add("Numero do Protocolo:" & retProtocolo)
-
-            Catch ex As Exception
-
-                Err.Clear()
-                Try
-                    uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
-                    retProtocolo = uri(0)("ns4:Mensagem").InnerText
-
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
-                Catch ex2 As Exception
-                    retProtocolo = "XML Recusado"
-
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_LOTE =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
-
-                End Try
-            End Try
-
-        ElseIf tipo = "CONSULTA-RPS-" Then
-            Retorno = client.ConsultarNfsePorRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
-
-            nomeArq = Funcoes.diretorioConRPSRet & "NFsE_Consulta_RPS_" & Format(loteNumero, "00000000") & "_ret.xml"
-            docRetorno.LoadXml(Retorno)
-            docRetorno.Save(nomeArq)
-
-            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
-
-            docRetorno.Load(nomeArq)
-            Try
-
-                uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
-                retNFSE = uri(0)("ns4:Numero").InnerText
-                retData = uri(0)("ns4:DataEmissao").InnerText
-                retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
-                codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
-
-                uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
-                retRps = uri(0)("ns4:Numero").InnerText
-
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
-                If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    If Funcoes.NNull(rsGR.Tables(0).Rows(0)(0).ToString, 1) <> "" Then
-                        sSql = "UPDATE TB_GR_BL SET OBS_GR ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                        sSql = sSql & " WHERE SEQ_GR IN(" & rsGR.Tables(0).Rows(0)(0).ToString & ") "
-                        Con.ExecutarQuery(sSql)
-                    End If
-                End If
-                rsGR.Dispose()
-
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
-                If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_GR_BOOKING SET OBS_GR ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " WHERE SEQ_GR IN(" & rsGR.Tables(0).Rows(0)(0).ToString & ") "
-                    Con.ExecutarQuery(sSql)
-                End If
-                rsGR.Dispose()
-
-                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_LOTE =" & loteNumero
-                sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
+                sSql = "UPDATE TB_LOG_NFSE SET NOME_ARQ_RET ='" & Right(nomeArq, 100) & "' WHERE LOTE_RPS =" & loteNumero
+                sSql = sSql & " AND NOME_ARQ_RET IS NULL "
                 Con.ExecutarQuery(sSql)
 
-                'frmProcessamento.lstValida.Items.Add("Nota Fiscal N°:" & retNFSE)
+                'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
 
-            Catch ex As Exception
-                Err.Clear()
-
+                docRetorno.Load(nomeArq)
                 Try
-                    uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
-                    retNFSE = uri(0)("ns4:Mensagem").InnerText
-                    retCodErro = uri(0)("ns4:Codigo").InnerText
 
-                    If retCodErro = "A02" Then
-                        GoTo saida
-                    End If
+                    uri = docRetorno.GetElementsByTagName("ns3:Protocolo")
+                    retProtocolo = uri(0).InnerText
 
-                    If retCodErro = "E4" Then
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
-                        Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
-                        Con.ExecutarQuery(sSql)
+                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
 
-                        GoTo saida
-                    End If
+                    'frmProcessamento.lstValida.Items.Add("Numero do Protocolo:" & retProtocolo)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
+                Catch ex As Exception
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
-                    sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
-                    sSql = sSql & " WHERE ID_LOTE = " & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retNFSE)
-
-                Catch ex1 As Exception
                     Err.Clear()
+                    Try
+                        uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
+                        retProtocolo = uri(0)("ns4:Mensagem").InnerText
+
+                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
+                    Catch ex2 As Exception
+                        retProtocolo = "XML Recusado"
+
+                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
+
+                    End Try
                 End Try
 
-            End Try
+            ElseIf tipo = "CONSULTA-RPS-" Then
+                Retorno = client.ConsultarNfsePorRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
 
+                nomeArq = Funcoes.diretorioConRPSRet & "NFsE_Consulta_RPS_" & Format(loteNumero, "00000000") & "_ret.xml"
+                docRetorno.LoadXml(Retorno)
+                docRetorno.Save(nomeArq)
 
-        ElseIf tipo = "CONSULTA-RPS" Then
-            Retorno = client.ConsultarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
+                'frmProcessamento.lstValida.Items.Add("ARQUIVO DE RETORNO : " & nomeArq)
 
-            nomeArq = Funcoes.diretorioLoteRpsConsultaRet & "NFsE_Consulta_" & Format(loteNumero, "00000000") & "_ret.xml"
-            docRetorno.LoadXml(Retorno)
-            docRetorno.Save(nomeArq)
-
-
-            docRetorno.Load(nomeArq)
-            Try
-
-                uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
-                retNFSE = uri(0)("ns4:Numero").InnerText
-                retData = uri(0)("ns4:DataEmissao").InnerText
-                'retCompetencia = uri(0)("ns4:Competencia").InnerText
-                retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
-                codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
-
-                uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
-                retRps = uri(0)("ns4:Numero").InnerText
-
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
-                If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    If Funcoes.NNull(rsGR.Tables(0).Rows(0)(0).ToString, 1) <> "" Then
-                        sSql = "UPDATE TB_GR_BL SET OBS_GR ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                        sSql = sSql & " WHERE SEQ_GR IN(" & rsGR.Tables(0).Rows(0)(0).ToString & ") "
-                        Con.ExecutarQuery(sSql)
-                    End If
-                End If
-                rsGR.Dispose()
-
-                rsGR = Con.ExecutarQuery("SELECT SEQ_GR FROM TB_FATURAMENTO WHERE LOTE_RPS = " & loteNumero)
-                If rsGR.Tables(0).Rows.Count > 0 Then
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " , DT_NOTA_FISCAL =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy HH:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
-
-                    sSql = "UPDATE TB_GR_BOOKING SET OBS_GR ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
-                    sSql = sSql & " WHERE SEQ_GR IN(" & rsGR.Tables(0).Rows(0)(0).ToString & ") "
-                    Con.ExecutarQuery(sSql)
-                End If
-                rsGR.Dispose()
-
-                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_LOTE =" & loteNumero
-                sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
-                Con.ExecutarQuery(sSql)
-
-
-            Catch ex As Exception
-                Err.Clear()
-
+                docRetorno.Load(nomeArq)
                 Try
-                    uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
-                    retNFSE = uri(0)("ns4:Mensagem").InnerText
 
-                    retCodErro = uri(0)("ns4:Codigo").InnerText
-                    If retCodErro = "A02" Then
-                        GoTo saida
-                    End If
+                    uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
+                    retNFSE = uri(0)("ns4:Numero").InnerText
+                    retData = uri(0)("ns4:DataEmissao").InnerText
+                    retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
+                    codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
 
-                    If retCodErro = "E4" Then
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
-                        Con.ExecutarQuery(sSql)
+                    uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
+                    retRps = uri(0)("ns4:Numero").InnerText
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE LOTE_RPS =" & loteNumero
-                        Con.ExecutarQuery(sSql)
 
-                        GoTo saida
-                    End If
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                        sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
+                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
+                        sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
+                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    Con.ExecutarQuery(sSql)
 
-                Catch ex1 As Exception
+
+
+
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
+                    Con.ExecutarQuery(sSql)
+
+                    'frmProcessamento.lstValida.Items.Add("Nota Fiscal N°:" & retNFSE)
+
+                Catch ex As Exception
                     Err.Clear()
+
+                    Try
+                        uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
+                        retNFSE = uri(0)("ns4:Mensagem").InnerText
+                        retCodErro = uri(0)("ns4:Codigo").InnerText
+
+                        If retCodErro = "A02" Then
+                            GoTo saida
+                        End If
+
+                        If retCodErro = "E4" Then
+                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =" & loteNumero
+                            Con.ExecutarQuery(sSql)
+
+                            GoTo saida
+                        End If
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
+                        sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
+                        sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
+                        sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
+                        Con.ExecutarQuery(sSql)
+
+                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retNFSE)
+
+                    Catch ex1 As Exception
+                        Err.Clear()
+                    End Try
+
                 End Try
 
-            End Try
 
-        ElseIf tipo = "CANCELAMENTO" Then
+            ElseIf tipo = "CONSULTA-RPS" Then
+                Retorno = client.ConsultarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
 
-            Retorno = client.CancelarNfse(Funcoes.tiraCaracEspXML(objXML.InnerXml))
-            nomeArq = Funcoes.diretorioCancRet & "NFsE_Cancela_" & Format(loteNumero, "00000000") & "_ret.xml"
-            docRetorno.LoadXml(Retorno)
-            docRetorno.Save(nomeArq)
+                nomeArq = Funcoes.diretorioLoteRpsConsultaRet & "NFsE_Consulta_" & Format(loteNumero, "00000000") & "_ret.xml"
+                docRetorno.LoadXml(Retorno)
+                docRetorno.Save(nomeArq)
 
-            docRetorno.Load(nomeArq)
-            Try
-                Dim codRetCan As String
-                uri = docRetorno.GetElementsByTagName("ns5:CancelarNfseResposta")
-                retNFSE = uri(0)("ns5:Sucesso").InnerText
-                retData = uri(0)("ns5:DataHora").InnerText
 
-                If retNFSE.ToUpper = "TRUE" Then
+                docRetorno.Load(nomeArq)
+                Try
+
+                    uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
+                    retNFSE = uri(0)("ns4:Numero").InnerText
+                    retData = uri(0)("ns4:DataEmissao").InnerText
+                    'retCompetencia = uri(0)("ns4:Competencia").InnerText
+                    retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
+                    codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
+
+                    uri = docRetorno.GetElementsByTagName("ns4:IdentificacaoRps")
+                    retRps = uri(0)("ns4:Numero").InnerText
+
+
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
+                        sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
+                    sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
+                        sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
+                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    Con.ExecutarQuery(sSql)
+
+
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
+                    Con.ExecutarQuery(sSql)
+
+
+                Catch ex As Exception
+                    Err.Clear()
+
+                    Try
+                        uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
+                        retNFSE = uri(0)("ns4:Mensagem").InnerText
+
+                        retCodErro = uri(0)("ns4:Codigo").InnerText
+                        If retCodErro = "A02" Then
+                            GoTo saida
+                        End If
+
+                        If retCodErro = "E4" Then
+                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =" & loteNumero
+                            Con.ExecutarQuery(sSql)
+
+                            GoTo saida
+                        End If
+
+                    Catch ex1 As Exception
+                        Err.Clear()
+                    End Try
+
+                End Try
+
+            ElseIf tipo = "CANCELAMENTO" Then
+
+                Retorno = client.CancelarNfse(Funcoes.tiraCaracEspXML(objXML.InnerXml))
+                nomeArq = Funcoes.diretorioCancRet & "NFsE_Cancela_" & Format(loteNumero, "00000000") & "_ret.xml"
+                docRetorno.LoadXml(Retorno)
+                docRetorno.Save(nomeArq)
+
+                docRetorno.Load(nomeArq)
+                Try
+                    Dim codRetCan As String
+                    uri = docRetorno.GetElementsByTagName("ns5:CancelarNfseResposta")
+                    retNFSE = uri(0)("ns5:Sucesso").InnerText
+                    retData = uri(0)("ns5:DataHora").InnerText
+
+                    If retNFSE.ToUpper = "TRUE" Then
 atualizaCancel:
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
-                    sSql = sSql & " , DT_SOL_CANCELA =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , DT_CANCELAMENTO =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , CANCELA_NFE = 1 "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
+                        sSql = sSql & " , DT_SOL_CANCELA =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103)  "
+                        sSql = sSql & " , DT_CANCELAMENTO =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
+                        sSql = sSql & " , CANCELA_NFE = 1 "
+                        sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                        Con.ExecutarQuery(sSql)
 
-                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
-                    sSql = sSql & " , DT_SOL_CANCELA =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , DT_CANCELAMENTO =TO_DATE('" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "','dd/mm/yyyy hh24:mi:ss') "
-                    sSql = sSql & " , CANCELA_NFE = 1 "
-                    sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                    Con.ExecutarQuery(sSql)
+                        sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() WHERE ID_FATURAMENTO =" & loteNumero
+                        sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
+                        Con.ExecutarQuery(sSql)
+                    ElseIf retNFSE.ToUpper = "FALSE" Then
+                        uri = docRetorno.GetElementsByTagName("ns5:MensagemRetorno")
+                        codRetCan = uri(0)("ns3:Codigo").InnerText
+                        If codRetCan = "E79" Then
+                            GoTo atualizaCancel
+                        End If
+                    End If
+                Catch ex As Exception
+                    Err.Clear()
+                    uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
+                    retNFSE = uri(0)("ns4:Mensagem").InnerText
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() WHERE ID_LOTE =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() "
+                    sSql = sSql & " , CRITICA_CAN ='" & retNFSE & "' "
+                    sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
                     sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
                     Con.ExecutarQuery(sSql)
-                ElseIf retNFSE.ToUpper = "FALSE" Then
-                    uri = docRetorno.GetElementsByTagName("ns5:MensagemRetorno")
-                    codRetCan = uri(0)("ns3:Codigo").InnerText
-                    If codRetCan = "E79" Then
-                        GoTo atualizaCancel
-                    End If
-                End If
-            Catch ex As Exception
-                Err.Clear()
-                uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
-                retNFSE = uri(0)("ns4:Mensagem").InnerText
 
-                sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() "
-                sSql = sSql & " , CRITICA_CAN ='" & retNFSE & "' "
-                sSql = sSql & " WHERE ID_LOTE = " & loteNumero
-                sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
-                Con.ExecutarQuery(sSql)
+                    sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
+                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                Con.ExecutarQuery(sSql)
+                End Try
 
-                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                sSql = sSql & " WHERE LOTE_RPS =" & loteNumero
-                Con.ExecutarQuery(sSql)
-            End Try
-
-        End If
+            End If
 
 
 
@@ -1285,6 +1231,127 @@ saida:
 
     End Sub
 
+    Public Sub montaCancelamentoNFSEv1(ByVal numeroNota As String, ByVal numeroLote As Long)
+        Dim NoCA As XmlElement
+        Dim ret As Boolean = False
+        Dim nomeArquivo As String
+        Try
+            Dim raizCa As XmlElement
+            Dim docCa As New XmlDocument
+
+            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA = 1")
+
+            Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_cancelar_nfse_envio.xsd"
+            'NFeNamespacte = ""
+
+            raizCa = docCa.CreateElement("CancelarNfseEnvio", NFeNamespacte)
+
+            Dim noPrestadorCa As XmlElement
+
+            noPrestadorCa = docCa.CreateElement("Prestador", NFeNamespacte)
+
+            NoCA = docCa.CreateElement("Cnpj", NFeNamespacte)
+            noText = docCa.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("CNPJ").ToString))
+            NoCA.AppendChild(noText)
+            noPrestadorCa.AppendChild(NoCA)
+
+            NoCA = docCa.CreateElement("InscricaoMunicipal", NFeNamespacte)
+            noText = docCa.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("IM").ToString))
+            NoCA.AppendChild(noText)
+            noPrestadorCa.AppendChild(NoCA)
+
+            raizCa.AppendChild(noPrestadorCa)
+
+            NoCA = docCa.CreateElement("NumeroNfse", NFeNamespacte)
+            noText = docCa.CreateTextNode(numeroNota)
+            NoCA.AppendChild(noText)
+            raizCa.AppendChild(NoCA)
+
+            docCa.AppendChild(raizCa)
+
+            nomeArquivo = Funcoes.diretorioCancEnv & "NFsE_Cancela_" & Format(numeroLote, "00000000") & ".xml"
+            docCa.Save(nomeArquivo)
+
+            Funcoes.AssinarDocumentoXML(nomeArquivo, "CancelarNfseEnvio")
+
+            docCa.Load(nomeArquivo)
+
+            Dim docAssinado As New XmlDocument
+            docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & docCa.OuterXml)
+            docAssinado.Save(nomeArquivo)
+
+            If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_cancelar_nfse_envio.xsd", "http://www.ginfes.com.br/servico_cancelar_nfse_envio.xsd") Then
+                'frmProcessamento.lstValida.Items.Add(tiraCaracEspXML(msgValidacao))
+
+                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Mid(msgValidacao, 1, 2000) & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                'DAO.Execute(sSql)
+
+                Exit Sub
+            Else
+                'frmProcessamento.lstValida.Items.Add("Validação Schema XSD " & tiraCaracEspXML(msgValidacao))
+                ''frmProcessamento.lstValida.Items.Add("Consulta ao Prortocolo " & numeroProtocolo & " Lote nº " & numeroLote)
+
+                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & nomeArquivo & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                'DAO.Execute(sSql)
+            End If
+
+            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE ENVIO : " & nomeArquivo)
+
+            Call EnviaXML2(nomeArquivo, "CANCELAMENTO", numeroLote)
+
+
+        Catch ex As Exception
+            If Not Funcoes.modoAutomatico Then
+                MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")
+            End If
+        End Try
+
+
+    End Sub
+
+    Public Sub montaCancelamentoNFSEv2(ByVal numeroNota As String, ByVal numeroLote As Long, Optional Cod_Empresa As Integer = 1)
+        Dim NoCA As XmlElement
+        Dim ret As Boolean = False
+        Dim nomeArquivo As String
+        Dim xmlNaMao As String = ""
+        Try
+            Dim raizCa As XmlElement
+            Dim docCa As New XmlDocument
+
+
+            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
+
+            xmlNaMao = "<CancelarNfseEnvio xmlns=""http://www.ginfes.com.br/servico_cancelar_nfse_envio"" xmlns:tipos=""http://www.ginfes.com.br/tipos"">"
+            xmlNaMao += "<Prestador>"
+            xmlNaMao += "<tipos:Cnpj>" & Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("CNPJ").ToString) & "</tipos:Cnpj>"
+            xmlNaMao += "<tipos:InscricaoMunicipal>" & Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("IM").ToString) & "</tipos:InscricaoMunicipal>"
+            xmlNaMao += "</Prestador>"
+            xmlNaMao += "<NumeroNfse>" & numeroNota & "</NumeroNfse>"
+            xmlNaMao += "</CancelarNfseEnvio>"
+
+            docCa.LoadXml(xmlNaMao)
+            nomeArquivo = Funcoes.diretorioCancEnv & "NFsE_Cancela_" & Format(numeroLote, "00000000") & ".xml"
+            docCa.Save(nomeArquivo)
+
+            Funcoes.AssinarDocumentoXML(nomeArquivo, "CancelarNfseEnvio", Cod_Empresa)
+
+            docCa.Load(nomeArquivo)
+
+            Dim docAssinado As New XmlDocument
+            docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & docCa.OuterXml)
+            docAssinado.Save(nomeArquivo)
+
+            Call EnviaXML2(nomeArquivo, "CANCELAMENTO", numeroLote)
+        Catch ex As Exception
+            If Not Funcoes.modoAutomatico Then
+                MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")
+            End If
+        End Try
+
+
+    End Sub
 
     Public Function reenviaRPS(ByVal loteNumero As Long) As Boolean
         Dim ret As Boolean = False

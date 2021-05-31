@@ -104,15 +104,6 @@ Partial Public Class Faturamento
     Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle LinkButton1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents LinkButton1 As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkBaixarFatura.
     '''</summary>
     '''<remarks>
@@ -437,13 +428,13 @@ Partial Public Class Faturamento
     Protected WithEvents lkSubstituirNota As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkConsultarNotas.
+    '''Controle lkVisualizarNota.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkConsultarNotas As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkVisualizarNota As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharNotas.

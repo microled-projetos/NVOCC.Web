@@ -13,15 +13,15 @@ Public Class Funcoes
     Public codABTRA As String
     Public modoAutomatico As Boolean = True
     Public diretorioLoteRps As String = AppContext.BaseDirectory & "LoteRpsEnviado\" 'Application.StartupPath 
-    Public diretorioLoteRpsRet As String = AppContext.BaseDirectory & "\LoteRpsRet\"
+    Public diretorioLoteRpsRet As String = AppContext.BaseDirectory & "LoteRpsRet\"
     Public diretorioConultaLoteRps As String = AppContext.BaseDirectory & "\LoteRpsConsulta\"
     Public diretorioLoteRpsConsultaRet As String = AppContext.BaseDirectory & "\LoteRpsConsultaRet\"
-    Public diretorioCancEnv As String = AppContext.BaseDirectory & "\CancelamentoEnv\"
+    Public diretorioCancEnv As String = AppContext.BaseDirectory & "CancelamentoEnv\"
     Public diretorioCancRet As String = AppContext.BaseDirectory & "\CancelamentoRet\"
-    Public diretorioConRPS As String = AppContext.BaseDirectory & "\RpsConsulta\"
+    Public diretorioConRPS As String = AppContext.BaseDirectory & "RpsConsulta\"
     Public diretorioConRPSRet As String = AppContext.BaseDirectory & "\RpsConsultaRet\"
     Public diretorioAnexoEmail As String = AppContext.BaseDirectory & "\AnexosEmail\"
-    Public diretorioXSD As String = AppContext.BaseDirectory & "XSD_WS\"
+    Public diretorioXSD As String = AppContext.BaseDirectory & "XSD_WS"
     Public nomeCertificado As String = "eudmarco"
 
     Public Function NNull(ByVal Valor As String, ByVal Tipo As Integer) As String
@@ -441,6 +441,8 @@ Public Class Funcoes
             Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
+            Dim Con As New Conexao_sql
+            Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA = " & Cod_Empresa)
             nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
@@ -595,7 +597,10 @@ Public Class Funcoes
         Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
         getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'') FROM TB_EMPRESAS WHERE AUTONUM=" & Cod_Empresa)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA=" & Cod_Empresa)
         nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
         objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)

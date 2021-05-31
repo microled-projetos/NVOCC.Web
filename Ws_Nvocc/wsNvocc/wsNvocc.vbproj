@@ -95,9 +95,16 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\NFSe_Homologa\ServiceGinfesImplService.wsdl" />
     <None Include="Connected Services\NFsE_Santos\configuration91.svcinfo" />
     <None Include="Connected Services\NFsE_Santos\configuration.svcinfo" />
     <None Include="Connected Services\NFsE_Santos\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Connected Services\NFSe_Homologa\configuration91.svcinfo" />
+    <None Include="Connected Services\NFSe_Homologa\configuration.svcinfo" />
+    <None Include="Connected Services\NFSe_Homologa\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
@@ -201,6 +208,11 @@
     <Compile Include="classes\BD.vb" />
     <Compile Include="classes\Conexao_sql.vb" />
     <Compile Include="classes\Funcoes.vb" />
+    <Compile Include="Connected Services\NFSe_Homologa\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\NFsE_Santos\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -258,13 +270,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CancelamentoEnv\" />
     <Folder Include="LoteRpsEnviado\" />
+    <Folder Include="LoteRpsRet\" />
+    <Folder Include="RpsConsulta\" />
     <Folder Include="XSD\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\NFSe_Homologa\" />
     <WCFMetadataStorage Include="Connected Services\NFsE_Santos\" />
   </ItemGroup>
   <PropertyGroup>
