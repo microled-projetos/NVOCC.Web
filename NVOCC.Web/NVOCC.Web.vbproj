@@ -103,6 +103,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
@@ -149,6 +150,13 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Http, Version=4.8.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Http.4.8.1\lib\net461\System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives, Version=4.8.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.4.8.1\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding.CodePages, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.7.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
@@ -361,7 +369,6 @@
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="GeraPDF.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -425,6 +432,11 @@
     <Content Include="TaxasLocaisArmador.aspx" />
     <Content Include="TaxasLocaisImpo_PDF.aspx" />
     <Content Include="TaxasLocaisExpo_PDF.aspx" />
+    <Content Include="Web References\NotaFiscal\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </Content>
+    <None Include="Web References\NotaFiscal\WsNvocc.disco" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
@@ -483,6 +495,100 @@
     <Content Include="Site.Master" />
     <Content Include="TrocarSenha.aspx" />
     <Content Include="Web.config" />
+    <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
+    <None Include="WSD_WS\cabecalho_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\cabecalho_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_cancelar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_cancelar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_nfse_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_nfse_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_situacao_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_consultar_situacao_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_enviar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\servico_enviar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\tipos_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\schemas_v301\xmldsig-core-schema20020212_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_cancelar_nfse_envio.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_cancelar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_cancelar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_nfse_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_nfse_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_nfse_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_nfse_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_situacao_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_consultar_situacao_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_enviar_lote_rps_envio_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\servico_enviar_lote_rps_resposta_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\tipos_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WSD_WS\xmldsig-core-schema20020212_v03.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
@@ -710,13 +816,6 @@
       <DependentUpon>EmailParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="GeraPDF.aspx.designer.vb">
-      <DependentUpon>GeraPDF.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="GeraPDF.aspx.vb">
-      <DependentUpon>GeraPDF.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -896,6 +995,11 @@
     <Compile Include="ViewSwitcher.ascx.designer.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Web References\NotaFiscal\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebForm1.aspx.designer.vb">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
@@ -935,9 +1039,27 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="LoteRpsEnviado\" />
+    <Folder Include="WSD\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://localhost:44317/WsNvocc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\NotaFiscal\</RelPath>
+      <UpdateFromURL>https://localhost:44317/WsNvocc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>NVOCC_Web_NotaFiscal_WsNvocc</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

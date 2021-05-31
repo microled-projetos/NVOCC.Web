@@ -1,6 +1,8 @@
 ﻿Imports System.ComponentModel
 Imports System.Web.Services
 Imports System.Xml
+Imports System.Net
+
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -208,22 +210,22 @@ Public Class WsNvocc
                 Con.ExecutarQuery(sSql)
 
 
-                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 5 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
 
 
                 Con.ExecutarQuery(sSql)
 
-                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_LOTE =" & loteNumero
+                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_FATURAMENTO =" & loteNumero
                 Con.ExecutarQuery(sSql)
 
                 Exit Sub
             Else
 
-                sSql = "UPDATE TB_FATURAMENTO SET LOTE_RPS = " & loteNumero & ", STATUS_NFE = 1 WHERE ID =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
+                sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 1 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
                 Con.ExecutarQuery(sSql)
 
-                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS) "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & ") "
                 Con.ExecutarQuery(sSql)
             End If
 
@@ -376,6 +378,14 @@ Public Class WsNvocc
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
+                No = doc.CreateElement("IssRetido", NFeNamespacte)
+                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                    noText = doc.CreateTextNode("1")
+                Else
+                    noText = doc.CreateTextNode("2")
+                End If
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
 
                 No = doc.CreateElement("ValorIss", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
@@ -386,6 +396,11 @@ Public Class WsNvocc
                 If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                     No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
                     noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR_ISS").ToString), "0.00").Replace(",", "."))
+                    No.AppendChild(noText)
+                    noValServ.AppendChild(No)
+                Else
+                    No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                    noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
                     No.AppendChild(noText)
                     noValServ.AppendChild(No)
                 End If
@@ -436,6 +451,13 @@ Public Class WsNvocc
 
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
+
+
+                No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                No.AppendChild(noText)
+                noServicos.AppendChild(No)
+
 
                 dDescr = Funcoes.tiraCaracEspXML(dDescr)
                 No = doc.CreateElement("Discriminacao", NFeNamespacte)
@@ -596,6 +618,9 @@ Public Class WsNvocc
         End Try
 
     End Sub
+    Public Shared Function AcceptAllCertifications(ByVal sender As Object, ByVal certification As System.Security.Cryptography.X509Certificates.X509Certificate, ByVal chain As System.Security.Cryptography.X509Certificates.X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
+        Return True
+    End Function
     Public Sub EnviaXML2(ByVal DocXml As String, ByVal tipo As String, ByVal loteNumero As Long)
         Dim nomeArq As String
         Dim docRetorno As New XmlDocument
@@ -616,7 +641,25 @@ Public Class WsNvocc
         Dim seqGR As String = ""
         Dim rsGR As DataSet
 
-        If tipo = "LOTE-RPS" Then
+
+        Try
+
+            'ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications)
+            ServicePointManager.ServerCertificateValidationCallback = AddressOf AcceptAllCertifications
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+
+            ConteudoArquixoXML = ""
+
+            objXML.Load(DocXml)
+
+
+            Retorno = Nothing
+
+            docCab.LoadXml("<?xml version=""1.0"" encoding=""UTF-8""?><ns2:cabecalho versao=""3"" xmlns:ns2=""http://www.ginfes.com.br/cabecalho_v03.xsd"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""><versaoDados>3</versaoDados></ns2:cabecalho>")
+
+
+            If tipo = "LOTE-RPS" Then
             Retorno = client.RecepcionarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
             nomeArq = Funcoes.diretorioLoteRpsRet & "NFsE_" & Format(loteNumero, "00000000") & "_ret.xml"
             docRetorno.LoadXml(Retorno)
@@ -927,8 +970,17 @@ atualizaCancel:
             End Try
 
         End If
+
+
+
+            'client.Close()
+
+        Catch ex As Exception
+            Throw New Exception("Erro ao conectar ao NFSe: " & ex.Message())
+        End Try
+
 saida:
-        nomeArq = ""
+            nomeArq = ""
         docRetorno = Nothing
         sSql = ""
         retProtocolo = ""

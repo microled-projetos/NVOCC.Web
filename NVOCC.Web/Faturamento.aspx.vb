@@ -1,5 +1,7 @@
-﻿Public Class Faturamento
+﻿Imports System.Net
+Public Class Faturamento
     Inherits System.Web.UI.Page
+
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
@@ -286,7 +288,7 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
 
 
             End If
-                Con.Fechar()
+            Con.Fechar()
 
         End If
     End Sub
@@ -384,22 +386,6 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
 
 
-
-
-
-
-                            'If Not String.IsNullOrEmpty(txtID.Text) Then
-
-                            '    Using correios = New WsNvocc.AtendeClienteClient()
-                            '        Dim consulta = correios.consultaCEP(txtCep.Text.Replace("-", ""))
-
-                            '    End Using
-
-
-                            'End If
-
-
-
                             divSuccess.Visible = True
                             lblmsgSuccess.Text = "RPS gerada com sucesso!"
                             dgvFaturamento.DataBind()
@@ -419,6 +405,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
         End If
     End Sub
+
 
     Private Sub lkCancelarNota_Click(sender As Object, e As EventArgs) Handles lkCancelarNota.Click
         divErro.Visible = False
@@ -528,6 +515,22 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
     End Sub
 
+    Private Sub LinkButton1_Click(sender As Object, e As EventArgs) Handles LinkButton1.Click
+        Dim numero As String = "000007"
+        txtID.Text = 1
+
+        If Not String.IsNullOrEmpty(txtID.Text) Then
+
+            Using GeraRps = New NotaFiscal.WsNvocc
+
+                Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+
+            End Using
+
+
+        End If
+    End Sub
+
     Public Function FinalSemana(ByVal data As Date)
         If data.DayOfWeek = DayOfWeek.Saturday Then
             data = DateAdd(DateInterval.Day, 2, data)
@@ -587,4 +590,6 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
         End If
 
     End Function
+
+
 End Class

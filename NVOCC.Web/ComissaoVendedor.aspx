@@ -60,7 +60,7 @@
                       <div class="col-sm-1" >
                            <div class="form-group">                           <asp:Label ID="Label1" runat="server">Competencia</asp:Label><br />
 
-                               <asp:TextBox ID="txtCompetencia" placeholder="__/__/____" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtCompetencia" placeholder="_//_" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                        </div>
                        <div class="col-sm-1" >
@@ -116,7 +116,7 @@
 
                                
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes" OkControlID="lkTabelaComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
@@ -188,7 +188,116 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlTabela" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                                          <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+    <ContentTemplate>
+                                <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">TABELA DE COMISSÕES</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                    
+                                 <div class="row">
+                                     <div class="col-sm-2">
+                                    <div class="form-group">                                          
+
+                                               <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
+
+                               <asp:TextBox ID="txtValidade" placeholder="_//_" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                         </div>
+                                     <div class="col-sm-3">
+                                    <div class="form-group">                                          
+                               
+                                               <asp:Label ID="Label7" runat="server">Taxa LCL</asp:Label><br />
+
+                               <asp:TextBox ID="txtLCL"  runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                         </div>
+
+                                     <div class="col-sm-3">
+                                    <div class="form-group">                                          
+ <asp:Label ID="Label8" runat="server">Taxa FCL</asp:Label><br />
+
+                               <asp:TextBox ID="txtFCL"  runat="server" CssClass="form-control"></asp:TextBox>
+                                    
+                                        </div>
+                                         </div>
+                                     <div class="col-sm-3">
+                                    <div class="form-group">                                             
+                                <asp:Label ID="Label9" runat="server">Taxa Inside Sales</asp:Label><br />
+
+                               <asp:TextBox ID="txtInsides"  runat="server" CssClass="form-control"></asp:TextBox>
+                                         
+                                   </div>          
+                                </div>  
+                                                                          <div class="col-sm-1">
+                                    <div class="form-group">                                             
+                                <div class="form-group"><asp:Label ID="Label10" runat="server"></asp:Label><br />
+                               <asp:Button runat="server" Text="Gravar" ID="btnGravaTaxaTabela" CssClass="btn btn-success" /> 
+                                   
+                               <asp:TextBox ID="txtIDTabelaTaxa" Style="display:none"  runat="server" CssClass="form-control"></asp:TextBox>
+
+                                    
+                                   </div>          
+                                </div>  
+
+                             </div>    </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                    <div class="form-group">                                          
+                                             <div id="DivExcluir" runat="server" visible="false" class="alert alert-danger">
+                                        <asp:label ID="lblErroExcluir" Text="" runat="server" />
+                                   </div>
+                                   <div id="divInfo" runat="server" visible="false" class="alert alert-success">
+                                        <asp:label ID="lblInfo" Text="" runat="server" />
+                                   </div>  
+                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_VENDEDORES" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="ID" Visible="False">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
+                                            <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
+                                            <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
+                                            <asp:BoundField DataField="VL_TAXA_INSIDE_SALES" HeaderText="TAXA INSIDE SALES" SortExpression="VL_TAXA_INSIDE_SALES" />
+                                     <asp:TemplateField HeaderText="">
+                                            <ItemTemplate>
+                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                            <asp:TemplateField HeaderText=""  >
+                                            <ItemTemplate>
+                                                <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                        </Columns>
+                                        <HeaderStyle CssClass="headerStyle" />
+                                    </asp:GridView>
+                                        </div>
+                                                                    </div>
+                                                                </div>
+                               <div class="modal-footer">
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTabela" text="Close" />
+                                                        </div>                                                    
+                                            
+                                       </div>     </center>
+                                </asp:Panel>
+                                </ContentTemplate>
+
+    <Triggers>
+                <asp:AsyncPostBackTrigger  ControlID="btnGravaTaxaTabela" />
+                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissao" />
+
+    </Triggers>
+</asp:UpdatePanel>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
@@ -206,10 +315,12 @@
 
     </div>
     <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
+     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_CABECALHO_COMISSAO_VENDEDOR,DT_COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,ID_TIPO_ESTUFAGEM,QT_BL,QT_CNTR, VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM TB_CABECALHO_COMISSAO_VENDEDOR A
-LEFT JOIN TB_DETALHE_COMISSAO_VENDEDOR B ON B.ID_CABECALHO_COMISSAO_VENDEDOR = A.ID_CABECALHO_COMISSAO_VENDEDOR
-"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Comissao_Vendedor]
+        ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

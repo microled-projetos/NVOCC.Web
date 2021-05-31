@@ -88,11 +88,11 @@
 
                        <div class="col-sm-offset-1 col-sm-5">
                            <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
-
+                           <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">TESTE</asp:LinkButton>
                            <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
-                           <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" onclick="gerarRPS()">Gerar RPS</asp:LinkButton>
+                           <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
 
                        </div>
