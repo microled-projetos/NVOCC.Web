@@ -19,6 +19,8 @@
                     campo = linha(col).ToString().Replace(vbCr, " ").Replace(vbCrLf, " ")
                     campo = campo.Replace(vbLf, " ")
                     campo = campo.Replace(";", ",")
+                    campo = tiraCaracEsp(campo.ToString())
+
                     If camposTextos IsNot Nothing Then
                         If camposTextos.Contains(col.ColumnName) Then
                             campo = "=""" & campo & """"
@@ -41,6 +43,60 @@
             oResponse.End()
 
         End Sub
+
+        Public Shared Function tiraCaracEsp(ByVal Txt As String) As String
+
+            Txt = Replace(Txt, "&", "E")
+
+            Txt = Replace(Txt, "ƒ", "C")
+            Txt = Replace(Txt, "¨", "''")
+
+            Txt = Replace(Txt, "ã", "a")
+            Txt = Replace(Txt, "â", "a")
+            Txt = Replace(Txt, "á", "a")
+            Txt = Replace(Txt, "à", "a")
+            Txt = Replace(Txt, "é", "e")
+            Txt = Replace(Txt, "è", "e")
+            Txt = Replace(Txt, "ê", "e")
+            Txt = Replace(Txt, "í", "i")
+            Txt = Replace(Txt, "ì", "i")
+            Txt = Replace(Txt, "î", "i")
+            Txt = Replace(Txt, "õ", "o")
+            Txt = Replace(Txt, "ó", "o")
+            Txt = Replace(Txt, "ò", "o")
+            Txt = Replace(Txt, "ô", "o")
+            Txt = Replace(Txt, "ú", "u")
+            Txt = Replace(Txt, "ù", "u")
+            Txt = Replace(Txt, "û", "u")
+            Txt = Replace(Txt, "ç", "c")
+
+            Txt = Replace(Txt, "Ã", "A")
+            Txt = Replace(Txt, "Â", "A")
+            Txt = Replace(Txt, "Á", "A")
+            Txt = Replace(Txt, "À", "A")
+            Txt = Replace(Txt, "É", "E")
+            Txt = Replace(Txt, "È", "E")
+            Txt = Replace(Txt, "Ê", "E")
+            Txt = Replace(Txt, "Í", "I")
+            Txt = Replace(Txt, "Ì", "I")
+            Txt = Replace(Txt, "Î", "I")
+            Txt = Replace(Txt, "Õ", "O")
+            Txt = Replace(Txt, "Ó", "O")
+            Txt = Replace(Txt, "Ò", "O")
+            Txt = Replace(Txt, "Ô", "O")
+            Txt = Replace(Txt, "Ú", "U")
+            Txt = Replace(Txt, "Ù", "U")
+            Txt = Replace(Txt, "Û", "U")
+            Txt = Replace(Txt, "Ç", "C")
+
+            Txt = Replace(Txt, "°", ".")
+            Txt = Replace(Txt, "ª", ".")
+
+            Txt = Replace(Txt, "'", " ")
+
+            tiraCaracEsp = Txt
+            Return tiraCaracEsp
+        End Function
 
     End Class
     Public Class Conexao
@@ -105,7 +161,6 @@
 
             End Try
         End Function
-
 
         Public Function RS_Procedure(ByVal NomeProcedure As String, ByVal Parametros As List(Of SqlClient.SqlParameter)) As System.Data.DataTable
             Dim DA As New SqlClient.SqlDataAdapter(NomeProcedure, strConnectionString)

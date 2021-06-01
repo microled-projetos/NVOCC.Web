@@ -424,6 +424,7 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
+    <Content Include="RelatorioVendedor.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
@@ -942,6 +943,13 @@
     <Compile Include="Registrar.aspx.vb">
       <DependentUpon>Registrar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RelatorioVendedor.aspx.designer.vb">
+      <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RelatorioVendedor.aspx.vb">
+      <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
       <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
