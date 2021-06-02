@@ -212,6 +212,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle DivGrid2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DivGrid2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle dgvComissoes.
     '''</summary>
     '''<remarks>
@@ -356,6 +365,24 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents pnlTabela As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle Label27.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label27 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDTabelaTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDTabelaTaxa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle Label5.
     '''</summary>
     '''<remarks>
@@ -446,13 +473,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnGravaTaxaTabela As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtIDTabelaTaxa.
+    '''Controle btnLimpaTaxaTabela.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtIDTabelaTaxa As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnLimpaTaxaTabela As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle DivExcluir.
@@ -590,6 +617,24 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lblInfoGerarComissao As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divAtencaoGerarComissao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divAtencaoGerarComissao As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblAtencaoGerarComissao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAtencaoGerarComissao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label11.
     '''</summary>
     '''<remarks>
@@ -725,13 +770,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnGerarComissao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button2.
+    '''Controle btnFecharGerarComissao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharGerarComissao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender5.
@@ -761,58 +806,58 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents pnlAjustarComissao As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle Label13.
+    '''Controle divSuccesAjuste.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label13 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divSuccesAjuste As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle TextBox3.
+    '''Controle lblSuccesAjuste.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblSuccesAjuste As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle Label15.
+    '''Controle divErroAjuste.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label15 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divErroAjuste As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle TextBox4.
+    '''Controle lblErroAjuste.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblErroAjuste As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle Label16.
+    '''Controle Label33.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label16 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label33 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox6.
+    '''Controle txtIDAjuste.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox6 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtIDAjuste As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label29.
@@ -824,49 +869,67 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label29 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle DropDownList1.
+    '''Controle ddlAjusteServico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList1 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAjusteServico As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle Label17.
+    '''Controle Label13.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label17 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label13 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle DropDownList2.
+    '''Controle txtAjusteProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList2 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtAjusteProcesso As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Label21.
+    '''Controle Label15.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label21 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label15 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle DropDownList3.
+    '''Controle txtAjusteNotaFiscal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList3 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtAjusteNotaFiscal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle Label16.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label16 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtAjusteDataNota.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAjusteDataNota As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label22.
@@ -878,13 +941,49 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label22 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle DropDownList4.
+    '''Controle ddlAjusteEstufagem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList4 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAjusteEstufagem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle Label17.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label17 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlAjusteVendedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAjusteVendedor As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle Label21.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label21 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlAjusteCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAjusteCliente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle Label23.
@@ -896,13 +995,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label23 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox10.
+    '''Controle txtAjusteBase.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox10 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteBase As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label24.
@@ -914,13 +1013,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label24 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox11.
+    '''Controle txtAjusteQtdBl.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox11 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteQtdBl As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label25.
@@ -932,13 +1031,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label25 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox12.
+    '''Controle txtAjusteQtdCNTR.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox12 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteQtdCNTR As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label30.
@@ -950,13 +1049,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label30 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox7.
+    '''Controle txtAjustePorcentagem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox7 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjustePorcentagem As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label31.
@@ -968,13 +1067,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label31 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox8.
+    '''Controle txtAjusteTotal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox8 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteTotal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label32.
@@ -986,13 +1085,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label32 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox9.
+    '''Controle txtAjusteLiquidacao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox9 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteLiquidacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label26.
@@ -1004,40 +1103,112 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents Label26 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox13.
+    '''Controle txtAjusteObs.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox13 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtAjusteObs As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Button5.
+    '''Controle btnAlteraComisaao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button5 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnAlteraComisaao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button3.
+    '''Controle btnExcluirAlteraComisaao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button3 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnExcluirAlteraComisaao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button4.
+    '''Controle btnFecharAlteraComisaao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button4 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharAlteraComisaao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ModalPopupExtender6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender6 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlCCProcesso As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle Label28.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label28 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCompetenciaCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCompetenciaCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label34.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label34 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtLiquidacaoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtLiquidacaoCCProcesso As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle Button1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharCCProcesso As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle TextBox1.
@@ -1083,4 +1254,40 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsComissao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsEstufagem As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsServico As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsCliente As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsVendedores.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsVendedores As Global.System.Web.UI.WebControls.SqlDataSource
 End Class
