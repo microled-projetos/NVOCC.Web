@@ -63,7 +63,7 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competência</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -125,6 +125,7 @@
                                         </asp:GridView>
                                     </div>
                                 </div>
+
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes" OkControlID="lkTabelaComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -616,7 +617,7 @@
                                    
                                          <asp:Label ID="Label28" runat="server">Competência</asp:Label><br />
 
- <asp:Label ID="lblCompetenciaCCProcesso" runat="server" Text="xxxxxxx" />                                        </div>
+ <asp:Label ID="lblCompetenciaCCProcesso" runat="server"/>                                        </div>
                                          </div>
                                      <div class="col-sm-6">
                                     <div class="form-group">                                          

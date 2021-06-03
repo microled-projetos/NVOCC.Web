@@ -123,6 +123,33 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.CheckBox checkInicioFreetime;
 
         /// <summary>
+        /// Controle ddlFaturaFiltro.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFaturaFiltro;
+
+        /// <summary>
+        /// Controle ddlContaBancaria.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlContaBancaria;
+
+        /// <summary>
+        /// Controle ddlStatusFaturaContaCorrente.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusFaturaContaCorrente;
+
+        /// <summary>
         /// Controle DropDownList1.
         /// </summary>
         /// <remarks>

@@ -21,11 +21,12 @@
             If Not Page.IsPostBack Then
                 If Month(Now.AddMonths(-1)) <= 9 Then
                     txtCompetencia.Text = Now.Year & "/0" & Month(Now.AddMonths(-1))
+                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
                     txtNovaCompetencia.Text = Now.Year & "/0" & Now.Month
                 Else
                     txtCompetencia.Text = Now.Year & "/" & Month(Now.AddMonths(-1))
+                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
                     txtNovaCompetencia.Text = Now.Year & "/0" & Now.Month
-
                 End If
 
             End If
@@ -138,6 +139,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
         ddlFiltro.SelectedValue = 0
         txtPesquisa.Text = ""
         DivGrid2.Visible = True
+        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
     End Sub
 
     Private Sub dgvTabelaComissao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTabelaComissao.RowCommand
@@ -511,10 +513,9 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P',CONVERT(D
     End Sub
 
 
-
-
-
-
+    Private Sub txtCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtCompetencia.TextChanged
+        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+    End Sub
 
 
     'Private Sub dsComissao_Selected(sender As Object, e As SqlDataSourceStatusEventArgs) Handles dsComissao.Selected

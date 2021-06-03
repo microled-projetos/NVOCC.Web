@@ -22,6 +22,7 @@ namespace ABAINFRA.Web
                 CarregarTipoContainer();
                 CarregarMoeda();
                 CarregarStatus();
+                CarregarContaBancaria();
             }
         }
 
@@ -74,7 +75,16 @@ namespace ABAINFRA.Web
             ddlMoeda.DataBind();
             ddlMoeda.Items.Insert(0, new ListItem("Selecione", ""));
         }
-
+        protected void CarregarContaBancaria()
+        {
+            SQL = "SELECT * FROM TB_CONTA_BANCARIA ";
+            DataTable contaBancaria = new DataTable();
+            contaBancaria = DBS.List(SQL);
+            Session["TaskTablecontaBancaria"] = contaBancaria;
+            ddlContaBancaria.DataSource = Session["TaskTablecontaBancaria"];
+            ddlContaBancaria.DataBind();
+            ddlContaBancaria.Items.Insert(0, new ListItem("Selecione", ""));
+        }
         protected void CarregarStatus()
         {
             SQL = "SELECT * FROM TB_STATUS_DEMURRAGE ";
@@ -90,6 +100,9 @@ namespace ABAINFRA.Web
             ddlStatusCalculoSelecionado.DataSource = Session["statusDemurrage"];
             ddlStatusCalculoSelecionado.DataBind();
             ddlStatusCalculoSelecionado.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlStatusFaturaContaCorrente.DataSource = Session["statusDemurrage"];
+            ddlStatusFaturaContaCorrente.DataBind();
+            ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
             
         }
     }
