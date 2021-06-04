@@ -6,13 +6,6 @@
             padding-top: 5px;
             margin: 0;
         }
-
-        .btnn {
-            background-color: #d5d8db;
-            margin: 5px;
-            font-size: 13px
-        }
-
         
     </style>
         <div class="row principal">
@@ -29,8 +22,10 @@
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
 
-                                <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
-                                <asp:TextBox ID="txtLinha" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox ID="txtID" Style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
+                                <asp:TextBox ID="txtLinha" Style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
+                                <asp:Label ID="lblContador" Style="display:none" runat="server"></asp:Label>
+
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblSuccess" runat="server"></asp:Label>
@@ -45,7 +40,7 @@
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Competencia:</label>
-                                            <asp:TextBox ID="txtCompetencia" runat="server" placeholder="__/____" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" runat="server" placeholder="___/______" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
 
@@ -64,7 +59,8 @@
                                             <br />
                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-primary" />
                                         </div>
-                                    </div>     <div class="col-sm-offset-6 col-sm-2" runat="server">
+                                    </div>     
+                                    <div class="col-sm-offset-6 col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
@@ -77,42 +73,27 @@
 
                                 <br />
                                 <br />
-                                <div class="row">
                                     <div class="table-responsive tableFixHead" runat="server" id="gridPagar" visible="false">
                                         <asp:GridView ID="dgvTaxasPagar" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsPagar" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                         <asp:BoundField DataField="DT_COMPETENCIA" HeaderText="COMPETÊNCIA" SortExpression="DT_COMPETENCIA" />
+                                            <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="INDICADOR" SortExpression="NM_PARCEIRO_EMPRESA" />
+                                                <asp:BoundField DataField="DT_LANCAMENTO" HeaderText="DT_LANCAMENTO" SortExpression="DT_LANCAMENTO" />
+                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="USUARIO LANCAMENTO" SortExpression="NOME_USUARIO_LANCAMENTO" />                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DT_LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />             
+                                                <asp:BoundField DataField="NOME_USUARIO_LIQUIDACAO" HeaderText="USUARIO LIQUIDAÇÃO" SortExpression="NOME_USUARIO_LIQUIDACAO" />
+                                                <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField>
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" Checked="true"/>
+                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                            CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Baixar"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="COMPETÊNCIA" SortExpression="DT_COMPETENCIA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblCompetencia" runat="server" Text='<%# Eval("DT_COMPETENCIA") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="INDICADOR" SortExpression="NM_PARCEIRO_EMPRESA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblIndicador" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="DT_LANCAMENTO" HeaderText="DT_LANCAMENTO" SortExpression="DT_LANCAMENTO" />                                       
-                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="USUARIO LANCAMENTO" SortExpression="NOME_USUARIO_LANCAMENTO" />                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DT_LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />                                
-                                                <asp:BoundField DataField="NOME_USUARIO_LIQUIDACAO" HeaderText="USUARIO LIQUIDAÇÃO" SortExpression="NOME_USUARIO_LIQUIDACAO" />
-
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </div>
                                     
 
-                                </div>
 
                   
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
@@ -122,20 +103,65 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">BAIXA</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body">  
+                                                            
+                                                            <div class="alert alert-success" id="divSuccessBaixa" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccessBaixa" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-danger" id="divErroBaixa" runat="server" visible="false">
+                                    <asp:Label ID="lblErroBaixa" runat="server"></asp:Label>
+                                </div>
+                                 <div class="alert alert-warning" id="divInfo" runat="server" visible="false">
+                                    <asp:Label ID="lblmsgInfo" runat="server"></asp:Label>
+                                </div>
                                             <h5>
-                                                <asp:label runat="server" ID="lblFaturaBaixa"  />
-                                                <asp:label runat="server" ID="lblProcessoBaixa"  />                                          
-                                            <asp:label runat="server" ID="lblClienteBaixa" /></h5>
-                        
-                                           <h3>CONFIRMAÇÃO DA LIQUIDAÇÃO</h3>
-                                        
-                                         </div>
-                                                                                       
-                                                                        
+                                                <asp:label runat="server" ID="lblCompetencia"  />
+                                                <asp:label runat="server" ID="lblIndicador"  /></h5>                                        
+                                      
+                                                        <div class="row">
+                                                            <div class="col-sm-offset-2 col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">ID</label>
+                                            <asp:TextBox ID="txtIDBaixa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                                            <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Liquidação:</label>
+                                            <asp:TextBox ID="txtLiquidacao" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                                            <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Contrato:</label>
+                                            <asp:TextBox ID="txtContrato" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                             </div>
+                                                        <div class="row">    
+                                                            <div class="col-sm-12">
+                                                                <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual.">
+                                            <Columns>                                               
+                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
+                                                 <asp:TemplateField HeaderText="Valor Câmbio" SortExpression="" >
+                                                    <ItemTemplate>
+                                                        <asp:Textbox ID="txtValorCambio" runat="server"  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>                                                
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+</div>
+                                                                        </div>               
+                                                          </div>                
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar" />
                                                         </div>
                                                     
                                                 </div>
@@ -157,11 +183,11 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsPagar" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'P' AND TP_EXPORTACAO = 'CINT' ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Comissoes] WHERE CD_PR =  'P' AND TP_EXPORTACAO = 'CINT' ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
-
+    <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA,NM_MOEDA FROM TB_MOEDA ">
+    </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>

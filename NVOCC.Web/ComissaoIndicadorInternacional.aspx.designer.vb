@@ -221,13 +221,22 @@ Partial Public Class ComissaoIndicadorInternacional
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle lblContador.
+    '''Controle lblCompetenciaSobrepor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblCompetenciaSobrepor As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblContasReceber.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContasReceber As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle DivGrid2.
@@ -680,13 +689,13 @@ Partial Public Class ComissaoIndicadorInternacional
     Protected WithEvents Label18 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtObs.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtObs As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnGerarComissao.
@@ -932,6 +941,15 @@ Partial Public Class ComissaoIndicadorInternacional
     Protected WithEvents ModalPopupExtender6 As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
+    '''Controle UpdatePanel4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel4 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle pnlCCProcesso.
     '''</summary>
     '''<remarks>
@@ -939,6 +957,24 @@ Partial Public Class ComissaoIndicadorInternacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents pnlCCProcesso As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle divInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle Label28.

@@ -50,6 +50,15 @@ Partial Public Class BaixarComissao
     Protected WithEvents txtLinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle lblContador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -158,31 +167,112 @@ Partial Public Class BaixarComissao
     Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle lblFaturaBaixa.
+    '''Controle divSuccessBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblFaturaBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divSuccessBaixa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblProcessoBaixa.
+    '''Controle lblSuccessBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblProcessoBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSuccessBaixa As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblClienteBaixa.
+    '''Controle divErroBaixa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblClienteBaixa As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divErroBaixa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroBaixa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroBaixa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divInfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsgInfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsgInfo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCompetencia.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCompetencia As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblIndicador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblIndicador As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtIDBaixa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDBaixa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtLiquidacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtLiquidacao As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtContrato.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtContrato As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle dgvMoedas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvMoedas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharBaixa.
@@ -212,11 +302,11 @@ Partial Public Class BaixarComissao
     Protected WithEvents dsPagar As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsReceber.
+    '''Controle dsMoeda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsReceber As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

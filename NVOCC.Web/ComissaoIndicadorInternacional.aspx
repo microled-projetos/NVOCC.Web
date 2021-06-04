@@ -98,9 +98,10 @@
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:Label ID="lblContador" runat="server"></asp:Label>
+                                    <asp:Label ID="lblCompetenciaSobrepor" runat="server"></asp:Label>
+                                    <asp:Label ID="lblContasReceber" runat="server"></asp:Label>
                                 </div>
-                                                                <div runat="server" visible="false" id="DivGrid2">
+                               <div runat="server" visible="false" id="DivGrid2">
 
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                     <asp:GridView ID="dgvComissoes" DataKeyNames="ID_CABECALHO_COMISSAO_INTERNACIONAL" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
@@ -326,7 +327,7 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label11" runat="server">Competência</asp:Label><br />
+                                               <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
@@ -334,15 +335,15 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label36" runat="server">Quinzena</asp:Label><br />
+                                               <asp:Label ID="Label36" runat="server">Quinzena</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtNovaQuinzena" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaQuinzena" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-4">
                                     <div class="form-group">                                          
                                
-                                               <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><br />
+                                               <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtLiquidacaoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
@@ -350,7 +351,7 @@
 
                                      <div class="col-sm-4">
                                     <div class="form-group">                                             
-                                <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><br />
+                                <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtLiquidacaoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
                                          
@@ -361,7 +362,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">                                          
                                                <asp:Label ID="Label18" runat="server">Observação</asp:Label><br />
-                               <asp:TextBox ID="TextBox2" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"  MaxLength="100"></asp:TextBox>
+                               <asp:TextBox ID="txtObs" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"  MaxLength="100"></asp:TextBox>
                                         </div>
                                          </div>
       </div>
@@ -379,6 +380,7 @@
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -487,13 +489,18 @@
                                 </asp:UpdatePanel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                 <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" style="width:300px">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>
-                                                        <div class="modal-body" >                                       
+                                                        <div class="modal-body" > 
+                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
+                                </div>
                             <div class="row">
                                                                             
                                      <div class="col-sm-12">
@@ -509,7 +516,7 @@
      <div class="col-sm-12">
                                     <div class="form-group">                                          
                                              <asp:Label ID="Label19" runat="server">Conta Bancária:</asp:Label><label runat="server" style="color: red">*</label><br />
-                               <asp:DropDownList ID="ddlContaBancaria" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsContaBancaria" DataValueField="ID_CONTA_BANCARIA"/>
+                               <asp:DropDownList ID="ddlContaBancaria" runat="server" CssClass="form-control" AutoPostBack="true" Font-Size="15px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsContaBancaria" DataValueField="ID_CONTA_BANCARIA"/>
                                         </div>
                                          </div>
  </div>
@@ -523,12 +530,20 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                 </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="ddlContaBancaria" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+
+
 
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
+
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>

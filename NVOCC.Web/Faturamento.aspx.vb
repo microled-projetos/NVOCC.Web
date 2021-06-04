@@ -193,10 +193,13 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                             btnSalvarCancelamento.Text = "Confirmar Cancelamento"
                             Exit Sub
                         Else
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+                            Con.Fechar()
                             lblContador.Text = ""
                             btnSalvarCancelamento.Text = "Salvar"
                             divInfo.Visible = False
                             divSuccess.Visible = True
+                            dgvFaturamento.DataBind()
                             lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
                         End If
 
