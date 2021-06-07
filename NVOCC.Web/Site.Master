@@ -51,7 +51,7 @@
     </div>
     <%--        <img class="fundo" src="Content/imagens/Fundo_FCA.png"/>--%>
     <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
-
+        
         <div class="container-fluid" style="background-color: #003663;">
             <div class="navbar-header">
 
@@ -165,6 +165,9 @@
                                      <li><a id="A11" runat="server" href="FaturarRecebimento.aspx">Faturar Recebimento</a></li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="ModuloDemurrage.aspx" runat="server" id="A17">Demurrage</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -176,10 +179,15 @@
                                 <a href="Faturamento.aspx" runat="server" id="A12">Faturamento</a>
                             </li>
                             <li>
-                                <a href="#"  runat="server" id="A14">Notas Fiscais</a>
+                                <a href="#" id="A15" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub">                                  
+                                    <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="A18">Vendedor</a></li>
+                                    <li><a id="A19" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
+                                     <li><a id="A20" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="#"  runat="server" id="A15">Comissões</a>
+                                <a href="#"  runat="server" id="A14">Notas Fiscais</a>
                             </li>
                              <li>
                                 <a href="#" runat="server" id="A16">TOTVS</a>

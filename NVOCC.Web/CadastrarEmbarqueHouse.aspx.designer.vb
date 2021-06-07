@@ -653,13 +653,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents div7 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle dgvTaxaMaritimo.
+    '''Controle dgvTaxaMaritimoCompras.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvTaxaMaritimo As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvTaxaMaritimoCompras As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dgvTaxaMaritimoVendas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTaxaMaritimoVendas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle mpeTaxaMaritimo.
@@ -1706,13 +1715,22 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents div12 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle dgvTaxaAereo.
+    '''Controle dgvTaxaAereoCompras.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvTaxaAereo As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvTaxaAereoCompras As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dgvTaxaAereoVendas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTaxaAereoVendas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle mpeTaxaAereo.
@@ -2471,20 +2489,38 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents dsCargaAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTaxasAereo.
+    '''Controle dsTaxasAereoCompras.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTaxasAereo As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTaxasAereoCompras As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTaxasMaritimo.
+    '''Controle dsTaxasAereoVendas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTaxasMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTaxasAereoVendas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTaxasMaritimoVendas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTaxasMaritimoVendas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTaxasMaritimoCompras.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTaxasMaritimoCompras As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

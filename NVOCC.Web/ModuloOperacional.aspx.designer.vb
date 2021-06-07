@@ -185,6 +185,15 @@ Partial Public Class ModuloOperacional
     Protected WithEvents rdServicoEmbarque As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
+    '''Controle txtPosicaoEmbarque.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtPosicaoEmbarque As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle dgvEmbarque.
     '''</summary>
     '''<remarks>
@@ -617,6 +626,24 @@ Partial Public Class ModuloOperacional
     Protected WithEvents rdServicoMaster As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
+    '''Controle DivGridMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DivGridMaster As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtPosicaoMaster.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtPosicaoMaster As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle dgvMaster.
     '''</summary>
     '''<remarks>
@@ -831,6 +858,15 @@ Partial Public Class ModuloOperacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents rdServicoHouse As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle txtPosicaoHouse.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtPosicaoHouse As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dgvHouse.

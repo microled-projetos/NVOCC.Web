@@ -1,5 +1,7 @@
-﻿Public Class Faturamento
+﻿Imports System.Net
+Public Class Faturamento
     Inherits System.Web.UI.Page
+
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
@@ -22,6 +24,8 @@
     End Sub
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
+        txtID.Text = ""
+        txtlinha.Text = ""
 
         Dim filtro As String = ""
 
@@ -171,11 +175,16 @@
                 divErro.Visible = True
                 lblmsgErro.Text = "É necessario preencher o campo de observações!"
             Else
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,NR_NOTA_FISCAL FROM [TB_FATURAMENTO] A
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,A.NR_NOTA_FISCAL,A.DT_CANCELAMENTO FROM [TB_FATURAMENTO] A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
 WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: fatura já cancelada!"
+                        Exit Sub
+
+                    ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
                         If lblContador.Text = "" Then
                             divInfo.Visible = True
                             lblmsgInfo.Text = "A NOTA FISCAL JÁ FOI GERADA.<br/>CONFIRMA O CANCELAMENTO DA FATURA ASSIM MESMO?"
@@ -184,10 +193,13 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                             btnSalvarCancelamento.Text = "Confirmar Cancelamento"
                             Exit Sub
                         Else
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+                            Con.Fechar()
                             lblContador.Text = ""
                             btnSalvarCancelamento.Text = "Salvar"
                             divInfo.Visible = False
                             divSuccess.Visible = True
+                            dgvFaturamento.DataBind()
                             lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
                         End If
 
@@ -279,7 +291,7 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
 
 
             End If
-                Con.Fechar()
+            Con.Fechar()
 
         End If
     End Sub
@@ -375,6 +387,16 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                             Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "', NM_CLIENTE = '" & dsRPS.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsRPS.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsRPS.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsRPS.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsRPS.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsRPS.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsRPS.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsRPS.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsRPS.Tables(0).Rows(0).Item("ESTADO").ToString & "',VL_ISS =" & VL_ISS & ",VL_NOTA = " & Session("Valor") & ",VL_NOTA_EXTENSO = '" & Session("ValorExtenso") & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
+
+
+
+                            Using GeraRps = New NotaFiscal.WsNvocc
+
+                                Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+
+                            End Using
+
+
                             divSuccess.Visible = True
                             lblmsgSuccess.Text = "RPS gerada com sucesso!"
                             dgvFaturamento.DataBind()
@@ -395,6 +417,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
         End If
     End Sub
 
+
     Private Sub lkCancelarNota_Click(sender As Object, e As EventArgs) Handles lkCancelarNota.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -405,7 +428,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             Dim Con As New Conexao_sql
             Con.Conectar()
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,NR_RPS FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
                     If PrazoCancelamento() = False Then
@@ -415,7 +438,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
                     Else
 
-
+                        Dim RPSCancelada As String = ds.Tables(0).Rows(0).Item("NR_RPS")
                         Dim NumeracaoDoc As New NumeracaoDoc
                         Dim numero As String = NumeracaoDoc.Numerar(3)
 
@@ -423,6 +446,16 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                         Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,NR_RPS,NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,STATUS_NFE) SELECT ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,'" & numero & "',NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,3 FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text)
                         Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'CANCELAMENTO DA NOTA FISCAL' WHERE ID_FATURAMENTO =" & txtID.Text)
+
+
+
+                        Using GeraRps = New NotaFiscal.WsNvocc
+
+                            Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
+
+                        End Using
+
+
                         lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
                         divSuccess.Visible = True
                         dgvFaturamento.DataBind()
@@ -503,6 +536,20 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
     End Sub
 
+    Private Sub lkVisualizarNota_Click(sender As Object, e As EventArgs) Handles lkVisualizarNota.Click
+        If Not String.IsNullOrEmpty(txtID.Text) Then
+
+            Using GeraRps = New NotaFiscal.WsNvocc
+
+                Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+
+            End Using
+        Else
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro!"
+        End If
+    End Sub
+
     Public Function FinalSemana(ByVal data As Date)
         If data.DayOfWeek = DayOfWeek.Saturday Then
             data = DateAdd(DateInterval.Day, 2, data)
@@ -534,6 +581,8 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             Else
                 Return False
             End If
+        Else
+            Return False
         End If
 
     End Function
@@ -555,7 +604,11 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             Else
                 Return False
             End If
+        Else
+            Return False
         End If
 
     End Function
+
+
 End Class

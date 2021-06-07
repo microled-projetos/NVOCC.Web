@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.8</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +50,8 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Users\Grace\Music\ABAINFRA.Web 13042021\bin\ABAINFRA.Web.dll</HintPath>
+    <Reference Include="ABAINFRA.Web">
+      <HintPath>..\..\..\ABAINFRA.Web(03062021)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -103,6 +104,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
@@ -149,6 +151,13 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Http, Version=4.8.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Http.4.8.1\lib\net461\System.ServiceModel.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Primitives, Version=4.8.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ServiceModel.Primitives.4.8.1\lib\net461\System.ServiceModel.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding.CodePages, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.7.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
@@ -242,6 +251,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
     <Content Include="CadastrarEmbarqueHouse.aspx" />
@@ -256,6 +266,9 @@
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
     <Content Include="ClienteFinal.aspx" />
+    <Content Include="ComissaoIndicadorInternacional.aspx" />
+    <Content Include="ComissaoIndicadorNacional.aspx" />
+    <Content Include="ComissaoVendedor.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
     <Content Include="ConsultarWeek.aspx.cs" />
@@ -264,6 +277,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\auto.esm.js" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\auto.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.esm.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chart.min.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\chunks\helpers.segment.js" />
+    <Content Include="Content\chart.js-3.2.0\package\dist\helpers.esm.js" />
     <Content Include="Content\css\bootstrap-theme.min.css" />
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\easy-autocomplete.min.css" />
@@ -332,6 +352,15 @@
     <Content Include="Content\js\webcam.min.js" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="DashBoard.aspx" />
+    <Content Include="DashBoard.aspx.cs" />
+    <Content Include="DashBoard.aspx.designer.cs" />
+    <Content Include="Demurrage.aspx" />
+    <Content Include="Demurrage.aspx.cs" />
+    <Content Include="Demurrage.aspx.designer.cs" />
+    <Content Include="DemurrageVendas.aspx" />
+    <Content Include="DemurrageVendas.aspx.cs" />
+    <Content Include="DemurrageVendas.aspx.designer.cs" />
     <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="Faturamento.aspx" />
@@ -359,6 +388,11 @@
     <Content Include="fonts\fa-solid-900.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GeraPDF.aspx" />
+    <Content Include="Gerencial.asmx" />
+    <Content Include="Gerencial.asmx.cs" />
+    <Content Include="GerencialMaster.aspx" />
+    <Content Include="GerencialMaster.aspx.cs" />
+    <Content Include="GerencialMaster.aspx.designer.cs" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -400,6 +434,12 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ModuloDemurrage.aspx" />
+    <Content Include="ModuloDemurrage.aspx.cs" />
+    <Content Include="ModuloDemurrage.aspx.designer.cs" />
+    <Content Include="ModuloGerencial.aspx" />
+    <Content Include="ModuloGerencial.aspx.cs" />
+    <Content Include="ModuloGerencial.aspx.designer.cs" />
     <Content Include="ModuloOperacional.aspx" />
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
@@ -410,6 +450,7 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
+    <Content Include="RelatorioVendedor.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
@@ -419,6 +460,15 @@
     <Content Include="TaxasLocaisArmador.aspx" />
     <Content Include="TaxasLocaisImpo_PDF.aspx" />
     <Content Include="TaxasLocaisExpo_PDF.aspx" />
+    <Content Include="Content\chart.js-3.2.0\package\auto\package.json" />
+    <Content Include="Content\chart.js-3.2.0\package\LICENSE.md" />
+    <Content Include="Content\chart.js-3.2.0\package\package.json" />
+    <Content Include="Content\chart.js-3.2.0\package\README.md" />
+    <None Include="Web References\NotaFiscal\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\NotaFiscal\WsNvocc.disco" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
@@ -477,10 +527,18 @@
     <Content Include="Site.Master" />
     <Content Include="TrocarSenha.aspx" />
     <Content Include="Web.config" />
+    <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="BaixarComissao.aspx.designer.vb">
+      <DependentUpon>BaixarComissao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BaixarComissao.aspx.vb">
+      <DependentUpon>BaixarComissao.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="BaixasCancelamentos.aspx.designer.vb">
       <DependentUpon>BaixasCancelamentos.aspx</DependentUpon>
     </Compile>
@@ -588,6 +646,27 @@
       <DependentUpon>ClienteFinal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ComissaoIndicadorInternacional.aspx.designer.vb">
+      <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoIndicadorInternacional.aspx.vb">
+      <DependentUpon>ComissaoIndicadorInternacional.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoIndicadorNacional.aspx.designer.vb">
+      <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoIndicadorNacional.aspx.vb">
+      <DependentUpon>ComissaoIndicadorNacional.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ComissaoVendedor.aspx.designer.vb">
+      <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComissaoVendedor.aspx.vb">
+      <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Conexao_sql.vb" />
     <Compile Include="ConsultaParceiro.aspx.designer.vb">
@@ -688,7 +767,6 @@
     </Compile>
     <Compile Include="GeraPDF.aspx.vb">
       <DependentUpon>GeraPDF.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
@@ -810,6 +888,13 @@
       <DependentUpon>Registrar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="RelatorioVendedor.aspx.designer.vb">
+      <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RelatorioVendedor.aspx.vb">
+      <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
       <DependentUpon>SelecionaPerfil.aspx</DependentUpon>
     </Compile>
@@ -869,6 +954,11 @@
     <Compile Include="ViewSwitcher.ascx.designer.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Web References\NotaFiscal\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="WebForm1.aspx.designer.vb">
       <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
@@ -912,6 +1002,28 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://localhost:44317/WsNvocc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\NotaFiscal\</RelPath>
+      <UpdateFromURL>https://localhost:44317/WsNvocc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>NVOCC_Web_NotaFiscal_WsNvocc</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\chart.js-3.2.0\package\auto\auto.esm.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -929,6 +1041,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>

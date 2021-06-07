@@ -14,24 +14,6 @@ Option Explicit On
 Partial Public Class FreteTransportador
 
     '''<summary>
-    '''Controle btnExport.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnExport As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle Button1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>
@@ -338,24 +320,6 @@ Partial Public Class FreteTransportador
     Protected WithEvents lkExportaTarifario As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkExportaImpo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkExportaImpo As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkExportaExpo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkExportaExpo As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle btnFechar.
     '''</summary>
     '''<remarks>
@@ -372,15 +336,6 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle DivGrid.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents DivGrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle dgvFreteTranportador.
@@ -437,11 +392,11 @@ Partial Public Class FreteTransportador
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle scroll.
+    '''Controle TextBox1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents scroll As Global.System.Web.UI.HtmlControls.HtmlInputHidden
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 End Class

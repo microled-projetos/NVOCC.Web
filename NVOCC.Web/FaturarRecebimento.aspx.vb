@@ -27,7 +27,7 @@
         Con.Conectar()
         If e.CommandName = "Selecionar" Then
             Dim ID As String = e.CommandArgument
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_FATURAMENTO)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NOT NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_FATURAMENTO)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
                 Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)

@@ -163,6 +163,15 @@
                     If check.Checked Then
                         Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+
+                        Dim dsFaturamento As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                        If dsFaturamento.Tables(0).Rows.Count > 0 Then
+                            Dim NumeracaoDoc As New NumeracaoDoc
+                            Dim numero As String = NumeracaoDoc.Numerar(2)
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO"))
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RECIBO = '" & numero & "' WHERE ID_NUMERACAO = 5")
+                        End If
                     End If
                 Next
 

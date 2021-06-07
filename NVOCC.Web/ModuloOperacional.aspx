@@ -128,7 +128,9 @@
                                     <br />
                                     <br />
 
-                                    <div class="table-responsive tableFixHead">
+                                    <div class="table-responsive tableFixHead DivGridEmbarque" id="DivGridEmbarque">
+                                                              <asp:TextBox ID="txtPosicaoEmbarque" Style="display:none" runat="server"></asp:TextBox>
+
                                         <asp:GridView ID="dgvEmbarque" DataKeyNames="ID_BL" DataSourceID="dsEmbarque" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvEmbarque_Sorting">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
@@ -144,7 +146,7 @@
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoEmbarque()"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -427,7 +429,8 @@
                                     <br />
 
 
-                                    <div runat="server" class="table-responsive tableFixHead">
+                                    <div runat="server" class="table-responsive tableFixHead DivGridMaster" id="DivGridMaster">
+                                        <asp:TextBox ID="txtPosicaoMaster" Style="display:none" runat="server"></asp:TextBox>
                                         <asp:GridView ID="dgvMaster" DataKeyNames="ID_BL" DataSourceID="dsMaster" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvMaster_Sorting">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
@@ -446,7 +449,7 @@
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoMaster()"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -559,7 +562,8 @@
                                     <br />
                                     <br />
 
-                                    <div class="table-responsive tableFixHead">
+                                    <div class="table-responsive tableFixHead DivGridHouse" id="DivGridHouse">
+                                        <asp:TextBox ID="txtPosicaoHouse" Style="display:none" runat="server"></asp:TextBox>
                                         <asp:GridView ID="dgvHouse" DataKeyNames="ID_BL" DataSourceID="dsHouse" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvHouse_Sorting">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
@@ -584,7 +588,7 @@
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicaoHouse()"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -807,6 +811,79 @@ WHERE GRAU = 'M' and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
         SelectCommand="SELECT * FROM View_Embarque
 WHERE GRAU = 'C' and ID_BL_MASTER is null and ID_SERVICO = 1 ORDER BY ID_BL DESC "></asp:SqlDataSource>
 
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="Scripts" runat="server">
+        <script type="text/javascript">
+            //EMBARQUE
+            function SalvaPosicaoEmbarque() {
+                var posicao = document.getElementById('DivGridEmbarque').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= txtPosicaoEmbarque.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= txtPosicaoEmbarque.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= txtPosicaoEmbarque.ClientID %>').value;
+            document.getElementById('DivGridEmbarque').scrollTop = valor;
+            };
+
+            //MASTER
+            function SalvaPosicaoMaster() {
+                var posicao = document.getElementById('DivGridMaster').scrollTop;
+                if (posicao) {
+                    document.getElementById('<%= txtPosicaoMaster.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= txtPosicaoMaster.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+                var valor = document.getElementById('<%= txtPosicaoMaster.ClientID %>').value;
+            document.getElementById('DivGridMaster').scrollTop = valor;
+            };
+
+
+            //HOUSE
+            function SalvaPosicaoHouse() {
+                var posicao = document.getElementById('DivGridHouse').scrollTop;
+                if (posicao) {
+                    document.getElementById('<%= txtPosicaoHouse.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= txtPosicaoHouse.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+                var valor = document.getElementById('<%= txtPosicaoHouse.ClientID %>').value;
+            document.getElementById('DivGridHouse').scrollTop = valor;
+            };
+        </script>
+
 </asp:Content>

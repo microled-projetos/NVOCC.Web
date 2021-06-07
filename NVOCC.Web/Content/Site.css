@@ -764,12 +764,157 @@ input[type=file] {
     display: none
 }
 
-#msgErrUpdate, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+
+#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+#msgErrUpdate, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
 #listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek {
     display: none;
 }
+.errorVerified {
+    color: red;
+    font-weight: bold;
+    background-color: rgba(255,0,0,0.3);
+}
 
+.verified {
+    color: green;
+    font-weight: bold;
+    background-color: rgba(0,255,0,0.3);
+}
+
+
+#boxTableImport table tbody td, #boxTableImport table thead th {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white;
+    cursor: default;
+}
+/*#boxescala2,
+#boxdtDemurrage2,
+#boxvlDemurrage2,
+#boxescala3,
+#boxdtDemurrage3,
+#boxvlDemurrage3,
+#boxescala4,
+#boxdtDemurrage4,
+#boxvlDemurrage4,
+#boxescala5,
+#boxdtDemurrage5,
+#boxvlDemurrage5,
+#boxescala6,
+#boxdtDemurrage6,
+#boxvlDemurrage6,
+#boxescala7,
+#boxdtDemurrage7,
+#boxvlDemurrage7,
+#boxescala8,
+#boxdtDemurrage8,
+#boxvlDemurrage8{
+display: none;
+}
+*/
+
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white !important;
+    font-weight: bold;
+    cursor: default !important;
+}
+
+#grdModuloDemurrage td:first-child {
+    display: flex;
+}
+
+#grdModuloDemurrage .pad {
+    padding: 3px 6px;
+}
+
+#obsInfoCont {
+    width: 800px;
+}
+
+.functionBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.functionFaturaBar {
+    display: flex;
+}
+
+.boxFaturaFuncSec {
+    margin-left: 20px;
+}
+
+.btnBoxFunc, .btnFaturaFunc, .btnFaturaFuncSec {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.btnDemuFunc {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.demuFunc {
+    margin-left: 5px;
+}
+
+.oFunc {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#faturado, #nFaturado {
+    color: rgba(255,0,0,0.7);
+    display: none;
+}
+
+.tableModalFix {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .tableModalFix thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+.colorir {
+    background: rgba(0,0,255,0.4);
+}
+
+.flexdivbtn {
+    display: flex;
+    align-items: normal;
+}
+
+#btnProximo {
+    display: none;
+}
 th {
     padding-top: 0px !important;
     padding-bottom: 0px !important;

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="IntegraNFePrefeitura">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RPS" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEmpresa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BancoDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StringConexaoDestino" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Reprocessamento" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="IntegraNFePrefeituraResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IntegraNFePrefeituraResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFePrefeitura">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoteRps" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEmpresa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BancoDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StringConexaoDestino" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaNFePrefeituraResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ConsultaNFePrefeituraResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelaNFePrefeitura">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Rps" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEmpresa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BancoDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StringConexaoDestino" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelaNFePrefeituraResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CancelaNFePrefeituraResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubstituiNFePrefeitura">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RpsOld" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RpsNew" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEmpresa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BancoDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StringConexaoDestino" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubstituiNFePrefeituraResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SubstituiNFePrefeituraResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="IntegraNFePrefeituraSoapIn">
+    <wsdl:part name="parameters" element="tns:IntegraNFePrefeitura" />
+  </wsdl:message>
+  <wsdl:message name="IntegraNFePrefeituraSoapOut">
+    <wsdl:part name="parameters" element="tns:IntegraNFePrefeituraResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFePrefeituraSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaNFePrefeitura" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaNFePrefeituraSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaNFePrefeituraResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelaNFePrefeituraSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelaNFePrefeitura" />
+  </wsdl:message>
+  <wsdl:message name="CancelaNFePrefeituraSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelaNFePrefeituraResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubstituiNFePrefeituraSoapIn">
+    <wsdl:part name="parameters" element="tns:SubstituiNFePrefeitura" />
+  </wsdl:message>
+  <wsdl:message name="SubstituiNFePrefeituraSoapOut">
+    <wsdl:part name="parameters" element="tns:SubstituiNFePrefeituraResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WsNvoccSoap">
+    <wsdl:operation name="IntegraNFePrefeitura">
+      <wsdl:input message="tns:IntegraNFePrefeituraSoapIn" />
+      <wsdl:output message="tns:IntegraNFePrefeituraSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFePrefeitura">
+      <wsdl:input message="tns:ConsultaNFePrefeituraSoapIn" />
+      <wsdl:output message="tns:ConsultaNFePrefeituraSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelaNFePrefeitura">
+      <wsdl:input message="tns:CancelaNFePrefeituraSoapIn" />
+      <wsdl:output message="tns:CancelaNFePrefeituraSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubstituiNFePrefeitura">
+      <wsdl:input message="tns:SubstituiNFePrefeituraSoapIn" />
+      <wsdl:output message="tns:SubstituiNFePrefeituraSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WsNvoccSoap" type="tns:WsNvoccSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IntegraNFePrefeitura">
+      <soap:operation soapAction="http://tempuri.org/IntegraNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFePrefeitura">
+      <soap:operation soapAction="http://tempuri.org/ConsultaNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelaNFePrefeitura">
+      <soap:operation soapAction="http://tempuri.org/CancelaNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubstituiNFePrefeitura">
+      <soap:operation soapAction="http://tempuri.org/SubstituiNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WsNvoccSoap12" type="tns:WsNvoccSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="IntegraNFePrefeitura">
+      <soap12:operation soapAction="http://tempuri.org/IntegraNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaNFePrefeitura">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelaNFePrefeitura">
+      <soap12:operation soapAction="http://tempuri.org/CancelaNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubstituiNFePrefeitura">
+      <soap12:operation soapAction="http://tempuri.org/SubstituiNFePrefeitura" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WsNvocc">
+    <wsdl:port name="WsNvoccSoap" binding="tns:WsNvoccSoap">
+      <soap:address location="https://localhost:44317/WsNvocc.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WsNvoccSoap12" binding="tns:WsNvoccSoap12">
+      <soap12:address location="https://localhost:44317/WsNvocc.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

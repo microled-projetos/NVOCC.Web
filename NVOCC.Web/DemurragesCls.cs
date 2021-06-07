@@ -16,6 +16,7 @@ namespace ABAINFRA.Web.Classes
         private int id_parceiro_transportador;
         private int id_tipo_container;
         private string dt_validade_final;
+        private string dt_validade_inicial;
         private string qt_dias_freetime;
         private int id_moeda;
         private string fl_escalonada;
@@ -41,6 +42,7 @@ namespace ABAINFRA.Web.Classes
         public int ID_PARCEIRO_TRANSPORTADOR { get => id_parceiro_transportador; set => id_parceiro_transportador = value; }
         public int ID_TIPO_CONTAINER { get => id_tipo_container; set => id_tipo_container = value; }
         public string DT_VALIDADE_FINAL { get => dt_validade_final; set => dt_validade_final = value; }
+        public string DT_VALIDADE_INICIAL { get => dt_validade_inicial; set => dt_validade_inicial = value; }
         public string QT_DIAS_FREETIME { get => qt_dias_freetime; set => qt_dias_freetime = value; }
         public int ID_MOEDA { get => id_moeda; set => id_moeda = value; }
         public string FL_ESCALONADA { get => fl_escalonada; set => fl_escalonada = value; }

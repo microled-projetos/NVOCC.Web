@@ -285,9 +285,6 @@
                                 </div>  
                              </div>
                            
-                      
-                                                       
-                   
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharIndicadores" text="Close" />
                                                         </div>
@@ -310,7 +307,7 @@
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
-                                <div class="table-responsive tableFixHead" visible="false" style="text-align: center">
+                                <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
                                     <asp:GridView ID="dgvFinanceiro" DataKeyNames="ID_BL" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFinanceiro" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center">
                                         <Columns>
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
@@ -328,7 +325,7 @@
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                        CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicao()"></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>
@@ -359,7 +356,31 @@
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Financeiro] WHERE TOTAL_A_PAGAR_ABERTAS > 0 OR TOTAL_A_RECEBER_ABERTAS > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
+                          <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script type="text/javascript">
+     function SalvaPosicao() {
+          var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
+    </script>
 </asp:Content>
