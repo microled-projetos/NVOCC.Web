@@ -188,64 +188,6 @@ Public Class Funcoes
     Public Function obtemUF(Optional ByVal COD As Integer = 0) As String
         Dim ret As String
         Try
-            'Select Case COD
-            '    Case "12"
-            '        ret = "AC"
-            '    Case "27"
-            '        ret = "AL"
-            '    Case "13"
-            '        ret = "AM"
-            '    Case "16"
-            '        ret = "AP"
-            '    Case "29"
-            '        ret = "BA"
-            '    Case "23"
-            '        ret = "CE"
-            '    Case "53"
-            '        ret = "DF"
-            '    Case "32"
-            '        ret = "ES"
-            '    Case "52"
-            '        ret = "GO"
-            '    Case "21"
-            '        ret = "MA"
-            '    Case "31"
-            '        ret = "MG"
-            '    Case "50"
-            '        ret = "MS"
-            '    Case "51"
-            '        ret = "MT"
-            '    Case "15"
-            '        ret = "PA"
-            '    Case "25"
-            '        ret = "PB"
-            '    Case "26"
-            '        ret = "PE"
-            '    Case "22"
-            '        ret = "PI"
-            '    Case "41"
-            '        ret = "PR"
-            '    Case "33"
-            '        ret = "RJ"
-            '    Case "24"
-            '        ret = "RN"
-            '    Case "11"
-            '        ret = "RO"
-            '    Case "14"
-            '        ret = "RR"
-            '    Case "43"
-            '        ret = "RS"
-            '    Case "42"
-            '        ret = "SC"
-            '    Case "28"
-            '        ret = "SE"
-            '    Case "35"
-            '        ret = "SP"
-            '    Case "17"
-            '        ret = "TO"
-            '    Case Else
-            '        ret = ""
-            'End Select
 
             Select Case COD
                 Case 12
@@ -331,55 +273,16 @@ Public Class Funcoes
         End Try
         Return ret
     End Function
-    Public Function obtemDocumento(gr As String) As String
-        Dim ret As String = ""
-        Dim Sql As String = ""
-        Dim rsAux As New DataSet
-        Try
-            Sql = "SELECT DISTINCT 'DOCUMENTO: ' || "
-            Sql = Sql & " D.DESCR || "
-            Sql = Sql & " ' - ' || B.NUM_DOCUMENTO AS CONTEUDO "
-            Sql = Sql & " FROM TB_GR_BL A JOIN "
-            Sql = Sql & "TB_BL B ON A.BL = B.AUTONUM JOIN "
-            Sql = Sql & "DTE_TB_VIAGENS C ON B.VIAGEM = C.VIAGEM LEFT JOIN "
-            Sql = Sql & "TB_TIPOS_DOCUMENTOS D ON B.TIPO_DOCUMENTO = D.CODE "
-            Sql = Sql & " WHERE A.SEQ_GR IN(" & NNull(gr, 1) & ")"
-            rsAux = Con.ExecutarQuery(Sql)
-            If rsAux.Tables(0).Rows.Count > 0 Then
-                ret = rsAux.Tables(0).Rows(0)(0).ToString
-            End If
 
-        Catch ex As Exception
-            Err.Clear()
-        End Try
 
-        Return ret
-    End Function
 
-    Public Function obtemOBS(IDFat As Long) As String
-
-        Dim ret As String = ""
-        Dim sql As String
-        Dim rsAux As New DataSet
-        Try
-            sql = "SELECT NF.OBS FROM FATURANOTA F INNER JOIN TB_NF_TRANSP NF ON F.NUM_TITULO = NF.TITULO WHERE F.ID = " & IDFat
-            rsAux = Con.ExecutarQuery(sql)
-            If rsAux.Tables(0).Rows.Count > 0 Then
-                ret = rsAux.Tables(0).Rows(0)(0).ToString
-            End If
-        Catch ex As Exception
-            Err.Clear()
-        End Try
-        Return ret
-
-    End Function
 
     Public Function aliquotaImpostos() As Double
         Dim sSql As String
         Dim rsAux As New DataSet
         Try
             aliquotaImpostos = 0.1225
-            sSql = "SELECT sum(TAXA) / 100 FROM TB_CAD_IMPOSTOS WHERE DESCRICAO in('ISS','COFINS','PIS') "
+            sSql = "SELECT (ISNULL(VL_ALIQUOTA_ISS,0) + ISNULL(VL_ALIQUOTA_PIS,0) + ISNULL(VL_ALIQUOTA_COFINS,0)) / 100 FROM TB_PARAMETROS "
             rsAux = Con.ExecutarQuery(sSql)
             For ln = 0 To rsAux.Tables(0).Rows.Count - 1
                 aliquotaImpostos = NNull(rsAux.Tables(0).Rows(0)(0).ToString, 0)
@@ -406,13 +309,6 @@ Public Class Funcoes
             Err.Clear()
         End Try
     End Function
-    'Public Function obtemNumeroLote() As Long
-    '    Dim sSql As String
-    '    Dim rsNumero As DataSet
-    '    sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-    '    rsNumero = Con.ExecutarQuery(sSql)
-    '    obtemNumeroLote = Long.Parse(NNull(rsNumero.Tables(0).Rows(0)(0).ToString, 0))
-    'End Function
 
     Enum ResultadoAssinatura As Integer
         XMLAssinadoSucesso
@@ -586,7 +482,6 @@ Public Class Funcoes
         Dim strXML As String
         Dim strTagXML As String = TagXML
 
-        'SelecionarCertificado()
 
         srdDocXML = File.OpenText(ArqXMLAssinar)
         strXML = srdDocXML.ReadToEnd()
@@ -656,147 +551,4 @@ Public Class Funcoes
 
 End Class
 
-Public Class ServicoEspecial
-
-    Dim _especial As Boolean
-    Dim _temDivergencia As Boolean
-    Dim _codServ As String
-    Dim _codTrib As String
-    Dim _aliq As Double
-    Dim _pis As Double
-    Dim _cofins As Double
-    Dim _csll As Double
-    Dim _ir As Double
-
-
-    Dim Con As New Conexao_sql
-    Dim Funcoes As New Funcoes
-
-    Public Sub carrega(idFat As Long)
-        Dim sSql As String
-        Dim rsAux As New DataSet
-        Try
-            Especial = False
-            CodServ = ""
-            CodTrib = ""
-            Aliq = 0
-            Pis = 0
-            Cofins = 0
-            Csll = 0
-            Ir = 0
-            Con.Conectar()
-
-            sSql = "SELECT NULL AS COD_SER, NULL AS  COD_TRIB, VL_ISS AS ISS, VL_PIS AS PIS, VL_COFINS AS COFINS, NULL AS CSLL, VL_IR AS IR
-FROM TB_CONTA_PAGAR_RECEBER_ITENS  
-WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN(" & idFat & "))"
-            'sSql = sSql & " AND ISNULL(S.COD_SER,' ') <> ' ' "
-            rsAux = Con.ExecutarQuery(sSql)
-            If rsAux.Tables(0).Rows.Count > 0 Then
-                Especial = True
-                CodServ = rsAux.Tables(0).Rows(0)("COD_SER").ToString
-                CodTrib = rsAux.Tables(0).Rows(0)("COD_TRIB").ToString
-                Aliq = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("ISS").ToString, 0)) / 100
-                Pis = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("PIS").ToString, 0)) / 100
-                Cofins = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("COFINS").ToString, 0)) / 100
-                Csll = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("CSLL").ToString, 0)) / 100
-                Ir = Double.Parse(Funcoes.NNull(rsAux.Tables(0).Rows(0)("IR").ToString, 0)) / 100
-            Else
-                Exit Sub
-            End If
-
-            TemDivergencia = False
-            sSql = "SELECT NULL AS COD_SER, NULL AS  COD_TRIB, VL_ISS AS ISS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER  = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN(" & idFat & "))"
-            'sSql = sSql & " AND ISNULL(S.COD_SER,' ') = ' ' "
-            rsAux = Con.ExecutarQuery(sSql)
-            If rsAux.Tables(0).Rows.Count > 0 Then
-                'TemDivergencia = True
-            End If
-
-        Catch ex As Exception
-            Err.Clear()
-        End Try
-
-    End Sub
-
-    Public Property Especial As Boolean
-        Get
-            Return _especial
-        End Get
-        Set(value As Boolean)
-            _especial = value
-        End Set
-    End Property
-
-    Public Property CodServ As String
-        Get
-            Return _codServ
-        End Get
-        Set(value As String)
-            _codServ = value
-        End Set
-    End Property
-
-    Public Property CodTrib As String
-        Get
-            Return _codTrib
-        End Get
-        Set(value As String)
-            _codTrib = value
-        End Set
-    End Property
-
-    Public Property Aliq As Double
-        Get
-            Return _aliq
-        End Get
-        Set(value As Double)
-            _aliq = value
-        End Set
-    End Property
-
-    Public Property TemDivergencia As Boolean
-        Get
-            Return _temDivergencia
-        End Get
-        Set(value As Boolean)
-            _temDivergencia = value
-        End Set
-    End Property
-
-    Public Property Pis As Double
-        Get
-            Return _pis
-        End Get
-        Set(value As Double)
-            _pis = value
-        End Set
-    End Property
-
-    Public Property Cofins As Double
-        Get
-            Return _cofins
-        End Get
-        Set(value As Double)
-            _cofins = value
-        End Set
-    End Property
-
-    Public Property Csll As Double
-        Get
-            Return _csll
-        End Get
-        Set(value As Double)
-            _csll = value
-        End Set
-    End Property
-
-    Public Property Ir As Double
-        Get
-            Return _ir
-        End Get
-        Set(value As Double)
-            _ir = value
-        End Set
-    End Property
-End Class
 

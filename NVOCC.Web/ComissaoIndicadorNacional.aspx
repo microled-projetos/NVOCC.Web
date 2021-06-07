@@ -97,32 +97,30 @@
                                 </div>
                                 <div runat="server" visible="false" id="DivGrid2">
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="dgvComissoes" DataKeyNames="ID_CABECALHO_COMISSAO_VENDEDOR" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                    <asp:GridView ID="dgvComissoes" DataKeyNames="ID_DETALHE_COMISSAO_NACIONAL" DataSourceID="dsComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_CABECALHO_COMISSAO_VENDEDOR") %>' />
+                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="DT_COMPETENCIA" HeaderText="DATA COMPETENCIA" SortExpression="DT_COMPETENCIA" />
+                                            <asp:BoundField DataField="COMPETENCIA_QUINZENA" HeaderText="DATA COMPETENCIA" SortExpression="COMPETENCIA_QUINZENA" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />                             
-                                            <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA_FISCAL" SortExpression="NR_NOTAS_FISCAL" />
-                                            <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA FISCAL" SortExpression="DT_NOTA_FISCAL" />
-                                            <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="PARCEIRO VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
-                                            <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="PARCEIRO CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
+                                            <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_VENDEDOR" />
+                                            <asp:BoundField DataField="MBL" HeaderText="MBL" SortExpression="MBL" />
+                                            <asp:BoundField DataField="HBL" HeaderText="HBL" SortExpression="HBL" />                                                
+                                            <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CNEE" SortExpression="PARCEIRO_CLIENTE" />                       
                                             <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
-                                            <asp:BoundField DataField="QT_BL" HeaderText="QTD. BL" SortExpression="QT_BL" />
-                                            <asp:BoundField DataField="QT_CNTR" HeaderText="QTD. CNTR" SortExpression="QT_CNTR" />
-                                            <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="COMISSAO BASE" SortExpression="VL_COMISSAO_BASE" />
-                                            <asp:BoundField DataField="VL_PERCENTUAL" HeaderText="PERCENTUAL" SortExpression="VL_PERCENTUAL" />
-                                            <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO TOTAL" SortExpression="VL_COMISSAO_TOTAL" />                           
+                                            <asp:BoundField DataField="VL_TAXA" HeaderText="VL_TAXA" SortExpression="VL_TAXA" />
+                                            <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />    
+                                            <asp:BoundField DataField="VL_CAMBIO" HeaderText="TAXA CONVERSÃO" SortExpression="VL_CAMBIO" />    
+                                            <asp:BoundField DataField="VL_COMISSAO" HeaderText="PREMIACAO" SortExpression="VL_COMISSAO" />
+                                            <asp:BoundField DataField="PARCEIRO_IMPORTADOR" HeaderText="IMPORTADOR" SortExpression="PARCEIRO_IMPORTADOR" />                          
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
-                                            <asp:BoundField DataField="DS_OBSERVACAO" HeaderText="OBSERVACAO" SortExpression="DS_OBSERVACAO" />
-
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_CABECALHO_COMISSAO_VENDEDOR") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
+                                                        CommandArgument='<%# Eval("ID_DETALHE_COMISSAO_NACIONAL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>

@@ -88,7 +88,8 @@
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:Label ID="lblContador" runat="server"></asp:Label>
+                                    <asp:Label ID="lblCompetenciaSobrepor" runat="server"></asp:Label>
+                                    <asp:Label ID="lblContasReceber" runat="server"></asp:Label>
                                 </div>
                                 <div runat="server" visible="false" id="DivGrid2">
                                     <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
@@ -609,7 +610,10 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>
-                                                        <div class="modal-body" >                                       
+                                                        <div class="modal-body" > 
+                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
+                                </div>
                             <div class="row">
                                                                             
                                      <div class="col-sm-6">

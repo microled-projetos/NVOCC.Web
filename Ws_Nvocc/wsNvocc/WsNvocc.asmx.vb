@@ -47,7 +47,7 @@ Public Class WsNvocc
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE STATUS_NFE = 0 AND NR_RPS = '" & RPS & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaLoteRPS2(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+                Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
             Next
 
         Else
@@ -80,8 +80,6 @@ Public Class WsNvocc
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE NR_RPS = '" & Rps & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                ' Call montaCancelamentoNFSE(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
-                ' Call montaCancelamentoNFSEv1(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
                 Call montaCancelamentoNFSEv2(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_NOTA_FISCAL").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString)
             Next
         Else
@@ -96,7 +94,7 @@ Public Class WsNvocc
 
         Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
     End Function
-    Public Sub montaLoteRPS2(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
+    Public Sub montaLoteRPS(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()
         Dim ret As Boolean = False
@@ -126,7 +124,7 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            loteNumero = IDFatura 'Funcoes.obtemNumeroLote()
+            loteNumero = IDFatura
 
 
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
@@ -173,7 +171,7 @@ Public Class WsNvocc
 
 
 
-            Call montaInfRps2_IPA(loteNumero, NFeNamespacte, rsRPSs.Tables(0), Cod_Empresa)
+            Call montaInfRps(loteNumero, NFeNamespacte, rsRPSs.Tables(0), Cod_Empresa)
 
 
             If erroValor Then
@@ -242,7 +240,7 @@ Public Class WsNvocc
             End If
 
 
-            Call EnviaXML2(nomeArquivo, "LOTE-RPS", loteNumero)
+            Call EnviaXML(nomeArquivo, "LOTE-RPS", loteNumero)
 
 
         Catch ex As Exception
@@ -253,19 +251,12 @@ Public Class WsNvocc
     End Sub
 
 
-    Public Sub montaInfRps2_IPA(ByVal numeroLote As Long, Optional ByVal NFeNamespacte As String = "", Optional ByVal rsRPS As DataTable = Nothing, Optional Cod_Empresa As Integer = 1)
-        Dim sP As New ServicoEspecial()
+    Public Sub montaInfRps(ByVal numeroLote As Long, Optional ByVal NFeNamespacte As String = "", Optional ByVal rsRPS As DataTable = Nothing, Optional Cod_Empresa As Integer = 1)
+
         Con.Conectar()
         Try
 
             erroValor = False
-
-
-            sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Rows(0)("IDFATURA").ToString, 0)))
-            If sP.TemDivergencia Then
-                erroValor = True
-                Exit Sub
-            End If
 
             noInfRps = doc.CreateElement("InfRps", NFeNamespacte)
 
@@ -381,9 +372,6 @@ Public Class WsNvocc
 
 
                 Dim valCsll As Double = Funcoes.NNull(0, 0)
-                'If sP.Csll > 0 Then
-                '    valCsll = Double.Parse(rsServicos.Rows(I)("VALOR").ToString) * sP.Csll
-                'End If
                 valCsll = FormatNumber(valCsll, 2)
                 No = doc.CreateElement("ValorCsll", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
@@ -423,12 +411,7 @@ Public Class WsNvocc
                 noValServ.AppendChild(No)
 
                 No = doc.CreateElement("Aliquota", NFeNamespacte)
-                If sP.Aliq > 0 Then
-                    noText = doc.CreateTextNode(sP.Aliq.ToString.Replace(",", "."))
-                Else
-
-                    noText = doc.CreateTextNode(Funcoes.aliquotaISS().ToString.Replace(",", "."))
-                End If
+                noText = doc.CreateTextNode(Funcoes.aliquotaISS().ToString.Replace(",", "."))
 
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
@@ -444,9 +427,8 @@ Public Class WsNvocc
 
                 Dim dDescr As String
                 dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                dDescr = dDescr & " " & Funcoes.obtemDocumento(rsRPS.Rows(0)("ID_CONTA_PAGAR_RECEBER").ToString)
                 dfinal = "Valor aproximado dos tributos R$ "
-                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0) ' Format(Double.Parse(valorLiquido.ToString), "0.00")
+                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
                 dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
                 dfinal = Funcoes.tiraCaracEspXML(dfinal)
 
@@ -454,12 +436,8 @@ Public Class WsNvocc
                 dDescr = dDescr.Trim & " " & dfinal
 
                 No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                If sP.CodServ <> "" Then
-                    noText = doc.CreateTextNode(sP.CodServ)
-                Else
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
 
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
-                End If
 
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
@@ -633,7 +611,7 @@ Public Class WsNvocc
     Public Shared Function AcceptAllCertifications(ByVal sender As Object, ByVal certification As System.Security.Cryptography.X509Certificates.X509Certificate, ByVal chain As System.Security.Cryptography.X509Certificates.X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
         Return True
     End Function
-    Public Sub EnviaXML2(ByVal DocXml As String, ByVal tipo As String, ByVal loteNumero As Long)
+    Public Sub EnviaXML(ByVal DocXml As String, ByVal tipo As String, ByVal loteNumero As Long)
         Dim nomeArq As String
         Dim docRetorno As New XmlDocument
         Dim retProtocolo As String
@@ -751,10 +729,10 @@ Public Class WsNvocc
 
 
                     sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                        sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                        sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
+                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
@@ -765,7 +743,6 @@ Public Class WsNvocc
                     sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
                     Con.ExecutarQuery(sSql)
 
-                    'frmProcessamento.lstValida.Items.Add("Nota Fiscal N°:" & retNFSE)
 
                 Catch ex As Exception
                     Err.Clear()
@@ -795,7 +772,6 @@ Public Class WsNvocc
                         sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
                         Con.ExecutarQuery(sSql)
 
-                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retNFSE)
 
                     Catch ex1 As Exception
                         Err.Clear()
@@ -818,7 +794,6 @@ Public Class WsNvocc
                     uri = docRetorno.GetElementsByTagName("ns4:InfNfse")
                     retNFSE = uri(0)("ns4:Numero").InnerText
                     retData = uri(0)("ns4:DataEmissao").InnerText
-                    'retCompetencia = uri(0)("ns4:Competencia").InnerText
                     retCompetencia = Format(CDate(uri(0)("ns4:Competencia").InnerText), "yyyyMM")
                     codVerificacao = uri(0)("ns4:CodigoVerificacao").InnerText
 
@@ -827,10 +802,10 @@ Public Class WsNvocc
 
 
                     sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 2"
-                        sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
+                    sSql = sSql & " , NR_NOTA_FISCAL ='" & Format(Long.Parse(retNFSE), "00000000") & "' "
                     sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
-                        sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
+                    sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
                     sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
                     Con.ExecutarQuery(sSql)
 
@@ -919,14 +894,13 @@ atualizaCancel:
 
 
 
-            'client.Close()
 
         Catch ex As Exception
             Throw New Exception("Erro ao conectar ao NFSe: " & ex.Message())
         End Try
 
 saida:
-            nomeArq = ""
+        nomeArq = ""
         docRetorno = Nothing
         sSql = ""
         retProtocolo = ""
@@ -957,13 +931,11 @@ saida:
             rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
 
             Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_consultar_lote_rps_envio_v03.xsd"
-            'NFeNamespacte = ""
 
             raizCo = docCo.CreateElement("ConsultarLoteRpsEnvio", NFeNamespacte)
 
             Dim noPrestador As XmlElement
             noPrestador = docCo.CreateElement("Prestador", NFeNamespacte)
-            'noPrestador = doc.CreateElement("Prestador")
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
             No = docCo.CreateElement("Cnpj", NFeNamespacte)
@@ -1009,7 +981,7 @@ saida:
 
 
 
-            Call EnviaXML2(nomeArquivo, "CONSULTA-RPS", numeroLote)
+            Call EnviaXML(nomeArquivo, "CONSULTA-RPS", numeroLote)
 
 
         Catch ex As Exception
@@ -1032,13 +1004,11 @@ saida:
             rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA = " & Cod_Empresa)
 
             Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd"
-            'NFeNamespacte = ""
 
             raizCoN = docCoN.CreateElement("ConsultarNfseRpsEnvio", NFeNamespacte)
 
             Dim noIdentRPSn As XmlElement
             noIdentRPSn = docCoN.CreateElement("IdentificacaoRps", NFeNamespacte)
-            'noIdentRPS = doc.CreateElement("IdentificacaoRps")
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
 
@@ -1063,7 +1033,6 @@ saida:
             NFeNamespacte = "http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd"
             Dim noPrestadorN As XmlElement
             noPrestadorN = docCoN.CreateElement("Prestador", NFeNamespacte)
-            'noPrestador = doc.CreateElement("Prestador")
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
             No = docCoN.CreateElement("Cnpj", NFeNamespacte)
@@ -1095,25 +1064,13 @@ saida:
 
             Dim sSql As String
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_consultar_nfse_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd") Then
-                'frmProcessamento.lstValida.Items.Add(tiraCaracEspXML(msgValidacao))
-
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Mid(msgValidacao, 1, 2000) & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
 
                 Exit Sub
             Else
-                'frmProcessamento.lstValida.Items.Add("Validação Schema XSD " & tiraCaracEspXML(msgValidacao))
-                'frmProcessamento.lstValida.Items.Add("Consulta ao Prortocolo " & numeroProtocolo & " Lote nº " & numeroLote)
 
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & nomeArquivo & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
             End If
 
-            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE ENVIO : " & nomeArquivo)
-
-            Call EnviaXML2(nomeArquivo, "CONSULTA-RPS-", numeroLote)
+            Call EnviaXML(nomeArquivo, "CONSULTA-RPS-", numeroLote)
 
 
         Catch ex As Exception
@@ -1136,13 +1093,10 @@ saida:
             rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA  = " & Cod_Empresa)
 
             Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_cancelar_nfse_envio_v03.xsd"
-            'NFeNamespacte = ""
 
             raizCa = docCa.CreateElement("CancelarNfseEnvio", NFeNamespacte)
 
             Dim noPrestador As XmlElement
-            'noPrestador = docCa.CreateElement("Pedido", NFeNamespacte)
-            'noPrestador = docCa.CreateElement("Pedido")
             noPrestador = doc.CreateElement("Prestador")
 
             Dim noPedido As XmlElement
@@ -1201,25 +1155,14 @@ saida:
             docAssinado.Save(nomeArquivo)
 
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_cancelar_nfse_envio_v03.xsd", "http://www.ginfes.com.br/servico_cancelar_nfse_envio_v03.xsd") Then
-                'frmProcessamento.lstValida.Items.Add(tiraCaracEspXML(msgValidacao))
-
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Mid(msgValidacao, 1, 2000) & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
 
                 Exit Sub
             Else
-                'frmProcessamento.lstValida.Items.Add("Validação Schema XSD " & tiraCaracEspXML(msgValidacao))
-                ''frmProcessamento.lstValida.Items.Add("Consulta ao Prortocolo " & numeroProtocolo & " Lote nº " & numeroLote)
 
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & nomeArquivo & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
             End If
 
-            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE ENVIO : " & nomeArquivo)
 
-            Call EnviaXML2(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
 
 
         Catch ex As Exception
@@ -1242,7 +1185,6 @@ saida:
             rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA = 1")
 
             Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_cancelar_nfse_envio.xsd"
-            'NFeNamespacte = ""
 
             raizCa = docCa.CreateElement("CancelarNfseEnvio", NFeNamespacte)
 
@@ -1281,25 +1223,15 @@ saida:
             docAssinado.Save(nomeArquivo)
 
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_cancelar_nfse_envio.xsd", "http://www.ginfes.com.br/servico_cancelar_nfse_envio.xsd") Then
-                'frmProcessamento.lstValida.Items.Add(tiraCaracEspXML(msgValidacao))
 
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & Mid(msgValidacao, 1, 2000) & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
 
                 Exit Sub
             Else
-                'frmProcessamento.lstValida.Items.Add("Validação Schema XSD " & tiraCaracEspXML(msgValidacao))
-                ''frmProcessamento.lstValida.Items.Add("Consulta ao Prortocolo " & numeroProtocolo & " Lote nº " & numeroLote)
 
-                'sSql = "INSERT INTO " & DAO.Owner & "TB_LOG_NFSE (IDFATURA, TIPO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                'sSql = sSql & " VALUES (" & rsRPSs.Rows(0)("IDFATURA").ToString & ",'" & tipo & "','" & nomeArquivo & "',SYSDATE," & rsRPSs.Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
-                'DAO.Execute(sSql)
             End If
 
-            'frmProcessamento.lstValida.Items.Add("ARQUIVO DE ENVIO : " & nomeArquivo)
 
-            Call EnviaXML2(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
 
 
         Catch ex As Exception
@@ -1343,7 +1275,7 @@ saida:
             docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & docCa.OuterXml)
             docAssinado.Save(nomeArquivo)
 
-            Call EnviaXML2(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
         Catch ex As Exception
             If Not Funcoes.modoAutomatico Then
                 MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")

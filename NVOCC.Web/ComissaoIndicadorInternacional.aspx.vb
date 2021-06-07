@@ -11,9 +11,7 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        If Not Page.IsPostBack Then
-            Session("ConsultaGrid") = dsComissao.SelectCommand
-        End If
+
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
@@ -121,9 +119,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
 
             dsComissao.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
             dgvComissoes.DataBind()
-        ddlFiltro.SelectedValue = 0
-        txtPesquisa.Text = ""
-        DivGrid2.Visible = True
+            ddlFiltro.SelectedValue = 0
+            txtPesquisa.Text = ""
+            DivGrid2.Visible = True
             lblCompetenciaCCProcesso.Text = txtCompetencia.Text
         End If
     End Sub
