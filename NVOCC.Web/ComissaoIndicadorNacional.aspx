@@ -69,7 +69,7 @@
                        <div class="col-sm-1" >
                            <div class="form-group"> 
                               <asp:Label ID="Label35" runat="server">Quinzena</asp:Label><br />
-                              <asp:CheckBox ID="CheckBox1" runat="server" CssClass="form-control" />
+                                            <asp:TextBox ID="txtQuinzena" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                            </div>
                        </div>
                        <div class="col-sm-1" >
@@ -92,7 +92,8 @@
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:Label ID="lblContador" runat="server"></asp:Label>
+                                    <asp:Label ID="lblCompetenciaSobrepor" runat="server"></asp:Label>
+                                    <asp:Label ID="lblContasReceber" runat="server"></asp:Label>                                
                                 </div>
                                 <div runat="server" visible="false" id="DivGrid2">
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
@@ -181,6 +182,7 @@
                                                         </div>
                                                         <div class="modal-body">                                       
                     
+                             
                                  <div class="row">
                                    <div class="col-sm-2">
                                     <div class="form-group">                                          
@@ -190,39 +192,39 @@
                                <asp:TextBox ID="txtIDTabelaTaxa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
                                          </div>
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+
+                                               <asp:Label ID="Label9" runat="server">INDICADOR</asp:Label><br />
+
+         <asp:DropDownList ID="ddlVendedorTabela" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_RAZAO" DataSourceID="dsVendedores" DataValueField="ID_PARCEIRO"/>                                        </div>
+                                         </div>
+                                     </div>
+                                       <div class="row">
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
                                                <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
 
-                               <asp:TextBox ID="txtValidade" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtValidadeTabela" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                          </div>
-                                     <div class="col-sm-2">
+                                     <div class="col-sm-4">
                                     <div class="form-group">                                          
                                
-                                               <asp:Label ID="Label7" runat="server">Taxa LCL</asp:Label><br />
-
-                               <asp:TextBox ID="txtLCL"  runat="server" CssClass="form-control"></asp:TextBox>
-                                        </div>
+                                               <asp:Label ID="Label7" runat="server">Moeda</asp:Label><br />
+      <asp:DropDownList ID="ddlMoedaTabela" runat="server"  CssClass="form-control"  DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>                                        </div>
                                          </div>
 
-                                     <div class="col-sm-2">
+                                     <div class="col-sm-4">
                                     <div class="form-group">                                          
- <asp:Label ID="Label8" runat="server">Taxa FCL</asp:Label><br />
+ <asp:Label ID="Label8" runat="server">Taxa</asp:Label><br />
 
-                               <asp:TextBox ID="txtFCL"  runat="server" CssClass="form-control"></asp:TextBox>
+                               <asp:TextBox ID="txtTaxaTabela"  runat="server" CssClass="form-control"></asp:TextBox>
                                     
                                         </div>
                                          </div>
-                                     <div class="col-sm-2">
-                                    <div class="form-group">                                             
-                                <asp:Label ID="Label9" runat="server">Taxa Inside Sales</asp:Label><br />
-
-                               <asp:TextBox ID="txtInsides"  runat="server" CssClass="form-control"></asp:TextBox>
-                                         
-                                   </div>          
-                                </div>  
+                                     
                                                                           <div class="col-sm-2">
                                     <div class="form-group">                                             
                                 <div class="form-group"><asp:Label ID="Label10" runat="server"></asp:Label><br />
@@ -244,27 +246,27 @@
                                    <div id="divInfo" runat="server" visible="false" class="alert alert-success">
                                         <asp:label ID="lblInfo" Text="" runat="server" />
                                    </div>  
-                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_VENDEDORES" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_INDICADOR" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
+                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                             <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_VENDEDOR" />
                                             <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
-                                            <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
-                                            <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
-                                            <asp:BoundField DataField="VL_TAXA_INSIDE_SALES" HeaderText="TAXA INSIDE SALES" SortExpression="VL_TAXA_INSIDE_SALES" />
+                                            <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
+                                            <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
                                      <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
-                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
+                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                             <asp:TemplateField HeaderText=""  >
                                             <ItemTemplate>
                                                 <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
+                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
@@ -319,7 +321,7 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label11" runat="server">Competência</asp:Label><br />
+                                               <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
@@ -327,15 +329,15 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label36" runat="server">Quinzena</asp:Label><br />
+                                               <asp:Label ID="Label36" runat="server">Quinzena</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtQuinzena" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaQuinzena" runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-4">
                                     <div class="form-group">                                          
                                
-                                               <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><br />
+                                               <asp:Label ID="Label12" runat="server">Data Liquidação(Inicial)</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtLiquidacaoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
@@ -343,7 +345,7 @@
 
                                      <div class="col-sm-4">
                                     <div class="form-group">                                             
-                                <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><br />
+                                <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtLiquidacaoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
                                          
@@ -354,7 +356,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">                                          
                                                <asp:Label ID="Label18" runat="server">Observação</asp:Label><br />
-                               <asp:TextBox ID="TextBox2" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"  MaxLength="100"></asp:TextBox>
+                               <asp:TextBox ID="txtObs" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"  MaxLength="100"></asp:TextBox>
                                         </div>
                                          </div>
       </div>
@@ -372,6 +374,7 @@
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
                                     </Triggers>
                                 </asp:UpdatePanel>
@@ -542,8 +545,13 @@
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+       <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="
+SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,ID_PARCEIRO_VENDEDOR,(SELECT  NM_RAZAO
+                               FROM            dbo.TB_PARCEIRO
+                               WHERE        (ID_PARCEIRO = B.ID_PARCEIRO_VENDEDOR)) AS PARCEIRO_VENDEDOR,VL_TAXA,ID_MOEDA,  (SELECT  NM_MOEDA
+                               FROM            dbo.TB_MOEDA
+                               WHERE        ID_MOEDA =B.ID_MOEDA)MOEDA FROM TB_TAXA_COMISSAO_INDICADOR B"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA">

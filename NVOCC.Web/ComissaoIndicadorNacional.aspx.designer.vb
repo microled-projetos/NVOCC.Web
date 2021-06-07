@@ -122,13 +122,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label35 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle CheckBox1.
+    '''Controle txtQuinzena.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents CheckBox1 As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents txtQuinzena As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label3.
@@ -212,13 +212,22 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle lblContador.
+    '''Controle lblCompetenciaSobrepor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblCompetenciaSobrepor As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblContasReceber.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblContasReceber As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle DivGrid2.
@@ -338,6 +347,24 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents txtIDTabelaTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle Label9.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label9 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlVendedorTabela.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlVendedorTabela As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle Label5.
     '''</summary>
     '''<remarks>
@@ -347,13 +374,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtValidade.
+    '''Controle txtValidadeTabela.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtValidadeTabela As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label7.
@@ -365,13 +392,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtLCL.
+    '''Controle ddlMoedaTabela.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtLCL As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlMoedaTabela As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle Label8.
@@ -383,31 +410,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label8 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtFCL.
+    '''Controle txtTaxaTabela.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFCL As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle Label9.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label9 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle txtInsides.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtInsides As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtTaxaTabela As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label10.
@@ -617,13 +626,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label36 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtQuinzena.
+    '''Controle txtNovaQuinzena.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtQuinzena As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtNovaQuinzena As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label12.
@@ -671,13 +680,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents Label18 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtObs.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtObs As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnGerarComissao.
