@@ -7,8 +7,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR
                     </h3>
-                </div>
-                       
+                </div>                      
                 <div class="panel-body">
                     <br />
     <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" >                        

@@ -1,4 +1,7 @@
 ﻿Imports System.Net
+Imports System.Runtime.Serialization
+Imports Newtonsoft.Json
+
 Public Class Faturamento
     Inherits System.Web.UI.Page
 
@@ -550,6 +553,70 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
         End If
     End Sub
 
+    Private Sub dgvFaturamento_Load(sender As Object, e As EventArgs) Handles dgvFaturamento.Load
+        Dim Con As New Conexao_sql
+        Dim contador As Integer = 0
+        For Each linha As GridViewRow In dgvFaturamento.Rows
+            Dim check As CheckBox = linha.FindControl("ckSelecionar")
+            If check.Checked Then
+                contador = 1
+            End If
+        Next
+        If contador > 0 Then
+            lkBoleto.Visible = True
+        Else
+            lkboleto.Visible = False
+        End If
+
+        If contador = 1 Then
+            lkBaixarFatura.Visible = True
+            lkCancelamento.Visible = True
+            lkDesmosntrativos.Visible = True
+            lkGerarRPS.Visible = True
+            lkNotasFiscais.Visible = True
+
+        Else
+            lkBaixarFatura.Visible = False
+            lkCancelamento.Visible = False
+            lkDesmosntrativos.Visible = False
+            lkGerarRPS.Visible = False
+            lkNotasFiscais.Visible = False
+        End If
+
+    End Sub
+
+    Private Sub btnImprimirBoleto_Click(sender As Object, e As EventArgs) Handles btnImprimirBoleto.Click
+        divErro.Visible = False
+        Dim Con As New Conexao_sql
+        Dim contador As Integer = 0
+        Dim IDs As String = ""
+        For Each linha As GridViewRow In dgvFaturamento.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            Dim check As CheckBox = linha.FindControl("ckSelecionar")
+            If check.Checked Then
+                contador = 1
+                If IDs = "" Then
+                    IDs &= ID
+                Else
+                    IDs &= "," & ID
+
+                End If
+            End If
+        Next
+        If contador = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro!"
+        ElseIf ddlBanco.SelectedValue = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "É necessario selecionar um banco!"
+        Else
+            Call jsonBoleto(IDs)
+
+        End If
+
+    End Sub
+
     Public Function FinalSemana(ByVal data As Date)
         If data.DayOfWeek = DayOfWeek.Saturday Then
             data = DateAdd(DateInterval.Day, 2, data)
@@ -610,5 +677,23 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
     End Function
 
+    Sub jsonBoleto(IDs As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
 
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_RPS FROM TB_FATURAMENTO 
+WHERE ID_FATURAMENTO IN (" & IDs & ")")
+        If ds.Tables(0).Rows.Count > 0 Then
+            Dim boleto As New Boleto()
+            boleto.Banco = ddlBanco.SelectedValue
+            boleto.Nr_rps = New List(Of String)
+
+            For Each linhads As DataRow In ds.Tables(0).Rows
+                'boleto.Nr_rps = New List(Of String) From {"000001","000002"}
+                boleto.Nr_rps.Add(linhads.Item("NR_RPS").ToString())
+            Next
+            JsonConvert.SerializeObject(boleto)
+
+        End If
+    End Sub
 End Class

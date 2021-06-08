@@ -216,7 +216,7 @@
 
     <script src="Content/js/jquery.dataTables.min.js"></script>
 
-    <script>
+    <%--<script>
         $(document).ready(function () {
 
             $('#<%= dgvUsuariosGrupos.ClientID %>').DataTable({
@@ -262,5 +262,5 @@
                 }
             });
         }
-    </script>
+    </script>--%>
 </asp:Content>

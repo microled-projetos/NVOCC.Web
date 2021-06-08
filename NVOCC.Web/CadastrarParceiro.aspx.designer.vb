@@ -302,6 +302,42 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtComplemento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle mpeTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeTaxas As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle btnNao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnNao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel3.
     '''</summary>
     '''<remarks>

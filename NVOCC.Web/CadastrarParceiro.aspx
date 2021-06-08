@@ -195,6 +195,33 @@
                                     </div>
                                 </div>
                             </div>
+                           <ajaxToolkit:ModalPopupExtender id="mpeTaxas" runat="server" PopupControlID="Panel1" TargetControlID="txtID"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+   <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">Taxas</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA INSERIR TAXAS PARA ESSE PARCEIRO?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNao" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSim" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
@@ -569,6 +596,7 @@
                  </div>
               </div>
         </div>
+
         </ContentTemplate>
     <Triggers>
        <asp:AsyncPostBackTrigger ControlID="ddlEvento"  />

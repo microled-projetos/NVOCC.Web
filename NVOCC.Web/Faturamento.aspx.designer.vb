@@ -149,6 +149,15 @@ Partial Public Class Faturamento
     Protected WithEvents lkNotasFiscais As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkBoleto As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle divAuxiliar.
     '''</summary>
     '''<remarks>
@@ -552,6 +561,51 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharSubstituicao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ModalPopupExtender6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender6 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlBanco As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle ddlBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlBanco As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle btnImprimirBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImprimirBoleto As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharBoleto As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle txtResultado.
