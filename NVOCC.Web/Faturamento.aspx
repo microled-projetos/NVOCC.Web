@@ -86,15 +86,13 @@
                            </div>
                        </div>
 
-                       <div class="col-sm-offset-1 col-sm-5">
-                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
-                           <%--                           <asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">TESTE</asp:LinkButton>--%>
-                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
-                           <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
+                       <div class="col-sm-6">
+                           <asp:LinkButton ID="lkFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Fatura</asp:LinkButton>
+                           <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
-                           <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
-                           <asp:LinkButton ID="lkBoleto" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Imprimir Boleto</asp:LinkButton>
+                           <asp:LinkButton ID="lkBoleto" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
+
                        </div>
                    </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
@@ -110,7 +108,7 @@
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_FATURAMENTO") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField>
+                                            <asp:TemplateField >
                                                 <ItemTemplate>
                                                     <asp:CheckBox ID="ckSelecionar" runat="server" Visible='<%# Not IsDBNull(Eval("NR_NOTA_FISCAL")) %>' AutoPostBack="true"></asp:CheckBox>
                                                 </ItemTemplate>
@@ -129,7 +127,7 @@
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
-                                            <asp:TemplateField HeaderText="">
+                                            <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
                                                         CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
@@ -140,6 +138,73 @@
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlFatura" TargetControlID="lkFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OPÇÕES DE FATURA</h5>
+                                                        </div>
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
+                            <div class="row">
+                                   <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                                                                    <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
+                           
+                                        </div>
+                                         </div>
+                                   </div>                                         
+                                </div>  
+                             </div>
+                               <div class="modal-footer">
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharFatura" text="Close" />
+                                                        </div>                                                    
+                                                </div>
+                                       </div>     </center>
+                                </asp:Panel>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlRPS" TargetControlID="lkRPS" CancelControlID="btnFecharRPS" OkControlID="lkGerarRPS"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlRPS" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OPÇÕES DE RPS</h5>
+                                                        </div>
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
+                            <div class="row">
+                                   <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                                                                      <asp:LinkButton ID="lkReenviarRPS" visible="false" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Reenviar RPS</asp:LinkButton>                           
+                                        </div>
+                                         </div>
+                                   </div>                                         
+                                </div>  
+                             </div>
+                               <div class="modal-footer">
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharRPS" text="Close" />
+                                                        </div>                                                    
+                                                </div>
+                                       </div>     </center>
+                                </asp:Panel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlBaixarFatura" TargetControlID="lkBaixarFatura" CancelControlID="btnFecharCancelamento"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBaixarFatura" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -348,8 +413,6 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkBoleto" CancelControlID="btnFecharBoleto"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBanco" runat="server" CssClass="modalPopup" Style="display: none;">

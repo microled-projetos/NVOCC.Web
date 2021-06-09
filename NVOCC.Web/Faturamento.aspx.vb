@@ -556,10 +556,19 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
     Private Sub dgvFaturamento_Load(sender As Object, e As EventArgs) Handles dgvFaturamento.Load
         Dim Con As New Conexao_sql
         Dim contador As Integer = 0
+        Dim IDs As String = ""
+
         For Each linha As GridViewRow In dgvFaturamento.Rows
             Dim check As CheckBox = linha.FindControl("ckSelecionar")
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             If check.Checked Then
-                contador = 1
+                contador = contador + 1
+                If IDs = "" Then
+                    IDs &= ID
+                Else
+                    IDs &= "," & ID
+
+                End If
             End If
         Next
         If contador > 0 Then
@@ -569,17 +578,57 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
         End If
 
         If contador = 1 Then
-            lkBaixarFatura.Visible = True
-            lkCancelamento.Visible = True
+            lkFatura.Visible = True
             lkDesmosntrativos.Visible = True
-            lkGerarRPS.Visible = True
+            lkRPS.Visible = True
             lkNotasFiscais.Visible = True
+            txtID.Text = IDs
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+                    lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    lblProcessoBaixa.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    lblProcessoSubs.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
+                    lblClienteCancelamento.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
+                    lblClienteBaixa.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
+                    lblClienteSubs.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                    lblNumeroNota.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                    lkNotasFiscais.Visible = True
+                Else
+                    lkNotasFiscais.Visible = False
+                End If
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")) Then
+                    lblDataEmissao.Text = ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")) Then
+                    Session("ID_CONTA_PAGAR_RECEBER") = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_NOTA_DEBITO")) Then
+                    Dim ValorExtenso As New ValorExtenso
+                    Session("ValorExtenso") = ValorExtenso.NumeroToExtenso(ds.Tables(0).Rows(0).Item("VL_NOTA_DEBITO"))
+                    Dim VL As String = ds.Tables(0).Rows(0).Item("VL_NOTA_DEBITO").ToString
+                    VL = VL.Replace(".", "")
+                    VL = VL.Replace(",", ".")
+
+                    Session("Valor") = VL
+                End If
+
+
+            End If
+            Con.Fechar()
         Else
-            lkBaixarFatura.Visible = False
-            lkCancelamento.Visible = False
+            lkFatura.Visible = False
             lkDesmosntrativos.Visible = False
-            lkGerarRPS.Visible = False
+            lkRPS.Visible = False
             lkNotasFiscais.Visible = False
         End If
 
@@ -696,4 +745,6 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
         End If
     End Sub
+
+
 End Class
