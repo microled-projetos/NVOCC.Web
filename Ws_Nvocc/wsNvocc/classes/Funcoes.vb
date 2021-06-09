@@ -475,6 +475,39 @@ Public Class Funcoes
         End Try
     End Sub
 
+
+    Public Function ObtemCertificado(codEmpresa As Long) As X509Certificate2Collection
+        Dim rsEmpresa As New DataSet
+        Try
+
+            rsEmpresa = Con.ExecutarQuery("SELECT NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA =" & codEmpresa)
+
+
+
+            If rsEmpresa.Tables(0).Rows(0).Item("NOME_CERTIFICADO").ToString <> "" Then
+                nomeCertificado = rsEmpresa.Tables(0).Rows(0).Item("NOME_CERTIFICADO").ToString
+            End If
+
+            Dim subject As String = String.Empty
+            Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
+            Dim X509Certificate As New X509Certificate2
+            Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+            getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
+
+            objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
+            ' objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySerialNumber, nomeCertificado, False)
+
+            'objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find()
+
+            Return objColecaoCertificadosX509
+        Catch ex As Exception
+            Err.Clear()
+            Return Nothing
+        End Try
+
+    End Function
+
+
     Public Sub AssinarDocumentoXML(ByVal ArqXMLAssinar As String, ByVal TagXML As String, Optional Cod_Empresa As Integer = 1)
 
         'XML que sera assinado

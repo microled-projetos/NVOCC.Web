@@ -240,7 +240,7 @@ Public Class WsNvocc
             End If
 
 
-            Call EnviaXML(nomeArquivo, "LOTE-RPS", loteNumero)
+            Call EnviaXML(nomeArquivo, "LOTE-RPS", loteNumero, Cod_Empresa)
 
 
         Catch ex As Exception
@@ -611,7 +611,7 @@ Public Class WsNvocc
     Public Shared Function AcceptAllCertifications(ByVal sender As Object, ByVal certification As System.Security.Cryptography.X509Certificates.X509Certificate, ByVal chain As System.Security.Cryptography.X509Certificates.X509Chain, ByVal sslPolicyErrors As System.Net.Security.SslPolicyErrors) As Boolean
         Return True
     End Function
-    Public Sub EnviaXML(ByVal DocXml As String, ByVal tipo As String, ByVal loteNumero As Long)
+    Public Sub EnviaXML(ByVal DocXml As String, ByVal tipo As String, ByVal loteNumero As Long, codEmpresa As Long)
         Dim nomeArq As String
         Dim docRetorno As New XmlDocument
         Dim retProtocolo As String
@@ -626,6 +626,8 @@ Public Class WsNvocc
         Dim ConteudoArquixoXML As String
         Dim objXML As New XmlDocument
         Dim client As New NFSe_Homologa.ServiceGinfesImplClient 'NFsE_Santos.ServiceGinfesImplClient
+        'Dim client As New NFsE_Santos.ServiceGinfesImplClient
+        client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
         Dim docCab As New XmlDocument
         Dim Retorno
         Dim seqGR As String = ""
@@ -981,7 +983,7 @@ saida:
 
 
 
-            Call EnviaXML(nomeArquivo, "CONSULTA-RPS", numeroLote)
+            Call EnviaXML(nomeArquivo, "CONSULTA-RPS", numeroLote, Cod_Empresa)
 
 
         Catch ex As Exception
@@ -1070,7 +1072,7 @@ saida:
 
             End If
 
-            Call EnviaXML(nomeArquivo, "CONSULTA-RPS-", numeroLote)
+            Call EnviaXML(nomeArquivo, "CONSULTA-RPS-", numeroLote, Cod_Empresa)
 
 
         Catch ex As Exception
@@ -1162,7 +1164,7 @@ saida:
             End If
 
 
-            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote, Cod_Empresa)
 
 
         Catch ex As Exception
@@ -1231,7 +1233,7 @@ saida:
             End If
 
 
-            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote, 1)
 
 
         Catch ex As Exception
@@ -1275,7 +1277,7 @@ saida:
             docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & docCa.OuterXml)
             docAssinado.Save(nomeArquivo)
 
-            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote)
+            Call EnviaXML(nomeArquivo, "CANCELAMENTO", numeroLote, Cod_Empresa)
         Catch ex As Exception
             If Not Funcoes.modoAutomatico Then
                 MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")
