@@ -59,9 +59,7 @@
             txtTaxas.Text = ds.Tables(0).Rows(0).Item("NM_TAXAS_INCLUDED").ToString()
 
             txtValidadeFinal.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_FINAL").ToString()
-            'Dim DATA As Date = ds.Tables(0).Rows(0).Item("DT_VALIDADE_FINAL")
-            'DATA = DATA.ToString("dd-MM-yyyy")
-            'txtValidadeFinal.Text = DATA
+
 
             ddlViaTransporte.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE").ToString()
 
@@ -105,13 +103,10 @@
         Dim ds As DataSet
 
 
-        If ddlTransportador.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or ddlMoeda.SelectedValue = 0 Or ddlTipoCarga.SelectedValue = 0 Or ddlRota.SelectedValue = 0 Or ddlComex.SelectedValue = 0 Or txtTransittimeInicial.Text = "" Or txtTransittimeFinal.Text = "" Or ddlFrequencia.SelectedIndex = 0 Or txtValidadeFinal.Text = "" Then
+        If ddlTransportador.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or ddlMoeda.SelectedValue = 0 Or ddlTipoCarga.SelectedValue = 0 Or ddlRota.SelectedValue = 0 Or ddlComex.SelectedValue = 0 Or txtTransittimeInicial.Text = "" Or txtTransittimeFinal.Text = "" Or ddlFrequencia.SelectedIndex = 0 Then
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 
-        ElseIf v.ValidaData(txtValidadeFinal.Text) = False Then
-            diverro.Visible = True
-            lblmsgErro.Text = "A data de validade final é inválida."
 
         ElseIf ddlRota.SelectedValue = 2 And ESCALA1 = 0 Then
             diverro.Visible = True
@@ -144,7 +139,7 @@
 
                 Else
                     'INSERE FRETE TRANSPORTADOR
-                    ds = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA,NM_TAXAS_INCLUDED, FL_ATIVO, DT_VALIDADE_FINAL,ID_VIATRANSPORTE) VALUES (" & ddlTransportador.SelectedValue & "," & ddlAgente.SelectedValue & "," & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & ", " & ddlEscala1.SelectedValue & ", " & ddlEscala2.SelectedValue & ", " & ddlEscala3.SelectedValue & "," & ddlMoeda.SelectedValue & ", " & ddlTipoCarga.SelectedValue & ", " & ddlRota.SelectedValue & ", " & ddlComex.SelectedValue & ",'" & txtTransittimeInicial.Text & "','" & txtTransittimeFinal.Text & "','" & TTMedia & "'," & ddlFrequencia.SelectedIndex & "," & TaxasIncluded & ",'" & ckbAtivo.Checked & "',convert(date,'" & txtValidadeFinal.Text & "',103)," & ddlViaTransporte.SelectedValue & " ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_FRETE_TRANSPORTADOR ( ID_TRANSPORTADOR, ID_AGENTE, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_PORTO_ESCALA,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3, ID_MOEDA_FRETE, ID_TIPO_CARGA, ID_VIA_ROTA, ID_TIPO_COMEX, QT_DIAS_TRANSITTIME_INICIAL, QT_DIAS_TRANSITTIME_FINAL, QT_DIAS_TRANSITTIME_MEDIA, ID_TIPO_FREQUENCIA,NM_TAXAS_INCLUDED, FL_ATIVO,ID_VIATRANSPORTE) VALUES (" & ddlTransportador.SelectedValue & "," & ddlAgente.SelectedValue & "," & ddlOrigem.SelectedValue & " ," & ddlDestino.SelectedValue & ", " & ddlEscala1.SelectedValue & ", " & ddlEscala2.SelectedValue & ", " & ddlEscala3.SelectedValue & "," & ddlMoeda.SelectedValue & ", " & ddlTipoCarga.SelectedValue & ", " & ddlRota.SelectedValue & ", " & ddlComex.SelectedValue & ",'" & txtTransittimeInicial.Text & "','" & txtTransittimeFinal.Text & "','" & TTMedia & "'," & ddlFrequencia.SelectedIndex & "," & TaxasIncluded & ",'" & ckbAtivo.Checked & "'," & ddlViaTransporte.SelectedValue & " ) Select SCOPE_IDENTITY() as ID_FRETE_TRANSPORTADOR ")
 
                     'PREENCHE SESSÃO E CAMPOS DO TARIFARIO E DA TAXA COM O ID DO NOVO FRETE TRANSPORTADOR
                     Session("ID_FRETE_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
@@ -158,7 +153,9 @@
                     ImportaTaxas()
                     dgvTaxas.DataBind()
 
-
+                    If txtValidadeFinal.Enabled = True And txtValidadeFinal.Text <> "" Then
+                        Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = " & txtValidadeFinal.Text & " WHERE ID_FRETE_TRANSPORTADOR  = " & Session("ID_FRETE_TRANSPORTADOR"))
+                    End If
                     divsuccess.Visible = True
 
                 End If
@@ -176,9 +173,11 @@
                 Else
 
                     'REALIZA UPDATE DO FRETE TRANSPORTADOR
-                    ds = Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "', DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal.Text & "',103), ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
+                    ds = Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "',ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
 
-
+                    If txtValidadeFinal.Enabled = True And txtValidadeFinal.Text <> "" Then
+                        Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = CONVERT(DATE,'" & txtValidadeFinal.Text & "',103) WHERE ID_FRETE_TRANSPORTADOR  = " & txtID_FreteTransportador.Text)
+                    End If
                     divsuccess.Visible = True
                     Con.Fechar()
 
@@ -263,6 +262,8 @@
 
     Private Sub dgvFreteTarifario_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFreteTarifario.RowCommand
         divMsgExcluir.Visible = False
+        divInfoTarifario.Visible = False
+
         divMsgErro.Visible = False
         Dim ds As DataSet
         Dim Con As New Conexao_sql
@@ -313,7 +314,7 @@ WHERE B.ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
                     'DATA = DATA.ToString("dd-MM-yyyy")
                     'txtValidadeInicial.Text = DATA
                     txtFreetime.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FREETIME")
-                    txtValidadeFinal_Tarifario.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_FINAL")
+                    txtValidadeFinal_Tarifario.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_FINAL").ToString()
                 End If
 
                 If ds.Tables(0).Rows(0).Item("ID_TIPO_COMEX").ToString() = 2 Then
@@ -418,6 +419,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
         txtValorMinimo.Text = ""
         ddlContainer.SelectedValue = 0
         txtValidadeInicial.Text = ""
+        txtValidadeFinal_Tarifario.Text = ""
         txtFreetime.Text = ""
         ddlMercadoria.SelectedValue = 0
         txtservico.Text = ""
@@ -447,6 +449,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
     Private Sub btnSalvarTarifario_Click(sender As Object, e As EventArgs) Handles btnSalvarTarifario.Click
         divErroTarifario.Visible = False
         divSuccessTarifario.Visible = False
+        divInfoTarifario.Visible = False
         Dim estufagem As Integer
 
 
@@ -507,12 +510,21 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
         ElseIf estufagem = 2 And txtValorCompra.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+
             Exit Sub
         ElseIf estufagem = 2 And txtValorMinimo.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+
             Exit Sub
+
+
         Else
+            If estufagem = 2 And txtValidadeFinal.Text = "" Then
+                lblInfoTarifario.Text = "Data de Validade na aba de Informaçoes Básicas não informada!"
+                divInfoTarifario.Visible = True
+                txtValidadeFinal.Enabled = True
+            End If
 
 
 
@@ -564,10 +576,15 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
                         'INSERE TARIFARIO
                         ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM, VL_COMPRA, VL_MINIMO,FL_IMO,FL_CARGA_ESPECIAL,VL_M3_INICIAL,VL_M3_FINAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & estufagem & ",'" & txtValorCompra.Text & "','" & txtValorMinimo.Text & "','" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "','" & txtM3Inicial.Text & "', '" & txtM3Final.Text & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & " )")
+                        txtValidadeFinal.Enabled = True
                     Else
                         'INSERE TARIFARIO
                         ds = Con.ExecutarQuery("INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_CONTAINER,ID_TIPO_ESTUFAGEM,DT_VALIDADE_INICIAL,DT_VALIDADE_FINAL,VL_COMPRA, QT_DIAS_FREETIME,FL_IMO,FL_CARGA_ESPECIAL,ID_MERCADORIA,SERVICO ) VALUES (" & txtFreteTransportadorTarifario.Text & "," & ddlContainer.SelectedValue & "," & estufagem & " , convert(date,'" & txtValidadeInicial.Text & "',103),convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103),'" & txtValorCompra.Text & "' ," & txtFreetime.Text & ",'" & ckbIMO.Checked & "','" & ckbCargaEspecial.Checked & "', " & ddlMercadoria.SelectedValue & ", " & txtservico.Text & ")")
+                        Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = (SELECT MAX(DT_VALIDADE_FINAL) FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text & ") WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text)
                     End If
+
+
+
 
                     txtIDTarifario.Text = ""
                     txtEstufagem.Text = ""
@@ -611,7 +628,10 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                     Else
                         'ALTERA TARIFARIO
                         ds = Con.ExecutarQuery("UPDATE TB_TARIFARIO_FRETE_TRANSPORTADOR SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTarifario.Text & ", ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " ,ID_TIPO_ESTUFAGEM = " & estufagem & ",DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicial.Text & "',103),DT_VALIDADE_FINAL = convert(date,'" & txtValidadeFinal_Tarifario.Text & "',103), VL_COMPRA = '" & txtValorCompra.Text & "', QT_DIAS_FREETIME = " & txtFreetime.Text & ",FL_IMO = '" & ckbIMO.Checked & "',FL_CARGA_ESPECIAL =  '" & ckbCargaEspecial.Checked & "', ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", SERVICO = " & txtservico.Text & " WHERE ID_TARIFARIO_FRETE_TRANSPORTADOR = " & txtIDTarifario.Text)
+
+                        Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = (SELECT MAX(DT_VALIDADE_FINAL) FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text & ") WHERE ID_FRETE_TRANSPORTADOR  = " & txtFreteTransportadorTarifario.Text)
                     End If
+
 
                     dgvFreteTarifario.DataBind()
                     divSuccessTarifario.Visible = True

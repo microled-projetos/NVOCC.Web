@@ -50,13 +50,22 @@ Partial Public Class BuscaFreteTransportador
     Protected WithEvents ocean As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlDestinoOcena.
+    '''Controle ddlOrigemOcean.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlDestinoOcena As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlOrigemOcean As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlDestinoOcean.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDestinoOcean As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlTransportadorOcean.

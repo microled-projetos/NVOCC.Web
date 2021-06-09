@@ -574,6 +574,7 @@ VALUES (
                             SQL = SQL.Replace("#filtro", FILTRO)
                             ds = Con.ExecutarQuery(SQL)
                             Dim ID_Parceiro As String = ds.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString()
+                            Session("ID_Parceiro") = ID_Parceiro
 
                             If txtNomeContato.Text = "" And txtTelContato.Text = "" And txtEmailContato.Text = "" And txtDepartamento.Text = "" Then
                                 divInformativa.Visible = True
@@ -672,6 +673,8 @@ VALUES (
                             Con.Fechar()
                             Call Limpar(Me)
                             divmsg.Visible = True
+                            mpeTaxas.Show()
+
                         End If
                     End If
 
@@ -903,6 +906,7 @@ EMAIL =  " & txtEmailParceiro.Text & ",
 FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
 FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
 where ID_PARCEIRO = " & ID)
+                            Session("ID_Parceiro") = ID
 
                             SQL = SQL.Replace("#filtro", FILTRO)
                             Con.ExecutarQuery(SQL)
@@ -988,6 +992,7 @@ where ID_PARCEIRO = " & ID)
                             Call Limpar(Me)
                             Con.Fechar()
                             divmsg.Visible = True
+                            mpeTaxas.Show()
 
                         End If
                     End If
@@ -1000,7 +1005,6 @@ where ID_PARCEIRO = " & ID)
     End Sub
 
     Public Sub Limpar(ByVal controlP As Control)
-
         Dim ctl As Control
 
         For Each ctl In controlP.Controls
@@ -1173,5 +1177,15 @@ where ID_PARCEIRO = " & ID)
             lblRed.Visible = False
             lblRed2.Visible = False
         End If
+    End Sub
+
+    Private Sub btnSim_Click(sender As Object, e As EventArgs) Handles btnSim.Click
+        If ckbTransportador.Checked = True Then
+            Response.Redirect("TaxasLocaisArmador.aspx?id=" & Session("ID_Parceiro"))
+        Else
+            Response.Redirect("TaxaParceiro.aspx?id=" & Session("ID_Parceiro"))
+
+        End If
+
     End Sub
 End Class

@@ -132,8 +132,8 @@
 
         <ajaxToolkit:ModalPopupExtender id="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar"  CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
    <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
-                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="modalMercaoriaNova">Exportar</h5>
                                                         </div>
@@ -197,6 +197,8 @@
                                         <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="false" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_INICIAL"/>
                                         <asp:BoundField DataField="DT_VALIDADE_FINAL" HeaderText="Validade Final" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_FINAL" />
+                                        <asp:BoundField DataField="PORTO_ORIGEM" HeaderText="Origem" ReadOnly="true" SortExpression="PORTO_ORIGEM" />
+                                        <asp:BoundField DataField="PORTO_DESTINO" HeaderText="Destino" ReadOnly="true" SortExpression="PORTO_DESTINO" />
                                          <asp:BoundField DataField="Transportador" HeaderText="Transportador" ReadOnly="true" SortExpression="Transportador" />
                                         <asp:BoundField DataField="NM_FANTASIA" HeaderText="Agente" ReadOnly="true" SortExpression="NM_FANTASIA" />
                                         <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />
@@ -237,9 +239,9 @@
         selectcommand="SELECT A.ID_FRETE_TRANSPORTADOR as Id ,A.ID_TRANSPORTADOR,G.NM_FANTASIA Transportador, A.ID_AGENTE, F.NM_FANTASIA,A.ID_PORTO_ORIGEM,D.NM_PORTO as PORTO_ORIGEM,A.ID_PORTO_DESTINO,E.NM_PORTO as PORTO_DESTINO,A.QT_DIAS_TRANSITTIME_INICIAL,A.QT_DIAS_TRANSITTIME_FINAL,A.QT_DIAS_TRANSITTIME_MEDIA,A.FL_ATIVO,A.DT_VALIDADE_FINAL, 
 case when A.FL_Ativo = 1 then 'Sim' else 'Não' end as Ativo,
 
-(select MAX( C.NM_TIPO_CONTAINER + ':' + CAST(B.VL_COMPRA AS VARCHAR))AS Tarifario from TB_TARIFARIO_FRETE_TRANSPORTADOR B
-LEFT JOIN TB_TIPO_CONTAINER C  on C.ID_TIPO_CONTAINER = B.ID_TIPO_CONTAINER
-WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS Tarifario,
+(SELECT TIPO_CONTAINER FROM [View_Tarifario_Transportador] B
+WHERE B.ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS Tarifario,
+
 
 (select MAX( DT_VALIDADE_INICIAL)AS DT_VALIDADE_INICIAL from TB_TARIFARIO_FRETE_TRANSPORTADOR B
 WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS DT_VALIDADE_INICIAL,

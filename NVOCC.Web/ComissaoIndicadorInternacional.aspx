@@ -140,8 +140,8 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlComissoes" TargetControlID="lkComissoes" CancelControlID="btnFecharComissoes" OkControlID="lkTabelaComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">COMISSÕES</h5>
                                                         </div>
@@ -492,8 +492,8 @@
                                  <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>

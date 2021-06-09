@@ -176,8 +176,8 @@
                                 </div>         </div><div class="row">                      
                                  <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="control-label">Validade Final:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                        <label class="control-label">Validade Final:</label>
+                                        <asp:TextBox ID="txtValidadeFinal" runat="server" Enabled="false" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>    <div class="col-sm-6">
                                     <div class="form-group">
@@ -208,6 +208,7 @@
     <Triggers>
        <asp:AsyncPostBackTrigger ControlID="ddlRota" />
         <ASP:PostBackTrigger ControlID="btnGravar" />
+               <asp:AsyncPostBackTrigger ControlID="btnSalvarTarifario" />
     </Triggers>
 </asp:UpdatePanel>
                         </div>
@@ -232,8 +233,9 @@
                                     <div class="alert alert-danger" ID="divErroTarifario" runat="server" visible="false">
                                         <asp:label ID="lblmsgErroTarifario" runat="server"></asp:label>
                                     </div>
-
-
+                                   <div class="alert alert-info" ID="divInfoTarifario" runat="server" visible="false">
+                                        <asp:label ID="lblInfoTarifario" runat="server"></asp:label>
+                                    </div>
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
@@ -257,7 +259,7 @@
                                  <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Valor da Compra:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValorCompra" runat="server" CssClass="form-control moeda" ></asp:TextBox>
+                                        <asp:TextBox ID="txtValorCompra" runat="server" CssClass="form-control moeda" maxlength="15" ></asp:TextBox>
                                                                           </div>
                                 </div>
 
@@ -358,13 +360,13 @@
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3 (Inicial):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtM3Inicial" runat="server" CssClass="form-control moeda" ></asp:TextBox>
+                                        <asp:TextBox ID="txtM3Inicial" runat="server" CssClass="form-control moeda" maxlength="13"></asp:TextBox>
                                       </div>
                                  </div>
                                      <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3 (Final):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtM3Final" runat="server" CssClass="form-control moeda" ></asp:TextBox>
+                                        <asp:TextBox ID="txtM3Final" runat="server" CssClass="form-control moeda" maxlength="13"></asp:TextBox>
                                   </div>
                               
                              </div>                               
@@ -372,7 +374,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Mínimo:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValorMinimo" runat="server" CssClass="form-control moeda" ></asp:TextBox>
+                                        <asp:TextBox ID="txtValorMinimo" runat="server" CssClass="form-control moeda" maxlength="15"></asp:TextBox>
                                   </div>
                                 </div>
                                
@@ -417,6 +419,8 @@
                               <div class="alert alert-success" id="divMsgExcluir" runat="server" visible="false">                                       
                       <asp:label ID="lblMsgExcluir" runat="server"  /> 
                   </div>
+                                  
+
          <div class="alert alert-danger" id="divMsgErro" runat="server" visible="false">                                       
                       <asp:label ID="Label1" runat="server"  /> 
                   </div>
@@ -460,6 +464,7 @@
  <Triggers>
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTarifario" />
                  <asp:AsyncPostBackTrigger ControlID="btnFecharTarifario" />
+     
 
      </Triggers>   
      </asp:UpdatePanel>

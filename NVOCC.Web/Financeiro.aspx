@@ -105,8 +105,8 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="pnlContasPagar" TargetControlID="lkContasPagar" CancelControlID="btnFecharContasPagar"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlContasPagar" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A PAGAR</h5>
                                                         </div>
@@ -155,8 +155,8 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlContasReceber" TargetControlID="lkContasReceber" CancelControlID="btnFecharContasReceber"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlContasReceber" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTAS A RECEBER</h5>
                                                         </div>
@@ -216,8 +216,8 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlIntegracao" TargetControlID="lkIntegracao" CancelControlID="btnFecharIntegracao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlIntegracao" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">INTEGRAÇÃO TOTVS</h5>
                                                         </div>
@@ -260,8 +260,8 @@
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlIndicadores" TargetControlID="lkIndicadores" CancelControlID="btnFecharIndicadores"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlIndicadores" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" style="width:300px">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">INDICADORES</h5>
                                                         </div>

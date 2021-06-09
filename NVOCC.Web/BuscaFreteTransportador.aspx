@@ -7,8 +7,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR
                     </h3>
-                </div>
-                       
+                </div>                      
                 <div class="panel-body">
                     <br />
     <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" >                        
@@ -25,11 +24,15 @@
                                                                                           
                                     <div id="ocean" runat="server" visible="false">
                                         <div class="row">
-                                            
+                                             <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Porto de Origem:</label>
+                                        <asp:DropDownList ID="ddlOrigemOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                </div>
                                             <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Porto:</label>
-                                        <asp:DropDownList ID="ddlDestinoOcena" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <label class="control-label">Porto de Destino:</label>
+                                        <asp:DropDownList ID="ddlDestinoOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                 
 
@@ -47,13 +50,13 @@
                                 </div>
                                         <div class="row">--%>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Validade de:</label>
                                         <asp:TextBox ID="txtDataInicial" runat="server" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                 <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">até:</label>
                                         <asp:TextBox ID="txtDataFinal" runat="server" CssClass="form-control data" ></asp:TextBox>

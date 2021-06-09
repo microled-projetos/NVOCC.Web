@@ -329,6 +329,24 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents lblmsgErroTarifario As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divInfoTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoTarifario As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoTarifario As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtIDTarifario.
     '''</summary>
     '''<remarks>

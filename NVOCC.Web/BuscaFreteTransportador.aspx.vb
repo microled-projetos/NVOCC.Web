@@ -52,13 +52,13 @@ WHERE ID_TRANSPORTADOR = " & ddlTransportadorLocais.SelectedValue & " AND ID_POR
         If v.ValidaData(txtDataFinal.Text) = False Or v.ValidaData(txtDataInicial.Text) = False Then
             divErro.Visible = True
             lblmsgErro.Text = "Data Inválida."
-        ElseIf ddlTransportadorOcean.SelectedValue = 0 Or ddlDestinoOcena.SelectedValue = 0 Then 'Or ddlContainer.SelectedValue = 0
+        ElseIf ddlTransportadorOcean.SelectedValue = 0 Or ddlDestinoOcean.SelectedValue = 0 Then 'Or ddlContainer.SelectedValue = 0
             lblmsgErro.Text = "Preencha os filtros para pesquisar"
             diverro.Visible = True
 
         Else
-            Dim sql As String = " SELECT * FROM [dbo].[View_Taxas_locais_Armador]
-WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORTO = " & ddlDestinoOcena.SelectedValue & " AND DT_VALIDADE_INICIAL BETWEEN '" & txtDataInicial.Text & "' AND '" & txtDataFinal.Text & "' order by VL_TAXA_LOCAL_COMPRA"
+            Dim sql As String = "SELECT * FROM [dbo].[View_Taxas_locais_Armador]
+WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORTO = " & ddlDestinoOcean.SelectedValue & " AND DT_VALIDADE_INICIAL BETWEEN  convert(date,'" & txtDataInicial.Text & "',103) AND  convert(date,'" & txtDataFinal.Text & "',103) order by VL_TAXA_LOCAL_COMPRA"
             dsTaxas.SelectCommand = sql
             dgvTaxas.DataBind()
             DivGrid.Visible = True

@@ -1,4 +1,5 @@
-﻿Public Class Conexao_sql
+﻿Imports System.Data.SqlClient
+Public Class Conexao_sql
 
     Private ObjCon As SqlClient.SqlConnection
     Public Sub Conectar()
@@ -40,5 +41,28 @@
 
         Return ds
 
+    End Function
+    Public Shared Function List(ByVal SQL As String) As DataTable
+        Dim Ds As DataSet = New DataSet()
+
+        Using Con As SqlConnection = New SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+
+            Using Cmd As SqlCommand = New SqlCommand()
+                Cmd.CommandTimeout = 120000
+                Cmd.Connection = Con
+                Cmd.CommandType = CommandType.Text
+                Cmd.CommandText = SQL
+
+                Using Adp As SqlDataAdapter = New SqlDataAdapter(Cmd)
+                    Adp.Fill(Ds)
+
+                    If Ds.Tables(0).Rows.Count > 0 Then
+                        Return Ds.Tables(0)
+                    Else
+                        Return Nothing
+                    End If
+                End Using
+            End Using
+        End Using
     End Function
 End Class
