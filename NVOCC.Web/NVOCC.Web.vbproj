@@ -252,6 +252,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
@@ -366,6 +367,7 @@
     <Content Include="EmissaoND.aspx" />
     <Content Include="Faturamento.aspx" />
     <Content Include="FaturarRecebimento.aspx" />
+    <Content Include="FechamentoCambio.aspx" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -531,6 +533,13 @@
     <None Include="Web References\NotaFiscal\WsNvocc.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account.aspx.designer.vb">
+      <DependentUpon>Account.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account.aspx.vb">
+      <DependentUpon>Account.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="BaixarComissao.aspx.designer.vb">
@@ -706,6 +715,13 @@
     <Compile Include="FaturarRecebimento.aspx.vb">
       <DependentUpon>FaturarRecebimento.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FechamentoCambio.aspx.designer.vb">
+      <DependentUpon>FechamentoCambio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FechamentoCambio.aspx.vb">
+      <DependentUpon>FechamentoCambio.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Financeiro.aspx.designer.vb">
       <DependentUpon>Financeiro.aspx</DependentUpon>
