@@ -11,6 +11,7 @@ Public Class Banco
     Private Shared _BancoOPERADOR As String
     Private Shared _BancoFATURA As String
     Private Shared _BancoSAPIENS As String
+    Private Shared _BancoNVOCC As String
     Private Shared _Empresa As Integer = 1
     Private Shared _Patios As String
     Private Shared _UsuarioSistema As Integer = 0
@@ -98,6 +99,22 @@ Public Class Banco
         End Set
     End Property
 
+    Public Shared Property BancoNVOCC As String
+        Get
+            Return _BancoNVOCC
+        End Get
+        Set(ByVal value As String)
+            _BancoNVOCC = value
+        End Set
+    End Property
+    Public Shared Property TipoUsuario As Integer
+        Get
+            Return _TipoUsuario
+        End Get
+        Set(ByVal value As Integer)
+            _TipoUsuario = value
+        End Set
+    End Property
     Public Shared Property Empresa() As Integer
         Get
             Return _Empresa

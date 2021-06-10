@@ -120,7 +120,7 @@
         $(document).ready(function () {
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/listarProcessos",
+                url: "Gerencial.asmx/listarProcessos",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -134,8 +134,8 @@
                         $("#containerCourrier").empty();
                         for (let i = 0; i < dado.length; i++) {
                             $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CARRIER"] + "</td><td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td><td class='text-center'></td>" +
-                                "<td class='text-center'></td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CARRIER"] + "</td><td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["QTDE20"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTDE40"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["DTABERTURA"] + "</td><td class='text-center'>" + dado[i]["ETD"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETA"] + "</td><td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DATARECEBIMENTO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td > <td class='text-center'>" + dado[i]["AGENTECARGA"] + "</td><td class='text-center'>" + dado[i]["NMCOMISSARIA"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +

@@ -518,6 +518,15 @@ Partial Public Class Faturamento
     Protected WithEvents lkVisualizarNota As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkConsultaNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkConsultaNotas As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle btnFecharNotas.
     '''</summary>
     '''<remarks>
@@ -680,6 +689,159 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharBoleto As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle ModalPopupExtender9.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender9 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle UpdatePanel2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel2 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle pnlConsultaNota.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlConsultaNota As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle divErroConsultasNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroConsultasNotas As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroConsultasNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroConsultasNotas As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtConsultaNotaInicio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaNotaInicio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaNotaFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaNotaFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaRPSInicio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaRPSInicio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaRPSFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaRPSFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaVencimentoInicio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaVencimentoInicio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaVencimentoFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaVencimentoFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaPagamentoInicio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaPagamentoInicio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtConsultaPagamentoFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsultaPagamentoFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlStatusConsultaNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlStatusConsultaNotas As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlCliente As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle btnConsultaNotas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnConsultaNotas As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnFecharConsulta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharConsulta As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle txtResultado.
     '''</summary>
     '''<remarks>
@@ -714,4 +876,13 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsClientes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsClientes As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

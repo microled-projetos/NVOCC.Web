@@ -134,7 +134,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitleNovo">TAXAS LOCAIS ARMADOR</h5>
+                                                            <h5 class="modal-title">TAXAS LOCAIS ARMADOR</h5>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccessNovo" runat="server" visible="false">

@@ -358,7 +358,7 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">NCM:</label>
-                                                                                <asp:DropDownList ID="ddlNCM_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="AP_NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
+                                                                                <asp:DropDownList ID="ddlNCM_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-4">
@@ -1225,7 +1225,7 @@ VENDAS:
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">NCM:</label>
-                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="AP_NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
+                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -1742,7 +1742,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_ORIGEM_PAGAMENTO] ORDER BY ID_ORIGEM_
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsNCM" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_NCM,AP_NCM FROM [dbo].[TB_NCM]
+        SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE CD_NCM IS NOT NULL AND NM_NCM IS NOT NULL
 union SELECT 0, 'Selecione' FROM [dbo].[TB_NCM] ORDER BY ID_NCM"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

@@ -52,8 +52,8 @@
 
 Rua quinze de novembro, 46/48 - Centro<br/>
 Santos - SP - BRASIL<br/>
-Fone:<br/>
-CNPJ:<br/><br/>
+Fone:(13) 3797-7850<br/>
+CNPJ:00.639.367/0003-11<br/><br/>
 Cliente: <asp:label runat="server" ID="lblCliente" class="control-label" /><br/>
 CNPJ:<asp:label runat="server" ID="lblCnpjCliente" class="control-label" /><br/><br/>
 Prezado,  <asp:label runat="server" ID="lblNome" class="control-label" />

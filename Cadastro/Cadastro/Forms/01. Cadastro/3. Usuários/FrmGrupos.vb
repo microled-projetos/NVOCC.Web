@@ -168,18 +168,6 @@ Public Class FrmGrupos
         HabilitarCampos(Me, False)
     End Sub
 
-    Private Sub btImprimir_Click(sender As System.Object, e As System.EventArgs)
-
-        If dgvConsulta.Rows.Count = 0 Then
-            MessageBox.Show("Não existem registros a serem impressos.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
-        End If
-
-        Dim FrmImprimir As New FrmImpressao(Me.Text, Me.dgvConsulta, Me)
-        FrmImprimir.ShowDialog()
-
-    End Sub
-
     Private Sub FrmAgencias_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
         If e.KeyCode = Keys.Escape Then
