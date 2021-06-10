@@ -98,6 +98,10 @@ Public Class Faturamento
 
         ddlFiltro.SelectedValue = 0
         txtPesquisa.Text = ""
+        lkFatura.Visible = True
+        lkDesmosntrativos.Visible = True
+        lkRPS.Visible = True
+        lkNotasFiscais.Visible = True
     End Sub
 
     Private Sub ddlFiltro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltro.SelectedIndexChanged
@@ -746,5 +750,99 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         End If
     End Sub
 
+    Private Sub btnConsultaNotas_Click(sender As Object, e As EventArgs) Handles btnConsultaNotas.Click
+        Dim filtro As String = ""
 
+        If ddlCliente.SelectedValue <> 0 Then
+            Dim nome As String = ddlCliente.SelectedItem.Text
+            filtro &= " AND NM_CLIENTE = '" & nome & "' "
+
+        End If
+        If ddlStatusConsultaNotas.SelectedValue <> 0 Then
+            If ddlStatusConsultaNotas.SelectedValue = 1 Then
+                filtro &= " AND DT_CANCELAMENTO IS NULL "
+            End If
+            If ddlStatusConsultaNotas.SelectedValue = 2 Then
+                filtro &= " AND DT_CANCELAMENTO IS NOT NULL "
+            End If
+        End If
+
+        If txtConsultaNotaInicio.Text <> "" Then
+            If txtConsultaNotaFim.Text <> "" Then
+                'filtro
+                filtro &= " AND NR_NOTA_FISCAL BETWEEN '" & txtConsultaNotaInicio.Text & "' AND '" & txtConsultaNotaFim.Text & "' "
+            Else
+                'msg erro
+                divErroConsultasNotas.Visible = True
+                lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
+                ModalPopupExtender9.Show()
+                Exit Sub
+            End If
+        End If
+
+        If txtConsultaRPSInicio.Text <> "" Then
+            If txtConsultaRPSFim.Text <> "" Then
+                'filtro
+                filtro &= " AND NR_RPS BETWEEN '" & txtConsultaRPSInicio.Text & "' AND '" & txtConsultaRPSFim.Text & "' "
+
+            Else
+                'msg erro
+                divErroConsultasNotas.Visible = True
+                lblErroConsultasNotas.Text = "É necessário informar inicio e fim para prosseguir com a consulta!"
+                ModalPopupExtender9.Show()
+                Exit Sub
+            End If
+        End If
+
+        If txtConsultaVencimentoInicio.Text <> "" Then
+            If txtConsultaVencimentoFim.Text <> "" Then
+                'filtro
+                filtro &= " AND DT_VENCIMENTO BETWEEN CONVERT(DATE,'" & txtConsultaVencimentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaVencimentoFim.Text & "',103) "
+
+            Else
+                'msg erro
+                divErroConsultasNotas.Visible = True
+                lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
+                ModalPopupExtender9.Show()
+                Exit Sub
+
+            End If
+        End If
+
+        If txtConsultaPagamentoInicio.Text <> "" Then
+            If txtConsultaPagamentoFim.Text <> "" Then
+                'filtro
+                filtro &= " AND DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
+
+            Else
+                'msg erro
+                divErroConsultasNotas.Visible = True
+                lblErroConsultasNotas.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
+                ModalPopupExtender9.Show()
+                Exit Sub
+            End If
+        End If
+
+        Dim sql As String = "SELECT * FROM [dbo].[View_Faturamento] WHERE NR_NOTA_FISCAL IS NOT NULL " & filtro & " ORDER BY DT_VENCIMENTO,NR_PROCESSO"
+        dsFaturamento.SelectCommand = sql
+        dgvFaturamento.DataBind()
+        ModalPopupExtender9.Hide()
+        divErroConsultasNotas.Visible = False
+
+        ddlCliente.SelectedValue = 0
+        ddlStatusConsultaNotas.SelectedValue = 0
+
+        txtConsultaNotaInicio.Text = ""
+        txtConsultaNotaFim.Text = ""
+
+        txtConsultaRPSInicio.Text = ""
+        txtConsultaRPSFim.Text = ""
+
+        txtConsultaVencimentoInicio.Text = ""
+        txtConsultaVencimentoFim.Text = ""
+
+        txtConsultaPagamentoInicio.Text = ""
+        txtConsultaPagamentoFim.Text = ""
+
+    End Sub
 End Class

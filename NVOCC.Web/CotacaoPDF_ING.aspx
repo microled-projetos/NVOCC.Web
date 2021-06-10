@@ -51,8 +51,8 @@
 
 XV de Novembro Street, 46/48 - Centro<br/>
 Santos - SP - BRASIL<br/>
-Phone:<br/>
-CNPJ:<br/><br/>
+Phone:(13) 3797-7850<br/>
+CNPJ:00.639.367/0003-11<br/><br/>
 Customer: <asp:label runat="server" ID="lblClienteIngles" class="control-label" /><br/>
 CNPJ:<asp:label runat="server" ID="lblCnpjClienteIngles" class="control-label" /><br/><br/>
 Dear,  <asp:label runat="server" ID="lblNomeIngles" class="control-label" />

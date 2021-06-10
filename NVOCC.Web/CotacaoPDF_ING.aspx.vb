@@ -121,11 +121,13 @@ FROM  TB_COTACAO A
                 lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
 
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
+                tabela &= "<th style='padding-right:10px'>Taxa</th>"
                 tabela &= "<th style='padding-right:10px'>Valor</th>"
                 tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
 
                 For Each linha As DataRow In ds.Tables(0).Rows
-                    tabela &= "<tr><td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
+                    tabela &= "<tr><td style='padding-right:10px'>FRETE INTERNACIONAL</td>"
+                    tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td></tr>"
                 Next
 

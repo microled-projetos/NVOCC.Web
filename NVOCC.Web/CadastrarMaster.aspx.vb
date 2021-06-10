@@ -1010,7 +1010,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 Else
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL FROM TB_BL WHERE NR_BL = '" & txtNumeroBL_BasicoAereo.Text & "'")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL WHERE NR_BL = " & txtNumeroBL_BasicoAereo.Text & "")
                     If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
                         'CHAMA SERVIÇO DE RASTREIO
                         'Dim rastreio As New RastreioService
@@ -1361,7 +1361,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 Else
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL FROM TB_BL WHERE NR_BL = '" & txtNumeroBL_BasicoMaritimo.Text & "'")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL WHERE NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & "")
                     If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
 
                         'INSERE 
