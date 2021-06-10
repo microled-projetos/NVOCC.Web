@@ -174,7 +174,7 @@ Partial Class FrmPrincipal
         Me.mnPrincipal.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadastros, Me.MnuTransporte, Me.MnuViagens, Me.Mnufinanceiro, Me.MnuConsultas, Me.mnFerramentas, Me.MnuEscolha_Empresa, Me.mnuRel, Me.Mnusair})
         Me.mnPrincipal.Location = New System.Drawing.Point(0, 0)
         Me.mnPrincipal.Name = "mnPrincipal"
-        Me.mnPrincipal.Size = New System.Drawing.Size(987, 26)
+        Me.mnPrincipal.Size = New System.Drawing.Size(987, 24)
         Me.mnPrincipal.TabIndex = 0
         Me.mnPrincipal.Text = "MenuStrip1"
         '
@@ -182,267 +182,267 @@ Partial Class FrmPrincipal
         '
         Me.MnuCadastros.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadAgencias, Me.MnuCadArmadores, Me.MuCadAvarias, Me.CargasPerigosasToolStripMenuItem, Me.MnuCadComunicados, Me.mnuCadDelegacias, Me.MnuEmailGer, Me.MnuCadEmbalagens, Me.MnuEmpresa, Me.MnuCadEventos, Me.mnCondicoesPagamento, Me.MnuLimINSS, Me.mnuGuias, Me.MnuIR, Me.mnLocalidade, Me.MnuCadMotivosGeral, Me.mnuCadMotoristas, Me.MnuCadNavios, Me.MnuCadEdi, Me.MnuParceiros, Me.nmNCM, Me.MnuCadProdutos, Me.MnuCadPortos, Me.MnuCadProvidências, Me.MnuCadRecintos, Me.MnuCadRepresentantes, Me.mnuCadSerieNF, Me.mnuCadStatusMadeira, Me.MnuTabComVend, Me.mnTipos, Me.MnuCadTransportadoras, Me.MnuUsuarios})
         Me.MnuCadastros.Name = "MnuCadastros"
-        Me.MnuCadastros.Size = New System.Drawing.Size(85, 22)
+        Me.MnuCadastros.Size = New System.Drawing.Size(71, 20)
         Me.MnuCadastros.Text = "&Cadastros"
         '
         'MnuCadAgencias
         '
         Me.MnuCadAgencias.Name = "MnuCadAgencias"
-        Me.MnuCadAgencias.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadAgencias.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadAgencias.Text = "&Agências Marítimas"
         '
         'MnuCadArmadores
         '
         Me.MnuCadArmadores.Name = "MnuCadArmadores"
-        Me.MnuCadArmadores.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadArmadores.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadArmadores.Text = "Armadores"
         '
         'MuCadAvarias
         '
         Me.MuCadAvarias.Name = "MuCadAvarias"
-        Me.MuCadAvarias.Size = New System.Drawing.Size(309, 26)
+        Me.MuCadAvarias.Size = New System.Drawing.Size(263, 22)
         Me.MuCadAvarias.Text = "Avarias"
         '
         'CargasPerigosasToolStripMenuItem
         '
         Me.CargasPerigosasToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CargasPerigosasIMOToolStripMenuItem, Me.CargasPerigosasONUToolStripMenuItem})
         Me.CargasPerigosasToolStripMenuItem.Name = "CargasPerigosasToolStripMenuItem"
-        Me.CargasPerigosasToolStripMenuItem.Size = New System.Drawing.Size(309, 26)
+        Me.CargasPerigosasToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
         Me.CargasPerigosasToolStripMenuItem.Text = "Cargas Perigosas"
         '
         'CargasPerigosasIMOToolStripMenuItem
         '
         Me.CargasPerigosasIMOToolStripMenuItem.Name = "CargasPerigosasIMOToolStripMenuItem"
-        Me.CargasPerigosasIMOToolStripMenuItem.Size = New System.Drawing.Size(229, 26)
+        Me.CargasPerigosasIMOToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
         Me.CargasPerigosasIMOToolStripMenuItem.Text = "Cargas Perigosas IMO"
         '
         'CargasPerigosasONUToolStripMenuItem
         '
         Me.CargasPerigosasONUToolStripMenuItem.Name = "CargasPerigosasONUToolStripMenuItem"
-        Me.CargasPerigosasONUToolStripMenuItem.Size = New System.Drawing.Size(229, 26)
+        Me.CargasPerigosasONUToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
         Me.CargasPerigosasONUToolStripMenuItem.Text = "Cargas Perigosas ONU"
         '
         'MnuCadComunicados
         '
         Me.MnuCadComunicados.Name = "MnuCadComunicados"
-        Me.MnuCadComunicados.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadComunicados.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadComunicados.Text = "&Comunicados - Extratos"
         '
         'mnuCadDelegacias
         '
         Me.mnuCadDelegacias.Name = "mnuCadDelegacias"
-        Me.mnuCadDelegacias.Size = New System.Drawing.Size(309, 26)
+        Me.mnuCadDelegacias.Size = New System.Drawing.Size(263, 22)
         Me.mnuCadDelegacias.Text = "&Delegacias"
         '
         'MnuEmailGer
         '
         Me.MnuEmailGer.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadEmailVinculo, Me.mnuemailcalc, Me.MnuCadEmailEscolta, Me.MnuEmailDesova})
         Me.MnuEmailGer.Name = "MnuEmailGer"
-        Me.MnuEmailGer.Size = New System.Drawing.Size(309, 26)
+        Me.MnuEmailGer.Size = New System.Drawing.Size(263, 22)
         Me.MnuEmailGer.Text = "&Email"
         '
         'MnuCadEmailVinculo
         '
         Me.MnuCadEmailVinculo.Name = "MnuCadEmailVinculo"
-        Me.MnuCadEmailVinculo.Size = New System.Drawing.Size(245, 26)
+        Me.MnuCadEmailVinculo.Size = New System.Drawing.Size(210, 22)
         Me.MnuCadEmailVinculo.Text = "Email Alteração Indicador"
         '
         'mnuemailcalc
         '
         Me.mnuemailcalc.Name = "mnuemailcalc"
-        Me.mnuemailcalc.Size = New System.Drawing.Size(245, 26)
+        Me.mnuemailcalc.Size = New System.Drawing.Size(210, 22)
         Me.mnuemailcalc.Text = "Email Cálculo"
         '
         'MnuCadEmailEscolta
         '
         Me.MnuCadEmailEscolta.Name = "MnuCadEmailEscolta"
-        Me.MnuCadEmailEscolta.Size = New System.Drawing.Size(245, 26)
+        Me.MnuCadEmailEscolta.Size = New System.Drawing.Size(210, 22)
         Me.MnuCadEmailEscolta.Text = "Email Escolta"
         '
         'MnuEmailDesova
         '
         Me.MnuEmailDesova.Name = "MnuEmailDesova"
-        Me.MnuEmailDesova.Size = New System.Drawing.Size(245, 26)
+        Me.MnuEmailDesova.Size = New System.Drawing.Size(210, 22)
         Me.MnuEmailDesova.Text = "Email Desova"
         '
         'MnuCadEmbalagens
         '
         Me.MnuCadEmbalagens.Name = "MnuCadEmbalagens"
-        Me.MnuCadEmbalagens.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadEmbalagens.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadEmbalagens.Text = "Embalagens"
         '
         'MnuEmpresa
         '
         Me.MnuEmpresa.Name = "MnuEmpresa"
-        Me.MnuEmpresa.Size = New System.Drawing.Size(309, 26)
+        Me.MnuEmpresa.Size = New System.Drawing.Size(263, 22)
         Me.MnuEmpresa.Text = "Empresas"
         '
         'MnuCadEventos
         '
         Me.MnuCadEventos.Name = "MnuCadEventos"
-        Me.MnuCadEventos.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadEventos.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadEventos.Text = "Eventos"
         Me.MnuCadEventos.Visible = False
         '
         'mnCondicoesPagamento
         '
         Me.mnCondicoesPagamento.Name = "mnCondicoesPagamento"
-        Me.mnCondicoesPagamento.Size = New System.Drawing.Size(309, 26)
+        Me.mnCondicoesPagamento.Size = New System.Drawing.Size(263, 22)
         Me.mnCondicoesPagamento.Text = "Condições de Pagamento"
         '
         'MnuLimINSS
         '
         Me.MnuLimINSS.Name = "MnuLimINSS"
-        Me.MnuLimINSS.Size = New System.Drawing.Size(309, 26)
+        Me.MnuLimINSS.Size = New System.Drawing.Size(263, 22)
         Me.MnuLimINSS.Text = "&Faixa Limite INSS"
         '
         'mnuGuias
         '
         Me.mnuGuias.Name = "mnuGuias"
-        Me.mnuGuias.Size = New System.Drawing.Size(309, 26)
+        Me.mnuGuias.Size = New System.Drawing.Size(263, 22)
         Me.mnuGuias.Text = "&Guias"
         Me.mnuGuias.Visible = False
         '
         'MnuIR
         '
         Me.MnuIR.Name = "MnuIR"
-        Me.MnuIR.Size = New System.Drawing.Size(309, 26)
+        Me.MnuIR.Size = New System.Drawing.Size(263, 22)
         Me.MnuIR.Text = "&Imposto de Renda"
         '
         'mnLocalidade
         '
         Me.mnLocalidade.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCadCidades, Me.MNUCADPAISES, Me.mnuCadUFs})
         Me.mnLocalidade.Name = "mnLocalidade"
-        Me.mnLocalidade.Size = New System.Drawing.Size(309, 26)
+        Me.mnLocalidade.Size = New System.Drawing.Size(263, 22)
         Me.mnLocalidade.Text = "&Localidade"
         '
         'mnuCadCidades
         '
         Me.mnuCadCidades.Name = "mnuCadCidades"
-        Me.mnuCadCidades.Size = New System.Drawing.Size(168, 26)
+        Me.mnuCadCidades.Size = New System.Drawing.Size(144, 22)
         Me.mnuCadCidades.Text = "Cidades"
         '
         'MNUCADPAISES
         '
         Me.MNUCADPAISES.Name = "MNUCADPAISES"
-        Me.MNUCADPAISES.Size = New System.Drawing.Size(168, 26)
+        Me.MNUCADPAISES.Size = New System.Drawing.Size(144, 22)
         Me.MNUCADPAISES.Text = "Países"
         '
         'mnuCadUFs
         '
         Me.mnuCadUFs.Name = "mnuCadUFs"
-        Me.mnuCadUFs.Size = New System.Drawing.Size(168, 26)
+        Me.mnuCadUFs.Size = New System.Drawing.Size(144, 22)
         Me.mnuCadUFs.Text = "Estados (UF)"
         '
         'MnuCadMotivosGeral
         '
         Me.MnuCadMotivosGeral.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadMotivos, Me.MnuCadMotivosPosicao, Me.mnuCadMotivoBloqueio, Me.MnuMotivoDesc})
         Me.MnuCadMotivosGeral.Name = "MnuCadMotivosGeral"
-        Me.MnuCadMotivosGeral.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadMotivosGeral.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadMotivosGeral.Text = "&Motivos"
         '
         'MnuCadMotivos
         '
         Me.MnuCadMotivos.Name = "MnuCadMotivos"
-        Me.MnuCadMotivos.Size = New System.Drawing.Size(375, 26)
+        Me.MnuCadMotivos.Size = New System.Drawing.Size(322, 22)
         Me.MnuCadMotivos.Text = "Motivos de Abertura de Contêiner"
         '
         'MnuCadMotivosPosicao
         '
         Me.MnuCadMotivosPosicao.Name = "MnuCadMotivosPosicao"
-        Me.MnuCadMotivosPosicao.Size = New System.Drawing.Size(375, 26)
+        Me.MnuCadMotivosPosicao.Size = New System.Drawing.Size(322, 22)
         Me.MnuCadMotivosPosicao.Text = "Motivos de Agendamento de Posicionamento"
         '
         'mnuCadMotivoBloqueio
         '
         Me.mnuCadMotivoBloqueio.Name = "mnuCadMotivoBloqueio"
-        Me.mnuCadMotivoBloqueio.Size = New System.Drawing.Size(375, 26)
+        Me.mnuCadMotivoBloqueio.Size = New System.Drawing.Size(322, 22)
         Me.mnuCadMotivoBloqueio.Text = "Motivos de Bloqueio Manual"
         '
         'MnuMotivoDesc
         '
         Me.MnuMotivoDesc.Name = "MnuMotivoDesc"
-        Me.MnuMotivoDesc.Size = New System.Drawing.Size(375, 26)
+        Me.MnuMotivoDesc.Size = New System.Drawing.Size(322, 22)
         Me.MnuMotivoDesc.Text = "Motivos de Desconto Comercial"
         '
         'mnuCadMotoristas
         '
         Me.mnuCadMotoristas.Name = "mnuCadMotoristas"
-        Me.mnuCadMotoristas.Size = New System.Drawing.Size(309, 26)
+        Me.mnuCadMotoristas.Size = New System.Drawing.Size(263, 22)
         Me.mnuCadMotoristas.Text = "Motoristas"
         '
         'MnuCadNavios
         '
         Me.MnuCadNavios.Name = "MnuCadNavios"
-        Me.MnuCadNavios.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadNavios.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadNavios.Text = "&Navios"
         '
         'MnuCadEdi
         '
         Me.MnuCadEdi.Enabled = False
         Me.MnuCadEdi.Name = "MnuCadEdi"
-        Me.MnuCadEdi.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadEdi.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadEdi.Text = "&Parâmetros EDI Despachantes"
         Me.MnuCadEdi.Visible = False
         '
         'MnuParceiros
         '
         Me.MnuParceiros.Name = "MnuParceiros"
-        Me.MnuParceiros.Size = New System.Drawing.Size(309, 26)
+        Me.MnuParceiros.Size = New System.Drawing.Size(263, 22)
         Me.MnuParceiros.Text = "Parceiros"
         '
         'nmNCM
         '
         Me.nmNCM.Name = "nmNCM"
-        Me.nmNCM.Size = New System.Drawing.Size(309, 26)
+        Me.nmNCM.Size = New System.Drawing.Size(263, 22)
         Me.nmNCM.Text = "NCM"
         '
         'MnuCadProdutos
         '
         Me.MnuCadProdutos.Name = "MnuCadProdutos"
-        Me.MnuCadProdutos.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadProdutos.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadProdutos.Text = "Produtos"
         '
         'MnuCadPortos
         '
         Me.MnuCadPortos.Name = "MnuCadPortos"
-        Me.MnuCadPortos.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadPortos.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadPortos.Text = "Portos"
         '
         'MnuCadProvidências
         '
         Me.MnuCadProvidências.Name = "MnuCadProvidências"
-        Me.MnuCadProvidências.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadProvidências.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadProvidências.Text = "Providências"
         '
         'MnuCadRecintos
         '
         Me.MnuCadRecintos.Name = "MnuCadRecintos"
-        Me.MnuCadRecintos.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadRecintos.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadRecintos.Text = "&Recintos"
         '
         'MnuCadRepresentantes
         '
         Me.MnuCadRepresentantes.Name = "MnuCadRepresentantes"
-        Me.MnuCadRepresentantes.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadRepresentantes.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadRepresentantes.Text = "Representantes"
         '
         'mnuCadSerieNF
         '
         Me.mnuCadSerieNF.Name = "mnuCadSerieNF"
-        Me.mnuCadSerieNF.Size = New System.Drawing.Size(309, 26)
+        Me.mnuCadSerieNF.Size = New System.Drawing.Size(263, 22)
         Me.mnuCadSerieNF.Text = "&Séries de Nota Fiscal"
         '
         'mnuCadStatusMadeira
         '
         Me.mnuCadStatusMadeira.Name = "mnuCadStatusMadeira"
-        Me.mnuCadStatusMadeira.Size = New System.Drawing.Size(309, 26)
+        Me.mnuCadStatusMadeira.Size = New System.Drawing.Size(263, 22)
         Me.mnuCadStatusMadeira.Text = "Status de Madeira"
         '
         'MnuTabComVend
         '
         Me.MnuTabComVend.Name = "MnuTabComVend"
-        Me.MnuTabComVend.Size = New System.Drawing.Size(309, 26)
+        Me.MnuTabComVend.Size = New System.Drawing.Size(263, 22)
         Me.MnuTabComVend.Text = "&Tabela de Comissões de Vendedor"
         Me.MnuTabComVend.Visible = False
         '
@@ -450,251 +450,251 @@ Partial Class FrmPrincipal
         '
         Me.mnTipos.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadTiposDeConteiner, Me.MnuCadTiposDocumentos})
         Me.mnTipos.Name = "mnTipos"
-        Me.mnTipos.Size = New System.Drawing.Size(309, 26)
+        Me.mnTipos.Size = New System.Drawing.Size(263, 22)
         Me.mnTipos.Text = "Tipos"
         '
         'MnuCadTiposDeConteiner
         '
         Me.MnuCadTiposDeConteiner.Name = "MnuCadTiposDeConteiner"
-        Me.MnuCadTiposDeConteiner.Size = New System.Drawing.Size(225, 26)
+        Me.MnuCadTiposDeConteiner.Size = New System.Drawing.Size(194, 22)
         Me.MnuCadTiposDeConteiner.Text = "Tipos de Contêineres"
         '
         'MnuCadTiposDocumentos
         '
         Me.MnuCadTiposDocumentos.Name = "MnuCadTiposDocumentos"
-        Me.MnuCadTiposDocumentos.Size = New System.Drawing.Size(225, 26)
+        Me.MnuCadTiposDocumentos.Size = New System.Drawing.Size(194, 22)
         Me.MnuCadTiposDocumentos.Text = "Tipos de Documentos"
         '
         'MnuCadTransportadoras
         '
         Me.MnuCadTransportadoras.Name = "MnuCadTransportadoras"
-        Me.MnuCadTransportadoras.Size = New System.Drawing.Size(309, 26)
+        Me.MnuCadTransportadoras.Size = New System.Drawing.Size(263, 22)
         Me.MnuCadTransportadoras.Text = "Transportadoras"
         '
         'MnuUsuarios
         '
         Me.MnuUsuarios.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnGrupos, Me.MnuCadPermissoes, Me.MnuCadUsuarios})
         Me.MnuUsuarios.Name = "MnuUsuarios"
-        Me.MnuUsuarios.Size = New System.Drawing.Size(309, 26)
+        Me.MnuUsuarios.Size = New System.Drawing.Size(263, 22)
         Me.MnuUsuarios.Text = "Usuários"
         '
         'mnGrupos
         '
         Me.mnGrupos.Name = "mnGrupos"
-        Me.mnGrupos.Size = New System.Drawing.Size(227, 26)
+        Me.mnGrupos.Size = New System.Drawing.Size(193, 22)
         Me.mnGrupos.Text = "Grupos"
         '
         'MnuCadPermissoes
         '
         Me.MnuCadPermissoes.Name = "MnuCadPermissoes"
-        Me.MnuCadPermissoes.Size = New System.Drawing.Size(227, 26)
+        Me.MnuCadPermissoes.Size = New System.Drawing.Size(193, 22)
         Me.MnuCadPermissoes.Text = "Permissões de Acesso"
         '
         'MnuCadUsuarios
         '
         Me.MnuCadUsuarios.Name = "MnuCadUsuarios"
-        Me.MnuCadUsuarios.Size = New System.Drawing.Size(227, 26)
+        Me.MnuCadUsuarios.Size = New System.Drawing.Size(193, 22)
         Me.MnuCadUsuarios.Text = "Usuários"
         '
         'MnuTransporte
         '
         Me.MnuTransporte.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCadValorDevCNTR, Me.mnuCadValorMovInt, Me.mnuCadValorRemCNTR})
         Me.MnuTransporte.Name = "MnuTransporte"
-        Me.MnuTransporte.Size = New System.Drawing.Size(99, 22)
+        Me.MnuTransporte.Size = New System.Drawing.Size(84, 20)
         Me.MnuTransporte.Text = "Transportes"
         Me.MnuTransporte.Visible = False
         '
         'mnuCadValorDevCNTR
         '
         Me.mnuCadValorDevCNTR.Name = "mnuCadValorDevCNTR"
-        Me.mnuCadValorDevCNTR.Size = New System.Drawing.Size(343, 26)
+        Me.mnuCadValorDevCNTR.Size = New System.Drawing.Size(292, 22)
         Me.mnuCadValorDevCNTR.Text = "Valores de Devolução de Contêineres"
         '
         'mnuCadValorMovInt
         '
         Me.mnuCadValorMovInt.Name = "mnuCadValorMovInt"
-        Me.mnuCadValorMovInt.Size = New System.Drawing.Size(343, 26)
+        Me.mnuCadValorMovInt.Size = New System.Drawing.Size(292, 22)
         Me.mnuCadValorMovInt.Text = "Valores de Mov. Interna de Contêineres"
         '
         'mnuCadValorRemCNTR
         '
         Me.mnuCadValorRemCNTR.Name = "mnuCadValorRemCNTR"
-        Me.mnuCadValorRemCNTR.Size = New System.Drawing.Size(343, 26)
+        Me.mnuCadValorRemCNTR.Size = New System.Drawing.Size(292, 22)
         Me.mnuCadValorRemCNTR.Text = "Valores de Remoção de Contêineres"
         '
         'MnuViagens
         '
         Me.MnuViagens.Name = "MnuViagens"
-        Me.MnuViagens.Size = New System.Drawing.Size(68, 22)
+        Me.MnuViagens.Size = New System.Drawing.Size(59, 20)
         Me.MnuViagens.Text = "Viagem"
         '
         'Mnufinanceiro
         '
         Me.Mnufinanceiro.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadBancos, Me.mnuFaturamento, Me.MnuCadFeriados, Me.MnuConversao, Me.MnucadFormasPagamento, Me.MnuCadImpostos, Me.MnuCadLocais, Me.Moedas, Me.MnuServicos, Me.MnuServicosAdicionais, Me.mnunftransportes, Me.mnuTC, Me.MnuPreLote, Me.MnuTransfLotes, Me.MnuVinculoIndicador, Me.mnSimuladorDeCalculo})
         Me.Mnufinanceiro.Name = "Mnufinanceiro"
-        Me.Mnufinanceiro.Size = New System.Drawing.Size(84, 22)
+        Me.Mnufinanceiro.Size = New System.Drawing.Size(73, 20)
         Me.Mnufinanceiro.Text = "Financeiro"
         Me.Mnufinanceiro.Visible = False
         '
         'MnuCadBancos
         '
         Me.MnuCadBancos.Name = "MnuCadBancos"
-        Me.MnuCadBancos.Size = New System.Drawing.Size(264, 26)
+        Me.MnuCadBancos.Size = New System.Drawing.Size(223, 22)
         Me.MnuCadBancos.Text = "Bancos"
         '
         'mnuFaturamento
         '
         Me.mnuFaturamento.Name = "mnuFaturamento"
-        Me.mnuFaturamento.Size = New System.Drawing.Size(264, 26)
+        Me.mnuFaturamento.Size = New System.Drawing.Size(223, 22)
         Me.mnuFaturamento.Text = "Faturamento"
         '
         'MnuCadFeriados
         '
         Me.MnuCadFeriados.Name = "MnuCadFeriados"
-        Me.MnuCadFeriados.Size = New System.Drawing.Size(264, 26)
+        Me.MnuCadFeriados.Size = New System.Drawing.Size(223, 22)
         Me.MnuCadFeriados.Text = "Feriados"
         '
         'MnuConversao
         '
         Me.MnuConversao.Name = "MnuConversao"
-        Me.MnuConversao.Size = New System.Drawing.Size(264, 26)
+        Me.MnuConversao.Size = New System.Drawing.Size(223, 22)
         Me.MnuConversao.Text = "Conversão de Moedas"
         '
         'MnucadFormasPagamento
         '
         Me.MnucadFormasPagamento.Name = "MnucadFormasPagamento"
-        Me.MnucadFormasPagamento.Size = New System.Drawing.Size(264, 26)
+        Me.MnucadFormasPagamento.Size = New System.Drawing.Size(223, 22)
         Me.MnucadFormasPagamento.Text = "Formas de Pagamento"
         '
         'MnuCadImpostos
         '
         Me.MnuCadImpostos.Name = "MnuCadImpostos"
-        Me.MnuCadImpostos.Size = New System.Drawing.Size(264, 26)
+        Me.MnuCadImpostos.Size = New System.Drawing.Size(223, 22)
         Me.MnuCadImpostos.Text = "Impostos"
         '
         'MnuCadLocais
         '
         Me.MnuCadLocais.Name = "MnuCadLocais"
-        Me.MnuCadLocais.Size = New System.Drawing.Size(264, 26)
+        Me.MnuCadLocais.Size = New System.Drawing.Size(223, 22)
         Me.MnuCadLocais.Text = "Locais de Atracação"
         '
         'Moedas
         '
         Me.Moedas.Name = "Moedas"
-        Me.Moedas.Size = New System.Drawing.Size(264, 26)
+        Me.Moedas.Size = New System.Drawing.Size(223, 22)
         Me.Moedas.Text = "Moedas"
         '
         'MnuServicos
         '
         Me.MnuServicos.Name = "MnuServicos"
-        Me.MnuServicos.Size = New System.Drawing.Size(264, 26)
+        Me.MnuServicos.Size = New System.Drawing.Size(223, 22)
         Me.MnuServicos.Text = "Serviços"
         '
         'MnuServicosAdicionais
         '
         Me.MnuServicosAdicionais.Name = "MnuServicosAdicionais"
-        Me.MnuServicosAdicionais.Size = New System.Drawing.Size(264, 26)
+        Me.MnuServicosAdicionais.Size = New System.Drawing.Size(223, 22)
         Me.MnuServicosAdicionais.Text = "Serviços Adicionais"
         '
         'mnunftransportes
         '
         Me.mnunftransportes.Name = "mnunftransportes"
-        Me.mnunftransportes.Size = New System.Drawing.Size(264, 26)
+        Me.mnunftransportes.Size = New System.Drawing.Size(223, 22)
         Me.mnunftransportes.Text = "Notas Fiscais de Transporte"
         '
         'mnuTC
         '
         Me.mnuTC.Name = "mnuTC"
-        Me.mnuTC.Size = New System.Drawing.Size(264, 26)
+        Me.mnuTC.Size = New System.Drawing.Size(223, 22)
         Me.mnuTC.Text = "Tabelas de Cobrança"
         '
         'MnuPreLote
         '
         Me.MnuPreLote.Name = "MnuPreLote"
-        Me.MnuPreLote.Size = New System.Drawing.Size(264, 26)
+        Me.MnuPreLote.Size = New System.Drawing.Size(223, 22)
         Me.MnuPreLote.Text = "Pré Cálculo do Lote"
         '
         'MnuTransfLotes
         '
         Me.MnuTransfLotes.Name = "MnuTransfLotes"
-        Me.MnuTransfLotes.Size = New System.Drawing.Size(264, 26)
+        Me.MnuTransfLotes.Size = New System.Drawing.Size(223, 22)
         Me.MnuTransfLotes.Text = "Transferência de Lotes"
         '
         'MnuVinculoIndicador
         '
         Me.MnuVinculoIndicador.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuHistVincIndicador, Me.MnuPropostasComerciais})
         Me.MnuVinculoIndicador.Name = "MnuVinculoIndicador"
-        Me.MnuVinculoIndicador.Size = New System.Drawing.Size(264, 26)
+        Me.MnuVinculoIndicador.Size = New System.Drawing.Size(223, 22)
         Me.MnuVinculoIndicador.Text = "Vínculo Indicador"
         '
         'MnuHistVincIndicador
         '
         Me.MnuHistVincIndicador.Name = "MnuHistVincIndicador"
-        Me.MnuHistVincIndicador.Size = New System.Drawing.Size(292, 26)
+        Me.MnuHistVincIndicador.Size = New System.Drawing.Size(253, 22)
         Me.MnuHistVincIndicador.Text = "Histórico de Vínculo de Indicador"
         '
         'MnuPropostasComerciais
         '
         Me.MnuPropostasComerciais.Name = "MnuPropostasComerciais"
-        Me.MnuPropostasComerciais.Size = New System.Drawing.Size(292, 26)
+        Me.MnuPropostasComerciais.Size = New System.Drawing.Size(253, 22)
         Me.MnuPropostasComerciais.Text = "Propostas Comerciais"
         '
         'mnSimuladorDeCalculo
         '
         Me.mnSimuladorDeCalculo.Name = "mnSimuladorDeCalculo"
-        Me.mnSimuladorDeCalculo.Size = New System.Drawing.Size(264, 26)
+        Me.mnSimuladorDeCalculo.Size = New System.Drawing.Size(223, 22)
         Me.mnSimuladorDeCalculo.Text = "Simulador de Cálculo"
         '
         'MnuConsultas
         '
         Me.MnuConsultas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuSolCom, Me.mnuatendimento})
         Me.MnuConsultas.Name = "MnuConsultas"
-        Me.MnuConsultas.Size = New System.Drawing.Size(82, 22)
+        Me.MnuConsultas.Size = New System.Drawing.Size(70, 20)
         Me.MnuConsultas.Text = "Consultas"
         Me.MnuConsultas.Visible = False
         '
         'MnuSolCom
         '
         Me.MnuSolCom.Name = "MnuSolCom"
-        Me.MnuSolCom.Size = New System.Drawing.Size(228, 26)
+        Me.MnuSolCom.Size = New System.Drawing.Size(196, 22)
         Me.MnuSolCom.Text = "Solicitações Comerciais"
         '
         'mnuatendimento
         '
         Me.mnuatendimento.Name = "mnuatendimento"
-        Me.mnuatendimento.Size = New System.Drawing.Size(228, 26)
+        Me.mnuatendimento.Size = New System.Drawing.Size(196, 22)
         Me.mnuatendimento.Text = "Atendimento"
         '
         'mnFerramentas
         '
         Me.mnFerramentas.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnCalculadora, Me.mnAnotacoes, Me.mnNavegador})
         Me.mnFerramentas.Name = "mnFerramentas"
-        Me.mnFerramentas.Size = New System.Drawing.Size(103, 22)
+        Me.mnFerramentas.Size = New System.Drawing.Size(86, 20)
         Me.mnFerramentas.Text = "&Ferramentas"
         Me.mnFerramentas.Visible = False
         '
         'mnCalculadora
         '
         Me.mnCalculadora.Name = "mnCalculadora"
-        Me.mnCalculadora.Size = New System.Drawing.Size(232, 26)
+        Me.mnCalculadora.Size = New System.Drawing.Size(200, 22)
         Me.mnCalculadora.Text = "Calculadora"
         '
         'mnAnotacoes
         '
         Me.mnAnotacoes.Name = "mnAnotacoes"
-        Me.mnAnotacoes.Size = New System.Drawing.Size(232, 26)
+        Me.mnAnotacoes.Size = New System.Drawing.Size(200, 22)
         Me.mnAnotacoes.Text = "Anotações"
         '
         'mnNavegador
         '
         Me.mnNavegador.Name = "mnNavegador"
-        Me.mnNavegador.Size = New System.Drawing.Size(232, 26)
+        Me.mnNavegador.Size = New System.Drawing.Size(200, 22)
         Me.mnNavegador.Text = "Navegador de Internet"
         '
         'MnuEscolha_Empresa
         '
         Me.MnuEscolha_Empresa.Name = "MnuEscolha_Empresa"
-        Me.MnuEscolha_Empresa.Size = New System.Drawing.Size(77, 22)
+        Me.MnuEscolha_Empresa.Size = New System.Drawing.Size(65, 20)
         Me.MnuEscolha_Empresa.Text = "Empresa"
         Me.MnuEscolha_Empresa.Visible = False
         '
@@ -702,7 +702,7 @@ Partial Class FrmPrincipal
         '
         Me.mnuRel.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuGr, Me.mnuOper, Me.mnuadmingr, Me.MnuCancelaGRImpressa, Me.MnuVinculo, Me.MnuRelGrupos, Me.mnuTCNaoUlilizada})
         Me.mnuRel.Name = "mnuRel"
-        Me.mnuRel.Size = New System.Drawing.Size(82, 22)
+        Me.mnuRel.Size = New System.Drawing.Size(71, 20)
         Me.mnuRel.Text = "Relatórios"
         Me.mnuRel.Visible = False
         '
@@ -710,208 +710,208 @@ Partial Class FrmPrincipal
         '
         Me.MnuGr.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCalcAutomatico, Me.mnuCGR, Me.mnuFCGR, Me.MnuGrVencida, Me.mnuFechamentoDeCaixa, Me.mnuRelSemServico, Me.MnuTipoServico, Me.MnuReceitaTot, Me.MnuProcJur, Me.mnuGRAFR, Me.mnuGRsPagas, Me.MnuTabelaCobr, Me.MnuVerificaTab, Me.MnuSaidasSemGr, Me.MnuRelSolCom, Me.MnuTempoAverbacaoCalculo, Me.MnuTempoDesconsolidacao, Me.MnuTempoPresencaCarga, Me.MnuValoresAberto, Me.MnuPosiCalc, Me.mnuComissoes})
         Me.MnuGr.Name = "MnuGr"
-        Me.MnuGr.Size = New System.Drawing.Size(371, 26)
+        Me.MnuGr.Size = New System.Drawing.Size(314, 22)
         Me.MnuGr.Text = "Financeiros"
         '
         'MnuCalcAutomatico
         '
         Me.MnuCalcAutomatico.Name = "MnuCalcAutomatico"
-        Me.MnuCalcAutomatico.Size = New System.Drawing.Size(430, 26)
+        Me.MnuCalcAutomatico.Size = New System.Drawing.Size(362, 22)
         Me.MnuCalcAutomatico.Text = "Cálculo Automático"
         '
         'mnuCGR
         '
         Me.mnuCGR.Name = "mnuCGR"
-        Me.mnuCGR.Size = New System.Drawing.Size(430, 26)
+        Me.mnuCGR.Size = New System.Drawing.Size(362, 22)
         Me.mnuCGR.Text = "Consulta a GRs"
         '
         'mnuFCGR
         '
         Me.mnuFCGR.Name = "mnuFCGR"
-        Me.mnuFCGR.Size = New System.Drawing.Size(430, 26)
+        Me.mnuFCGR.Size = New System.Drawing.Size(362, 22)
         Me.mnuFCGR.Text = "Fechamento de Caixa"
         '
         'MnuGrVencida
         '
         Me.MnuGrVencida.Name = "MnuGrVencida"
-        Me.MnuGrVencida.Size = New System.Drawing.Size(430, 26)
+        Me.MnuGrVencida.Size = New System.Drawing.Size(362, 22)
         Me.MnuGrVencida.Text = "Listagem das Grs Vencidas"
         '
         'mnuFechamentoDeCaixa
         '
         Me.mnuFechamentoDeCaixa.Name = "mnuFechamentoDeCaixa"
-        Me.mnuFechamentoDeCaixa.Size = New System.Drawing.Size(430, 26)
+        Me.mnuFechamentoDeCaixa.Size = New System.Drawing.Size(362, 22)
         Me.mnuFechamentoDeCaixa.Text = "Listagem de Grs"
         '
         'mnuRelSemServico
         '
         Me.mnuRelSemServico.Name = "mnuRelSemServico"
-        Me.mnuRelSemServico.Size = New System.Drawing.Size(430, 26)
+        Me.mnuRelSemServico.Size = New System.Drawing.Size(362, 22)
         Me.mnuRelSemServico.Text = "Listagem de GRs sem Cobrança de Serviço Especifico"
         '
         'MnuTipoServico
         '
         Me.MnuTipoServico.Name = "MnuTipoServico"
-        Me.MnuTipoServico.Size = New System.Drawing.Size(430, 26)
+        Me.MnuTipoServico.Size = New System.Drawing.Size(362, 22)
         Me.MnuTipoServico.Text = "Por Tipo de Serviço"
         '
         'MnuReceitaTot
         '
         Me.MnuReceitaTot.Name = "MnuReceitaTot"
-        Me.MnuReceitaTot.Size = New System.Drawing.Size(430, 26)
+        Me.MnuReceitaTot.Size = New System.Drawing.Size(362, 22)
         Me.MnuReceitaTot.Text = "Receita Total (Planilha Excel)"
         '
         'MnuProcJur
         '
         Me.MnuProcJur.Name = "MnuProcJur"
-        Me.MnuProcJur.Size = New System.Drawing.Size(430, 26)
+        Me.MnuProcJur.Size = New System.Drawing.Size(362, 22)
         Me.MnuProcJur.Text = "Processos Jurídicos"
         '
         'mnuGRAFR
         '
         Me.mnuGRAFR.Name = "mnuGRAFR"
-        Me.mnuGRAFR.Size = New System.Drawing.Size(430, 26)
+        Me.mnuGRAFR.Size = New System.Drawing.Size(362, 22)
         Me.mnuGRAFR.Text = "Relatório de GRs"
         '
         'mnuGRsPagas
         '
         Me.mnuGRsPagas.Name = "mnuGRsPagas"
-        Me.mnuGRsPagas.Size = New System.Drawing.Size(430, 26)
+        Me.mnuGRsPagas.Size = New System.Drawing.Size(362, 22)
         Me.mnuGRsPagas.Text = "Relatório de GRs pagas"
         '
         'MnuTabelaCobr
         '
         Me.MnuTabelaCobr.Name = "MnuTabelaCobr"
-        Me.MnuTabelaCobr.Size = New System.Drawing.Size(430, 26)
+        Me.MnuTabelaCobr.Size = New System.Drawing.Size(362, 22)
         Me.MnuTabelaCobr.Text = "Relatório de Tabelas de Cobrança"
         '
         'MnuVerificaTab
         '
         Me.MnuVerificaTab.Name = "MnuVerificaTab"
-        Me.MnuVerificaTab.Size = New System.Drawing.Size(430, 26)
+        Me.MnuVerificaTab.Size = New System.Drawing.Size(362, 22)
         Me.MnuVerificaTab.Text = "Relatório de Verificação de Tabelas"
         '
         'MnuSaidasSemGr
         '
         Me.MnuSaidasSemGr.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuEmailEnvio, Me.mnu_saidas_sem_gr})
         Me.MnuSaidasSemGr.Name = "MnuSaidasSemGr"
-        Me.MnuSaidasSemGr.Size = New System.Drawing.Size(430, 26)
+        Me.MnuSaidasSemGr.Size = New System.Drawing.Size(362, 22)
         Me.MnuSaidasSemGr.Text = "Saídas sem GR"
         '
         'MnuEmailEnvio
         '
         Me.MnuEmailEnvio.Name = "MnuEmailEnvio"
-        Me.MnuEmailEnvio.Size = New System.Drawing.Size(246, 26)
+        Me.MnuEmailEnvio.Size = New System.Drawing.Size(211, 22)
         Me.MnuEmailEnvio.Text = "Configurar Email de Envio"
         '
         'mnu_saidas_sem_gr
         '
         Me.mnu_saidas_sem_gr.Name = "mnu_saidas_sem_gr"
-        Me.mnu_saidas_sem_gr.Size = New System.Drawing.Size(246, 26)
+        Me.mnu_saidas_sem_gr.Size = New System.Drawing.Size(211, 22)
         Me.mnu_saidas_sem_gr.Text = "Relatório"
         '
         'MnuRelSolCom
         '
         Me.MnuRelSolCom.Name = "MnuRelSolCom"
-        Me.MnuRelSolCom.Size = New System.Drawing.Size(430, 26)
+        Me.MnuRelSolCom.Size = New System.Drawing.Size(362, 22)
         Me.MnuRelSolCom.Text = "Solicitações Dep. Comercial"
         '
         'MnuTempoAverbacaoCalculo
         '
         Me.MnuTempoAverbacaoCalculo.Name = "MnuTempoAverbacaoCalculo"
-        Me.MnuTempoAverbacaoCalculo.Size = New System.Drawing.Size(430, 26)
+        Me.MnuTempoAverbacaoCalculo.Size = New System.Drawing.Size(362, 22)
         Me.MnuTempoAverbacaoCalculo.Text = "Tempo de Averbação e Cálculo"
         '
         'MnuTempoDesconsolidacao
         '
         Me.MnuTempoDesconsolidacao.Name = "MnuTempoDesconsolidacao"
-        Me.MnuTempoDesconsolidacao.Size = New System.Drawing.Size(430, 26)
+        Me.MnuTempoDesconsolidacao.Size = New System.Drawing.Size(362, 22)
         Me.MnuTempoDesconsolidacao.Text = "Tempo de Desconsolidação"
         '
         'MnuTempoPresencaCarga
         '
         Me.MnuTempoPresencaCarga.Name = "MnuTempoPresencaCarga"
-        Me.MnuTempoPresencaCarga.Size = New System.Drawing.Size(430, 26)
+        Me.MnuTempoPresencaCarga.Size = New System.Drawing.Size(362, 22)
         Me.MnuTempoPresencaCarga.Text = "Tempo de Presença de Carga"
         '
         'MnuValoresAberto
         '
         Me.MnuValoresAberto.Name = "MnuValoresAberto"
-        Me.MnuValoresAberto.Size = New System.Drawing.Size(430, 26)
+        Me.MnuValoresAberto.Size = New System.Drawing.Size(362, 22)
         Me.MnuValoresAberto.Text = "Valores em Aberto"
         '
         'MnuPosiCalc
         '
         Me.MnuPosiCalc.Name = "MnuPosiCalc"
-        Me.MnuPosiCalc.Size = New System.Drawing.Size(430, 26)
+        Me.MnuPosiCalc.Size = New System.Drawing.Size(362, 22)
         Me.MnuPosiCalc.Text = "Relatório de Cálculo Posicionamento"
         '
         'mnuComissoes
         '
         Me.mnuComissoes.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCInd, Me.MnuVendedorComissao})
         Me.mnuComissoes.Name = "mnuComissoes"
-        Me.mnuComissoes.Size = New System.Drawing.Size(430, 26)
+        Me.mnuComissoes.Size = New System.Drawing.Size(362, 22)
         Me.mnuComissoes.Text = "Comissões"
         '
         'mnuCInd
         '
         Me.mnuCInd.Name = "mnuCInd"
-        Me.mnuCInd.Size = New System.Drawing.Size(259, 26)
+        Me.mnuCInd.Size = New System.Drawing.Size(221, 22)
         Me.mnuCInd.Text = "Comissões por Indicador"
         '
         'MnuVendedorComissao
         '
         Me.MnuVendedorComissao.Name = "MnuVendedorComissao"
-        Me.MnuVendedorComissao.Size = New System.Drawing.Size(259, 26)
+        Me.MnuVendedorComissao.Size = New System.Drawing.Size(221, 22)
         Me.MnuVendedorComissao.Text = "Comissões por Vendedores"
         '
         'mnuOper
         '
         Me.mnuOper.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuHistVinculo})
         Me.mnuOper.Name = "mnuOper"
-        Me.mnuOper.Size = New System.Drawing.Size(371, 26)
+        Me.mnuOper.Size = New System.Drawing.Size(314, 22)
         Me.mnuOper.Text = "Operacionais"
         '
         'MnuHistVinculo
         '
         Me.MnuHistVinculo.Name = "MnuHistVinculo"
-        Me.MnuHistVinculo.Size = New System.Drawing.Size(213, 26)
+        Me.MnuHistVinculo.Size = New System.Drawing.Size(186, 22)
         Me.MnuHistVinculo.Text = "Histórico de Vínculos"
         '
         'mnuadmingr
         '
         Me.mnuadmingr.Name = "mnuadmingr"
-        Me.mnuadmingr.Size = New System.Drawing.Size(371, 26)
+        Me.mnuadmingr.Size = New System.Drawing.Size(314, 22)
         Me.mnuadmingr.Text = "Alteração Free Time / Fim de Período da GR"
         '
         'MnuCancelaGRImpressa
         '
         Me.MnuCancelaGRImpressa.Name = "MnuCancelaGRImpressa"
-        Me.MnuCancelaGRImpressa.Size = New System.Drawing.Size(371, 26)
+        Me.MnuCancelaGRImpressa.Size = New System.Drawing.Size(314, 22)
         Me.MnuCancelaGRImpressa.Text = "Cancelamento de GRs Impressas"
         '
         'MnuVinculo
         '
         Me.MnuVinculo.Name = "MnuVinculo"
-        Me.MnuVinculo.Size = New System.Drawing.Size(371, 26)
+        Me.MnuVinculo.Size = New System.Drawing.Size(314, 22)
         Me.MnuVinculo.Text = "Histórico de Alterações"
         '
         'MnuRelGrupos
         '
         Me.MnuRelGrupos.Name = "MnuRelGrupos"
-        Me.MnuRelGrupos.Size = New System.Drawing.Size(371, 26)
+        Me.MnuRelGrupos.Size = New System.Drawing.Size(314, 22)
         Me.MnuRelGrupos.Text = "Relatório de Grupos"
         '
         'mnuTCNaoUlilizada
         '
         Me.mnuTCNaoUlilizada.Name = "mnuTCNaoUlilizada"
-        Me.mnuTCNaoUlilizada.Size = New System.Drawing.Size(371, 26)
+        Me.mnuTCNaoUlilizada.Size = New System.Drawing.Size(314, 22)
         Me.mnuTCNaoUlilizada.Text = "Tabelas de Cobrança não Utilizadas"
         '
         'Mnusair
         '
         Me.Mnusair.Name = "Mnusair"
-        Me.Mnusair.Size = New System.Drawing.Size(43, 22)
+        Me.Mnusair.Size = New System.Drawing.Size(38, 20)
         Me.Mnusair.Text = "&Sair"
         '
         'StatusStrip1
@@ -919,9 +919,9 @@ Partial Class FrmPrincipal
         Me.StatusStrip1.Font = New System.Drawing.Font("Tahoma", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripStatusLabel1, Me.lblUsuario, Me.ToolStripStatusLabel2, Me.lblEmpresa, Me.ToolStripStatusLabel3, Me.lblBase})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 527)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 528)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(987, 23)
+        Me.StatusStrip1.Size = New System.Drawing.Size(987, 22)
         Me.StatusStrip1.TabIndex = 1
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -929,40 +929,40 @@ Partial Class FrmPrincipal
         '
         Me.ToolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent
         Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(61, 18)
+        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(50, 17)
         Me.ToolStripStatusLabel1.Text = "Usuário:"
         '
         'lblUsuario
         '
         Me.lblUsuario.BackColor = System.Drawing.Color.Transparent
         Me.lblUsuario.Name = "lblUsuario"
-        Me.lblUsuario.Size = New System.Drawing.Size(0, 18)
+        Me.lblUsuario.Size = New System.Drawing.Size(0, 17)
         '
         'ToolStripStatusLabel2
         '
         Me.ToolStripStatusLabel2.BackColor = System.Drawing.SystemColors.Control
         Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(70, 18)
+        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(57, 17)
         Me.ToolStripStatusLabel2.Text = "Empresa:"
         '
         'lblEmpresa
         '
         Me.lblEmpresa.BackColor = System.Drawing.SystemColors.Control
         Me.lblEmpresa.Name = "lblEmpresa"
-        Me.lblEmpresa.Size = New System.Drawing.Size(0, 18)
+        Me.lblEmpresa.Size = New System.Drawing.Size(0, 17)
         '
         'ToolStripStatusLabel3
         '
         Me.ToolStripStatusLabel3.BackColor = System.Drawing.SystemColors.Control
         Me.ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
-        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(45, 18)
+        Me.ToolStripStatusLabel3.Size = New System.Drawing.Size(36, 17)
         Me.ToolStripStatusLabel3.Text = "Base:"
         '
         'lblBase
         '
         Me.lblBase.BackColor = System.Drawing.SystemColors.Control
         Me.lblBase.Name = "lblBase"
-        Me.lblBase.Size = New System.Drawing.Size(0, 18)
+        Me.lblBase.Size = New System.Drawing.Size(0, 17)
         '
         'Label1
         '
@@ -971,7 +971,7 @@ Partial Class FrmPrincipal
         Me.Label1.BackColor = System.Drawing.SystemColors.Control
         Me.Label1.Location = New System.Drawing.Point(869, 533)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(25, 17)
+        Me.Label1.Size = New System.Drawing.Size(21, 13)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "IP:"
         '
@@ -982,7 +982,7 @@ Partial Class FrmPrincipal
         Me.lblIP.BackColor = System.Drawing.SystemColors.Control
         Me.lblIP.Location = New System.Drawing.Point(886, 533)
         Me.lblIP.Name = "lblIP"
-        Me.lblIP.Size = New System.Drawing.Size(116, 17)
+        Me.lblIP.Size = New System.Drawing.Size(91, 13)
         Me.lblIP.TabIndex = 4
         Me.lblIP.Text = "192.168.200.111"
         '
@@ -993,7 +993,7 @@ Partial Class FrmPrincipal
         Me.Label3.BackColor = System.Drawing.SystemColors.Control
         Me.Label3.Location = New System.Drawing.Point(592, 533)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(42, 17)
+        Me.Label3.Size = New System.Drawing.Size(34, 13)
         Me.Label3.TabIndex = 5
         Me.Label3.Text = "Data:"
         '
@@ -1004,7 +1004,7 @@ Partial Class FrmPrincipal
         Me.lblData.BackColor = System.Drawing.SystemColors.Control
         Me.lblData.Location = New System.Drawing.Point(622, 533)
         Me.lblData.Name = "lblData"
-        Me.lblData.Size = New System.Drawing.Size(82, 17)
+        Me.lblData.Size = New System.Drawing.Size(63, 13)
         Me.lblData.TabIndex = 6
         Me.lblData.Text = "00/00/0000"
         '
@@ -1015,7 +1015,7 @@ Partial Class FrmPrincipal
         Me.lblEstacao.BackColor = System.Drawing.SystemColors.Control
         Me.lblEstacao.Location = New System.Drawing.Point(769, 533)
         Me.lblEstacao.Name = "lblEstacao"
-        Me.lblEstacao.Size = New System.Drawing.Size(79, 17)
+        Me.lblEstacao.Size = New System.Drawing.Size(62, 13)
         Me.lblEstacao.TabIndex = 8
         Me.lblEstacao.Text = "COMPUTER"
         '
@@ -1026,7 +1026,7 @@ Partial Class FrmPrincipal
         Me.Label4.BackColor = System.Drawing.SystemColors.Control
         Me.Label4.Location = New System.Drawing.Point(721, 533)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(61, 17)
+        Me.Label4.Size = New System.Drawing.Size(49, 13)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Estação:"
         '
@@ -1043,9 +1043,9 @@ Partial Class FrmPrincipal
         '
         Me.pbLogo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbLogo.Image = CType(resources.GetObject("pbLogo.Image"), System.Drawing.Image)
-        Me.pbLogo.Location = New System.Drawing.Point(689, 413)
+        Me.pbLogo.Location = New System.Drawing.Point(632, 13)
         Me.pbLogo.Name = "pbLogo"
-        Me.pbLogo.Size = New System.Drawing.Size(293, 112)
+        Me.pbLogo.Size = New System.Drawing.Size(355, 537)
         Me.pbLogo.TabIndex = 9
         Me.pbLogo.TabStop = False
         '
@@ -1060,7 +1060,7 @@ Partial Class FrmPrincipal
         '
         'FrmPrincipal
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(987, 550)

@@ -929,3 +929,199 @@ th {
     font-size: 12px !important;
     padding-right: 2px !important;
 }
+/*CSS A PARTIR DAQUI*/
+
+.required {
+    color: red;
+}
+
+.noborder {
+    border: none;
+    box-shadow: none;
+}
+
+    .noborder:active {
+        background: white;
+        border: none;
+    }
+
+    .noborder[disabled] {
+        background: white;
+    }
+
+.margBot {
+    margin-bottom: 2px !important;
+}
+
+#MainContent_checkEsc, #MainContent_checkInicioFreetime {
+    margin: 0 !important;
+}
+
+input[type=checkbox] {
+    margin-top: 0px !important;
+}
+
+input[type=file] {
+    display: none
+}
+
+.errorVerified {
+    color: red;
+    font-weight: bold;
+    background-color: rgba(255,0,0,0.3);
+}
+
+.verified {
+    color: green;
+    font-weight: bold;
+    background-color: rgba(0,255,0,0.3);
+}
+
+
+#boxTableImport table tbody td, #boxTableImport table thead th {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white;
+    cursor: default;
+}
+
+.noboxP {
+    border: none;
+    box-shadow: none;
+    background-color: rgb(220,220,220);
+    cursor: default;
+}
+
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white !important;
+    font-weight: bold;
+    cursor: default !important;
+}
+
+#grdModuloDemurrage .pad {
+    padding: 3px 6px;
+}
+
+#obsInfoCont {
+    width: 800px;
+}
+
+.functionBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.functionFaturaBar {
+    display: flex;
+}
+
+.boxFaturaFuncSec {
+    margin-left: 20px;
+}
+
+.btnBoxFunc, .btnFaturaFunc, .btnFaturaFuncSec {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.btnDemuFunc {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.demuFunc {
+    margin-left: 5px;
+}
+
+.oFunc {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#faturado, #nFaturado {
+    color: rgba(255,0,0,0.7);
+    display: none;
+}
+
+.tableModalFix {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .tableModalFix thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+.colorir {
+    background: rgba(0,0,255,0.4);
+}
+
+.flexdivbtn {
+    display: flex;
+    align-items: normal;
+}
+
+#btnProximo {
+    display: none;
+}
+
+#grdPrint th, #grdPrint td {
+    padding: .3em;
+    border: 1px solid #999;
+}
+
+.flexdiv {
+    font-size: 10px;
+}
+
+#containerCourrier > tr {
+    padding: 5px 10px !important;
+}
+
+#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+#msgErrUpdate, #msgDeleteErr, #msgDeleteSucess, #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek {
+    display: none;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.flexdiv {
+    display: flex;
+    align-items: flex-end;
+}
+
+.popErr {
+    display: block;
+    text-align: center;
+}

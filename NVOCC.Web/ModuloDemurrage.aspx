@@ -35,12 +35,12 @@
                             <div>
                                 <input type="radio" id="venda" name="type" value="1" checked>
                                 <label for="venda">Venda</label><br>
-                                <input type="radio" id="compra" name="type" value="2"   >
+                                <input type="radio" id="compra" name="type" value="2">
                                 <label for="compra">Compra</label><br>
                             </div>
                             <div class="demuFunc">
                                 <button type="button" id="btnCalcularDemurrage" class="btn btn-primary" onclick="CalculoDemurrage()">Cálculo Demurrage</button>           
-                                <button type="button" id="btnImprimirCalc" class="btn btn-primary" onclick="exportTableToCSVAtual('members.csv')">Imprimir Cálculo</button>                
+                                <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary" data-toggle="modal" data-target="#modalPrint">Imprimir Cálculo</button>                
                                 <button type="button" id="btnFatura" class="btn btn-primary" data-toggle="modal" data-target="#modalFaturas" onclick="listarFatura()">Faturas</button>
                             </div>
                         </div>
@@ -299,6 +299,11 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="row">
+                                        <div class="alert alert-danger text-center" id="msgErrTable">
+                                            Tabela Demurrage não encontrada
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -593,6 +598,201 @@
                         </div>
                     </div>
 
+                    <div class="modal fade bd-example-modal-xl" id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalPrintTitle">Imprimir Calculo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div id="referPDF" class="modal-body">
+                                    <div class="row" style="display: flex; justify-content: space-around; align-items:center; padding: 10px">
+                                        <div>
+                                            <img src="Content/imagens/FCA-Log(deitado).png" />
+                                        </div>
+                                        <span style="font-size: 20px">
+                                            DEMONSTRATIVO DE CÁLCULO DEMURRAGE
+                                        </span>
+                                    </div>
+                                    <div class="row" style="margin-top: 10px">
+                                        <div class="col-sm-12">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">RAZÃO SOCIAL</label>
+                                                <input id="txtRazaoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">ENDEREÇO</label>
+                                                <input id="txtEnderecoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">MUNICIPIO</label>
+                                                <input id="txtMunicipioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">BAIRRO</label>
+                                                <input id="txtBairroC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">UF</label>
+                                                <input id="txtUFC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">CEP</label>
+                                                <input id="txtCEPC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">CNPJ</label>
+                                                <input id="txtCNPJC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">INSCRIÇÃO ESTADUAL</label>
+                                                <input id="txtInscricaoEstadualC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row topMarg">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">PROCESSO</label>
+                                                <input id="txtProcessoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">SERVIÇO</label>
+                                                <input id="txtServicoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">REF CLIENTE</label>
+                                                <input id="txtRefClienteC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">ORIGEM</label>
+                                                <input id="txtOrigemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">SHIPPER</label>
+                                                <input id="txtShipperC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">DESTINO</label>
+                                                <input id="txtDestinoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">MASTER</label>
+                                                <input id="txtMasterC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">PESO(TON)</label>
+                                                <input id="txtPesoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">HOUSE</label>
+                                                <input id="txtHouseC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">VOLUMES</label>
+                                                <input id="txtVolumesC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">NAVIO</label>
+                                                <input id="txtNavioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group flexdiv">
+                                                <label class="control-label">CUBAGEM</label>
+                                                <input id="txtCubagemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top: 20px">
+                                        <div class="table-responsive">
+                                            <table id="grdPrint" style="border-collapse: collapse; border-spacing: 0">
+                                                <thead>
+                                                    <tr>
+                                                        <th rowspan="2" class="text-center">CONTÊINER</th>
+                                                        <th rowspan="2" class="text-center">TIPO</th>
+                                                        <th colspan="3" class="text-center">FREETIME</th>
+                                                        <th colspan="3" class="text-center">DEMURRAGE</th>
+                                                        <th rowspan="2" class="text-center">MOEDA</th>
+                                                        <th rowspan="2" class="text-center">DIARIA</th>
+                                                        <th rowspan="2" class="text-center">TOTAL</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-center">INICIO</th>
+                                                        <th class="text-center">FINAL</th>
+                                                        <th class="text-center">DIAS</th>
+                                                        <th class="text-center">INICIO</th>
+                                                        <th class="text-center">FINAL</th>
+                                                        <th class="text-center">DIAS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="grdPrintBody">             
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnImprimir" class="btn btn-primary btn-ok">Imprimir Calculo</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade bd-example-modal-xl" id="modalFaturas" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
@@ -604,8 +804,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="alert alert-danger text-center" id="msgSuccessProcess">
-                                            Selecione um Processo
+                                        <div class="alert alert-success text-center" id="msgSuccessProcess">
+                                            Fatura processada com sucesso.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrCancelar">
                                             Erro ao cancelar Fatura
@@ -619,6 +819,12 @@
                                         <div class="alert alert-success text-center" id="msgExportSuccess">
                                             Fatura Exportada com Sucesso.
                                         </div>
+                                        <div class="alert alert-success text-center" id="msgDeleteSucess">
+                                            Fatura Deletada com Sucesso.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgDeleteErr">
+                                            Erro ao deletar Fatura.
+                                        </div>
                                         <div class="alert alert-success text-center" id="msgExportErr">
                                             Erro ao Exportar Fatura.
                                         </div>
@@ -628,7 +834,7 @@
                                             <label>Fatura</label>
                                             <div class="btnFaturaFunc">
                                                 <button type="button" id="btnNovaFatura" onclick="limparCampos()" class="btn btn-primary" data-toggle="modal" data-target="#modalNovaFatura">Nova</button>
-                                                <button type="button" id="btnExcluirFatura" class="btn btn-primary" data-toggle="modal" data-target="#modalEditContInfo">Excluir</button>
+                                                <button type="button" id="btnExcluirFatura" onclick="confirmExcluirFatura()" class="btn btn-primary">Excluir</button>
                                                 <button type="button" id="btnCancelarFatura" onclick="infoCancelar()" class="btn btn-primary">Cancelar</button>
                                             </div>
                                         </div>
@@ -731,6 +937,26 @@
                                 <div class="modal-footer">
                                     <button type="button" id="btnProcessar" onclick="processarFatura()" class="btn btn-primary btn-ok">Processar</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalExcluirFatura" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalExcluirFaturaTitle">Excluir Fatura</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Tem certeza que deseja excluir a fatura?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btnExcluirS" onclick="excluirFatura()" class="btn btn-primary btn-ok">Sim</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                                 </div>
                             </div>
                         </div>
@@ -1043,8 +1269,8 @@
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
                                     <th class="text-center" scope="col">Data Chegada</th>
+                                    <th class="text-center" scope="col">Data Limite Chegada</th>
                                     <th class="text-center" scope="col">FreeTime</th>
-                                    <th class="text-center" scope="col">Data Limite</th>
                                     <th class="text-center" scope="col">Data Devolução</th>
                                     <th class="text-center" scope="col">Qtd Dias Demurrage</th>
                                     <th class="text-center" scope="col">Status</th>
@@ -1071,6 +1297,24 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="Content/js/papaparse.min.js"></script>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script> 
+        window.onload = function () {
+            document.getElementById("btnImprimir")
+                .addEventListener("click", () => {
+                    const pdf = this.document.getElementById("referPDF");
+                    var opt = {
+                        margin: 1,
+                        filename: 'myfile.pdf',
+                        image: { type: 'jpeg', quality: 1 },
+                        html2canvas: { scale: 1 },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+                    html2pdf().from(pdf).set(opt).save();
+                })
+        }
+    </script>
     <script>
        
         var id = 0;
@@ -1116,7 +1360,7 @@
                             if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1125,7 +1369,7 @@
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1134,7 +1378,7 @@
                             else {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1144,7 +1388,7 @@
                     }
                     else {
                         $("#grdModuloDemurrage").empty();
-                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='20' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })
@@ -1215,7 +1459,7 @@
             for (var i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
             }
-            var dtStatus = document.getElementById('dtDevolucao').value;
+            var dtStatus = document.getElementById('dtStatusDevolucao').value;
             var dsStatus = document.getElementById('MainContent_ddlStatusDevolucao').value;
             var dtDevolucao = document.getElementById('dtDevolucao').value;
             if (values.length > 0) {
@@ -1289,7 +1533,7 @@
                                             if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1298,7 +1542,7 @@
                                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1307,7 +1551,7 @@
                                             else {
                                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1402,7 +1646,7 @@
                                     if (dado[i]["QT_DIAS_DEMURRAGE"] <= 10 && dado[i]["QT_DIAS_DEMURRAGE"] >= 1) {
                                         $("#grdModuloDemurrage").append("<tr style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1411,7 +1655,7 @@
                                     else if (dado[i]["QT_DIAS_DEMURRAGE"] < 1) {
                                         $("#grdModuloDemurrage").append("<tr style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1420,7 +1664,7 @@
                                     else {
                                         $("#grdModuloDemurrage").append("<tr><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1452,7 +1696,7 @@
                                     if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                         $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1461,7 +1705,7 @@
                                     else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                         $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1470,7 +1714,7 @@
                                     else {
                                         $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                             "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1553,7 +1797,7 @@
 
         function obterMarcados() {
             pacote = document.querySelectorAll('[name=checks]:checked');
-
+            document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
             values = [];
             for (var i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
@@ -1564,7 +1808,7 @@
                     $("#modalCalucloSelecionados").modal("show");
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoVenda",
+                        url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
                         data: '{idCont:"' + values[0] + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -1574,118 +1818,90 @@
                             $("#btnZerarCalculo").prop('disabled', true);
                         },
                         success: function (dado) {
+                            $("#btnCalcularSelecionado").prop('disabled', false);
                             $("#btnIgnorar").prop('disabled', false);
                             $("#btnZerarCalculo").prop('disabled', false);
                             var dado = dado.d;
                             dado = $.parseJSON(dado);
                             if (dado != null) {
-                                $("#btnCalcularSelecionado").prop('disabled', false);
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                                
-
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
-                                    data: '{idCont:"' + values[0] + '"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = "FCA LOG";
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
-                            } 
-                        }
-                    })
-                }
-                else {
-                    $("#modalCalucloSelecionados").modal("show");
-                    transportador = document.getElementById("MainContent_ddlTransportador").value;
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoCompra",
-                        data: '{idCont:"' + values[0] + '"}',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#btnCalcularSelecionado").prop('disabled', true);
-                            $("#btnIgnorar").prop('disabled', true);
-                            $("#btnZerarCalculo").prop('disabled', true);
-                        },
-                        success: function (dado) {
-                            $("#btnIgnorar").prop('disabled', false);
-                            $("#btnZerarCalculo").prop('disabled', false);
-                            var dado = dado.d;
-                            dado = $.parseJSON(dado);
-                            if (dado != null) {
-                                $("#btnCalcularSelecionado").prop('disabled', false);
-                                document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
-                                document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
-                                document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
-                                    data: '{idCont:"' + values[0] + '", transportador: "' + transportador + '"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById('nmTabelaCalculo').value = "FCA LOG";
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                }
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
                             }
                         }
                     })
                 }
+            
+            else {
+                $("#modalCalucloSelecionados").modal("show");
+                transportador = document.getElementById("MainContent_ddlTransportador").value;
+
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
+                    data: '{idCont:"' + values[0] + '", transportador: "' + transportador + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#btnCalcularSelecionado").prop('disabled', true);
+                        $("#btnIgnorar").prop('disabled', true);
+                        $("#btnZerarCalculo").prop('disabled', true);
+                    },
+                    success: function (dado) {
+                        $("#btnCalcularSelecionado").prop('disabled', false);
+                        $("#btnIgnorar").prop('disabled', false);
+                        $("#btnZerarCalculo").prop('disabled', false);
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
+                            document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
+                            document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
+                            document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                            document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
+                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                            if (dado[0]["FL_ESCALONADA"] != 0) {
+                                $("#vlTaxa").prop('disabled', true);
+                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                            } else {
+                                $("#vlTaxa").prop('disabled', false);
+                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                            }
+                        }
+                        else {
+                            $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                            $("#btnCalcularSelecionado").prop('disabled', true);
+                            document.getElementById('nrConteinerCalculo').value = "";
+                            document.getElementById('nmTipoCont').value = "";
+                            document.getElementById('qtDiasDemu').value = "";
+                            document.getElementById('nmTabelaCalculo').value = "";
+                            document.getElementById('nmMoeda').value = "";
+                            $("#vlTaxa").prop('disabled', true);
+                        }
+                    }
+                })
             }
+        }
             else {
                 values = [];
                 $("#msgErrSelectCalc").fadeIn(500).delay(1000).fadeOut(500);
@@ -1695,47 +1911,54 @@
         function calcularSelecionados() {
             vlTaxa = document.getElementById("vlTaxa").value;
             transportador = document.getElementById("MainContent_ddlTransportador").value;
-            if (vlCheck == 1) {
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/calcularDemurrageVenda",
-                    data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa + '" }',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#btnCalcularSelecionado").prop('disabled', true);
-                        $("#btnIgnorar").prop('disabled', true);
-                        $("#btnZerarCalculo").prop('disabled', true);
-                    },
-                    success: function (dado) {
-                        $("#btnCalcularSelecionado").hide();
-                        $("#btnCalcularSelecionado").prop('disabled',false);
-                        $("#btnProximo").show();
-                        $("#btnIgnorar").prop('disabled', false);
-                        $("#btnZerarCalculo").prop('disabled', false);
-                    }
-                })
+            var idStatus = document.getElementById("MainContent_ddlStatusCalculoSelecionado").value;
+            var dtStatus = document.getElementById("dtStatusCalculoSelecionado").value;
+            if (dtStatus != "" && idStatus != 0) {
+                if (vlCheck == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/calcularDemurrageVenda",
+                        data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa + '", idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#btnCalcularSelecionado").prop('disabled', true);
+                            $("#btnIgnorar").prop('disabled', true);
+                            $("#btnZerarCalculo").prop('disabled', true);
+                        },
+                        success: function (dado) {
+                            $("#btnCalcularSelecionado").hide();
+                            $("#btnCalcularSelecionado").prop('disabled', false);
+                            $("#btnProximo").show();
+                            $("#btnIgnorar").prop('disabled', false);
+                            $("#btnZerarCalculo").prop('disabled', false);
+                        }
+                    })
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/calcularDemurrageCompra",
+                        data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa + '",transportador: "' + transportador + '" ,idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#btnCalcularSelecionado").prop('disabled', true);
+                            $("#btnIgnorar").prop('disabled', true);
+                            $("#btnZerarCalculo").prop('disabled', true);
+                        },
+                        success: function (dado) {
+                            $("#btnCalcularSelecionado").hide();
+                            $("#btnCalcularSelecionado").prop('disabled', false);
+                            $("#btnProximo").show();
+                            $("#btnIgnorar").prop('disabled', false);
+                            $("#btnZerarCalculo").prop('disabled', false);
+                        }
+                    })
+                }
             }
             else {
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/calcularDemurrageCompra",
-                    data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa + '", transportador: "' + transportador +'" }',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#btnCalcularSelecionado").prop('disabled', true);
-                        $("#btnIgnorar").prop('disabled', true);
-                        $("#btnZerarCalculo").prop('disabled', true);
-                    },
-                    success: function (dado) {
-                        $("#btnCalcularSelecionado").hide();
-                        $("#btnCalcularSelecionado").prop('disabled', false);
-                        $("#btnProximo").show();
-                        $("#btnIgnorar").prop('disabled', false);
-                        $("#btnZerarCalculo").prop('disabled', false);
-                    }
-                })
+
             }
         }
 
@@ -1746,10 +1969,10 @@
             transportador = document.getElementById("MainContent_ddlTransportador").value;
             if (conter < values.length) {
                 if (vlCheck == 1) {
-                    $.ajax({
+                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoVenda",
-                        data: '{idCont:"' + values[conter] + '"}',
+                        url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
+                         data: '{idCont:"' + values[conter] + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         beforeSend: function () {
@@ -1758,58 +1981,43 @@
                             $("#btnZerarCalculo").prop('disabled', true);
                         },
                         success: function (dado) {
+                            $("#btnCalcularSelecionado").prop('disabled', false);
                             $("#btnIgnorar").prop('disabled', false);
                             $("#btnZerarCalculo").prop('disabled', false);
                             var dado = dado.d;
                             dado = $.parseJSON(dado);
                             if (dado != null) {
-                                $("#btnCalcularSelecionado").prop('disabled', false);
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
-                                    data: '{idCont:"' + values[0] + '"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = "FCA LOG";
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById('nmTabelaCalculo').value = "FCA LOG";
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                }
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
                             }
                         }
                     })
                 }
-                else {
+                else {               
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoCompra",
-                        data: '{idCont:"' + values[conter] + '"}',
+                        url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
+                        data: '{idCont:"' + values[conter] + '", transportador: "' + transportador + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         beforeSend: function () {
@@ -1818,52 +2026,37 @@
                             $("#btnZerarCalculo").prop('disabled', true);
                         },
                         success: function (dado) {
+                            $("#btnCalcularSelecionado").prop('disabled', false);
                             $("#btnIgnorar").prop('disabled', false);
                             $("#btnZerarCalculo").prop('disabled', false);
                             var dado = dado.d;
                             dado = $.parseJSON(dado);
                             if (dado != null) {
-                                $("#btnCalcularSelecionado").prop('disabled', false);
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
-                                    data: '{idCont:"' + values[0] + '", transportador: "' + transportador + '"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                }
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
                             }
                         }
-                    })
+                    })   
                 }
             }
             else {
@@ -1931,7 +2124,7 @@
                                 if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                     $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1940,7 +2133,7 @@
                                 else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                     $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1949,7 +2142,7 @@
                                 else {
                                     $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                         "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -1973,7 +2166,7 @@
                 if (vlCheck == 1) {
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoVenda",
+                        url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
                         data: '{idCont:"' + values[conter] + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -1992,49 +2185,35 @@
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                            }
-                            $.ajax({
-                                type: "POST",
-                                url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
-                                data: '{idCont:"' + values[conter] + '"}',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                beforeSend: function () {
-                                    $("#btnCalcularSelecionado").prop('disabled', true);
-                                    $("#btnIgnorar").prop('disabled', true);
-                                    $("#btnZerarCalculo").prop('disabled', true);
-                                },
-                                success: function (dado) {
-                                    $("#btnCalcularSelecionado").prop('disabled', false);
-                                    $("#btnIgnorar").prop('disabled', false);
-                                    $("#btnZerarCalculo").prop('disabled', false);
-                                    var dado = dado.d;
-                                    dado = $.parseJSON(dado);
-                                    if (dado != null) {
-                                        document.getElementById('nmTabelaCalculo').value = "FCA LOG";
-                                        document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                        if (dado[0]["FL_ESCALONADA"] != 0) {
-                                            $("#vlTaxa").prop('disabled', true);
-                                        } else {
-                                            $("#vlTaxa").prop('disabled', false);
-                                            document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                        }
-                                    }
-                                    else {
-                                        document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                        $("#vlTaxa").prop('disabled', true);
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                    }
+                                document.getElementById('nmTabelaCalculo').value = "FCA LOG";
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
                                 }
-                            })
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
+
+                            }
                         }
                     })
                 }
                 else {
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoCompra",
-                        data: '{idCont:"' + values[conter] + '"}',
+                        url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
+                        data: '{idCont:"' + values[conter] + '", transportador: "' + transportador +'"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         beforeSend: function () {
@@ -2052,40 +2231,26 @@
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
-                                    data: '{idCont:"' + values[conter] + '", transportador: "' + transportador +'"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                }
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
+                                
                             }
                         }
                     })
@@ -2154,7 +2319,7 @@
                                         if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2163,7 +2328,7 @@
                                         else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2172,7 +2337,7 @@
                                         else {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2207,9 +2372,7 @@
                         $("#btnZerarCalculo").prop('disabled', true);
                     },
                     success: function () {
-                        $("#btnCalcularSelecionado").prop('disabled', false);
-                        $("#btnIgnorar").prop('disabled', false);
-                        $("#btnZerarCalculo").prop('disabled', false);
+                        document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
                     }
                 })
             }
@@ -2226,9 +2389,7 @@
                         $("#btnZerarCalculo").prop('disabled', true);
                     },
                     success: function () {
-                        $("#btnCalcularSelecionado").prop('disabled', false);
-                        $("#btnIgnorar").prop('disabled', false);
-                        $("#btnZerarCalculo").prop('disabled', false);
+                        document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
                     }
                 })
             }
@@ -2237,7 +2398,7 @@
                 if (vlCheck == 1) {
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoVenda",
+                        url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
                         data: '{idCont:"' + values[conter] + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -2256,48 +2417,33 @@
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                            }
-                            $.ajax({
-                                type: "POST",
-                                url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
-                                data: '{idCont:"' + values[conter] + '"}',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                beforeSend: function () {
-                                    $("#btnCalcularSelecionado").prop('disabled', true);
-                                    $("#btnIgnorar").prop('disabled', true);
-                                    $("#btnZerarCalculo").prop('disabled', true);
-                                },
-                                success: function (dado) {
-                                    $("#btnCalcularSelecionado").prop('disabled', false);
-                                    $("#btnIgnorar").prop('disabled', false);
-                                    $("#btnZerarCalculo").prop('disabled', false);
-                                    var dado = dado.d;
-                                    dado = $.parseJSON(dado);
-                                    if (dado != null) {
-                                        document.getElementById('nmTabelaCalculo').value = "FCA LOG";
-                                        document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                        if (dado[0]["FL_ESCALONADA"] != 0) {
-                                            $("#vlTaxa").prop('disabled', true);
-                                        } else {
-                                            $("#vlTaxa").prop('disabled', false);
-                                            document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                        }
-                                    }
-                                    else {
-                                        document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                        $("#vlTaxa").prop('disabled', true);
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                    }
+                                document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById('nmTabelaCalculo').value = "FCA LOG";
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
                                 }
-                            })
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
+                            }
                         }
-                    })
+                    })        
                 }
                 else {
                     $.ajax({
                         type: "POST",
-                        url: "DemurrageService.asmx/infoCalculoMarcadoCompra",
+                        url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
                         data: '{idCont:"' + values[conter] + '", transportador: "' + transportador + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
@@ -2316,45 +2462,28 @@
                                 document.getElementById('nrConteinerCalculo').value = dado[0]['NR_CNTR'];
                                 document.getElementById('nmTipoCont').value = dado[0]['NM_TIPO_CONTAINER'];
                                 document.getElementById('qtDiasDemu').value = dado[0]['QT_DIAS_DEMURRAGE'];
-                               
-                                $.ajax({
-                                    type: "POST",
-                                    url: "DemurrageService.asmx/infoCalculoMarcadoCompraTaxa",
-                                    data: '{idCont:"' + values[conter] + '", transportador: "' + transportador +'"}',
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    beforeSend: function () {
-                                        $("#btnCalcularSelecionado").prop('disabled', true);
-                                        $("#btnIgnorar").prop('disabled', true);
-                                        $("#btnZerarCalculo").prop('disabled', true);
-                                    },
-                                    success: function (dado) {
-                                        $("#btnCalcularSelecionado").prop('disabled', false);
-                                        $("#btnIgnorar").prop('disabled', false);
-                                        $("#btnZerarCalculo").prop('disabled', false);
-                                        var dado = dado.d;
-                                        dado = $.parseJSON(dado);
-                                        if (dado != null) {
-                                            document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
-                                            document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
-                                            if (dado[0]["FL_ESCALONADA"] != 0) {
-                                                $("#vlTaxa").prop('disabled', true);
-                                            } else {
-                                                $("#vlTaxa").prop('disabled', false);
-                                                document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
-                                            }
-                                        }
-                                        else {
-                                            document.getElementById('nmMoeda').value = "Tabela não encontrada";
-                                            $("#vlTaxa").prop('disabled', true);
-                                            $("#btnCalcularSelecionado").prop('disabled', true);
-                                        }
-                                    }
-                                })
+                                document.getElementById('nmTabelaCalculo').value = dado[0]['TABELA'];
+                                document.getElementById('nmMoeda').value = dado[0]['MOEDA'];
+                                if (dado[0]["FL_ESCALONADA"] != 0) {
+                                    $("#vlTaxa").prop('disabled', true);
+                                } else {
+                                    $("#vlTaxa").prop('disabled', false);
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                }
+                            }
+                            else {
+                                $("#msgErrTable").fadeIn(500).delay(1000).fadeOut(500);
+                                $("#btnCalcularSelecionado").prop('disabled', true);
+                                document.getElementById('nrConteinerCalculo').value = "";
+                                document.getElementById('nmTipoCont').value = "";
+                                document.getElementById('qtDiasDemu').value = "";
+                                document.getElementById('nmTabelaCalculo').value = "";
+                                document.getElementById('nmMoeda').value = "";
+                                $("#vlTaxa").prop('disabled', true);
                             }
                         }
                     })
-                }
+                }     
             }
             else {
                 conter = 0;
@@ -2419,7 +2548,7 @@
                                         if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2428,7 +2557,7 @@
                                         else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2437,7 +2566,7 @@
                                         else {
                                             $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -2454,6 +2583,43 @@
                     }
                 })
             }
+        }
+
+        function imprimirDadosCalculo() {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/imprimirDadosCalc",
+                data: '{id:"' + id + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdProcessosFaturaBody").empty();
+                    $("#grdProcessosFaturaBody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        document.getElementById("txtRazaoC").value = dado[0]["NM_RAZAO"];
+                        document.getElementById("txtEnderecoC").value = dado[0]["ENDERECO"] + dado[0]["NR_ENDERECO"];
+                        document.getElementById("txtMunicipioC").value = dado[0]["NM_CIDADE"];
+                        document.getElementById("txtBairroC").value = dado[0]["BAIRRO"];
+                        document.getElementById("txtUFC").value = dado[0]["NM_ESTADO"];
+                        document.getElementById("txtCEPC").value = dado[0]["CEP"];
+                        document.getElementById("txtCNPJC").value = dado[0]["CNPJ"];
+                        document.getElementById("txtProcessoC").value = dado[0]["NR_PROCESSO"];
+                        document.getElementById("txtServicoC").value = dado[0]["NM_SERVICO"];
+                        document.getElementById("txtOrigemC").value = dado[0]["ORIGEM"];
+                        document.getElementById("txtDestinoC").value = dado[0]["DESTINO"];
+                        
+
+                    }
+                    else {
+                        
+                    }
+                    
+                }
+            })
         }
 
         function listarFatura() {
@@ -2574,38 +2740,13 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "DemurrageService.asmx/listarFaturas",
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        beforeSend: function () {
-                                            $("#grdFaturaBody").empty();
-                                            $("#grdFaturaBody").append("<tr><td colspan='8'><div class='loader'></div></td></tr>");
-                                        },
-                                        success: function (dado) {
-                                            var dado = dado.d;
-                                            dado = $.parseJSON(dado);
-                                            if (dado != null) {
-                                                $("#grdFaturaBody").empty();
-                                                for (let i = 0; i < dado.length; i++) {
-                                                    $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + ")'>Selecionar</div></td>" +
-                                                        "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE"] + "</td>" +
-                                                        "<td class='text-center'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
-                                                        "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
-                                                }
-                                            }
-                                            else {
-                                                $("#grdFaturaBody").empty();
-                                                $("#grdFaturaBody").append("<tr id='msgEmptyWeek'><td colspan='8' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                            }
-                                        }
-                                    })
-                                    $("#modalNovaFatura").modal('hide');
-                                    $("#msgSuccessProcess").fadeIn(500).delay(1000).fadeOut(500);
+                                    
                                 }
                             })
                         }
+                        listarFatura();
+                        $("#modalNovaFatura").modal('hide');
+                        $("#msgSuccessProcess").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 })
             }
@@ -2637,6 +2778,37 @@
                     }
                 })
             }
+        }
+
+        function confirmExcluirFatura() {
+            if (idFatura != 0) {
+                $("#modalExcluirFatura").modal('show');
+            }
+        }
+
+        function excluirFatura() {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/excluirFatura",
+                    data: '{idFatura:"' + idFatura + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+
+                    },
+                    success: function (dado) {
+                        $("#msgDeleteSucess").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        $("#modalExcluirFatura").modal('hide');
+                    },
+                    error: function (err) {
+                        $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        $("#modalExcluirFatura").modal('hide');
+                    }
+
+                })
+            
         }
 
         function cancelarFatura() {
@@ -2719,7 +2891,8 @@
             var linhas = document.querySelectorAll(".desconto");
             var linhas2 = document.querySelectorAll(".vlDemurrage");
             var desc = document.querySelectorAll("#grdAtualizacaoCambialBody tr");
-            vlCambio.replace(",", ".");
+            var valorCambio = new String(vlCambio);
+            var vcambio = valorCambio.replace(",", ".");
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/atualizacaoCambialFatura",
@@ -2728,16 +2901,17 @@
                 dataType: "json",
                 success: function () {
                     for (var ind = 0; ind < linhas.length; ind++) {
+                        var vlDemurrage = linhas2[ind].textContent.toString().replace(",", ".");
+                        var descontoBRL = linhas[ind].textContent.toString().replace(",", ".");
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/atualizacaoCambialContainer",
-                            data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vlCambio + '",vlDemurrage:"' + linhas2[ind].textContent+'" ,descontoBRL: "' + linhas[ind].textContent + '",check:"'+vlCheck+'"}',
+                            data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage +'" ,descontoBRL: "' + descontoBRL + '",check:"'+vlCheck+'"}',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function () {
                                 $("#modalAtualizacaoCambial").modal("hide");
                                 $("#msgUpdtSuccess").fadeIn(500).delay(1000).fadeOut(500);
-
                             }
                         })
                     }
@@ -3322,7 +3496,7 @@
                             if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -3331,7 +3505,7 @@
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
@@ -3340,7 +3514,7 @@
                             else {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +

@@ -1,15 +1,16 @@
 ﻿Imports DgvFilterPopup
-Public Class FrmTiposConteiner
+Public Class FrmNavios
 
     Private Coluna As Integer
     Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT CODE,DESCR + ' (' + CODIGO + ')' DESCR,TARA_MIN_20,TARA_MIN_40,TARA_MAX_20,TARA_MAX_40,CASE WHEN FLAG_TEMPERATURA = 1 THEN 'SIM' ELSE 'NÃO' END FLAG_TEMPERATURA,CASE WHEN FLAG_EXCESSO = 1 THEN 'SIM' ELSE 'NÃO' END FLAG_EXCESSO,CODIGO FROM " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER")
+        Me.dgvConsulta.DataSource = Banco.List("SELECT CODE,DESCR,NACIONALIDADE,CASE WHEN FLAG_RORO IS NULL THEN 'NÃO' WHEN FLAG_RORO = 0 THEN 'NÃO' ELSE 'SIM'END AS RO_RO FROM " & Banco.BancoSGIPA & "DTE_TB_NAVIOS")
     End Sub
 
     Private Sub SetaControles()
 
+        btnNovo.Enabled = Not (btnNovo.Enabled)
         btnEditar.Enabled = Not (btnEditar.Enabled)
         btnSalvar.Enabled = Not (btnSalvar.Enabled)
         btnCancelar.Enabled = Not (btnCancelar.Enabled)
@@ -28,15 +29,9 @@ Public Class FrmTiposConteiner
 
         If Me.dgvConsulta.Rows.Count > 0 Then
             Filtro = New DgvFilterManager(Me.dgvConsulta)
-            LoadFilters(Filtro)
         End If
 
         FundoTextBox(Me)
-
-        CampoNumerico(Me.txtMin20)
-        CampoNumerico(Me.txtMin40)
-        CampoNumerico(Me.txtMax20)
-        CampoNumerico(Me.txtMax40)
 
     End Sub
 
@@ -53,14 +48,9 @@ Public Class FrmTiposConteiner
 
         If Me.dgvConsulta.Rows.Count > 0 Then
             Me.txtCodigo.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
-            Me.txtDescricao.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
-            Me.txtMin20.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
-            Me.txtMin40.Text = Me.dgvConsulta.CurrentRow.Cells(3).Value.ToString()
-            Me.txtMax20.Text = Me.dgvConsulta.CurrentRow.Cells(4).Value.ToString()
-            Me.txtMax40.Text = Me.dgvConsulta.CurrentRow.Cells(5).Value.ToString()
-            Me.chkTemp.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(6).Value.ToString() = "SIM", True, False)
-            Me.chkExcesso.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(7).Value.ToString() = "SIM", True, False)
-            Me.txtCodigoDescr.Text = Me.dgvConsulta.CurrentRow.Cells(8).Value.ToString()
+            Me.txtNome.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
+            Me.txtNacionalidade.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
+            Me.chkRoRo.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(3).Value.ToString().Equals("SIM"), True, False)
         End If
 
     End Sub
@@ -73,19 +63,18 @@ Public Class FrmTiposConteiner
 
         If txtCodigo.Text = String.Empty Then
             Try
-                Dim Codigo As String = Banco.ExecuteScalar("SELECT MAX(CAST(CODE AS NUMERIC))+1 FROM " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER")
-                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER (CODE, DESCR, CODIGO, FLAG_TEMPERATURA, FLAG_EXCESSO, TARA_MIN_20, TARA_MIN_40, TARA_MAX_20, TARA_MAX_40) VALUES (" & Codigo & ",'" & Me.txtDescricao.Text & "','" & Me.txtCodigoDescr.Text & "'," & Me.chkTemp.CheckState & "," & chkExcesso.CheckState & "," & Val(Me.txtMin20.Text) & "," & Val(Me.txtMin40.Text) & "," & Val(Me.txtMax20.Text) & "," & Val(Me.txtMax40.Text) & ")") Then
+                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_NAVIOS (DESCR, NACIONALIDADE, FLAG_RORO) VALUES ('" & Me.txtNome.Text & "','" & Me.txtNacionalidade.Text & "', '" & Me.chkRoRo.CheckState & "')") Then
                     Consultar()
                     Mensagens(Me, 1)
                 Else
                     Mensagens(Me, 4)
                 End If
             Catch ex As Exception
-                Mensagens(Me, 5)
+                Mensagens(Me, 4)
             End Try
         Else
             Try
-                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER SET TARA_MIN_20 = " & txtMin20.Text & ", TARA_MIN_40 = " & txtMin40.Text & ", TARA_MAX_20 = '" & txtMax20.Text & "', TARA_MAX_40 = '" & txtMax40.Text & "',flag_excesso=" & chkExcesso.CheckState & ",flag_temperatura=" & chkTemp.CheckState & " WHERE CODE = " & txtCodigo.Text & "") Then
+                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_NAVIOS SET FLAG_RORO = '" & Me.chkRoRo.CheckState & "' WHERE CODE = " & Me.txtCodigo.Text & "") Then
                     Consultar()
                     Mensagens(Me, 2)
                 Else
@@ -105,7 +94,7 @@ Public Class FrmTiposConteiner
         Me.Close()
     End Sub
 
-    Private Sub btnPrimeiro_Click(sender As System.Object, e As System.EventArgs) Handles btnPrimeiro.Click
+    Private Sub btnPrimeiro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(0).Cells(0)
@@ -114,7 +103,7 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub btnProximo_Click(sender As System.Object, e As System.EventArgs) Handles btnProximo.Click
+    Private Sub btnProximo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             If dgvConsulta.CurrentRow.Index < dgvConsulta.Rows.Count - 1 Then
@@ -125,7 +114,7 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub btnUltimo_Click(sender As System.Object, e As System.EventArgs) Handles btnUltimo.Click
+    Private Sub btnUltimo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(dgvConsulta.Rows.Count - 1).Cells(0)
@@ -134,7 +123,7 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub btnAnterior_Click(sender As System.Object, e As System.EventArgs) Handles btnAnterior.Click
+    Private Sub btnAnterior_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
 
         If dgvConsulta.CurrentRow.Index > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(dgvConsulta.CurrentRow.Index - 1).Cells(0)
@@ -150,14 +139,13 @@ Public Class FrmTiposConteiner
             Exit Sub
         End If
 
-        SetaControles()
         HabilitarCampos(Me, True)
-        txtDescricao.Enabled = False
-        txtCodigoDescr.Enabled = False
+        SetaControles()
+        Me.txtNome.Focus()
 
     End Sub
 
-    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs) Handles btnFiltro.Click
+    Private Sub btnFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         If dgvConsulta.Rows.Count > 0 Then
             Filtro.ShowPopup(Me.dgvConsulta.CurrentCell.ColumnIndex)
         End If
@@ -166,9 +154,9 @@ Public Class FrmTiposConteiner
     Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
         SetaControles()
         LimparCampos(Me)
-        HabilitarCampos(Me, False)
     End Sub
-    Private Sub FrmAvisoExtrato_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+
+    Private Sub FrmNavios_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
         If e.KeyCode = Keys.Escape Then
             Me.Close()
@@ -176,7 +164,7 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub FrmAvisoExtrato_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+    Private Sub FrmNavios_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
         Me.Dispose()
     End Sub
 
@@ -184,7 +172,7 @@ Public Class FrmTiposConteiner
         LimparCampos(Me)
         HabilitarCampos(Me, True)
         SetaControles()
-        Me.txtDescricao.Focus()
+        Me.txtNome.Focus()
     End Sub
 
 End Class

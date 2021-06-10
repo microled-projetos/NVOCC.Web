@@ -1,20 +1,19 @@
-﻿Imports DgvFilterPopup
-Public Class FrmGrupos
+﻿
+Public Class FrmEventos
 
     Private Coluna As Integer
-    Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT CODGRUPO, DESCRICAO FROM " & Banco.BancoSGIPA & "TB_SYS_GRUPO_USER ORDER BY DESCRICAO")
-        Me.pbCarregando.Visible = False
+        Me.dgvConsulta.DataSource = Banco.List("SELECT AUTONUM,DESCR,SUFIXO FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS")
     End Sub
 
     Private Sub SetaControles()
 
         btnNovo.Enabled = Not (btnNovo.Enabled)
+        btnEditar.Enabled = Not (btnEditar.Enabled)
         btnSalvar.Enabled = Not (btnSalvar.Enabled)
-        btnCancelar.Enabled = Not (btnCancelar.Enabled)
         btnExcluir.Enabled = Not (btnExcluir.Enabled)
+        btnCancelar.Enabled = Not (btnCancelar.Enabled)
         dgvConsulta.Enabled = Not (dgvConsulta.Enabled)
         pnControles.Enabled = Not (pnControles.Enabled)
 
@@ -22,17 +21,7 @@ Public Class FrmGrupos
 
     Private Sub FrmPrincipal_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
 
-        If Not Filtro Is Nothing Then
-            Filtro.ActivateAllFilters(False)
-        End If
-
         Consultar()
-
-        If Me.dgvConsulta.Rows.Count > 0 Then
-            Filtro = New DgvFilterManager(Me.dgvConsulta)
-            LoadFilters(Filtro)
-        End If
-
         FundoTextBox(Me)
 
     End Sub
@@ -60,6 +49,7 @@ Public Class FrmGrupos
         If Me.dgvConsulta.Rows.Count > 0 Then
             Me.txtCodigo.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
             Me.txtDescricao.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
+            Me.txtSufixo.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
         End If
 
     End Sub
@@ -78,26 +68,19 @@ Public Class FrmGrupos
             End If
 
             Try
-                Dim Codigo As String = String.Empty
-                Codigo = Banco.ExecuteScalar("SELECT MAX(CODGRUPO) + 1 FROM " & Banco.BancoSGIPA & "TB_SYS_GRUPO_USER")
-                If Codigo <> String.Empty Then
-                    If Convert.ToInt32(Codigo) > 0 Then
-                        If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "TB_SYS_GRUPO_USER (CODGRUPO,DESCRICAO) VALUES ('" & Codigo & "','" & Me.txtDescricao.Text & "')") Then
-                            Consultar()
-                            Mensagens(Me, 1)
-                        Else
-                            Mensagens(Me, 4)
-                        End If
-                    End If
+
+                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_EVENTOS (DESCR,SUFIXO) VALUES ('" & Me.txtDescricao.Text & "','" & Me.txtSufixo.Text & "')") Then
+                    Consultar()
+                    Mensagens(Me, 1)
+                Else
+                    Mensagens(Me, 4)
                 End If
             Catch ex As Exception
                 Mensagens(Me, 4)
             End Try
-
         Else
-
             Try
-                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "TB_SYS_GRUPO_USER SET DESCRICAO = '" & Me.txtDescricao.Text & "' WHERE CODGRUPO = " & Me.txtCodigo.Text) Then
+                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_EVENTOS SET DESCR = '" & Me.txtDescricao.Text & "',SUFIXO='" & Me.txtSufixo.Text & "'  WHERE AUTONUM = " & Me.txtCodigo.Text & "") Then
                     Consultar()
                     Mensagens(Me, 2)
                 Else
@@ -106,11 +89,24 @@ Public Class FrmGrupos
             Catch ex As Exception
                 Mensagens(Me, 5)
             End Try
-
         End If
 
-        SetaControles()
+        LimparCampos(Me)
         HabilitarCampos(Me, False)
+        SetaControles()
+
+    End Sub
+
+    Private Sub btnExcluir_Click(sender As System.Object, e As System.EventArgs) Handles btnExcluir.Click
+
+        If Not String.IsNullOrEmpty(txtCodigo.Text) Then
+            If MessageBox.Show("Deseja realmente excluir o registro selecionado?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If Banco.Execute("DELETE FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS WHERE AUTONUM = " & txtCodigo.Text & "") Then
+                    Consultar()
+                    LimparCampos(Me)
+                End If
+            End If
+        End If
 
     End Sub
 
@@ -156,16 +152,43 @@ Public Class FrmGrupos
 
     End Sub
 
-    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs) Handles btnFiltro.Click
-        If dgvConsulta.Rows.Count > 0 Then
-            Filtro.ShowPopup(Me.dgvConsulta.CurrentCell.ColumnIndex)
+    Private Sub btnEditar_Click(sender As System.Object, e As System.EventArgs) Handles btnEditar.Click
+
+        If String.IsNullOrEmpty(txtCodigo.Text) Then
+            MessageBox.Show("Selecione um registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
         End If
+
+        SetaControles()
+        HabilitarCampos(Me, True)
+        txtDescricao.Focus()
+
+    End Sub
+
+    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs) Handles btnFiltro.Click
+
     End Sub
 
     Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
         SetaControles()
         LimparCampos(Me)
         HabilitarCampos(Me, False)
+    End Sub
+
+    Private Sub btImprimir_Click(sender As System.Object, e As System.EventArgs)
+
+
+        Dim formulas As List(Of String) = New List(Of String)
+        Dim valores As List(Of String) = New List(Of String)
+
+        formulas.Add("usuario")
+        valores.Add(FrmPrincipal.lblUsuario.Text)
+
+        Dim rptName As String = "\rpts\DteEventos.rpt"
+        Dim query As String = "SELECT DTE_TB_EVENTOS.CODE, DTE_TB_EVENTOS.DESCR FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS DTE_TB_EVENTOS ORDER BY DTE_TB_EVENTOS.CODE"
+        'Banco.TestaSQL(query)
+        'ChamarRelatorio(rptName, query, "0", formulas, valores)
+
     End Sub
 
     Private Sub FrmAgencias_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
@@ -180,35 +203,43 @@ Public Class FrmGrupos
         Me.Dispose()
     End Sub
 
-    Private Sub btnEditar_Click(sender As System.Object, e As System.EventArgs) Handles btnEditar.Click
-
-        If String.IsNullOrEmpty(txtCodigo.Text) Then
-            MessageBox.Show("Selecione um registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        SetaControles()
-        HabilitarCampos(Me, True)
-        txtDescricao.Focus()
+    Private Sub txtCodigo_TextChanged(sender As Object, e As EventArgs) Handles txtCodigo.TextChanged
 
     End Sub
 
-    Private Sub btnExcluir_Click(sender As System.Object, e As System.EventArgs) Handles btnExcluir.Click
-
-        If Convert.ToInt32(Banco.ExecuteScalar("SELECT COUNT (*) FROM " & Banco.BancoSGIPA & "TB_SYS_GRP_PERMISSOES WHERE CODGRUPO = " & txtCodigo.Text)) > 0 Then
-            MessageBox.Show("Operação não permitida. Existem permissões Vinculadas a este Grupo.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        If Not String.IsNullOrEmpty(txtCodigo.Text) Then
-            If MessageBox.Show("Deseja realmente excluir o registro selecionado?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                If Banco.Execute("DELETE FROM " & Banco.BancoSGIPA & "TB_SYS_GRUPO_USER WHERE CODGRUPO = " & txtCodigo.Text & "") Then
-                    Consultar()
-                    LimparCampos(Me)
-                End If
-            End If
-        End If
+    Private Sub pbCarregando_Click(sender As Object, e As EventArgs)
 
     End Sub
 
+    Private Sub pnControles_Paint(sender As Object, e As PaintEventArgs) Handles pnControles.Paint
+
+    End Sub
+
+    Private Sub dgvConsulta_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellContentClick
+
+    End Sub
+
+    Private Sub GroupBox1_Enter(sender As Object, e As EventArgs) Handles GroupBox1.Enter
+
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
+
+    Private Sub txtSufixo_TextChanged(sender As Object, e As EventArgs) Handles txtSufixo.TextChanged
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub txtDescricao_TextChanged(sender As Object, e As EventArgs) Handles txtDescricao.TextChanged
+
+    End Sub
+
+    Private Sub ToolTip1_Popup(sender As Object, e As PopupEventArgs) Handles ToolTip1.Popup
+
+    End Sub
 End Class
