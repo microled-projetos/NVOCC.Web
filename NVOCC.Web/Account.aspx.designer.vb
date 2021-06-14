@@ -320,6 +320,15 @@ Partial Public Class Account
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle dsInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle TextBox1.
     '''</summary>
     '''<remarks>

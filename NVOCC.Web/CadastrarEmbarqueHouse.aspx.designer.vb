@@ -581,6 +581,78 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnFechar_CargaMaritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle mpeNCM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeNCM As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle PanelNCM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents PanelNCM As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle UpdatePanel15.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtNCMFiltro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNCMFiltro As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle rdNCM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdNCM As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle btnFecharNCM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharNCM As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSalvarNCM.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSalvarNCM As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel13.
     '''</summary>
     '''<remarks>

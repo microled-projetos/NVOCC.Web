@@ -191,7 +191,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>

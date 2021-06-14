@@ -168,6 +168,9 @@
                             <li>
                                 <a href="ModuloDemurrage.aspx" runat="server" id="A17">Demurrage</a>
                             </li>
+                             <li>
+                                <a href="Account.aspx" runat="server" id="A26">Account</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -191,6 +194,25 @@
                             </li>
                              <li>
                                 <a href="#" runat="server" id="A16">TOTVS</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                 <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" id="A21" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-chart-bar"></i>&nbsp;Gerencial<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="ModuloGerencial.aspx" runat="server" id="A22">Modulo Gerencial</a>
+                            </li>
+                            <li>
+                                <a href="GerencialMaster.aspx" runat="server" id="A23">Gerencial Master</a>
+                            </li>
+                             <li>
+                                <a href="DashBoard.aspx" runat="server" id="A24">DashBoard</a>
+                            </li>
+                            <li>
+                                <a href="Courrier.aspx" runat="server" id="A25">Courrier</a>
                             </li>
                         </ul>
                     </li>

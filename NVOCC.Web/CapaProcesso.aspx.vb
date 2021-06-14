@@ -49,7 +49,7 @@ CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRAN
                 lblArmador_LCL.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_TRANSPORTADOR").ToString()
             End If
 
-            Dim ds1 As DataSet = Con.ExecutarQuery("SELECT PARCEIRO_IMPORTADOR,NR_BL,(SELECT NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL = A.ID_BL_MASTER)NR_REFERENCIA_CLIENTE,INCOTERM
+            Dim ds1 As DataSet = Con.ExecutarQuery("SELECT PARCEIRO_IMPORTADOR,NR_BL,NR_PROCESSO,INCOTERM
 	FROM [dbo].[View_Emissao_BL] A WHERE ID_BL_MASTER =" & ds.Tables(0).Rows(0).Item("ID_BL_MASTER").ToString())
             If ds1.Tables(0).Rows.Count > 0 Then
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
@@ -63,7 +63,7 @@ CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRAN
                 tabela &= "<th style='padding-right:10px;'>LIBERAÇÃO TERMINAL</th></tr>"
 
                 For Each linha As DataRow In ds1.Tables(0).Rows
-                    tabela &= "<tr><td style='padding-right:10px'>" & linha("NR_REFERENCIA_CLIENTE") & "</td>"
+                    tabela &= "<tr><td style='padding-right:10px'>" & linha("NR_PROCESSO") & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("NR_BL") & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("PARCEIRO_IMPORTADOR") & "</td>"
                     tabela &= "<td style='padding-right:10px'></td>"

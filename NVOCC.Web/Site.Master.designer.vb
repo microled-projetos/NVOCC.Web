@@ -275,6 +275,15 @@ Partial Public Class SiteMaster
     Protected WithEvents A17 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle A26.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A26 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle A6.
     '''</summary>
     '''<remarks>
@@ -345,6 +354,51 @@ Partial Public Class SiteMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents A16 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A21.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A21 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A22.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A22 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A23.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A23 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A24.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A24 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle A25.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents A25 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle lbllogin.

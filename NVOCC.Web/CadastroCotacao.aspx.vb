@@ -88,7 +88,21 @@ FROM  TB_COTACAO A
             ddlAnalista.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ANALISTA_COTACAO").ToString()
             ddlIncoterm.SelectedValue = ds.Tables(0).Rows(0).Item("ID_INCOTERM").ToString()
             ddlCliente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CLIENTE").ToString()
-            ddlContato.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CONTATO").ToString()
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CLIENTE")) And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTATO")) Then
+
+                Dim sql As String = "SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ds.Tables(0).Rows(0).Item("ID_CLIENTE") & " or ID_CONTATO = " & ds.Tables(0).Rows(0).Item("ID_CONTATO") & "
+union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO"
+                Dim ds1 As DataSet = Con.ExecutarQuery(sql)
+                If ds1.Tables(0).Rows.Count > 0 Then
+                    dsContato.SelectCommand = sql
+                    ddlContato.DataBind()
+                End If
+                Con.Fechar()
+
+                ddlContato.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CONTATO")
+            End If
+
             ddlServico.SelectedValue = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
 
             ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
@@ -1586,8 +1600,7 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
         If ddlCliente.SelectedValue <> 0 Then
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim sql As String = "SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
-union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO"
+            Dim sql As String = "SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & " union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO"
             Dim ds As DataSet = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count > 1 Then
                 dsContato.SelectCommand = sql
@@ -1596,7 +1609,7 @@ union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO"
                 ds = Con.ExecutarQuery(sql)
                 ddlContato.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CONTATO")
             Else
-                ddlContato.DataBind()
+                ddlContato.SelectedValue = 0
             End If
 
             sql = "SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
@@ -1731,7 +1744,7 @@ union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL"
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE  ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDENDOR  ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS
@@ -1789,7 +1802,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE  ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDENDOR  ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS

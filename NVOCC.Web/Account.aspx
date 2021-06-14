@@ -242,7 +242,10 @@
         </div>
 
     </div>
-
+         <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
+union SELECT  0, 'Selecione' FROM TB_TIPO_BL ORDER BY ID_TIPO_BL">
+</asp:SqlDataSource>
                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
