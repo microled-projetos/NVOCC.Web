@@ -45,10 +45,10 @@
                             <ContentTemplate>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
+                                    <asp:Label ID="lblSuccess" runat="server"></asp:Label>
                                 </div>
                                 <div class="alert alert-danger" id="divErro" runat="server" visible="false">
-                                    <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
+                                    <asp:Label ID="lblErro" runat="server"></asp:Label>
                                 </div>
 
                                 Filtro:
@@ -218,6 +218,430 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNovaInvoice" TargetControlID="lkNovaInvoice" CancelControlID="btnFecharNovaInvoice"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlNovaInvoice" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">NOVA INVOICE</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                   <div class="row">
+                                       <div class="col-sm-2">
+                                    <div class="form-group">
+                                           <label class="control-label">ID:</label>
+                                                                       <asp:TextBox ID="txtIDInvoice" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                           </div>
+                                     <div class="col-sm-8">
+                                    <div class="form-group">
+                                           <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlServico_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+
+                                    </div>
+                                        </div>
+                                       <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Emissor:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-3">
+                                    <div class="form-group">
+                                          <label class="control-label">Tipo:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                    <div class="form-group">
+                                           <label class="control-label">Processo ou BL:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="TextBox2" runat="server"  CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtProcesso_BasicoMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Moeda:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+
+
+                                    </div>
+                                        </div>
+                                         </div>   
+                                                                        <div class="row">
+                                     
+                                       <div class="col-sm-3">
+                                    <div class="form-group">
+                                          <label class="control-label">Tipo Fatura:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                    <div class="form-group">
+                                           <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="TextBox3" runat="server"  CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                            <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbPremiacao_TaxasMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
+
+                                    </div>
+                                        </div>
+                                         </div>   
+                                                                                                                                    
+                                                            <div class="row">
+                                     
+                                      
+                                        <div class="col-sm-10">
+                                    <div class="form-group">
+                                          <label class="control-label">Observações:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label"></label>
+                               <asp:Button runat="server" Text="Gravar" ID="Button2" CssClass="btn btn-success btn-block" />
+
+
+                                    </div>
+                                        </div>
+                                         </div>   
+<div class="row">
+                                     
+                                      
+                                       <div class="col-sm-3">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="DEVOLUÇÃO DE FRETE" ID="btnDevolucaoFrete" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="btnTaxasExterior" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+    <div class="col-sm-3">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="TAXAS DECLARADAS" ID="btnTaxasDeclaradas" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+    <div class="col-sm-2">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="COMISSOES" ID="btnComissoes" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+    <div class="col-sm-2">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="OUTRAS TAXAS" ID="btnOutrasTaxas" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+                                         </div>   
+                                                            <div class="row">
+                                     
+                                      
+                                       <div class="col-sm-12">
+                                           gridview de itens
+                                           </div>
+                                                                </div>
+                                                            <div class="row">
+                                     
+                                      
+                                       <div class="col-sm-4">
+                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="Button8" CssClass="btn btn-primary" href="Conferencia.aspx" target="_blank"/>
+
+                                           </div>
+                                                                <div class="col-sm-offset-4 col-sm-4">
+                                                                    TOTAL DA INVOICE:0,00
+                                           </div>
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNovaInvoice" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlDevolucaoFrete" TargetControlID="btnDevolucaoFrete" CancelControlID="btnFecharDevolucaoFrete"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlDevolucaoFrete" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Devolução Frete</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                   <div class="row">
+                                     <div class="col-sm-12">
+                                    <div class="form-group">
+                                           <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          gridview
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                            <div class="row">
+                                     
+                                      
+                                       <div class="col-sm-4">
+                                                              COMPRA
+
+                                           </div>
+                                                                <div class="col-sm-4">
+                                                              VENDA
+
+                                           </div>
+                                                                <div class="col-sm-4">
+                                                              DEVOLUCAO
+
+                                           </div>
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharDevolucaoFrete" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarDevolucaoFrete" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="btnTaxasExterior" CancelControlID="btnFecharTaxasExterior"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlTaxasExterior" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Taxas Exterior</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          gridview
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                            <div class="row">
+                                     
+                                      
+                                                                <div class="col-sm-offset-6 col-sm-4">
+                                                              TOTAL
+
+                                           </div>
+                                                               
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxasExterior" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button4" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="btnTaxasDeclaradas" CancelControlID="btnFecharTaxasDeclaradas"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlTaxasDeclaradas" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Taxas Declaradas</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          gridview
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                            <div class="row">
+                                     
+                                      
+                                                                <div class="col-sm-offset-6 col-sm-4">
+                                                              TOTAL
+
+                                           </div>
+                                                               
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxasDeclaradas" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button5" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+                                   <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlComissoes" TargetControlID="btnComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Comissões</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          gridview
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                            <div class="row">
+                                     
+                                      
+                                                                <div class="col-sm-offset-6 col-sm-4">
+                                                              TOTAL
+
+                                           </div>
+                                                               
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharComissoes" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button6" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
+                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlOutrasTaxas" TargetControlID="btnOutrasTaxas" CancelControlID="btnFecharOutrasTaxas"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlOutrasTaxas" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Outras Taxas</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          gridview
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                            <div class="row">
+                                     
+                                      
+                                                                <div class="col-sm-offset-6 col-sm-4">
+                                                              TOTAL
+
+                                           </div>
+                                                               
+                                                                </div>
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharOutrasTaxas" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button7" text="Salvar" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
                             </ContentTemplate>                            
                         </asp:UpdatePanel>
                         <br />
@@ -228,7 +652,30 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
-                                    <%--GRIDVIEW--%>
+<%--                                        <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                            <Columns>
+                                                <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
+                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
+                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_EMISSOR" HeaderText="EMISSOR" SortExpression="NM_ACCOUNT_TIPO_EMISSOR" />
+                                                <asp:BoundField DataField="DT_INVOICE" HeaderText="DATA INVOICE" SortExpression="DT_INVOICE" />                             <asp:BoundField DataField="PROCESSO" HeaderText="PROCESSO" SortExpression="PROCESSO" />             
+                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
+                                                <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />
+                                                <asp:BoundField DataField="FL_CONFERIDO" HeaderText="CONFERIDO" SortExpression="FL_CONFERIDO" /> 
+                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_FATURA" HeaderText="TIPO FATURA" SortExpression="NM_ACCOUNT_TIPO_FATURA" />
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                                  <asp:BoundField DataField="VL_TOTAL" HeaderText="VALOR" SortExpression="VL_TOTAL" />             
+                                                <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
+                                                <asp:BoundField DataField="DS_OBSERVACAO" HeaderText="OBSERVAÇÕES" SortExpression="DS_OBSERVACAO" />
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>
+                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                            CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>--%>
+
                                 </div>
 
                             </ContentTemplate>                           
