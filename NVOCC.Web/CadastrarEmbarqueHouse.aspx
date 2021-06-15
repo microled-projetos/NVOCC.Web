@@ -364,7 +364,7 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">NCM:</label>
-                                                                                <asp:DropDownList ID="ddlNCM_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px">                                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                                                <asp:DropDownList ID="ddlNCM_CargaMaritimo" AutoPostBack="true"  runat="server" CssClass="form-control" Font-Size="11px">                                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
@@ -439,16 +439,13 @@
 
                                                         </div>
 
-                                                        <ajaxToolkit:ModalPopupExtender ID="mpeNCM" runat="server" PopupControlID="PanelNCM" TargetControlID="ddlNCM_CargaMaritimo" CancelControlID="btnFecharNCM"></ajaxToolkit:ModalPopupExtender>
-                                    <asp:Panel ID="PanelNCM" runat="server" CssClass="modalPopup" Style="display: none;">
-                                        <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                            <ContentTemplate>
-
-
+                                                        <ajaxToolkit:ModalPopupExtender ID="mpeNCM_CargaMaritimo" runat="server" PopupControlID="PanelNCM_CargaMaritimo" TargetControlID="ddlNCM_CargaMaritimo" CancelControlID="btnFecharNCM_CargaMaritimo"></ajaxToolkit:ModalPopupExtender>
+                                    <asp:Panel ID="PanelNCM_CargaMaritimo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                       
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">Selecione um NCM</h5>
+                                                            <h5 class="modal-title" >Selecione um NCM</h5>
                                                         </div>
                                                         <div class="modal-body">
                                                             <br />
@@ -458,7 +455,7 @@
                                                                 <div class="row">
                                                                     <div class="col-sm-12">
                                                                         <div class="form-group">
-                                                                            <asp:TextBox ID="txtNCMFiltro" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            <asp:TextBox ID="txtNCMFiltro_CargaMaritimo" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
                                                                         </div>
                                                                     </div>
 
@@ -468,7 +465,7 @@
                                                                     <div class="col-sm-12">
 
                                                                         <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdNCM" runat="server" AutoPostBack="true" DataTextField="NCM" DataSourceID="dsNCM" DataValueField="ID_NCM" Style="text-align:justify;font-size:12px;">
+                                                                            <asp:RadioButtonList ID="rdNCM_CargaMaritimo" runat="server" DataTextField="NCM" DataSourceID="dsNCM_CargaMaritimo" DataValueField="ID_NCM" Style="text-align:justify;font-size:12px;">
                                                                             </asp:RadioButtonList>
 
                                                                         </div>
@@ -480,27 +477,24 @@
 
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNCM" Text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNCM" Text="Salvar NCM" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNCM_CargaMaritimo" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNCM_CargaMaritimo" Text="Salvar NCM" />
                                                         </div>
 
 
                                                     </div>
                                                 </div>
-                                            </ContentTemplate>
-                                            <Triggers>
-                                                <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro" />
-                                                <asp:PostBackTrigger ControlID="btnFecharNCM" />
-                                                <asp:PostBackTrigger ControlID="btnSalvarNCM" />
-                                            </Triggers>
-                                        </asp:UpdatePanel>
+                                           
                                     </asp:Panel>
 
                                                     </ContentTemplate>
                                                     <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlTipoContainer_CargaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlNCM_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNumeroCNTR_CargaMaritimo" />
                                                     </Triggers>
                                                 </asp:UpdatePanel>
@@ -1287,10 +1281,18 @@ VENDAS:
                                                                     </div>
                                                                 </div>
 
-                                                                <div class="col-sm-4">
+                                                               <%-- <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">NCM:</label>
                                                                         <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>--%>
+                                                                 <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">NCM:</label>
+                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px">
+<asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                                        </asp:DropDownList>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -1351,8 +1353,59 @@ VENDAS:
                                                     </div>
 
                                                 </div>
+
+                                                 <ajaxToolkit:ModalPopupExtender ID="mpeNCM_CargaAereo" runat="server" PopupControlID="PanelNCM_CargaAereo" TargetControlID="ddlNCM_CargaAereo" CancelControlID="btnFecharNCM_CargaAereo"></ajaxToolkit:ModalPopupExtender>
+                                    <asp:Panel ID="PanelNCM_CargaAereo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                      
+                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" >Selecione um NCM</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <br />
+
+                                                            <asp:Label ID="Label2" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
+                                                            <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <asp:TextBox ID="txtNCMFiltro_CargaAereo" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="row" style="max-height: 300px; overflow: auto;">
+
+                                                                    <div class="col-sm-12">
+
+                                                                        <div class="form-group">
+                                                                            <asp:RadioButtonList ID="rdNCM_CargaAereo" runat="server" AutoPostBack="true" DataTextField="NCM" DataSourceID="dsNCM_CargaAereo" DataValueField="ID_NCM" Style="text-align:justify;font-size:12px;">
+                                                                            </asp:RadioButtonList>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNCM_CargaAereo" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNCM_CargaAereo" Text="Salvar NCM" />
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                               
+                                    </asp:Panel>
+
                                             </ContentTemplate>
                                             <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
@@ -1806,13 +1859,18 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_ORIGEM_PAGAMENTO] ORDER BY ID_ORIGEM_
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsNCM" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsNCM_CargaMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE (NM_NCM like '%' + @Nome + '%' Or @Nome = '0') or (CD_NCM like '%' + @Nome + '%' Or @Nome = '0')">
         <SelectParameters>
-            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNCMFiltro" />
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNCMFiltro_CargaMaritimo" />
         </SelectParameters>
         </asp:SqlDataSource> 
-
+     <asp:SqlDataSource ID="dsNCM_CargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_NCM,CD_NCM +' - '+ NM_NCM AS NCM FROM [dbo].[TB_NCM] WHERE (NM_NCM like '%' + @Nome + '%' Or @Nome = '0') or (CD_NCM like '%' + @Nome + '%' Or @Nome = '0')">
+        <SelectParameters>
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtNCMFiltro_CargaAereo" />
+        </SelectParameters>
+        </asp:SqlDataSource> 
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM [dbo].[TB_ITEM_DESPESA]
 union SELECT 0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPESA"></asp:SqlDataSource>
@@ -1981,9 +2039,7 @@ VL_PESO_BRUTO,
 VL_M3,
 ID_NCM,
 (SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM)NCM
-FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
-
-">
+FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>

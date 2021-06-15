@@ -1283,7 +1283,7 @@ union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL">
 union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO ID_CONTATO = 0
+        selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
 union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO">
            <%--<SelectParameters>
                 <asp:ControlParameter Name="CLIENTE" Type="Int32" ControlID="ddlCliente"  />
