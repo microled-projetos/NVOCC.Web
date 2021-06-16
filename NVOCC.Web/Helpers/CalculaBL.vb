@@ -132,7 +132,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -144,7 +144,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -155,7 +155,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -173,7 +173,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         'POR KG
                         x = linha.Item("VL_PESO_BRUTO")
 
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = x * y
                         Taxa = z
 
@@ -184,7 +184,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0) * 1/100 ) AS VALOR
         FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
                         x = ds1.Tables(0).Rows(0).Item("VALOR")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -194,7 +194,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
 
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(DISTINCT ID_BL)QTD FROM TB_BL where ID_BL = " & ID_BL & " And ID_TIPO_PAGAMENTO = 1 ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -204,7 +204,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR = 10")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -214,7 +214,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR  in (15)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -225,7 +225,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_B)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR in (9)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -235,7 +235,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_B)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR in (8)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -245,7 +245,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR in (16)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -255,7 +255,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR in (5)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -265,7 +265,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR in (4)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -275,7 +275,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND AND ID_TIPO_CNTR IN (13)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -290,7 +290,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -300,7 +300,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
 FROM TB_BL A
 WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (3,5) AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -310,7 +310,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (3,5) AND GRAU = 'C' ")
 FROM TB_BL A
 WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -319,7 +319,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER =(SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -469,7 +469,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -481,7 +481,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -492,7 +492,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -510,7 +510,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         'POR KG
                         x = linha.Item("VL_PESO_BRUTO")
 
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = x * y
                         Taxa = z
 
@@ -521,7 +521,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0) * 1/100 ) AS VALOR
         FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
                         x = ds1.Tables(0).Rows(0).Item("VALOR")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -531,7 +531,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
 
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(DISTINCT ID_BL)QTD FROM TB_BL where ID_BL = " & ID_BL & " And ID_TIPO_PAGAMENTO = 1 ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -541,7 +541,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR = 10")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -551,7 +551,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR  in (15)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -562,7 +562,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_B)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR in (9)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -572,7 +572,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_B)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR in (8)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -582,7 +582,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR in (16)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -592,7 +592,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR in (5)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -602,7 +602,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR in (4)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -612,7 +612,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND AND ID_TIPO_CNTR IN (13)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -627,7 +627,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -637,7 +637,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER D ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGA
 FROM TB_BL A
 WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (3,5) AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -647,7 +647,7 @@ WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (3,5) AND GRAU = 'C' ")
 FROM TB_BL A
 WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 
@@ -656,7 +656,7 @@ WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                         Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER =" & ID_BL)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        y = linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA")
                         z = y * x
                         Taxa = z.ToString
 

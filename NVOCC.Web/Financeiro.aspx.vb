@@ -85,57 +85,46 @@
     End Sub
 
     Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+        divErro.Visible = False
 
         Dim filtro As String = ""
+        If rdStatus.SelectedValue = 2 And ddlFiltro.SelectedValue = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "É necessário selecionar um filtro para concluir a pesquisa!"
+            Exit Sub
+        ElseIf rdStatus.SelectedValue = 2 And ddlFiltro.SelectedValue <> 0 Then
+
+
+            filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA = 0 Or QT_TAXAS_RECEBER_ABERTA = 0)"
+
+
+        ElseIf rdStatus.SelectedValue = 1 Then
+
+            filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA > 0 Or QT_TAXAS_RECEBER_ABERTA > 0)"
+
+
+        End If
+
+
+
         If ddlFiltro.SelectedValue = 1 Then
 
-            filtro &= " WHERE NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+            filtro &= " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
 
         ElseIf ddlFiltro.SelectedValue = 2 Then
-            filtro &= " WHERE NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
+            filtro &= " AND NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
 
 
         ElseIf ddlFiltro.SelectedValue = 3 Then
-            filtro &= " WHERE NM_PARCEIRO_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
-
-        ElseIf ddlFiltro.SelectedValue = 4 Then
-            filtro &= " WHERE REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+            filtro &= " AND NM_PARCEIRO_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
 
         End If
 
-        If ckStatus.Items.FindByValue(1).Selected Then
-            If filtro = "" Then
-                filtro &= " WHERE (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
-
-            Else
-                filtro &= " OR (TOTAL_A_PAGAR_ABERTAS > 0 Or TOTAL_A_RECEBER_ABERTAS > 0)"
-
-            End If
 
 
-        End If
-        If ckStatus.Items.FindByValue(2).Selected Then
 
-            If filtro = "" Then
-                filtro &= " WHERE (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
 
-            Else
-                filtro &= " OR (TOTAL_A_PAGAR_QUITADAS > 0 Or TOTAL_A_RECEBER_QUITADAS > 0)"
-
-            End If
-
-        End If
-        If ckStatus.Items.FindByValue(3).Selected Then
-            If filtro = "" Then
-                filtro &= " WHERE (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
-
-            Else
-                filtro &= " OR (TOTAL_A_PAGAR_CANCELADAS > 0 Or TOTAL_A_RECEBER_CANCELADAS > 0)"
-
-            End If
-        End If
-
-        dsFinanceiro.SelectCommand = "SELECT * FROM [dbo].[View_Financeiro] " & filtro
+        dsFinanceiro.SelectCommand = "SELECT * FROM [View_Financeiro]  " & filtro & " ORDER BY NR_PROCESSO"
         dgvFinanceiro.DataBind()
 
         ddlFiltro.SelectedValue = 0

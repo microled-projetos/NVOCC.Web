@@ -50,7 +50,7 @@
 
                                 <br />
                                 <br />
-                                <div class="row">
+                                <div class="row" runat="server" id="divgrids" visible="false">
                                     <div class="col-sm-8 table-responsive tableFixHead">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
@@ -61,12 +61,11 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" Checked="True" AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="TIPO" HeaderText="TIPO" SortExpression="TIPO" />
                                                 <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Fornecedor" SortExpression="NM_PARCEIRO_EMPRESA" />
                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" />
@@ -96,34 +95,32 @@
                                         <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual.">
                                             <Columns>
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
+<%--                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
+                                                <asp:TemplateField HeaderText="Valor">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="VL_TXOFICIAL" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField ShowHeader="False" >
-                                    <EditItemTemplate>
-                                        <asp:Button ID="btnAtualizar" runat="server" CssClass="btn-success btn" CausesValidation="True" CommandName="Update" Text="Atualizar" />
-                                        &nbsp;<asp:Button ID="btnCancelar"  CssClass="btn-danger btn" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" />
-                                    </EditItemTemplate>
-                                    <ItemTemplate>
-                                        <asp:Button ID="btnEditar" runat="server"  CssClass="btn-primary btn" CausesValidation="False" CommandName="Edit" Text="Editar" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
                                     </div>
-                                </div>
+                                
                                 <div class="row">
                                     <div class="col-sm-offset-10 col-sm-2">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" Enabled="false" CssClass="btn btn-warning btn-block" />
+                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" CssClass="btn btn-warning btn-block" />
                                         </div>
                                         </div>
+                                </div>
+
                                 </div>
                                 <div class="row" style="border: ridge 1px;">
                                     <div class="col-sm-2">
@@ -162,9 +159,11 @@
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = @ID_BL OR ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' ORDER BY TIPO,NR_PROCESSO">
+WHERE (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY TIPO,NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
+                        <asp:ControlParameter Name="ID_EMPRESA" Type="Int32" ControlID="ddlFornecedor" />
+
         </SelectParameters>
     </asp:SqlDataSource>
    
@@ -179,7 +178,7 @@ WHERE (ID_BL = @ID_BL OR ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' ORDER BY TIPO,NR
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND ID_BL = @ID_BL or ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = @ID_BL))
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND ID_BL = @ID_BL  AND VL_TAXA_CALCULADO>0)
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
          <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />

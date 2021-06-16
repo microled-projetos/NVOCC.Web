@@ -313,7 +313,16 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
 
                     '        CÁLCULO DO PESO TAXADO
                     Dim PESO_TAXADO As Double
-                    Dim PV As Double = M3 * 0.167
+                    Dim PV As Double
+
+                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                        PV = M3 * 0.167
+                    End If
+
+                    If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
+                        PESO_BRUTO = PESO_BRUTO / 1000
+                    End If
+
                     If PESO_BRUTO >= PV Then
                         PESO_TAXADO = PESO_BRUTO
                     Else

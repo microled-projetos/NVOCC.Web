@@ -95,6 +95,15 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divgrids.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divgrids As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>
