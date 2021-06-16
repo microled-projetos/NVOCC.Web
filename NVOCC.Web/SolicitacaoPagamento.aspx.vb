@@ -44,7 +44,7 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE DT_SOLICITACAO_PAGAMENTO IS NULL AND (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 
 
@@ -52,12 +52,54 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
             dgvTaxas.DataBind()
             divgrids.Visible = True
 
+            For Each linha As GridViewRow In dgvTaxas.Rows
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
+                Dim valor2 As Double = lblTotal.Text
+                Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
+
+                If check.Checked Then
+                    lblTotal.Text = valor2 + valor
+                    If Calculado = False Then
+                        lblErro.Text = "TAXA NECESSITA DE CÁLCULO"
+                        divErro.Visible = True
+                        btnSolicitar.Enabled = False
+                        check.Checked = False
+                        check.Enabled = False
+
+                    End If
+                End If
+
+                If valor = 0 Then
+                    btnSolicitar.Enabled = False
+                End If
+
+            Next
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_TRANSPORTADOR FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
+                    dgvMoedasArmador.Visible = True
+                    dgvMoedas.Visible = False
+                Else
+                    dgvMoedasArmador.Visible = False
+                    dgvMoedas.Visible = True
+
+                End If
+            End If
         End If
 
     End Sub
 
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
-        Dim Con As New Conexao_sql
+        AtualizaTotal()
+    End Sub
+
+    Sub AtualizaTotal()
         lblTotal.Text = 0
         Dim i As Integer = 0
 
@@ -74,7 +116,8 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
                     lblErro.Text = "TAXA NECESSITA DE CÁLCULO"
                     divErro.Visible = True
                     btnSolicitar.Enabled = False
-                    Exit Sub
+                    check.Checked = False
+                    check.Enabled = False
 
                 End If
             End If
@@ -86,7 +129,6 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
         Next
 
     End Sub
-
     Private Sub btnSolicitar_Click(sender As Object, e As EventArgs) Handles btnSolicitar.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -128,19 +170,53 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
             If check.Checked Then
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                 Dim moeda As String = CType(linha.FindControl("lblMoeda"), Label).Text
-                Dim ValorCambio As String = CType(linha.FindControl("VL_TXOFICIAL"), TextBox).Text
-                ValorCambio = ValorCambio.Replace(".", "")
-                ValorCambio = ValorCambio.Replace(",", ".")
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_MOEDA_FRETE_ARMADOR FROM TB_MOEDA_FRETE_ARMADOR WHERE DT_CAMBIO =(SELECT MAX(DT_CAMBIO) FROM TB_MOEDA_FRETE_ARMADOR WHERE ID_MOEDA = " & moeda & ") AND ID_MOEDA = " & moeda)
-                If ds.Tables(0).Rows.Count > 0 Then
-                    Dim ID_MOEDA_FRETE_ARMADOR As String = ds.Tables(0).Rows(0).Item("ID_MOEDA_FRETE_ARMADOR")
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
-                End If
+                Dim ValorCambio As String
 
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_TRANSPORTADOR FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
+                        For Each linhaMoedas As GridViewRow In dgvMoedasArmador.Rows
+                            Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
+
+                            If MoedaFrete = moeda Then
+                                ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
+                                ValorCambio = ValorCambio.Replace(".", "")
+                                ValorCambio = ValorCambio.Replace(",", ".")
+
+
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
+                            End If
+
+                        Next
+
+                    Else
+
+
+                        For Each linhaMoedas As GridViewRow In dgvMoedas.Rows
+                            Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
+
+                            If MoedaFrete = moeda Then
+                                ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
+                                ValorCambio = ValorCambio.Replace(".", "")
+                                ValorCambio = ValorCambio.Replace(",", ".")
+
+
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
+                            End If
+
+                        Next
+                    End If
+
+
+                End If
             End If
         Next
         Con.Fechar()
+        dsTaxas.SelectParameters("ID_BL").DefaultValue = txtID_BL.Text
+        dsTaxas.SelectParameters("ID_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
+
         dgvTaxas.DataBind()
+        AtualizaTotal()
         lblSuccess.Text = "Valores atualizados com sucesso!"
         divSuccess.Visible = True
     End Sub

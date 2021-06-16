@@ -122,6 +122,15 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents dgvMoedas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle dgvMoedasArmador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvMoedasArmador As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnAtualizaValor.
     '''</summary>
     '''<remarks>
@@ -174,6 +183,15 @@ Partial Public Class SolicitacaoPagamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMoedaArmador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMoedaArmador As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMoeda.

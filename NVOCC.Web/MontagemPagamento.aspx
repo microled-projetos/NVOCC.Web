@@ -1,5 +1,10 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="MontagemPagamento.aspx.vb" Inherits="NVOCC.Web.MontagemPagamento" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+        #imgFundo {
+            display: none;
+        }
+    </style>
      <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -89,6 +94,8 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
+                                                <asp:BoundField DataField="NR_BL_MASTER" HeaderText="MBL" SortExpression="NR_BL_MASTER" />
+
                                                 <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Fornecedor/Cliente" SortExpression="NM_PARCEIRO_EMPRESA" />
                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" />

@@ -293,27 +293,28 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                     lblmsgErro.Text = "Não é possivel calcular pois a cotação já esta aprovada!"
                 Else
 
-
-                    Dim M3 As Double
-                    Dim PESO_BRUTO As Double
+                    Dim VENDA_MIN As Decimal
+                    Dim M3 As Decimal
+                    Dim PESO_BRUTO As Decimal
                     'NUMERO SEQUENCIAL
 
 
-                    ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+                    ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(A.VL_TOTAL_FRETE_VENDA_MIN,0)VL_TOTAL_FRETE_VENDA_MIN,isnull(A.VL_TOTAL_FRETE_VENDA,0)VL_TOTAL_FRETE_VENDA,
                                                     (SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
                                                     from TB_COTACAO A 
                                                     left JOIN TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
                                                     Where A.ID_COTACAO = " & txtID.Text)
                     M3 = ds.Tables(0).Rows(0).Item("VL_M3")
                     PESO_BRUTO = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
+                    VENDA_MIN = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_MIN")
 
 
 
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
                     '        CÁLCULO DO PESO TAXADO
-                    Dim PESO_TAXADO As Double
-                    Dim PV As Double
+                    Dim PESO_TAXADO As Decimal
+                    Dim PV As Decimal = M3
 
                     If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                         PV = M3 * 0.167
@@ -329,11 +330,21 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
                         PESO_TAXADO = M3
                     End If
 
+                    Dim FRETE_CALCULADO As Decimal = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")
+                    FRETE_CALCULADO = (FRETE_CALCULADO * PESO_TAXADO)
+                    If FRETE_CALCULADO < VENDA_MIN Then
+                        FRETE_CALCULADO = VENDA_MIN
+                    End If
 
-                    PESO_TAXADO = PESO_TAXADO.ToString.Replace(".", "")
-                    PESO_TAXADO = PESO_TAXADO.ToString.Replace(",", ".")
+                    dim Peso_Final As String = PESO_TAXADO.ToString
+                    Peso_Final = Peso_Final.ToString.Replace(".", "")
+                    Peso_Final = Peso_Final.ToString.Replace(",", ".")
 
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = '" & PESO_TAXADO & "' WHERE ID_COTACAO = " & txtID.Text)
+                    Dim frete_Final As String = FRETE_CALCULADO.ToString
+                    frete_Final = frete_Final.ToString.Replace(".", "")
+                    frete_Final = frete_Final.ToString.Replace(",", ".")
+
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_PESO_TAXADO = " & Peso_Final & ",VL_TOTAL_FRETE_VENDA_CALCULADO = " & frete_Final & "  WHERE ID_COTACAO = " & txtID.Text)
 
                     divSuccess.Visible = True
                     lblmsgSuccess.Text = "Taxa calculada com sucesso"

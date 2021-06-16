@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="SolicitacaoPagamento.aspx.vb" Inherits="NVOCC.Web.SolicitacaoPagamento" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+        #imgFundo {
+            display: none;
+        }
+    </style>
     <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -92,24 +97,44 @@
                                     </div>
 
                                     <div class="col-sm-4 table-responsive tableFixHead">
-                                        <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual.">
+                                        <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
                                             <Columns>
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
 <%--                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
                                                 <asp:TemplateField HeaderText="Valor">
                                                     <ItemTemplate>
-                                                        <asp:TextBox ID="VL_TXOFICIAL" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
+                                                        <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                        <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
+
+                                        <asp:GridView ID="dgvMoedasArmador" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoedaArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
+                                            <Columns>
+                                                <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
+<%--                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
+                                                <asp:TemplateField HeaderText="Valor">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
+                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+
                                     </div>
                                 
                                 <div class="row">
@@ -149,6 +174,7 @@
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />                                                             <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFornecedor" />
+                                <asp:PostBackTrigger ControlID="btnAtualizaValor" />
                             </Triggers>
                         </asp:UpdatePanel>
 
@@ -159,7 +185,7 @@
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY TIPO,NR_PROCESSO">
+WHERE DT_SOLICITACAO_PAGAMENTO IS NULL AND (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY NR_PROCESSO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
                         <asp:ControlParameter Name="ID_EMPRESA" Type="Int32" ControlID="ddlFornecedor" />
@@ -167,14 +193,14 @@ WHERE (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORD
         </SelectParameters>
     </asp:SqlDataSource>
    
+    <asp:SqlDataSource ID="dsMoedaArmador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE DT_CAMBIO = CONVERT(DATE,GETDATE(),103) AND ID_MOEDA <> 124 AND ID_ARMADOR = @ARMADOR">   
+         <SelectParameters>
+                        <asp:ControlParameter Name="ARMADOR" Type="Int32" ControlID="ddlFornecedor" />
+        </SelectParameters>
+    </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE DT_CAMBIO = CONVERT(DATE,GETDATE(),103) AND ID_MOEDA <> 124"
-        UpdateCommand="UPDATE [TB_MOEDA_FRETE_ARMADOR] SET [DT_CAMBIO] = @DT_CAMBIO , VL_TXOFICIAL = @VL_TXOFICIAL WHERE ID_MOEDA_FRETE_ARMADOR = @ID_MOEDA_FRETE_ARMADOR;">
-           <UpdateParameters> 
-            <asp:Parameter Name="DT_CAMBIO" Type="DateTime" />
-            <asp:Parameter Name="VL_TXOFICIAL" Type="Decimal" />
-            <asp:Parameter Name="ID_MOEDA_FRETE_ARMADOR" Type="Int32" />
-            </UpdateParameters>
+        SelectCommand="SELECT ID_MOEDA_FRETE,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE DT_CAMBIO = CONVERT(DATE,GETDATE(),103) AND ID_MOEDA <> 124">   
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
