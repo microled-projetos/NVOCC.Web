@@ -302,6 +302,42 @@ Partial Public Class Account
     Protected WithEvents pnlNovaInvoice As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle divSuccessInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccessInvoice As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccessInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccessInvoice As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErroInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroInvoice As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroInvoice As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtIDInvoice.
     '''</summary>
     '''<remarks>
@@ -311,112 +347,112 @@ Partial Public Class Account
     Protected WithEvents txtIDInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlServico_BasicoMaritimo.
+    '''Controle ddlAgente.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlServico_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle DropDownList1.
+    '''Controle ddlEmissor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList1 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlEmissor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle DropDownList3.
+    '''Controle ddlTipoInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList3 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoInvoice As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtProc_ou_BL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtProc_ou_BL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtProcesso_BasicoMaritimo.
+    '''Controle txtVencimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtProcesso_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle DropDownList5.
+    '''Controle ddlMoeda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList5 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlMoeda As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle DropDownList2.
+    '''Controle ddlTipoFatura.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList2 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoFatura As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle TextBox3.
+    '''Controle txtNumeroInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtNumeroInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle TextBox4.
+    '''Controle txtDataInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtDataInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ckbPremiacao_TaxasMaritimo.
+    '''Controle ckbConferido.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ckbPremiacao_TaxasMaritimo As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents ckbConferido As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
-    '''Controle TextBox6.
+    '''Controle txtObsInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox6 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtObsInvoice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Button2.
+    '''Controle btnGravarCabeçalho.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnGravarCabeçalho As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnDevolucaoFrete.
@@ -509,13 +545,13 @@ Partial Public Class Account
     Protected WithEvents pnlDevolucaoFrete As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle DropDownList4.
+    '''Controle ddlTipoDevolucao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList4 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoDevolucao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnFecharDevolucaoFrete.
@@ -723,6 +759,60 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDevolucaoFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDevolucaoFrete As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoEmissor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoEmissor As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoFatura.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoFatura As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsMoeda.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle TextBox1.

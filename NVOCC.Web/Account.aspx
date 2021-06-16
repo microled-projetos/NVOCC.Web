@@ -140,7 +140,7 @@
                                     <div class="row">
                                      <div class="col-sm-12">
                                     <div class="form-group">
-                                                                                     <asp:LinkButton ID="lkExcluirInvoice" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Excluir Invoice</asp:LinkButton>
+                                                                                     <asp:LinkButton ID="lkExcluirInvoice" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');">Excluir Invoice</asp:LinkButton>
                                         </div>
                                          </div>
                                    </div>      
@@ -224,9 +224,15 @@
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">NOVA INVOICE</h5>
+                                                            <h5 class="modal-title">INVOICE</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body">    
+                                                    <div class="alert alert-success" id="divSuccessInvoice" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccessInvoice" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-danger" id="divErroInvoice" runat="server" visible="false">
+                                    <asp:Label ID="lblErroInvoice" runat="server"></asp:Label>
+                                </div>        
                                    <div class="row">
                                        <div class="col-sm-2">
                                     <div class="form-group">
@@ -238,14 +244,14 @@
                                      <div class="col-sm-8">
                                     <div class="form-group">
                                            <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlServico_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
 
                                     </div>
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Emissor:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlEmissor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACCOUNT_TIPO_EMISSOR" DataSourceID="dsTipoEmissor" DataValueField="ID_ACCOUNT_TIPO_EMISSOR"></asp:DropDownList> 
 
 
                                     </div>
@@ -253,10 +259,10 @@
                                          </div>
                                     <div class="row">
                                      
-                                       <div class="col-sm-3">
+                                       <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Tipo:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlTipoInvoice" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACCOUNT_TIPO_INVOICE" DataSourceID="dsTipoInvoice" DataValueField="ID_ACCOUNT_TIPO_INVOICE"></asp:DropDownList> 
 
 
                                     </div>
@@ -264,22 +270,22 @@
                                         <div class="col-sm-5">
                                     <div class="form-group">
                                            <label class="control-label">Processo ou BL:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox2" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtProc_ou_BL" runat="server"  CssClass="form-control"></asp:TextBox>
 
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtProcesso_BasicoMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control"></asp:TextBox>
 
 
                                     </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label">Moeda:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlMoeda" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList> 
 
 
                                     </div>
@@ -290,7 +296,7 @@
                                        <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label">Tipo Fatura:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlTipoFatura" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ACCOUNT_TIPO_FATURA" DataSourceID="dsTipoFatura" DataValueField="ID_ACCOUNT_TIPO_FATURA"></asp:DropDownList> 
 
 
                                     </div>
@@ -298,14 +304,14 @@
                                         <div class="col-sm-5">
                                     <div class="form-group">
                                            <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox3" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtNumeroInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
 
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
 
 
                                     </div>
@@ -314,7 +320,7 @@
                                     <div class="form-group">
                                             <label class="control-label"></label>
 
-                                                                        <asp:CheckBox ID="ckbPremiacao_TaxasMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
+                                                                        <asp:CheckBox ID="ckbConferido" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
 
                                     </div>
                                         </div>
@@ -326,7 +332,7 @@
                                         <div class="col-sm-10">
                                     <div class="form-group">
                                           <label class="control-label">Observações:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtObsInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
 
 
                                     </div>
@@ -334,7 +340,7 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label"></label>
-                               <asp:Button runat="server" Text="Gravar" ID="Button2" CssClass="btn btn-success btn-block" />
+                               <asp:Button runat="server" Text="Gravar" ID="btnGravarCabeçalho" CssClass="btn btn-success btn-block" />
 
 
                                     </div>
@@ -404,7 +410,7 @@
                    
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNovaInvoice" text="Salvar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />
 
                                                         </div>
                                                     
@@ -425,7 +431,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE"></asp:DropDownList>
 
                                     </div>
                                         </div>
@@ -693,6 +699,29 @@
         selectcommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
 union SELECT  0, 'Selecione' FROM TB_TIPO_BL ORDER BY ID_TIPO_BL">
 </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsDevolucaoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" 
+               SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
+union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE">
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoEmissor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_ACCOUNT_TIPO_EMISSOR, NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR
+union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_EMISSOR ORDER BY ID_ACCOUNT_TIPO_EMISSOR"></asp:SqlDataSource>
+
+      <asp:SqlDataSource ID="dsTipoInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_ACCOUNT_TIPO_INVOICE, NM_ACCOUNT_TIPO_INVOICE FROM TB_ACCOUNT_TIPO_INVOICE
+union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_INVOICE ORDER BY ID_ACCOUNT_TIPO_INVOICE"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoFatura" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_ACCOUNT_TIPO_FATURA, NM_ACCOUNT_TIPO_FATURA FROM TB_ACCOUNT_TIPO_FATURA
+union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO_FATURA"></asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
+
                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
