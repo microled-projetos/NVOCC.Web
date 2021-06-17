@@ -74,12 +74,10 @@
                        <div class="col-sm-1">
 
                            <div class="form-group">
-
-                                   <asp:RadioButtonList ID="rdStatus" runat="server">
+                                   <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
                                                         <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
-                                                    </asp:RadioButtonList>
-      
+                                                    </asp:RadioButtonList>      
                            </div>
                        </div>
                        <div class="col-sm-1" style="padding-top: 20px;">
@@ -98,7 +96,6 @@
                            <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emitir ND</asp:LinkButton>
                             <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar Recebimento</asp:LinkButton>
                            <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton>
-
                                         </div>
                        </div>
                    </div>

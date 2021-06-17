@@ -95,13 +95,13 @@ Partial Public Class Account
     Protected WithEvents txtVencimentoFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ckStatus.
+    '''Controle rdStatus.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
+    Protected WithEvents rdStatus As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
     '''Controle btnPesquisa.
@@ -221,6 +221,15 @@ Partial Public Class Account
     Protected WithEvents btnFecharInvoice As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle ModalPopupExtender1.
     '''</summary>
     '''<remarks>
@@ -284,6 +293,15 @@ Partial Public Class Account
     Protected WithEvents btnFecharRelatorios As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender2.
     '''</summary>
     '''<remarks>
@@ -345,6 +363,24 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtIDInvoice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtID_BL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtGrau.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtGrau As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlAgente.
@@ -554,6 +590,15 @@ Partial Public Class Account
     Protected WithEvents ddlTipoDevolucao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle dgvDevolucao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvDevolucao As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnFecharDevolucaoFrete.
     '''</summary>
     '''<remarks>
@@ -563,13 +608,13 @@ Partial Public Class Account
     Protected WithEvents btnFecharDevolucaoFrete As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnSalvarDevolucaoFrete.
+    '''Controle btnIncluirDevolucaoFrete.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnSalvarDevolucaoFrete As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirDevolucaoFrete As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender4.
@@ -590,6 +635,15 @@ Partial Public Class Account
     Protected WithEvents pnlTaxasExterior As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle dgvTaxasExterior.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTaxasExterior As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnFecharTaxasExterior.
     '''</summary>
     '''<remarks>
@@ -599,13 +653,13 @@ Partial Public Class Account
     Protected WithEvents btnFecharTaxasExterior As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button4.
+    '''Controle btnIncluirTaxasExterior.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button4 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirTaxasExterior As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender5.
@@ -626,6 +680,15 @@ Partial Public Class Account
     Protected WithEvents pnlTaxasDeclaradas As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle dgvTaxasDeclaradas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTaxasDeclaradas As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnFecharTaxasDeclaradas.
     '''</summary>
     '''<remarks>
@@ -635,13 +698,13 @@ Partial Public Class Account
     Protected WithEvents btnFecharTaxasDeclaradas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button5.
+    '''Controle btnIncluirTaxasDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button5 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirTaxasDeclaradas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender6.
@@ -662,6 +725,15 @@ Partial Public Class Account
     Protected WithEvents pnlComissoes As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle dgvComissoes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvComissoes As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnFecharComissoes.
     '''</summary>
     '''<remarks>
@@ -671,13 +743,13 @@ Partial Public Class Account
     Protected WithEvents btnFecharComissoes As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button6.
+    '''Controle btnIncluirComissoes.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button6 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirComissoes As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender7.
@@ -698,6 +770,15 @@ Partial Public Class Account
     Protected WithEvents pnlOutrasTaxas As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle dgvOutrasTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvOutrasTaxas As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnFecharOutrasTaxas.
     '''</summary>
     '''<remarks>
@@ -707,13 +788,13 @@ Partial Public Class Account
     Protected WithEvents btnFecharOutrasTaxas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle Button7.
+    '''Controle btnIncluirOutrasTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button7 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirOutrasTaxas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle updPainel1.
@@ -752,6 +833,15 @@ Partial Public Class Account
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle dgvInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvInvoice As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle dsInvoice.
     '''</summary>
     '''<remarks>
@@ -759,6 +849,51 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDevolucao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDevolucao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTaxasExterior.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTaxasExterior As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsComissoes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsComissoes As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTaxasDeclaradas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTaxasDeclaradas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsOutrasTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsOutrasTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsDevolucaoFrete.
@@ -813,13 +948,4 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle TextBox1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 End Class

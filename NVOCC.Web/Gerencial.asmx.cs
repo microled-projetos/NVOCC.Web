@@ -56,7 +56,7 @@ namespace ABAINFRA.Web
                     {
                         if (mesF != "")
                         {
-                            if (vendedor != 0) {;
+                            if (vendedor != 0) {
                                 periodoi = anoI + mesI;
                                 periodof = anoF + mesF;
                                 SQL = "SELECT COUNT(A.NR_PROCESSO) AS PROCESSO, ";
@@ -392,6 +392,188 @@ namespace ABAINFRA.Web
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
+        }
+
+
+        [WebMethod]
+        public string listarProcessosMaster()
+        {
+            string SQL;
+            SQL = "SELECT M.NR_BL, ISNULL(B1.NM_RAZAO,'') AS TRANSPORTADOR, ";
+            SQL += "ISNULL((D1.NM_TIPO_ESTUFAGEM +' - '+ D2.NM_TIPO_ESTUFAGEM ),'') AS NMTPESTUFAGEM, ";
+            SQL += "ISNULL(TEUS.QTDE20,'') AS QTDE20, ISNULL(TEUS.QTDE40,'') as QTDE40,  ";
+            SQL += "ISNULL(P1.NM_PORTO,'') AS ORIGEM, ISNULL(P2.NM_PORTO,'') AS DESTINO,  ";
+            SQL += "ISNULL(FORMAT(M.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DTEMBARQUE, ";
+            SQL += "ISNULL(FORMAT(M.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DTPREVISAOCHEGADA,  ";
+            SQL += "ISNULL(FORMAT(M.DT_CHEGADA,'dd/MM/yyyy'),'') AS DTCHEGADA ";
+            SQL += "FROM TB_BL M ";
+            SQL += "LEFT JOIN TB_PARCEIRO B1 ON M.ID_PARCEIRO_TRANSPORTADOR = B1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_BL C ON M.ID_BL = C.ID_BL_MASTER ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL A ON C.ID_BL = A.ID_BL ";
+            SQL += "LEFT JOIN TB_CNTR_BL E ON A.ID_CNTR_BL = E.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM D1 ON M.ID_TIPO_ESTUFAGEM = D1.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM D2 ON C.ID_TIPO_ESTUFAGEM = D2.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS TEUS ON C.ID_BL = TEUS.ID_BL ";
+            SQL += "LEFT JOIN TB_PORTO P1 ON M.ID_PORTO_ORIGEM = P1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO P2 ON M.ID_PORTO_DESTINO = P2.ID_PORTO ";
+            SQL += "WHERE M.NR_BL IS NOT NULL ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+        [WebMethod]
+        public string listarProcessosOperacional(string via, string etapa, string servico, string status)
+        {
+            switch (via)
+            {
+                case "1":
+                    via = "AND V.ID_VIATRANSPORTE = 1 ";
+                    break;
+                case "4":
+                    via = "AND V.ID_VIATRANSPORTE = 4 ";
+                    break;
+                default:
+                    via = "";
+                    break;
+            }
+
+            switch (etapa)
+            {
+                case "1":
+                    etapa = "AND C.DT_EMBARQUE IS NULL ";
+                    break;
+                case "2":
+                    etapa = "AND C.DT_EMBARQUE IS NOT NULL AND C.DT_CHEGADA IS NULL ";
+                    break;
+                case "3":
+                    etapa = "AND C.DT_CHEGADA IS NOT NULL ";
+                    break;
+                default:
+                    etapa = "";
+                    break;
+            }
+
+            switch (servico)
+            {
+                case "1":
+                    servico = "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('M','A') ";
+                    break;
+                case "2":
+                    servico = "AND SUBSTRING(C.NR_PROCESSO,1,1) IN ('E') ";
+                    break;
+                default:
+                    servico = "";
+                    break;
+            }
+
+            switch (status)
+            {
+                case "1":
+                    status = "AND C.DT_CANCELAMENTO IS NULL AND C.DT_FINALIZACAO_PROCESSO IS NULL ";
+                    break;
+                case "2":
+                    status = "AND C.DT_CANCELAMENTO IS NOT NULL ";
+                    break;
+                case "3":
+                    status = "AND C.DT_FINALIZACAO_PROCESSO IS NOT NULL ";
+                    break;
+                default:
+                    status = "";
+                    break;
+            }
+
+            string SQL;
+            SQL = "SELECT M.ID_BL AS MASTER, C.ID_BL AS HOUSE, ISNULL(C.NR_PROCESSO,'') AS PROCESSO, ISNULL(LEFT(CLT.NM_RAZAO,10),'') AS CLIENTE, ISNULL(PORT1.NM_PORTO,'') AS ORIGEM, ISNULL(PORT2.NM_PORTO,'') AS DESTINO ";
+            SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE ";
+            SQL += ", ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS PEMBARQUE, ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS EMBARQUE, ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PCHEGADA, ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA ";
+            SQL += ", ISNULL(LEFT(TRANSP.NM_RAZAO,10),'') AS TRANSPORTADOR, ISNULL(M.NR_BL,'') as BLMASTER, ISNULL(C.NR_BL,'') as BLHOUSE, ISNULL(FORMAT(C.DT_REDESTINACAO,'dd/MM/yyyy'),'') AS REDESTINACAO, ISNULL(FORMAT(C.DT_DESCONSOLIDACAO,'dd/MM/yyyy'),'') AS DESCONSOLIDACAO ";
+            SQL += ", ISNULL(W.NM_WEEK,'') AS WEEK, ISNULL(LEFT(NAV.NM_NAVIO,10),'') AS NAVIO, ISNULL(M.NR_CE,'') as CEMASTER, ISNULL(C.NR_CE,'') AS CEHOUSE, ISNULL(C.DS_TERMO,'') AS TERMO ";
+            SQL += "FROM TB_BL C ";
+            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO CLT ON C.ID_PARCEIRO_CLIENTE = CLT.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO AGT ON C.ID_PARCEIRO_AGENTE = AGT.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO TRANSP ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSP.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PORTO PORT1 ON C.ID_PORTO_ORIGEM = PORT1.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO PORT2 ON C.ID_PORTO_DESTINO = PORT2.ID_PORTO ";
+            SQL += "LEFT JOIN TB_TIPO_PAGAMENTO TPAG ON C.ID_TIPO_PAGAMENTO = TPAG.ID_TIPO_PAGAMENTO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TESTUF ON C.ID_TIPO_ESTUFAGEM = TESTUF.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_NAVIO NAV ON C.ID_NAVIO = NAV.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_WEEK W ON C.ID_WEEK = W.ID_WEEK ";
+            SQL += "LEFT JOIN TB_SERVICO S ON C.ID_SERVICO = S.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
+            SQL += "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "" + via + "";
+            SQL += "" + etapa + "";
+            SQL += "" + servico + "";
+            SQL += "" + status + "";
+            
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string NumeroProcesso(string idProcesso)
+        {
+            string SQL;
+            SQL = "SELECT NR_PROCESSO, DT_DESCONSOLIDACAO, DT_REDESTINACAO, W.ID_WEEK, DS_TERMO as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '"+idProcesso+"' ";           
+            
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string dadosUpload(string idProcesso)
+        {
+            string SQL;
+            SQL = "SELECT M.NR_BL as NRMASTER FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string verificarProcesso(string idProcesso)
+        {
+            string SQL;
+            SQL = "SELECT  FROM TB_BL C ";
+            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_SERVICO S ON C.ID_SERVICO = S.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
+            SQL += "WHERE C.ID_BL = '" + idProcesso + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string inserirDados(string week, string dtRedestinacao, string dtDesconsolidacao, string idProcesso, string termo)
+        {
+            string SQL;
+            if(dtDesconsolidacao == "")
+            {
+                dtDesconsolidacao = "null";
+            }
+
+            if(dtRedestinacao == "")
+            {
+                dtRedestinacao = "null";
+            }
+            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "', DT_DESCONSOLIDACAO = " + dtDesconsolidacao + ", DT_REDESTINACAO = " + dtRedestinacao + ", DS_TERMO = '"+termo+"' ";
+            SQL += "WHERE ID_BL = '" + idProcesso + "' ";
+
+            string weekS = DBS.ExecuteScalar(SQL);
+            if(weekS == null)
+            {
+                return null;
+            }
+            else
+            {
+                return "fail";
+            }
         }
     }
 }

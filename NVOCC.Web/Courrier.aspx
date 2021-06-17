@@ -191,10 +191,25 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
+        var idFiltro;
+        var stringConsulta;
+        var tipo;
+        var tipoValue;
         $(document).ready(function () {
+            idFiltro = document.getElementById("MainContent_ddlFiltro").value;
+            stringConsulta = document.getElementById("txtConsulta").value;
+            tipo = document.getElementById("MainContent_chkFCL");
+            tipoValue;
+            if (tipo.checked) {
+                tipoValue = "1";
+            }
+            else {
+                tipoValue = "0";
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarCourrier",
+                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -223,6 +238,9 @@
                 }
             })
         });
+
+       
+
         function BuscarCourrier(id) {
             $.ajax({
                 type: "POST",
@@ -248,10 +266,10 @@
             })
         }
         $("#btnConsulta").click(function () {
-            var idFiltro = document.getElementById("MainContent_ddlFiltro").value;
-            var stringConsulta = document.getElementById("txtConsulta").value;
-            var tipo = document.getElementById("MainContent_chkFCL");
-            var tipoValue;
+            idFiltro = document.getElementById("MainContent_ddlFiltro").value;
+            stringConsulta = document.getElementById("txtConsulta").value;
+            tipo = document.getElementById("MainContent_chkFCL");
+            tipoValue;
             if (tipo.checked) {
                 tipoValue = "1";
             }
@@ -293,6 +311,16 @@
         })
         $("#btnEditarCourrier").click(function () {
             $("#modalEditCourrier").modal("hide");
+            idFiltro = document.getElementById("MainContent_ddlFiltro").value;
+            stringConsulta = document.getElementById("txtConsulta").value;
+            tipo = document.getElementById("MainContent_chkFCL");
+            tipoValue;
+            if (tipo.checked) {
+                tipoValue = "1";
+            }
+            else {
+                tipoValue = "0";
+            }
             var dadoEdit = {
                 "ID_BL_MASTER": document.getElementById("idmbl").value,
                 "ID_BL": document.getElementById('idhbl').value,
@@ -318,6 +346,7 @@
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/listarCourrier",
+                            data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             beforeSend: function () {
@@ -352,6 +381,7 @@
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/listarCourrier",
+                            data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             beforeSend: function () {
