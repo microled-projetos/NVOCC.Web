@@ -11,311 +11,284 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class Conferencia
+Partial Public Class DebitNote
 
     '''<summary>
-    '''Controle lblIDINVOICE.
+    '''Controle lblProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblIDINVOICE As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblProcesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblID_BL.
+    '''Controle lblEmpresa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblID_BL As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblEmpresa As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblGrau.
+    '''Controle lblNumeroInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblGrau As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNumeroInvoice As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle divMaster.
+    '''Controle lblEndereco.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divMaster As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents lblEndereco As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMBL.
+    '''Controle lblNumero.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNumero As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTipoFrete.
+    '''Controle lblDataInvoice.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTipoFrete As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDataInvoice As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEmbarque.
+    '''Controle lblBairro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblEmbarque As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblBairro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMoeda.
+    '''Controle lblCidade.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblMoeda As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblCidade As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEstufagem.
+    '''Controle lblTelefone.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblEstufagem As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblTelefone As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblChegada.
+    '''Controle lblFax.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblChegada As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblFax As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblFreeHand.
+    '''Controle lblDataEmissao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblFreeHand As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDataEmissao As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvDevolucaoMBL.
+    '''Controle lblVencimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvDevolucaoMBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblVencimento As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvComissoesMBL.
+    '''Controle lblFatura.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvComissoesMBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblFatura As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvOutrasTaxasMBL.
+    '''Controle lblExportador.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvOutrasTaxasMBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblExportador As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvInvoiceMBL.
+    '''Controle lblReferencias.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvInvoiceMBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblReferencias As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle divHouse.
+    '''Controle lblFrete.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divHouse As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents lblFrete As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMBL_Master.
+    '''Controle Label7.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblMBL_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMoeda_Master.
+    '''Controle lblNavio.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblMoeda_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNavio As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTipoFrete_Master.
+    '''Controle lblConhecimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTipoFrete_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblConhecimento As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEstufagem_Master.
+    '''Controle lblHouse.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblEstufagem_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblHouse As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEmbarque_Master.
+    '''Controle lblOrigem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblEmbarque_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblOrigem As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblChegada_Master.
+    '''Controle lblDestino.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblChegada_Master As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDestino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblHBL_House.
+    '''Controle lblDataEmbarque.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblHBL_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDataEmbarque As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblProcesso_House.
+    '''Controle lblDataChegada.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblProcesso_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDataChegada As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTipoFrete_House.
+    '''Controle lblQtdVolumes.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTipoFrete_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblQtdVolumes As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEstufagem_House.
+    '''Controle lblPesoBruto.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblEstufagem_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblPesoBruto As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblPesoBruto_House.
+    '''Controle lblContainer.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblPesoBruto_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblContainer As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblM3_House.
+    '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblM3_House As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle dgvOutrasTaxasHBL.
+    '''Controle lblUsuario.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvOutrasTaxasHBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblUsuario As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvInvoiceHBL.
+    '''Controle lblDataImpressao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvInvoiceHBL As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblDataImpressao As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dsDevolucao.
+    '''Controle dsNotas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsDevolucao As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsComissoes.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsComissoes As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsOutrasTaxas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsOutrasTaxas As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsInvoice.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsInvoice As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsNotas As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

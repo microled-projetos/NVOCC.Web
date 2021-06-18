@@ -411,4 +411,21 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro
         Next
     End Sub
 
+    Private Sub lkAvisoEmbarque_Click(sender As Object, e As EventArgs) Handles lkAvisoEmbarque.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblErro.Text = "Selecione o registro que deseja editar!"
+        Else
+            Session("Vencimento_Inicial") = ""
+            Session("Vencimento_Final") = ""
+
+            Session("Vencimento_Inicial") = txtVencimentoInicial.Text
+            Session("Vencimento_Final") = txtVencimentoFinal.Text
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AvisoEmbarque()", True)
+        End If
+
+    End Sub
 End Class

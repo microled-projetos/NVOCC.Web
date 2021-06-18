@@ -86,16 +86,20 @@
 
                            </div>
                        </div>
-                       <div class="col-sm-offset-1 col-sm-5">
-                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
-
+                       <div class="col-sm-6">
+                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">CONTAS A PAGAR</asp:Label><br />
+                           <div style="border: ridge 1px;">
                           <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Solicitar Pagamento</asp:LinkButton>
                             <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Montar Pagamento</asp:LinkButton>
-                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar Pagamento</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton></div>
+                           <br />
+                                      <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">CONTAS A RECEBER</asp:Label><br />
+                                                      <div style="border: ridge 1px;">
+
                           <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Calcular Recebimento</asp:LinkButton>
                            <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emitir ND</asp:LinkButton>
-                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar Recebimento</asp:LinkButton>
-                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton>
+                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton>
+                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton></div>
                                         </div>
                        </div>
                    </div>

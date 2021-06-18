@@ -252,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account.aspx" />
+    <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
@@ -357,6 +358,7 @@
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
+    <Content Include="DebitNote.aspx" />
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
@@ -437,6 +439,7 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ListagemBL.aspx" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
@@ -544,6 +547,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="AvisoEmbarque.aspx.designer.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AvisoEmbarque.aspx.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="BaixarComissao.aspx.designer.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
     </Compile>
@@ -696,6 +706,13 @@
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="DebitNote.aspx.designer.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DebitNote.aspx.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.designer.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
     </Compile>
@@ -819,18 +836,18 @@
       <DependentUpon>ItemDespesa.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ListagemBL.aspx.designer.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListagemBL.aspx.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Login.aspx.designer.vb">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.vb">
       <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.designer.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MoedaFrete.aspx.designer.vb">

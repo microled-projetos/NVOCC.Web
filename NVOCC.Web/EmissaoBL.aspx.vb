@@ -82,7 +82,7 @@ SELECT 'FREIGHT: '+ CAST(SUM(ISNULL(A.VL_FRETE,0))AS varchar) + ' ' + (SELECT SI
 
     End Sub
     Private Sub btnVoltar_Click(sender As Object, e As EventArgs) Handles btnVoltar.Click
-        Response.Redirect("ModuloOperacional.aspx")
+        Response.Redirect("ListagemBL.aspx")
 
     End Sub
 End Class

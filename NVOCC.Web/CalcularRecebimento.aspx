@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CalcularRecebimento.aspx.vb" Inherits="NVOCC.Web.CalcularRecebimento" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+     <style>
+        #imgFundo {
+            display: none;
+        }
+         </STYLE>
     <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -28,7 +33,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label class="control-label">FORNECEDOR:</label>
+                                            <label class="control-label">PARCEIRO CLIENTE:</label>
                                             <asp:DropDownList ID="ddlFornecedor" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="NM_RAZAO" DataSourceID="dsFornecedor" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                         </div>
                                     </div>
@@ -86,11 +91,20 @@
                                 </div>
 
 
-
+                                                                
 
                                 <br />
                                 <br />
                                 <div id="divConteudo" runat="server" visible="false">
+                                    <div class="row">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <asp:Button runat="server" Text="Marcar Todos" ID="btnMarcar" CssClass="btn btn-primary" />
+                                            <asp:Button runat="server" Text="Desmarcar Todos" ID="btnDesmarcar" CssClass="btn btn-warning" />
+                                        </div>
+                                    </div>
+                                </div> <br />
                                     <div class="row">
                                         <div class="col-sm-9">
                                             <div class="table-responsive tableFixHead">
@@ -139,7 +153,9 @@
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                         <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
-                                                        <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
+                                                                                                           
+                                                  <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
+
 
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
@@ -149,7 +165,8 @@
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                         <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
-                                                        <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
+                                                             <asp:BoundField DataField="VL_TXABERTURA" HeaderText="Valor Abertura" SortExpression="VL_TXABERTURA" />
+                                                              <asp:BoundField DataField="VALOR_ACORDADO" HeaderText="Valor Acordado" SortExpression="VALOR_ACORDADO" />
 
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />

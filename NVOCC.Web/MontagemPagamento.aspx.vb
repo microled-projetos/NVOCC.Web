@@ -17,7 +17,7 @@
         Else
             txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
             txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
-
+            ckbBaixaAutomatica.Checked = True
         End If
         Con.Fechar()
 
@@ -115,7 +115,7 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Con.Conectar()
             Dim ds As DataSet
             If ckbBaixaAutomatica.Checked = True Then
-                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "') Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_LIQUIDACAO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "') Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
 
             Else
                 ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,DT_FATURA_FORNECEDOR,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,NR_FATURA_FORNECEDOR) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),CONVERT(DATE, '" & txtDataFatura.Text & "',103)," & ddlContaBancaria.SelectedValue & "," & Session("ID_USUARIO") & ",'P','" & txtNumeroFatura.Text & "')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
@@ -129,12 +129,14 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
                     Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
                     valor = valor.Replace(".", "")
                     valor = valor.Replace(",", ".")
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] WHERE ID_BL_TAXA =" & ID)
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] A
+INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER
+WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                     If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Há taxas já cadastradas em contas a pagar"
                         divErro.Visible = True
                     Else
-                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_LANCAMENTO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA  )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO," & valor & ",ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA  )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor & ",ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
                     End If
                 End If
             Next

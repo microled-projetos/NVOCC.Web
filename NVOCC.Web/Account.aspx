@@ -162,6 +162,7 @@
                                 </asp:Panel>
 
                                 <asp:Button runat="server" Visible="false" ID="Button2" Text="Close" />
+
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRelatorios" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -791,7 +792,7 @@
 
                                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                                     <ContentTemplate>
-                                        <div runat="server" id="divAuxiliar" visible="false">
+                                        <div runat="server" id="divAuxiliar" style="display:none">
                                             <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                             <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                         </div>
@@ -841,8 +842,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
                                 <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
                                 <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />
-
-
+                                <asp:AsyncPostBackTrigger ControlID="lkAvisoEmbarque" />
                             </Triggers>
                         </asp:UpdatePanel>
                         <br />
@@ -935,4 +935,15 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        function AvisoEmbarque() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('AvisoEmbarque.aspx?id=' + ID, '_blank');
+        }
+
+    </script>
 </asp:Content>

@@ -212,6 +212,24 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents divConteudo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle btnMarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnMarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDesmarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDesmarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>

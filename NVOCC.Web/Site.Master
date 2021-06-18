@@ -124,7 +124,7 @@
                             </li>
                              <li>
                                 <a href="#" id="A15" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">                                  
+                                <ul class="dropdown-sub" style="top: 50%!important">                                  
                                     <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="A18">Vendedor</a></li>
                                     
                                 </ul>
@@ -137,7 +137,7 @@
                         <a href="#" id="A4" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i>&nbsp;Operação<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="ModuloOperacional.aspx" runat="server" id="mnModuloOperacional">Módulo Operacional</a>
+                                <a href="ListagemBL.aspx" runat="server" id="mnModuloOperacional">Módulo Operacional</a>
                             </li>                            
                             <li>
                                 <a href="ConsultarWeek.aspx" runat="server" id="mnConsultarWeek">Consultar Week</a>
@@ -165,7 +165,7 @@
                             </li>
                             <li>
                                 <a href="#" id="A3" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">                                  
+                                <ul class="dropdown-sub" style="top: 50%!important">                                  
                                     <li><a id="A7" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
                                      <li><a id="A8" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
                                 </ul>
@@ -196,6 +196,9 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="ModuloGerencial.aspx" runat="server" id="A22">Modulo Gerencial</a>
+                            </li>
+                            <li>
+                                <a href="ModuloOperacional.aspx" runat="server" id="A5">Modulo Operacional</a>
                             </li>
                             <li>
                                 <a href="GerencialMaster.aspx" runat="server" id="A23">Gerencial Master</a>

@@ -44,7 +44,7 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE DT_SOLICITACAO_PAGAMENTO IS NULL AND (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 
 
@@ -153,6 +153,7 @@ WHERE DT_SOLICITACAO_PAGAMENTO IS NULL AND (ID_BL = " & txtID_BL.Text & ") AND C
             lblTotal.Text = 0
             txtVencimento.Text = ""
             dgvTaxas.DataBind()
+            Response.Redirect("MontagemPagamento.aspx")
 
         End If
 
@@ -184,7 +185,7 @@ WHERE DT_SOLICITACAO_PAGAMENTO IS NULL AND (ID_BL = " & txtID_BL.Text & ") AND C
                                 ValorCambio = ValorCambio.Replace(",", ".")
 
 
-                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
                             End If
 
                         Next
