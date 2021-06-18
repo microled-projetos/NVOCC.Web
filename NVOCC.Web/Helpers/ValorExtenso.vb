@@ -1,5 +1,28 @@
 ﻿Public Class ValorExtenso
+    Public Function Nnull(Par As Object, Tipo As Integer)
 
+        If CStr(Par) = String.Empty Then
+            If Tipo = 0 Then
+                Nnull = 0
+            Else
+                Nnull = ""
+            End If
+        Else
+            If Trim(Par) <> "" Then
+                If Tipo = 0 Then
+                    Nnull = Par
+                Else
+                    Nnull = Trim(Par)
+                End If
+            Else
+                If Tipo = 0 Then
+                    Nnull = 0
+                Else
+                    Nnull = ""
+                End If
+            End If
+        End If
+    End Function
     Public Function NumeroToExtenso(ByVal number As Decimal) As String
         Dim cent As Integer
         Try

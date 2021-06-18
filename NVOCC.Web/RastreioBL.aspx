@@ -20,9 +20,11 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading titulo">
-                <h4>NUMERO DA BL:
-                    <asp:Label runat="server" ID="nr_bl"></asp:Label></h4>
+                <h4>NUMERO DA BL:<asp:Label runat="server" ID="nr_bl"></asp:Label>
+                    <asp:Button ID="btnAtualizar" runat="server" BackColor="White" ForeColor="Black" Text="ATUALIZAR" />
+                </h4>
             </div>
+            
         </div>
     </div>
     <!--TRANSPORTE E LOGISTTICA -->
