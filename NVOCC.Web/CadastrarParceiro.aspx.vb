@@ -617,7 +617,7 @@ VALUES (
                             End If
 
 
-                            If txtEmail.Text = "" And ddlPorto.SelectedValue = 0 And ddlEvento.SelectedValue = 0 Then
+                            If txtEmail.Text = "" And ddlEvento.SelectedValue = 0 Then
                                 divInformativa.Visible = True
                                 lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
                             Else
@@ -664,6 +664,8 @@ VALUES (
 
                                         End If
                                     End If
+
+
 
                                 End If
 
@@ -960,7 +962,7 @@ where ID_PARCEIRO = " & ID)
 
                             End If
 
-                            If txtEmail.Text <> "" And ddlPorto.SelectedValue <> 0 And ddlEvento.SelectedValue <> 0 Then
+                            If txtEmail.Text <> "" And ddlEvento.SelectedValue <> 0 Then
 
                                 If txtEmail.Text = "" Then
                                     msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
@@ -983,9 +985,51 @@ where ID_PARCEIRO = " & ID)
                                         TIPO_PESSOA = "C"
                                     End If
 
+                                    Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ddlEvento.SelectedValue)
+                                    If dsEmail.Tables(0).Rows.Count = 0 Then
+                                        'insere emails
+                                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
 
-                                    'update emails
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID_PESSOA = " & ID)
+                                    Else
+
+                                        For Each linha As DataRow In dsEmail.Tables(0).Rows
+                                            'update emails
+                                            Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID = " & linha.Item("ID").ToString())
+                                        Next
+
+                                    End If
+
+
+                                    'REPLICA EMAILS
+                                    If ckbReplica.Checked = True Then
+
+                                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                                        If ds.Tables(0).Rows.Count > 0 Then
+
+                                            For Each linha As DataRow In ds.Tables(0).Rows
+                                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+
+                                                dsEmail = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ID_AVISO)
+                                                If dsEmail.Tables(0).Rows.Count = 0 Then
+                                                    'insere emails
+                                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                                                Else
+
+                                                    For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
+                                                        'update emails
+                                                        Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
+                                                    Next
+
+                                                End If
+                                            Next
+
+                                        End If
+                                    End If
+
                                 End If
 
                             End If

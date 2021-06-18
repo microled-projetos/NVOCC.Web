@@ -97,33 +97,47 @@
         Dim Con As New Conexao_sql
         Con.Conectar()
         If Request.QueryString("t") = "p" Then
+            If rdStatus.SelectedValue = 2 Then
+                For Each linha As GridViewRow In dgvTaxasPagar.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "'  WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+                Next
+                lblSuccess.Text = "Cancelamento realizado com sucesso!"
+                divSuccess.Visible = True
+            Else
+                lblErro.Text = "Só é possivel cancelar faturas fechadas!"
+                divErro.Visible = True
+            End If
 
-            For Each linha As GridViewRow In dgvTaxasPagar.Rows
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                If check.Checked Then
-                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "'  WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-                End If
-            Next
             dgvTaxasPagar.DataBind()
 
         ElseIf Request.QueryString("t") = "r" Then
+            If rdStatus.SelectedValue = 2 Then
+                For Each linha As GridViewRow In dgvTaxasReceber.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
 
-            For Each linha As GridViewRow In dgvTaxasReceber.Rows
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                If check.Checked Then
-                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-                End If
-            Next
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+                Next
+                lblSuccess.Text = "Cancelamento realizado com sucesso!"
+                divSuccess.Visible = True
+            Else
+                lblErro.Text = "Só é possivel cancelar faturas fechadas!"
+                divErro.Visible = True
+            End If
+
             dgvTaxasReceber.DataBind()
 
         End If
 
 
         Con.Fechar()
-        lblSuccess.Text = "Cancelamento realizado com sucesso!"
-        divSuccess.Visible = True
+
         txtData.Text = ""
         txtObs.Text = ""
         mpeObs.Hide()
@@ -242,5 +256,28 @@
                 lblClienteBaixa.Text &= "Fornecedor: " & fornecedor & "<br/>"
             End If
         Next
+    End Sub
+
+    Private Sub rdStatus_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdStatus.SelectedIndexChanged
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Dim FILTRO As String = ""
+        If rdStatus.SelectedValue = 2 Then
+
+
+            FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL"
+
+
+        ElseIf rdStatus.SelectedValue = 1 Then
+
+            FILTRO &= " AND DT_LIQUIDACAO IS NULL"
+
+
+        End If
+        dsReceber.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        dgvTaxasReceber.DataBind()
+
+        dsPagar.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        dgvTaxasPagar.DataBind()
     End Sub
 End Class

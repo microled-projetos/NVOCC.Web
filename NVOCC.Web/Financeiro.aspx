@@ -62,7 +62,6 @@
                                    <asp:ListItem Value="1">Número do processo</asp:ListItem>
                                    <asp:ListItem Value="2">Número do Master</asp:ListItem>
                                    <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
-                                   <asp:ListItem Value="4">Referência  do Cliente</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
@@ -75,12 +74,10 @@
                        <div class="col-sm-1">
 
                            <div class="form-group">
-
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
-                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
-                               </asp:CheckBoxList>
+                                   <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                                                    </asp:RadioButtonList>      
                            </div>
                        </div>
                        <div class="col-sm-1" style="padding-top: 20px;">
@@ -89,210 +86,32 @@
 
                            </div>
                        </div>
-                       <div class="col-sm-offset-2 col-sm-4">
-                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
+                       <div class="col-sm-6">
+                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">CONTAS A PAGAR</asp:Label><br />
+                           <div style="border: ridge 1px;">
+                          <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Solicitar Pagamento</asp:LinkButton>
+                            <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Montar Pagamento</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton></div>
+                           <br />
+                                      <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">CONTAS A RECEBER</asp:Label><br />
+                                                      <div style="border: ridge 1px;">
 
-                           <asp:LinkButton ID="lkContasPagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Pagar</asp:LinkButton>
-                           <asp:LinkButton ID="lkContasReceber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Contas a Receber</asp:LinkButton>
-                           <asp:LinkButton ID="lkIntegracao" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Integração TOTVS</asp:LinkButton>
-                           <asp:LinkButton ID="lkIndicadores" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Indicadores</asp:LinkButton>
-
+                          <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Calcular Recebimento</asp:LinkButton>
+                           <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emitir ND</asp:LinkButton>
+                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton>
+                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton></div>
+                                        </div>
                        </div>
                    </div>
                                 <br />
 
                                 <asp:Button runat="server" Text="Pesquisar" Style="display: none" ID="Button1" CssClass="btn btn-success" />
 
-                                <ajaxToolkit:ModalPopupExtender ID="mpeImprimir" runat="server" PopupControlID="pnlContasPagar" TargetControlID="lkContasPagar" CancelControlID="btnFecharContasPagar"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlContasPagar" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">CONTAS A PAGAR</h5>
-                                                        </div>
-                                                        <div class="modal-body" style="padding-left: 50px;">                                       
-                            <div class="row">
-                                   <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                           
-<asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Solicitação Pagamento</asp:LinkButton>
+                               
 
+                               
 
-                                    </div>
-                                        </div>
-                                         </div>
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                             
-                                                                                <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Montagem Pagamento</asp:LinkButton>
-                                        </div>
-                                         </div>
-                                   </div>      
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                                                                     <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixas e Cancel</asp:LinkButton>
-                                        </div>
-                                         </div>
-                                   </div>      
-                                </div>  
-                             </div>
-                           
-                      
-                                                       
-                   
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharContasPagar" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlContasReceber" TargetControlID="lkContasReceber" CancelControlID="btnFecharContasReceber"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlContasReceber" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">CONTAS A RECEBER</h5>
-                                                        </div>
-                                                        <div class="modal-body" style="padding-left: 50px;">                                       
-                            <div class="row">
-                                   <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                           
-                                        <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Calcular Recebimento</asp:LinkButton>
-
-
-                                    </div>
-                                        </div>
-                                         </div>
-                                 <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                           
-                                        <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emissão ND</asp:LinkButton>
-
-
-                                    </div>
-                                        </div>
-                                         </div>
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                             
-                                                   <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixas e Cancel</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>      
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                                                                                                             <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>      
-                                </div>  
-                             </div>
-                           
-                      
-                                                       
-                   
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharContasReceber" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlIntegracao" TargetControlID="lkIntegracao" CancelControlID="btnFecharIntegracao"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlIntegracao" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">INTEGRAÇÃO TOTVS</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                            <div class="row">
-                                   <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                           
-                                        <asp:LinkButton ID="lkNotaDespesa" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Nota Despesa</asp:LinkButton>
-
-
-                                    </div>
-                                        </div>
-                                         </div>
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                             
-                                                                                  <asp:LinkButton ID="lkPA" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">PA</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>      
-                                    
-                                </div>  
-                             </div>
-                           
-                      
-                                                       
-                   
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharIntegracao" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlIndicadores" TargetControlID="lkIndicadores" CancelControlID="btnFecharIndicadores"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlIndicadores" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">INDICADORES</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                            <div class="row">                                  
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                                                                  <asp:LinkButton ID="lkInternacional" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Internacional</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>      
-                                    <div class="row">
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                         <asp:LinkButton ID="lkNacional" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Nacional</asp:LinkButton>
-                                        </div>
-                                         </div>
-                                   </div>      
-                                </div>  
-                             </div>
-                           
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharIndicadores" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
+                                
                             </ContentTemplate>
                             <Triggers>
                                 <%--<asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
@@ -311,17 +130,18 @@
                                     <asp:GridView ID="dgvFinanceiro" DataKeyNames="ID_BL" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFinanceiro" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center">
                                         <Columns>
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
-                                            <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
+                                                                                        <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
+
+                                            <asp:BoundField DataField="NR_BL_MASTER" HeaderText="MBL" SortExpression="NR_BL_MASTER" />
+                                            <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="Chegada" SortExpression="DT_CHEGADA_MASTER" />
                                             <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
                                             <asp:BoundField DataField="NM_PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR" HeaderText="Qtd. taxas a Pagar" SortExpression="TOTAL_A_PAGAR" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR_QUITADAS" HeaderText="Qtd. taxas Pagas" SortExpression="TOTAL_A_PAGAR_QUITADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR_ABERTAS" HeaderText="Qtd. taxas (a Pagar) em aberto" SortExpression="TOTAL_A_PAGAR_ABERTAS" />
-                                            <asp:BoundField DataField="TOTAL_A_PAGAR_CANCELADAS" HeaderText="Qtd. taxas (a Pagar) Canceladas" SortExpression="TOTAL_A_PAGAR_CANCELADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="TOTAL_A_RECEBER" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_QUITADAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="TOTAL_A_RECEBER_QUITADAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_ABERTAS" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="TOTAL_A_RECEBER_ABERTAS" />
-                                            <asp:BoundField DataField="TOTAL_A_RECEBER_CANCELADAS" HeaderText="Qtd. taxas (a Receber) Canceladas" SortExpression="TOTAL_A_RECEBER_CANCELADAS" />
+                                            <asp:BoundField DataField="QT_TAXAS_PAGAR" HeaderText="Qtd. taxas a Pagar" SortExpression="QT_TAXAS_PAGAR" />
+                                            <asp:BoundField DataField="QT_TAXAS_PAGAS" HeaderText="Qtd. taxas Pagas" SortExpression="QT_TAXAS_PAGAS" />
+                                            <asp:BoundField DataField="QT_TAXAS_PAGAR_ABERTA" HeaderText="Qtd. taxas (a Pagar) em aberto" SortExpression="QT_TAXAS_PAGAR_ABERTA" />
+                                            <asp:BoundField DataField="QT_TAXAS_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="QT_TAXAS_RECEBER" />
+                                            <asp:BoundField DataField="QT_TAXAS_RECEBIDAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="QT_TAXAS_RECEBIDAS" />
+                                            <asp:BoundField DataField="QT_TAXAS_RECEBER_ABERTA" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="QT_TAXAS_RECEBER_ABERTA" />
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -355,7 +175,7 @@
     </div>
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Financeiro] WHERE TOTAL_A_PAGAR_ABERTAS > 0 OR TOTAL_A_RECEBER_ABERTAS > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [View_Financeiro] WHERE QT_TAXAS_PAGAR_ABERTA > 0 OR QT_TAXAS_RECEBER_ABERTA > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
 </asp:Content>

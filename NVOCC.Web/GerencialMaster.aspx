@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
-                                <table id="courrierExport" class="table tablecont">
+                                <table id="grdMasterProcesso" class="table tablecont">
                                     <thead>
                                         <tr>
                                             <th class="text-center" scope="col">MBL</th>
@@ -45,109 +45,12 @@
                                             <th class="text-center" scope="col">DATA RECEBIMENTO</th>
                                             <th class="text-center" scope="col">VALOR RECEBIMENTO</th>
                                             <th class="text-center" scope="col">TX CAMBIO RECEBTO</th>
-                                            <th class="text-center" scope="col">&nbsp;</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="containerCourrier">
+                                    <tbody id="grdMasterProcessoBody">
                                        
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="modal fade bd-example-modal-lg" id="modalEditCourrier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalFCLexpoTitle">Alterar Courrier</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body" style="padding:20px">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">PROCESSO:</label>
-                                                        <input id="nrprocesso" class="nobox" type="text" disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">CLIENTE:</label>
-                                                        <input id="nmcliente" class="nobox" type="text" disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">MBL:</label>
-                                                        <input id="idmbl" class="nobox" type="text" disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <label class="control-label">HBL:</label>
-                                                        <input id="idhbl" class="nobox" type="text" disabled="disabled"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Data Recebimento MBL</label>
-                                                        <input id="dtRecebimentoMBL" class="form-control" type="date" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Código Rastreamento MBL</label>
-                                                        <input id="cdRastreamentoMBL" class="form-control" type="text" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Data Recebimento HBL</label>
-                                                        <input id="dtRecebimentoHBL" class="form-control" type="date" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Código Rastreamento HBL</label>
-                                                        <input id="cdRastreamentoHBL" class="form-control" type="text" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Data da Retirada</label>
-                                                        <input id="dtRetirada" class="form-control" type="date" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Retirado Por</label>
-                                                        <input id="receptor" class="form-control" type="text" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label class="control-label">Nº da Fatura</label>
-                                                        <input id="nrFatura" class="form-control" type="text" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" id="btnEditarCourrier" class="btn btn-success">Editar Courrier</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,4 +60,41 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    <script src="Content/js/papaparse.min.js"></script>    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarProcessosMaster",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdMasterProcessoBody").empty();
+                    $("#grdMasterProcessoBody").append("<tr><td colspan='19'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#grdMasterProcessoBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#grdMasterProcessoBody").append("<tr><td class='text-center'>" + dado[i]["NR_BL"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NMTPESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["QTDE20"] + "</td><td class='text-center'>" + dado[i]["QTDE40"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["DTEMBARQUE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DTPREVISAOCHEGADA"] + "</td><td class='text-center'>" + dado[i]["DTCHEGADA"] + "</td><td class='text-center'></td>" +
+                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'></td>" +
+                                "<td class='text-center'></td><td class='text-center'></td></tr>");
+                        }
+                    } else {
+                        $("#grdMasterProcessoBody").empty();
+                        $("#grdMasterProcessoBody").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                    }
+                }
+            })
+        })
+    </script>
 </asp:Content>

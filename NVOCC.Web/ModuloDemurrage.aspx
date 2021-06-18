@@ -3022,8 +3022,9 @@
                             }
                         }
                     }
-                    else {
-
+                    else {                        
+                        $("#grdEstimativaBody").empty();
+                        $("#grdEstimativaBody").append("<tr id='msgEmptyWeek'><td colspan='23' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })

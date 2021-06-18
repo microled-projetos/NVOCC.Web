@@ -77,13 +77,13 @@ Partial Public Class Financeiro
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ckStatus.
+    '''Controle rdStatus.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
+    Protected WithEvents rdStatus As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
     '''Controle btnPesquisa.
@@ -102,69 +102,6 @@ Partial Public Class Financeiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lkContasPagar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkContasPagar As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkContasReceber.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkContasReceber As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkIntegracao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkIntegracao As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkIndicadores.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkIndicadores As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle Button1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle mpeImprimir.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mpeImprimir As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle pnlContasPagar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlContasPagar As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
     '''Controle lkSolicitacaoPagamento.
@@ -194,31 +131,13 @@ Partial Public Class Financeiro
     Protected WithEvents lkBaixaCancel_Pagar As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle btnFecharContasPagar.
+    '''Controle Label1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharContasPagar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle ModalPopupExtender1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ModalPopupExtender1 As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle pnlContasReceber.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlContasReceber As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lkCalcularRecebimento.
@@ -257,103 +176,13 @@ Partial Public Class Financeiro
     Protected WithEvents lkFaturar As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle btnFecharContasReceber.
+    '''Controle Button1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharContasReceber As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle ModalPopupExtender3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ModalPopupExtender3 As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle pnlIntegracao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlIntegracao As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle lkNotaDespesa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkNotaDespesa As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkPA.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkPA As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle btnFecharIntegracao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharIntegracao As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle ModalPopupExtender2.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ModalPopupExtender2 As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle pnlIndicadores.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlIndicadores As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle lkInternacional.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkInternacional As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle lkNacional.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkNacional As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
-    '''Controle btnFecharIndicadores.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharIndicadores As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle updPainel1.

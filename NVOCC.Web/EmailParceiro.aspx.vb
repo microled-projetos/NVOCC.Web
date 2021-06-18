@@ -121,15 +121,67 @@ WHERE B.ID = " & ID)
                     divmsg.Visible = True
                 End If
 
+                Dim TIPO As String = "E"
+                Dim TIPO_PESSOA As String = ""
 
+                'Verifica qual o tipo de pessoa
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ddlEmpresa.SelectedValue)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
+                        TIPO_PESSOA = "T"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
+                        TIPO_PESSOA = "T"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
+                        TIPO_PESSOA = "T"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
+                        TIPO_PESSOA = "P"
+                    Else
+                        TIPO_PESSOA = "C"
+                    End If
+                End If
+
+                'REPLICA EMAILS
+                If ckbReplica.Checked = True Then
+
+                    ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        For Each linha As DataRow In ds.Tables(0).Rows
+                            Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+
+                            Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ddlEmpresa.SelectedValue & " AND ID_EVENTO = " & ID_AVISO)
+                            If dsEmail.Tables(0).Rows.Count = 0 Then
+
+                                'insere emails
+                                Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                            Else
+
+                                For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
+                                    'update emails
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
+                                Next
+
+                            End If
+                        Next
+
+                    End If
+                End If
             Else
                 Dim TIPO As String = "E"
                 Dim TIPO_PESSOA As String = ""
 
                 'Verifica qual o tipo de pessoa
-                ds = Con.ExecutarQuery("SELECT fl_importador,  fl_exportador, fl_agente,  FL_COMISSARIA, fl_prestador,  fl_armazem FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
+                ds = Con.ExecutarQuery("SELECT fl_prestador,  fl_armazem_atracacao, fl_armazem_descarga, fl_armazem_desembaraco FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO =" & ID_PESSOA)
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("fl_armazem").ToString = True Then
+                    If ds.Tables(0).Rows(0).Item("fl_armazem_atracacao").ToString = True Then
+                        TIPO_PESSOA = "T"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_descarga").ToString = True Then
+                        TIPO_PESSOA = "T"
+                    ElseIf ds.Tables(0).Rows(0).Item("fl_armazem_desembaraco").ToString = True Then
                         TIPO_PESSOA = "T"
                     ElseIf ds.Tables(0).Rows(0).Item("fl_prestador").ToString = True Then
                         TIPO_PESSOA = "P"
@@ -156,7 +208,24 @@ WHERE B.ID = " & ID)
                     Call Limpar(Me)
                 End If
 
+                'REPLICA EMAILS
+                If ckbReplica.Checked = True Then
 
+                    ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        For Each linha As DataRow In ds.Tables(0).Rows
+                            Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+                            'insere emails
+                            Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ddlEmpresa.SelectedValue & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                        Next
+
+                    End If
+                End If
             End If
 
         End If

@@ -50,9 +50,8 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(10062021)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+    <Reference Include="ABAINFRA.Web">
+      <HintPath>..\..\..\ABAINFRA.Web(16062021)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -251,6 +250,7 @@
   <ItemGroup>
     <Content Include="ABAINFRA.Web.dll" />
     <Content Include="Account.aspx" />
+    <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
@@ -269,6 +269,7 @@
     <Content Include="ComissaoIndicadorInternacional.aspx" />
     <Content Include="ComissaoIndicadorNacional.aspx" />
     <Content Include="ComissaoVendedor.aspx" />
+    <Content Include="Conferencia.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
     <Content Include="ConsultarWeek.aspx.cs" />
@@ -355,6 +356,7 @@
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
+    <Content Include="DebitNote.aspx" />
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
@@ -435,6 +437,7 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ListagemBL.aspx" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
@@ -442,6 +445,8 @@
     <Content Include="ModuloGerencial.aspx.cs" />
     <Content Include="ModuloGerencial.aspx.designer.cs" />
     <Content Include="ModuloOperacional.aspx" />
+    <Content Include="ModuloOperacional.aspx.cs" />
+    <Content Include="ModuloOperacional.aspx.designer.cs" />
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
     <Content Include="Processos.cs" />
@@ -540,6 +545,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="AvisoEmbarque.aspx.designer.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AvisoEmbarque.aspx.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="BaixarComissao.aspx.designer.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
     </Compile>
@@ -678,12 +690,26 @@
     </Compile>
     <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Conexao_sql.vb" />
+    <Compile Include="Conferencia.aspx.designer.vb">
+      <DependentUpon>Conferencia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Conferencia.aspx.vb">
+      <DependentUpon>Conferencia.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ConsultaParceiro.aspx.designer.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConsultaParceiro.aspx.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DebitNote.aspx.designer.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DebitNote.aspx.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.designer.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
@@ -808,18 +834,18 @@
       <DependentUpon>ItemDespesa.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ListagemBL.aspx.designer.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListagemBL.aspx.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Login.aspx.designer.vb">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.vb">
       <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.designer.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MoedaFrete.aspx.designer.vb">

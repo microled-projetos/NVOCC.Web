@@ -2565,12 +2565,14 @@ namespace ABAINFRA.Web
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            var valoresD = new string[listTable.Rows.Count];
-            var moedasD = new string[listTable.Rows.Count];
-
-
-            for (int i = 0; i < listTable.Rows.Count; i++)
+            if (listTable != null)
             {
+                var valoresD = new string[listTable.Rows.Count];
+                var moedasD = new string[listTable.Rows.Count];
+
+
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
                     if (!(Boolean)listTable.Rows[i]["FL_ESCALONADA"])
                     {
                         int d1 = (Int16)listTable.Rows[i]["QT_DIAS_01"];
@@ -2646,112 +2648,113 @@ namespace ABAINFRA.Web
                             }
                         }
 
-                    vlDemurr = somaDias * vlTaxa;
-                    valoresD[i] = vlDemurr.ToString();
-                    moedasD[i] = listTable.Rows[i]["NM_MOEDA"].ToString();
-                }
-                else
-                {
-                    int d1 = (Int16)listTable.Rows[i]["QT_DIAS_01"];
-                    int d2 = (Int16)listTable.Rows[i]["QT_DIAS_02"];
-                    int d3 = (Int16)listTable.Rows[i]["QT_DIAS_03"];
-                    int d4 = (Int16)listTable.Rows[i]["QT_DIAS_04"];
-                    int d5 = (Int16)listTable.Rows[i]["QT_DIAS_05"];
-                    int d6 = (Int16)listTable.Rows[i]["QT_DIAS_06"];
-                    int d7 = (Int16)listTable.Rows[i]["QT_DIAS_07"];
-                    int d8 = (Int16)listTable.Rows[i]["QT_DIAS_08"];
-                    int ft = (Int16)listTable.Rows[i]["FreeTimeTab"];
-
-                    somaDias = (Int16)listTable.Rows[i]["QT_DIAS_FREETIME"];
-                    demurrage = (int)listTable.Rows[i]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = 0;
-
-                    if (somaDias <= ft)
-                    {
-                        vlDemurr = 0;
+                        vlDemurr = somaDias * vlTaxa;
+                        valoresD[i] = vlDemurr.ToString();
+                        moedasD[i] = listTable.Rows[i]["NM_MOEDA"].ToString();
                     }
                     else
                     {
-                        if (d1.ToString() != "0" && listTable.Rows[i]["QT_DIAS_01"] != null)
+                        int d1 = (Int16)listTable.Rows[i]["QT_DIAS_01"];
+                        int d2 = (Int16)listTable.Rows[i]["QT_DIAS_02"];
+                        int d3 = (Int16)listTable.Rows[i]["QT_DIAS_03"];
+                        int d4 = (Int16)listTable.Rows[i]["QT_DIAS_04"];
+                        int d5 = (Int16)listTable.Rows[i]["QT_DIAS_05"];
+                        int d6 = (Int16)listTable.Rows[i]["QT_DIAS_06"];
+                        int d7 = (Int16)listTable.Rows[i]["QT_DIAS_07"];
+                        int d8 = (Int16)listTable.Rows[i]["QT_DIAS_08"];
+                        int ft = (Int16)listTable.Rows[i]["FreeTimeTab"];
+
+                        somaDias = (Int16)listTable.Rows[i]["QT_DIAS_FREETIME"];
+                        demurrage = (int)listTable.Rows[i]["QT_DIAS_DEMURRAGE"];
+                        vlDemurr = 0;
+
+                        if (somaDias <= ft)
                         {
-                            if (demurrage - d1 <= 0)
+                            vlDemurr = 0;
+                        }
+                        else
+                        {
+                            if (d1.ToString() != "0" && listTable.Rows[i]["QT_DIAS_01"] != null)
                             {
-                                vlDemurr = demurrage * (decimal)listTable.Rows[i]["VL_VENDA_01"];
-                            }
-                            else
-                            {
-                                demurrage = demurrage - d1;
-                                vlDemurr = d1 * (decimal)listTable.Rows[i]["VL_VENDA_01"];
-                                if (d2.ToString() != "0" && listTable.Rows[i]["QT_DIAS_02"] != null)
+                                if (demurrage - d1 <= 0)
                                 {
-                                    if (demurrage - d2 <= 0)
+                                    vlDemurr = demurrage * (decimal)listTable.Rows[i]["VL_VENDA_01"];
+                                }
+                                else
+                                {
+                                    demurrage = demurrage - d1;
+                                    vlDemurr = d1 * (decimal)listTable.Rows[i]["VL_VENDA_01"];
+                                    if (d2.ToString() != "0" && listTable.Rows[i]["QT_DIAS_02"] != null)
                                     {
-                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_02"]);
-                                    }
-                                    else
-                                    {
-                                        demurrage = demurrage - d2;
-                                        vlDemurr = d2 * (decimal)listTable.Rows[i]["VL_VENDA_02"];
-                                        if (d3.ToString() != "0" && listTable.Rows[i]["QT_DIAS_03"] != null)
+                                        if (demurrage - d2 <= 0)
                                         {
-                                            if (demurrage - d3 <= 0)
+                                            vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_02"]);
+                                        }
+                                        else
+                                        {
+                                            demurrage = demurrage - d2;
+                                            vlDemurr = d2 * (decimal)listTable.Rows[i]["VL_VENDA_02"];
+                                            if (d3.ToString() != "0" && listTable.Rows[i]["QT_DIAS_03"] != null)
                                             {
-                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_03"]);
-                                            }
-                                            else
-                                            {
-                                                demurrage = demurrage - d3;
-                                                vlDemurr = d3 * (decimal)listTable.Rows[i]["VL_VENDA_03"];
-                                                if (d4.ToString() != "0" && listTable.Rows[i]["QT_DIAS_04"] != null)
+                                                if (demurrage - d3 <= 0)
                                                 {
-                                                    if (demurrage - d4 <= 0)
+                                                    vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_03"]);
+                                                }
+                                                else
+                                                {
+                                                    demurrage = demurrage - d3;
+                                                    vlDemurr = d3 * (decimal)listTable.Rows[i]["VL_VENDA_03"];
+                                                    if (d4.ToString() != "0" && listTable.Rows[i]["QT_DIAS_04"] != null)
                                                     {
-                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_04"]);
-                                                    }
-                                                    else
-                                                    {
-                                                        demurrage = demurrage - d4;
-                                                        vlDemurr = d4 * (decimal)listTable.Rows[i]["VL_VENDA_04"];
-                                                        if (d5.ToString() != "0" && listTable.Rows[i]["QT_DIAS_05"] != null)
+                                                        if (demurrage - d4 <= 0)
                                                         {
-                                                            if (demurrage - d5 <= 0)
+                                                            vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_04"]);
+                                                        }
+                                                        else
+                                                        {
+                                                            demurrage = demurrage - d4;
+                                                            vlDemurr = d4 * (decimal)listTable.Rows[i]["VL_VENDA_04"];
+                                                            if (d5.ToString() != "0" && listTable.Rows[i]["QT_DIAS_05"] != null)
                                                             {
-                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_05"]);
-                                                            }
-                                                            else
-                                                            {
-                                                                demurrage = demurrage - d5;
-                                                                vlDemurr = d5 * (decimal)listTable.Rows[i]["VL_VENDA_05"];
-                                                                if (d6.ToString() != "0" && listTable.Rows[i]["QT_DIAS_06"] != null)
+                                                                if (demurrage - d5 <= 0)
                                                                 {
-                                                                    if (demurrage - d6 <= 0)
+                                                                    vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_05"]);
+                                                                }
+                                                                else
+                                                                {
+                                                                    demurrage = demurrage - d5;
+                                                                    vlDemurr = d5 * (decimal)listTable.Rows[i]["VL_VENDA_05"];
+                                                                    if (d6.ToString() != "0" && listTable.Rows[i]["QT_DIAS_06"] != null)
                                                                     {
-                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_06"]);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        demurrage = demurrage - d6;
-                                                                        vlDemurr = d6 * (decimal)listTable.Rows[i]["VL_VENDA_06"];
-                                                                        if (d7.ToString() != "0" && listTable.Rows[i]["QT_DIAS_07"] != null)
+                                                                        if (demurrage - d6 <= 0)
                                                                         {
-                                                                            if (demurrage - d7 <= 0)
+                                                                            vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_06"]);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            demurrage = demurrage - d6;
+                                                                            vlDemurr = d6 * (decimal)listTable.Rows[i]["VL_VENDA_06"];
+                                                                            if (d7.ToString() != "0" && listTable.Rows[i]["QT_DIAS_07"] != null)
                                                                             {
-                                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_07"]);
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                demurrage = demurrage - d7;
-                                                                                vlDemurr = d1 * (decimal)listTable.Rows[i]["VL_VENDA_07"];
-                                                                                if (d8.ToString() != "0" && listTable.Rows[i]["QT_DIAS_08"] != null)
+                                                                                if (demurrage - d7 <= 0)
                                                                                 {
-                                                                                    if (demurrage - d8 <= 0)
+                                                                                    vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_07"]);
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    demurrage = demurrage - d7;
+                                                                                    vlDemurr = d1 * (decimal)listTable.Rows[i]["VL_VENDA_07"];
+                                                                                    if (d8.ToString() != "0" && listTable.Rows[i]["QT_DIAS_08"] != null)
                                                                                     {
-                                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_08"]);
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        demurrage = demurrage - d8;
-                                                                                        vlDemurr = d8 * (decimal)listTable.Rows[i]["VL_VENDA_08"];
+                                                                                        if (demurrage - d8 <= 0)
+                                                                                        {
+                                                                                            vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[i]["VL_VENDA_08"]);
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            demurrage = demurrage - d8;
+                                                                                            vlDemurr = d8 * (decimal)listTable.Rows[i]["VL_VENDA_08"];
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -2769,10 +2772,9 @@ namespace ABAINFRA.Web
                             }
                         }
                     }
+                    valoresD[i] = vlDemurr.ToString();
+                    moedasD[i] = listTable.Rows[i]["NM_MOEDA"].ToString();
                 }
-                valoresD[i] = vlDemurr.ToString();
-                moedasD[i] = listTable.Rows[i]["NM_MOEDA"].ToString();
-            }
 
                 SQL = "select PFCL.NR_PROCESSO, PFCL.NR_CNTR,PFCL.NM_TIPO_CONTAINER, ";
                 SQL += "ISNULL(LEFT(P.NM_RAZAO,10),'') AS CLIENTE , ISNULL(LEFT(P2.NM_RAZAO,10),'') AS TRANSPORTADOR, FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy') AS DT_CHEGADA, ";
@@ -2807,7 +2809,12 @@ namespace ABAINFRA.Web
                         nEscalonada.Rows[x]["MOEDA_COMPRA"] = moedasD[x];
                     }
                 }
-                return JsonConvert.SerializeObject(nEscalonada);     
+                return JsonConvert.SerializeObject(nEscalonada);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [WebMethod]
@@ -3346,18 +3353,50 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
         [WebMethod]
-        public string listarCourrier()
+        public string listarCourrier(string idFilter, string Filter, string tipo)
         {
             string SQL;
-            SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-            SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-            SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND CLIENTE LIKE '" + Filter + "%' ";
+                    break;
+                case "4":
+                    idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
             SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -3372,10 +3411,10 @@ namespace ABAINFRA.Web
                 if (tipo == "1")
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3390,10 +3429,10 @@ namespace ABAINFRA.Web
                 else
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3411,10 +3450,10 @@ namespace ABAINFRA.Web
                 if (tipo == "1")
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3429,10 +3468,10 @@ namespace ABAINFRA.Web
                 else
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3450,10 +3489,10 @@ namespace ABAINFRA.Web
                 if (tipo == "1")
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3468,10 +3507,10 @@ namespace ABAINFRA.Web
                 else
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3489,10 +3528,10 @@ namespace ABAINFRA.Web
                 if (tipo == "1")
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3507,10 +3546,10 @@ namespace ABAINFRA.Web
                 else
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3528,10 +3567,10 @@ namespace ABAINFRA.Web
                 if (tipo == "1")
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
@@ -3546,10 +3585,10 @@ namespace ABAINFRA.Web
                 else
                 {
                     string SQL;
-                    SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_MBL, ";
-                    SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy') AS DT_RETIRADA_COURRIER, ";
-                    SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, ";
-                    SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
+                    SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+                    SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+                    SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
+                    SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
                     SQL += "FROM TB_BL BL ";
                     SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                     SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";

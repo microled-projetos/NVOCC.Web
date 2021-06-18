@@ -42,6 +42,7 @@ ID_VIA_ROTA,
 (SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA )VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
 VL_TOTAL_FRETE_VENDA,
+VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
@@ -117,8 +118,8 @@ FROM  TB_COTACAO A
             End If
 
 
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA")) Then
-                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO")) Then
+                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
 
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
                 tabela &= "<th style='padding-right:10px'>Taxa</th>"
@@ -127,7 +128,7 @@ FROM  TB_COTACAO A
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     tabela &= "<tr><td style='padding-right:10px'>FRETE INTERNACIONAL</td>"
-                    tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
+                    tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td></tr>"
                 Next
 

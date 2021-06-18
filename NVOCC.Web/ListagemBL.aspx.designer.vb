@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class ModuloOperacional
+Partial Public Class ListagemBL
 
     '''<summary>
     '''Controle UpdatePanel5.

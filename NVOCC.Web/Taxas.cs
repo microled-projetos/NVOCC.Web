@@ -22,6 +22,8 @@ namespace ABAINFRA.Web
         private int fl_declarado;
         private int fl_divisao_profit;
         private int id_destinatario_cobranca;
+        private string id_tipo_pagamento;
+        private string id_origem_pagamento;
         private string ob_taxas;
         private int id_parceiro;
         private string nm_item_despesa;
@@ -38,6 +40,8 @@ namespace ABAINFRA.Web
         public int FL_DECLARADO { get => fl_declarado; set => fl_declarado = value; }
         public int FL_DIVISAO_PROFIT { get => fl_divisao_profit; set => fl_divisao_profit = value; }
         public int ID_DESTINATARIO_COBRANCA { get => id_destinatario_cobranca; set => id_destinatario_cobranca = value; }
+        public string ID_TIPO_PAGAMENTO { get => id_tipo_pagamento; set => id_tipo_pagamento = value; }
+        public string ID_ORIGEM_PAGAMENTO { get => id_origem_pagamento; set => id_origem_pagamento = value; }
         public string OB_TAXAS { get => ob_taxas; set => ob_taxas = value; }
         public int ID_PARCEIRO { get => id_parceiro; set => id_parceiro = value; }
         public string NM_ITEM_DESPESA { get => nm_item_despesa; set => nm_item_despesa = value; }
