@@ -72,9 +72,9 @@
 
                            <div class="form-group">
 
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 11px; text-align: justify" runat="server" RepeatDirection="vertical">
+                                   <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
+                                   <asp:ListItem Value="2">&nbsp;Liquidados</asp:ListItem>
                                    <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
                                </asp:CheckBoxList>
                            </div>
@@ -110,7 +110,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField >
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckSelecionar" runat="server" Visible='<%# Not IsDBNull(Eval("NR_NOTA_FISCAL")) %>' AutoPostBack="true"></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
@@ -151,7 +151,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -159,7 +159,7 @@
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                                                                    <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
+                                                                                    <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            
                                         </div>
                                          </div>
@@ -185,7 +185,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -193,7 +193,7 @@
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                                                                      <asp:LinkButton ID="lkReenviarRPS" visible="false" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Reenviar RPS</asp:LinkButton>                           
+                                                                                      <asp:LinkButton ID="lkReenviarRPS" visible="false" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Reenviar RPS</asp:LinkButton>                           
                                         </div>
                                          </div>
                                    </div>                                         
@@ -229,7 +229,7 @@
                                            <asp:label runat="server" ID="lblClienteBaixa"/></h5>
                                          </div>                          
                                                                                         <div class="row">                        
-                                           <h3>CONFIRMAÇÃO DA LIQUIDAÇÃO</h3>                           
+                                           <h5>CONFIRMAÇÃO DA LIQUIDAÇÃO</h5>                           
                                 </div>
                              </div>                         
                                <div class="modal-footer">
@@ -435,11 +435,9 @@
                                             <div class="form-group">
                                                 <label class="control-label">BANCO:</label><label runat="server" style="color:red" >*</label>
                                                 <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px">
-                                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                     <asp:ListItem Value="001">BANCO DO BRASIL</asp:ListItem>
                                                     <asp:ListItem Value="104">CAIXA ECONÔMICA</asp:ListItem>
-                                                    <asp:ListItem Value="033">BANCO SANTANDER</asp:ListItem>
-                                                    <asp:ListItem Value="341">ITAÚ UNIBANCO</asp:ListItem>
+                                                    <asp:ListItem Value="033" Selected="True">BANCO SANTANDER</asp:ListItem>
                                                     <asp:ListItem Value="237">BANCO BRADESCO</asp:ListItem>                                                
                                                 </asp:DropDownList>
                                             </div>

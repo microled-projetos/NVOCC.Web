@@ -33,62 +33,6 @@
         Con.Fechar()
     End Sub
 
-    'Private Sub btnBaixarPagamento_Click(sender As Object, e As EventArgs) Handles btnBaixarPagamento.Click
-    '    divErro.Visible = False
-    '    divSuccess.Visible = False
-
-    '    If txtData.Text = "" Then
-    '        lblErro.Text = "É necessário informar a data para efetuar a baixa!"
-    '        divErro.Visible = True
-    '    Else
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-
-    '        For Each linha As GridViewRow In dgvTaxasPagar.Rows
-    '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-    '            If check.Checked Then
-    '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-    '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-    '            End If
-    '        Next
-    '        Con.Fechar()
-    '        lblSuccess.Text = "Baixa realizada com sucesso!"
-    '        divSuccess.Visible = True
-    '        txtData.Text = ""
-    '        dgvTaxasPagar.DataBind()
-
-    '    End If
-
-    'End Sub
-
-    'Private Sub btnBaixarRecebimento_Click(sender As Object, e As EventArgs) Handles btnBaixarRecebimento.Click
-    '    divErro.Visible = False
-    '    divSuccess.Visible = False
-
-    '    If txtData.Text = "" Then
-    '        lblErro.Text = "É necessário informar a data para efetuar a baixa!"
-    '        divErro.Visible = True
-    '    Else
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-
-    '        For Each linha As GridViewRow In dgvTaxasReceber.Rows
-    '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-    '            If check.Checked Then
-    '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-    '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
-    '            End If
-    '        Next
-    '        Con.Fechar()
-    '        lblSuccess.Text = "Baixa realizada com sucesso!"
-    '        divSuccess.Visible = True
-    '        txtData.Text = ""
-    '        dgvTaxasReceber.DataBind()
-
-    '    End If
-
-    'End Sub
-
     Private Sub btnSalvarCancelamento_Click(sender As Object, e As EventArgs) Handles btnSalvarCancelamento.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -264,13 +208,60 @@
         Dim FILTRO As String = ""
         If rdStatus.SelectedValue = 2 Then
 
+            If txtVencimento.Text = "" Then
+                lblErro.Text = "É necessário informar a data de vencimento para busca de faturas fechadas!"
+                divErro.Visible = True
+                Exit Sub
+            Else
+                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
 
-            FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL"
+            End If
 
 
         ElseIf rdStatus.SelectedValue = 1 Then
 
-            FILTRO &= " AND DT_LIQUIDACAO IS NULL"
+            If txtVencimento.Text = "" Then
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL"
+
+            Else
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL and DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
+
+            End If
+
+        End If
+        dsReceber.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        dgvTaxasReceber.DataBind()
+
+        dsPagar.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        dgvTaxasPagar.DataBind()
+    End Sub
+
+    Private Sub btnpesquisar_Click(sender As Object, e As EventArgs) Handles btnpesquisar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Dim FILTRO As String = ""
+        If rdStatus.SelectedValue = 2 Then
+
+            If txtVencimento.Text = "" Then
+                lblErro.Text = "É necessário informar a data de vencimento para busca de faturas fechadas!"
+                divErro.Visible = True
+                Exit Sub
+            Else
+                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and DT_VENCIMENTO = CONVERT(VARCHAR,'" & txtVencimento.Text & "',103)"
+
+            End If
+
+
+        ElseIf rdStatus.SelectedValue = 1 Then
+
+
+            If txtVencimento.Text = "" Then
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL"
+
+            Else
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL and DT_VENCIMENTO = CONVERT(VARCHAR,'" & txtVencimento.Text & "',103)"
+
+            End If
 
 
         End If

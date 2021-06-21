@@ -42,10 +42,11 @@
 
 
                                 <div class="row linhabotao text-center" style="margin-left: 20px; border: ridge 1px;">
+                                    
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Data Liquidação:</label>
-                                            <asp:TextBox ID="txtData" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
+                                            <label class="control-label" style="text-align: left">Data Vencimento:</label>
+                                            <asp:TextBox ID="txtVencimento" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -60,12 +61,23 @@
                                     <div class="col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
+                                                                                        <asp:Button runat="server" Text="Pesquisar Fatura" ID="btnpesquisar" CssClass="btn btn-success" />
+
                                         </div>
                                     </div>
-                                    <div class="col-sm-offset-6 col-sm-2" runat="server">
+                                    <div class="col-sm-offset-4 col-sm-1" runat="server">
+
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Data Liquidação:</label>
+                                            <asp:TextBox ID="txtData" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                                                            <div class="col-sm-2">
+
                                         <div class="form-group">
                                             <br />
+                                                                                        <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
+
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
 
                                         </div>
@@ -146,7 +158,7 @@
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da lançamento(R$)" SortExpression="VL_TAXA_BR" />
+                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
                                                 <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />

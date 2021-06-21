@@ -40,7 +40,7 @@
                             </div>
                             <div class="demuFunc">
                                 <button type="button" id="btnCalcularDemurrage" class="btn btn-primary" onclick="CalculoDemurrage()">Cálculo Demurrage</button>           
-                                <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary" data-toggle="modal" data-target="#modalPrint">Imprimir Cálculo</button>                
+                                <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary">Imprimir Cálculo</button>                
                                 <button type="button" id="btnFatura" class="btn btn-primary" data-toggle="modal" data-target="#modalFaturas" onclick="listarFatura()">Faturas</button>
                             </div>
                         </div>
@@ -616,145 +616,38 @@
                                             DEMONSTRATIVO DE CÁLCULO DEMURRAGE
                                         </span>
                                     </div>
-                                    <div class="row" style="margin-top: 10px">
-                                        <div class="col-sm-12">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">RAZÃO SOCIAL</label>
-                                                <input id="txtRazaoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                    <div class="topMarg">
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Razão Social:</span>
+                                            <span id="txtRazaoC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">ENDEREÇO</label>
-                                                <input id="txtEnderecoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Endereço:</span>
+                                            <span id="txtEnderecoC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">MUNICIPIO</label>
-                                                <input id="txtMunicipioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Município:</span>
+                                            <span id="txtMunicipioC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">BAIRRO</label>
-                                                <input id="txtBairroC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Bairro:</span>
+                                            <span id="txtBairroC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">UF</label>
-                                                <input id="txtUFC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">UF:</span>
+                                            <span id="txtUFC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CEP</label>
-                                                <input id="txtCEPC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">CEP:</span>
+                                            <span id="txtCEPC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CNPJ</label>
-                                                <input id="txtCNPJC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">CNPJ:</span>
+                                            <span id="txtCNPJ" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">INSCRIÇÃO ESTADUAL</label>
-                                                <input id="txtInscricaoEstadualC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row topMarg">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">PROCESSO</label>
-                                                <input id="txtProcessoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">SERVIÇO</label>
-                                                <input id="txtServicoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">REF CLIENTE</label>
-                                                <input id="txtRefClienteC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">ORIGEM</label>
-                                                <input id="txtOrigemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">SHIPPER</label>
-                                                <input id="txtShipperC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">DESTINO</label>
-                                                <input id="txtDestinoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">MASTER</label>
-                                                <input id="txtMasterC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">PESO(TON)</label>
-                                                <input id="txtPesoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">HOUSE</label>
-                                                <input id="txtHouseC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">VOLUMES</label>
-                                                <input id="txtVolumesC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">NAVIO</label>
-                                                <input id="txtNavioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CUBAGEM</label>
-                                                <input id="txtCubagemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Inscrição Estadual:</span>
+                                            <span id="txtInscricaoEstadualC" style="margin-left: 10px"></span>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px">
@@ -862,7 +755,7 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <button type="button" id="btnConsultaFatura" onclick="consultaFiltradaFatura()" class="btn btn-primary">Consultar</button>
+                                                <button type="button" id="btnConsultaFatura" onclick="listarFatura()" class="btn btn-primary">Consultar</button>
                                             </div>
                                         </div>
                                     </div> 
@@ -1300,20 +1193,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script> 
-        window.onload = function () {
-            document.getElementById("btnImprimir")
-                .addEventListener("click", () => {
-                    const pdf = this.document.getElementById("referPDF");
-                    var opt = {
-                        margin: 1,
-                        filename: 'myfile.pdf',
-                        image: { type: 'jpeg', quality: 1 },
-                        html2canvas: { scale: 1 },
-                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                    };
-                    html2pdf().from(pdf).set(opt).save();
-                })
-        }
     </script>
     <script>
        
@@ -1348,8 +1227,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
-                    $("#grdDemurrageAtualBody").empty();
-                    $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
+                    $("#grdModuloDemurrage").empty();
+                    $("#grdModuloDemurrage").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -2586,44 +2465,143 @@
         }
 
         function imprimirDadosCalculo() {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/imprimirDadosCalc",
-                data: '{id:"' + id + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#grdProcessosFaturaBody").empty();
-                    $("#grdProcessosFaturaBody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        document.getElementById("txtRazaoC").value = dado[0]["NM_RAZAO"];
-                        document.getElementById("txtEnderecoC").value = dado[0]["ENDERECO"] + dado[0]["NR_ENDERECO"];
-                        document.getElementById("txtMunicipioC").value = dado[0]["NM_CIDADE"];
-                        document.getElementById("txtBairroC").value = dado[0]["BAIRRO"];
-                        document.getElementById("txtUFC").value = dado[0]["NM_ESTADO"];
-                        document.getElementById("txtCEPC").value = dado[0]["CEP"];
-                        document.getElementById("txtCNPJC").value = dado[0]["CNPJ"];
-                        document.getElementById("txtProcessoC").value = dado[0]["NR_PROCESSO"];
-                        document.getElementById("txtServicoC").value = dado[0]["NM_SERVICO"];
-                        document.getElementById("txtOrigemC").value = dado[0]["ORIGEM"];
-                        document.getElementById("txtDestinoC").value = dado[0]["DESTINO"];
-                        
+            if (id != 0) {
+                var position = 165;
+                var total = 0;
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/imprimirDadosCalc",
+                    data: '{id:"' + id + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            var imgData = new Image();
+                            imgData.src = 'Content/imagens/FCA-LOG(deitado).png';
+                            var doc = new jsPDF();
+                            doc.setFontSize(8);
+                            doc.addImage(imgData, 'png', 10, 0, 90, 30)
 
+                            doc.setFontStyle("bold");
+                            doc.text("Razão Social: ", 10, 40);
+                            doc.text("Endereço: ", 10, 45);
+                            doc.text("Município: ", 10, 50);
+                            doc.text("Bairro: ", 10, 55);
+                            doc.text("UF: ", 10, 60);
+                            doc.text("CEP: ", 10, 65);
+                            doc.text("CNPJ: ", 10, 70);
+                            doc.text("Inscrição Estadual: ", 10, 75);
+
+                            doc.setFontStyle("normal");
+                            doc.text(dado[0]["NM_RAZAO"], 30, 40);
+                            doc.text(dado[0]["ENDERECO"] + " - " + dado[0]["NR_ENDERECO"], 25, 45);
+                            doc.text(dado[0]["NM_CIDADE"],25,50);
+                            doc.text(dado[0]["BAIRRO"], 20, 55);
+                            doc.text(dado[0]["NM_ESTADO"],16,60);
+                            doc.text(dado[0]["CEP"],18,65);
+                            doc.text(dado[0]["CNPJ"],20,70);
+                            doc.text(dado[0]["NR_PROCESSO"],37,75);
+
+
+                            doc.setFontStyle("bold");
+                            doc.text("Processo: ", 10, 100);
+                            doc.text("Ref. Cliente: ", 10, 105);
+                            doc.text("Shipper: ", 10, 110);
+                            doc.text("Master: ", 10, 115);
+                            doc.text("House: ", 10, 120);
+                            doc.text("Navio: ", 10, 125);
+
+                            doc.setFontStyle("normal");
+                            doc.text(dado[0]["NR_PROCESSO"], 25, 100);
+                            doc.text(dado[0]["TRANSPORTADOR"], 22, 110);
+                            doc.text(dado[0]["MASTER"], 21, 115);
+                            doc.text(dado[0]["HOUSE"], 20, 120);
+                            doc.text(dado[0]["NAVIO"], 20, 125);
+
+                            doc.setFontStyle("bold");
+                            doc.text("Serviço: ", 125, 100);
+                            doc.text("Origem: ", 125, 105);
+                            doc.text("Destino: ", 125, 110);
+                            doc.text("Peso(TON): ", 125, 115);
+                            doc.text("Volumes: ", 125, 120);
+                            doc.text("Cubagem(M3): ", 125, 125);
+
+                            doc.setFontStyle("normal");
+                            doc.text(dado[0]["NM_SERVICO"], 137, 100);
+                            doc.text(dado[0]["ORIGEM"] + " - " + dado[0]["DT_EMBARQUE"], 137, 105);
+                            doc.text(dado[0]["DESTINO"] + " - " + dado[0]["DT_CHEGADA"], 137, 110);
+                            doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 141, 115);
+                            doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".",","), 139, 120);
+                            doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 145, 125);
+
+                            doc.setFontStyle("bold");
+                            doc.text("CONTEINER", 8, 160);
+                            doc.text("TIPO", 34, 160);
+                            doc.text("FREETIME", 65, 155);
+                            doc.text("INICIO", 52, 160);
+                            doc.text("FINAL", 69, 160);
+                            doc.text("DIAS", 86, 160);
+                            doc.text("DEMURRAGE", 116, 155);
+                            doc.text("INICIO", 105, 160);
+                            doc.text("FINAL", 122, 160);
+                            doc.text("DIAS", 138, 160);
+                            doc.text("MOEDA", 154, 160);
+                            doc.text("DIÁRIA", 172, 160);
+                            doc.text("TOTAL", 190, 160);
+                            doc.setFontStyle("normal");
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: "DemurrageService.asmx/listarContainerCalculoPrint",
+                                data: '{idprocess:"' + id + '"}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (dado) {
+                                    var dado = dado.d;
+                                    dado = $.parseJSON(dado);
+                                    if (dado != null) {
+                                        for (let i = 0; i < dado.length; i++) {
+                                            doc.text(dado[i]["NR_CNTR"], 7, position);
+                                            doc.text(dado[i]["NM_TIPO_CONTAINER"], 30, position);
+                                            doc.text(dado[i]["INICIALFT"], 49, position);
+                                            doc.text(dado[i]["FINALFT"], 66, position);
+                                            doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 83, position);
+                                            doc.text(dado[i]["INICIALDEM"], 102, position);
+                                            doc.text(dado[i]["FINALDEM"], 119, position);
+                                            doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 136, position);
+                                            doc.text(dado[i]["SIGLA_MOEDA"], 155, position);
+                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"].toString(), 172, position);
+                                            doc.text(dado[i]["VL_DEMURRAGE_COMPRA"].toString(), 189, position);
+                                            position = position + 5;
+                                            total = total + dado[i]["VL_DEMURRAGE_COMPRA"];
+                                        }
+                                        doc.setFontStyle("bold");
+                                        doc.text("TOTAL: ", 175, position+10);
+                                        doc.setFontStyle("normal");
+                                        doc.text(total.toString(), 189, position+10);
+                                        doc.output("dataurlnewwindow")
+                                    }
+                                }
+                            })
+                        }
+                        else {
+                        }
                     }
-                    else {
-                        
-                    }
-                    
-                }
-            })
+                })
+            }
+            else {
+                $("#msgErrSelect").fadeIn(500).delay(1000).fadeOut(500); 
+            }
         }
 
         function listarFatura() {
             idFatura = 0;
+            var filtroFatura = document.getElementById("MainContent_ddlFaturaFiltro").value;
+            var txtFiltro = document.getElementById("txtConsultaFatura").value;
             if (checkV.checked) {
                 vlCheck = checkV.value;
             }
@@ -2633,7 +2611,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarFaturas",
-                data: '{check:"' + vlCheck + '"}',
+                data: '{check:"' + vlCheck + '", filtroFatura: "' + filtroFatura + '", txtFiltro: "' + txtFiltro +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {

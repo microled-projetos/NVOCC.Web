@@ -15,9 +15,11 @@
 
             Response.Redirect("Default.aspx")
         Else
-            txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
-            txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
-            ckbBaixaAutomatica.Checked = True
+            If Not Page.IsPostBack Then
+                txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
+                txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
+            End If
+
         End If
         Con.Fechar()
 
@@ -110,6 +112,16 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
         If txtVencimento.Text = "" Then
             lblErro.Text = "É necessário informar a Data de Vencimento!"
             divErro.Visible = True
+            Exit Sub
+        ElseIf txtNumeroFatura.Text = "" Then
+            lblErro.Text = "É necessário informar número da fatura!"
+            divErro.Visible = True
+            Exit Sub
+        ElseIf txtValor.Text = "" Or txtValor.Text = 0 Then
+            lblErro.Text = "É necessário ter um valor para montagem de pagamento"
+            divErro.Visible = True
+            Exit Sub
+
         Else
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -135,6 +147,9 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                     If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Há taxas já cadastradas em contas a pagar"
                         divErro.Visible = True
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
+                        Exit Sub
                     Else
                         Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA  )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor & ",ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
                     End If
@@ -154,5 +169,12 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
         Response.Redirect("Financeiro.aspx")
+    End Sub
+
+    Private Sub txtVencimentoBusca_Load(sender As Object, e As EventArgs) Handles txtVencimentoBusca.Load
+        dsFornecedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE,'" & txtVencimentoBusca.Text & "',103) )
+union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
+        dsFornecedor.DataBind()
+
     End Sub
 End Class

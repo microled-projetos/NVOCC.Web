@@ -143,8 +143,6 @@
                     <br />
                 </td>
                 <td>
-                    <strong>FAX:</strong>&nbsp;<asp:Label ID="lblFax" runat="server" />
-                    <br />
                 </td>
             </tr>
         </table>
@@ -272,7 +270,11 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
     <asp:SqlDataSource ID="dsNotas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE DT_CANCELAMENTO IS NULL AND (CD_PR = 'R') AND ID_BL = @ID_BL" >
+         <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

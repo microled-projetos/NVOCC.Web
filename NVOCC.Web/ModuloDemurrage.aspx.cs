@@ -23,6 +23,7 @@ namespace ABAINFRA.Web
                 CarregarMoeda();
                 CarregarStatus();
                 CarregarContaBancaria();
+                CarregarFiltroFatura();
             }
         }
 
@@ -104,6 +105,14 @@ namespace ABAINFRA.Web
             ddlStatusFaturaContaCorrente.DataBind();
             ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
             
+        }
+        protected void CarregarFiltroFatura()
+        {
+            ddlFaturaFiltro.DataBind();
+            ddlFaturaFiltro.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlFaturaFiltro.Items.Insert(1, new ListItem("Nº Processo", "1"));
+            ddlFaturaFiltro.Items.Insert(2, new ListItem("Cliente", "2"));
+            ddlFaturaFiltro.Items.Insert(3, new ListItem("Armador", "3"));
         }
     }
 }

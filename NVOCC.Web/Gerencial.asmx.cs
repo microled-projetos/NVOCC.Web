@@ -550,6 +550,20 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string listarProcessosEmail(string idProcessoMaster)
+        {
+            string SQL;
+            SQL = "SELECT C.ID_BL AS HOUSE, C.NR_PROCESSO as PROCESSO, P.NM_RAZAO AS CLIENTE FROM TB_BL C ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON C.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += "WHERE M.NR_BL = '" + idProcessoMaster + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public string inserirDados(string week, string dtRedestinacao, string dtDesconsolidacao, string idProcesso, string termo)
         {
             string SQL;

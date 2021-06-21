@@ -167,24 +167,6 @@ Partial Public Class ReciboProvisorioServico
     Protected WithEvents lblServico As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblMercadoria.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblMercadoria As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblCIF.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblCIF As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblChegada.
     '''</summary>
     '''<remarks>
@@ -194,33 +176,6 @@ Partial Public Class ReciboProvisorioServico
     Protected WithEvents lblChegada As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblProcedencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblProcedencia As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblFOB.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFOB As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblVeiculo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblVeiculo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblHouse.
     '''</summary>
     '''<remarks>
@@ -228,15 +183,6 @@ Partial Public Class ReciboProvisorioServico
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblHouse As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblDSI.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblDSI As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblMaster.

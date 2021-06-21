@@ -54,14 +54,16 @@
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
 
+                       
+                      
+                       
                        <div class="col-sm-2">
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                   <asp:ListItem Value="1">Número do Invoice</asp:ListItem>
-                                   <asp:ListItem Value="2">Número do Processo</asp:ListItem>
-                                   <asp:ListItem Value="3">Nome do BL</asp:ListItem>
-                                   <asp:ListItem Value="4">Agente</asp:ListItem>
+                                   <asp:ListItem Value="1">Número do Contrato</asp:ListItem>
+                                   <asp:ListItem Value="2">Data de Fechamento</asp:ListItem>
+                                   <asp:ListItem Value="3">Agente</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
@@ -71,106 +73,41 @@
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                        </div>
-                       <div class="col-sm-1">
-                           <div class="form-group">
-                               <asp:TextBox ID="txtVencimentoInicial" placeholder="Venc. Inicial" runat="server" CssClass="form-control data"></asp:TextBox>
-                           </div>
-                       </div>
-                       <div class="col-sm-1">
-                           <div class="form-group">
-                               <asp:TextBox ID="txtVencimentoFinal" placeholder="Venc. Final" runat="server" CssClass="form-control data"></asp:TextBox>
-                           </div>
-                       </div>
-                       <div class="col-sm-1">
+                        <div class="col-sm-1">
 
                            <div class="form-group">
 
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Em Aberto</asp:ListItem>
-                                   <asp:ListItem Value="3" Selected="True">&nbsp;Liquidados</asp:ListItem>
-                               </asp:CheckBoxList>
+                                  <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                                <asp:ListItem Value="1" Selected="True">&nbsp;Em aberto</asp:ListItem>
+                                                <asp:ListItem Value="2">&nbsp;Liquidados</asp:ListItem>
+                                            </asp:RadioButtonList>
                            </div>
                        </div>
+                      
                        <div class="col-sm-1">
                            <div class="form-group">
                                <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisa" CssClass="btn btn-success" />
 
                            </div>
                        </div>
-                       <div class="col-sm-4">
-                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
-
-                           <asp:LinkButton ID="lkFechamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Opções de Fechamento</asp:LinkButton>
-                           <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relação dos Contratos</asp:LinkButton>
+                       <div class="col-sm-offset-2 col-sm-4">
+                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Fechamento:</asp:Label><br />
+                            <div style="border: ridge 1px;">
+                            <asp:LinkButton ID="lkNovoFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Novo</asp:LinkButton>
+                                 <asp:LinkButton ID="lkBaixarFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Baixar</asp:LinkButton>
+                                <asp:LinkButton ID="lkCancelarFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Cancelar</asp:LinkButton>
+                                 <asp:LinkButton ID="lkExcluirFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');">Excluir</asp:LinkButton>
+                               <%-- </div>
+                           <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">Relatório:</asp:Label><br />
+                                <div style="border: ridge 1px;">--%>
+                           <asp:LinkButton ID="lkContratosFirmados" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Contratos Firmados</asp:LinkButton> </div>
                        </div>
                    </div>
                                 <br />
-
-                                <asp:Button runat="server" Text="Pesquisar" Style="display: none" ID="Button1" CssClass="btn btn-success" />
-
-                               
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlFechamento" TargetControlID="lkFechamento" CancelControlID="btnFecharFechamento"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Opções de Fechamento</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                            <div class="row" style="margin-left:5px;margin-right:5px">
-                                   <div class="row">
-                                     <div class="col-sm-12">
-                                    <div class="form-group">
-                                           
-                                        <asp:LinkButton ID="lkNovoFechamento" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Novo Fechamento</asp:LinkButton>
-
-
-                                    </div>
-                                        </div>
-                                         </div>
-                                 <div class="row">
-                                     <div class="col-sm-12">
-                                    <div class="form-group">
-                                           
-                                        <asp:LinkButton ID="lkBaixarFechamento" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Baixar Fechamento</asp:LinkButton>
-
-
-                                    </div>
-                                        </div>
-                                         </div>
-                                    <div class="row">
-                                     <div class="col-sm-12">
-                                    <div class="form-group">
-                                             
-                                                   <asp:LinkButton ID="lkCancelarFechamento" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Cancelar Fechamento</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>      
-                                      <div class="row">
-                                     <div class="col-sm-12">
-                                    <div class="form-group">                                             
-                                                   <asp:LinkButton ID="lkExclurFechamento" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Excluir Fechamento</asp:LinkButton>
-
-                                        </div>
-                                         </div>
-                                   </div>     
-                                </div>  
-                             </div>                   
-                   
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharFechamento" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlRelatorio" TargetControlID="lkRelatorios" CancelControlID="btnFecharNovaInvoice"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlRelatorio" runat="server" CssClass="modalPopup" Style="display: none;">
+                                                                                           <asp:TextBox ID="TextBox3" Style="display:none" runat="server"></asp:TextBox>
+                                                  
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlContratosFirmados" TargetControlID="lkContratosFirmados" CancelControlID="btnFecharContratos"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlContratosFirmados" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -200,8 +137,8 @@
                                                        
                    
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarNovaInvoice" text="Imprimir" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharContratos" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnPesquisarContratos" text="Imprimir" />
 
                                                         </div>
                                                     
@@ -210,182 +147,163 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                              <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlNovoFechamento" TargetControlID="lkNovoFechamento" CancelControlID="btnFecharNovaInvoice"></ajaxToolkit:ModalPopupExtender>
+                              <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlNovoFechamento" TargetControlID="lkNovoFechamento" CancelControlID="btnFecharNovoFechamento"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlNovoFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">NOVO FECHAMENTO</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
-                                   <div class="row">
-                                       <div class="col-sm-2">
-                                    <div class="form-group">
-                                           <label class="control-label">ID:</label>
-                                                                       <asp:TextBox ID="TextBox5" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
+                                                        <div class="modal-body"> 
+                                                             <div class="alert alert-danger" id="divErroNovoFechamento" runat="server" visible="false">
+                                    <asp:Label ID="lblErroNovoFechamento" runat="server"></asp:Label>
+                                </div>
+                                                            <div class="row">
+                                                                
+                       <div class="col-sm-2">
+                           <div class="form-group">
+                               <label class="control-label">Venc. Inicial:</label><label runat="server" style="color: red">*</label>
+                               <asp:TextBox ID="txtVencimentoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                           </div>
+                       </div>
+                       <div class="col-sm-2">
+                           <div class="form-group">
+                               <label class="control-label">Venc. Final:</label><label runat="server" style="color: red">*</label>
+                               <asp:TextBox ID="txtVencimentoFinal"  runat="server" CssClass="form-control data"></asp:TextBox>
+                           </div>
+                       </div>
 
-                                    </div>
-                                           </div>
                                      <div class="col-sm-8">
                                     <div class="form-group">
                                            <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlAgenteNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
 
                                     </div>
                                         </div>
-                                       <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Emissor:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList6" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
+                                      
                                          </div>
                                     <div class="row">
-                                     
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                                          <label class="control-label">Tipo:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList7" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                    <div class="form-group">
-                                           <label class="control-label">Processo ou BL:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox7" runat="server"  CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox8" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
+                                      <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Moeda:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList8" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlMoedaNovo" runat="server" AutoPostBack="True" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList> 
 
 
                                     </div>
                                         </div>
-                                         </div>   
+                                       <div class="col-sm-10">
+                                    <div class="form-group">
+                                          <label class="control-label">Instituição Financeira:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlCorretorNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsCorretor" DataValueField="ID_PARCEIRO"></asp:DropDownList> 
+
+
+                                    </div>
+                                        </div>
+                                        </div>   
                                                                         <div class="row">
-                                     
-                                       <div class="col-sm-3">
+                                        <div class="col-sm-6">
                                     <div class="form-group">
-                                          <label class="control-label">Tipo Fatura:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList9" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                    <div class="form-group">
-                                           <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox9" runat="server"  CssClass="form-control"></asp:TextBox>
+                                           <label class="control-label">Número do Contrato:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtContratoNovo" runat="server"  CssClass="form-control"></asp:TextBox>
 
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox10" runat="server"  CssClass="form-control"></asp:TextBox>
+                                          <label class="control-label">Data Fechamento:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtDataFechamentoNovo" runat="server"  CssClass="form-control"></asp:TextBox>
 
 
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
-                                            <label class="control-label"></label>
+                                          <label class="control-label">Tarifa Cobrada:</label><label runat="server" style="color: red">*</label>
+                                                                                                <asp:TextBox ID="txtTarifaNovo" runat="server"  CssClass="form-control"></asp:TextBox>
 
-                                                                        <asp:CheckBox ID="CheckBox1" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
+
 
                                     </div>
                                         </div>
-                                         </div>   
-                                                                                                                                    
-                                                            <div class="row">
+                                         
+                                     
+                                       <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">IOF:</label><label runat="server" style="color: red">*</label>
+                                                                                               <asp:TextBox ID="txtIOFNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                    <div class="form-group">
+                                           <label class="control-label">Valor:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtValorNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                    <div class="form-group">
+                                          <label class="control-label">Data Câmbio:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtDataCambioNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                    <div class="form-group">
+                                            <label class="control-label">Taxa Câmbio</label><label runat="server" style="color: red">*</label>
+
+                                              <asp:TextBox ID="txtCambioNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+
+                                    </div>
+                                        </div>
+                                    
                                      
                                       
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-3">
                                     <div class="form-group">
-                                          <label class="control-label">Observações:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox11" runat="server"  CssClass="form-control"></asp:TextBox>
+                                          <label class="control-label">Valor BR:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtValorBRNovo" runat="server"  CssClass="form-control"></asp:TextBox>
 
 
                                     </div>
                                         </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label"></label>
-                               <asp:Button runat="server" Text="Gravar" ID="Button3" CssClass="btn btn-success btn-block" />
-
-
-                                    </div>
-                                        </div>
-                                         </div>   
-<div class="row">
-                                     
-                                      
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="DEVOLUÇÃO DE FRETE" ID="Button4" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="Button5" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS DECLARADAS" ID="Button6" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="COMISSOES" ID="Button7" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="OUTRAS TAXAS" ID="Button9" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
+                               
                                          </div>   
                                                             <div class="row">
                                      
                                       
                                        <div class="col-sm-12">
-                                           gridview de itens
+                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                                <Columns>
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="ckbSelecionar" Checked="True" runat="server" AutoPostBack="true" />
+                                                        </ItemTemplate>
+                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
+                                                     <asp:TemplateField Visible="false">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_ACCOUNT_INVOICE") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                    <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
+                                                    <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
+                                                    <asp:BoundField DataField="NM_ACCOUNT_TIPO_EMISSOR" HeaderText="EMISSOR" SortExpression="NM_ACCOUNT_TIPO_EMISSOR" />
+                                                    <asp:BoundField DataField="DT_INVOICE" HeaderText="DATA INVOICE" SortExpression="DT_INVOICE" />
+                                                    <asp:TemplateField HeaderText="VALOR" SortExpression="VALOR_TOTAL">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VALOR_TOTAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                </Columns>
+                                                <HeaderStyle CssClass="headerStyle" />
+                                            </asp:GridView>
                                            </div>
                                                                 </div>
-                                                            <div class="row">
-                                     
-                                      
-                                       <div class="col-sm-4">
-                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="LinkButton1" CssClass="btn btn-primary" href="Conferencia.aspx" target="_blank"/>
-
-                                           </div>
-                                                                <div class="col-sm-offset-4 col-sm-4">
-                                                                    TOTAL DA INVOICE:0,00
+                                                            <div class="row" runat="server" Visible="false"  id="divTotalInvoices"> 
+                                                                <div  style="float: right;margin-right:10px">
+                                                                    TOTAL DAS INVOICES SELECIONADAS:<asp:label ID="lblValorTotalInvoices" runat="server"/>
                                            </div>
                                                                 </div>
                                 </div>  
@@ -394,8 +312,8 @@
                                                        
                    
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button10" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button11" text="Salvar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovoFechamento" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarFechamento" text="Salvar" />
 
                                                         </div>
                                                     
@@ -404,192 +322,85 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlBaixaFechamento" TargetControlID="lkNovoFechamento" CancelControlID="btnFecharNovaInvoice"></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlBaixaFechamento" TargetControlID="TextBox3" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBaixaFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">BAIXAR FECHAMENTO</h5>
+                                                            <h5 class="modal-title">LIQUIDAÇÃO</h5>
                                                         </div>
                                                         <div class="modal-body">                                       
-                                   <div class="row">
-                                       <div class="col-sm-2">
-                                    <div class="form-group">
-                                           <label class="control-label">ID:</label>
-                                                                       <asp:TextBox ID="TextBox3" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                           </div>
+                                   <div class="row" style="border: ridge 1px;">
+                                      
                                      <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+                                           <label class="control-label">Agente:</label>
+                                                                                    <asp:Label ID="lblAgenteBaixa" runat="server"></asp:Label>
+
 
                                     </div>
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Emissor:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                          <label class="control-label">Valor                                     <asp:Label ID="lblMoedaEstrangeiroBaixa" runat="server"></asp:Label>
+
+                                                                                   <asp:Label ID="lblValorEstrangeiroBaixa" runat="server"></asp:Label>
+
+
+
+                                    </div>
+                                        </div>
+                                       <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Valor BR:</label>                                    <asp:Label ID="lblValorRealBaixa" runat="server"></asp:Label>
 
 
                                     </div>
                                         </div>
                                          </div>
+                                    <div class="row" style="border: ridge 1px;">
+                                     
+                                       
+                                        <div class="col-sm-5">
+                                    <div class="form-group">
+                                           <label class="control-label">Instituição Financeira:</label>
+                                                                            <asp:Label ID="lblInstituicaoBaixa" runat="server"></asp:Label>
+
+
+                                    </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Contrato:</label>
+                                    <asp:Label ID="lblContratoBaixa" runat="server"></asp:Label>
+
+
+                                    </div>
+                                        </div>
+                                      
+                                         </div>   
                                     <div class="row">
                                      
-                                       <div class="col-sm-3">
+                                       <div class="col-sm-offset-5 col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Tipo:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                    <div class="form-group">
-                                           <label class="control-label">Processo ou BL:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Moeda:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList5" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                         </div>   
-                                                                        <div class="row">
-                                     
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                                          <label class="control-label">Tipo Fatura:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList10" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                    <div class="form-group">
-                                           <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox12" runat="server"  CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox13" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                            <label class="control-label"></label>
-
-                                                                        <asp:CheckBox ID="CheckBox2" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
-
-                                    </div>
-                                        </div>
-                                         </div>   
-                                                                                                                                    
-                                                            <div class="row">
-                                     
-                                      
-                                        <div class="col-sm-10">
-                                    <div class="form-group">
-                                          <label class="control-label">Observações:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox14" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label"></label>
-                               <asp:Button runat="server" Text="Gravar" ID="Button2" CssClass="btn btn-success btn-block" />
-
-
-                                    </div>
-                                        </div>
-                                         </div>   
-<div class="row">
-                                     
-                                      
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="DEVOLUÇÃO DE FRETE" ID="Button8" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="Button12" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS DECLARADAS" ID="Button13" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="COMISSOES" ID="Button14" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="OUTRAS TAXAS" ID="Button15" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-                                         </div>   
-                                                            <div class="row">
-                                     
-                                      
-                                       <div class="col-sm-12">
-                                           gridview de itens
-                                           </div>
-                                                                </div>
-                                                            <div class="row">
-                                     
-                                      
-                                       <div class="col-sm-4">
-                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="LinkButton2" CssClass="btn btn-primary" href="Conferencia.aspx" target="_blank"/>
-
-                                           </div>
-                                                                <div class="col-sm-offset-4 col-sm-4">
-                                                                    TOTAL DA INVOICE:0,00
-                                           </div>
-                                                                </div>
+                                        <label class="control-label">Data Liquidação:</label><label runat="server" style="color: red">*</label><asp:TextBox ID="txtDataLiquidacaoBaixa" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                                                                
                                 </div>  
-                           
-                      
+                           </div>
+                      </div>          <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <small style="color:gray">*Data da Liquidação refere-se à data do débito da Instituição Financeira</small>     
+                                </div>  
+                           </div>
+                      </div>
+                                                            </div>
                                                        
                    
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button16" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button17" text="Salvar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Salvar" />
 
                                                         </div>
                                                     
@@ -598,192 +409,79 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlCancelarFechamento" TargetControlID="lkNovoFechamento" CancelControlID="btnFecharNovaInvoice"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlCancelarFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
+                               <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlCancelFechamento" TargetControlID="TextBox3" CancelControlID="btnFechaCancel"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlCancelFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">NOVO FECHAMENTO</h5>
+                                                            <h5 class="modal-title">CANCELAMENTO</h5>
                                                         </div>
                                                         <div class="modal-body">                                       
-                                   <div class="row">
-                                       <div class="col-sm-2">
-                                    <div class="form-group">
-                                           <label class="control-label">ID:</label>
-                                                                       <asp:TextBox ID="TextBox15" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                           </div>
+                                   <div class="row" style="border: ridge 1px;">
+                                      
                                      <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList11" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList>
+                                           <label class="control-label">Agente:</label>
+                                                                                    <asp:Label ID="lblAgenteCancel" runat="server"></asp:Label>
+
 
                                     </div>
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Emissor:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList12" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                          <label class="control-label">Valor                                     <asp:Label ID="lblMoedaEstrangeiroCancel" runat="server"></asp:Label>
+
+                                                                                   <asp:Label ID="lblValorEstrangeiroCancel" runat="server"></asp:Label>
+
+
+
+                                    </div>
+                                        </div>
+                                       <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Valor BR:</label>                                    <asp:Label ID="lblValorRealCancel" runat="server"></asp:Label>
 
 
                                     </div>
                                         </div>
                                          </div>
-                                    <div class="row">
+                                    <div class="row" style="border: ridge 1px;">
                                      
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                                          <label class="control-label">Tipo:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList13" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
+                                       
                                         <div class="col-sm-5">
                                     <div class="form-group">
-                                           <label class="control-label">Processo ou BL:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox16" runat="server"  CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox17" runat="server"  CssClass="form-control"></asp:TextBox>
+                                           <label class="control-label">Instituição Financeira:</label>
+                                                                            <asp:Label ID="lblInstituicaoCancel" runat="server"></asp:Label>
 
 
                                     </div>
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Moeda:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList14" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
+                                          <label class="control-label">Contrato:</label>
+                                    <asp:Label ID="lblContratoCancel" runat="server"></asp:Label>
 
 
                                     </div>
                                         </div>
-                                         </div>   
-                                                                        <div class="row">
-                                     
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                                          <label class="control-label">Tipo Fatura:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="DropDownList15" runat="server" CssClass="form-control" Font-Size="11px"></asp:DropDownList> 
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                    <div class="form-group">
-                                           <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox18" runat="server"  CssClass="form-control"></asp:TextBox>
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox19" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                        <div class="col-sm-2">
-                                    <div class="form-group">
-                                            <label class="control-label"></label>
-
-                                                                        <asp:CheckBox ID="CheckBox3" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
-
-                                    </div>
-                                        </div>
-                                         </div>   
-                                                                                                                                    
-                                                            <div class="row">
-                                     
                                       
-                                        <div class="col-sm-10">
-                                    <div class="form-group">
-                                          <label class="control-label">Observações:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="TextBox20" runat="server"  CssClass="form-control"></asp:TextBox>
-
-
-                                    </div>
-                                        </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                          <label class="control-label"></label>
-                               <asp:Button runat="server" Text="Gravar" ID="Button18" CssClass="btn btn-success btn-block" />
-
-
-                                    </div>
-                                        </div>
                                          </div>   
-<div class="row">
+                         <div class="row">
                                      
-                                      
-                                       <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="DEVOLUÇÃO DE FRETE" ID="Button19" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="Button20" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS DECLARADAS" ID="Button21" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="COMISSOES" ID="Button22" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="OUTRAS TAXAS" ID="Button23" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-                                         </div>   
-                                                            <div class="row">
-                                     
-                                      
                                        <div class="col-sm-12">
-                                           gridview de itens
-                                           </div>
-                                                                </div>
-                                                            <div class="row">
-                                     
-                                      
-                                       <div class="col-sm-4">
-                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="LinkButton3" CssClass="btn btn-primary" href="Conferencia.aspx" target="_blank"/>
-
-                                           </div>
-                                                                <div class="col-sm-offset-4 col-sm-4">
-                                                                    TOTAL DA INVOICE:0,00
-                                           </div>
-                                                                </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Motivo Cancelamento:</label>
+                                        <asp:TextBox ID="txtMotivoCancel" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                                             
                                 </div>  
-                           
-                      
+                           </div>
+                      </div>
+                                                            </div>
                                                        
                    
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button24" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="Button25" text="Salvar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechaCancel" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvaCancel" text="Salvar" />
 
                                                         </div>
                                                     
@@ -802,33 +500,44 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
-<%--                                        <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                        <asp:GridView ID="dgvFechamento" DataKeyNames="ID_FECHAMENTO" DataSourceID="dsFechamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
-                                                <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
-                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
-                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_EMISSOR" HeaderText="EMISSOR" SortExpression="NM_ACCOUNT_TIPO_EMISSOR" />
-                                                <asp:BoundField DataField="DT_INVOICE" HeaderText="DATA INVOICE" SortExpression="DT_INVOICE" />                             <asp:BoundField DataField="PROCESSO" HeaderText="PROCESSO" SortExpression="PROCESSO" />             
-                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
+                                                                                                <asp:BoundField DataField="ID_FECHAMENTO" HeaderText="ID" SortExpression="ID_FECHAMENTO" />
+
+                                                <asp:BoundField DataField="NR_CONTRATO" HeaderText="Nº CONTRATO" SortExpression="NR_CONTRATO" />
+                                                <asp:BoundField DataField="NM_CORRETOR" HeaderText="INST. FINANCEIRA" SortExpression="NM_CORRETOR" />
                                                 <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />
-                                                <asp:BoundField DataField="FL_CONFERIDO" HeaderText="CONFERIDO" SortExpression="FL_CONFERIDO" /> 
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                             <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR CONTRATO" SortExpression="VL_CONTRATO" />             
+                                                <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
+                                                <asp:BoundField DataField="DT_TAXA_CAMBIO" HeaderText="DATA CAMBIO" SortExpression="DT_TAXA_CAMBIO" />
+                                                <asp:BoundField DataField="VL_TAXA_CAMBIO" HeaderText="VALOR CAMBIO" SortExpression="VL_TAXA_CAMBIO" /> 
                                                 <asp:BoundField DataField="NM_ACCOUNT_TIPO_FATURA" HeaderText="TIPO FATURA" SortExpression="NM_ACCOUNT_TIPO_FATURA" />
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                                  <asp:BoundField DataField="VL_TOTAL" HeaderText="VALOR" SortExpression="VL_TOTAL" />             
-                                                <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
-                                                <asp:BoundField DataField="DS_OBSERVACAO" HeaderText="OBSERVAÇÕES" SortExpression="DS_OBSERVACAO" />
+                                                <asp:BoundField DataField="VL_CONTRATO_BR" HeaderText="VALOR CONVERTIDO R$" SortExpression="VL_CONTRATO_BR" />
+                                                                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />
+                                                                                                <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="DATA CANCELAMENTO" SortExpression="DT_CANCELAMENTO" />
+
+                                                <asp:BoundField DataField="DS_MOTIVO_CANCELAMENTO" HeaderText="MOTIVO CANCELAMENTO" SortExpression="DS_MOTIVO_CANCELAMENTO" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                            CommandArgument='<%# Eval("ID_FECHAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>--%>
+                                        </asp:GridView>
 
                                 </div>
+                                                          <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
-                            </ContentTemplate>                           
+                            </ContentTemplate>       <Triggers>
+                            
+                                                            <asp:PostBackTrigger ControlID="btnPesquisa" />
+                                <asp:AsyncPostBackTrigger ControlID="ddlMoedaNovo" />
+                                                            <asp:AsyncPostBackTrigger ControlID="lkNovoFechamento" />
+                                   </Triggers>
                         </asp:UpdatePanel>
                     </div>
 
@@ -839,11 +548,36 @@
         </div>
 
     </div>
-         <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
-union SELECT  0, 'Selecione' FROM TB_TIPO_BL ORDER BY ID_TIPO_BL">
+         <asp:SqlDataSource ID="dsFechamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT * FROM [dbo].[View_Fechamento]">
 </asp:SqlDataSource>
-                          <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
+
+    <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsCorretor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_CORRETORA = 1
+union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+ G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE, (SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE)VALOR_TOTAL
+FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL') A
+LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
+LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
+WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE">
+        <SelectParameters>
+            <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />
+            <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal" />
+            <asp:ControlParameter Name="ID_MOEDA" Type="Int32" ControlID="ddlAgenteNovo" />
+            <asp:ControlParameter Name="ID_AGENTE" Type="Int32" ControlID="ddlMoedaNovo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>

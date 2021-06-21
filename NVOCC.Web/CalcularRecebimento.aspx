@@ -12,8 +12,9 @@
                 <h3 class="panel-title">CALCULAR RECEBIMENTO
                     <asp:Label runat="server" ID="lblMBL" CssClass="control-label" /></h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body">                    <asp:Label runat="server" ID="lblID_CONTA_PAGAR_RECEBER" CssClass="control-label" style="display:none" />
 
+                
                 <div class="tab-content">
                     <div class="tab-pane fade active in">
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -187,6 +188,35 @@
                                     </div>
 
                                 </div>
+
+                                
+                                <ajaxToolkit:ModalPopupExtender id="mpeND" runat="server" PopupControlID="Panel1" TargetControlID="txtID_BL"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+   <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">NOTA DE DÉBITO</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA IMPRIMIR NOTA DE DÉBITO?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNao" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSim" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
@@ -213,7 +243,7 @@ WHERE (ID_BL = @ID_BL OR ID_BL_MASTER = @ID_BL) AND CD_PR = 'R' AND ID_PARCEIRO_
         SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMoedaFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,ISNULL(VL_TXABERTURA,0)VL_TXABERTURA,VALOR_ACORDADO ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'R' AND ID_BL = @ID_BL or ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = @ID_BL))

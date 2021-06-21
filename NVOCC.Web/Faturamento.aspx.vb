@@ -22,6 +22,8 @@ Public Class Faturamento
             Response.Redirect("Default.aspx")
         Else
             txtData.Text = Now.Date.ToString("dd/MM/yyyy")
+            lkNotasFiscais.Visible = True
+            lkConsultaNotas.Visible = True
         End If
         Con.Fechar()
     End Sub
@@ -397,11 +399,11 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
 
 
-                            Using GeraRps = New NotaFiscal.WsNvocc
+                            'Using GeraRps = New NotaFiscal.WsNvocc
 
-                                Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+                            '    Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
 
-                            End Using
+                            'End Using
 
 
                             divSuccess.Visible = True
@@ -456,11 +458,11 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
 
 
-                        Using GeraRps = New NotaFiscal.WsNvocc
+                        'Using GeraRps = New NotaFiscal.WsNvocc
 
-                            Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
+                        '    Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
 
-                        End Using
+                        'End Using
 
 
                         lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
@@ -546,11 +548,11 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
     Private Sub lkVisualizarNota_Click(sender As Object, e As EventArgs) Handles lkVisualizarNota.Click
         If Not String.IsNullOrEmpty(txtID.Text) Then
 
-            Using GeraRps = New NotaFiscal.WsNvocc
+            'Using GeraRps = New NotaFiscal.WsNvocc
 
-                Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+            '    Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
-            End Using
+            'End Using
         Else
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro!"
@@ -578,14 +580,14 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
         If contador > 0 Then
             lkBoleto.Visible = True
         Else
-            lkboleto.Visible = False
+            lkBoleto.Visible = False
         End If
 
         If contador = 1 Then
-            lkFatura.Visible = True
-            lkDesmosntrativos.Visible = True
-            lkRPS.Visible = True
-            lkNotasFiscais.Visible = True
+            'lkFatura.Visible = True
+            'lkDesmosntrativos.Visible = True
+            'lkRPS.Visible = True
+            'lkNotasFiscais.Visible = True
             txtID.Text = IDs
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -630,10 +632,10 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             End If
             Con.Fechar()
         Else
-            lkFatura.Visible = False
-            lkDesmosntrativos.Visible = False
-            lkRPS.Visible = False
-            lkNotasFiscais.Visible = False
+            'lkFatura.Visible = False
+            'lkDesmosntrativos.Visible = False
+            'lkRPS.Visible = False
+            'lkNotasFiscais.Visible = False
         End If
 
     End Sub

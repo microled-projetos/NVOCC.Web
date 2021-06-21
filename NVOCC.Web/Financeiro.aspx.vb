@@ -46,7 +46,13 @@
         End If
     End Sub
     Private Sub lkEmissaoND_Click(sender As Object, e As EventArgs) Handles lkEmissaoND.Click
-        Response.Redirect("EmissaoND.aspx")
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
+        Else
+            Response.Redirect("EmissaoND.aspx?id=" & txtID.Text)
+        End If
+
     End Sub
     Private Sub lkBaixaCancel_Receber_Click(sender As Object, e As EventArgs) Handles lkBaixaCancel_Receber.Click
         Response.Redirect("BaixasCancelamentos.aspx?t=r")

@@ -56,6 +56,15 @@
                                 <br />
                                 <br />
                                 <div class="row" runat="server" id="divgrids" visible="false">
+                                    <div class="row">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <asp:Button runat="server" Text="Marcar Todos" ID="btnMarcar" CssClass="btn btn-primary" />
+                                            <asp:Button runat="server" Text="Desmarcar Todos" ID="btnDesmarcar" CssClass="btn btn-warning" />
+                                        </div>
+                                    </div>
+                                </div>
                                     <div class="col-sm-8 table-responsive tableFixHead">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
@@ -66,7 +75,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" Checked="True" AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"  AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -97,6 +106,7 @@
                                     </div>
 
                                     <div class="col-sm-4 table-responsive tableFixHead">
+                                        
                                         <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
                                             <Columns>
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
@@ -169,6 +179,33 @@
                                     </div>
                                 </div>
 
+                                <ajaxToolkit:ModalPopupExtender id="mpeMontagem" runat="server" PopupControlID="Panel1" TargetControlID="txtID_BL"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+   <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">MONTAGEM DE PAGAMENTO</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA PROSSEGUIR PARA MONTAGEM DE PAGAMENTO?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNao" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSim" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
 
                             </ContentTemplate>
                             <Triggers>

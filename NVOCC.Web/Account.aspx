@@ -160,8 +160,9 @@
       
                                        </div>     </center>
                                 </asp:Panel>
+                                <asp:TextBox ID="TextBox3" Style="display:none" runat="server"></asp:TextBox>
 
-                                <asp:Button runat="server" Visible="false" ID="Button2" Text="Close" />
+                                                               
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRelatorios" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -222,7 +223,10 @@
                                 </asp:Panel>
 
                                 <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNovaInvoice" TargetControlID="TextBox1" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNovaInvoice" TargetControlID="lkNovaInvoice" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                   <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                            <ContentTemplate>
                                 <asp:Panel ID="pnlNovaInvoice" runat="server" CssClass="modalPopup" Style="display: none;">
 
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -346,7 +350,7 @@
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label"></label>
-                               <asp:Button runat="server" Text="Gravar" ID="btnGravarCabeçalho" CssClass="btn btn-success btn-block" />
+                               <asp:Button runat="server" Text="Gravar" ID="btnGravarCabecalho" CssClass="btn btn-success btn-block" />
 
 
                                     </div>
@@ -395,18 +399,32 @@
                                      
                                       
                                        <div class="col-sm-12">
-                                           gridview de itens
+                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                            <Columns>
+                                                <asp:BoundField DataField="ID_ACCOUNT_INVOICE_ITENS"  HeaderText="ID" Visible="False" SortExpression="ID_ACCOUNT_INVOICE_ITENS" />
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+                                                <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="DESPESA" SortExpression="NM_ITEM_DESPESA" />
+                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_DEVOLUCAO" HeaderText="TIPO DEVOLUÇÃO" SortExpression="NM_ACCOUNT_TIPO_DEVOLUCAO" />
+                                                               <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA" >
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>                                
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+
                                            </div>
                                                                 </div>
                                                             <div class="row">
                                      
                                       
                                        <div class="col-sm-4">
-                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="Button8" CssClass="btn btn-primary" href="Conferencia.aspx" target="_blank"/>
+                                                                          <asp:linkButton runat="server" Text="ABRIR CONFERENCIA" ID="Button8" CssClass="btn btn-primary" OnClientClick="Conferencia()" />
 
                                            </div>
                                                                 <div class="col-sm-offset-4 col-sm-4">
-                                                                    TOTAL DA INVOICE:0,00
+                                                                    TOTAL DA INVOICE:
                                            </div>
                                                                 </div>
                                 </div>  
@@ -426,9 +444,9 @@
 
                                 </asp:Panel>
 
+ <asp:TextBox ID="AuxDevolucao" Style="display:none" runat="server"></asp:TextBox>
 
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlDevolucaoFrete" TargetControlID="Button2" CancelControlID="btnFecharDevolucaoFrete"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlDevolucaoFrete" TargetControlID="AuxDevolucao" CancelControlID="btnFecharDevolucaoFrete"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDevolucaoFrete" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -449,23 +467,20 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                                                                  <asp:GridView ID="dgvDevolucao" DataKeyNames="ID_BL_TAXA" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                                                                  <asp:GridView ID="dgvDevolucao" DataKeyNames="ID_BL" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
                                                                                                <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_EMISSOR" HeaderText="EMISSOR" SortExpression="NM_ACCOUNT_TIPO_EMISSOR" />
-                                                <asp:BoundField DataField="DT_INVOICE" HeaderText="DATA INVOICE" SortExpression="DT_INVOICE" />                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />             
-                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValorCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'  />
@@ -490,15 +505,17 @@
                                      
                                       
                                        <div class="col-sm-4">
-                                                              COMPRA
+                                                             Compra: <asp:label ID="lblValorFreteCompra" runat="server"/>
 
                                            </div>
                                                                 <div class="col-sm-4">
-                                                              VENDA
+                                                             Venda: <asp:label ID="lblValorFreteVenda" runat="server"/>
+
 
                                            </div>
                                                                 <div class="col-sm-4">
-                                                              DEVOLUCAO
+                                                            Total: <asp:label ID="lblValorFreteDevolucao" runat="server"/>
+
 
                                            </div>
                                                                 </div>
@@ -519,7 +536,8 @@
                                 </asp:Panel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="Button2" CancelControlID="btnFecharTaxasExterior"></ajaxToolkit:ModalPopupExtender>
+<asp:TextBox ID="AuxExterior" Style="display:none" runat="server"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="AuxExterior" CancelControlID="btnFecharTaxasExterior"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlTaxasExterior" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -535,7 +553,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -566,7 +584,8 @@
                                      
                                       
                                                                 <div class="col-sm-offset-6 col-sm-4">
-                                                              TOTAL
+                                                           TOTAL:   <asp:label ID="lblTotalExterior" runat="server"/>
+
 
                                            </div>
                                                                
@@ -587,8 +606,9 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                                                                                 <asp:TextBox ID="AuxDeclaradas" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="btnTaxasDeclaradas" CancelControlID="btnFecharTaxasDeclaradas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="AuxDeclaradas" CancelControlID="btnFecharTaxasDeclaradas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlTaxasDeclaradas" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -604,7 +624,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -635,7 +655,7 @@
                                      
                                       
                                                                 <div class="col-sm-offset-6 col-sm-4">
-                                                              TOTAL
+                                                          TOTAL:    <asp:label ID="lblTotalDeclaradas" runat="server"/>
 
                                            </div>
                                                                
@@ -656,7 +676,9 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlComissoes" TargetControlID="btnComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
+                                                                 <asp:TextBox ID="AuxComissoes" Style="display:none" runat="server"></asp:TextBox>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlComissoes" TargetControlID="AuxComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -665,14 +687,13 @@
                                                         </div>
                                                         <div class="modal-body">                                       
                                     <div class="row">
-                                     dgvComissoes
                                        <div class="col-sm-12">
                                     <div class="form-group">
 <asp:GridView ID="dgvComissoes" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -700,7 +721,8 @@
                                      
                                       
                                                                 <div class="col-sm-offset-6 col-sm-4">
-                                                              TOTAL
+                               TOTAL: <asp:label ID="lblTotalComissoes" runat="server"/>
+
 
                                            </div>
                                                                
@@ -721,8 +743,9 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                 <asp:TextBox ID="AuxOutrasTaxas" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlOutrasTaxas" TargetControlID="btnOutrasTaxas" CancelControlID="btnFecharOutrasTaxas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlOutrasTaxas" TargetControlID="AuxOutrasTaxas" CancelControlID="btnFecharOutrasTaxas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlOutrasTaxas" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -738,7 +761,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -769,7 +792,8 @@
                                      
                                       
                                                                 <div class="col-sm-offset-6 col-sm-4">
-                                                              TOTAL
+                                                                   Total: <asp:label ID="lblTotalOutrasTaxas" runat="server"/>
+
 
                                            </div>
                                                                
@@ -789,6 +813,20 @@
       
                                        </div>     </center>
                                 </asp:Panel>
+
+                                </ContentTemplate>
+                            <Triggers>                    <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
+                                <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
+                                <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />
+                                                                <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
+                                                                <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
+
+                                <asp:AsyncPostBackTrigger ControlID="btnGravarCabecalho" />                             
+                            </Triggers>
+                        </asp:UpdatePanel>
+                                                              
+
+                                                                            
 
                                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                                     <ContentTemplate>
@@ -837,12 +875,12 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="btnPesquisa" />
-                                <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
-                                <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
-                                <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
-                                <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
-                                <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />
+                                                                <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvDevolucao" />
+
                                 <asp:AsyncPostBackTrigger ControlID="lkAvisoEmbarque" />
+                                <asp:AsyncPostBackTrigger ControlID="btnTaxasDeclaradas" />
+                                <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
+
                             </Triggers>
                         </asp:UpdatePanel>
                         <br />
@@ -865,7 +903,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDevolucao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_COMPRA,VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU')  WHERE ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_COMPRA,VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU') A WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
@@ -892,7 +930,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTaxasDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
@@ -928,11 +966,25 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_INVOICE ORDER BY ID_ACCOUNT_TIP
 
     <asp:SqlDataSource ID="dsTipoFatura" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ACCOUNT_TIPO_FATURA, NM_ACCOUNT_TIPO_FATURA FROM TB_ACCOUNT_TIPO_FATURA
-union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO_FATURA"></asp:SqlDataSource>
-
+union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO_FATURA"></asp:SqlDataSource>   
+    
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsItensInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, 
+(SELECT NR_PROCESSO FROM TB_BL WHERE A.ID_BL = ID_BL )NR_PROCESSO,
+B.ID_ACCOUNT_INVOICE_ITENS, B.ID_BL AS ID_BL_ITENS, B.ID_BL_TAXA,  K.NM_ITEM_DESPESA, B.VL_TAXA, VL_TAXA_BR, I.NM_ACCOUNT_TIPO_DEVOLUCAO
+FROM TB_ACCOUNT_INVOICE A
+LEFT JOIN TB_ACCOUNT_INVOICE_ITENS B ON A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE
+LEFT JOIN TB_ACCOUNT_TIPO_DEVOLUCAO I ON B.CD_TIPO_DEVOLUCAO=I.CD_ACCOUNT_TIPO_DEVOLUCAO
+LEFT JOIN TB_ITEM_DESPESA K ON B.ID_ITEM_DESPESA=K.ID_ITEM_DESPESA
+WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_ACCOUNT_INVOICE" Type="string" ControlID="txtIDInvoice" />        
+        </SelectParameters>
+
+    </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
@@ -945,5 +997,13 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
             window.open('AvisoEmbarque.aspx?id=' + ID, '_blank');
         }
 
+        function Conferencia() {
+
+
+            var ID = document.getElementById('<%= txtIDInvoice.ClientID %>').value;
+            console.log(ID);
+
+            window.open('Conferencia.aspx?id=' + ID, '_blank');
+        }
     </script>
 </asp:Content>
