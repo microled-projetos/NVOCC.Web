@@ -59,13 +59,22 @@ Partial Public Class AvisoEmbarque
     Protected WithEvents lblAgente As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle dgvBLInvoice.
+    '''Controle dgvBLInvoiceMBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvBLInvoice As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvBLInvoiceMBL As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dgvBLInvoiceHBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvBLInvoiceHBL As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle dsBLInvoice.

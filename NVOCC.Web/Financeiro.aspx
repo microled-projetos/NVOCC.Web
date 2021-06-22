@@ -4,7 +4,7 @@
     <style>
         .btnn {
             background-color: #d5d8db;
-            margin: 5px;
+            margin: 3px;
             font-size: 13px
         }
 
@@ -52,54 +52,51 @@
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
 
-                                Filtro:
-                   <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
-
-                       <div class="col-sm-2" style="padding-top: 20px;">
+                   <div class="row linhabotao" >
+   
+                       <div class="col-sm-2">
+                            <asp:Label ID="Label2" runat="server">FILTRO:</asp:Label>
                            <div class="form-group">
-                               <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                   <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                   <asp:ListItem Value="1">Número do processo</asp:ListItem>
-                                   <asp:ListItem Value="2">Número do Master</asp:ListItem>
-                                   <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
+                               <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" Font-Size="15px">
+                                   <asp:ListItem Value="1" Selected="True">Número do Master</asp:ListItem>
+                                   <asp:ListItem Value="2">Número do processo</asp:ListItem>
+                                   <asp:ListItem Value="3">Todos em aberto</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 
                        </div>
-                       <div class="col-sm-2" style="padding-top: 20px;">
+                       <div class="col-sm-2" >
                            <div class="form-group">
+                                                           <asp:Label ID="Label3" Style="color:white" runat="server">x</asp:Label>
+
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                       </div>
-                       <div class="col-sm-1">
+                       </div>                      
+                       <div class="col-sm-1" >
+                           <div class="form-group">
+                                                           <asp:Label ID="Label4" Style="color:white" runat="server">X</asp:Label><br />
 
-                           <div class="form-group">
-                                   <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
-                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                                        <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
-                                                    </asp:RadioButtonList>      
-                           </div>
-                       </div>
-                       <div class="col-sm-1" style="padding-top: 20px;">
-                           <div class="form-group">
                                <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisa" CssClass="btn btn-success" />
 
                            </div>
                        </div>
-                       <div class="col-sm-6">
-                           <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">CONTAS A PAGAR</asp:Label><br />
+                   
+                       <div class="col-sm-3">
+                           <asp:Label ID="Label6" runat="server">CONTAS A PAGAR:</asp:Label><br />
                            <div style="border: ridge 1px;">
-                          <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Solicitar Pagamento</asp:LinkButton>
-                            <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Montar Pagamento</asp:LinkButton>
-                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton></div>
-                           <br />
-                                      <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">CONTAS A RECEBER</asp:Label><br />
-                                                      <div style="border: ridge 1px;">
+                          <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Solicitar Pagamento</asp:LinkButton>
+                            <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Montar Pagamento</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton></div>
 
-                          <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Calcular Recebimento</asp:LinkButton>
-                           <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Emitir ND</asp:LinkButton>
-                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar/Cancelar</asp:LinkButton>
-                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Faturar Recebimento</asp:LinkButton></div>
+                       </div>
+                       <div class="col-sm-4">
+                                      <asp:Label ID="Label1" runat="server">CONTAS A RECEBER:</asp:Label><br />
+                                        <div style="border: ridge 1px;">
+
+                          <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm">Calcular Recebimento</asp:LinkButton>
+                           <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm">Emitir ND</asp:LinkButton>
+                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton>
+                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm">Faturar Recebimento</asp:LinkButton></div>
                                         </div>
                        </div>
                    </div>
@@ -127,7 +124,7 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
-                                    <asp:GridView ID="dgvFinanceiro" DataKeyNames="ID_BL" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFinanceiro" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center">
+                                    <asp:GridView ID="dgvFinanceiro" DataKeyNames="ID_BL" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFinanceiro" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" Visible="false">
                                         <Columns>
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
                                                                                         <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />

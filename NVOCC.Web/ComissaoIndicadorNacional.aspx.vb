@@ -123,111 +123,6 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
     End Sub
 
-    Private Sub dgvTabelaComissao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTabelaComissao.RowCommand
-        DivExcluir.Visible = False
-        divInfo.Visible = False
-        Dim ID As String = e.CommandArgument
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        If e.CommandName = "Excluir" Then
-
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão para realizar exclusões"
-                DivExcluir.Visible = True
-            Else
-                Con.ExecutarQuery("DELETE FROM [dbo].[TB_TAXA_COMISSAO_INDICADOR] WHERE ID_TAXA_COMISSAO_INDICADOR =" & ID)
-                dgvTabelaComissao.DataBind()
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa excluída com sucesso"
-                ModalPopupExtender1.Show()
-            End If
-
-        ElseIf e.CommandName = "Editar" Then
-
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,VL_TAXA,ID_PARCEIRO_VENDEDOR,ID_MOEDA FROM TB_TAXA_COMISSAO_INDICADOR  WHERE ID_TAXA_COMISSAO_INDICADOR = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_INDICADOR")) Then
-                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_INDICADOR").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
-                    txtValidadeTabela.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
-                    txtTaxaTabela.Text = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR")) Then
-                    ddlVendedorTabela.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
-                    ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
-                End If
-            End If
-
-            ModalPopupExtender1.Show()
-        End If
-        Con.Fechar()
-    End Sub
-
-    Private Sub btnGravaTaxaTabela_Click(sender As Object, e As EventArgs) Handles btnGravaTaxaTabela.Click
-        divInfo.Visible = False
-
-        txtTaxaTabela.Text = txtTaxaTabela.Text.Replace(".", "")
-        txtTaxaTabela.Text = txtTaxaTabela.Text.Replace(",", ".")
-        Dim ds As DataSet
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        If txtIDTabelaTaxa.Text = "" Then
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
-            Else
-
-                Con.ExecutarQuery("INSERT INTO TB_TAXA_COMISSAO_INDICADOR (DT_VALIDADE_INICIAL,VL_TAXA,ID_PARCEIRO_VENDEDOR,ID_MOEDA) VALUES (CONVERT(DATE,'" & txtValidadeTabela.Text & "',103)," & txtTaxaTabela.Text & "," & ddlVendedorTabela.SelectedValue & ", " & ddlMoedaTabela.SelectedValue & ") ")
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa cadastrada com sucesso!"
-                txtIDTabelaTaxa.Text = ""
-                txtValidadeTabela.Text = ""
-                ddlMoedaTabela.SelectedValue = 0
-                ddlVendedorTabela.SelectedValue = 0
-                txtTaxaTabela.Text = ""
-                dgvTabelaComissao.DataBind()
-                ModalPopupExtender1.Show()
-
-            End If
-
-        Else
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
-            Else
-                Con.ExecutarQuery("UPDATE TB_TAXA_COMISSAO_INDICADOR SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidadeTabela.Text & "',103),VL_TAXA = " & txtTaxaTabela.Text & " ,ID_PARCEIRO_VENDEDOR  " & ddlVendedorTabela.SelectedValue & ",ID_MOEDA = " & ddlMoedaTabela.SelectedValue & " WHERE ID_TAXA_COMISSAO_INDICADOR = " & txtIDTabelaTaxa.Text)
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa alterada com sucesso"
-                txtIDTabelaTaxa.Text = ""
-                txtValidadeTabela.Text = ""
-                ddlMoedaTabela.SelectedValue = 0
-                ddlVendedorTabela.SelectedValue = 0
-                txtTaxaTabela.Text = ""
-                dgvTabelaComissao.DataBind()
-                ModalPopupExtender1.Show()
-            End If
-        End If
-    End Sub
-
-
-    Private Sub btnFecharTabela_Click(sender As Object, e As EventArgs) Handles btnFecharTabela.Click
-        txtIDTabelaTaxa.Text = ""
-        txtValidadeTabela.Text = ""
-        ddlMoedaTabela.SelectedValue = 0
-        ddlVendedorTabela.SelectedValue = 0
-        txtTaxaTabela.Text = ""
-        divInfo.Visible = False
-        DivExcluir.Visible = False
-    End Sub
-
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
         Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_BL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,PARCEIRO_INDICADOR,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO, FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
 
@@ -251,8 +146,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         Else
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
+                lblErroGerarComissao.Text = "Usuário não tem permissão!"
+                divErroGerarComissao.Visible = True
             Else
                 If txtObs.Text = "" Then
                     txtObs.Text = "NULL"
@@ -274,8 +169,13 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
                 Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_NACIONAL  (ID_CABECALHO_COMISSAO_INTERNACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_VENDEDOR,ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_CAMBIO,DT_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO) 
- SELECT " & cabecalho & " A.ID_BL, A.NR_PROCESSO, A.ID_PARCEIRO_VENDEDOR, C.ID_BL_TAXA, C.ID_MOEDA, C.VL_TAXA_CALCULADO,(SELECT VL_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )VL_CAMBIO,(SELECT DT_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )DT_CAMBIO, C.VL_TAXA_CALCULADO *(SELECT DT_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )VL_COMISSAO, B.DT_LIQUIDACAO  FROM TB_BL A  LEFT JOIN VW_PROCESSO_LIQUIDADO B ON  A.ID_BL = A.ID_BL 
- LEFT JOIN TB_BL_TAXA C ON C.ID_BL = A.ID_BL WHERE C.FL_PREMIACAO = 1 AND B.DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)")
+  SELECT " & cabecalho & ", A.ID_BL, A.NR_PROCESSO, A.ID_PARCEIRO_VENDEDOR, C.ID_BL_TAXA, C.ID_MOEDA, C.VL_TAXA_CALCULADO,(SELECT VL_CAMBIO FROM FN_PROCESSO_CAMBIO(A.ID_BL))VL_CAMBIO,(SELECT DT_CAMBIO FROM FN_PROCESSO_CAMBIO(A.ID_BL))DT_CAMBIO, C.VL_TAXA_CALCULADO * (SELECT VL_CAMBIO FROM FN_PROCESSO_CAMBIO(A.ID_BL)) AS VL_COMISSAO, B.DT_LIQUIDACAO 
+ FROM TB_BL A  
+ INNER JOIN VW_PROCESSO_RECEBIDO B ON  A.ID_BL = A.ID_BL 
+ LEFT JOIN TB_BL_TAXA C ON C.ID_BL = A.ID_BL 
+ WHERE C.FL_PREMIACAO = 1 
+ AND CONVERT(DATE,B.DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103) 
+ AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS I INNER JOIN TB_CONTA_PAGAR_RECEBER H ON H.ID_CONTA_PAGAR_RECEBER = I.ID_CONTA_PAGAR_RECEBER WHERE H.DT_CANCELAMENTO IS NULL )")
 
                 divSuccessGerarComissao.Visible = True
                 lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
@@ -424,18 +324,6 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
         Next
     End Sub
-
-    Private Sub btnLimpaTaxaTabela_Click(sender As Object, e As EventArgs) Handles btnLimpaTaxaTabela.Click
-        txtIDTabelaTaxa.Text = ""
-        txtValidadeTabela.Text = ""
-        ddlMoedaTabela.SelectedValue = 0
-        ddlVendedorTabela.SelectedValue = 0
-        txtTaxaTabela.Text = ""
-        divInfo.Visible = False
-        DivExcluir.Visible = False
-        ModalPopupExtender1.Show()
-    End Sub
-
 
     Private Sub lkGravarCCProcesso_Click(sender As Object, e As EventArgs) Handles lkGravarCCProcesso.Click
         divSuccesAjuste.Visible = False

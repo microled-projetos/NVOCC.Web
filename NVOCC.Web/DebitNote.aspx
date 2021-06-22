@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
         #DivImpressao, #imgFundo {
-            display: block;
+            display: none;
         }
         @media print {
 
@@ -16,8 +16,18 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding:5px;
+                margin:0;
+            }
         }
     </style>
+     <div style="display:none">
+    <asp:Label ID="lblIDINVOICE"  runat="server"/>
+        <asp:Label ID="lblID_BL"  runat="server"/>
+        <asp:Label ID="lblID_BL_MASTER"  runat="server"/>
+        <asp:Label ID="lblGrau"  runat="server"/>
+        </div>
     <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
                 <table border="1">
                     <tr>
@@ -46,7 +56,7 @@
 
             <tr>
                 <td>
-                    <div style="text-align: center;">DÉBIT NOTE: <asp:Label ID="lblProcesso" runat="server" /></div>
+                    <div style="text-align: center;">DÉBIT NOTE</div>
                 </td>
             </tr>
         </table>
@@ -55,154 +65,65 @@
                 <td>
                     <strong>For Account of</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
                     <br />
+                    <br /><strong>PHONE:</strong>&nbsp;<asp:Label ID="lblTelefone" runat="server" />
+                    <br />
                 </td>
                 <td>
                     <strong>INVOICE No:</strong>&nbsp;<asp:Label ID="lblNumeroInvoice" runat="server" />
+                    <br /><strong>INVOICE DATE:</strong>&nbsp;<asp:Label ID="lblDataInvoice" runat="server" />
+                    <br /><strong>FILE No:</strong>&nbsp;<asp:Label ID="lblProcesso" runat="server" />
                     <br />
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <strong>FILE No:</strong>&nbsp;<asp:Label ID="lblEndereco" runat="server" /><asp:Label ID="lblNumero" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>INVOICE DATE:</strong>&nbsp;<asp:Label ID="lblDataInvoice" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>BAIRRO:</strong>&nbsp;<asp:Label ID="lblBairro" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>CIDADE:</strong>&nbsp;<asp:Label ID="lblCidade" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>PHONE:</strong>&nbsp;<asp:Label ID="lblTelefone" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>FAX:</strong>&nbsp;<asp:Label ID="lblFax" runat="server" />
-                    <br />
-                </td>
-            </tr>
-        </table>
-        <table border="1">
-
-            <tr>
-                <td>
-                    <strong>DATA DE EMISSAO:</strong>&nbsp;<asp:Label ID="lblDataEmissao" runat="server" />
-
-                </td>
-                <td><strong>DATA DE VENCIMENTO:</strong>&nbsp;<asp:Label ID="lblVencimento" runat="server" />
-                </td>
-                <td><strong>Nº FATURA:</strong>&nbsp;<asp:Label ID="lblFatura" runat="server" />
-                </td>
-            </tr>
+            
         </table>
         <table style="border-style:solid;border-width: thin;">
             <tr>
                 <td>
-                    <strong>EXPORTADOR</strong>&nbsp;<asp:Label ID="lblExportador" runat="server" />
-                    <br />
+                    <strong>SHIPPER</strong>&nbsp;<asp:Label ID="lblCliente" runat="server" />
+                    <br /><strong>MBL:</strong>&nbsp;<asp:Label ID="lblMBL" runat="server" /><asp:Label ID="Label7" runat="server" />
+                    <br /><strong>CONSIGNEE:</strong>&nbsp;<asp:Label ID="lblImportador" runat="server" />
+                    <br /><strong>BY:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
+                    <br /><strong>QUANTITY:</strong>&nbsp;<asp:Label ID="lblQtdVolumes" runat="server" />
+                    
                 </td>
                 <td>
-                    <strong>REF. CLIENTE:</strong>&nbsp;<asp:Label ID="lblReferencias" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>FRETE:</strong>&nbsp;<asp:Label ID="lblFrete" runat="server" /><asp:Label ID="Label7" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>NAVIO:</strong>&nbsp;<asp:Label ID="lblNavio" runat="server" />
+                    <strong>REF No:</strong>&nbsp;<asp:Label ID="lblReferencias" runat="server" />
+                    <br /><strong>HBL:</strong>&nbsp;<asp:Label ID="lblHBL" runat="server" />
+                    <br /><strong>VOYAGE:</strong>&nbsp;<asp:Label ID="lblViagem" runat="server" />
+                    <br /><strong>TO:</strong>&nbsp;<asp:Label ID="lblDestino" runat="server" />
+                    <br /><strong>GROSS WEIGHT:</strong>&nbsp;<asp:Label ID="lblPesoBruto" runat="server" />
                     <br />
                 </td>
             </tr>
+                     
+        </table>
+           <br />
+        <div id="divConteudoDinamico" runat="server" style="border-style:solid;border-width: thin;" >
+        </div>
+                                    <table >
             <tr>
                 <td>
-                    <strong>CONHECIMENTO:</strong>&nbsp;<asp:Label ID="lblConhecimento" runat="server" />
-                    <br />
+                                        <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="lblCorrespondenteBank" runat="server" /><br/>
+                                        <strong>STANDART:</strong>&nbsp;<asp:Label ID="Label2" runat="server" /><br/>
+                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="Label4" runat="server" /><br/>
+                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label3" runat="server" /><br/>
+
                 </td>
                 <td>
-                    <strong>HOUSE:</strong>&nbsp;<asp:Label ID="lblHouse" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>ORIGEM:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>DESTINO:</strong>&nbsp;<asp:Label ID="lblDestino" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>EMBARQUE:</strong>&nbsp;<asp:Label ID="lblDataEmbarque" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>CHEGADA:</strong>&nbsp;<asp:Label ID="lblDataChegada" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>QTD. VOLUMES:</strong>&nbsp;<asp:Label ID="lblQtdVolumes" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>PESO BRUTO:</strong>&nbsp;<asp:Label ID="lblPesoBruto" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>CONTAINER</strong>&nbsp;<asp:Label ID="lblContainer" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <br />
+                                        <strong>BENEFICIARY BANK:</strong>&nbsp;<asp:Label ID="Label1" runat="server" /><br/>
+                                        <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="Label5" runat="server" /><br/>
+                                        <strong>AGENCY:</strong>&nbsp;<asp:Label ID="Label6" runat="server" /><br/>
+                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="Label8" runat="server" /><br/>
+                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label9" runat="server" /><br/>
+                                        <strong>NAME:</strong>&nbsp;<asp:Label ID="Label10" runat="server" /><br/>
+                                        <strong>IBAN-BR:</strong>&nbsp;<asp:Label ID="Label11" runat="server" /><br/>
                 </td>
             </tr>
         </table>
-           <br />
-            <br />
-        <div id="divConteudoDinamico" runat="server" style="border-style:solid;border-width: thin;" >
-        </div>
-<%--        <div style="float: right;"><asp:Label ID="lbltotal" runat="server" /></div>--%>
-           <br />
-            <br />
-        <div>
-            Horário de Pagamento: Envio de comprovante até as 13h. Pagamentos efetuados após o horário podem incidir em difereça cambial
-            <br />
-            <br />
-            Prazo para Desbloqueio:<br />
-            FCL: Em até 24 horas<br />
-            LCL: Até o final do dia<br />
-            (Após o pagamento e apresentação dos documentos)<br />
-            <br />
-            <br />
 
-            O comprovante de pagamento deverá ser enviado para o e-mail financeiro@fcalog.com com a identificação do processo ou número do BL, para que possamos confirmá-lo e liberar a carga.
+           <br />
             <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <strong>No aguardo do seu contato,&nbsp;<asp:Label ID="lblUsuario" runat="server" /></strong>
-            <div style="float: right;">Impresso &nbsp;<asp:Label ID="lblDataImpressao" runat="server" /></div>
-        </div>
 </td>
                     </tr>
 </table>
@@ -215,9 +136,9 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <script>      
-        function ImprimirND() {
+    <script>
+        $(window).load(function () {
             window.print();
-        }
+        });
     </script>
 </asp:Content>

@@ -59,6 +59,15 @@ Partial Public Class Account
     Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle Label3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label3 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlFiltro.
     '''</summary>
     '''<remarks>
@@ -66,6 +75,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlFiltro As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtPesquisa.
@@ -77,6 +95,15 @@ Partial Public Class Account
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle Label2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtVencimentoInicial.
     '''</summary>
     '''<remarks>
@@ -84,6 +111,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtVencimentoInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle Label4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtVencimentoFinal.
@@ -102,6 +138,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents rdStatus As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle Label5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle btnPesquisa.
@@ -291,6 +336,78 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharRelatorios As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ModalPopupExtender9.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender9 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlSOA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlSOA As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle txtVencimentoInicialSOA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVencimentoInicialSOA As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVencimentoFinalSOA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVencimentoFinalSOA As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlAgenteSoa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAgenteSoa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lkImprimirSOA1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkImprimirSOA1 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkImprimirSOA2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkImprimirSOA2 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle btnFecharSOA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharSOA As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle TextBox1.
@@ -561,6 +678,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents Button8 As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lblTotalInvoice.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTotalInvoice As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle btnFecharNovaInvoice.
@@ -923,6 +1049,87 @@ Partial Public Class Account
     Protected WithEvents btnIncluirOutrasTaxas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle ModalPopupExtender8.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender8 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle UpdatePanel3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel3 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle pnlProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlProcessoPeriodo As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle txtEmbarqueInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEmbarqueInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtEmbarqueFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEmbarqueFinal As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnRelacaoAgentes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnRelacaoAgentes As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnCSVProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCSVProcessoPeriodo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle dgvProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvProcessoPeriodo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnFecharProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharProcessoPeriodo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>
@@ -1040,6 +1247,15 @@ Partial Public Class Account
     Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsAgenteSOA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsAgenteSOA As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsTipoEmissor.
     '''</summary>
     '''<remarks>
@@ -1074,6 +1290,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsProcessoPeriodo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsItensInvoice.

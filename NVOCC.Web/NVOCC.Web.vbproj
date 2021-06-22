@@ -459,6 +459,8 @@
     <Content Include="ReciboProvisorioServico.aspx" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="SOA_I.aspx" />
+    <Content Include="SOA_II.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
     <Content Include="TaxaParceiro.aspx.cs" />
@@ -953,6 +955,20 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SOA_I.aspx.designer.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SOA_I.aspx.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SOA_II.aspx.designer.vb">
+      <DependentUpon>SOA_II.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SOA_II.aspx.vb">
+      <DependentUpon>SOA_II.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SolicitacaoPagamento.aspx.designer.vb">
       <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>

@@ -1,0 +1,35 @@
+﻿Public Class SOA_II
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Session("Logado") = "False" Or Session("Logado") = Nothing Then
+
+            Response.Redirect("Login.aspx")
+
+        End If
+
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2032 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
+            Response.Redirect("Default.aspx")
+
+        End If
+        Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_BL,A.NR_PROCESSO,NR_BL MBL, ''HBL,  ID_BL_MASTER,NR_INVOICE,CONVERT(VARCHAR,DT_INVOICE,103)DT_INVOICE,PARCEIRO_CLIENTE,NM_AGENTE,PARCEIRO_TRANSPORTADOR,ORIGEM,DESTINO, CONVERT(VARCHAR,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,
+CONVERT(VARCHAR,DT_EMBARQUE,103)DT_EMBARQUE,
+ CONVERT(VARCHAR,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,
+ CONVERT(VARCHAR,DT_CHEGADA,103)DT_CHEGADA,NM_AGENTE ,
+ (SELECT [DBO].[FN_REFERENCIA_CLIENTE] (A.ID_BL) )REFERENCIA_CLIENTE,PARCEIRO_IMPORTADOR,NR_VIAGEM,VL_PESO_BRUTO,VL_M3
+ FROM View_Master A
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
+ GROUP BY A.ID_BL,A.NR_PROCESSO,NR_BL,  ID_BL_MASTER,NR_INVOICE,PARCEIRO_CLIENTE,PARCEIRO_AGENTE,PARCEIRO_TRANSPORTADOR,ORIGEM,DESTINO, DT_PREVISAO_EMBARQUE,DT_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,NM_AGENTE,PARCEIRO_IMPORTADOR,NR_VIAGEM,VL_PESO_BRUTO,VL_M3,DT_INVOICE")
+        If dsDados.Tables(0).Rows.Count > 0 Then
+
+        End If
+    End Sub
+
+End Class

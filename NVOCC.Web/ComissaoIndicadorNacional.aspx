@@ -138,14 +138,7 @@
                                                             <h5 class="modal-title">COMISSÕES</h5>
                                                         </div>
                                                         <div class="modal-body" style="padding-left: 50px;">                                       
-                            <div class="row">
-                                 <div class="row">
-                                     <div class="col-sm-10">
-                                    <div class="form-group">                                          
-<asp:LinkButton ID="lkTabelaComissoes" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Tabela de Comissões</asp:LinkButton>
-                                    </div>
-                                        </div>
-                                         </div>
+                            <div class="row">                                
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
@@ -169,129 +162,7 @@
                                        </div>     </center>
                                 </asp:Panel>                                
 
-                                  <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlTabela" TargetControlID="lkTabelaComissoes" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
-                                <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
-                                        <asp:Panel ID="pnlTabela" runat="server" CssClass="modalPopup" Style="display: none;">
-                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">TABELA DE COMISSÕES</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                    
-                             
-                                 <div class="row">
-                                   <div class="col-sm-2">
-                                    <div class="form-group">                                          
-
-                                               <asp:Label ID="Label27" runat="server">ID</asp:Label><br />
-
-                               <asp:TextBox ID="txtIDTabelaTaxa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                        </div>
-                                         </div>
-                                     <div class="col-sm-10">
-                                    <div class="form-group">                                          
-
-                                               <asp:Label ID="Label9" runat="server">INDICADOR</asp:Label><br />
-
-         <asp:DropDownList ID="ddlVendedorTabela" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_RAZAO" DataSourceID="dsVendedores" DataValueField="ID_PARCEIRO"/>                                        </div>
-                                         </div>
-                                     </div>
-                                       <div class="row">
-                                     <div class="col-sm-2">
-                                    <div class="form-group">                                          
-
-                                               <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
-
-                               <asp:TextBox ID="txtValidadeTabela" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                         </div>
-                                     <div class="col-sm-4">
-                                    <div class="form-group">                                          
-                               
-                                               <asp:Label ID="Label7" runat="server">Moeda</asp:Label><br />
-      <asp:DropDownList ID="ddlMoedaTabela" runat="server"  CssClass="form-control"  DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>                                        </div>
-                                         </div>
-
-                                     <div class="col-sm-4">
-                                    <div class="form-group">                                          
- <asp:Label ID="Label8" runat="server">Taxa</asp:Label><br />
-
-                               <asp:TextBox ID="txtTaxaTabela"  runat="server" CssClass="form-control"></asp:TextBox>
-                                    
-                                        </div>
-                                         </div>
-                                     
-                                                                          <div class="col-sm-2">
-                                    <div class="form-group">                                             
-                                <div class="form-group"><asp:Label ID="Label10" runat="server"></asp:Label><br />
-                               <asp:Button runat="server" Text="Gravar" ID="btnGravaTaxaTabela" CssClass="btn btn-success" /> 
-                                                                  <asp:Button runat="server" Text="Limpar" ID="btnLimpaTaxaTabela" CssClass="btn btn-warning" /> 
-
-
-                                    
-                                   </div>          
-                                </div>  
-
-                             </div>    </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                    <div class="form-group">                                          
-                                             <div id="DivExcluir" runat="server" visible="false" class="alert alert-danger">
-                                        <asp:label ID="lblErroExcluir" Text="" runat="server" />
-                                   </div>
-                                   <div id="divInfo" runat="server" visible="false" class="alert alert-success">
-                                        <asp:label ID="lblInfo" Text="" runat="server" />
-                                   </div>  
-                                                                <asp:GridView ID="dgvTabelaComissao" DataKeyNames="ID_TAXA_COMISSAO_INDICADOR" DataSourceID="dsTabelaComissao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
-                                        <Columns>
-                                            <asp:TemplateField HeaderText="ID" Visible="False">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' />
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
-                                             <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_VENDEDOR" />
-                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
-                                            <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
-                                            <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
-                                     <asp:TemplateField HeaderText="">
-                                            <ItemTemplate>
-                                                <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
-                                            </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>
-                                            <asp:TemplateField HeaderText=""  >
-                                            <ItemTemplate>
-                                                <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                OnClientClick="javascript:return confirm('Deseja realmente excluir esta taxa?');"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_INDICADOR") %>' Autopostback="true" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:linkButton>
-                                            </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>
-                                        </Columns>
-                                        <HeaderStyle CssClass="headerStyle" />
-                                    </asp:GridView>
-                                        </div>
-                                                                    </div>
-                                                                </div>
-                               <div class="modal-footer">
-                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTabela" text="Close" />
-                                                        </div>                                                    
-                                            
-                                       </div>     </center>
-                                        </asp:Panel>
-                                    </ContentTemplate>
-
-
-
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="btnGravaTaxaTabela" />
-                                        <asp:AsyncPostBackTrigger ControlID="btnLimpaTaxaTabela" />
-                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTabelaComissao" />
-
-                                    </Triggers>
-                                </asp:UpdatePanel>
-
+                                
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlGerarComissao" TargetControlID="lkGerarComissao" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">

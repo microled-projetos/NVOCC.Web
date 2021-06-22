@@ -53,12 +53,14 @@
                                     <asp:Label ID="lblErro" runat="server"></asp:Label>
                                 </div>
 
-                                Filtro:
+                                
                   
                                 <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
 
                                     <div class="col-sm-2">
-                                        <div class="form-group">
+                                        <div class="form-group">                  
+                                            <asp:Label ID="Label3" runat="server" >Filtro:</asp:Label>
+
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
                                                 <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                 <asp:ListItem Value="1">Número do Invoice</asp:ListItem>
@@ -70,18 +72,21 @@
 
                                     </div>
                                     <div class="col-sm-2">
-                                        <div class="form-group">
+                                        <div class="form-group">                                                           <asp:Label ID="Label1" Style="color:white" runat="server">x</asp:Label>
+
                                             <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <asp:TextBox ID="txtVencimentoInicial" placeholder="Venc. Inicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        <div class="form-group">                    
+                                            <asp:Label ID="Label2" runat="server">Venc. Inicial</asp:Label>
+                                            <asp:TextBox ID="txtVencimentoInicial"  runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <asp:TextBox ID="txtVencimentoFinal" placeholder="Venc. Final" runat="server" CssClass="form-control data"></asp:TextBox>
+                                            <asp:Label ID="Label4"  runat="server">Venc. Inicial</asp:Label>
+                                            <asp:TextBox ID="txtVencimentoFinal"  runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -95,11 +100,12 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
+                                            <asp:Label ID="Label5" Style="color:white" runat="server">x</asp:Label><br />
                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisa" CssClass="btn btn-success" />
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4" style="border: ridge 1px;">
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
 
                                         <asp:LinkButton ID="lkInvoices" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Invoices</asp:LinkButton>
@@ -209,7 +215,8 @@
 
                                         </div>
                                          </div>
-                                   </div>     
+                                   </div>  
+                                
                                 </div>  
                              </div>                   
                    
@@ -222,6 +229,69 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender9" runat="server" PopupControlID="pnlSOA" TargetControlID="lkSOA" CancelControlID="btnFecharSOA"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlSOA" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">RELATÓRIO</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                         <div class="row">
+                              <div class="col-sm-offset-4 col-sm-2"">
+                                    <div class="form-group">
+                                          <label class="control-label">Venc. Inicial:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtVencimentoInicialSOA" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                              <div class="col-sm-2">
+                                    <div class="form-group">
+                                          <label class="control-label">Venc. Final:</label><label runat="server" style="color: red">*</label>
+                                                <asp:TextBox ID="txtVencimentoFinalSOA" runat="server"  CssClass="form-control"></asp:TextBox>
+
+
+                                    </div>
+                                        </div>
+                             </div>
+                                  
+                                                        <div class="row">
+                                     <div class="col-sm-offset-2 col-sm-8">
+                                    <div class="form-group">
+                                           
+                                        <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
+                                                <asp:DropDownList ID="ddlAgenteSoa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgenteSOA" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                    </div>
+                                   
+                             </div>   
+
+                                                        </div>                
+              
+                                 <div class="row">
+                                     <div class="col-sm-offset-4 col-sm-2">
+                                    <div class="form-group">
+                                           
+                                        <asp:LinkButton ID="lkImprimirSOA1" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Imprimir SOA I</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                         <div class="col-sm-2">
+                                              <div class="form-group">
+                                        <asp:LinkButton ID="lkImprimirSOA2" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Imprimir SOA II</asp:LinkButton>
+
+                                    </div>
+                                   
+                             </div>                   
+                   </div>
+                                                            </div>
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharSOA" text="Close" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
                                 <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlNovaInvoice" TargetControlID="lkNovaInvoice" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
@@ -409,7 +479,14 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>                                
+                                                </asp:TemplateField>    
+                                                <asp:TemplateField HeaderText="">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                            OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE_ITENS") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:small"></span></asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -424,7 +501,7 @@
 
                                            </div>
                                                                 <div class="col-sm-offset-4 col-sm-4">
-                                                                    TOTAL DA INVOICE:
+                                                                    TOTAL DA INVOICE: <asp:label ID="lblTotalInvoice" runat="server"/>
                                            </div>
                                                                 </div>
                                 </div>  
@@ -689,7 +766,7 @@
                                     <div class="row">
                                        <div class="col-sm-12">
                                     <div class="form-group">
-<asp:GridView ID="dgvComissoes" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+<asp:GridView ID="dgvComissoes" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -814,19 +891,121 @@
                                        </div>     </center>
                                 </asp:Panel>
 
+                              
+
                                 </ContentTemplate>
                             <Triggers>                    <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
+                                  <asp:AsyncPostBackTrigger ControlID="btnIncluirOutrasTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
                                 <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />
-                                                                <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
-                                                                <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
-
+                                <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
+                                <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
                                 <asp:AsyncPostBackTrigger ControlID="btnGravarCabecalho" />                             
                             </Triggers>
                         </asp:UpdatePanel>
                                                               
 
-                                                                            
+                                          <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlProcessoPeriodo" TargetControlID="lkProcessoPeriodo" CancelControlID="btnFecharProcessoPeriodo"></ajaxToolkit:ModalPopupExtender>
+                                
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                                    <ContentTemplate>
+                                <asp:Panel ID="pnlProcessoPeriodo" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Processos do Periodo</h5>
+                                                        </div>
+                                                        <div class="modal-body">      
+                                                            
+ <div class="row">
+                                     
+                                      
+                                                                <div class="col-sm-2">
+<div class="form-group">
+     <label class="control-label">Embarque Inicial:</label>
+                                            <asp:TextBox ID="txtEmbarqueInicial" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                           </div><div class="col-sm-2">
+                                        <div class="form-group">
+                                             <label class="control-label">Embarque Final:</label>
+                                            <asp:TextBox ID="txtEmbarqueFinal" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                        </div>
+                                    </div>
+      <div class="col-sm-offset-4 col-sm-2">
+<div class="form-group">
+     <label class="control-label"></label>
+                                                                <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnRelacaoAgentes" text="Relação de Agentes" />
+
+                                        </div>
+                                           </div>
+      <div class="col-sm-2">
+<div class="form-group">
+     <label class="control-label"></label>
+                                                                <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnCSVProcessoPeriodo" text="Exportar para CSV" />
+
+                                        </div>
+                                           </div>
+                                                               
+                                                                </div>
+                                    <div class="row">
+                                     
+                                       <div class="col-sm-12">
+                                    <div class="form-group">
+                                          <asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL_TAXA" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                            <Columns>
+                                                 <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
+                                                               <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+                                                <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="DESPESA" SortExpression="NM_ITEM_DESPESA" />
+                                                <asp:BoundField DataField="CD_DECLARADO" HeaderText="DECLARADO" SortExpression="CD_DECLARADO" />
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />       
+                                                               <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA" >
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+
+                                        </div>
+                                         </div> 
+                                        </div>
+
+                                                           
+                                </div>  
+                           
+                      
+                                                       
+                   
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharProcessoPeriodo" text="Close" />
+
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>                                    
+                                        </ContentTemplate>
+                                     <Triggers>                    
+                                         <asp:AsyncPostBackTrigger ControlID="txtEmbarqueFinal" />
+                                         <asp:PostBackTrigger ControlID="btnCSVProcessoPeriodo" />
+                                         <asp:PostBackTrigger ControlID="btnRelacaoAgentes" />
+
+                                         </Triggers>
+                                </asp:UpdatePanel>
+
 
                                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                                     <ContentTemplate>
@@ -852,7 +1031,11 @@
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="NM_ACCOUNT_TIPO_FATURA" HeaderText="TIPO FATURA" SortExpression="NM_ACCOUNT_TIPO_FATURA" />
                                                     <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />
-                                                    <asp:BoundField DataField="VALOR_TOTAL" HeaderText="VALOR" SortExpression="VALOR_TOTAL" />
+                                                     <asp:TemplateField HeaderText="VALOR" SortExpression="VALOR_TOTAL" >
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VALOR_TOTAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField> 
                                                     <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
                                                     <asp:BoundField DataField="DS_OBSERVACAO" HeaderText="OBSERVAÇÕES" SortExpression="DS_OBSERVACAO" />
                                                     <asp:TemplateField HeaderText="">
@@ -880,6 +1063,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="lkAvisoEmbarque" />
                                 <asp:AsyncPostBackTrigger ControlID="btnTaxasDeclaradas" />
                                 <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
+                                <asp:PostBackTrigger ControlID="lkGeraCSV" />
 
                             </Triggers>
                         </asp:UpdatePanel>
@@ -895,7 +1079,8 @@
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA_BR,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
-INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE">
+INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
+        group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO">
         <SelectParameters>
             <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />
             <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal" />
@@ -956,6 +1141,10 @@ SELECT CD_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENT
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
+    <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+union SELECT 0, 'Todos os Agentes' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsTipoEmissor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ACCOUNT_TIPO_EMISSOR, NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR
 union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_EMISSOR ORDER BY ID_ACCOUNT_TIPO_EMISSOR"></asp:SqlDataSource>
@@ -970,6 +1159,17 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
     
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT NR_PROCESSO,BL_MASTER,NR_BL,PARCEIRO_CLIENTE,ORIGEM,DESTINO,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,PARCEIRO_AGENTE_INTERNACIONAL
+,PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_PREVISAO_CHEGADA_MASTER FROM [dbo].[View_House] WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'@EmbarqueInicial',103) AND CONVERT(VARCHAR,'@EmbarqueFinal',103)">
+          <SelectParameters>
+            <asp:ControlParameter Name="EmbarqueInicial" Type="string" ControlID="txtEmbarqueInicial" />      
+                          <asp:ControlParameter Name="EmbarqueFinal" Type="string" ControlID="txtEmbarqueFinal" />        
+
+        </SelectParameters>
+
+     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsItensInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, 
@@ -1004,6 +1204,24 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             console.log(ID);
 
             window.open('Conferencia.aspx?id=' + ID, '_blank');
+        }
+
+        function InvoiceFCA() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+             console.log(ID);
+
+            window.open('DebitNote.aspx?id=' + ID, '_blank');
+        }
+
+        function SOA1() {            
+            window.open('SOA_I.aspx' ,'_blank');
+        }
+
+        function SOA2() {
+            window.open('SOA_II.aspx', '_blank');
+
         }
     </script>
 </asp:Content>

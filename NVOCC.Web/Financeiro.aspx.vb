@@ -94,46 +94,35 @@
         divErro.Visible = False
 
         Dim filtro As String = ""
-        If rdStatus.SelectedValue = 2 And ddlFiltro.SelectedValue = 0 Then
+
+        If ddlFiltro.SelectedValue <> 3 And txtPesquisa.Text = "" Then
             divErro.Visible = True
-            lblmsgErro.Text = "É necessário selecionar um filtro para concluir a pesquisa!"
-            Exit Sub
-        ElseIf rdStatus.SelectedValue = 2 And ddlFiltro.SelectedValue <> 0 Then
+            lblmsgErro.Text = "É necessário preencher o campo de pesquisa!"
+            dgvFinanceiro.Visible = False
+        Else
+            If ddlFiltro.SelectedValue = 1 Then
+                filtro &= " WHERE NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
+            ElseIf ddlFiltro.SelectedValue = 2 Then
+
+                filtro &= " WHERE NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+
+            ElseIf ddlFiltro.SelectedValue = 3 Then
+                filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA > 0 Or QT_TAXAS_RECEBER_ABERTA > 0)"
+
+            End If
 
 
-            filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA = 0 Or QT_TAXAS_RECEBER_ABERTA = 0)"
 
 
-        ElseIf rdStatus.SelectedValue = 1 Then
 
-            filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA > 0 Or QT_TAXAS_RECEBER_ABERTA > 0)"
+            dsFinanceiro.SelectCommand = "SELECT * FROM [View_Financeiro]  " & filtro & " ORDER BY NR_PROCESSO"
+            dgvFinanceiro.DataBind()
 
-
+            ddlFiltro.SelectedValue = 0
+            txtPesquisa.Text = ""
+            dgvFinanceiro.Visible = True
         End If
 
 
-
-        If ddlFiltro.SelectedValue = 1 Then
-
-            filtro &= " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
-
-        ElseIf ddlFiltro.SelectedValue = 2 Then
-            filtro &= " AND NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
-
-
-        ElseIf ddlFiltro.SelectedValue = 3 Then
-            filtro &= " AND NM_PARCEIRO_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
-
-        End If
-
-
-
-
-
-        dsFinanceiro.SelectCommand = "SELECT * FROM [View_Financeiro]  " & filtro & " ORDER BY NR_PROCESSO"
-        dgvFinanceiro.DataBind()
-
-        ddlFiltro.SelectedValue = 0
-        txtPesquisa.Text = ""
     End Sub
 End Class

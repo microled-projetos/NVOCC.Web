@@ -413,16 +413,31 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione um registro para calcular!"
         Else
-            Dim Calcula As New CalculaBL
-            Dim retorno As String = Calcula.Calcular(txtIDHouse.Text)
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA
+FROM TB_BL_TAXA 
+WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL 
+AND ID_BASE_CALCULO_TAXA <> 1 
+AND ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text & "))
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL)")
+            If ds.Tables(0).Rows.Count > 0 Then
+                For Each linha As DataRow In ds.Tables(0).Rows
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA"))
 
-            If retorno = "BL calculada com sucesso!" Then
-                lblSuccessHouse.Text = retorno
-                divSuccessHouse.Visible = True
-            Else
-                lblErroHouse.Text = retorno
-                divErroHouse.Visible = True
+                    If retorno = "BL calculada com sucesso!" Then
+                        lblSuccessHouse.Text = retorno
+                        divSuccessHouse.Visible = True
+                    Else
+                        lblErroHouse.Text = retorno
+                        divErroHouse.Visible = True
+                    End If
+                Next
+
             End If
+
+
         End If
 
     End Sub

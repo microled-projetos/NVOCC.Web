@@ -50,295 +50,307 @@ ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
 VL_ALIQUOTA_ISS, VL_ALIQUOTA_PIS, VL_ALIQUOTA_COFINS
 FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
             If ds.Tables(0).Rows.Count > 0 Then
-                lblCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
-                lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
-                lblDiasFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
-                lbl_COFINS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS")
-                lbl_PIS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS")
-                lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CIDADE")) Then
+                    lblCidade.Text = ds.Tables(0).Rows(0).Item("NM_CIDADE")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")) Then
+                    lblTipoFaturamento.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FATURAMENTO")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")) Then
+                    lblDiasFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS")) Then
+                    lbl_COFINS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS")) Then
+                    lbl_PIS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")) Then
+                    lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
+                End If
 
                 Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
-                Dim DATA As Date
-                If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
-                    txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
-                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
-                    DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
-
-                    DATA = DATA.AddDays(lblDiasFaturamento.Text)
-                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
-                    DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
-
-                    DATA = DATA.AddMonths(1)
-
-                    DATA = "11/" & DATA.Month & "/" & DATA.Year
-                    DATA = FinalSemana(DATA)
-
-                End If
-                txtVencimento.Text = DATA
-
-
-                ds1 = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
-                If ds1.Tables(0).Rows.Count > 0 Then
-
-                    If Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_SERVICO")) And Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
-
-                        If ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 2 Then
-
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,ISNULL(VL_TXABERTURA,0)VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA as VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                End If
-
-
-                            End If
-
-                        ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 4 Then
-
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA, DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA as VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                End If
-
-                            End If
-
-                        ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
-
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 4 Then
-
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA as VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                End If
-                            End If
-
-
-
-
-
-                        ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
-
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 4 Then
-
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM  TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA as VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-                                End If
-
-                            End If
-
-
-
-                        ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
-
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
-
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_AEREO_IMPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_AEREO_IMPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-                                End If
-
-                            End If
-
-
-
-                        ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
-                            If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
-                                lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
-                                divErro.Visible = True
-                                Exit Sub
-                            Else
-                                lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
-                                lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
-
-                                If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_AEREO_EXPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
-                                    dgvMoedaFrete.Visible = True
-
-                                    dgvMoedaFreteArmador.Visible = False
-
-
-                                ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
-VL_TXOFICIAL + (SELECT SPREAD_AEREO_EXPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
-                                    dgvMoedaFreteArmador.Visible = True
-
-                                    dgvMoedaFrete.Visible = False
-                                End If
-
-                            End If
-
-
-
-
-
-
-                        End If
-
-                    Else
-                        divInfo.Visible = True
+                    Dim DATA As Date
+                    If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                        txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
+                        DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                        DATA = DATA.AddDays(lblDiasFaturamento.Text)
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 5 Then
+                        DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
+
+                        DATA = DATA.AddMonths(1)
+
+                        DATA = "11/" & DATA.Month & "/" & DATA.Year
+                        DATA = FinalSemana(DATA)
 
                     End If
+                    txtVencimento.Text = DATA
+
+
+                    ds1 = Con.ExecutarQuery("SELECT ID_SERVICO, ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
+                    If ds1.Tables(0).Rows.Count > 0 Then
+
+                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_SERVICO")) And Not IsDBNull(ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+
+                            If ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 2 Then
+
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,ISNULL(VL_TXABERTURA,0)VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 4 Then
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 5 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA as VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 11 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    End If
+
+
+                                End If
+
+                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 1 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 2 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 4 Then
+
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 5 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA, DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA as VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 11 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    End If
+
+                                End If
+
+                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
+
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 2 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 4 Then
+
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_FCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO  FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 5 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA as VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 11 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    End If
+                                End If
+
+
+
+
+
+                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 4 And ds1.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
+
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 2 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 4 Then
+
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_MARITIMO_EXPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM  TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 5 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA as VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 11 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXABERTURA + (SELECT SPREAD_MARITIMO_IMPO_LCL FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+                                    End If
+
+                                End If
+
+
+
+                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Then
+
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
+
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_AEREO_IMPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_AEREO_IMPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+                                    End If
+
+                                End If
+
+
+
+                            ElseIf ds1.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                                If IsDBNull(ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")) Then
+                                    lblErro.Text = "PARCEIRO SEM ACORDO DE CAMBIO CADASTRADO"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_AEREO")
+                                    lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
+
+                                    If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
+                                        dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_AEREO_EXPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")VALOR_ACORDADO FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFrete.DataBind()
+                                        dgvMoedaFrete.Visible = True
+
+                                        dgvMoedaFreteArmador.Visible = False
+
+
+                                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
+                                        dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA,
+VL_TXOFICIAL + (SELECT SPREAD_AEREO_EXPO FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue & ")'CAMBIO + SPREAD' FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
+                                        dgvMoedaFreteArmador.DataBind()
+                                        dgvMoedaFreteArmador.Visible = True
+
+                                        dgvMoedaFrete.Visible = False
+                                    End If
+
+                                End If
+
+
+
+
+
+
+                            End If
+
+                        Else
+                            divInfo.Visible = True
+
+                        End If
+                    End If
+
+
                 End If
 
 
-            End If
-
-
-            dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
+                dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
 WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 

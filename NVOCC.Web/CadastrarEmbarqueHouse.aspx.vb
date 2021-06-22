@@ -666,7 +666,7 @@ WHERE A.ID_BL_TAXA = " & ID)
                         ddlBaseCalculo_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
-                        ddlMoedaCompra_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlMoedaVenda_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
