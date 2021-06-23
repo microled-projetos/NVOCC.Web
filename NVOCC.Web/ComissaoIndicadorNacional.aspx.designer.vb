@@ -176,13 +176,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents lkCSV As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkGravarCCProcesso.
+    '''Controle lkGravarCCProcessoModal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkGravarCCProcesso As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkGravarCCProcessoModal As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle divAuxiliar.
@@ -716,6 +716,24 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents pnlCCProcesso As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle divInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label28.
     '''</summary>
     '''<remarks>
@@ -770,13 +788,13 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents ddlContaBancaria As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle Button1.
+    '''Controle lkGravar_CCProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lkGravar_CCProcesso As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnFecharCCProcesso.
@@ -804,15 +822,6 @@ Partial Public Class ComissaoIndicadorNacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsComissao As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsTabelaComissao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsTabelaComissao As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMoeda.

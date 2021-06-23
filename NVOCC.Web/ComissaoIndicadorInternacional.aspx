@@ -210,7 +210,7 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
+                                               <asp:Label ID="Label5" runat="server">Validade Inicial</asp:Label><br />
 
                                <asp:TextBox ID="txtValidadeTabela" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
@@ -543,7 +543,9 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
+                                                                <asp:PostBackTrigger ControlID="lkCSV" />
 
+                                
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -580,7 +582,7 @@ SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,ID_PARCEIRO_VENDEDOR,(SELE
 union SELECT 0, 'Selecione' FROM [dbo].TB_CONTA_BANCARIA ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
             <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 AND FL_ATIVO = 1
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

@@ -32,7 +32,18 @@
 
                 Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
-                Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
+
+
+                Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+
+                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
+WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER= " & ID & ")")
+                If dsParceiro.Tables(0).Rows.Count > 0 Then
+
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
+                End If
+
 
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Faturamento realizado com sucesso"

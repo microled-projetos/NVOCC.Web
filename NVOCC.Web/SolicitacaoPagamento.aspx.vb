@@ -203,7 +203,7 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
                                     ValorCambio = ValorCambio.Replace(",", ".")
 
 
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
                                 End If
 
                             Next
@@ -245,7 +245,8 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
     End Sub
 
     Private Sub btnSim_Click(sender As Object, e As EventArgs) Handles btnSim.Click
-        Response.Redirect("MontagemPagamento.aspx")
+        Session("VENCIMENTO") = txtVencimento.Text
+        Response.Redirect("MontagemPagamento.aspx?f=" & ddlFornecedor.SelectedValue)
 
     End Sub
 End Class

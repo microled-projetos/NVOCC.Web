@@ -134,14 +134,22 @@
        <link href="Content/css/select2.css" rel="stylesheet" />
         <script src="Content/ScrollableGridPlugin.js"></script>
     <script>
-         <%-- $(document).ready(function () {
-         
-            $('#<%= dgvParceiros.ClientID %>').DataTable({
-                "language": {
-                    "url": "Content/js/pt-br.json"
-                }
-            });
-          });--%>
+       <%-- function TaxaParceiro() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+             console.log(ID);
+
+            window.open('TaxaParceiro.aspx?id=' + ID, '_blank');
+        }
+        function TaxaTransportador() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('TaxasLocaisArmador.aspx?id=' + ID, '_blank');
+        }--%>
     </script>
    
 </asp:Content>

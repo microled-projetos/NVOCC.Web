@@ -136,11 +136,17 @@
                                                                 <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_CALCULADO") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                       <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor R$" SortExpression="VL_TAXA_BR" />
                                                         <asp:TemplateField HeaderText="Calculado" Visible="False">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblCalculado" runat="server" Text='<%# Eval("FL_CALCULADO") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                           <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
@@ -153,22 +159,41 @@
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
-                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
-                                                                                                           
-                                                  <asp:BoundField DataField="CAMBIO + SPREAD" HeaderText="CAMBIO + SPREAD" SortExpression="CAMBIO + SPREAD" />
-
-
+<%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
+                                                          <asp:TemplateField HeaderText="Valor">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>     
+                                                        <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
+
                                                 <asp:GridView ID="dgvMoedaFrete" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoedaFrete" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
-                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />
-                                                             <asp:BoundField DataField="VL_TXABERTURA" HeaderText="Valor Abertura" SortExpression="VL_TXABERTURA" />
-                                                              <asp:BoundField DataField="VALOR_ACORDADO" HeaderText="Valor Acordado" SortExpression="VALOR_ACORDADO" />
-
+<%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
+                                                    <asp:TemplateField HeaderText="Valor">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
+                                                    </ItemTemplate>
+                                                   </asp:TemplateField>  
+                                                        <asp:TemplateField HeaderText="Valor Abertura">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="txtValorAbertuda" runat="server" Text='<%# Eval("VL_TXABERTURA") %>'  />
+                                                    </ItemTemplate>
+                                                   </asp:TemplateField>
+                                                        <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>

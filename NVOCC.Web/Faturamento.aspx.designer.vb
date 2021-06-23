@@ -104,15 +104,6 @@ Partial Public Class Faturamento
     Protected WithEvents lkFatura As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkRPS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkDesmosntrativos.
     '''</summary>
     '''<remarks>
@@ -120,6 +111,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkDesmosntrativos As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRPS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkNotasFiscais.

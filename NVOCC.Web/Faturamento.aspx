@@ -88,8 +88,8 @@
 
                        <div class="col-sm-6">
                            <asp:LinkButton ID="lkFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Fatura</asp:LinkButton>
-                           <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
+                           <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
                            <asp:LinkButton ID="lkBoleto" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
 
@@ -120,10 +120,10 @@
                                             <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Debito." SortExpression="NR_NOTA_DEBITO" />
                                             <asp:BoundField DataField="DT_NOTA_DEBITO" HeaderText="Data de Nota de Deb." SortExpression="DT_NOTA_DEBITO" />
-                                            <asp:BoundField DataField="NR_RPS" HeaderText="Nota RPS" SortExpression="NR_RPS" />
-                                            <asp:BoundField DataField="DT_RPS" HeaderText="Data Nota RPS" SortExpression="DT_RPS" />
-                                            <asp:BoundField DataField="NR_RECIBO" HeaderText="Nota de Recibo" SortExpression="NR_RECIBO" />
-                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Nota de Deb." SortExpression="DT_RECIBO" />
+                                            <asp:BoundField DataField="NR_RPS" HeaderText="RPS" SortExpression="NR_RPS" />
+                                            <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
+                                            <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
+                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo." SortExpression="DT_RECIBO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />

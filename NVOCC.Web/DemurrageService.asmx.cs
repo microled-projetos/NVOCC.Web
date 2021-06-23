@@ -1372,7 +1372,7 @@ namespace ABAINFRA.Web
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
                     somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"] + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = somaDias * vlTaxa;
+                    vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
 
                     SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
                     SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_VENDA, ID_MOEDA_DEMURRAGE_VENDA, VL_TAXA_DEMURRAGE_VENDA, ";
@@ -1721,7 +1721,7 @@ namespace ABAINFRA.Web
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
                     somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"] + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = somaDias * vlTaxa;
+                    vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
 
                     SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
                     SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_COMPRA, ID_MOEDA_DEMURRAGE_COMPRA, VL_TAXA_DEMURRAGE_COMPRA, ";
@@ -2445,16 +2445,22 @@ namespace ABAINFRA.Web
                     string vlDescDemuVenda = vlDemurrage.Rows[0]["VL_DESCONTO_DEMURRAGE_VENDA"].ToString().Replace(",", ".");
                     string vlDemuLiquidVenda = vlDemurrage.Rows[0]["VL_DEMURRAGE_LIQUIDO_VENDA"].ToString().Replace(",", ".");
 
-                    SQL = "INSERT INTO TB_BL_TAXA (CD_PR,ID_BL,ID_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO, ";
-                    SQL += "ID_PARCEIRO_EMPRESA,FL_CALCULADO) ";
-                    SQL += "VALUES ('" + cdpr + "'," + idbl + ",null,1,";
-                    SQL += "" + idMoedaVenda + ","+ vlDemurrageVenda + ","+ parceiroCliente + ",1) SELECT SCOPE_IDENTITY()";
-                    string insertblTaxa = DBS.ExecuteScalar(SQL);
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
 
-                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL_TAXA, ";
-                    SQL += "DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO) VALUES ";
-                    SQL += "('"+ insertConta + "','"+ insertblTaxa + "','"+ dtCambioVenda + "','"+ vlCambioDemuVenda + "','"+ vlDemuVendaBR + "', ";
-                    SQL += "'" + vlDescDemuVenda + "','" + vlDemuLiquidVenda + "') ";
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
+
+                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
+                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
+                    SQL += "('"+ insertConta + "','"+ idbl + "','"+ idItemD + "','1','" + idMoedaVenda + "', ";
+                    SQL += "'" + parceiroCliente + "','" + vlDemurrageVenda + "','"+ dtCambioVenda + "','"+ vlCambioDemuVenda + "','"+ vlDemuVendaBR + "' ";
+                    SQL += ",'"+ vlDescDemuVenda + "','"+ vlDemuLiquidVenda + "','"+ flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '12', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
@@ -2503,16 +2509,22 @@ namespace ABAINFRA.Web
                     string vlDescDemuCompra = vlDemurrage.Rows[0]["VL_DESCONTO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
                     string vlDemuLiquidCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_LIQUIDO_COMPRA"].ToString().Replace(",", ".");
 
-                    SQL = "INSERT INTO TB_BL_TAXA (CD_PR,ID_BL,ID_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO, ";
-                    SQL += "ID_PARCEIRO_EMPRESA,FL_CALCULADO) ";
-                    SQL += "VALUES ('" + cdpr + "'," + idbl + ",null,1,";
-                    SQL += "" + idMoedaCompra + "," + vlDemurrageCompra + "," + parceiroTransportador + ",1) SELECT SCOPE_IDENTITY()";
-                    string insertblTaxa = DBS.ExecuteScalar(SQL);
+                    SQL = "SELECT ID_ITEM_DEMURRAGE FROM TB_PARAMETROS ";
+                    DataTable idItemDespesa = new DataTable();
+                    idItemDespesa = DBS.List(SQL);
+                    int idItemD = (int)idItemDespesa.Rows[0]["ID_ITEM_DEMURRAGE"];
 
-                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL_TAXA, ";
-                    SQL += "DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO) VALUES ";
-                    SQL += "('" + insertConta + "','" + insertblTaxa + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "', ";
-                    SQL += "'" + vlDescDemuCompra + "','" + vlDemuLiquidCompra + "') ";
+                    SQL = "SELECT FL_INTEGRA_PA FROM TB_ITEM_DESPESA ";
+                    SQL += "WHERE ID_ITEM_DESPESA = '" + idItemD + "' ";
+                    DataTable flIntegra = new DataTable();
+                    flIntegra = DBS.List(SQL);
+                    string flIntegraPA = flIntegra.Rows[0]["FL_INTEGRA_PA"].ToString();
+
+                    SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
+                    SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
+                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaCompra + "', ";
+                    SQL += "'" + parceiroTransportador + "','" + vlDemurrageCompra + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "' ";
+                    SQL += ",'" + vlDescDemuCompra + "','" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '12', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
@@ -2666,7 +2678,7 @@ namespace ABAINFRA.Web
                             }
                         }
 
-                        vlDemurr = somaDias * vlTaxa;
+                        vlDemurr = (int)listTable.Rows[i]["QT_DIAS_DEMURRAGE"] * vlTaxa;
                         valoresD[i] = vlDemurr.ToString();
                         moedasD[i] = listTable.Rows[i]["NM_MOEDA"].ToString();
                     }

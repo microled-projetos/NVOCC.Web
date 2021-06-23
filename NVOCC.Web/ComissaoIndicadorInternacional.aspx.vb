@@ -206,7 +206,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 lblErroExcluir.Text = "Usuário não tem permissão!"
                 DivExcluir.Visible = True
             Else
-                Con.ExecutarQuery("UPDATE TB_TAXA_COMISSAO_INDICADOR SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidadeTabela.Text & "',103),VL_TAXA = " & txtTaxaTabela.Text & " ,ID_PARCEIRO_VENDEDOR  " & ddlVendedorTabela.SelectedValue & ",ID_MOEDA = " & ddlMoedaTabela.SelectedValue & " WHERE ID_TAXA_COMISSAO_INDICADOR = " & txtIDTabelaTaxa.Text)
+                Con.ExecutarQuery("UPDATE TB_TAXA_COMISSAO_INDICADOR SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidadeTabela.Text & "',103),VL_TAXA = " & txtTaxaTabela.Text & " ,ID_PARCEIRO_VENDEDOR = " & ddlVendedorTabela.SelectedValue & ",ID_MOEDA = " & ddlMoedaTabela.SelectedValue & " WHERE ID_TAXA_COMISSAO_INDICADOR = " & txtIDTabelaTaxa.Text)
                 divInfo.Visible = True
                 lblInfo.Text = "Taxa alterada com sucesso"
                 txtIDTabelaTaxa.Text = ""
@@ -231,7 +231,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
     End Sub
 
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
-        Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_BL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,PARCEIRO_INDICADOR,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO, FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "'  " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+        Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_BL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_COMISSAO,DT_LIQUIDACAO FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "'  " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
 
         Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoInternacional")
     End Sub
@@ -276,7 +276,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
                 Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INTERNACIONAL  (ID_CABECALHO_COMISSAO_INTERNACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_VENDEDOR,QT_CNTR,ID_MOEDA,VL_TAXA,VL_COMISSAO,DT_LIQUIDACAO) 
-SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,(SELECT COUNT(ID_CNTR_BL) FROM TB_CNTR_BL WHERE (ID_BL_MASTER = A.ID_BL AND A.GRAU = 'M') OR (ID_BL_MASTER = A.ID_BL_MASTER AND A.GRAU = 'C') )QT_CNTR_BL,C.ID_MOEDA,C.VL_TAXA,(SELECT COUNT(ID_CNTR_BL) FROM TB_CNTR_BL WHERE (ID_BL_MASTER = A.ID_BL AND A.GRAU = 'M') OR (ID_BL_MASTER = A.ID_BL_MASTER AND A.GRAU = 'C') )* C.VL_TAXA AS VL_COMISSAO, B.DT_LIQUIDACAO FROM TB_BL A LEFT JOIN VW_PROCESSO_RECEBIDO B ON  A.ID_BL = A.ID_BL LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR WHERE  C.DT_VALIDADE_INICIAL >= GETDATE() and B.DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)")
+SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,(SELECT COUNT(ID_CNTR_BL) FROM TB_CNTR_BL WHERE (ID_BL_MASTER = A.ID_BL AND A.GRAU = 'M') OR (ID_BL_MASTER = A.ID_BL_MASTER AND A.GRAU = 'C') )QT_CNTR_BL,C.ID_MOEDA,C.VL_TAXA,(SELECT COUNT(ID_CNTR_BL) FROM TB_CNTR_BL WHERE (ID_BL_MASTER = A.ID_BL AND A.GRAU = 'M') OR (ID_BL_MASTER = A.ID_BL_MASTER AND A.GRAU = 'C') )* C.VL_TAXA AS VL_COMISSAO, B.DT_LIQUIDACAO FROM TB_BL A LEFT JOIN VW_PROCESSO_RECEBIDO B ON  A.ID_BL = A.ID_BL LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR WHERE  C.DT_VALIDADE_INICIAL <= GETDATE() and B.DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)")
 
                 divSuccessGerarComissao.Visible = True
                 lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"

@@ -413,31 +413,34 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione um registro para calcular!"
         Else
+            Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
+
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA
-FROM TB_BL_TAXA 
-WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL 
-AND ID_BASE_CALCULO_TAXA <> 1 
-AND ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text & "))
-AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL)")
-            If ds.Tables(0).Rows.Count > 0 Then
-                For Each linha As DataRow In ds.Tables(0).Rows
-                    Dim Calcula As New CalculaBL
-                    Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA"))
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](2131) 
+WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                divErroHouse.Visible = True
+                lblErroHouse.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
+                Exit Sub
+            Else
 
-                    If retorno = "BL calculada com sucesso!" Then
-                        lblSuccessHouse.Text = retorno
-                        divSuccessHouse.Visible = True
-                    Else
-                        lblErroHouse.Text = retorno
-                        divErroHouse.Visible = True
-                    End If
-                Next
+                ds = Con.ExecutarQuery("Select ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                If ds.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In ds.Tables(0).Rows
+
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA"))
+
+                        If retorno = "BL calculada com sucesso!" Then
+                            lblSuccessHouse.Text = retorno
+                            divSuccessHouse.Visible = True
+                        End If
+                    Next
+
+                End If
 
             End If
-
-
         End If
 
     End Sub
@@ -499,7 +502,7 @@ AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INN
         divErroEmbarque.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 And FL_ATUALIZAR = 1 And ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroEmbarque.Visible = True
             lblErroEmbarque.Text = "Usuário não possui permissão."
@@ -523,7 +526,7 @@ AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INN
         divErroMaster.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 And FL_ATUALIZAR = 1 And ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Usuário não possui permissão."
@@ -566,7 +569,7 @@ AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INN
 
 
             If ddlFiltroEmbarque.SelectedValue = 1 Then
-                FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+                FILTRO = " NR_PROCESSO Like '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 2 Then
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then

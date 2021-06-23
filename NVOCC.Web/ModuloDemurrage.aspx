@@ -41,7 +41,7 @@
                             <div class="demuFunc">
                                 <button type="button" id="btnCalcularDemurrage" class="btn btn-primary" onclick="CalculoDemurrage()">Cálculo Demurrage</button>           
                                 <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary">Imprimir Cálculo</button>                
-                                <button type="button" id="btnFatura" class="btn btn-primary" data-toggle="modal" data-target="#modalFaturas" onclick="listarFatura()">Faturas</button>
+                                <button type="button" id="btnFatura" class="btn btn-primary" onclick="listarFatura()">Faturas</button>
                             </div>
                         </div>
                         <div class="oFunc">
@@ -690,7 +690,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalFaturaTitle">Fatura Vendas</h5>
+                                    <h5 class="modal-title" id="modalFaturaTitle"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -787,7 +787,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalNovaFaturaTitle">Devolução Conteiner</h5>
+                                    <h5 class="modal-title" id="modalNovaFaturaTitle">Nova Fatura</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -859,7 +859,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalCancelarTitle">Calcular Demurrage</h5>
+                                    <h5 class="modal-title" id="modalCancelarTitle">Cancelar Fatura</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1060,7 +1060,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalEstimativaTitle">Fatura Vendas</h5>
+                                    <h5 class="modal-title" id="modalEstimativaTitle"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -2599,14 +2599,17 @@
         }
 
         function listarFatura() {
+            $("#modalFaturas").modal('show');
             idFatura = 0;
             var filtroFatura = document.getElementById("MainContent_ddlFaturaFiltro").value;
             var txtFiltro = document.getElementById("txtConsultaFatura").value;
             if (checkV.checked) {
                 vlCheck = checkV.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Venda";
             }
             else {
                 vlCheck = checkC.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Compra";
             }
             $.ajax({
                 type: "POST",
@@ -2960,7 +2963,16 @@
 
         function estimativaCV() {
             var estimadoCompra;
-            var estimadoVenda;
+            var estimadoVenda
+            if (checkV.checked) {
+                vlCheck = checkV.value;
+                document.getElementById("modalEstimativaTitle").textContent = "Estimativa Venda";
+            }
+            else {
+                vlCheck = checkC.value;
+                document.getElementById("modalEstimativaTitle").textContent = "Estimativa Compra";
+            }
+            
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarEstimativa",

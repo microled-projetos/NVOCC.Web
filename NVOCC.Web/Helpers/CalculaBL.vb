@@ -2,9 +2,6 @@
     Public Function Calcular(ID_BL_TAXA As Integer) As String
 
         Dim msg0 As String = "BL calculada com sucesso!"
-
-        Dim msg2 As String = "Não há valor de moeda de câmbio cadastrado com a data atual."
-
         Dim Taxa As String = ""
         Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
         Dim x As Double
@@ -17,23 +14,13 @@ CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
 INNER JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL 
- WHERE  B.ID_BL_TAXA = " & ID_BL_TAXA)
+ WHERE ID_BASE_CALCULO_TAXA IS NOT NULL 
+AND ID_MOEDA <> 0
+AND ID_BASE_CALCULO_TAXA <> 1 
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND B.ID_BL_TAXA = " & ID_BL_TAXA)
 
         If ds.Tables(0).Rows.Count > 0 Then
             Dim ID_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
-
-            If ds.Tables(0).Rows(0).Item("ID_MOEDA") <> 124 Then
-                If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CAMBIO")) Then
-                    Return msg2
-
-                ElseIf ds.Tables(0).Rows(0).Item("DT_CAMBIO") < dataatual Then
-                    Return msg2
-
-                ElseIf ds.Tables(0).Rows(0).Item("DT_CAMBIO") > dataatual Then
-                    Return msg2
-
-                End If
-            End If
 
             If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 2 Then
                 '% VR DO FRETE
@@ -317,16 +304,14 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 
             End If
 
-
             Taxa = Taxa.Replace(".", String.Empty).Replace(",", ".")
-
 
             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 1, VL_TAXA_CALCULADO = '" & Taxa & "' , DT_CALCULO = GetDate() WHERE ID_BL_TAXA = " & ds.Tables(0).Rows(0).Item("ID_BL_TAXA") & " ; UPDATE TB_BL SET FL_CALCULADO = 1 WHERE ID_BL =" & ID_BL)
 
             Return msg0
         Else
             Return "ERRO"
-
+            Exit Function
 
         End If
     End Function

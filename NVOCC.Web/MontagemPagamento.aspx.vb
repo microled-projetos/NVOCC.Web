@@ -16,8 +16,15 @@
             Response.Redirect("Default.aspx")
         Else
             If Not Page.IsPostBack Then
-                txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
-                txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
+                If Request.QueryString("f") <> 0 Then
+                    ddlFornecedor.SelectedValue = Request.QueryString("f")
+                    txtVencimento.Text = Session("VENCIMENTO")
+
+                Else
+                    txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
+                    txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
+                End If
+
             End If
 
         End If
