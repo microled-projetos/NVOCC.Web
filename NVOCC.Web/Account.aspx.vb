@@ -42,7 +42,7 @@
 
                 'realiza select e preenche os campos do painel de inserção              
 
-                ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.ID_ACCOUNT_TIPO_EMISSOR,A.ID_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,GRAU,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_MOEDA,A.DT_FECHAMENTO,A.DT_VENCIMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA_BR,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE WHERE A.ID_ACCOUNT_INVOICE = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.ID_ACCOUNT_TIPO_EMISSOR,A.ID_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,GRAU,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_MOEDA,A.DT_FECHAMENTO,A.DT_VENCIMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE WHERE A.ID_ACCOUNT_INVOICE = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE").ToString()
                     txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
@@ -269,7 +269,7 @@ WHERE DT_CANCELAMENTO IS NULL)")
 
 
 
-            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA_BR,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO"
 
             dgvInvoice.DataBind()
@@ -317,10 +317,14 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsTaxasExterior.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM FROM FN_ACCOUNT_TAXAS_EXTERIOR (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsTaxasExterior.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM FROM FN_ACCOUNT_TAXAS_EXTERIOR (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE  VL_TAXA > 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
         dgvTaxasExterior.DataBind()
         dgvTaxasExterior.Visible = True
+        dgvComissoes.Visible = False
+        dgvOutrasTaxas.Visible = False
+        dgvTaxasDeclaradas.Visible = False
+        dgvDevolucao.Visible = False
         atualizaTotalExterior()
         ModalPopupExtender4.Show()
         ModalPopupExtender2.Show()
@@ -329,10 +333,14 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsTaxasDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsTaxasDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA > 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
         dgvTaxasDeclaradas.DataBind()
         dgvTaxasDeclaradas.Visible = True
+        dgvComissoes.Visible = False
+        dgvOutrasTaxas.Visible = False
+        dgvTaxasExterior.Visible = False
+        dgvDevolucao.Visible = False
         atualizaTotalDeclaradas()
         ModalPopupExtender5.Show()
         ModalPopupExtender2.Show()
@@ -349,6 +357,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         atualizaTotalFrete()
         ModalPopupExtender3.Show()
         ModalPopupExtender2.Show()
+        dgvComissoes.Visible = False
+        dgvOutrasTaxas.Visible = False
+        dgvTaxasDeclaradas.Visible = False
+        dgvTaxasExterior.Visible = False
+
     End Sub
 
 
@@ -356,9 +369,15 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsComissoes.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE  ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)"
+        dsComissoes.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE VL_TAXA > 0 AND ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)"
 
         dgvComissoes.DataBind()
+        dgvComissoes.Visible = True
+        dgvTaxasDeclaradas.Visible = False
+        dgvOutrasTaxas.Visible = False
+        dgvTaxasExterior.Visible = False
+        dgvDevolucao.Visible = False
+        atualizaTotalComissoes()
         ModalPopupExtender6.Show()
         ModalPopupExtender2.Show()
     End Sub
@@ -367,9 +386,14 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
-
+        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA > 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dgvOutrasTaxas.Visible = True
         dgvOutrasTaxas.DataBind()
+        dgvTaxasDeclaradas.Visible = False
+        dgvComissoes.Visible = False
+        dgvTaxasExterior.Visible = False
+        dgvDevolucao.Visible = False
+        atualizaTotalOutrasTaxas()
         ModalPopupExtender7.Show()
         ModalPopupExtender2.Show()
     End Sub
@@ -395,7 +419,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Next
 
         dsDevolucao.DataBind()
-        dsItensInvoice.DataBind()
+        dgvItensInvoice.DataBind()
+        dgvDevolucao.Visible = False
         ModalPopupExtender3.Hide()
         lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
         divSuccessInvoice.Visible = True
@@ -416,7 +441,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
             End If
         Next
         dsTaxasExterior.DataBind()
-        dsItensInvoice.DataBind()
+        dgvItensInvoice.DataBind()
+        dgvTaxasExterior.Visible = False
         ModalPopupExtender4.Hide()
         lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
         divSuccessInvoice.Visible = True
@@ -439,7 +465,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Next
 
         dsTaxasDeclaradas.DataBind()
-        dsItensInvoice.DataBind()
+        dgvItensInvoice.DataBind()
+        dgvTaxasDeclaradas.Visible = False
         ModalPopupExtender5.Hide()
         lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
         divSuccessInvoice.Visible = True
@@ -467,8 +494,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
 
         Next
         dsComissoes.DataBind()
-        dsItensInvoice.DataBind()
-
+        dgvItensInvoice.DataBind()
+        dgvComissoes.Visible = False
         ModalPopupExtender6.Hide()
         lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
         divSuccessInvoice.Visible = True
@@ -490,7 +517,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Next
 
         dsOutrasTaxas.DataBind()
-        dsItensInvoice.DataBind()
+        dgvItensInvoice.DataBind()
+        dgvOutrasTaxas.Visible = False
         ModalPopupExtender7.Hide()
         lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
         divSuccessInvoice.Visible = True
@@ -548,7 +576,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT SUM(ISNULL(VL_TAXA,0))QTD FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = " & txtIDInvoice.Text)
-        lblTotalInvoice.Text = ds.Tables(0).Rows(0).Item("QTD")
+        If Not IsDBNull(ds.Tables(0).Rows(0).Item("QTD")) Then
+            lblTotalInvoice.Text = ds.Tables(0).Rows(0).Item("QTD")
+        End If
         ModalPopupExtender2.Show()
         Con.Fechar()
     End Sub
@@ -624,26 +654,33 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     End Sub
 
     Private Sub dgvDevolucao_Load(sender As Object, e As EventArgs) Handles dgvDevolucao.Load
-        atualizaTotalFrete()
+        If dgvDevolucao.Visible = True Then
+            atualizaTotalFrete()
+        End If
     End Sub
 
     Private Sub dgvTaxasExterior_Load(sender As Object, e As EventArgs) Handles dgvTaxasExterior.Load
-        atualizaTotalExterior()
+        If dgvTaxasExterior.Visible = True Then
+            atualizaTotalExterior()
+        End If
     End Sub
 
     Private Sub dgvComissoes_Load(sender As Object, e As EventArgs) Handles dgvComissoes.Load
-        atualizaTotalComissoes()
-
+        If dgvComissoes.Visible = True Then
+            atualizaTotalComissoes()
+        End If
     End Sub
 
     Private Sub dgvTaxasDeclaradas_Load(sender As Object, e As EventArgs) Handles dgvTaxasDeclaradas.Load
-        atualizaTotalDeclaradas()
-
+        If dgvTaxasDeclaradas.Visible = True Then
+            atualizaTotalDeclaradas()
+        End If
     End Sub
 
     Private Sub dgvOutrasTaxas_Load(sender As Object, e As EventArgs) Handles dgvOutrasTaxas.Load
-        atualizaTotalOutrasTaxas()
-
+        If dgvOutrasTaxas.Visible = True Then
+            atualizaTotalOutrasTaxas()
+        End If
     End Sub
 
 
@@ -684,28 +721,28 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Else
             Dim filtro As String = ""
             If rdStatus.SelectedValue = 1 Then
-            filtro &= " WHERE A.FL_CONFERIDO = 1"
-        ElseIf rdStatus.SelectedValue = 2 Then
-            filtro &= " WHERE A.FL_CONFERIDO = 0"
-        End If
+                filtro &= " WHERE A.FL_CONFERIDO = 1"
+            ElseIf rdStatus.SelectedValue = 2 Then
+                filtro &= " WHERE A.FL_CONFERIDO = 0"
+            End If
 
-        If ddlFiltro.SelectedValue = 1 Then
-            filtro = " AND A.NR_INVOICE LIKE '%" & txtPesquisa.Text & " %'"
+            If ddlFiltro.SelectedValue = 1 Then
+                filtro = " AND A.NR_INVOICE LIKE '%" & txtPesquisa.Text & " %'"
 
-        ElseIf ddlFiltro.SelectedValue = 2 Then
-            filtro = " AND B.NR_PROCESSO LIKE '%" & txtPesquisa.Text & " %'"
-        ElseIf ddlFiltro.SelectedValue = 3 Then
-            filtro = " AND B.NR_BL LIKE '%" & txtPesquisa.Text & " %'"
-        ElseIf ddlFiltro.SelectedValue = 4 Then
-            filtro = " AND A.NM_AGENTE LIKE '%" & txtPesquisa.Text & " %'"
-        End If
+            ElseIf ddlFiltro.SelectedValue = 2 Then
+                filtro = " AND B.NR_PROCESSO LIKE '%" & txtPesquisa.Text & " %'"
+            ElseIf ddlFiltro.SelectedValue = 3 Then
+                filtro = " AND B.NR_BL LIKE '%" & txtPesquisa.Text & " %'"
+            ElseIf ddlFiltro.SelectedValue = 4 Then
+                filtro = " AND A.NM_AGENTE LIKE '%" & txtPesquisa.Text & " %'"
+            End If
 
 
 
-        Dim SQL As String = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA_BR,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+            Dim SQL As String = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "Invoices")
+            Classes.Excel.exportaExcel(SQL, "NVOCC", "Invoices")
         End If
 
 
@@ -733,7 +770,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
 
     Private Sub btnRelacaoAgentes_Click(sender As Object, e As EventArgs) Handles btnRelacaoAgentes.Click
         Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(VARCHAR, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(VARCHAR,'" & txtEmbarqueFinal.Text & "',103)"
-        Classes.Excel.exportaExcel(Sql, "NVOCC", "RelacaoAgentes")
+        Classes.Excel.exportaExcel(sql, "NVOCC", "RelacaoAgentes")
 
     End Sub
 
@@ -796,5 +833,40 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SOA2()", True)
         End If
+    End Sub
+
+    Private Sub btnFecharTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExterior.Click
+        dgvTaxasExterior.Visible = False
+        ModalPopupExtender4.Hide()
+        ModalPopupExtender2.Show()
+
+    End Sub
+
+    Private Sub btnFecharDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnFecharDevolucaoFrete.Click
+        dgvDevolucao.Visible = False
+        ModalPopupExtender3.Hide()
+        ModalPopupExtender2.Show()
+
+    End Sub
+
+    Private Sub btnFecharTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasDeclaradas.Click
+        dgvTaxasDeclaradas.Visible = False
+        ModalPopupExtender5.Hide()
+        ModalPopupExtender2.Show()
+
+    End Sub
+
+    Private Sub btnFecharComissoes_Click(sender As Object, e As EventArgs) Handles btnFecharComissoes.Click
+        dgvComissoes.Visible = False
+        ModalPopupExtender6.Hide()
+        ModalPopupExtender2.Show()
+
+    End Sub
+
+    Private Sub btnFecharOutrasTaxas_Click(sender As Object, e As EventArgs) Handles btnFecharOutrasTaxas.Click
+        dgvOutrasTaxas.Visible = False
+        ModalPopupExtender7.Hide()
+        ModalPopupExtender2.Show()
+
     End Sub
 End Class

@@ -211,7 +211,7 @@
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Data Fechamento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtDataFechamentoNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtDataFechamentoNovo" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -244,7 +244,7 @@
                                         <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label">Data Câmbio:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtDataCambioNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtDataCambioNovo" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -569,7 +569,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp
 FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL') A
 LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
 LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
-WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE">
+WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE
+         group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+ G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE">
         <SelectParameters>
             <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />
             <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal" />

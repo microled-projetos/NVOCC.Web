@@ -348,26 +348,32 @@
 
     
     <asp:SqlDataSource ID="dsDevolucao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_COMPRA,VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU')  WHERE  ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_BL,A.NR_PROCESSO,A.SIGLA_MOEDA,A.VL_COMPRA,A.VL_VENDA,A.DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (@ID_BL , '@GRAU') A INNER JOIN TB_ACCOUNT_INVOICE_ITENS B ON B.ID_BL = A.ID_BL AND B.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE ID_ACCOUNT_INVOICE = ID_INVOICE">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="lblGrau" />
+                                                <asp:ControlParameter Name="ID_INVOICE" Type="string" ControlID="lblIDINVOICE" />
+
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissoes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE  ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.SIGLA_MOEDA,A.VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU')  A INNER JOIN TB_ACCOUNT_INVOICE_ITENS B ON B.ID_BL = A.ID_BL AND B.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA WHERE ID_ACCOUNT_INVOICE =  @ID_INVOICE">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="lblGrau" />
+                                    <asp:ControlParameter Name="ID_INVOICE" Type="string" ControlID="lblIDINVOICE" />
+
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsOutrasTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO  FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU')  WHERE   ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.NM_ITEM_DESPESA,A.SIGLA_MOEDA,A.VL_TAXA,A.CD_DECLARADO,A.DT_RECEBIMENTO  FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU')  A INNER JOIN TB_ACCOUNT_INVOICE_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA WHERE  ID_ACCOUNT_INVOICE = @ID_INVOICE">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="lblGrau" />
+                        <asp:ControlParameter Name="ID_INVOICE" Type="string" ControlID="lblIDINVOICE" />
+
         </SelectParameters>
     </asp:SqlDataSource>
     

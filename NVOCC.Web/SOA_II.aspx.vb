@@ -12,24 +12,71 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Dim FILTRO As String = ""
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2032 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            Response.Redirect("Default.aspx")
-
+        If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
+            FILTRO = "WHERE B.ID_PARCEIRO_AGENTE = " & Request.QueryString("ag")
+        Else
+            FILTRO = ""
         End If
-        Dim dsDados As DataSet = Con.ExecutarQuery("SELECT A.ID_BL,A.NR_PROCESSO,NR_BL MBL, ''HBL,  ID_BL_MASTER,NR_INVOICE,CONVERT(VARCHAR,DT_INVOICE,103)DT_INVOICE,PARCEIRO_CLIENTE,NM_AGENTE,PARCEIRO_TRANSPORTADOR,ORIGEM,DESTINO, CONVERT(VARCHAR,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,
-CONVERT(VARCHAR,DT_EMBARQUE,103)DT_EMBARQUE,
- CONVERT(VARCHAR,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,
- CONVERT(VARCHAR,DT_CHEGADA,103)DT_CHEGADA,NM_AGENTE ,
- (SELECT [DBO].[FN_REFERENCIA_CLIENTE] (A.ID_BL) )REFERENCIA_CLIENTE,PARCEIRO_IMPORTADOR,NR_VIAGEM,VL_PESO_BRUTO,VL_M3
- FROM View_Master A
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
- GROUP BY A.ID_BL,A.NR_PROCESSO,NR_BL,  ID_BL_MASTER,NR_INVOICE,PARCEIRO_CLIENTE,PARCEIRO_AGENTE,PARCEIRO_TRANSPORTADOR,ORIGEM,DESTINO, DT_PREVISAO_EMBARQUE,DT_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,NM_AGENTE,PARCEIRO_IMPORTADOR,NR_VIAGEM,VL_PESO_BRUTO,VL_M3,DT_INVOICE")
-        If dsDados.Tables(0).Rows.Count > 0 Then
+        Dim tabela As String = ""
 
-        End If
+        tabela = "<table class='subtotal table table-bordered'>"
+        tabela &= "<tr><td><strong>INVOICE</strong></td>"
+        tabela &= "<td><strong>POL</strong></td>"
+        tabela &= "<td><strong>DEST</strong></td>"
+        tabela &= "<td><strong>NR_BL</strong></td>"
+        tabela &= "<td><strong>ETD</strong></td>"
+        tabela &= "<td><strong>ETA</strong></td>"
+        tabela &= "<td><strong>FEE ITEM</strong></td>"
+        tabela &= "<td><strong>CURR</strong></td>"
+        tabela &= "<td><strong>VALUE</strong></td>"
+        tabela &= "<td><strong>TYPE</strong></td></tr>"
+
+        Dim titulo As String = ""
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA
+FROM [dbo].[View_BL]  A 
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL " & FILTRO)
+
+        For Each linhaTitulo As DataRow In ds.Tables(0).Rows
+            Dim ID_INVOICE As String = linhaTitulo("ID_ACCOUNT_INVOICE")
+
+            tabela &= "<tr><td>" & linhaTitulo("NR_INVOICE") & "</td>"
+            tabela &= "<td>" & linhaTitulo("ORIGEM") & "</td>"
+            tabela &= "<td>" & linhaTitulo("DESTINO") & "</td>"
+            tabela &= "<td>" & linhaTitulo("NR_BL") & "</td>"
+            tabela &= "<td>" & linhaTitulo("DT_EMBARQUE") & "</td>"
+            tabela &= "<td>" & linhaTitulo("DT_CHEGADA") & "</td></tr>"
+
+
+
+
+            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,NM_ACCOUNT_TIPO_FATURA
+FROM [dbo].[View_BL]  A 
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE ID_ACCOUNT_INVOICE = " & ID_INVOICE)
+            For Each linhadados As DataRow In dsdados.Tables(0).Rows
+                tabela &= "<tr><td></td>"
+                tabela &= "<td></td>"
+                tabela &= "<td></td>"
+                tabela &= "<td></td>"
+                tabela &= "<td></td>"
+                tabela &= "<td></td>"
+                tabela &= "<td>" & linhadados("NM_ITEM_DESPESA") & "</td>"
+                tabela &= "<td>" & linhadados("SIGLA_MOEDA") & "</td>"
+                tabela &= "<td>" & linhadados("VL_TAXA") & "</td>"
+                tabela &= "<td>" & linhadados("NM_ACCOUNT_TIPO_FATURA") & "</td></tr>"
+
+
+
+            Next
+
+
+        Next
+        tabela &= "</table></div>"
+        divConteudoDinamico.InnerHtml &= tabela
+
+        Con.Fechar()
     End Sub
 
 End Class

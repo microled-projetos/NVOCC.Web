@@ -230,7 +230,7 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
+                                               <asp:Label ID="Label5" runat="server">Validade Inicial</asp:Label><br />
 
                                <asp:TextBox ID="txtValidade" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>

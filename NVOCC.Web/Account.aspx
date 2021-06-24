@@ -241,7 +241,7 @@
                               <div class="col-sm-offset-4 col-sm-2"">
                                     <div class="form-group">
                                           <label class="control-label">Venc. Inicial:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtVencimentoInicialSOA" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtVencimentoInicialSOA" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -249,7 +249,7 @@
                               <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Venc. Final:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtVencimentoFinalSOA" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtVencimentoFinalSOA" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -316,8 +316,8 @@
                                     <div class="form-group">
                                            <label class="control-label">ID:</label>
                                         <asp:TextBox ID="txtIDInvoice" Enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                        <asp:TextBox ID="txtID_BL" visible="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                                <asp:TextBox ID="txtGrau" visible="false" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtID_BL" style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtGrau" style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
 
                                     </div>
                                            </div>
@@ -523,8 +523,10 @@
 
  <asp:TextBox ID="AuxDevolucao" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlDevolucaoFrete" TargetControlID="AuxDevolucao" CancelControlID="btnFecharDevolucaoFrete"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlDevolucaoFrete" TargetControlID="AuxDevolucao" CancelControlID="AuxDevolucao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDevolucaoFrete" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                                    <ContentTemplate>
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -610,11 +612,19 @@
                                                 </div>
       
                                        </div>     </center>
+                                                         </ContentTemplate>
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="btnFecharDevolucaoFrete" />
+                                                        <asp:AsyncPostBackTrigger ControlID="btnIncluirDevolucaoFrete" />
+                                                        <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvDevolucao" />
+
+                                                    </Triggers>
+                                                </asp:UpdatePanel>
                                 </asp:Panel>
 
 
 <asp:TextBox ID="AuxExterior" Style="display:none" runat="server"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="AuxExterior" CancelControlID="btnFecharTaxasExterior"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="AuxExterior" CancelControlID="AuxExterior"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlTaxasExterior" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -626,7 +636,7 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                                          <asp:GridView ID="dgvTaxasExterior" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExterior" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                          <asp:GridView ID="dgvTaxasExterior" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExterior" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -685,7 +695,7 @@
 
                                                                                                  <asp:TextBox ID="AuxDeclaradas" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="AuxDeclaradas" CancelControlID="btnFecharTaxasDeclaradas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="AuxDeclaradas" CancelControlID="AuxDeclaradas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlTaxasDeclaradas" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -697,7 +707,7 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                                                                                    <asp:GridView ID="dgvTaxasDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                                                                    <asp:GridView ID="dgvTaxasDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -755,7 +765,7 @@
 
                                                                  <asp:TextBox ID="AuxComissoes" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlComissoes" TargetControlID="AuxComissoes" CancelControlID="btnFecharComissoes"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlComissoes" TargetControlID="AuxComissoes" CancelControlID="AuxComissoes"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlComissoes" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -822,7 +832,7 @@
 
                                  <asp:TextBox ID="AuxOutrasTaxas" Style="display:none" runat="server"></asp:TextBox>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlOutrasTaxas" TargetControlID="AuxOutrasTaxas" CancelControlID="btnFecharOutrasTaxas"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlOutrasTaxas" TargetControlID="AuxOutrasTaxas" CancelControlID="AuxOutrasTaxas"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlOutrasTaxas" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -834,7 +844,7 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                          <asp:GridView ID="dgvOutrasTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                          <asp:GridView ID="dgvOutrasTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -894,13 +904,16 @@
                               
 
                                 </ContentTemplate>
-                            <Triggers>                    <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
+                            <Triggers>                    
+                                <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
                                   <asp:AsyncPostBackTrigger ControlID="btnIncluirOutrasTaxas" />
-                                <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
-                                <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />
+<%--                                <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
+                                <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />--%>
                                 <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
                                 <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
-                                <asp:AsyncPostBackTrigger ControlID="btnGravarCabecalho" />                             
+                                <asp:AsyncPostBackTrigger ControlID="btnGravarCabecalho" />   
+                                                                                                                  <asp:AsyncPostBackTrigger ControlID="dgvItensInvoice"  EventName="load"/>
+
                             </Triggers>
                         </asp:UpdatePanel>
                                                               
@@ -1003,6 +1016,7 @@
                                          <asp:PostBackTrigger ControlID="btnCSVProcessoPeriodo" />
                                          <asp:PostBackTrigger ControlID="btnRelacaoAgentes" />
 
+                                         
                                          </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1058,10 +1072,7 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="btnPesquisa" />
-                                                                <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvDevolucao" />
-
                                 <asp:AsyncPostBackTrigger ControlID="lkAvisoEmbarque" />
-                                <asp:AsyncPostBackTrigger ControlID="btnTaxasDeclaradas" />
                                 <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
                                 <asp:PostBackTrigger ControlID="lkGeraCSV" />
 
@@ -1078,7 +1089,7 @@
 
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA_BR,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
         group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO">
         <SelectParameters>
@@ -1201,9 +1212,10 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
 
 
             var ID = document.getElementById('<%= txtIDInvoice.ClientID %>').value;
-            console.log(ID);
+            var GRAU = document.getElementById('<%= txtGRAU.ClientID %>').value;
 
-            window.open('Conferencia.aspx?id=' + ID, '_blank');
+
+            window.open('Conferencia.aspx?id=' + ID + '&T=' + GRAU, '_blank');
         }
 
         function InvoiceFCA() {
@@ -1215,12 +1227,15 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('DebitNote.aspx?id=' + ID, '_blank');
         }
 
-        function SOA1() {            
-            window.open('SOA_I.aspx' ,'_blank');
+        function SOA1() { 
+            var AGENTE = document.getElementById('<%= ddlAgenteSoa.ClientID %>').value;
+            window.open('SOA_I.aspx?ag=' + AGENTE ,'_blank');
         }
 
         function SOA2() {
-            window.open('SOA_II.aspx', '_blank');
+            var AGENTE = document.getElementById('<%= ddlAgenteSoa.ClientID %>').value;
+
+            window.open('SOA_II.aspx?ag=' + AGENTE , '_blank');
 
         }
     </script>

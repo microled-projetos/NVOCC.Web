@@ -334,7 +334,8 @@
 FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "') A
 LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
 LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
-WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue
+WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue & " group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+ G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE"
         dsInvoice.DataBind()
         dgvInvoice.DataBind()
         dgvInvoice.Visible = True
