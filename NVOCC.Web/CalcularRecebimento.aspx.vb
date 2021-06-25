@@ -74,7 +74,7 @@ FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                 Dim DATA As Date
                 If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
-                    txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
+                    DATA = Now.Date.ToString("dd-MM-yyyy")
                 ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
                     DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
 
@@ -371,7 +371,7 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
                 If check.Checked Then
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                     Dim ItemDespesa As String = CType(linha.FindControl("lblItemDespesa"), Label).Text
-                    Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
+                    Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
 
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] A
 INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER
@@ -383,9 +383,9 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
                     Else
 
-                        Dim ISS As String
-                        Dim PIS As String
-                        Dim COFINS As String
+                        Dim ISS As Decimal
+                        Dim PIS As Decimal
+                        Dim COFINS As Decimal
 
 
                         If lbl_ISS.Text > 0 Then
@@ -393,33 +393,62 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                         Else
                             ISS = Session("VL_ALIQUOTA_ISS")
                         End If
-                        ISS = valor * ISS
-                        ISS = ISS.Replace(".", "")
-                        ISS = ISS.Replace(",", ".")
+                        ISS = (valor / 100) * ISS
 
                         If lbl_PIS.Text > 0 Then
                             PIS = lbl_PIS.Text
                         Else
                             PIS = Session("VL_ALIQUOTA_PIS")
                         End If
-                        PIS = valor * PIS
-                        PIS = PIS.Replace(".", "")
-                        PIS = PIS.Replace(",", ".")
+                        PIS = (valor / 100) * PIS
+
 
                         If lbl_COFINS.Text > 0 Then
                             COFINS = lbl_COFINS.Text
                         Else
                             COFINS = Session("VL_ALIQUOTA_COFINS")
                         End If
-                        COFINS = valor * COFINS
-                        COFINS = COFINS.Replace(".", "")
-                        COFINS = COFINS.Replace(",", ".")
+                        COFINS = (valor / 100) * COFINS
 
 
-                        valor = valor.Replace(".", "")
-                        valor = valor.Replace(",", ".")
+                        Dim Desconto As Decimal = COFINS + ISS + PIS
 
-                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor & "," & valor & ",ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS & "," & PIS & " ," & COFINS & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        Dim desconto_final As String = Desconto.ToString
+                        desconto_final = desconto_final.Replace(".", "")
+                        desconto_final = desconto_final.Replace(",", ".")
+
+                        Dim COFINS_final As String = COFINS.ToString
+                        COFINS_final = COFINS_final.Replace(".", "")
+                        COFINS_final = COFINS_final.Replace(",", ".")
+
+
+                        Dim PIS_final As String = PIS.ToString
+                        PIS_final = PIS_final.Replace(".", "")
+                        PIS_final = PIS_final.Replace(",", ".")
+
+
+                        Dim ISS_final As String = ISS.ToString
+                        ISS_final = ISS_final.Replace(".", "")
+                        ISS_final = ISS_final.Replace(",", ".")
+
+                        Dim valor_final As String = valor.ToString
+                        valor_final = valor_final.Replace(".", "")
+                        valor_final = valor_final.Replace(",", ".")
+
+
+                        If lblCidade.Text = "SANTOS" Then
+                            Dim dsDespesa As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_TIPO_ITEM_DESPESA)QTD FROM TB_TIPO_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = (SELECT ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  " & ItemDespesa & ") AND CD_TIPO_ITEM_DESPESA = 'R'")
+                            If dsDespesa.Tables(0).Rows(0).Item("QTD") = 0 Then
+                                Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor_final & ",VL_TAXA_BR,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                            Else
+
+                                Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor_final & ",VL_TAXA_BR  - (" & desconto_final & "), ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                            End If
+                        Else
+                            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO," & valor_final & ",VL_TAXA_BR,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        End If
+
+
 
                     End If
                 End If
@@ -445,33 +474,40 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         divSuccess.Visible = False
 
         Dim Con As New Conexao_sql
-        Dim i As Integer = 0
+        'Dim i As Integer = 0
+        txtValor.Text = 0
 
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
+            Dim valor As String = CType(linha.FindControl("lblValorBR"), Label).Text
+            Dim valor2 As Double = txtValor.Text
 
             If check.Checked Then
-                i = i + 1
+                'i = i + 1
+                txtValor.Text = valor2 + valor
+
                 If Calculado = False Then
                     lblErro.Text = "O PROCESSO NECESSITA DE CÁLCULO"
                     divErro.Visible = True
-                    btnCalcularRecebimento.Enabled = False
+                    check.Checked = False
+                    check.Enabled = False
                     Exit Sub
+
 
                 End If
 
             End If
         Next
 
-        If i > 0 Then
-            btnCalcularRecebimento.Enabled = True
+        'If i > 0 Then
+        '    btnCalcularRecebimento.Enabled = True
 
-        Else
-            btnCalcularRecebimento.Enabled = False
+        'Else
+        '    btnCalcularRecebimento.Enabled = False
 
-        End If
+        'End If
     End Sub
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
         Response.Redirect("Financeiro.aspx")
@@ -490,15 +526,18 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
             ckbSelecionar.Checked = False
+            txtValor.Text = 0
+
         Next
     End Sub
 
     Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
+        txtValor.Text = 0
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
-            Dim Calculado = CType(Me.dgvTaxas.Rows(i).FindControl("lblCalculado"), Label)
             ckbSelecionar.Checked = True
             Dim valor As Double = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
+            txtValor.Text = txtValor.Text + valor
 
             VerificaTaxas()
         Next

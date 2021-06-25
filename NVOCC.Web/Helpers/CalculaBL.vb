@@ -1,9 +1,8 @@
 ﻿Public Class CalculaBL
-    Public Function Calcular(ID_BL_TAXA As Integer) As String
+    Public Function Calcular(ID_BL_TAXA As String) As String
 
         Dim msg0 As String = "BL calculada com sucesso!"
         Dim Taxa As String = ""
-        Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
         Dim x As Double
         Dim y As Double
         Dim z As Double
@@ -17,7 +16,7 @@ INNER JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL
  WHERE ID_BASE_CALCULO_TAXA IS NOT NULL 
 AND ID_MOEDA <> 0
 AND ID_BASE_CALCULO_TAXA <> 1 
-AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND B.ID_BL_TAXA = " & ID_BL_TAXA)
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL) AND B.ID_BL_TAXA = " & ID_BL_TAXA)
 
         If ds.Tables(0).Rows.Count > 0 Then
             Dim ID_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -272,6 +271,10 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                 z = y * x
                 Taxa = z.ToString
 
+            ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 33 Then
+                'POR DOCUMENTO
+                Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
+
             ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 34 Then
                 'POR CNTR 
                 Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
@@ -280,6 +283,8 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                 y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 z = y * x
                 Taxa = z.ToString
+
+
 
             ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 35 Then
                 ' POR TEU
@@ -300,7 +305,10 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                 z = x + y
                 Taxa = z.ToString
 
+            Else
 
+                Return "Base de Calculo não encontrada"
+                Exit Function
 
             End If
 
@@ -308,11 +316,13 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 
             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 1, VL_TAXA_CALCULADO = '" & Taxa & "' , DT_CALCULO = GetDate() WHERE ID_BL_TAXA = " & ds.Tables(0).Rows(0).Item("ID_BL_TAXA") & " ; UPDATE TB_BL SET FL_CALCULADO = 1 WHERE ID_BL =" & ID_BL)
 
-            Return msg0
+            Return "BL calculada com sucesso!"
         Else
-            Return "ERRO"
+
+            Return "Taxa não encontrada"
             Exit Function
 
         End If
+
     End Function
 End Class

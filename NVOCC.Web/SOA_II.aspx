@@ -23,7 +23,7 @@
         <asp:Label ID="lblID_BL"  runat="server"/>
         <asp:Label ID="lblGrau"  runat="server"/>
         </div>
-          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">                                      
+          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h3>DEBIT/CREDIT NOTE</h3></center>                                   
     <div id="divConteudoDinamico" runat="server"  >
         </div>
               </div>

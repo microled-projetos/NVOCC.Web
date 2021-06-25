@@ -424,20 +424,32 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                 lblErroHouse.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
                 Exit Sub
             Else
+                Dim i As Integer = 0
 
-                ds = Con.ExecutarQuery("Select ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
-                If ds.Tables(0).Rows.Count > 0 Then
-                    For Each linha As DataRow In ds.Tables(0).Rows
-
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
                         Dim Calcula As New CalculaBL
-                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA"))
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
 
                         If retorno = "BL calculada com sucesso!" Then
-                            lblSuccessHouse.Text = retorno
+                            lblSuccessHouse.Text = "BL calculada com sucesso!"
                             divSuccessHouse.Visible = True
+                        Else
+                            i = i + 1
                         End If
                     Next
 
+
+                End If
+
+                If i > 0 Then
+                    divSuccessHouse.Visible = False
+                    divErroHouse.Visible = True
+                    lblErroHouse.Text = "Verifique a base de cálculo!"
+                Else
+                    lblSuccessHouse.Text = "BL calculada com sucesso!"
+                    divSuccessHouse.Visible = True
                 End If
 
             End If

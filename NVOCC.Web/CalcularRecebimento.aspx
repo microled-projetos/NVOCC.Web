@@ -136,7 +136,11 @@
                                                                 <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_CALCULADO") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                       <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor R$" SortExpression="VL_TAXA_BR" />
+                                                         <asp:TemplateField HeaderText="Valor R$" SortExpression="VL_TAXA_BR">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblValorBR" runat="server" Text='<%# Eval("VL_TAXA_BR") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Calculado" Visible="False">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblCalculado" runat="server" Text='<%# Eval("FL_CALCULADO") %>' />
@@ -202,11 +206,19 @@
                                     </div>
                                     <br />
                                     <br />
+                                           <div class="row" style="border: ridge 1px; display:none">
+                                        <div class="col-sm-offset-5 col-sm-2 col-sm-offset-5">
+                                            <div class="form-group">
+                                                <label class="control-label" style="text-align: left">VALOR:</label>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                            </div>
+                                    </div>
                                     <div class="row" style="border: ridge 1px;">
                                         <div class="col-sm-offset-5 col-sm-2 col-sm-offset-5">
                                             <div class="form-group">
                                                 <br />
-                                                <asp:Button runat="server" Text="Ok" ID="btnCalcularRecebimento" Enabled="false" CssClass="btn btn-success btn-block" />
+                                                <asp:Button runat="server" Text="Ok" ID="btnCalcularRecebimento" CssClass="btn btn-success btn-block" />
                                                 <asp:Button runat="server" Text="Cancelar" ID="btnCancelar" CssClass="btn btn-danger btn-block" />
                                             </div>
                                         </div>
@@ -247,6 +259,8 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:PostBackTrigger ControlID="ddlFornecedor" />
+                                                                <asp:PostBackTrigger ControlID="btnCalcularRecebimento" />
+
                             </Triggers>
                         </asp:UpdatePanel>
 

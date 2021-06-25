@@ -70,9 +70,6 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
                     End If
                 End If
 
-                If valor = 0 Then
-                    btnSolicitar.Enabled = False
-                End If
 
             Next
             Dim Con As New Conexao_sql
@@ -118,10 +115,6 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
                     check.Enabled = False
 
                 End If
-            End If
-
-            If valor = 0 Then
-                btnSolicitar.Enabled = False
             End If
 
         Next

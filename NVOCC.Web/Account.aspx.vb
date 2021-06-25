@@ -111,7 +111,7 @@
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE")
                     lblSuccessInvoice.Text = "Registro cadastrado com sucesso!"
                     divSuccessInvoice.Visible = True
-                    'Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numeroFinal & "' WHERE ID_NUMERACAO = 5")
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numeroFinal & "' WHERE ID_NUMERACAO = 5")
 
                     ModalPopupExtender2.Show()
                 End If
@@ -749,8 +749,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     End Sub
 
     Function retornaProcessoPeriodo() As String
-        Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,NR_BL,PARCEIRO_CLIENTE,ORIGEM,DESTINO,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,PARCEIRO_AGENTE_INTERNACIONAL
-,PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_PREVISAO_CHEGADA_MASTER  FROM [dbo].[View_House] WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(VARCHAR,'" & txtEmbarqueFinal.Text & "',103)"
+        Dim SQL As String = "SELECT ID_BL, NR_PROCESSO,BL_MASTER,NR_BL,PARCEIRO_CLIENTE,ORIGEM,DESTINO,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,PARCEIRO_AGENTE_INTERNACIONAL
+,PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_PREVISAO_CHEGADA_MASTER  FROM [dbo].[View_House] WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103)"
         Return SQL
     End Function
 
@@ -769,7 +769,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     End Sub
 
     Private Sub btnRelacaoAgentes_Click(sender As Object, e As EventArgs) Handles btnRelacaoAgentes.Click
-        Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(VARCHAR, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(VARCHAR,'" & txtEmbarqueFinal.Text & "',103)"
+        Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(DATE, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(VARCHAR,'" & txtEmbarqueFinal.Text & "',103)"
         Classes.Excel.exportaExcel(sql, "NVOCC", "RelacaoAgentes")
 
     End Sub

@@ -964,33 +964,25 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                          <asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL_TAXA" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true">
                                             <Columns>
-                                                 <asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                                               <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="DESPESA" SortExpression="NM_ITEM_DESPESA" />
-                                                <asp:BoundField DataField="CD_DECLARADO" HeaderText="DECLARADO" SortExpression="CD_DECLARADO" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />       
-                                                               <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
-
+                                                <asp:BoundField DataField="BL_MASTER" HeaderText="MASTER" SortExpression="BL_MASTER" />
+                                                <asp:BoundField DataField="NR_BL" HeaderText="HOUSE" SortExpression="NR_BL" />
+                                                <asp:BoundField DataField="PARCEIRO_CLIENTE"  HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />           <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
+                                                <asp:BoundField DataField="DESTINO" HeaderText="DESTINO" SortExpression="DESTINO" />
+                                                <%--<asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="TIPO ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />--%>
+                                                <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="AGENTE INTERNACIONAL" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
+                                                <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="TRANSPORTADOR" SortExpression="PARCEIRO_TRANSPORTADOR" />
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-
                                         </div>
                                          </div> 
                                         </div>

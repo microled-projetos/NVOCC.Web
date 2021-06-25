@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class CalcularRecebimento
-    
+
     '''<summary>
     '''Controle lblMBL.
     '''</summary>
@@ -21,7 +21,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lblID_CONTA_PAGAR_RECEBER.
     '''</summary>
@@ -30,7 +30,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblID_CONTA_PAGAR_RECEBER As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
@@ -39,7 +39,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
-    
+
     '''<summary>
     '''Controle txtID_BL.
     '''</summary>
@@ -48,7 +48,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''Controle txtLinhaBL.
     '''</summary>
@@ -57,7 +57,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''Controle divSuccess.
     '''</summary>
@@ -66,7 +66,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divSuccess As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''Controle lblSuccess.
     '''</summary>
@@ -75,7 +75,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblSuccess As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle divErro.
     '''</summary>
@@ -84,7 +84,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''Controle lblErro.
     '''</summary>
@@ -93,7 +93,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle divInfo.
     '''</summary>
@@ -102,7 +102,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divInfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''Controle lblInfo.
     '''</summary>
@@ -111,7 +111,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblInfo As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle ddlFornecedor.
     '''</summary>
@@ -120,7 +120,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
-    
+
     '''<summary>
     '''Controle lblCidade.
     '''</summary>
@@ -129,7 +129,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblCidade As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lbl_ISS.
     '''</summary>
@@ -138,7 +138,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lbl_ISS As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lbl_PIS.
     '''</summary>
@@ -147,7 +147,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lbl_PIS As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lbl_COFINS.
     '''</summary>
@@ -156,7 +156,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lbl_COFINS As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle txtCambio.
     '''</summary>
@@ -165,7 +165,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtCambio As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''Controle txtVencimento.
     '''</summary>
@@ -174,7 +174,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
-    
+
     '''<summary>
     '''Controle lblTipoFaturamento.
     '''</summary>
@@ -183,7 +183,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblTipoFaturamento As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lblDiasFaturamento.
     '''</summary>
@@ -192,7 +192,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblDiasFaturamento As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lblAcordo.
     '''</summary>
@@ -201,7 +201,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblAcordo As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle lblSpread.
     '''</summary>
@@ -210,7 +210,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblSpread As Global.System.Web.UI.WebControls.Label
-    
+
     '''<summary>
     '''Controle divConteudo.
     '''</summary>
@@ -219,7 +219,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divConteudo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-    
+
     '''<summary>
     '''Controle btnMarcar.
     '''</summary>
@@ -228,7 +228,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnMarcar As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle btnDesmarcar.
     '''</summary>
@@ -237,7 +237,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnDesmarcar As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle dgvTaxas.
     '''</summary>
@@ -246,7 +246,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
-    
+
     '''<summary>
     '''Controle dgvMoedaFreteArmador.
     '''</summary>
@@ -255,7 +255,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvMoedaFreteArmador As Global.System.Web.UI.WebControls.GridView
-    
+
     '''<summary>
     '''Controle dgvMoedaFrete.
     '''</summary>
@@ -264,7 +264,16 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvMoedaFrete As Global.System.Web.UI.WebControls.GridView
-    
+
+    '''<summary>
+    '''Controle txtValor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValor As Global.System.Web.UI.WebControls.TextBox
+
     '''<summary>
     '''Controle btnCalcularRecebimento.
     '''</summary>
@@ -273,7 +282,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCalcularRecebimento As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle btnCancelar.
     '''</summary>
@@ -282,7 +291,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle mpeND.
     '''</summary>
@@ -291,7 +300,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents mpeND As Global.AjaxControlToolkit.ModalPopupExtender
-    
+
     '''<summary>
     '''Controle Panel1.
     '''</summary>
@@ -300,7 +309,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
-    
+
     '''<summary>
     '''Controle btnNao.
     '''</summary>
@@ -309,7 +318,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNao As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle btnSim.
     '''</summary>
@@ -318,7 +327,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
-    
+
     '''<summary>
     '''Controle dsTaxas.
     '''</summary>
@@ -327,7 +336,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
-    
+
     '''<summary>
     '''Controle dsMoedaFreteArmador.
     '''</summary>
@@ -336,7 +345,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoedaFreteArmador As Global.System.Web.UI.WebControls.SqlDataSource
-    
+
     '''<summary>
     '''Controle dsMoedaFrete.
     '''</summary>
@@ -345,7 +354,7 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoedaFrete As Global.System.Web.UI.WebControls.SqlDataSource
-    
+
     '''<summary>
     '''Controle dsFornecedor.
     '''</summary>
