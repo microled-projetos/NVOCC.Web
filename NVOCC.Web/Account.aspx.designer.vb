@@ -185,15 +185,6 @@ Partial Public Class Account
     Protected WithEvents lkRelatorios As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkFechamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkFechamento As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkProcessoPeriodo.
     '''</summary>
     '''<remarks>

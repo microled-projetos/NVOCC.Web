@@ -266,6 +266,15 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents dgvMoedaFrete As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle btnAtualizaValor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAtualizaValor As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle txtValor.
     '''</summary>
     '''<remarks>

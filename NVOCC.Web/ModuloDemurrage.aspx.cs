@@ -57,7 +57,7 @@ namespace ABAINFRA.Web
 
         protected void CarregarTipoContainer()
         {
-            SQL = "SELECT * FROM tb_tipo_container ORDER BY SUBSTRING(NM_TIPO_CONTAINER,3,7)";
+            SQL = "SELECT * FROM tb_tipo_container ORDER BY SUBSTRING(NM_TIPO_CONTAINER,0,2)";
             DataTable tipoContainerDemurrage = new DataTable();
             tipoContainerDemurrage = DBS.List(SQL);
             Session["TaskTableTipoContainerDemurrage"] = tipoContainerDemurrage;

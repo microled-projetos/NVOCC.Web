@@ -275,9 +275,9 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
                     lblNumeroNota.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
-                    lkNotasFiscais.Visible = True
-                Else
-                    lkNotasFiscais.Visible = False
+                    '    lkNotasFiscais.Visible = True
+                    'Else
+                    '    lkNotasFiscais.Visible = False
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")) Then
@@ -605,9 +605,9 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
                     lblNumeroNota.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
-                    lkNotasFiscais.Visible = True
-                Else
-                    lkNotasFiscais.Visible = False
+                    '    lkNotasFiscais.Visible = True
+                    'Else
+                    '    lkNotasFiscais.Visible = False
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")) Then

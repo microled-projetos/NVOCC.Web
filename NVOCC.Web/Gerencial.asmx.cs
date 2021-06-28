@@ -42,6 +42,96 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        {
+            string SQL;
+            SQL = "and B.DT_CANCELAMENTO IS NULL ";
+            if (vendedor != 0)
+            {
+                SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
+            }
+
+            string periodoi;
+            string periodof;
+            string anof;
+
+            if (anoF != "")
+            {
+                anof = anoF;
+            }
+            else
+            {
+                anof = anoI;
+            }
+
+            if (mesI != "")
+            {
+                periodoi = anoI + mesI;
+            }
+            else
+            {
+                periodoi = anoI + "01";
+            }
+
+            if (mesF != "")
+            {
+                periodof = anof + mesF;
+            }
+            else
+            {
+                periodof = anof + "12";
+            }
+
+            
+            SQL += " AND A.ANO+A.MES >=" + periodoi + " AND A.ANO+A.MES <=" + periodof;
+
+
+            if (tipo == "1")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM ='FCL' ";
+            }
+            else if (tipo == "2")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM ='LCL' ";
+            }
+            else if (tipo == "3")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM IN('FCL','LCL') ";
+            }
+            else if (tipo == "4")
+            {
+                SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
+            }
+            return SQL;
+        }
+
+        [WebMethod]
+        public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor,string tipo)
+        {
+            string SQL;
+
+            SQL = "SELECT  ISNULL(A.MES,'')+'/'+ISNULL(A.ANO,'') as PERIODO, ";
+            SQL += "ISNULL(COUNT(C.NR_CNTR),0) AS CONTAINER, ";
+            SQL += "ISNULL(COUNT (D.TEU),0) AS TEUS, ";
+            SQL += "COUNT(DISTINCT(A.NR_PROCESSO)) AS PROCESSO ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
+            SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL  ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
+            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL E ON A.ID_BL = E.ID_BL ";
+            SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
+            SQL += "WHERE B.GRAU IN('C') ";
+            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesI, vendedor, tipo) + " ";
+            SQL += "GROUP BY A.MES, A.ANO ";
+            SQL += "ORDER BY A.ANO, A.MES ";
+
+            DataTable total = new DataTable();
+
+            total = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(total);
+        }
+
+        /*[WebMethod]
         public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor)
         {
             string periodoi;
@@ -359,7 +449,7 @@ namespace ABAINFRA.Web
             {
                 return "1";
             }
-        }
+        }*/
 
         [WebMethod]
         public string listarProcessos()
@@ -371,8 +461,12 @@ namespace ABAINFRA.Web
             SQL += "isnull(SUBSTRING(TPC.NM_TIPO_CONTAINER,3,6),'') AS TIPO,isnull(P1.NM_PORTO,'') AS ORIGEM, isnull(P2.NM_PORTO,'') AS DESTINO, ";
             SQL += "isnull(FORMAT(A.DT_ABERTURA,'dd/MM/yyyy'),'') AS DTABERTURA, isnull(FORMAT(A.DT_PREVISAO_EMBARQUE ,'dd/MM/yyyy'),'') AS ETD, isnull(FORMAT(A.DT_EMBARQUE ,'dd/MM/yyyy'),'') AS ETA, ";
             SQL += "isnull(FORMAT(A.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA, isnull(FORMAT(A.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DATARECEBIMENTO, ";
-            SQL += "isnull(VENDEDOR.NM_RAZAO,'') AS VENDEDOR, isnull(LEFT(AGENTEI.NM_RAZAO,10),'') AS AGENTECARGA, isnull(LEFT(AGENTED.NM_RAZAO,10),'') AS NMCOMISSARIA, ";
-            SQL += "isnull(A.ID_WEEK,'') AS WEEK, A.ID_SERVICO, A.ID_INCOTERM ";
+            SQL += "isnull(left(VENDEDOR.NM_RAZAO,8),'') AS VENDEDOR, isnull(LEFT(AGENTEI.NM_RAZAO,10),'') AS AGENTECARGA, isnull(LEFT(AGENTED.NM_RAZAO,10),'') AS NMCOMISSARIA, ";
+            SQL += "isnull(A.ID_WEEK,'') AS WEEK, A.ID_SERVICO, A.ID_INCOTERM, ";
+            SQL += "ISNULL(FORMAT(PR.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_RECEBIDO, ";
+            SQL += "ISNULL(FORMAT(PP.DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_PAGO, ";
+            SQL += "ISNULL(FORMAT(PR.VL_LANCAMENTO, 'c', 'pt-br'), '') AS VL_RECEBIDO, ";
+            SQL += "ISNULL(FORMAT(PP.VL_LANCAMENTO, 'c', 'pt-br'), '') AS VL_PAGO ";
             SQL += "FROM TB_BL A ";
             SQL += "LEFT JOIN TB_AMR_CNTR_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "LEFT JOIN TB_CNTR_BL C ON B.ID_CNTR_BL = C.ID_CNTR_BL ";
@@ -388,6 +482,8 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_WEEK TW ON A.ID_WEEK = TW.ID_WEEK ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE TCD ON C.ID_CNTR_BL = TCD.ID_CNTR_BL ";
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS CNTR_TEUS ON A.ID_BL = CNTR_TEUS.ID_BL ";
+            SQL += "LEFT JOIN VW_PROCESSO_RECEBIDO_TOTAL PR ON A.ID_BL = PR.ID_BL ";
+            SQL += "LEFT JOIN VW_PROCESSO_PAGO_TOTAL PP ON A.ID_BL = PP.ID_BL ";
             SQL += "WHERE A.GRAU = 'C' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -399,15 +495,21 @@ namespace ABAINFRA.Web
         public string listarProcessosMaster()
         {
             string SQL;
-            SQL = "SELECT M.NR_BL, ISNULL(B1.NM_RAZAO,'') AS TRANSPORTADOR, ";
-            SQL += "ISNULL((D1.NM_TIPO_ESTUFAGEM +' - '+ D2.NM_TIPO_ESTUFAGEM ),'') AS NMTPESTUFAGEM, ";
-            SQL += "ISNULL(TEUS.QTDE20,'') AS QTDE20, ISNULL(TEUS.QTDE40,'') as QTDE40,  ";
-            SQL += "ISNULL(P1.NM_PORTO,'') AS ORIGEM, ISNULL(P2.NM_PORTO,'') AS DESTINO,  ";
-            SQL += "ISNULL(FORMAT(M.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DTEMBARQUE, ";
-            SQL += "ISNULL(FORMAT(M.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DTPREVISAOCHEGADA,  ";
-            SQL += "ISNULL(FORMAT(M.DT_CHEGADA,'dd/MM/yyyy'),'') AS DTCHEGADA ";
-            SQL += "FROM TB_BL M ";
-            SQL += "LEFT JOIN TB_PARCEIRO B1 ON M.ID_PARCEIRO_TRANSPORTADOR = B1.ID_PARCEIRO ";
+            SQL = "SELECT M.NR_BL, ISNULL(LEFT(MIN(B1.NM_RAZAO),13),'') AS TRANSPORTADOR, ";
+            SQL += "ISNULL((MIN(D1.NM_TIPO_ESTUFAGEM) +' - '+ MIN(D2.NM_TIPO_ESTUFAGEM) ),'') AS NMTPESTUFAGEM, "; ;
+            SQL += "ISNULL(MIN(TEUS.QTDE20),'') AS QTDE20, ISNULL(MIN(TEUS.QTDE40),'') as QTDE40, ";
+            SQL += "ISNULL(MIN(P1.NM_PORTO),'') AS ORIGEM, ISNULL(MIN(P2.NM_PORTO),'') AS DESTINO, ";
+            SQL += "ISNULL(FORMAT(MIN(M.DT_EMBARQUE),'dd/MM/yyyy'),'') AS DTEMBARQUE, ";
+            SQL += "ISNULL(FORMAT(MIN(M.DT_PREVISAO_CHEGADA),'dd/MM/yyyy'),'') AS DTPREVISAOCHEGADA, ";
+            SQL += "ISNULL(FORMAT(MIN(M.DT_CHEGADA),'dd/MM/yyyy'),'') AS DTCHEGADA, ";
+            SQL += "ISNULL(FORMAT(MIN(PP.DT_LIQUIDACAO),'dd/MM/yyyy'),'') AS DT_PAGAMENTO, ";
+            SQL += "ISNULL(FORMAT(MIN(PR.DT_LIQUIDACAO),'dd/MM/yyyy'),'') AS DT_RECEBIMENTO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,MIN(FORMAT(PP.VL_LANCAMENTO,'C','PT-BR'))),'') AS VL_PAGO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR, MIN(FORMAT(PR.VL_LANCAMENTO,'C','PT-BR'))),'') AS VL_RECEBIDO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,MIN(PP.VL_CAMBIO)),'') AS VL_CAMBIO_PGTO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR, MIN(PR.VL_CAMBIO)), '') AS VL_CAMBIO_RECEBIDO ";
+            SQL += "FROM TB_BL M  ";
+            SQL += "LEFT JOIN TB_PARCEIRO B1 ON M.ID_PARCEIRO_TRANSPORTADOR = B1.ID_PARCEIRO  ";
             SQL += "LEFT JOIN TB_BL C ON M.ID_BL = C.ID_BL_MASTER ";
             SQL += "LEFT JOIN TB_AMR_CNTR_BL A ON C.ID_BL = A.ID_BL ";
             SQL += "LEFT JOIN TB_CNTR_BL E ON A.ID_CNTR_BL = E.ID_CNTR_BL ";
@@ -416,7 +518,10 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS TEUS ON C.ID_BL = TEUS.ID_BL ";
             SQL += "LEFT JOIN TB_PORTO P1 ON M.ID_PORTO_ORIGEM = P1.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO P2 ON M.ID_PORTO_DESTINO = P2.ID_PORTO ";
+            SQL += "LEFT JOIN VW_PROCESSO_PAGO_TOTAL PP ON M.ID_BL = PP.ID_BL_MASTER ";
+            SQL += "LEFT JOIN VW_PROCESSO_RECEBIDO_TOTAL PR ON M.ID_BL = PR.ID_BL_MASTER ";
             SQL += "WHERE M.NR_BL IS NOT NULL ";
+            SQL += "GROUP BY M.ID_BL_MASTER, M.NR_BL ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);

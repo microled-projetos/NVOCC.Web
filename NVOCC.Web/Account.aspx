@@ -85,11 +85,11 @@
                                     </div>
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <asp:Label ID="Label4"  runat="server">Venc. Inicial</asp:Label>
+                                            <asp:Label ID="Label4"  runat="server">Venc. Final</asp:Label>
                                             <asp:TextBox ID="txtVencimentoFinal"  runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-2">
 
                                         <div class="form-group">
                                             <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
@@ -105,12 +105,11 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-4" style="border: ridge 1px;">
+                                    <div class="col-sm-3" style="border: ridge 1px;">
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
 
                                         <asp:LinkButton ID="lkInvoices" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Invoices</asp:LinkButton>
                                         <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatórios</asp:LinkButton>
-                                        <asp:LinkButton ID="lkFechamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px" href="FechamentoCambio.aspx">Fechamento</asp:LinkButton>
                                         <asp:LinkButton ID="lkProcessoPeriodo" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Processo no Periodo</asp:LinkButton>
                                     </div>
                                 </div>

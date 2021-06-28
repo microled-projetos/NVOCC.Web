@@ -46,13 +46,16 @@
             Dim ds As DataSet = Con.ExecutarQuery("Select FL_TRANSPORTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
 
             If ds.Tables(0).Rows.Count > 0 Then
+                txtID.text = ID
                 If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
-                    Response.Redirect("TaxasLocaisArmador.aspx?id=" & ID)
+                    'Response.Redirect("TaxasLocaisArmador.aspx?id=" & ID)
 
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaTransportador()", True)
 
                 Else
-                    Response.Redirect("TaxaParceiro.aspx?id=" & ID)
+                    ' Response.Redirect("TaxaParceiro.aspx?id=" & ID)
 
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "TaxaParceiro()", True)
                 End If
 
             End If

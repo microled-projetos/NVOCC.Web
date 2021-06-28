@@ -77,6 +77,15 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents ckbAtivo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle ddlOrigem_Pagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlOrigem_Pagamento As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlOrigem.
     '''</summary>
     '''<remarks>
@@ -662,15 +671,6 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents txtIDTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlEstufagemTaxa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlEstufagemTaxa As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle txtFreteTransportadorTaxa.
     '''</summary>
     '''<remarks>
@@ -678,6 +678,15 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtFreteTransportadorTaxa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlEstufagemTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagemTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlItemDespesa.
@@ -723,6 +732,15 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorTaxaCompra As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtValorTaxaCompraMin.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValorTaxaCompraMin As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlMoedaVenda.

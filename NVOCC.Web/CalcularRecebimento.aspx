@@ -164,7 +164,7 @@
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
 <%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
-                                                          <asp:TemplateField HeaderText="Valor">
+                                                          <asp:TemplateField HeaderText="Valor" SortExpression="VL_TXOFICIAL">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
@@ -183,12 +183,12 @@
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
                                                         <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
 <%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
-                                                    <asp:TemplateField HeaderText="Valor">
+                                                    <asp:TemplateField HeaderText="Valor" SortExpression="VL_TXOFICIAL">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
                                                    </asp:TemplateField>  
-                                                        <asp:TemplateField HeaderText="Valor Abertura">
+                                                        <asp:TemplateField HeaderText="Valor Abertura" SortExpression="VL_TXABERTURA">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorAbertuda" runat="server" Text='<%# Eval("VL_TXABERTURA") %>'  />
                                                     </ItemTemplate>
@@ -202,11 +202,19 @@
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
                                             </div>
+                                             <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <br />
+                                            <asp:Button runat="server" Text="Atualizar valor de compra R$" ID="btnAtualizaValor" CssClass="btn btn-warning btn-block" />
+                                        </div>
+                                        </div>
+                                </div>
                                         </div>
                                     </div>
                                     <br />
                                     <br />
-                                           <div class="row" style="border: ridge 1px; display:none">
+                                           <div class="row" style="border: ridge 1px; display:block">
                                         <div class="col-sm-offset-5 col-sm-2 col-sm-offset-5">
                                             <div class="form-group">
                                                 <label class="control-label" style="text-align: left">VALOR:</label>

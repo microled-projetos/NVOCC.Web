@@ -487,7 +487,11 @@
                                         <asp:Checkbox ID="ckbVendedorDireto" runat="server" CssClass="form-control" text="&nbsp;Vendedor Direto" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                      
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbShipper" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Shipper" ></asp:Checkbox>
+                                    </div>
+                                </div>     
                                     
                                
                         </div>        

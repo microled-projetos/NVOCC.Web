@@ -922,7 +922,7 @@
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Origem Pagamento:</label>
+                                                                                <label class="control-label">Origem Serviço:</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                                 </asp:DropDownList>
                                                                             </div>
@@ -1522,7 +1522,7 @@
                                                                         </div>
                                                                         <div class="col-sm-3">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Origem Pagamento:</label>
+                                                                                <label class="control-label">Origem Serviço:</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxasAereo" runat="server" Enabled="false" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                                 </asp:DropDownList>
 

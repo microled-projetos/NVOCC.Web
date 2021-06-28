@@ -219,7 +219,7 @@
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Tarifa Cobrada:</label><label runat="server" style="color: red">*</label>
-                                                                                                <asp:TextBox ID="txtTarifaNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                                                                <asp:TextBox ID="txtTarifaNovo" runat="server"  CssClass="form-control moeda"></asp:TextBox>
 
 
 
@@ -343,7 +343,7 @@
                                        <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Valor                                     <asp:Label ID="lblMoedaEstrangeiroBaixa" runat="server"></asp:Label>
-
+                                              <br/>
                                                                                    <asp:Label ID="lblValorEstrangeiroBaixa" runat="server"></asp:Label>
 
 
@@ -361,7 +361,7 @@
                                     <div class="row" style="border: ridge 1px;">
                                      
                                        
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-8">
                                     <div class="form-group">
                                            <label class="control-label">Instituição Financeira:</label>
                                                                             <asp:Label ID="lblInstituicaoBaixa" runat="server"></asp:Label>
@@ -369,7 +369,7 @@
 
                                     </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                     <div class="form-group">
                                           <label class="control-label">Contrato:</label>
                                     <asp:Label ID="lblContratoBaixa" runat="server"></asp:Label>
@@ -500,9 +500,9 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
-                                        <asp:GridView ID="dgvFechamento" DataKeyNames="ID_FECHAMENTO" DataSourceID="dsFechamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                        <asp:GridView ID="dgvFechamento" DataKeyNames="ID_ACCOUNT_FECHAMENTO" DataSourceID="dsFechamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
-                                                                                                <asp:BoundField DataField="ID_FECHAMENTO" HeaderText="ID" SortExpression="ID_FECHAMENTO" />
+                                                                                                <asp:BoundField DataField="ID_ACCOUNT_FECHAMENTO" HeaderText="ID" SortExpression="ID_ACCOUNT_FECHAMENTO" />
 
                                                 <asp:BoundField DataField="NR_CONTRATO" HeaderText="Nº CONTRATO" SortExpression="NR_CONTRATO" />
                                                 <asp:BoundField DataField="NM_CORRETOR" HeaderText="INST. FINANCEIRA" SortExpression="NM_CORRETOR" />
@@ -510,9 +510,7 @@
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                             <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR CONTRATO" SortExpression="VL_CONTRATO" />             
                                                 <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
                                                 <asp:BoundField DataField="DT_TAXA_CAMBIO" HeaderText="DATA CAMBIO" SortExpression="DT_TAXA_CAMBIO" />
-                                                <asp:BoundField DataField="VL_TAXA_CAMBIO" HeaderText="VALOR CAMBIO" SortExpression="VL_TAXA_CAMBIO" /> 
-                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_FATURA" HeaderText="TIPO FATURA" SortExpression="NM_ACCOUNT_TIPO_FATURA" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                                  <asp:BoundField DataField="VL_TOTAL" HeaderText="VALOR" SortExpression="VL_TOTAL" />             
+                                                <asp:BoundField DataField="VL_TAXA_CAMBIO" HeaderText="VALOR CAMBIO" SortExpression="VL_TAXA_CAMBIO" />
                                                 <asp:BoundField DataField="VL_CONTRATO_BR" HeaderText="VALOR CONVERTIDO R$" SortExpression="VL_CONTRATO_BR" />
                                                                                                 <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />
                                                                                                 <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="DATA CANCELAMENTO" SortExpression="DT_CANCELAMENTO" />
@@ -521,7 +519,7 @@
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_FECHAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                            CommandArgument='<%# Eval("ID_ACCOUNT_FECHAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>

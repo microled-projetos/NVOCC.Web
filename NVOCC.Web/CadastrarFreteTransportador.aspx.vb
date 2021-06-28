@@ -35,7 +35,7 @@
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_FRETE_TRANSPORTADOR,A.ID_TRANSPORTADOR,A.ID_AGENTE,A.ID_PORTO_ORIGEM,A.ID_PORTO_DESTINO,A.ID_PORTO_ESCALA,A.ID_MOEDA_FRETE,A.ID_TIPO_CARGA,A.ID_VIA_ROTA,A.ID_TIPO_COMEX,A.QT_DIAS_TRANSITTIME_INICIAL,A.QT_DIAS_TRANSITTIME_FINAL,A.QT_DIAS_TRANSITTIME_MEDIA,A.ID_TIPO_FREQUENCIA,A.VL_FREQUENCIA,A.NM_TAXAS_INCLUDED,A.FL_ATIVO,CONVERT(varchar,A.DT_VALIDADE_FINAL,103)DT_VALIDADE_FINAL, A.ID_PORTO_ESCALA2,A.ID_PORTO_ESCALA3,ID_VIATRANSPORTE
+        ds = Con.ExecutarQuery("SELECT A.ID_FRETE_TRANSPORTADOR,A.ID_TRANSPORTADOR,A.ID_AGENTE,A.ID_PORTO_ORIGEM,A.ID_PORTO_DESTINO,A.ID_PORTO_ESCALA,A.ID_MOEDA_FRETE,A.ID_TIPO_CARGA,A.ID_VIA_ROTA,A.ID_TIPO_COMEX,A.QT_DIAS_TRANSITTIME_INICIAL,A.QT_DIAS_TRANSITTIME_FINAL,A.QT_DIAS_TRANSITTIME_MEDIA,A.ID_TIPO_FREQUENCIA,A.VL_FREQUENCIA,A.NM_TAXAS_INCLUDED,A.FL_ATIVO,CONVERT(varchar,A.DT_VALIDADE_FINAL,103)DT_VALIDADE_FINAL, A.ID_PORTO_ESCALA2,A.ID_PORTO_ESCALA3,ID_VIATRANSPORTE,ID_ORIGEM_PAGAMENTO
 
     FROM TB_FRETE_TRANSPORTADOR A
     WHERE A.ID_FRETE_TRANSPORTADOR = " & Request.QueryString("id"))
@@ -44,6 +44,7 @@
             'Informaçoes basicas
             txtID_FreteTransportador.Text = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
             ddlTransportador.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+            ddlOrigem_Pagamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString()
             ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
             ddlOrigem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
@@ -358,7 +359,7 @@ WHERE B.ID_TARIFARIO_FRETE_TRANSPORTADOR = " & ID)
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT C.ID_TABELA_FRETE_TAXA,C.ID_TIPO_ESTUFAGEM,C.ID_ITEM_DESPESA,C.ID_ORIGEM_PAGAMENTO,C.ID_BASE_CALCULO_TAXA,C.ID_MOEDA_COMPRA,C.VL_TAXA_COMPRA,C.ID_MOEDA_VENDA,C.VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,ID_FRETE_TRANSPORTADOR
+            ds = Con.ExecutarQuery("SELECT C.ID_TABELA_FRETE_TAXA,C.ID_TIPO_ESTUFAGEM,C.ID_ITEM_DESPESA,C.ID_ORIGEM_PAGAMENTO,C.ID_BASE_CALCULO_TAXA,C.ID_MOEDA_COMPRA,C.VL_TAXA_COMPRA,C.ID_MOEDA_VENDA,C.VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,ID_FRETE_TRANSPORTADOR,VL_TAXA_COMPRA_MIN
 
 FROM TB_TABELA_FRETE_TAXA C
 WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
@@ -394,6 +395,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN")) Then
                     txtValorTaxaVendaMin.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN")) Then
+                    txtValorTaxaCompraMin.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
                     ddlEstufagemTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
@@ -441,6 +445,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
         txtValorTaxaCompra.Text = ""
         txtValorTaxaVenda.Text = ""
         txtValorTaxaVendaMin.Text = ""
+        txtValorTaxaCompraMin.Text = ""
 
         dgvTaxas.DataBind()
         mpeNovoTaxa.Hide()
@@ -682,6 +687,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", "")
             txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(",", ".")
 
+            txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(".", "")
+            txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(",", ".")
+
             If ddlMoedaVenda.SelectedValue = 0 Then
                 ddlMoedaVenda.SelectedValue = ddlMoedaCompra.SelectedValue
             End If
@@ -698,7 +706,11 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                 txtValorTaxaVendaMin.Text = "" & txtValorTaxaVendaMin.Text & ""
             End If
 
-
+            If txtValorTaxaCompraMin.Text = "" Then
+                txtValorTaxaCompraMin.Text = "NULL"
+            Else
+                txtValorTaxaCompraMin.Text = "" & txtValorTaxaCompraMin.Text & ""
+            End If
 
 
             If txtIDTaxa.Text = "" Then
@@ -714,7 +726,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
 
                     'INSERE TAXAS
-                    ds = Con.ExecutarQuery("INSERT INTO TB_TABELA_FRETE_TAXA ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM,ID_ITEM_DESPESA,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN) VALUES (" & txtFreteTransportadorTaxa.Text & "," & ddlEstufagemTaxa.SelectedValue & " ," & ddlItemDespesa.SelectedValue & "," & ddlOrigemPagamento.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompra.SelectedValue & "," & txtValorTaxaCompra.Text & "," & ddlMoedaVenda.SelectedValue & "," & txtValorTaxaVenda.Text & ", " & txtValorTaxaVendaMin.Text & " )")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_TABELA_FRETE_TAXA ( ID_FRETE_TRANSPORTADOR,ID_TIPO_ESTUFAGEM,ID_ITEM_DESPESA,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA_MIN) VALUES (" & txtFreteTransportadorTaxa.Text & "," & ddlEstufagemTaxa.SelectedValue & " ," & ddlItemDespesa.SelectedValue & "," & ddlOrigemPagamento.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompra.SelectedValue & "," & txtValorTaxaCompra.Text & "," & ddlMoedaVenda.SelectedValue & "," & txtValorTaxaVenda.Text & ", " & txtValorTaxaVendaMin.Text & "," & txtValorTaxaCompraMin.Text & " )")
 
 
                     txtIDTaxa.Text = ""
@@ -726,6 +738,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                     txtValorTaxaCompra.Text = ""
                     txtValorTaxaVenda.Text = ""
                     txtValorTaxaVendaMin.Text = ""
+                    txtValorTaxaCompraMin.Text = ""
                     Con.Fechar()
                     divSuccessTaxa.Visible = True
 
@@ -745,14 +758,15 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
 
                     'ALTERA TAXAS
-                    ds = Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTaxa.Text & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagemTaxa.SelectedValue & ", ID_ITEM_DESPESA =  " & ddlItemDespesa.SelectedValue & " , ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ",ID_BASE_CALCULO_TAXA =  " & ddlBaseCalculoTaxa.SelectedValue & " ,ID_MOEDA_COMPRA =  " & ddlMoedaCompra.SelectedValue & ",VL_TAXA_COMPRA = " & txtValorTaxaCompra.Text & ",ID_MOEDA_VENDA = " & ddlMoedaVenda.SelectedValue & ",VL_TAXA_VENDA = " & txtValorTaxaVenda.Text & ", VL_TAXA_VENDA_MIN = " & txtValorTaxaVendaMin.Text & " WHERE ID_TABELA_FRETE_TAXA = " & txtIDTaxa.Text)
+                    ds = Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET ID_FRETE_TRANSPORTADOR =  " & txtFreteTransportadorTaxa.Text & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagemTaxa.SelectedValue & ", ID_ITEM_DESPESA =  " & ddlItemDespesa.SelectedValue & " , ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ",ID_BASE_CALCULO_TAXA =  " & ddlBaseCalculoTaxa.SelectedValue & " ,ID_MOEDA_COMPRA =  " & ddlMoedaCompra.SelectedValue & ",VL_TAXA_COMPRA = " & txtValorTaxaCompra.Text & ",ID_MOEDA_VENDA = " & ddlMoedaVenda.SelectedValue & ",VL_TAXA_VENDA = " & txtValorTaxaVenda.Text & ", VL_TAXA_VENDA_MIN = " & txtValorTaxaVendaMin.Text & ",VL_TAXA_COMPRA_MIN = " & txtValorTaxaCompraMin.Text & " WHERE ID_TABELA_FRETE_TAXA = " & txtIDTaxa.Text)
 
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
                     txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace("NULL", "")
                     txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace("NULL", "")
 
-
+                    txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace("NULL", "")
+                    txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace("NULL", "")
                 End If
 
             End If

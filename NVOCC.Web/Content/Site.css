@@ -208,7 +208,7 @@ input[type=submit] {
 .dropdown-menu > li > a > .dropdown-sub {
     position: relative;
     display: block;
-    padding: 20px 9px 20px 12px;
+    padding: 20px 9px 20px 10px;
 }
 
 .dropdown-menu .dropdown-sub {
@@ -243,7 +243,7 @@ input[type=submit] {
 .dropdown-sub a {
         color: black;
         position: relative;
-        padding: 20px 9px 20px 12px;
+        padding: 20px 9px 20px 10px;
 }
 
 .panel-body h4 {
@@ -575,9 +575,9 @@ table {
     height: 100%;
 }
 
-th, td {
+/*th, td {
     padding: 8px 16px;
-}
+}*/
 
 thead {
 /*    text-align: center;
@@ -640,11 +640,9 @@ input[type=number]::-webkit-inner-spin-button {
     margin-top: 20px !important;
 }
 
-
-
-#msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrDadoCalc, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess, #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
-#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek {
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
     display: none;
 }
 
@@ -667,12 +665,19 @@ input[type=number]::-webkit-inner-spin-button {
     justify-content: space-around;
 }
 
-#modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalContainerPartnerEditTitle, #modalContainerPartnerTitle,
-#modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle {
+#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
     font-size: 20px;
     font-weight: bold;
     width: 100%;
 }
+
+
 
 #btnCancelEdit, #btnSalvarEditContainer, #btnEditarContainer {
     display: none;
@@ -915,13 +920,13 @@ display: none;
 #btnProximo {
     display: none;
 }
-th {
+/*th {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
     margin: 0px !important;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
-}
+}*/
 
 .table tbody tr td {
     padding: 0px !important;

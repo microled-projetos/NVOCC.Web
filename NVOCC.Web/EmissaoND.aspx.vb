@@ -133,14 +133,14 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 If dsTaxas.Tables(0).Rows.Count > 0 Then
 
                     Dim tabela As String = "<br/><table style='font-family:Arial;font-size:10px;'><tr>"
-                    tabela &= "<th style='padding-right:10px'>Taxa</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa</th>"
                     tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
 
                     For Each linha As DataRow In dsTaxas.Tables(0).Rows
-                        tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
+                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px''>" & linha("ITEM_DESPESA") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CAMBIO") & "</td>"
@@ -150,7 +150,9 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
 
                     Next
-                    tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
+                    valores = FormatCurrency(valores)
+                    Dim Total As String = FormatCurrency(valores)
+                    tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & Total & "</td></tr>"
                     tabela &= "</table>"
                     divConteudoDinamico.InnerHtml = tabela
                     'lbltotal.Text = "Total: " & valores
@@ -165,6 +167,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 'lblUsuario.Text = lblLogin.Text
 
                 lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
+                lblDataEmissao.Text = Now.Date.ToString("dd/MM/yyyy")
 
 
                 ds = Con.ExecutarQuery("SELECT NR_PROCESSO FROM View_Contas_Receber WHERE ID_CONTA_PAGAR_RECEBER = " & ID)

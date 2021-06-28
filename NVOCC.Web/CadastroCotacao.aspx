@@ -881,7 +881,7 @@
                                 </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Origem pagamento:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlOrigemPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
                                         </asp:DropDownList>
                                     </div>

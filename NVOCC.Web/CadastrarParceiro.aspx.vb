@@ -86,7 +86,8 @@ QT_DIAS_FATURAMENTO,
 QT_DIAS_FATURAMENTO,
 ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
-FL_EQUIPE_INSIDE_SALES
+FL_EQUIPE_INSIDE_SALES,
+FL_SHIPPER
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -102,6 +103,7 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbArmazemDesembaraco.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESEMBARACO")
                 ckbArmazemDescarga.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESCARGA")
                 ckbPrestador.Checked = ds.Tables(0).Rows(0).Item("FL_PRESTADOR")
+                ckbShipper.Checked = ds.Tables(0).Rows(0).Item("FL_SHIPPER")
                 txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 txtNomeFantasia.Text = ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
                 ddlTipoPessoa.SelectedValue = ds.Tables(0).Rows(0).Item("TP_PESSOA").ToString()
@@ -208,7 +210,7 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
-        ElseIf ddlTipoPessoa.SelectedValue <> 3 And (ddlCidade.SelectedValue = 0 Or txtEndereco.Text = "" Or txtBairro.Text = "" Or txtNumero.Text = "" Or txtCEP.Text = "") Then
+        ElseIf (ddlTipoPessoa.SelectedValue <> 3 And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False) And (ddlCidade.SelectedValue = 0 Or txtEndereco.Text = "" Or txtBairro.Text = "" Or txtNumero.Text = "" Or txtCEP.Text = "") Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -253,7 +255,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbShipper.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -511,7 +513,8 @@ QT_DIAS_FATURAMENTO,
 ID_TIPO_FATURAMENTO,
 EMAIL,
 FL_VENDEDOR_DIRETO,
-FL_EQUIPE_INSIDE_SALES
+FL_EQUIPE_INSIDE_SALES,
+FL_SHIPPER
 ) 
 VALUES ( 
 '" & ckbImportador.Checked & "',
@@ -565,7 +568,8 @@ VALUES (
 " & ddlTipoFaturamento.SelectedValue & ",
 " & txtEmailParceiro.Text & ",
 '" & ckbVendedorDireto.Checked & "',
-'" & ckbEquipeInsideSales.Checked & "'
+'" & ckbEquipeInsideSales.Checked & "',
+'" & ckbShipper.Checked & "'
 ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -906,7 +910,8 @@ QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
 ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
 EMAIL =  " & txtEmailParceiro.Text & ",
 FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
-FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
+FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
+FL_SHIPPER = '" & ckbShipper.Checked & "'
 where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 

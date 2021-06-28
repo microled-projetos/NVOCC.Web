@@ -117,14 +117,14 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                     If dsTaxas.Tables(0).Rows.Count > 0 Then
 
                         Dim tabela As String = "<br/><table style='font-family:Arial;font-size:10px;'><tr>"
-                        tabela &= "<th style='padding-right:10px'>Taxa</th>"
+                        tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa</th>"
                         tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
-                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
-                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
-                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
+                        tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor</th>"
+                        tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
+                        tabela &= "<th style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
 
                         For Each linha As DataRow In dsTaxas.Tables(0).Rows
-                            tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
+                            tabela &= "<tr><td style='padding-left:10px;padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CAMBIO") & "</td>"
@@ -134,7 +134,8 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
 
 
                         Next
-                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
+                        Dim Total As String = FormatCurrency(valores)
+                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & Total & "</td></tr>"
                         tabela &= "</table>"
                         divConteudoDinamico.InnerHtml = tabela
                         'lbltotal.Text = "Total: " & valores
@@ -146,6 +147,13 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
 
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_NOTA_DEBITO = getdate(), NR_NOTA_DEBITO = '" & numero & "' WHERE ID_FATURAMENTO =" & ID)
                         Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_NOTA_DEBITO = '" & numero & "' WHERE ID_NUMERACAO = 5")
+
+                        lblDataEmissao.Text = Now.Date.ToString("dd/MM/yyyy")
+                        lblFatura.Text = numero
+                    Else
+                        lblDataEmissao.Text = ds.Tables(0).Rows(0).Item("DT_NOTA_DEBITO")
+                        lblFatura.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")
+
                     End If
 
                     ds = Con.ExecutarQuery("SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = " & Session("ID_USUARIO"))

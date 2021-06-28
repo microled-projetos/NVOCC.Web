@@ -86,7 +86,8 @@ namespace ABAINFRA.Web
             ddlTipoOperacao.Items.Insert(0, new ListItem("Selecione", ""));
             ddlTipoOperacao.Items.Insert(1, new ListItem("FCL", "1"));
             ddlTipoOperacao.Items.Insert(2, new ListItem("LCL", "2"));
-            ddlTipoOperacao.Items.Insert(3, new ListItem("Aéreo", "3"));
+            ddlTipoOperacao.Items.Insert(3, new ListItem("FCL/LCL", "3"));
+            ddlTipoOperacao.Items.Insert(4, new ListItem("Aéreo", "4"));
         }
     }
 }

@@ -13,9 +13,9 @@
         .none{
             display:none
         }
-     /*  .teste{
-           text-align:left
-       }*/
+       .teste{
+           text-align:left;
+       }
        th {
     position: sticky !important;
     top: 0;

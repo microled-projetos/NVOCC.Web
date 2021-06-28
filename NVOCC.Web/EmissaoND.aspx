@@ -16,6 +16,9 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding-left:10px;
+            }
         }
     </style> <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
@@ -80,7 +83,7 @@
                         <td>
         <table border="1">
             <tr>
-                <td>
+                <td >
                     <center>
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
                     <div style="text-align: center;">
@@ -108,7 +111,7 @@
         </table>
         <table  style="border-style:solid;border-width: thin;">
             <tr>
-                <td>
+                <td style="padding-left:10px">
                     <strong>CLIENTE</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
                     <br />
                 </td>

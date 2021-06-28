@@ -169,13 +169,7 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label class="control-label"></label>
-                                                <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
-
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="col-sm-3">
                                             <div class="form-group">
@@ -198,8 +192,6 @@
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Número CE:</label>
@@ -207,6 +199,9 @@
 
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+                                        
 
                                         <div class="col-sm-3" style="display:none">
                                             <div class="form-group">
@@ -225,6 +220,27 @@
                                             <div class="form-group">
                                                 <label class="control-label">Referência Auxiliar:</label>
                                                 <asp:TextBox ID="txtRefAuxiliar_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Divisão Profit:</label>
+                                         <asp:DropDownList ID="ddlDivisaoProfit_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
+                                        </asp:DropDownList>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Divisão Profit:</label>
+                                        <asp:TextBox ID="txtValorDivisaoProfit_BasicoMaritimo"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <asp:CheckBox ID="ckbFreeHand" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+
                                             </div>
                                         </div>
                                     </div>
@@ -678,7 +694,7 @@ VENDAS:
                                                                         </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Origem do Pagamento:</label>
+                                                                                <label class="control-label">Origem Serviço:</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
 
                                                                             </div>
@@ -700,7 +716,7 @@ VENDAS:
                                                                         </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Fornecedor:</label>
+                                                                               <strong><asp:label cssclass="control-label"  runat="server" ID="lblTipoEmpresa_Maritimo" Text="Fornecedor:"/></strong>
                                                                                 <asp:DropDownList ID="ddlEmpresa_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorMaritimo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
@@ -1001,6 +1017,12 @@ VENDAS:
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Serviço:</label>
+                                                        <asp:DropDownList ID="ddlServico_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServicoAereo" DataValueField="ID_SERVICO"></asp:DropDownList>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -1015,10 +1037,11 @@ VENDAS:
                                                         <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Serviço:</label>
-                                                        <asp:DropDownList ID="ddlServico_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServicoAereo" DataValueField="ID_SERVICO"></asp:DropDownList>
+                                                        <label class="control-label">Tipo de Carga:</label>
+                                                        <asp:DropDownList ID="ddlTipoCarga_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
+                                                        </asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1079,11 +1102,12 @@ VENDAS:
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Tipo de Carga:</label>
-                                                        <asp:DropDownList ID="ddlTipoCarga_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
+                                                        <label class="control-label">Importador:</label>
+                                                        <asp:DropDownList ID="ddlImportador_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsImportador">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
+
 
                                             </div>
                                             <div class="row">
@@ -1110,23 +1134,16 @@ VENDAS:
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Importador:</label>
-                                                        <asp:DropDownList ID="ddlImportador_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsImportador">
-                                                        </asp:DropDownList>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
                                                         <label class="control-label">Número CE:</label>
                                                         <asp:TextBox ID="txtNumeroCE_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
 
                                                     </div>
                                                 </div>
+
+
+                                            </div>
+                                            <div class="row">
+                                               
 
                                                 <div class="col-sm-3" style="display:none">
                                                     <div class="form-group">
@@ -1148,7 +1165,21 @@ VENDAS:
                                                         <asp:TextBox ID="txtRefAuxiliar_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                            </div>
+                                       <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Divisão Profit:</label>
+                                         <asp:DropDownList ID="ddlDivisaoProfit_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
+                                        </asp:DropDownList>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Divisão Profit:</label>
+                                        <asp:TextBox ID="txtValorDivisaoProfit_BasicoAereo"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+</div>
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
@@ -1583,7 +1614,7 @@ VENDAS:
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Origem do Pagamento:</label>
+                                                                        <label class="control-label">Origem Serviço:</label>
                                                                         <asp:DropDownList ID="ddlOrigemPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -1598,8 +1629,7 @@ VENDAS:
 
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Fornecedor:</label>
-                                                                        <asp:DropDownList ID="ddlEmpresa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorAereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            <strong><asp:label cssclass="control-label"  runat="server" ID="lblTipoEmpresa_Aereo" Text="Fornecedor:"/></strong>                         <asp:DropDownList ID="ddlEmpresa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorAereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -2136,6 +2166,10 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
     </asp:SqlDataSource>
+     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
+union SELECT  0, 'Selecione' FROM [dbo].TB_TIPO_DIVISAO_PROFIT ORDER BY ID_TIPO_DIVISAO_PROFIT">
+</asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

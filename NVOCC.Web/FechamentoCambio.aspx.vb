@@ -260,18 +260,25 @@
             lblErro.Text = "Informe a data de liquidação!"
         Else
             'update de liquidacao
-            Con.ExecutarQuery("UPDATE TB_ACCOUNT_FECHAMENTO SET DT_LIQUIDACAO = '" & txtDataLiquidacaoBaixa.Text & "' WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
 
 
-            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTAS_PAGAR_RECEBER() VALUES () ;  Select SCOPE_IDENTITY() as ID_CONTAS_PAGAR_RECEBER  ")
-            Dim ID_CONTAS_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTAS_PAGAR_RECEBER")
-            'ds = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_INVOICE WHERE ")
-            'For Each linha As GridViewRow In ds.Tables(0).Rows
 
-            '    Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS () VALUES ()")
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (
+DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
 
-            'Next
+            Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+            ds = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS WHERE ID_ACCOUNT_FECHAMENTO =  " & txtID.Text)
+            For Each linha As DataRow In ds.Tables(0).Rows
 
+                Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL,ID_BL_TAXA,ID_MOEDA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,DS_HISTORICO_LANCAMENTO,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,VL_TAXA_CALCULADO,TP_CLASSIFICACAO,FL_INTEGRA_PA) 
+SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
+(SELECT ID_MOEDA FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & linha.Item("ID_ACCOUNT_INVOICE") & "),
+(SELECT DT_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),
+(SELECT VL_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),VL_TAXA_BR,VL_TAXA_BR,'ACCOUNT – FECHAMENTO DE CÂMBIO ' + (SELECT NR_CONTRATO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),ID_ITEM_DESPESA,(SELECT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE =  " & linha.Item("ID_ACCOUNT_INVOICE") & "),VL_TAXA,CD_TIPO_DEVOLUCAO,1 FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACCOUNT_INVOICE"))
+
+            Next
+
+            Con.ExecutarQuery("UPDATE TB_ACCOUNT_FECHAMENTO SET DT_LIQUIDACAO = CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103), ID_USUARIO_LIQUIDACAO =" & Session("ID_USUARIO") & ",ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER & "  WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
             Con.Fechar()
             limpaFormulario()
             ModalPopupExtender4.Hide()
@@ -304,6 +311,22 @@
             ModalPopupExtender3.Show()
             Exit Sub
         Else
+
+            txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(".", "")
+            txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(",", ".")
+
+            txtIOFNovo.Text = txtIOFNovo.Text.Replace(".", "")
+            txtIOFNovo.Text = txtIOFNovo.Text.Replace(",", ".")
+
+            txtValorBRNovo.Text = txtValorBRNovo.Text.Replace(".", "")
+            txtValorBRNovo.Text = txtValorBRNovo.Text.Replace(",", ".")
+
+            txtValorNovo.Text = txtValorNovo.Text.Replace(".", "")
+            txtValorNovo.Text = txtValorNovo.Text.Replace(",", ".")
+
+            txtCambioNovo.Text = txtCambioNovo.Text.Replace(".", "")
+            txtCambioNovo.Text = txtCambioNovo.Text.Replace(",", ".")
+
             'insert cabeçalho
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_FECHAMENTO (ID_PARCEIRO_AGENTE ,ID_PARCEIRO_CORRETOR ,ID_USUARIO_LANCAMENTO
 ,ID_MOEDA ,NR_CONTRATO,DT_FECHAMENTO ,DT_APROVACAO  ,DT_TAXA_CAMBIO ,VL_TAXA_CAMBIO,VL_TARIFA_CORRETOR ,VL_IOF ,VL_CONTRATO ,VL_CONTRATO_BR ) VALUES(" & ddlAgenteNovo.SelectedValue & "," & ddlCorretorNovo.SelectedValue & "," & Session("ID_USUARIO") & "," & ddlMoedaNovo.SelectedValue & ",'" & txtContratoNovo.Text & "',CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataCambioNovo.Text & "',103)," & txtCambioNovo.Text & ", " & txtTarifaNovo.Text & "," & txtIOFNovo.Text & "," & txtValorNovo.Text & "," & txtValorBRNovo.Text & ") Select SCOPE_IDENTITY() as ID_ACCOUNT_FECHAMENTO  ")

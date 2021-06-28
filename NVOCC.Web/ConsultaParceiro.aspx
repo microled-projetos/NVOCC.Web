@@ -29,6 +29,7 @@
                 </div>
                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
     <ContentTemplate>
+              <asp:TextBox ID="txtID" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
                        <div class="row" style="padding:10px">                        
                                 <div class="col-sm-3">
                                     <div class="form-group">
@@ -134,7 +135,7 @@
        <link href="Content/css/select2.css" rel="stylesheet" />
         <script src="Content/ScrollableGridPlugin.js"></script>
     <script>
-       <%-- function TaxaParceiro() {
+       function TaxaParceiro() {
 
 
             var ID = document.getElementById('<%= txtID.ClientID %>').value;
@@ -149,7 +150,7 @@
             console.log(ID);
 
             window.open('TaxasLocaisArmador.aspx?id=' + ID, '_blank');
-        }--%>
+        }
     </script>
    
 </asp:Content>

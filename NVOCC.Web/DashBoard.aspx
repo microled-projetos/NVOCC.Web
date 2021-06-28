@@ -64,7 +64,12 @@
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label class="control-label">Estilo<span class="required">&nbsp</span></label>
-                                        <asp:DropDownList ID="ddlEstilo" runat="server" CssClass="form-control"></asp:DropDownList>
+                                        <select id="ddlEstilo" class="form-control">
+                                            <option value="bar">Barra</option>
+                                            <option value="line">Linha</option>
+                                            <option value="pie">Pizza</option>
+                                            <option value="doughnut">Donuts</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -107,8 +112,13 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade active in" id="processoExpectGrid">
-                                   <div id="graph">
+                                    <div id="graph">
                                         
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between">
+                                        <div id="processGraph"></div>
+                                        <div id="cntrGraph"></div>
+                                        <div id="teusGraph"></div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="processoRealGrid">
@@ -126,6 +136,9 @@
     <script src="Content/chart.js-3.2.0/package/dist/chart.js"></script>
     <script>
         var myChart;
+        var myChart2;
+        var myChart3;
+        var myChart4;
         const graph = document.getElementById("graph");
         $(document).ready(function () {
             $.ajax({
@@ -153,10 +166,12 @@
             var mesInicial = document.getElementById("MainContent_ddlMesInicial");
             var mesFinal = document.getElementById("MainContent_ddlMesFinal");
             var vendedor = document.getElementById("ddlVendedor");
+            var tipoEstufagem = document.getElementById("MainContent_ddlTipoOperacao");
+            var type = document.getElementById("ddlEstilo").value;
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/CarregarEstatistica",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '" }',
+                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value+'" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -170,42 +185,40 @@
                     if (data != null) {
                         for (var i = 0; i < data.length; i++) {
                             lineChartProcesso[i] = data[i]["PROCESSO"];
-                            lineChartCntr[i] = data[i]["QtdCntr"];
-                            lineChartTeus[i] = data[i]["teus"];
+                            lineChartCntr[i] = data[i]["CONTAINER"];
+                            lineChartTeus[i] = data[i]["TEUS"];
                             label[i] = data[i]["PERIODO"];
                         }
                     }
                     else {
-                        lineChart[0] = 0;
-                        label[0] = 0;
+                        $("#graph").append("<canvas id='mainGraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
                     }
-                    console.log(label);
                     $("#graph").empty();
-                    $("#graph").append("<canvas id='mainGraph' height='60'></canvas>");
+                    $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px;'></canvas>");
                     var ctx = document.getElementById('mainGraph').getContext('2d');
                     myChart = new Chart(ctx, {
-                        type: 'bar',
+                        type: type,
                         data: {
                             labels: label,
                             datasets: [
                                 {
                                     barThickness: 30,
                                     label: 'TEUS',
-                                    data: lineChartTeus,
+                                    data: [lineChartTeus[0]],
                                     backgroundColor: ['rgba(255, 206, 86, 1)'],
                                     borderWidth: 1
                                 },
                                 {
                                     barThickness: 30,
                                     label: 'Processos',
-                                    data: lineChartProcesso,
+                                    data: [lineChartProcesso[0]],
                                     backgroundColor: ['rgba(255, 99, 132, 1)'],
                                     borderWidth: 1
                                 },
                                 {
                                     barThickness: 30,
                                     label: 'Containers',
-                                    data: lineChartCntr,
+                                    data: [lineChartCntr[0]],
                                     backgroundColor: ['rgba(54, 162, 235,1)'],
                                     borderWidth: 1
                                 }
@@ -230,8 +243,9 @@
                 },
             });
 
-            /*var ctx2 = document.getElementById('processGraph').getContext('2d');
-            var myChart = new Chart(ctx2, {
+            var ctx2 = document.getElementById('processGraph').getContext('2d');
+            $("#graph").append("<canvas id='pgraph' style='height: 300px;'></canvas>");
+            var myChart2 = new Chart(ctx2, {
                 type: 'bar',
                 data: {
                     labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
@@ -256,7 +270,8 @@
             });
 
             var ctx3 = document.getElementById('cntrGraph').getContext('2d');
-            var myChart = new Chart(ctx3, {
+            $("#graph").append("<canvas id='cgraph' style='height: 300px;'></canvas>");
+            var myChart3 = new Chart(ctx3, {
                 type: 'bar',
                 data: {
                     labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
@@ -281,7 +296,8 @@
             });
 
             var ctx4 = document.getElementById('teusGraph').getContext('2d');
-            var myChart = new Chart(ctx4, {
+            $("#graph").append("<canvas id='tgraph' style='height: 300px;'></canvas>");
+            var myChart4 = new Chart(ctx4, {
                 type: 'bar',
                 data: {
                     labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
@@ -303,7 +319,7 @@
                         }
                     }
                 }
-            });*/
+            });
         }
     </script>
 </asp:Content>

@@ -127,6 +127,8 @@
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
+                                            <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
+
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -474,35 +476,42 @@
        <div class="alert alert-danger" id="divErroConsultasNotas" runat="server" visible="false">
                                     <asp:Label ID="lblErroConsultasNotas" runat="server"></asp:Label>
                                 </div>
-                                                            <div class="row"><div class="linha-colorida">Número Nota Fiscal</div>
-                                <div class="col-sm-6">
+                  <div class="row">
+                                        <div class="col-sm-6">
+                                    <div class="linha-colorida">Número Nota Fiscal</div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                                                                <div class="col-sm-6">
+   </div>
+                                    <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                       </div>                      
-                               <div class="row"><div class="linha-colorida">Número RPS</div>
-                                <div class="col-sm-6">
+                                    </div>
+                                    </div>
+                      <div class="col-sm-6">
+                                    <div class="linha-colorida">Número RPS</div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                                                                <div class="col-sm-6">
+                                         </div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
+                                                                
+
+                                </div>
                        </div>  
-                                                            <div class="row"><div class="linha-colorida">Vencimento</div>
+                                                            <div class="row">
+                                                             <div class="col-sm-6">      <div class="linha-colorida">Vencimento</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -515,24 +524,27 @@
                                <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
-                       </div> <div class="row"><div class="linha-colorida">Pagamento</div>
+                                                                 </div>
+                                                                 <div class="col-sm-6">  
+                      <div class="linha-colorida">Pagamento</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
-                                                                <div class="col-sm-6">
+                              <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
                        </div>
-                                                            <div class="row"><div class="linha-colorida">Status</div>
-                                                                                                                                <br />
 
-                                <div class="col-sm-12">
+                                                          </div>
+                                                          <div class="row">                                                                                                                           
+                                <div class="col-sm-6">
+                                    <div class="linha-colorida">Status</div><br />
                                      <div class="form-group">
                                <asp:DropDownList ID="ddlStatusConsultaNotas" runat="server" CssClass="form-control" Font-Size="11px">
                                                     <asp:ListItem Value="0" Text="TODAS"></asp:ListItem>
@@ -541,11 +553,10 @@
                                            
                                                 </asp:DropDownList>
                            </div>
-                                     </div> </div>
-                                                            <div class="row"><div class="linha-colorida">Cliente</div>
-                                                                <br />
-                                                                <div class="col-sm-12">
-                                     <div class="form-group">
+                                     </div> 
+                                                             
+                                                                <div class="col-sm-6"><div class="linha-colorida">Cliente</div><br />
+                                     <div class="form-group"> 
                               <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="COD" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
                                                 </asp:DropDownList>
                            </div>

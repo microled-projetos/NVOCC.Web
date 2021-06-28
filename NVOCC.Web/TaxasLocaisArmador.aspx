@@ -20,7 +20,7 @@
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccess" runat="server" visible="false">
-                                        <asp:label ID="lblmsgSuccess" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:label>
+                                        <asp:label ID="lblmsgSuccess" runat="server"></asp:label>
                                     </div>
                                                             
                                     <div class="alert alert-danger" ID="divErro" runat="server" visible="false">
@@ -256,6 +256,28 @@
                     </h3>                  
                 </div>
 
+                                                                        <div class="row" style="padding:10px">                        
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Consultar por:</label>
+                                         <asp:DropDownList ID="ddlConsulta" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True">
+                                            <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
+                                            <asp:ListItem Value="1">Porto</asp:ListItem>
+                                            <asp:ListItem Value="3">Comex</asp:ListItem>
+                                            <asp:ListItem Value="2">Via Transporte</asp:ListItem>
+
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="divPesquisa" runat="server">
+                                    <div class="form-group">   
+                                        <label class="control-label">Pesquisar</label>
+                                        <asp:TextBox ID="txtConsulta" runat="server" autopostback="true" CssClass="form-control"></asp:TextBox>
+                                        <asp:label ID="msgerro" runat="server" style ="color:red" />
+                                    </div>                                   
+                                </div>
+                       </div>
+
                 <div class="panel-body">                                   
                             <br />
                              <div class="row">
@@ -280,21 +302,30 @@
                             <div class="table-responsive tableFixHead" id="divGrid" runat="server">
                                 
                                 <asp:GridView ID="dgvTaxas" DataKeyNames="ID_TAXA_LOCAL_TRANSPORTADOR" DataSourceID="dstaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AutoGenerateColumns="false"  style="max-height:400px; overflow:auto;" AllowSorting="true" OnSorting="dgvTaxas_Sorting" >
-                                    <Columns>                                          
+                                    <Columns> 
+                                                                               
                                         <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'  
-                                Text="Visualizar"  CssClass="btn btn-primary btn-sm" ><i class="fas fa-eye"></i></div></asp:LinkButton>
-                                   </ItemTemplate>  
-                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="" >
-                                         <ItemTemplate>                          
-                            <asp:LinkButton ID="btnExcluir" Style="margin-right:5px" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:LinkButton>
+                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
                                    </ItemTemplate>
                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="" >
+                                         <ItemTemplate>                          
+                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Text="Visualizar"  CssClass="btn btn-primary btn-sm" ><i class="fas fa-eye"></i></div></asp:LinkButton>
+                                   </ItemTemplate>  
+                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                         <asp:TemplateField HeaderText="" >
+                                        <ItemTemplate>
+                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
+                                                                            Text="Duplicar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate"></i></div></asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                                          <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+
+                                                                             </asp:TemplateField>
+                                        
                                         <asp:BoundField DataField="ID_TAXA_LOCAL_TRANSPORTADOR" HeaderText="#"  SortExpression="ID_TAXA_LOCAL_TRANSPORTADOR"/>
                                         <asp:BoundField DataField="NM_PORTO" HeaderText="Porto"  SortExpression="NM_PORTO"/>
                                         <asp:BoundField DataField="NM_TIPO_COMEX" HeaderText="Tipo Comex" SortExpression="NM_TIPO_COMEX" />
@@ -312,6 +343,8 @@
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                     <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
                                <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
+                                    <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
+
 <%--            <asp:AsyncPostBackTrigger  ControlID="btnFechar" />
             <asp:AsyncPostBackTrigger  ControlID="btnFecharNovo" />--%>
 
