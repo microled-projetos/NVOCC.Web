@@ -60,11 +60,11 @@ Follows our Quotation for business opportunity.<br /><br/>
 <asp:label runat="server" ID="lblTituloIngles" class="control-label" /><br />
 Number:<asp:label runat="server" ID="lblNumeroCotacaoIngles" class="control-label" /><br/>
 Issuance date: <asp:label runat="server" ID="lblDataAtualIngles" class="control-label" /><br/></div>
-<br/>
+<br/><div id="detalhesCarga" runat="server">
 <div class="linha-colorida2">Cargo Details</div>
 <strong>Gross weight:</strong> <asp:label runat="server" ID="lblPesoBrutoIngles" class="control-label" /><br />
 <strong>Measurement CBM:</strong> <asp:label runat="server" ID="lblM3Ingles" class="control-label" /><br /> 
-<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxadoIngles" class="control-label" /><br /> 
+<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxadoIngles" class="control-label" /><br /> </div>
 <br/>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERMIngles" class="control-label" /></div>
 <strong>Origin: </strong><asp:label runat="server" ID="lblOrigemIngles" class="control-label" /><br />

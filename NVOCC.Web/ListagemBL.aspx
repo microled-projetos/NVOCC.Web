@@ -132,7 +132,14 @@
                                                               <asp:TextBox ID="txtPosicaoEmbarque" Style="display:none" runat="server"></asp:TextBox>
 
                                         <asp:GridView ID="dgvEmbarque" DataKeyNames="ID_BL" DataSourceID="dsEmbarque" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvEmbarque_Sorting">
-                                            <Columns>
+                                            <Columns>      
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>
+                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoEmbarque()"></asp:LinkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
@@ -143,13 +150,7 @@
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
                                                 <asp:BoundField DataField="NR_CE" HeaderText="CE" SortExpression="NR_CE" />
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
-                                                <asp:TemplateField HeaderText="">
-                                                    <ItemTemplate>
-                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoEmbarque()"></asp:LinkButton>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
+                                        
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -432,7 +433,14 @@
                                     <div runat="server" class="table-responsive tableFixHead DivGridMaster" id="DivGridMaster">
                                         <asp:TextBox ID="txtPosicaoMaster" Style="display:none" runat="server"></asp:TextBox>
                                         <asp:GridView ID="dgvMaster" DataKeyNames="ID_BL" DataSourceID="dsMaster" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvMaster_Sorting">
-                                            <Columns>
+                                            <Columns>   
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>
+                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoMaster()"></asp:LinkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
@@ -446,13 +454,7 @@
                                                 <asp:BoundField DataField="DT_CHEGADA" HeaderText="Chegada" SortExpression="DT_CHEGADA" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
-                                                <asp:TemplateField HeaderText="">
-                                                    <ItemTemplate>
-                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicaoMaster()"></asp:LinkButton>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
+                                             
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -566,6 +568,13 @@
                                         <asp:TextBox ID="txtPosicaoHouse" Style="display:none" runat="server"></asp:TextBox>
                                         <asp:GridView ID="dgvHouse" DataKeyNames="ID_BL" DataSourceID="dsHouse" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." OnSorting="dgvHouse_Sorting">
                                             <Columns>
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>
+                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
+                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicaoHouse()"></asp:LinkButton>
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
@@ -585,13 +594,7 @@
                                                 <asp:BoundField DataField="DT_DESCONSOLIDACAO" HeaderText="Desconsolidação" SortExpression="DT_DESCONSOLIDACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="NAVIO" HeaderText="Navio" SortExpression="NAVIO" />
                                                 <asp:BoundField DataField="WEEK" HeaderText="Week" SortExpression="WEEK" />
-                                                <asp:TemplateField HeaderText="">
-                                                    <ItemTemplate>
-                                                        <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                            CommandArgument='<%# Eval("ID_BL") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicaoHouse()"></asp:LinkButton>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
+                                               
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

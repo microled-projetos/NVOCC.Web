@@ -48,7 +48,6 @@ FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
-
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("CNPJ_CLIENTE")) Then
                 lblCnpjClienteIngles.Text = ds.Tables(0).Rows(0).Item("CNPJ_CLIENTE")
             ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("CPF_CLIENTE")) Then
@@ -63,6 +62,9 @@ FROM  TB_COTACAO A
 
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                 CONTAINER()
+                detalhesCarga.Visible = False
+            Else
+                detalhesCarga.Visible = True
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_CLIENTE")) Then
@@ -144,9 +146,9 @@ FROM  TB_COTACAO A
 
 
             TAXAS()
-            End If
+        End If
 
-            Con.Fechar()
+        Con.Fechar()
 
     End Sub
 

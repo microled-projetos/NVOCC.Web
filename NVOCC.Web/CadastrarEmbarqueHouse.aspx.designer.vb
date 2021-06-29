@@ -77,6 +77,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents lblErro_BasicoMaritimo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtIDMaster_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDMaster_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtID_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -102,6 +111,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtMBL_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnVisualizarMBL_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnVisualizarMBL_Maritimo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle txtHBL_BasicoMaritimo.
@@ -1283,6 +1301,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtID_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtIDMaster_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDMaster_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtProcesso_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1308,6 +1335,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtMBL_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnVisualizarMBL_Aereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnVisualizarMBL_Aereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle txtHBL_BasicoAereo.

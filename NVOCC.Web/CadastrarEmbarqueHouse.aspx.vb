@@ -51,6 +51,9 @@
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
                     End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                        txtIDMaster_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
                         txtMBL_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("BL_MASTER")
@@ -195,6 +198,10 @@
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                        txtIDMaster_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
@@ -2273,7 +2280,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Dim cntr As Integer
 
         'COMPARARA CNTR ATUAL(ANTES DO UPDATE) COM O CNTR DO FORMULARIO
-        Dim dsCNTR As DataSet = Con.ExecutarQuery("SELECT ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL)
+        Dim dsCNTR As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_CNTR_BL,0)ID_CNTR_BL FROM TB_CARGA_BL WHERE ID_CARGA_BL =  " & ID_CARGA_BL)
         If dsCNTR.Tables(0).Rows.Count > 0 Then
             cntr = dsCNTR.Tables(0).Rows(0).Item("ID_CNTR_BL")
         End If
@@ -2314,6 +2321,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
                     End If
                 End If
+            Else
+                'VERIFICA SE HÁ AMARRAÇÃO DE CNTR SELECIONADO NO FORMULARIO
+                Dim dsAMRNovo As DataSet = Con.ExecutarQuery("SELECT ID_AMR_CNTR_BL FROM TB_AMR_CNTR_BL WHERE ID_BL = " & ID_BL & "  AND ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.Text)
+                'CASO EXISTA
+                If dsAMRNovo.Tables(0).Rows.Count = 0 Then
+                    'CASO SIM, CHAMA ROTINA DE INSERÇÃO
+                    Call AMR_CNTR_INSERT(ID_BL, ID_CARGA_BL)
+
+
+                End If
+
 
             End If
 

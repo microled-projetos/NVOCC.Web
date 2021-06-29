@@ -449,7 +449,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Venda):</label>
-                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100" AutoPostBack="true"></asp:TextBox>
                                     </div>
                                 </div>
                                       
@@ -468,13 +468,20 @@
                                     </div>
                                 </div>                                     
                            </div>
-                   <div class="row">
-                                <div class="col-sm-12">
+                   <div class="row">  
+                       <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Pagamento:</label>
+<asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>                                    </div>
+                                </div>
+                                <div class="col-sm-8">
                                     <div class="form-group">
                                         <label class="control-label">Taxas Included:</label>
-                                        <asp:TextBox ID="txtIncludedFrete" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtIncludedFrete" runat="server"  CssClass="form-control"></asp:TextBox>
                                     </div>
-                                </div></div>
+                                </div>
+                   
+                   </div>
                                     </div>
                                </div>
                                <div class="modal-footer">
@@ -596,7 +603,7 @@
                                      <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Mercadoria:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlMercadoria" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA">
+                                         <asp:DropDownList ID="ddlMercadoria" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCarga" DataValueField="ID_TIPO_CARGA">
                                         </asp:DropDownList>
                                     </div>
                                 </div> 
@@ -703,13 +710,21 @@
                             <div class="row">
                                  <div class="col-sm-12" >
                                     <div class="form-group">
-                                        <label class="control-label">DS Mercadoria:</label>
-                                        <asp:TextBox ID="txtDsMercadoria" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                        <label class="control-label">Desc. Mercadoria:</label>
+                                        <asp:TextBox ID="txtDsMercadoria" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                                  
                                 </div>
-                           
+                           <div class="row">
+                                 <div class="col-sm-12" >
+                                    <div class="form-group">
+                                        <label class="control-label">OBS Endereço:</label>
+                                        <asp:TextBox ID="txtOBS_Endereco" runat="server" MaxLength="200" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 
+                                </div>
                       
                                                        
                                                         </div>                     
@@ -1420,4 +1435,9 @@ union SELECT  0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO">
 </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        function Func() {
+            alert("O valor de venda é menor que o valor de compra!");
+        }
+    </script>
 </asp:Content>

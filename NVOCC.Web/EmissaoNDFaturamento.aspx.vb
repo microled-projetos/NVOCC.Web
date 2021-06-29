@@ -18,13 +18,14 @@
             If Request.QueryString("id") <> "" Then
                 Con.Conectar()
                 Dim ID As String = Request.QueryString("id")
-                ds = Con.ExecutarQuery("SELECT F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO,F.ID_FATURAMENTO,A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_VENCIMENTO,103)DT_VENCIMENTO,NR_FATURA_FORNECEDOR,
+                ds = Con.ExecutarQuery("SELECT F.NR_NOTA_DEBITO,CONVERT(VARCHAR,F.DT_NOTA_DEBITO,103)DT_NOTA_DEBITO,F.ID_FATURAMENTO,A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_VENCIMENTO,103)DT_VENCIMENTO,NR_FATURA_FORNECEDOR,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = D.ID_PORTO_ORIGEM)ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = D.ID_PORTO_DESTINO)DESTINO,
 CONVERT(VARCHAR,DT_EMBARQUE,103)EMBARQUE,
 CONVERT(VARCHAR,DT_CHEGADA,103)CHEGADA,
 (SELECT NM_NAVIO FROM TB_NAVIO WHERE ID_NAVIO = D.ID_NAVIO)NAVIO,
-NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,
+NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,(SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = D.ID_TIPO_PAGAMENTO)NM_TIPO_PAGAMENTO,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = D.ID_PARCEIRO_EXPORTADOR)PARCEIRO_EXPORTADOR,
 (SELECT NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL= D.ID_BL)REFERENCIA_CLIENTE
 FROM TB_FATURAMENTO F
 LEFT JOIN TB_CONTA_PAGAR_RECEBER A ON A.ID_CONTA_PAGAR_RECEBER = F.ID_CONTA_PAGAR_RECEBER
@@ -32,7 +33,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONT
 LEFT JOIN TB_BL_TAXA C ON C.ID_BL_TAXA = B.ID_BL_TAXA
 LEFT JOIN TB_BL D ON D.ID_BL = C.ID_BL
 WHERE F.ID_FATURAMENTO = " & ID & "
-GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_FORNECEDOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,DT_EMBARQUE,DT_CHEGADA,ID_NAVIO,NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,D.ID_BL,F.ID_FATURAMENTO,F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO")
+GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_FORNECEDOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,DT_EMBARQUE,DT_CHEGADA,ID_NAVIO,NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,D.ID_BL,F.ID_FATURAMENTO,F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO, D.ID_TIPO_PAGAMENTO, D.ID_PARCEIRO_EXPORTADOR")
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")) Then
                         lblVencimento.Text = ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")
@@ -62,6 +63,10 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                         lblNavio.Text = ds.Tables(0).Rows(0).Item("NAVIO")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EXPORTADOR")) Then
+                        lblExportador.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_EXPORTADOR")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")) Then
                         lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO")
                     End If
@@ -70,10 +75,17 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                         lblQtdVolumes.Text = ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_PAGAMENTO")) Then
+                        lblFrete.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_PAGAMENTO")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("REFERENCIA_CLIENTE")) Then
                         lblReferencias.Text = ds.Tables(0).Rows(0).Item("REFERENCIA_CLIENTE")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                        lblHouse.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                    End If
 
                     Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_CLIENTE,ENDERECO,NR_ENDERECO,CNPJ,CEP,CIDADE,BAIRRO,ESTADO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO = " & ID)
 
@@ -109,7 +121,7 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
 
                     Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
-(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES
+(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_TAXA_CALCULADO,VL_CAMBIO,ISNULL(VL_LANCAMENTO,0)VALORES
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID & " )")
 
@@ -126,7 +138,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                         For Each linha As DataRow In dsTaxas.Tables(0).Rows
                             tabela &= "<tr><td style='padding-left:10px;padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
-                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
+                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_CALCULADO") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CAMBIO") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
 

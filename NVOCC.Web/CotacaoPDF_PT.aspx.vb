@@ -53,12 +53,10 @@ FROM  TB_COTACAO A
 
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                 CONTAINER()
-                ' divContainer.Visible = False
-
-                ' Else
-                ' divContainer.Visible = False
+                detalhesCarga.Visible = False
+            Else
+                detalhesCarga.Visible = True
             End If
-
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_CLIENTE")) Then
                 lblCliente.Text = ds.Tables(0).Rows(0).Item("NOME_CLIENTE")

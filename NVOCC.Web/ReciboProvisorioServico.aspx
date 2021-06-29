@@ -15,6 +15,10 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding-left:5px;
+                padding-right:5px
+            }
         }
     </style> 
     <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
@@ -148,7 +152,6 @@
             </tr>
         </table>
                             <br />
-            <br />
         <div id="divConteudoDinamico" runat="server" >
         </div>
             <div id="div1" runat="server" style="border-style:solid;border-width: thin;padding:10px;" >

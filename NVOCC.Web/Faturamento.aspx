@@ -91,7 +91,7 @@
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
                            <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
-                           <asp:LinkButton ID="lkBoleto" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
+                           <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
 
                        </div>
                    </div>
@@ -123,7 +123,7 @@
                                             <asp:BoundField DataField="NR_RPS" HeaderText="RPS" SortExpression="NR_RPS" />
                                             <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
                                             <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
-                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo." SortExpression="DT_RECIBO" />
+                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo" SortExpression="DT_RECIBO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
@@ -579,6 +579,33 @@
                             </Triggers>
                         </asp:UpdatePanel>
 
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+
+                                                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender10" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OBSERVAÇÃO DE RPS</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                    
+                                            <asp:TextBox ID="txtOBSRPS" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
+                                        
+                                         </div>
+                                  
+                           
+                      
+                                                       
+                                                                        
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnProsseguir" text="Prosseguir"/>
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
 
                             </ContentTemplate>
                             <Triggers>

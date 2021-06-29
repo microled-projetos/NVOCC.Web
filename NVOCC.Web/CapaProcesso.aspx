@@ -11,16 +11,19 @@ display:none;
         @media print {
        
         @page{
-            
         }
      #imgFundo { 
 display:none; 
 
 }
+   th{
+       font-size: 10px
+   }
+     
         }
         
     </style>
-    <div id="DivImpressao" class="DivImpressao" style="font-size: 15px">
+    <div id="DivImpressao" class="DivImpressao" style="font-size: 10px">
         <div id="divFCL" class="divFCL" visible="false" runat="server">
             <table>
                 <tr>
@@ -41,6 +44,7 @@ display:none;
                         <strong>Consignee:</strong>&nbsp;<asp:Label ID="lblImportador_FCL"  runat="server"/>
                         <br />
                     </td>
+                     <tr> </tr>
                     <td>
                         <strong>Ref. CNEE:</strong>&nbsp;<asp:Label ID="lblRefCliente_FCL"  runat="server"/>
                         <br />
@@ -51,40 +55,40 @@ display:none;
                         <strong>Navio/Viagem:</strong>&nbsp;<asp:Label ID="lblNavioViagem_FCL"  runat="server"/>
                         <br />
                     </td>
+                    
+                </tr>
+                <tr>
                     <td>
                         <strong>ETD:</strong>&nbsp;<asp:Label ID="lblDataEmbarque_FCL"  runat="server"/>
                         <br />
                     </td>
-                     <td>
+                    <td>
                         <strong>ETA:</strong>&nbsp;<asp:Label ID="lblDataChegada_FCL"  runat="server"/>
                         <br />
                     </td>
-                </tr>
+                    </tr>
                 <tr>
                     <td>
                         <strong>Navio Transbordo:</strong>&nbsp;<asp:Label ID="lblNavioTransb_FCL"  runat="server"/>
                         <br />
-                    </td>
-                    <td>
+                    </td>                   
+                </tr>  
+                <tr>
+                     <td>
                         <strong>Porto:</strong>&nbsp;<asp:Label ID="lblPorto_FCL"  runat="server"/>
                         <br />
                     </td>
                     <td>
-                        <strong>ETD:</strong>&nbsp;<asp:Label ID="lblDataTransb_FCL"  runat="server"/>
+                       <strong>ETD:</strong>&nbsp;<asp:Label ID="lblDataTransb_FCL"  runat="server"/>
                         <br />
                     </td>
-                   
                 </tr>
-                <tr>
-                    <td>
-                        <strong>Modalidade:</strong>&nbsp;<asp:Label ID="lblEstufagem_FCL"  runat="server"/><asp:Label ID="lblServico_FCL"  runat="server"/>
-                        <br />
-                    </td>
+                <tr>                   
                     <td>
                         <strong>Agente:</strong>&nbsp;<asp:Label ID="lblAgente_FCL"  runat="server"/>
-                        <br />
                     </td>
                 </tr>
+ 
                 <tr>
                     <td>
                         <strong>Origem:</strong>&nbsp;<asp:Label ID="lblOrigem_FCL"  runat="server"/>
@@ -95,13 +99,33 @@ display:none;
                         <br />
                     </td>
                 </tr>
-                <tr>
+                <tr>                   
                     <td>
                         <strong>MBL Nº:</strong>&nbsp;<asp:Label ID="lblMaster_FCL"  runat="server"/>
                         <br />
                     </td>
                     <td>
                         <strong>HBL Nº:</strong>&nbsp;<asp:Label ID="lblHouse_FCL"  runat="server"/>
+                        <br />
+                    </td>
+                    </tr>
+                <tr>
+                    <td>
+                        <strong>Modalidade:</strong>&nbsp;<asp:Label ID="lblEstufagem_FCL"  runat="server"/><asp:Label ID="lblServico_FCL"  runat="server"/>
+                        <br />
+                    </td>
+                     <td>
+                        <strong>Peso Bruto:</strong>&nbsp;<asp:Label ID="lblPesoBruto_FCL"  runat="server"/><asp:Label ID="Label2"  runat="server"/>
+                        <br />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Qtd. Volumes:</strong>&nbsp;<asp:Label ID="lblQtdVolume_FCL"  runat="server"/><asp:Label ID="Label4"  runat="server"/>
+                        <br />
+                    </td>
+                     <td>
+                        <strong>Desc. Mercadoria:</strong>&nbsp;<asp:Label ID="lblDescMercadoria_FCL"  runat="server"/><asp:Label ID="Label6"  runat="server"/>
                         <br />
                     </td>
                 </tr>
@@ -127,22 +151,14 @@ display:none;
                         <strong>Navio/Viagem:</strong>&nbsp;<asp:Label ID="lblNavioViagem_LCL"  runat="server"/>
                         <br />
                     </td>
+                    </tr>
+                <tr>
                     <td>
                         <strong>ETD:</strong>&nbsp;<asp:Label ID="lblDataEmbarque_LCL"  runat="server"/>
                         <br />
                     </td>
                      <td>
                         <strong>ETA:</strong>&nbsp;<asp:Label ID="lblDataChegada_LCL"  runat="server"/>
-                        <br />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <strong>Modalidade:</strong>&nbsp;<asp:Label ID="lblEstufagem_LCL"  runat="server"/><asp:Label ID="lblServico_LCL"  runat="server"/>
-                        <br />
-                    </td>
-                    <td>
-                        <strong>Agente:</strong>&nbsp;<asp:Label ID="lblAgente_LCL"  runat="server"/>
                         <br />
                     </td>
                 </tr>
@@ -155,12 +171,25 @@ display:none;
                         <strong>Destino:</strong>&nbsp;<asp:Label ID="lblDestino_LCL"  runat="server"/>
                         <br />
                     </td>
+                    
+                </tr>
+                   <tr>
+                <td>
+                        <strong>Agente:</strong>&nbsp;<asp:Label ID="lblAgente_LCL"  runat="server"/>
+                        <br />
+                    </td>
                 </tr>
                 <tr>
                     <td>
                         <strong>MBL Nº:</strong>&nbsp;<asp:Label ID="lblMaster_LCL"  runat="server"/>
                         <br />
                     </td>
+                    <td>
+                        <strong>Modalidade:</strong>&nbsp;<asp:Label ID="lblEstufagem_LCL"  runat="server"/><asp:Label ID="lblServico_LCL"  runat="server"/>
+                        <br />
+                    </td>
+                     </tr>
+                <tr>
                     <td>
                         <strong>Armador:</strong>&nbsp;<asp:Label ID="lblArmador_LCL"  runat="server"/>
                         <br />

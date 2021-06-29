@@ -75,6 +75,12 @@
                                     <div class="row">
                                         <div class="col-sm-3" style="display: none">
                                             <div class="form-group">
+                                                <label class="control-label">Master:</label>
+                                                <asp:TextBox ID="txtIDMaster_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" style="display: none">
+                                            <div class="form-group">
                                                 <label class="control-label">Código:</label>
                                                 <asp:TextBox ID="txtID_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                             </div>
@@ -87,10 +93,16 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número do MBL:</label>
                                                 <asp:TextBox ID="txtMBL_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color:white">:</label>
+                                                <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server" OnClientClick="MBLMaritimo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -1011,6 +1023,12 @@ VENDAS:
                                                         <asp:TextBox ID="txtID_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                                 <div class="col-sm-3" style="display: none">
+                                            <div class="form-group">
+                                                <label class="control-label">Master:</label>
+                                                <asp:TextBox ID="txtIDMaster_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do Processo:</label>
@@ -1025,12 +1043,18 @@ VENDAS:
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do MBL:</label>
                                                         <asp:TextBox ID="txtMBL_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color:white">:</label>
+                                                <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" OnClientClick="MBLAereo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                            </div>
+                                        </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do HBL:</label>
@@ -2173,6 +2197,20 @@ union SELECT  0, 'Selecione' FROM [dbo].TB_TIPO_DIVISAO_PROFIT ORDER BY ID_TIPO_
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
+
+        function MBLMaritimo() {
+
+            var IDMaster_BasicoMaritimo = document.getElementById('<%= txtIDMaster_BasicoMaritimo.ClientID %>').value;
+
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoMaritimo, '_blank');
+        }
+
+        function MBLAereo() {
+
+            var IDMaster_BasicoAereo = document.getElementById('<%= txtIDMaster_BasicoAereo.ClientID %>').value;
+
+            window.open('CadastrarMaster.aspx?id=' + IDMaster_BasicoAereo, '_blank');
+        }
 
 
         function CapaMaritimo() {

@@ -86,6 +86,15 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblDataAtualIngles As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle detalhesCarga.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents detalhesCarga As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle lblPesoBrutoIngles.
     '''</summary>
     '''<remarks>

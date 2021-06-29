@@ -626,6 +626,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtVendaMinimaFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlTipoPagamento_Frete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoPagamento_Frete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtIncludedFrete.
     '''</summary>
     '''<remarks>
@@ -1029,6 +1038,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtDsMercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtOBS_Endereco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtOBS_Endereco As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvarMercadoria.

@@ -104,24 +104,6 @@ Partial Public Class CapaProcesso
     Protected WithEvents lblDataTransb_FCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEstufagem_FCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblEstufagem_FCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblServico_FCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblServico_FCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblAgente_FCL.
     '''</summary>
     '''<remarks>
@@ -165,6 +147,78 @@ Partial Public Class CapaProcesso
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblHouse_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEstufagem_FCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEstufagem_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblServico_FCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblServico_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblPesoBruto_FCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPesoBruto_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblQtdVolume_FCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblQtdVolume_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblDescMercadoria_FCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDescMercadoria_FCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divLCL.
@@ -212,33 +266,6 @@ Partial Public Class CapaProcesso
     Protected WithEvents lblDataChegada_LCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblEstufagem_LCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblEstufagem_LCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblServico_LCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblServico_LCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblAgente_LCL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblAgente_LCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblOrigem_LCL.
     '''</summary>
     '''<remarks>
@@ -257,6 +284,15 @@ Partial Public Class CapaProcesso
     Protected WithEvents lblDestino_LCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblAgente_LCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAgente_LCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblMaster_LCL.
     '''</summary>
     '''<remarks>
@@ -264,6 +300,24 @@ Partial Public Class CapaProcesso
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblMaster_LCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEstufagem_LCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEstufagem_LCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblServico_LCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblServico_LCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblArmador_LCL.
