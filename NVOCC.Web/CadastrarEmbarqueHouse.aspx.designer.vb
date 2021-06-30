@@ -311,6 +311,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ckbFreeHand As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle divMercadoriaBL_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMercadoriaBL_Maritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle txtResumoMercadoria_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -597,6 +606,24 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorTara_CargaMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divMercadoriaCNTR_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMercadoriaCNTR_Maritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDescMercadoriaCNTR_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDescMercadoriaCNTR_Maritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvar_CargaMaritimo.
@@ -1328,6 +1355,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents ddlServico_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlEstufagem_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtMBL_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1524,6 +1560,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorDivisaoProfit_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divMercadoriaBL_Aereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMercadoriaBL_Aereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle txtResumoMercadoria_BasicoAereo.
@@ -1742,15 +1787,6 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtPesoVolumetrico_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtDescMercadoria_CargaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtDescMercadoria_CargaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtComprimento_CargaAereo.
     '''</summary>
     '''<remarks>
@@ -1776,6 +1812,24 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtAltura_CargaAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divMercadoriaCNTR_Aereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divMercadoriaCNTR_Aereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDescMercadoria_CargaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDescMercadoria_CargaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvar_CargaAereo.

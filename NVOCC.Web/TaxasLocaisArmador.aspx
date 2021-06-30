@@ -33,6 +33,13 @@
                                         <asp:TextBox ID="txtIDTaxa" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>
                                     </div>     
                                 </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+ <%--                                        <label class="control-label">Código:</label>
+                                       <asp:ImageButton ID="ImageButton1" runat="server"  src="Content/imagens/sort_both.png" />--%>
+                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnProximo" text="Close" Visible="false" />
+                                    </div>     
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">

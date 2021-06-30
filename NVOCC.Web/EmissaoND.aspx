@@ -18,6 +18,8 @@
             }
             td{
                 padding-left:10px;
+                padding-right:10px;
+
             }
         }
     </style> <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">

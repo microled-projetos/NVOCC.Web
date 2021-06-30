@@ -65,6 +65,9 @@
                     'OCULTA HBL
                     divHouse.Visible = False
 
+                    dsInvoice.DataBind()
+                    dgvInvoiceMBL.DataBind()
+                    dgvInvoiceMBL.Visible = True
                 End If
 
             Else

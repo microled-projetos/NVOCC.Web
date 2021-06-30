@@ -510,6 +510,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
                 divErro_CNTRMaritimo1.Visible = True
             Else
                 Con.ExecutarQuery("DELETE From TB_CNTR_BL Where ID_CNTR_BL = " & ID)
+                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ID & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
                 lblSuccess_CNTRMaritimo1.Text = "Registro deletado!"
                 divSuccess_CNTRMaritimo1.Visible = True
                 dgvContainer.DataBind()
@@ -1773,6 +1774,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                     ds = Con.ExecutarQuery("INSERT INTO TB_CNTR_BL (ID_BL_MASTER,ID_TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME)  
  VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlTipoContainer_CNTRMaritimo.SelectedValue & "," & txtNumeroContainer_CNTRMaritimo.Text & "," & txtLacre_CNTRMaritimo.Text & "," & txtTara_CNTRMaritimo.Text & "," & txtFreeTime_CNTRMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_CNTR_BL ")
 
+                    AMR_CNTR_INSERT(txtID_BasicoMaritimo.Text, ds.Tables(0).Rows(0).Item("ID_CNTR_BL"))
                     dgvContainer.DataBind()
 
                     Con.Fechar()
@@ -2138,6 +2140,17 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
         ds = Con.ExecutarQuery("SELECT FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue)
         If ds.Tables(0).Rows.Count > 0 Then
             ckbPremiacao_TaxaAereo.Checked = ds.Tables(0).Rows(0).Item("FL_PREMIACAO")
+        End If
+
+    End Sub
+
+    Sub AMR_CNTR_INSERT(ID_BL As Integer, CNTR As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsAMR As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL & "  AND ID_CNTR_BL = " & CNTR)
+
+        If dsAMR.Tables(0).Rows(0).Item("QTD") = 0 Then
+            Con.ExecutarQuery("INSERT INTO TB_AMR_CNTR_BL (ID_BL,ID_CNTR_BL) VALUES(" & ID_BL & "," & CNTR & ")")
         End If
 
     End Sub

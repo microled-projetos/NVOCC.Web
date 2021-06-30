@@ -55,6 +55,9 @@
                                        <asp:LinkButton ID="lkImprimir"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-print"></i>&nbsp;Imprimir</asp:LinkButton>  
                                      <asp:LinkButton ID="lkFiltrar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                        <asp:LinkButton ID="lkCalcular" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
+                                      <asp:LinkButton ID="lkAprovar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
+                                      <asp:LinkButton ID="lkCancelar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
+                                      <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
                             </div>
                <br />
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 
@@ -134,8 +137,11 @@
                              <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
     <ContentTemplate>
         <div runat="server" id="divAuxiliar" visible="false" >
-              <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
-              <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX" ></asp:TextBox>
+              <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
+              <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
+              <asp:TextBox ID="txtServico" runat="server" CssClass="form-control"></asp:TextBox>
+              <asp:TextBox ID="txtEstufagem" runat="server" CssClass="form-control"></asp:TextBox>
+              <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control"></asp:TextBox>
           </div>
                             <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align:center" >
                                 <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" HeaderStyle-CssClass="teste">

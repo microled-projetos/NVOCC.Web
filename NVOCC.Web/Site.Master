@@ -162,14 +162,14 @@
                             </li>                       
                             <li>
                                 <a href="#" id="A3" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 50%!important;">                                  
+                                <ul class="dropdown-sub" style="top: 40%!important;">                                  
                                     <li><a id="A7" style="font-size: 13px;" runat="server" href="Account.aspx">Invoices</a></li>
                                      <li><a id="A8" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="#" id="A11" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 40%!important">                                  
+                                <ul class="dropdown-sub" style="top: 65%!important">                                  
                                     <li><a id="A13" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
                                      <li><a id="A19" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
                                 </ul>

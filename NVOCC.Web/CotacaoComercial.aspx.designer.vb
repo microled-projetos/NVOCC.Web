@@ -131,6 +131,33 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lkCalcular As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkAprovar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkAprovar As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkCancelar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkCancelar As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRejeitar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRejeitar As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle divPesquisa.
     '''</summary>
     '''<remarks>
@@ -273,6 +300,33 @@ Partial Public Class CotacaoComercial
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtServico As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtEstufagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEstufagem As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNumeroCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNumeroCotacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dgvCotacao.

@@ -288,6 +288,30 @@ LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
         mpeNovo.Hide()
     End Sub
 
+    Private Sub btnProximo_Click(sender As Object, e As EventArgs) Handles btnProximo.Click
+        If dgvTaxas.Rows.Count > 0 Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+
+                txtIDTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
+                ddlTransportadorTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR")
+                ddlPortoTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO")
+                ddlComexTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_COMEX")
+                ddlViaTransporte.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
+                ddlDespesaTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                Dim data As Date = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")
+                data = data.ToString("dd-MM-yyyy")
+                txtValidadeInicialTaxa.Text = data
+                txtValorTaxaLocal.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
+                ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                ddlBaseCalculo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
+            End If
+        End If
+    End Sub
+
     'Private Sub btnFechar_Click(sender As Object, e As EventArgs) Handles btnFechar.Click
     '    Call Limpar(Me)
     '    dgvTaxas.DataBind()

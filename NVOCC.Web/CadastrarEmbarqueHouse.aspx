@@ -200,7 +200,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Estufagem:</label>
-                                                <asp:DropDownList ID="ddlEstufagem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
+                                                <asp:DropDownList ID="ddlEstufagem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" AutoPostBack="True">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -256,11 +256,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" id="divMercadoriaBL_Maritimo" runat="server" style="display:none">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">Resumo Mercadoria:</label>
-                                                <asp:TextBox ID="txtResumoMercadoria_BasicoMaritimo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtResumoMercadoria_BasicoMaritimo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                             </div>
                                         </div>
                                     </div>
@@ -457,6 +457,14 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                     <div class="row"  id="divMercadoriaCNTR_Maritimo" runat="server" style="display:none">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label class="control-label">Resumo Mercadoria:</label>
+                                                <asp:TextBox ID="txtDescMercadoriaCNTR_Maritimo" runat="server" MaxLength="200" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <asp:Button runat="server" Text="Salvar" ID="btnSalvar_CargaMaritimo" CssClass="btn btn-success" />
@@ -523,7 +531,7 @@
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlTipoContainer_CargaMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="ddlNCM_CargaMaritimo" />
-                                                        <asp:AsyncPostBackTrigger ControlID="ddlNumeroCNTR_CargaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlNumeroCNTR_CargaMaritimo" />                                                       
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -1041,6 +1049,13 @@ VENDAS:
                                                         <asp:DropDownList ID="ddlServico_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServicoAereo" DataValueField="ID_SERVICO"></asp:DropDownList>
                                                     </div>
                                                 </div>
+                                                 <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Estufagem:</label>
+                                                <asp:DropDownList ID="ddlEstufagem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" AutoPostBack="True">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-2">
@@ -1204,11 +1219,11 @@ VENDAS:
                                     </div>
                                 </div>
 </div>
-                                            <div class="row">
+                                            <div class="row" id="divMercadoriaBL_Aereo" runat="server" style="display:none">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label class="control-label">Resumo Mercadoria:</label>
-                                                        <asp:TextBox ID="txtResumoMercadoria_BasicoAereo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                                        <asp:TextBox ID="txtResumoMercadoria_BasicoAereo" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1232,6 +1247,7 @@ VENDAS:
 
                                         </ContentTemplate>
                                         <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
                                         </Triggers>
@@ -1371,13 +1387,9 @@ VENDAS:
                                                                         <asp:TextBox ID="txtPesoVolumetrico_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Descrição da Mercadoria:</label>
-                                                                        <asp:TextBox ID="txtDescMercadoria_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
                                                                 </div>
-                                                            </div>
+
+                                                             
                                                             <div class="row">
 
                                                                 <div class="col-sm-4">
@@ -1399,6 +1411,15 @@ VENDAS:
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:none">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Descrição da Mercadoria:</label>
+                                                                        <asp:TextBox ID="txtDescMercadoria_CargaAereo" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </div>
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" Text="Salvar" ID="btnSalvar_CargaAereo" CssClass="btn btn-success" />
@@ -1463,8 +1484,8 @@ VENDAS:
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaAereo" />
-                                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
-
+                                                <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
+                                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvCargaAereo" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>

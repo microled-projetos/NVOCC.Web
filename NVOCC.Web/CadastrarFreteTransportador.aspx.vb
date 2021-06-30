@@ -176,6 +176,7 @@
                     'REALIZA UPDATE DO FRETE TRANSPORTADOR
                     ds = Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR  SET  ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & ", ID_AGENTE = " & ddlAgente.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue & " , ID_PORTO_DESTINO = " & ddlDestino.SelectedValue & ", ID_PORTO_ESCALA = " & ddlEscala1.SelectedValue & ", ID_PORTO_ESCALA2 = " & ddlEscala2.SelectedValue & ",ID_PORTO_ESCALA3 = " & ddlEscala3.SelectedValue & ", ID_MOEDA_FRETE =" & ddlMoeda.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga.SelectedValue & ", ID_VIA_ROTA =  " & ddlRota.SelectedValue & ", ID_TIPO_COMEX = " & ddlComex.SelectedValue & ", QT_DIAS_TRANSITTIME_INICIAL =  " & txtTransittimeInicial.Text & ", QT_DIAS_TRANSITTIME_FINAL = " & txtTransittimeFinal.Text & ", QT_DIAS_TRANSITTIME_MEDIA = '" & TTMedia & "', ID_TIPO_FREQUENCIA = " & ddlFrequencia.SelectedValue & ", NM_TAXAS_INCLUDED =  " & TaxasIncluded & ", FL_ATIVO = '" & ckbAtivo.Checked & "',ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
 
+
                     If txtValidadeFinal.Enabled = True And txtValidadeFinal.Text <> "" Then
                         Con.ExecutarQuery("UPDATE TB_FRETE_TRANSPORTADOR SET DT_VALIDADE_FINAL = CONVERT(DATE,'" & txtValidadeFinal.Text & "',103) WHERE ID_FRETE_TRANSPORTADOR  = " & txtID_FreteTransportador.Text)
                     End If

@@ -443,11 +443,11 @@
                                         <asp:BoundField DataField="NM_TIPO_CONTAINER" HeaderText="Tipo de Container" SortExpression="NM_TIPO_CONTAINER"/>
                                         <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Tipo de Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade (Inicial)" SortExpression="DT_VALIDADE_INICIAL" DataFormatString="{0:dd/MM/yyyy}"/>
-                                        <asp:BoundField DataField="VL_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_COMPRA" DataFormatString="{0:C}" />
-                                        <asp:BoundField DataField="VL_MINIMO" HeaderText="Valor Mínimo" SortExpression="VL_MINIMO" DataFormatString="{0:C}"  />
+                                        <asp:BoundField DataField="VL_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_COMPRA"  />
+                                        <asp:BoundField DataField="VL_MINIMO" HeaderText="Valor Mínimo" SortExpression="VL_MINIMO" />
                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="Qtd. Dias Freetime" SortExpression="QT_DIAS_FREETIME" />
-                                        <asp:BoundField DataField="VL_M3_INICIAL" HeaderText="Valor M3 (Inicial)" SortExpression="VL_M3_INICIAL" DataFormatString="{0:C}"  />
-                                        <asp:BoundField DataField="VL_M3_FINAL" HeaderText="Valor M3 (Final)" SortExpression="VL_M3_FINAL" DataFormatString="{0:C}" />
+                                        <asp:BoundField DataField="VL_M3_INICIAL" HeaderText="Valor M3 (Inicial)" SortExpression="VL_M3_INICIAL"  />
+                                        <asp:BoundField DataField="VL_M3_FINAL" HeaderText="Valor M3 (Final)" SortExpression="VL_M3_FINAL" />
                                         <asp:BoundField DataField="IMO" HeaderText="IMO" SortExpression="IMO"/>
                                         <asp:BoundField DataField="CARGA_ESPECIAL" HeaderText="Carga Especial" SortExpression="CARGA_ESPECIAL"/>
                                               <asp:TemplateField HeaderText="" >

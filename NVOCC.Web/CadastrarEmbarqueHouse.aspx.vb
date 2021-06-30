@@ -122,6 +122,15 @@
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
                         ddlEstufagem_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
+                        If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
+                            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "none")
+
+                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "none")
+                            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "block")
+
+                        End If
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CE")) Then
@@ -273,9 +282,20 @@
                         ddlTipoCarga_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")
                     End If
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
-                    '    ddlEstufagem_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+                        ddlEstufagem_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
+
+                        If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "block")
+                            divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "none")
+
+                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "none")
+                            divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "block")
+
+                        End If
+                    End If
+
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CE")) Then
                         txtNumeroCE_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_CE")
@@ -349,6 +369,7 @@
 
                 End If
 
+
             End If
 
         End If
@@ -370,7 +391,10 @@
                 lblErro_CargaMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
                 divErro_CargaMaritimo1.Visible = True
             Else
+                ds = Con.ExecutarQuery("SELECT ID_CNTR_BL FROM TB_CARGA_BL Where ID_CARGA_BL = " & ID)
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
+                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+
                 lblSuccess_CargaMaritimo1.Text = "Registro deletado!"
                 divSuccess_CargaMaritimo1.Visible = True
                 dgvCargaMaritimo.DataBind()
@@ -379,7 +403,7 @@
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA from TB_CARGA_BL A
+            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -393,9 +417,7 @@ WHERE ID_CARGA_BL = " & ID)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MERCADORIA")) Then
                     ddlMercadoria_CargaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString()
                 End If
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
-                '    ddlNCM_CargaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_NCM").ToString()
-                'End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_NCM")) Then
                     If ds.Tables(0).Rows(0).Item("ID_NCM") > 0 Then
                         ddlNCM_CargaMaritimo.Items.Insert(1, ds.Tables(0).Rows(0).Item("NCM"))
@@ -417,6 +439,10 @@ WHERE ID_CARGA_BL = " & ID)
                     txtGrupoNCM_CargaMaritimo.Text = ds.Tables(0).Rows(0).Item("DS_GRUPO_NCM")
                 End If
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DS_MERCADORIA")) Then
+                    txtDescMercadoriaCNTR_Maritimo.Text = ds.Tables(0).Rows(0).Item("DS_MERCADORIA")
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CNTR_BL")) Then
                     Dim Sql As String = "SELECT ID_CNTR_BL, NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " OR ID_BL_MASTER = " & Session("ID_BL_MASTER") & "
 union Select 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
@@ -428,7 +454,7 @@ union Select 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
                     ddlNumeroCNTR_CargaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CNTR_BL").ToString()
 
-                    ds1 = Con.ExecutarQuery("SELECT VL_PESO_TARA,NR_LACRE,ID_TIPO_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL").ToString())
+                    ds1 = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_TARA,0)VL_PESO_TARA,ISNULL(NR_LACRE,0)NR_LACRE,ID_TIPO_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL").ToString())
                     If ds1.Tables(0).Rows.Count > 0 Then
                         txtNumeroLacre_CargaMaritimo.Text = ds1.Tables(0).Rows(0).Item("NR_LACRE")
                         txtValorTara_CargaMaritimo.Text = ds1.Tables(0).Rows(0).Item("VL_PESO_TARA")
@@ -438,6 +464,7 @@ union Select 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
                 End If
 
                 mpeCargaMaritimo.Show()
+
 
             End If
 
@@ -1182,6 +1209,7 @@ WHERE ID_CARGA_BL = " & ID)
         ddlEmbalagem_CargaMaritimo.SelectedValue = 0
         ddlNumeroCNTR_CargaMaritimo.SelectedValue = 0
         txtQtdVolumes_CargaMaritimo.Text = ""
+        txtDescMercadoriaCNTR_Maritimo.Text = ""
 
         dgvCargaMaritimo.DataBind()
         mpeCargaMaritimo.Hide()
@@ -1798,7 +1826,7 @@ WHERE ID_CARGA_BL = " & ID)
 
                     End If
 
-                    End If
+                End If
 
 
 
@@ -2004,6 +2032,12 @@ WHERE ID_CARGA_BL = " & ID)
             ID_NCM = SeparaNCM(ddlNCM_CargaMaritimo.SelectedValue)
         End If
 
+        If txtDescMercadoriaCNTR_Maritimo.Text = "" Then
+            txtDescMercadoriaCNTR_Maritimo.Text = "NULL"
+        Else
+            txtDescMercadoriaCNTR_Maritimo.Text = "'" & txtDescMercadoriaCNTR_Maritimo.Text & "'"
+        End If
+
         If txtPesoVolumetrico_CargaMaritimo.Text = "" Then
             divErro_CargaMaritimo2.Visible = True
             lblErro_CargaMaritimo2.Text = "É necessário informar o Peso Volumetrico da carga."
@@ -2022,27 +2056,33 @@ WHERE ID_CARGA_BL = " & ID)
 
             Else
 
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL where ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "  AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErro_CargaMaritimo2.Visible = True
+                    lblErro_CargaMaritimo2.Text = "Container vinculado em outra carga desta mesma BL."
 
+                Else
 
-                'INSERE 
-                ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_CNTR_BL, ID_EMBALAGEM, DS_GRUPO_NCM,ID_BL,ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,QT_MERCADORIA) VALUES (" & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "," & ddlEmbalagem_CargaMaritimo.SelectedValue & "," & txtGrupoNCM_CargaMaritimo.Text & "," & txtID_BasicoMaritimo.Text & "," & ddlMercadoria_CargaMaritimo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaMaritimo.Text & "," & txtPesoVolumetrico_CargaMaritimo.Text & "," & txtQtdVolumes_CargaMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
+                    'INSERE 
+                    ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_CNTR_BL, ID_EMBALAGEM, DS_GRUPO_NCM,ID_BL,ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,DS_MERCADORIA) VALUES (" & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "," & ddlEmbalagem_CargaMaritimo.SelectedValue & "," & txtGrupoNCM_CargaMaritimo.Text & "," & txtID_BasicoMaritimo.Text & "," & ddlMercadoria_CargaMaritimo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaMaritimo.Text & "," & txtPesoVolumetrico_CargaMaritimo.Text & "," & txtQtdVolumes_CargaMaritimo.Text & "," & txtDescMercadoriaCNTR_Maritimo.Text & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
                 Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
 
-                If ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
-                    Call AMR_CNTR_INSERT(txtID_BasicoMaritimo.Text, ID_CARGA_BL)
-                End If
+                    If ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
+                        Call AMR_CNTR_INSERT(txtID_BasicoMaritimo.Text, ID_CARGA_BL)
+                    End If
 
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+                    Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
 
 
-                dgvCargaMaritimo.DataBind()
-                Con.Fechar()
-                divSuccess_CargaMaritimo2.Visible = True
+                    dgvCargaMaritimo.DataBind()
+                    Con.Fechar()
+                    divSuccess_CargaMaritimo2.Visible = True
+                End If
             End If
 
 
@@ -2052,37 +2092,41 @@ WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 divErro_CargaMaritimo2.Visible = True
                 lblErro_CargaMaritimo2.Text = "Usuário não possui permissão para alterar."
-                ' mpeCargaMaritimo.Show()
 
-                ' Exit Sub
 
             Else
-                If ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
-                    Call AMR_CNTR_UPDATE(txtID_BasicoMaritimo.Text, txtID_CargaMaritimo.Text)
-                End If
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL where ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "  AND ID_BL = " & txtID_BasicoMaritimo.Text & " AND ID_CARGA_BL <> " & txtID_CargaMaritimo.Text)
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErro_CargaMaritimo2.Visible = True
+                    lblErro_CargaMaritimo2.Text = "Container vinculado em outra carga desta mesma BL."
+
+                Else
+
+                    If ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
+                        Call AMR_CNTR_UPDATE(txtID_BasicoMaritimo.Text, txtID_CargaMaritimo.Text)
+                    End If
 
 
-                'REALIZA UPDATE 
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoMaritimo.Text & ",ID_MERCADORIA = " & ddlMercadoria_CargaMaritimo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaMaritimo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaMaritimo.Text & ",ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & ", ID_EMBALAGEM = " & ddlEmbalagem_CargaMaritimo.SelectedValue & ", DS_GRUPO_NCM = " & txtGrupoNCM_CargaMaritimo.Text & ", QT_MERCADORIA = " & txtQtdVolumes_CargaMaritimo.Text & " WHERE ID_CARGA_BL = " & txtID_CargaMaritimo.Text)
+                    'REALIZA UPDATE 
+                    Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoMaritimo.Text & ",ID_MERCADORIA = " & ddlMercadoria_CargaMaritimo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaMaritimo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaMaritimo.Text & ",ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & ", ID_EMBALAGEM = " & ddlEmbalagem_CargaMaritimo.SelectedValue & ", DS_GRUPO_NCM = " & txtGrupoNCM_CargaMaritimo.Text & ",DS_MERCADORIA = " & txtDescMercadoriaCNTR_Maritimo.Text & ", QT_MERCADORIA = " & txtQtdVolumes_CargaMaritimo.Text & " WHERE ID_CARGA_BL = " & txtID_CargaMaritimo.Text)
 
-                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+                    Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
+                    divSuccess_CargaMaritimo2.Visible = True
+                    Con.Fechar()
 
-
-                'txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("'", "")
-                'txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("NULL", "")
-
-                divSuccess_CargaMaritimo2.Visible = True
-                Con.Fechar()
-
+                End If
 
             End If
 
 
         End If
+
+        txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("'", "")
+        txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("NULL", "")
 
         txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("'", "")
         txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("NULL", "")
@@ -2873,4 +2917,29 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
         Return ID
     End Function
+
+
+    Private Sub ddlEstufagem_BasicoMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEstufagem_BasicoMaritimo.SelectedIndexChanged
+        If ddlEstufagem_BasicoMaritimo.SelectedValue = 1 Then
+            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
+            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "none")
+
+        ElseIf ddlEstufagem_BasicoMaritimo.SelectedValue = 2 Then
+            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "none")
+            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "block")
+
+        End If
+    End Sub
+
+    Private Sub ddlEstufagem_BasicoAereo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlEstufagem_BasicoAereo.SelectedIndexChanged
+        If ddlEstufagem_BasicoAereo.SelectedValue = 1 Then
+            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "block")
+            divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "none")
+
+        ElseIf ddlEstufagem_BasicoAereo.SelectedValue = 2 Then
+            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "none")
+            divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "block")
+
+        End If
+    End Sub
 End Class
