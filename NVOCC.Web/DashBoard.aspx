@@ -116,9 +116,9 @@
                                         
                                     </div>
                                     <div style="display:flex; justify-content:space-between">
-                                        <div id="processGraph"></div>
-                                        <div id="cntrGraph"></div>
-                                        <div id="teusGraph"></div>
+                                        <div id="processGraph" style="width:100%"></div>
+                                        <div id="cntrGraph" style="width:100%"></div>
+                                        <div id="teusGraph" style="width:100%"></div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="processoRealGrid">
@@ -175,7 +175,6 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
                     var data = data.d;
                     data = $.parseJSON(data);
                     lineChartProcesso = [];
@@ -188,13 +187,14 @@
                             lineChartCntr[i] = data[i]["CONTAINER"];
                             lineChartTeus[i] = data[i]["TEUS"];
                             label[i] = data[i]["PERIODO"];
+                            console.log(lineChartProcesso[i]);
                         }
                     }
                     else {
                         $("#graph").append("<canvas id='mainGraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
                     }
                     $("#graph").empty();
-                    $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px;'></canvas>");
+                    $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
                     var ctx = document.getElementById('mainGraph').getContext('2d');
                     myChart = new Chart(ctx, {
                         type: type,
@@ -211,14 +211,14 @@
                                 {
                                     barThickness: 30,
                                     label: 'Processos',
-                                    data: [lineChartProcesso[0]],
+                                    data: [lineChartProcesso],
                                     backgroundColor: ['rgba(255, 99, 132, 1)'],
                                     borderWidth: 1
                                 },
                                 {
                                     barThickness: 30,
                                     label: 'Containers',
-                                    data: [lineChartCntr[0]],
+                                    data: [lineChartCntr],
                                     backgroundColor: ['rgba(54, 162, 235,1)'],
                                     borderWidth: 1
                                 }
@@ -243,12 +243,216 @@
                 },
             });
 
-            var ctx2 = document.getElementById('processGraph').getContext('2d');
-            $("#graph").append("<canvas id='pgraph' style='height: 300px;'></canvas>");
+
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/CarregarProcessos",
+                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    lineChartIMP = [];
+                    lineChartAR = [];
+                    lineChartEXP = [];
+                    label = [];
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            lineChartIMP[i] = data[i]["IMP"];
+                            lineChartAR[i] = data[i]["AR"];
+                            lineChartEXP[i] = data[i]["EXP"];
+                            label[i] = data[i]["PERIODO"];
+                        }
+                    }
+                    else {
+                        $("#processGraph").append("<canvas id='pgraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
+                    }
+                    $("#processGraph").empty();
+                    $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
+                    var ctx2 = document.getElementById('pgraph').getContext('2d');
+                    var myChart2 = new Chart(ctx2, {
+                        type: type,
+                        data: {
+                            labels: label,
+                            datasets: [
+                                {
+                                    barThickness: 30,
+                                    label: 'IMP',
+                                    data: [lineChartIMP],
+                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                    borderWidth: 1
+                                },
+                                {
+                                    barThickness: 30,
+                                    label: 'EXP',
+                                    data: [lineChartAR],
+                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                    borderWidth: 1
+                                },
+                                {
+                                    barThickness: 30,
+                                    label: 'AEREO',
+                                    data: [lineChartEXP],
+                                    backgroundColor: ['rgba(54, 162, 235,1)'],
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            layout: {
+                                padding: 10
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Qtde. de Processos por Modal',
+                                    font: { size: 20 }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (data) {
+
+                },
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/CarregarQtdCntr",
+                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    lineChartIMP = [];
+                    lineChartEXP = [];
+                    label = [];
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            lineChartIMP[i] = data[i]["IMP"];
+                            lineChartEXP[i] = data[i]["EXP"];
+                            label[i] = data[i]["PERIODO"];
+                        }
+                    }
+                    else {
+                        $("#cntrGraph").append("<canvas id='cgraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
+                    }
+                    $("#cntrGraph").empty();
+                    $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
+                    var ctx2 = document.getElementById('cgraph').getContext('2d');
+                    var myChart2 = new Chart(ctx2, {
+                        type: type,
+                        data: {
+                            labels: label,
+                            datasets: [
+                                {
+                                    barThickness: 30,
+                                    label: 'IMP',
+                                    data: [lineChartIMP],
+                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                    borderWidth: 1
+                                },
+                                {
+                                    barThickness: 30,
+                                    label: 'EXP',
+                                    data: [lineChartEXP],
+                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            layout: {
+                                padding: 10
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Qtde. de CNTR por Modal',
+                                    font: { size: 20 }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (data) {
+
+                },
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/CarregarTeus",
+                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    lineChartProcesso = [];
+                    lineChartCntr = [];
+                    label = [];
+                    if (data != null) {
+                        for (var i = 0; i < data.length; i++) {
+                            lineChartProcesso[i] = data[i]["IMP"];
+                            lineChartCntr[i] = data[i]["EXP"];
+                            label[i] = data[i]["PERIODO"];
+                        }
+                    }
+                    else {
+                        $("#teusGraph").append("<canvas id='tGraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
+                    }
+                    $("#teusGraph").empty();
+                    $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
+                    var ctx2 = document.getElementById('tGraph').getContext('2d');
+                    var myChart2 = new Chart(ctx2, {
+                        type: type,
+                        data: {
+                            labels: label,
+                            datasets: [
+                                {
+                                    barThickness: 30,
+                                    label: 'IMP',
+                                    data: [lineChartProcesso],
+                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                    borderWidth: 1
+                                },
+                                {
+                                    barThickness: 30,
+                                    label: 'EXP',
+                                    data: [lineChartCntr],
+                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            layout: {
+                                padding: 10
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Teus por Modal',
+                                    font: { size: 20 }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (data) {
+
+                },
+            });
+            /*var ctx2 = document.getElementById('processGraph').getContext('2d');
+            $("#graph").append("<canvas id='pgraph' style='width:33%;height: 300px;'></canvas>");
             var myChart2 = new Chart(ctx2, {
                 type: 'bar',
                 data: {
-                    labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
+                    labels: label,
                     datasets: [
                         {
                             label: 'TEUS',
@@ -270,11 +474,11 @@
             });
 
             var ctx3 = document.getElementById('cntrGraph').getContext('2d');
-            $("#graph").append("<canvas id='cgraph' style='height: 300px;'></canvas>");
+            $("#graph").append("<canvas id='cgraph' style='width:33%;height: 300px;'></canvas>");
             var myChart3 = new Chart(ctx3, {
                 type: 'bar',
                 data: {
-                    labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
+                    labels: label,
                     datasets: [
                         {
                             label: 'Processos',
@@ -296,11 +500,11 @@
             });
 
             var ctx4 = document.getElementById('teusGraph').getContext('2d');
-            $("#graph").append("<canvas id='tgraph' style='height: 300px;'></canvas>");
+            $("#graph").append("<canvas id='tgraph' style='width:33%;height: 300px;'></canvas>");
             var myChart4 = new Chart(ctx4, {
                 type: 'bar',
                 data: {
-                    labels: ['JAN/2021', 'FEV/2021', 'MAR/2021', 'ABR/2021', 'MAI/2021', 'JUN/2021', 'JUL/2021', 'AGO/2021', 'SET/2021', 'OUT/2021', 'NOV/2021', 'DEZ/2021'],
+                    labels: label,
                     datasets: [
                         {
                             label: 'Containers',
@@ -319,7 +523,7 @@
                         }
                     }
                 }
-            });
+            });*/
         }
     </script>
 </asp:Content>

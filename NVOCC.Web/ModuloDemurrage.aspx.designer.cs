@@ -78,6 +78,15 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.DropDownList ddlStatusCalculoSelecionado;
 
         /// <summary>
+        /// Controle ddlfiltroTabelaDemu.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlfiltroTabelaDemu;
+
+        /// <summary>
         /// Controle ddlParceiroTransportador.
         /// </summary>
         /// <remarks>

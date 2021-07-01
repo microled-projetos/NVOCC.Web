@@ -24,6 +24,7 @@ namespace ABAINFRA.Web
                 CarregarStatus();
                 CarregarContaBancaria();
                 CarregarFiltroFatura();
+                CarregarArmador();
             }
         }
 
@@ -40,6 +41,16 @@ namespace ABAINFRA.Web
 
         }
 
+        private void CarregarArmador()
+        {
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
+            DataTable parceiroTransportador = new DataTable();
+            parceiroTransportador = DBS.List(SQL);
+            Session["TaskTableParceiroTransportador"] = parceiroTransportador;
+            ddlfiltroTabelaDemu.DataSource = Session["TaskTableParceiroTransportador"];
+            ddlfiltroTabelaDemu.DataBind();
+            ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
+        }
         protected void CarregarParceiroTransportador()
         {
             SQL = "SELECT * FROM tb_parceiro where FL_TRANSPORTADOR = 1";
@@ -49,10 +60,8 @@ namespace ABAINFRA.Web
             ddlParceiroTransportador.DataSource = Session["TaskTableParceiroTransportador"];
             ddlParceiroTransportador.DataBind();
             ddlParceiroTransportador.Items.Insert(0, new ListItem("Selecione", ""));
-            ddlParceiroTransportador.Items.Insert(1, new ListItem("FCA LOG", "0"));
             ddlTransportador.DataSource = Session["TaskTableParceiroTransportador"];
             ddlTransportador.DataBind();
-            ddlTransportador.Items.Insert(1, new ListItem("FCA LOG", "0"));
         }
 
         protected void CarregarTipoContainer()

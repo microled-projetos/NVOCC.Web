@@ -35,7 +35,7 @@ Public Class Faturamento
         Dim filtro As String = ""
 
         If ddlFiltro.SelectedValue = 1 Then
-            filtro &= " WHERE DT_VENCIMENTO LIKE '%" & txtPesquisa.Text & "%'"
+            filtro &= " WHERE convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
 
         ElseIf ddlFiltro.SelectedValue = 2 Then
             filtro &= " WHERE NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
@@ -59,7 +59,7 @@ Public Class Faturamento
             filtro &= " WHERE NR_RECIBO LIKE '%" & txtPesquisa.Text & "%'"
 
         ElseIf ddlFiltro.SelectedValue = 9 Then
-            filtro &= " WHERE DT_LIQUIDACAO >= '%" & txtPesquisa.Text & "%'"
+            filtro &= " WHERE convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
 
         End If
 
@@ -107,6 +107,13 @@ Public Class Faturamento
     End Sub
 
     Private Sub ddlFiltro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltro.SelectedIndexChanged
+        If ddlFiltro.SelectedValue <> 0 Then
+            ckStatus.Items.FindByValue(1).Selected = False
+            ckStatus.Items.FindByValue(2).Selected = False
+            ckStatus.Items.FindByValue(3).Selected = False
+
+
+        End If
         If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
             txtPesquisa.CssClass = "form-control data"
             txtPesquisa.Text = Now.Date.AddDays(-1)
@@ -785,7 +792,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         If txtConsultaVencimentoInicio.Text <> "" Then
             If txtConsultaVencimentoFim.Text <> "" Then
                 'filtro
-                filtro &= " AND DT_VENCIMENTO BETWEEN CONVERT(DATE,'" & txtConsultaVencimentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaVencimentoFim.Text & "',103) "
+                filtro &= " AND  CONVERT(DATE,DT_VENCIMENTO,103)  BETWEEN CONVERT(DATE,'" & txtConsultaVencimentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaVencimentoFim.Text & "',103) "
 
             Else
                 'msg erro
@@ -800,7 +807,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         If txtConsultaPagamentoInicio.Text <> "" Then
             If txtConsultaPagamentoFim.Text <> "" Then
                 'filtro
-                filtro &= " AND DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
+                filtro &= " AND CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtConsultaPagamentoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaPagamentoFim.Text & "',103) "
 
             Else
                 'msg erro

@@ -149,6 +149,15 @@ Partial Public Class FechamentoCambio
     Protected WithEvents lkContratosFirmados As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle TextBox4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle TextBox3.
     '''</summary>
     '''<remarks>
@@ -176,22 +185,22 @@ Partial Public Class FechamentoCambio
     Protected WithEvents pnlContratosFirmados As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle txtIDInvoice.
+    '''Controle txtFechamentoInicial.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtIDInvoice As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFechamentoInicial As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle TextBox2.
+    '''Controle txtFechamentoFinal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFechamentoFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnFecharContratos.

@@ -41,7 +41,7 @@
 
 
 
-        dsFechamento.SelectCommand = "SELECT * FROM [dbo].[View_Fechamento] " & filtro
+        dsFechamento.SelectCommand = "SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO FROM [dbo].[View_Fechamento]" & filtro
 
         dgvFechamento.DataBind()
         divTotalInvoices.Visible = True
@@ -117,12 +117,14 @@
                         lblValorRealBaixa.Text = ds.Tables(0).Rows(0).Item("VL_CONTRATO_BR").ToString()
                         lblContratoBaixa.Text = ds.Tables(0).Rows(0).Item("NR_CONTRATO").ToString()
                         lblInstituicaoBaixa.Text = ds.Tables(0).Rows(0).Item("NM_CORRETOR").ToString()
+
+                        ModalPopupExtender4.Show()
                     End If
 
 
 
                 End If
-                ModalPopupExtender4.Show()
+
 
                 Con.Fechar()
 
@@ -159,7 +161,7 @@
                     lblContratoCancel.Text = ds.Tables(0).Rows(0).Item("NR_CONTRATO").ToString()
                     lblInstituicaoCancel.Text = ds.Tables(0).Rows(0).Item("NM_CORRETOR").ToString()
                 End If
-                ModalPopupExtender4.Show()
+                ModalPopupExtender5.Show()
 
                 Con.Fechar()
 
@@ -169,6 +171,7 @@
     End Sub
 
     Sub limpaFormulario()
+        txtMotivoCancel.Text = ""
         lblAgenteCancel.Text = ""
         lblMoedaEstrangeiroCancel.Text = ""
         lblValorEstrangeiroCancel.Text = ""
@@ -226,24 +229,25 @@
                     divErro.Visible = True
                     lblErro.Text = "Não foi possivel completar a ação: Registro cancelado!"
 
-                ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")) Then
+                ElseIf IsDBNull(ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")) Then
                     divErro.Visible = True
-                    lblErro.Text = "Não foi possivel completar a ação: Registro já liquidado!"
+                    lblErro.Text = "Não foi possivel completar a ação: Registro não liquidado!"
 
                 Else
 
                     'update de cancelamento
                     Con.ExecutarQuery("UPDATE TB_ACCOUNT_FECHAMENTO SET  DS_MOTIVO_CANCELAMENTO = '" & txtMotivoCancel.Text & "', DT_CANCELAMENTO= GETDATE() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & "  WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
 
-                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = GETDATE(), DT_CANCELAMENTO= GETDATE() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & " )")
+                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO= GETDATE() , DS_MOTIVO_CANCELAMENTO = '" & txtMotivoCancel.Text & "', ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & " )")
 
                     Con.Fechar()
-                    limpaFormulario()
                     ModalPopupExtender5.Hide()
                     lblSuccess.Text = "Cancelamento realizado com sucesso!"
                     divSuccess.Visible = True
-
+                    dgvFechamento.DataBind()
                 End If
+                limpaFormulario()
+
             End If
 
         End If
@@ -284,6 +288,7 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
             ModalPopupExtender4.Hide()
             lblSuccess.Text = "Liquidação realizada com sucesso!"
             divSuccess.Visible = True
+            dgvFechamento.DataBind()
         End If
     End Sub
 
@@ -327,9 +332,9 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
             txtCambioNovo.Text = txtCambioNovo.Text.Replace(".", "")
             txtCambioNovo.Text = txtCambioNovo.Text.Replace(",", ".")
 
-            'insert cabeçalho
+            ' insert cabeçalho
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_FECHAMENTO (ID_PARCEIRO_AGENTE ,ID_PARCEIRO_CORRETOR ,ID_USUARIO_LANCAMENTO
-,ID_MOEDA ,NR_CONTRATO,DT_FECHAMENTO ,DT_APROVACAO  ,DT_TAXA_CAMBIO ,VL_TAXA_CAMBIO,VL_TARIFA_CORRETOR ,VL_IOF ,VL_CONTRATO ,VL_CONTRATO_BR ) VALUES(" & ddlAgenteNovo.SelectedValue & "," & ddlCorretorNovo.SelectedValue & "," & Session("ID_USUARIO") & "," & ddlMoedaNovo.SelectedValue & ",'" & txtContratoNovo.Text & "',CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataCambioNovo.Text & "',103)," & txtCambioNovo.Text & ", " & txtTarifaNovo.Text & "," & txtIOFNovo.Text & "," & txtValorNovo.Text & "," & txtValorBRNovo.Text & ") Select SCOPE_IDENTITY() as ID_ACCOUNT_FECHAMENTO  ")
+            ,ID_MOEDA ,NR_CONTRATO,DT_FECHAMENTO ,DT_APROVACAO  ,DT_TAXA_CAMBIO ,VL_TAXA_CAMBIO,VL_TARIFA_CORRETOR ,VL_IOF ,VL_CONTRATO ,VL_CONTRATO_BR ) VALUES(" & ddlAgenteNovo.SelectedValue & "," & ddlCorretorNovo.SelectedValue & "," & Session("ID_USUARIO") & "," & ddlMoedaNovo.SelectedValue & ",'" & txtContratoNovo.Text & "',CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataFechamentoNovo.Text & "',103),CONVERT(DATE,'" & txtDataCambioNovo.Text & "',103)," & txtCambioNovo.Text & ", " & txtTarifaNovo.Text & "," & txtIOFNovo.Text & "," & txtValorNovo.Text & "," & txtValorBRNovo.Text & ") Select SCOPE_IDENTITY() as ID_ACCOUNT_FECHAMENTO  ")
             Dim ID_ACCOUNT_FECHAMENTO As String = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_FECHAMENTO")
 
             'insere itens
@@ -339,12 +344,40 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
                     Dim ID_ACCOUNT_INVOICE As String = CType(linha.FindControl("lblID"), Label).Text
                     Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_FECHAMENTO_ITENS (ID_ACCOUNT_FECHAMENTO,ID_ACCOUNT_INVOICE) VALUES(" & ID_ACCOUNT_FECHAMENTO & "," & ID_ACCOUNT_INVOICE & ")")
 
+
+
+
+                    Dim dstaxas As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE_ITENS,VL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE =" & ID_ACCOUNT_INVOICE)
+                    If dstaxas.Tables(0).Rows.Count > 0 Then
+                        Dim VL_TAXA_CAMBIO As Double = txtCambioNovo.Text.ToString.Replace(".", ",")
+                        Dim VL_TAXA_AC As Decimal = 0
+                        Dim VL_TAXA_BR_AC As Decimal = 0
+
+                        For Each linhads As DataRow In dstaxas.Tables(0).Rows
+                            Dim VL_TAXA As Decimal = linhads.Item("VL_TAXA").ToString()
+                            VL_TAXA_AC = VL_TAXA_AC + VL_TAXA
+                            Dim VL_TAXA_BR As Decimal = (VL_TAXA_AC * VL_TAXA_CAMBIO)
+                            VL_TAXA_BR = VL_TAXA_BR - VL_TAXA_BR_AC
+                            Dim VL_BR_FINAL As String = VL_TAXA_BR.ToString.Replace(",", ".")
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_ACCOUNT_INVOICE_ITENS] SET VL_TAXA_BR = " & VL_BR_FINAL & " WHERE ID_ACCOUNT_INVOICE_ITENS =" & linhads.Item("ID_ACCOUNT_INVOICE_ITENS").ToString())
+                            VL_TAXA_BR_AC = VL_TAXA_BR_AC + VL_TAXA_BR
+
+                            VL_TAXA_BR = txtValorBRNovo.Text - VL_TAXA_BR_AC
+
+
+                        Next
+
+
+                    End If
                 End If
             Next
 
             Con.Fechar()
             limpaFormulario()
             ModalPopupExtender3.Hide()
+            dgvFechamento.DataBind()
+
+            dgvInvoice.Visible = False
             lblSuccess.Text = "Fechamento cadastrado com sucesso!"
             divSuccess.Visible = True
         End If
@@ -353,7 +386,7 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
 
     Private Sub ddlMoedaNovo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlMoedaNovo.SelectedIndexChanged
         dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
- G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE, (SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE)VALOR_TOTAL
+ G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE, ISNULL((SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE),0)VALOR_TOTAL
 FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "') A
 LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
 LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
@@ -375,16 +408,21 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AN
         For Each linha As GridViewRow In dgvInvoice.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
-            Dim valor2 As Double = lblValorTotalInvoices.Text
+            Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+            Dim valor2 As Decimal = lblValorTotalInvoices.Text
 
             If check.Checked Then
                 lblValorTotalInvoices.Text = valor2 + valor
             End If
         Next
+        ModalPopupExtender3.Show()
+        Con.Fechar()
     End Sub
     Private Sub dgvInvoice_Load(sender As Object, e As EventArgs) Handles dgvInvoice.Load
-        AtualizaTotal()
+        If dgvInvoice.Visible = True Then
+            AtualizaTotal()
+        End If
+
     End Sub
 
     Function VerificaValorReal() As Boolean
@@ -448,17 +486,36 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AN
 
                         lblSuccess.Text = "Fechamento deletado com sucesso!"
                         divSuccess.Visible = True
+                        dgvFechamento.DataBind()
+
                     End If
 
 
 
                 End If
-                ModalPopupExtender4.Show()
 
                 Con.Fechar()
 
             End If
 
         End If
+    End Sub
+
+    Private Sub btnPesquisarContratos_Click(sender As Object, e As EventArgs) Handles btnPesquisarContratos.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        If txtFechamentoInicial.Text = "" Or txtFechamentoFinal.Text = "" Then
+            divErro.Visible = True
+            lblErro.Text = "É necessário informar a data de fechamento inicial e final!"
+        Else
+            Session("Vencimento_Inicial") = ""
+            Session("Vencimento_Final") = ""
+
+            Session("Vencimento_Inicial") = txtFechamentoInicial.Text
+            Session("Vencimento_Final") = txtFechamentoFinal.Text
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ContratosFirmados()", True)
+        End If
+
     End Sub
 End Class

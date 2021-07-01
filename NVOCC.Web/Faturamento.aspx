@@ -526,7 +526,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-6">  
-                      <div class="linha-colorida">Pagamento</div>
+                      <div class="linha-colorida">Liquidação</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -562,7 +562,7 @@
                            </div>
                                      </div></div>
                                                             
-                             </div>                         
+                             </div>
                                <div class="modal-footer">
                                                                   <asp:Button runat="server" Text="Pesquisar" ID="btnConsultaNotas" CssClass="btn btn-success"  />
 

@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(28062022)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web(01072021)\PUBLI\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -340,6 +340,7 @@
     <Content Include="Content\js\jquery.easy-autocomplete.min.js" />
     <Content Include="Content\js\jquery.mask.js" />
     <Content Include="Content\js\jquery.mask.min.js" />
+    <Content Include="Content\js\jquery.maskMoney.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\jquery.smartWizard.js" />
     <Content Include="Content\js\jquery.smartWizard.min.js" />
@@ -457,6 +458,7 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
+    <Content Include="RelacaoContratoFirmados.aspx" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SOA_I.aspx" />
@@ -932,6 +934,13 @@
     <Compile Include="Registrar.aspx.vb">
       <DependentUpon>Registrar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RelacaoContratoFirmados.aspx.designer.vb">
+      <DependentUpon>RelacaoContratoFirmados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RelacaoContratoFirmados.aspx.vb">
+      <DependentUpon>RelacaoContratoFirmados.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.designer.vb">
       <DependentUpon>RelatorioVendedor.aspx</DependentUpon>

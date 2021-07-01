@@ -19,6 +19,13 @@ namespace ABAINFRA.Web
             listarServico();
             listarStatus();
             listarWeek();
+            listarCliente();
+            listarNavio();
+            listarPorto();
+            listarTipoEstufagem();
+            listarTipoFrete();
+            listarTransportador();
+            listarAgente();
         }
 
         private void listarVia()
@@ -62,6 +69,96 @@ namespace ABAINFRA.Web
             ddlWeek.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlWeek.DataBind();
             ddlWeek.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlWeekFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlWeekFilter.DataBind();
+            ddlWeekFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarCliente()
+        {
+            string SQL;
+            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO ORDER BY NM_RAZAO";
+            DataTable cliente = new DataTable();
+            cliente = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = cliente;
+            ddlClienteFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlClienteFilter.DataBind();
+            ddlClienteFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarPorto()
+        {
+            string SQL;
+            SQL = "SELECT NM_PORTO, ID_PORTO FROM TB_PORTO ORDER BY NM_PORTO";
+            DataTable porto = new DataTable();
+            porto = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = porto;
+            ddlPortoDestinoFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlPortoDestinoFilter.DataBind();
+            ddlPortoDestinoFilter.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlPortoOrigemFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlPortoOrigemFilter.DataBind();
+            ddlPortoOrigemFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarTipoFrete()
+        {
+            string SQL;
+            SQL = "SELECT NM_TIPO_PAGAMENTO, ID_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO";
+            DataTable frete = new DataTable();
+            frete = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = frete;
+            ddlTipoFrete.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlTipoFrete.DataBind();
+            ddlTipoFrete.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarTipoEstufagem()
+        {
+            string SQL;
+            SQL = "SELECT NM_TIPO_ESTUFAGEM, ID_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM";
+            DataTable estufagem = new DataTable();
+            estufagem = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = estufagem;
+            ddlTipoEstufagem.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlTipoEstufagem.DataBind();
+            ddlTipoEstufagem.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarAgente()
+        {
+            string SQL;
+            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_AGENTE = 1 ORDER BY NM_RAZAO";
+            DataTable agente = new DataTable();
+            agente = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = agente;
+            ddlAgenteFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlAgenteFilter.DataBind();
+            ddlAgenteFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarTransportador()
+        {
+            string SQL;
+            SQL = "SELECT NM_RAZAO, ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 ORDER BY NM_RAZAO";
+            DataTable transportador = new DataTable();
+            transportador = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = transportador;
+            ddlTransportadorFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlTransportadorFilter.DataBind();
+            ddlTransportadorFilter.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void listarNavio()
+        {
+            string SQL;
+            SQL = "SELECT NM_NAVIO, ID_NAVIO FROM TB_NAVIO ORDER BY NM_NAVIO";
+            DataTable navio = new DataTable();
+            navio = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = navio;
+            ddlNavioFilter.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlNavioFilter.DataBind();
+            ddlNavioFilter.Items.Insert(0, new ListItem("Selecione", ""));
         }
     }
 }

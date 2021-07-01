@@ -103,29 +103,30 @@
                            <asp:LinkButton ID="lkContratosFirmados" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Contratos Firmados</asp:LinkButton> </div>
                        </div>
                    </div>
-                                <br />
+                                <br />                                                                                           <asp:TextBox ID="TextBox4" Style="display:none" runat="server"></asp:TextBox>
+
                                                                                            <asp:TextBox ID="TextBox3" Style="display:none" runat="server"></asp:TextBox>
                                                   
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlContratosFirmados" TargetControlID="lkContratosFirmados" CancelControlID="btnFecharContratos"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlContratosFirmados" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Relação dos Contratos Firmados</h5>
                                                         </div>
                                                         <div class="modal-body">                                       
                                    <div class="row">
-                                       <div class="col-sm-offset-3 col-sm-3">
+                                       <div class="col-sm-6">
                                     <div class="form-group">
                                            <label class="control-label">Fechamento Inicial:</label>
-                                                                       <asp:TextBox ID="txtIDInvoice" runat="server" CssClass="form-control data"></asp:TextBox>
+                                                                       <asp:TextBox ID="txtFechamentoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
 
                                     </div>
                                            </div>
-                                       <div class="col-sm-3">
+                                       <div class="col-sm-6">
                                     <div class="form-group">
                                            <label class="control-label">Fechamento Final:</label>
-                                                 <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control data"></asp:TextBox>
+                                                 <asp:TextBox ID="txtFechamentoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
 
                                     </div>
                                         </div>
@@ -253,7 +254,7 @@
                                     <div class="form-group">
                                             <label class="control-label">Taxa Câmbio</label><label runat="server" style="color: red">*</label>
 
-                                              <asp:TextBox ID="txtCambioNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                              <asp:TextBox ID="txtCambioNovo" runat="server"  CssClass="form-control moeda"></asp:TextBox>
 
                                     </div>
                                         </div>
@@ -263,7 +264,7 @@
                                         <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label">Valor BR:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtValorBRNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtValorBRNovo" runat="server"  CssClass="form-control dinheiro"></asp:TextBox>
 
 
                                     </div>
@@ -322,7 +323,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlBaixaFechamento" TargetControlID="TextBox3" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
+                                    <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlBaixaFechamento" TargetControlID="TextBox4" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBaixaFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -334,7 +335,7 @@
                                       
                                      <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Agente:</label>
+                                           <label class="control-label">Agente:</label>  <br/>
                                                                                     <asp:Label ID="lblAgenteBaixa" runat="server"></asp:Label>
 
 
@@ -342,7 +343,7 @@
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Valor                                     <asp:Label ID="lblMoedaEstrangeiroBaixa" runat="server"></asp:Label>
+                                        <strong>  <label class="control-label">Valor<asp:Label ID="lblMoedaEstrangeiroBaixa" runat="server"/></strong>
                                               <br/>
                                                                                    <asp:Label ID="lblValorEstrangeiroBaixa" runat="server"></asp:Label>
 
@@ -352,7 +353,7 @@
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Valor BR:</label>                                    <asp:Label ID="lblValorRealBaixa" runat="server"></asp:Label>
+                                          <label class="control-label">Valor BR:</label>                       <br/>               <asp:Label ID="lblValorRealBaixa" runat="server"></asp:Label>
 
 
                                     </div>
@@ -363,7 +364,7 @@
                                        
                                         <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Instituição Financeira:</label>
+                                           <label class="control-label">Instituição Financeira:</label>  <br/>
                                                                             <asp:Label ID="lblInstituicaoBaixa" runat="server"></asp:Label>
 
 
@@ -371,7 +372,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                     <div class="form-group">
-                                          <label class="control-label">Contrato:</label>
+                                          <label class="control-label">Contrato:</label>  <br/>
                                     <asp:Label ID="lblContratoBaixa" runat="server"></asp:Label>
 
 
@@ -383,7 +384,7 @@
                                      
                                        <div class="col-sm-offset-5 col-sm-2">
                                     <div class="form-group">
-                                        <label class="control-label">Data Liquidação:</label><label runat="server" style="color: red">*</label><asp:TextBox ID="txtDataLiquidacaoBaixa" runat="server"  CssClass="form-control"></asp:TextBox>
+                                        <label class="control-label">Data Liquidação:</label><label runat="server" style="color: red">*</label><asp:TextBox ID="txtDataLiquidacaoBaixa" runat="server"  CssClass="form-control data"></asp:TextBox>
                                                                                                 
                                 </div>  
                            </div>
@@ -421,7 +422,7 @@
                                       
                                      <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Agente:</label>
+                                           <label class="control-label">Agente:</label><br />
                                                                                     <asp:Label ID="lblAgenteCancel" runat="server"></asp:Label>
 
 
@@ -429,9 +430,9 @@
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Valor                                     <asp:Label ID="lblMoedaEstrangeiroCancel" runat="server"></asp:Label>
+                                         <strong> <label class="control-label">Valor <asp:Label ID="lblMoedaEstrangeiroCancel" runat="server"></asp:Label>  </strong>
 
-                                                                                   <asp:Label ID="lblValorEstrangeiroCancel" runat="server"></asp:Label>
+                                                                                   <br /> <asp:Label ID="lblValorEstrangeiroCancel" runat="server"></asp:Label>
 
 
 
@@ -439,7 +440,7 @@
                                         </div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Valor BR:</label>                                    <asp:Label ID="lblValorRealCancel" runat="server"></asp:Label>
+                                          <label class="control-label">Valor BR:</label>                     <br />              <asp:Label ID="lblValorRealCancel" runat="server"></asp:Label>
 
 
                                     </div>
@@ -448,17 +449,17 @@
                                     <div class="row" style="border: ridge 1px;">
                                      
                                        
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-8">
                                     <div class="form-group">
-                                           <label class="control-label">Instituição Financeira:</label>
+                                           <label class="control-label">Instituição Financeira:</label><br />
                                                                             <asp:Label ID="lblInstituicaoCancel" runat="server"></asp:Label>
 
 
                                     </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                     <div class="form-group">
-                                          <label class="control-label">Contrato:</label>
+                                          <label class="control-label">Contrato:</label><br />
                                     <asp:Label ID="lblContratoCancel" runat="server"></asp:Label>
 
 
@@ -507,11 +508,11 @@
                                                 <asp:BoundField DataField="NR_CONTRATO" HeaderText="Nº CONTRATO" SortExpression="NR_CONTRATO" />
                                                 <asp:BoundField DataField="NM_CORRETOR" HeaderText="INST. FINANCEIRA" SortExpression="NM_CORRETOR" />
                                                 <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                             <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR CONTRATO" SortExpression="VL_CONTRATO" />             
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                             <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR" SortExpression="VL_CONTRATO" />             
                                                 <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
                                                 <asp:BoundField DataField="DT_TAXA_CAMBIO" HeaderText="DATA CAMBIO" SortExpression="DT_TAXA_CAMBIO" />
                                                 <asp:BoundField DataField="VL_TAXA_CAMBIO" HeaderText="VALOR CAMBIO" SortExpression="VL_TAXA_CAMBIO" />
-                                                <asp:BoundField DataField="VL_CONTRATO_BR" HeaderText="VALOR CONVERTIDO R$" SortExpression="VL_CONTRATO_BR" />
+                                                <asp:BoundField DataField="VL_CONTRATO_BR" HeaderText="VALOR R$" SortExpression="VL_CONTRATO_BR" />
                                                                                                 <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />
                                                                                                 <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="DATA CANCELAMENTO" SortExpression="DT_CANCELAMENTO" />
 
@@ -531,7 +532,9 @@
                                                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
                             </ContentTemplate>       <Triggers>
-                            
+                                <asp:PostBackTrigger ControlID="btnPesquisarContratos" />
+
+                             <asp:AsyncPostBackTrigger ControlID="btnSalvarFechamento" />
                                                             <asp:PostBackTrigger ControlID="btnPesquisa" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlMoedaNovo" />
                                                             <asp:AsyncPostBackTrigger ControlID="lkNovoFechamento" />
@@ -547,7 +550,7 @@
 
     </div>
          <asp:SqlDataSource ID="dsFechamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT * FROM [dbo].[View_Fechamento]">
+        selectcommand="SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO FROM [dbo].[View_Fechamento]">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -580,10 +583,30 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @I
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-     <script type="text/javascript" src="jquery.maskMoney.js" ></script>
-    <%--<script type="text/javascript">
-        $(document).ready(function(){
-              $("input.dinheiro").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
-        });
-    </script>--%>
+     <script type="text/javascript" src="Content/js/jquery.maskMoney.js" ></script>
+   <script type="text/javascript">
+        //$(document).ready(function(){
+        //    $(".dinheiro").maskMoney({ showSymbol: false, decimal: ",", thousands: ".", allowNegative: true});
+        //});
+
+        //jQuery.browser = {};
+        //(function () {
+        //    jQuery.browser.msie = false;
+        //    jQuery.browser.version = 0;
+        //    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+        //        jQuery.browser.msie = true;
+        //        jQuery.browser.version = RegExp.$1;
+        //    }
+        //})();
+
+
+       function ContratosFirmados() {
+
+           window.open('RelacaoContratoFirmados.aspx', '_blank');
+       };
+
+
+   </script>
+
+
 </asp:Content>
