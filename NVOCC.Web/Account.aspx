@@ -19,18 +19,18 @@
             display: none
         }
 
-        th {
+       /*  th {
             position: sticky !important;
             top: 0;
             background-color: #e6eefa;
             text-align: center;
         }
 
-        td, th {
+       td, th {
             padding: 0;
             padding-top: 5px;
             margin: 0;
-        }
+        }*/
     </style>
 
     <div class="row principal">
@@ -356,7 +356,7 @@
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Data Vencimento:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtVencimento" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -390,7 +390,7 @@
                                         <div class="col-sm-2">
                                     <div class="form-group">
                                           <label class="control-label">Data Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtDataInvoice" runat="server"  CssClass="form-control data"></asp:TextBox>
 
 
                                     </div>
@@ -536,7 +536,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="CD_STATUS_FRETE_AGENTE"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True"></asp:DropDownList>
 
                                     </div>
                                         </div>
@@ -616,7 +616,8 @@
                                                         <asp:AsyncPostBackTrigger ControlID="btnFecharDevolucaoFrete" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnIncluirDevolucaoFrete" />
                                                         <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvDevolucao" />
-
+                                                        
+                                                          <asp:AsyncPostBackTrigger ControlID="ddlTipoDevolucao" />
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                 </asp:Panel>
@@ -1080,7 +1081,8 @@
 
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
+        CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
         group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO">
         <SelectParameters>
@@ -1135,10 +1137,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDevolucaoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT '0'CD_STATUS_FRETE_AGENTE, 'Selecione'NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
-UNION
-SELECT CD_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
-"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
+union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

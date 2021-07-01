@@ -237,7 +237,7 @@
                                         <div class="col-sm-3">
                                     <div class="form-group">
                                            <label class="control-label">Valor:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtValorNovo" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtValorNovo" runat="server"  CssClass="form-control dinheiro"></asp:TextBox>
 
                                     </div>
                                         </div>
@@ -580,4 +580,10 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @I
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+     <script type="text/javascript" src="jquery.maskMoney.js" ></script>
+    <%--<script type="text/javascript">
+        $(document).ready(function(){
+              $("input.dinheiro").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+        });
+    </script>--%>
 </asp:Content>

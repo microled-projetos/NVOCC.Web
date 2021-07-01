@@ -42,7 +42,7 @@
 
                 'realiza select e preenche os campos do painel de inserção              
 
-                ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.ID_ACCOUNT_TIPO_EMISSOR,A.ID_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,GRAU,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_MOEDA,A.DT_FECHAMENTO,A.DT_VENCIMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE WHERE A.ID_ACCOUNT_INVOICE = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.ID_ACCOUNT_TIPO_EMISSOR,A.ID_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,GRAU,B.ID_STATUS_FRETE_AGENTE,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_MOEDA,A.DT_FECHAMENTO,A.DT_VENCIMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE WHERE A.ID_ACCOUNT_INVOICE = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE").ToString()
                     txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
@@ -58,6 +58,7 @@
                     txtDataInvoice.Text = ds.Tables(0).Rows(0).Item("DT_INVOICE").ToString()
                     txtObsInvoice.Text = ds.Tables(0).Rows(0).Item("DS_OBSERVACAO").ToString()
                     ckbConferido.Checked = ds.Tables(0).Rows(0).Item("FL_CONFERIDO")
+                    ddlTipoDevolucao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
                 End If
                 ModalPopupExtender2.Show()
                 ddlEmissor.Enabled = False
@@ -200,6 +201,10 @@ WHERE DT_CANCELAMENTO IS NULL)")
         txtNumeroInvoice.Text = ""
         txtDataInvoice.Text = ""
         txtObsInvoice.Text = ""
+        lblTotalInvoice.Text = 0
+        ddlEmissor.Enabled = True
+        ddlTipoInvoice.Enabled = True
+        ddlTipoFatura.Enabled = True
         ckbConferido.Checked = False
         divErroInvoice.Visible = False
         divSuccessInvoice.Visible = False
@@ -269,7 +274,7 @@ WHERE DT_CANCELAMENTO IS NULL)")
 
 
 
-            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO"
 
             dgvInvoice.DataBind()
@@ -285,10 +290,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU FROM TB_BL WHERE NR_PROCESSO = '" & txtProc_ou_BL.Text & "' OR NR_BL = '" & txtProc_ou_BL.Text & "'")
+        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU,ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE NR_PROCESSO = '" & txtProc_ou_BL.Text & "' OR NR_BL = '" & txtProc_ou_BL.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL")
             txtGrau.Text = ds.Tables(0).Rows(0).Item("GRAU")
+            ddlTipoDevolucao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
 
             btnGravarCabecalho.Enabled = True
         Else
@@ -401,22 +407,66 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     Private Sub btnIncluirDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnIncluirDevolucaoFrete.Click
         Dim operador As String = VerificaPositivoNegativo()
 
-        For Each linha As GridViewRow In dgvDevolucao.Rows
-            Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
-            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
 
-            If check.Checked Then
-                Dim Con As New Conexao_sql
-                Dim VALOR As Decimal = ValorVenda + ValorCompra
-                Dim VALOR_STRING As String = VALOR.ToString
-                VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+        If ddlTipoDevolucao.SelectedValue = 2 Then
+            'DEVOLUÇÃO DO FRETE DE COMPRA
+
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+
+                If check.Checked Then
+                    Dim Con As New Conexao_sql
+                    Dim VALOR As Decimal = ValorCompra
+                    Dim VALOR_STRING As String = VALOR.ToString
+                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+                    Con.Conectar()
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
 (" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
-            End If
-        Next
+                End If
+            Next
+        ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+            'DEVOLUÇÃO DO FRETE DE VENDA
+
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+
+                If check.Checked Then
+                    Dim Con As New Conexao_sql
+                    Dim VALOR As Decimal = ValorVenda
+                    Dim VALOR_STRING As String = VALOR.ToString
+                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+                    Con.Conectar()
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+                End If
+            Next
+        ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+            'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+
+                If check.Checked Then
+                    Dim Con As New Conexao_sql
+                    Dim VALOR As Decimal = ValorVenda - ValorCompra
+                    Dim VALOR_STRING As String = VALOR.ToString
+                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+                    Con.Conectar()
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+                End If
+            Next
+
+        End If
 
         dsDevolucao.DataBind()
         dgvItensInvoice.DataBind()
@@ -545,29 +595,78 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
 
 
     Sub atualizaTotalFrete()
+
         Dim Con As New Conexao_sql
         lblValorFreteDevolucao.Text = 0
         lblValorFreteCompra.Text = 0
         lblValorFreteVenda.Text = 0
-        For Each linha As GridViewRow In dgvDevolucao.Rows
-            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
-            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
 
-            Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
-            Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+        If ddlTipoDevolucao.SelectedValue = 2 Then
+            'DEVOLUÇÃO DO FRETE DE COMPRA
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
 
-            If check.Checked Then
-                lblValorFreteCompra.Text = ValorCompra + ValorCompra2
-                lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+                Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
+                Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
 
-                lblValorFreteDevolucao.Text = ValorVenda + ValorCompra
-            End If
-            ModalPopupExtender3.Show()
-            ModalPopupExtender2.Show()
+                If check.Checked Then
+                    lblValorFreteCompra.Text = ValorCompra + ValorCompra2
+                    lblValorFreteVenda.Text = ValorVenda + ValorVenda2
 
-        Next
+                    lblValorFreteDevolucao.Text = lblValorFreteCompra.Text
+                End If
+
+            Next
+        ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+            'DEVOLUÇÃO DO FRETE DE VENDA
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+
+                Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
+                Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+
+                If check.Checked Then
+                    lblValorFreteCompra.Text = ValorCompra + ValorCompra2
+                    lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+
+                    lblValorFreteDevolucao.Text = lblValorFreteVenda.Text
+                End If
+
+
+            Next
+        ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+            'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+
+                Dim ValorCompra2 As Decimal = lblValorFreteCompra.Text
+                Dim ValorVenda2 As Decimal = lblValorFreteVenda.Text
+
+                If check.Checked Then
+                    lblValorFreteCompra.Text = ValorCompra + ValorCompra2
+                    lblValorFreteVenda.Text = ValorVenda + ValorVenda2
+
+                    lblValorFreteDevolucao.Text = lblValorFreteVenda.Text - lblValorFreteCompra.Text
+                End If
+
+
+            Next
+
+        End If
+
+        ModalPopupExtender3.Show()
+        ModalPopupExtender2.Show()
+
+
 
     End Sub
 
@@ -868,5 +967,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         ModalPopupExtender7.Hide()
         ModalPopupExtender2.Show()
 
+    End Sub
+
+    Private Sub ddlTipoDevolucao_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoDevolucao.SelectedIndexChanged
+        atualizaTotalFrete()
     End Sub
 End Class

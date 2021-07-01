@@ -587,8 +587,8 @@ th {
     position: sticky !important;
     top: 0;
     background-color: #e6eefa;
-/*    text-align: center;
-*/}
+    text-align: center;
+}
 
 .table > tbody > tr > td {
     font-size: 12px !important;
