@@ -37,7 +37,7 @@
         Dim titulo As String = ""
         Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA
 FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL " & FILTRO)
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL " & FILTRO)
 
         For Each linhaTitulo As DataRow In ds.Tables(0).Rows
             Dim ID_INVOICE As String = linhaTitulo("ID_ACCOUNT_INVOICE")
@@ -54,7 +54,7 @@ INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") 
 
             Dim dsdados As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,NM_ACCOUNT_TIPO_FATURA
 FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE ID_ACCOUNT_INVOICE = " & ID_INVOICE)
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE ID_ACCOUNT_INVOICE = " & ID_INVOICE)
             For Each linhadados As DataRow In dsdados.Tables(0).Rows
                 tabela &= "<tr><td></td>"
                 tabela &= "<td></td>"

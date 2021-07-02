@@ -582,11 +582,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
             divErro.Visible = True
             lblErro.Text = "Selecione um registro!"
         Else
-            Session("Vencimento_Inicial") = ""
-            Session("Vencimento_Final") = ""
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
 
-            Session("Vencimento_Inicial") = txtVencimentoInicial.Text
-            Session("Vencimento_Final") = txtVencimentoFinal.Text
+            Session("DataInicial") = txtVencimentoInicial.Text
+            Session("DataFinal") = txtVencimentoFinal.Text
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AvisoEmbarque()", True)
         End If
@@ -886,11 +886,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR") = 2 Then
-                    Session("Vencimento_Inicial") = ""
-                    Session("Vencimento_Final") = ""
+                    Session("DataInicial") = ""
+                    Session("DataFinal") = ""
 
-                    Session("Vencimento_Inicial") = txtVencimentoInicial.Text
-                    Session("Vencimento_Final") = txtVencimentoFinal.Text
+                    Session("DataInicial") = txtVencimentoInicial.Text
+                    Session("DataFinal") = txtVencimentoFinal.Text
 
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "InvoiceFCA()", True)
 
@@ -909,11 +909,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
             divErro.Visible = True
             lblErro.Text = "É necessário informar vencimento inicial e final!"
         Else
-            Session("Vencimento_Inicial") = ""
-            Session("Vencimento_Final") = ""
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
 
-            Session("Vencimento_Inicial") = txtVencimentoInicialSOA.Text
-            Session("Vencimento_Final") = txtVencimentoFinalSOA.Text
+            Session("DataInicial") = txtVencimentoInicialSOA.Text
+            Session("DataFinal") = txtVencimentoFinalSOA.Text
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SOA1()", True)
         End If

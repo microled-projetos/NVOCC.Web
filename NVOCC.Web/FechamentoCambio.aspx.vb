@@ -508,11 +508,11 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AN
             divErro.Visible = True
             lblErro.Text = "É necessário informar a data de fechamento inicial e final!"
         Else
-            Session("Vencimento_Inicial") = ""
-            Session("Vencimento_Final") = ""
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
 
-            Session("Vencimento_Inicial") = txtFechamentoInicial.Text
-            Session("Vencimento_Final") = txtFechamentoFinal.Text
+            Session("DataInicial") = txtFechamentoInicial.Text
+            Session("DataFinal") = txtFechamentoFinal.Text
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ContratosFirmados()", True)
         End If

@@ -24,7 +24,7 @@
 
 
         Dim titulo As String = ""
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_AGENTE,ID_MOEDA,NM_AGENTE,SIGLA_MOEDA FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "') " & FILTRO)
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_AGENTE,ID_MOEDA,NM_AGENTE,SIGLA_MOEDA FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "') " & FILTRO)
 
         For Each linhaTitulo As DataRow In ds.Tables(0).Rows
             Dim PARCEIRO As String = linhaTitulo("ID_PARCEIRO_AGENTE")
@@ -50,7 +50,7 @@
 
             Dim dsdados As DataSet = Con.ExecutarQuery("SELECT DISTINCT B.ID_ACCOUNT_INVOICE,PARCEIRO_CLIENTE,B.NR_INVOICE,DT_INVOICE,SIGLA_MOEDA,NM_ACCOUNT_TIPO_FATURA,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,SUM(ISNULL(VL_TAXA,0))VL_TAXA,SUM(ISNULL(VL_TAXA_BR,0))VL_TAXA_BR
 FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("Vencimento_Inicial") & "','" & Session("Vencimento_Final") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
 WHERE B.ID_PARCEIRO_AGENTE = " & PARCEIRO & " AND ID_MOEDA = " & MOEDA & "
 GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,PARCEIRO_CLIENTE,DT_INVOICE,SIGLA_MOEDA,NM_ACCOUNT_TIPO_FATURA")
             For Each linhadados As DataRow In dsdados.Tables(0).Rows

@@ -532,7 +532,7 @@
                                                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
                             </ContentTemplate>       <Triggers>
-                                <asp:PostBackTrigger ControlID="btnPesquisarContratos" />
+                                <asp:AsyncPostBackTrigger ControlID="btnPesquisarContratos" />
 
                              <asp:AsyncPostBackTrigger ControlID="btnSalvarFechamento" />
                                                             <asp:PostBackTrigger ControlID="btnPesquisa" />
@@ -583,26 +583,26 @@ WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @I
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-     <script type="text/javascript" src="Content/js/jquery.maskMoney.js" ></script>
-   <script type="text/javascript">
-        //$(document).ready(function(){
-        //    $(".dinheiro").maskMoney({ showSymbol: false, decimal: ",", thousands: ".", allowNegative: true});
-        //});
+  <script type="text/javascript" src="Content/js/jquery.maskMoney.js" ></script>
+   <script>
+        $(document).ready(function(){
+            $(".dinheiro").maskMoney({ showSymbol: false, decimal: ",", thousands: ".", allowNegative: true});
+        });
 
-        //jQuery.browser = {};
-        //(function () {
-        //    jQuery.browser.msie = false;
-        //    jQuery.browser.version = 0;
-        //    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
-        //        jQuery.browser.msie = true;
-        //        jQuery.browser.version = RegExp.$1;
-        //    }
-        //})();
+        jQuery.browser = {};
+        (function () {
+            jQuery.browser.msie = false;
+            jQuery.browser.version = 0;
+            if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+                jQuery.browser.msie = true;
+                jQuery.browser.version = RegExp.$1;
+            }
+        })();
 
 
        function ContratosFirmados() {
 
-           window.open('RelacaoContratoFirmados.aspx', '_blank');
+           window.open('ContratosFirmados.aspx', '_blank');
        };
 
 

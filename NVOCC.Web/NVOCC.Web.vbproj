@@ -458,7 +458,7 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
-    <Content Include="RelacaoContratoFirmados.aspx" />
+    <Content Include="ContratosFirmados.aspx" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SOA_I.aspx" />
@@ -935,11 +935,11 @@
       <DependentUpon>Registrar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="RelacaoContratoFirmados.aspx.designer.vb">
-      <DependentUpon>RelacaoContratoFirmados.aspx</DependentUpon>
+    <Compile Include="ContratosFirmados.aspx.designer.vb">
+      <DependentUpon>ContratosFirmados.aspx</DependentUpon>
     </Compile>
-    <Compile Include="RelacaoContratoFirmados.aspx.vb">
-      <DependentUpon>RelacaoContratoFirmados.aspx</DependentUpon>
+    <Compile Include="ContratosFirmados.aspx.vb">
+      <DependentUpon>ContratosFirmados.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.designer.vb">
