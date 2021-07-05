@@ -190,7 +190,7 @@ FROM [dbo].[TB_ITEM_DESPESA] A
         </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTipoItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TIPO_ITEM_DESPESA, NM_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA union SELECT  0, 'Selecione' FROM TB_TIPO_ITEM_DESPESA ORDER BY ID_TIPO_ITEM_DESPESA" >
+        SelectCommand="SELECT ID_TIPO_ITEM_DESPESA, NM_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ITEM_DESPESA" >
         <DeleteParameters>
                     <asp:Parameter Name="ID" Type="Int32" />
                 </DeleteParameters>

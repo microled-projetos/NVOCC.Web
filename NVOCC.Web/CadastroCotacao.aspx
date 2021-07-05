@@ -155,8 +155,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px" >
-                                           <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsCliente" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -260,64 +259,6 @@
                                 </div>
                             </div>
 
-
-
-        <ajaxToolkit:ModalPopupExtender ID="mpeCliente" runat="server" PopupControlID="PanelCliente" TargetControlID="ddlCliente" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
-                                    <asp:Panel ID="PanelCliente" runat="server" CssClass="modalPopup" Style="display: none;">
-                                        <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
-                                            <ContentTemplate>
-
-
-                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Selecione um Cliente</h5>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <br />
-
-                                                            <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
-                                                            <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div class="form-group">
-                                                                            <asp:TextBox ID="txtClienteFiltro" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="row" style="max-height: 300px; overflow: auto;">
-
-                                                                    <div class="col-sm-12">
-
-                                                                        <div class="form-group">
-                                                                            <asp:RadioButtonList ID="rdClientes" runat="server" AutoPostBack="true" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsCliente"  Style="text-align:justify;font-size:12px;">
-                                                                            </asp:RadioButtonList>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" Text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarCliente" Text="Salvar Cliente" />
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </ContentTemplate>
-                                            <Triggers>
-                                                <asp:AsyncPostBackTrigger ControlID="txtClienteFiltro" />
-                                                <asp:PostBackTrigger ControlID="btnFechar" />
-                                                <asp:PostBackTrigger ControlID="btnSalvarCliente" />
-                                            </Triggers>
-                                        </asp:UpdatePanel>
-                                    </asp:Panel>
 
                              </ContentTemplate>
 
@@ -839,7 +780,7 @@
                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />      
                                            <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
+                            <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
                                                   <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
@@ -1089,14 +1030,14 @@
                                         <asp:BoundField DataField="VL_TAXA_VENDA" HeaderText="Valor de Venda" SortExpression="VL_TAXA_VENDA"  />      
                                            <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>'  
+                            <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
                                                   <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
-                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>' 
+                            <asp:LinkButton ID="LinkButton3" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>    
                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
@@ -1288,81 +1229,78 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
                  <SelectParameters>
                 <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID"  />
             </SelectParameters>
-</asp:SqlDataSource>        
+</asp:SqlDataSource>   
+    
         <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA">
+        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_TIPO_COMEX">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_COMEX">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsRota" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_VIA_ROTA,NM_VIA_ROTA FROM [dbo].[TB_VIA_ROTA]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_VIA_ROTA] ORDER BY ID_VIA_ROTA">
+union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_FREQUENCIA] ORDER BY ID_TIPO_FREQUENCIA">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FREQUENCIA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCarga" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CARGA, NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CARGA] ORDER BY ID_TIPO_CARGA">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CARGA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM [dbo].[TB_MERCADORIA] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_MERCADORIA">
+union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_ESTUFAGEM, NM_TIPO_ESTUFAGEM FROM [dbo].[TB_TIPO_ESTUFAGEM] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_TIPO_ESTUFAGEM">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM">
 </asp:SqlDataSource>
 
 <asp:SqlDataSource ID="dsStatusCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO 
-union SELECT  0, 'Selecione' FROM TB_STATUS_COTACAO ORDER BY ID_STATUS_COTACAO">
+union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsDestinatarioComercial" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_DESTINATARIO_COMERCIAL,NM_DESTINATARIO_COMERCIAL FROM TB_DESTINATARIO_COMERCIAL
-union SELECT  0, 'Selecione' FROM TB_DESTINATARIO_COMERCIAL ORDER BY ID_DESTINATARIO_COMERCIAL">
+union SELECT  0, 'Selecione' ORDER BY ID_DESTINATARIO_COMERCIAL">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_INCOTERM, cast((CD_INCOTERM)as varchar)+ ' - '+ NM_INCOTERM as NM_INCOTERM FROM TB_INCOTERM 
-union SELECT  0, 'Selecione' FROM TB_INCOTERM ORDER BY ID_INCOTERM">
+union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO union SELECT  0, 'Selecione' FROM TB_USUARIO ORDER BY ID_USUARIO">
+        selectcommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO union SELECT  0, 'Selecione' ORDER BY ID_USUARIO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsClienteFinal" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
-union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL">
+union SELECT  0, 'Selecione' ORDER BY ID_CLIENTE_FINAL">
 </asp:SqlDataSource>
-
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (NM_RAZAO like '%' + @Nome + '%' Or @Nome = '0')">
-        <SelectParameters>
-            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtClienteFiltro" />
-        </SelectParameters>
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then cnpj +' - ' + NM_RAZAO when TP_PESSOA = 2 then cpf +' - ' + NM_RAZAO else nm_razao end  as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
-
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
-union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO">
+union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
            <%--<SelectParameters>
                 <asp:ControlParameter Name="CLIENTE" Type="Int32" ControlID="ddlCliente"  />
                                <asp:Parameter Name="CONTATO" Type="Int32"/>
@@ -1371,19 +1309,19 @@ union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOTIVO_CANCELAMENTO,NM_MOTIVO_CANCELAMENTO FROM TB_MOTIVO_CANCELAMENTO
-union SELECT  0, 'Selecione' FROM TB_MOTIVO_CANCELAMENTO ORDER BY ID_MOTIVO_CANCELAMENTO">
+union SELECT  0, 'Selecione' ORDER BY ID_MOTIVO_CANCELAMENTO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO
-union SELECT  0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO">
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsBL" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
-union SELECT  0, 'Selecione' FROM TB_TIPO_BL ORDER BY ID_TIPO_BL">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_BL">
 </asp:SqlDataSource>
 
          <asp:SqlDataSource ID="dsMercadorias" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1399,10 +1337,10 @@ WHERE ID_COTACAO = @ID_COTACAO
  </asp:SqlDataSource>                 
   <asp:SqlDataSource ID="dsIDMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM TB_MERCADORIA
-union SELECT  0, 'Selecione' FROM TB_MERCADORIA ORDER BY ID_MERCADORIA">
+union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsFreteTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR as varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE DT_VALIDADE_FINAL > getdate() and ID_PORTO_ORIGEM = 0 AND ID_PORTO_DESTINO = 0 AND ID_TRANSPORTADOR =0 union SELECT  0, 'Selecione' FROM TB_FRETE_TRANSPORTADOR ORDER BY ID_FRETE_TRANSPORTADOR">
+        selectcommand="SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR as varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE DT_VALIDADE_FINAL > getdate() and ID_PORTO_ORIGEM = 0 AND ID_PORTO_DESTINO = 0 AND ID_TRANSPORTADOR =0 union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR">
 </asp:SqlDataSource>
 <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT 
@@ -1445,11 +1383,11 @@ FROM TB_COTACAO_TAXA A
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsOrigemPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM  [dbo].[TB_ORIGEM_PAGAMENTO]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_ORIGEM_PAGAMENTO] ORDER BY ID_ORIGEM_PAGAMENTO">
+union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione' FROM TB_DESTINATARIO_COBRANCA ORDER BY ID_DESTINATARIO_COBRANCA
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA
 ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1475,19 +1413,19 @@ FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIP
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_CALCULO_TAXA">
+union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
-union SELECT  0, 'Selecione' FROM [dbo].TB_TIPO_DIVISAO_PROFIT ORDER BY ID_TIPO_DIVISAO_PROFIT">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
-union SELECT  0, ' Selecione' FROM [dbo].[TB_TIPO_ITEM_DESPESA] ORDER BY NM_ITEM_DESPESA">
+union SELECT  0, ' Selecione' ORDER BY NM_ITEM_DESPESA">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsTipoPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
-union SELECT  0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO">
 </asp:SqlDataSource>
  
    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "

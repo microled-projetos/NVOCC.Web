@@ -574,16 +574,16 @@ SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,ID_PARCEIRO_VENDEDOR,(SELE
                                WHERE        ID_MOEDA =B.ID_MOEDA)MOEDA FROM TB_TAXA_COMISSAO_INDICADOR B"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA">
+        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsContaBancaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA WHERE FL_ATIVO = 1
-union SELECT 0, 'Selecione' FROM [dbo].TB_CONTA_BANCARIA ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
+union SELECT 0, 'Selecione'  ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
             <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 AND FL_ATIVO = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript">

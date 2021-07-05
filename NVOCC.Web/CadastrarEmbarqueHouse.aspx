@@ -1963,15 +1963,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_TIPO_C
 
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR = 1
-        union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+        union SELECT 0, 'Selecione'   ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRodoviario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_RODOVIARIO = 1
-        union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+        union SELECT 0, 'Selecione'   ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsArmazemDesembaraco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_ARMAZEM_DESEMBARACO  = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedorMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN((SELECT ID_PARCEIRO_EXPORTADOR FROM TB_BL WHERE ID_BL = @ID_BL 
@@ -1987,7 +1987,7 @@ UNION
 SELECT ID_PARCEIRO_AGENTE_INTERNACIONAL FROM TB_BL WHERE ID_BL = @ID_BL 
 UNION
 SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL))
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO]
+union SELECT 0, 'Selecione'  
 ORDER BY ID_PARCEIRO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
@@ -2008,7 +2008,7 @@ UNION
 SELECT ID_PARCEIRO_AGENTE_INTERNACIONAL FROM TB_BL WHERE ID_BL = @ID_BL
 UNION
 SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL))
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO]
+union SELECT 0, 'Selecione'  
 ORDER BY ID_PARCEIRO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
@@ -2017,20 +2017,20 @@ ORDER BY ID_PARCEIRO">
 
     <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_INCOTERM, cast((CD_INCOTERM)as varchar)+ ' - '+ NM_INCOTERM as NM_INCOTERM FROM TB_INCOTERM 
-union SELECT  0, 'Selecione' FROM TB_INCOTERM ORDER BY ID_INCOTERM"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_COMISSARIA = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' FROM ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsExportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_EXPORTADOR = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' FROM ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Selecione'   ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA]
@@ -2042,28 +2042,28 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CARGA] ORDER BY ID_TIPO_CARGA"><
 
     <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione' FROM TB_DESTINATARIO_COBRANCA ORDER BY ID_DESTINATARIO_COBRANCA
+union SELECT  0, 'Selecione' ORDER BY ID_DESTINATARIO_COBRANCA
 "></asp:SqlDataSource>
     
     <asp:SqlDataSource ID="dsServicoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO IN (1,4)
-union SELECT  0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
     
     <asp:SqlDataSource ID="dsServicoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO IN (2,5)
-union SELECT  0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
     
     <asp:SqlDataSource ID="dsStatusPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_PAGAMENTO, NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO
-union SELECT  0, 'Selecione' FROM TB_STATUS_PAGAMENTO ORDER BY ID_STATUS_PAGAMENTO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_STATUS_PAGAMENTO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' ORDER BY ID_TIPO_CONTAINER"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCNTR" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CNTR_BL, NR_CNTR FROM TB_CNTR_BL WHERE ID_TIPO_CNTR = 0
-union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL">
+union SELECT 0, 'Selecione' ORDER BY ID_CNTR_BL">
         <%--<SelectParameters>
             <asp:ControlParameter Name="TIPO_CNTR" Type="Int32" ControlID="ddlNumeroCNTR_CargaMaritimo" />
         </SelectParameters>--%>
@@ -2071,23 +2071,23 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL">
 
     <asp:SqlDataSource ID="dsMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM [dbo].[TB_MERCADORIA]
-union SELECT 0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_MERCADORIA"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' ORDER BY ID_MERCADORIA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_ESTUFAGEM, NM_TIPO_ESTUFAGEM FROM [dbo].[TB_TIPO_ESTUFAGEM]
-union SELECT 0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
-union SELECT  0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsImportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsRefMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -2213,7 +2213,7 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'
     </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
-union SELECT  0, 'Selecione' FROM [dbo].TB_TIPO_DIVISAO_PROFIT ORDER BY ID_TIPO_DIVISAO_PROFIT">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
 </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

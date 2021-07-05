@@ -115,7 +115,23 @@ WHERE ID_PARCEIRO =" & ID)
                 txtNumero.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO").ToString()
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
-                ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE")
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CIDADE")) Then
+
+                    Dim dsCidade As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_CIDADE WHERE ID_CIDADE =" & ds.Tables(0).Rows(0).Item("ID_CIDADE"))
+                    If dsCidade.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        If ddlTipoPessoa.SelectedValue <> 3 Then
+                            msgErro.Text = "Atualização Cadastral Pendente: Cidade selecionada inexistente!"
+                            divmsg1.Visible = True
+                        End If
+
+
+                    Else
+                        divmsg1.Visible = False
+                        ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE")
+
+                    End If
+                End If
+
                 txtTelefone.Text = ds.Tables(0).Rows(0).Item("TELEFONE").ToString()
                 txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP").ToString()
                 ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
