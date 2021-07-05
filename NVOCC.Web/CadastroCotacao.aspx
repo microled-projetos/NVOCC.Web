@@ -155,7 +155,8 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsCliente" >
+                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px" >
+                                           <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -259,6 +260,64 @@
                                 </div>
                             </div>
 
+
+
+        <ajaxToolkit:ModalPopupExtender ID="mpeCliente" runat="server" PopupControlID="PanelCliente" TargetControlID="ddlCliente" CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
+                                    <asp:Panel ID="PanelCliente" runat="server" CssClass="modalPopup" Style="display: none;">
+                                        <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                            <ContentTemplate>
+
+
+                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Selecione um Cliente</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <br />
+
+                                                            <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">Pesquisa:</asp:Label>
+                                                            <div class="row linhabotao text-center" style="margin-left: 20px; margin-right: 20px">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <asp:TextBox ID="txtClienteFiltro" AutoPostBack="true" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="row" style="max-height: 300px; overflow: auto;">
+
+                                                                    <div class="col-sm-12">
+
+                                                                        <div class="form-group">
+                                                                            <asp:RadioButtonList ID="rdClientes" runat="server" AutoPostBack="true" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsCliente"  Style="text-align:justify;font-size:12px;">
+                                                                            </asp:RadioButtonList>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" Text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarCliente" Text="Salvar Cliente" />
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </ContentTemplate>
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="txtClienteFiltro" />
+                                                <asp:PostBackTrigger ControlID="btnFechar" />
+                                                <asp:PostBackTrigger ControlID="btnSalvarCliente" />
+                                            </Triggers>
+                                        </asp:UpdatePanel>
+                                    </asp:Panel>
 
                              </ContentTemplate>
 
@@ -1293,10 +1352,14 @@ union SELECT  0, 'Selecione' FROM TB_INCOTERM ORDER BY ID_INCOTERM">
         selectcommand="SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
 union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL">
 </asp:SqlDataSource>
+
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (NM_RAZAO like '%' + @Nome + '%' Or @Nome = '0')">
+        <SelectParameters>
+            <asp:ControlParameter Name="Nome" Type="String" ControlID="txtClienteFiltro" />
+        </SelectParameters>
 </asp:SqlDataSource>
+
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
 union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO">

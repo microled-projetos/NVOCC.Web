@@ -579,6 +579,11 @@ table {
     padding: 8px 16px;
 }*/
 
+
+th {
+    padding: 0px 
+}
+
 thead {
 /*    text-align: center;
 */}
@@ -587,8 +592,8 @@ th {
     position: sticky !important;
     top: 0;
     background-color: #e6eefa;
-    text-align: center;
-}
+/*    text-align: center;
+*/}
 
 .table > tbody > tr > td {
     font-size: 12px !important;
@@ -929,7 +934,7 @@ display: none;
 }*/
 
 .table tbody tr td {
-    padding: 0px !important;
+    padding-left: 8px !important;
     margin: 0px !important;
     font-size: 12px !important;
     padding-right: 2px !important;
@@ -984,7 +989,7 @@ input[type=file] {
 
 
 #boxTableImport table tbody td, #boxTableImport table thead th {
-    padding: 8px;
+   padding: 8px;
     border-bottom: 1px solid #ccc;
 }
 

@@ -62,7 +62,7 @@
                                         <asp:label ID="lblInfo" Text="" runat="server" />
                                    </div>   
                                 
-                                <asp:GridView ID="dgvParceiros" DataKeyNames="Id" OnSorting="dgvParceiros_Sorting"  style="max-height:600px; overflow:auto;" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsParceiros"  AutoGenerateColumns="false" AllowSorting="True" EmptyDataText="Nenhum registro encontrado.">
+                                <asp:GridView ID="dgvParceiros" DataKeyNames="Id" OnSorting="dgvParceiros_Sorting"  style="max-height:600px; overflow:auto;" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsParceiros"  AutoGenerateColumns="false" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                         <asp:BoundField DataField="RazaoSocial" HeaderText="Razão Social" SortExpression="RazaoSocial"/>
