@@ -152,6 +152,12 @@
                                 
                                 </div>                     
                             <div class="row">
+                               <%-- <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Pesquisa:</label></label><label runat="server" style="color:red" >*</label>
+                                         <asp:TextBox ID="TextBox1" runat="server"  CssClass="form-control" ></asp:TextBox>
+                                    </div>
+                                </div>--%>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
@@ -650,7 +656,7 @@
                                  <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda):</label>
-                                        <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                   <div class="col-sm-3" runat="server" id="divVendaMinimaLCL">
@@ -999,9 +1005,10 @@
         <br/>
                           <div class="row">
                                      
-                                  <div class="col-sm-4"">
+                                  <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
+                                                         <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
                                                     </div>
                                                 </div>
                             </div>
@@ -1054,8 +1061,8 @@
             <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                  <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                         <asp:AsyncPostBackTrigger  ControlID="btnFecharFrete" />
-
-
+      <asp:AsyncPostBackTrigger ControlID="btnImportar" />
+     
 
      </Triggers>   
      </asp:UpdatePanel>
@@ -1236,7 +1243,7 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

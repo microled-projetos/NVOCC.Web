@@ -19,8 +19,14 @@
 
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
+                txtID_BasicoMaritimo.Text = 0
+                txtID_BasicoAereo.Text = 0
+
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
+                txtID_BasicoMaritimo.Text = 0
+                txtID_BasicoAereo.Text = 0
+
             End If
 
             If Not Page.IsPostBack And Request.QueryString("id") <> "" Then

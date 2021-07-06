@@ -5,10 +5,6 @@
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
 
-
-
-
-
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR                                         
@@ -246,7 +242,7 @@
                                         <asp:label ID="lblInfoTarifario" runat="server"></asp:label>
                                     </div>
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Código:</label>
                                         <asp:TextBox ID="txtIDTarifario" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>
@@ -260,19 +256,31 @@
                               
                                 </div>
                              <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Frete Transportador:</label>
                                         <asp:TextBox ID="txtFreteTransportadorTarifario" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>        </div>
                             </div>        
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor da Compra:</label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtValorCompra" runat="server" CssClass="form-control moeda" maxlength="15" ></asp:TextBox>
                                                                           </div>
                                 </div>
 
-                                
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Data de Validade (Inicial):</label><label runat="server" style="color:red" >*</label>
+                                        <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                                                            </div>
+                                </div>
+                               
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Data de Validade (Final):</label><label runat="server" style="color:red" >*</label>
+                                        <asp:TextBox ID="txtValidadeFinal_Tarifario" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                    </div>
+                                </div>
 
                             </div>   
                               <div  id="divMercadoriaServico" runat="server" style="display:none">
@@ -312,48 +320,30 @@
                                  <asp:Checkbox ID="ckfcl" runat="server" CssClass="form-control" visible="false" ></asp:Checkbox>
                              <br />
                               <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                         <asp:Checkbox ID="ckbIMO" runat="server" CssClass="form-control" text="&nbsp;&nbsp;IMO" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                         <asp:Checkbox ID="ckbCargaEspecial" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Carga Especial" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Dias Freetime:</label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtFreetime" runat="server" CssClass="form-control inteiro" ></asp:TextBox>
                                     </div>
                                 </div>
-                              </div>
-                                
-                                 
-
-                                   <div class="row">
-
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Tipo de Container:</label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlContainer" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER" ></asp:DropDownList>   </div>           </div>
 
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Data de Validade (Inicial):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValidadeInicial" runat="server" CssClass="form-control data" ></asp:TextBox>
-                                                                            </div>
-                                </div>
-                               
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Data de Validade (Final):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValidadeFinal_Tarifario" runat="server" CssClass="form-control data" ></asp:TextBox>
-                                    </div>
-                                </div>
+                                
                                 
                             
                                        </div>
@@ -455,12 +445,14 @@
                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                   <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
                             <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_TARIFARIO_FRETE_TRANSPORTADOR") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate> 
+                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -609,6 +601,8 @@
                                   <div class="col-sm-4"">
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
+                                                        <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
+
                                                     </div>
                                                 </div>
                             </div>
@@ -640,12 +634,14 @@
                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TABELA_FRETE_TAXA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
                             <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_TABELA_FRETE_TAXA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate>      
+                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />     
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -657,6 +653,9 @@
  <Triggers>
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
             <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
+                 <asp:AsyncPostBackTrigger ControlID="btnImportar" />
+
+     
 
      </Triggers>   
      </asp:UpdatePanel>
@@ -745,7 +744,7 @@ union SELECT  0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESP
 union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY NM_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

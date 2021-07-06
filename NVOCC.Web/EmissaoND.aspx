@@ -54,8 +54,6 @@
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor de Lançamento" SortExpression="VL_LANCAMENTO" />
-                                    <asp:BoundField DataField="VL_DESCONTO" HeaderText="Valor de Desconto" SortExpression="VL_DESCONTO" />
-                                    <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Valor de Acréscimo" SortExpression="VL_ACRESCIMO" />
                                     <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Valor Liquido" SortExpression="VL_LIQUIDO" />
                                     <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuario de Lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                     <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />

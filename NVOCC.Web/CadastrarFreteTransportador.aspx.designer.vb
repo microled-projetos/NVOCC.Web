@@ -392,6 +392,24 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents txtValorCompra As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtValidadeInicial.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidadeInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtValidadeFinal_Tarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidadeFinal_Tarifario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divMercadoriaServico.
     '''</summary>
     '''<remarks>
@@ -462,24 +480,6 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlContainer As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtValidadeInicial.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValidadeInicial As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtValidadeFinal_Tarifario.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtValidadeFinal_Tarifario As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckblcl.
@@ -795,6 +795,15 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNovaTaxa As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnImportar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnImportar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle divDeleteTaxas.

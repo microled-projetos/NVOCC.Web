@@ -140,7 +140,7 @@
         <div id="divInfo" runat="server" visible="false" class="alert alert-success">
                               <asp:label ID="lblInfo" Text="" runat="server" /></div>
          <div class="table-responsive tableFixHead">
-                                <asp:GridView ID="dgvItemDespesa" style="max-height:600px; overflow:auto;"  DataKeyNames="Id" DataSourceID="dsItemDespesa"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AllowSorting="true" OnSorting="dgvItemDespesa_Sorting" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
+                                <asp:GridView ID="dgvItemDespesa" style="max-height:600px; overflow:auto;"  DataKeyNames="Id" DataSourceID="dsItemDespesa"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AllowSorting="true" OnSorting="dgvItemDespesa_Sorting" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Descrição" SortExpression="NM_ITEM_DESPESA" />
