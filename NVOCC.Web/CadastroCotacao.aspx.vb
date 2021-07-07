@@ -10,6 +10,8 @@
 
         If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
             Session("estufagem") = 0
+            ddlTipoPagamentoTaxa.SelectedValue = 1
+            ddlDestinatarioCobrancaTaxa.SelectedValue = 1
             CarregaCampos()
             VerificaEstufagem()
             VerificaTransporte()
@@ -273,8 +275,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         ddlBaseCalculoTaxa.SelectedValue = 0
         ddlMoedaCompraTaxa.SelectedValue = 0
         ddlMoedaVendaTaxa.SelectedValue = 0
-        ddlTipoPagamentoTaxa.SelectedValue = 0
-        ddlDestinatarioCobrancaTaxa.SelectedValue = 0
+        ddlTipoPagamentoTaxa.SelectedValue = 1
+        ddlDestinatarioCobrancaTaxa.SelectedValue = 1
         txtValorTaxaCompra.Text = ""
         txtValorTaxaVenda.Text = ""
         txtValorTaxaVendaMin.Text = ""
@@ -1414,7 +1416,13 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     Exit Sub
 
                 Else
-
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+                    Dim OPERADOR As String = "+"
+                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ITEM_DESPESA") = 3 Then
+                        OPERADOR = "-"
+                    Else
+                        OPERADOR = "+"
+                    End If
 
 
                     'INSERE TAXAS
@@ -1433,7 +1441,7 @@ VL_TAXA_COMPRA_MIN,
 ID_MOEDA_VENDA,
 VL_TAXA_VENDA,
 VL_TAXA_VENDA_MIN,
-OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & ",'" & txtValorTaxaCompra.Text & "','" & txtValorTaxaCompraMin.Text & "'," & ddlMoedaVendaTaxa.SelectedValue & ",'" & txtValorTaxaVenda.Text & "','" & txtValorTaxaVendaMin.Text & "','" & txtObsTaxa.Text & "')")
+OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & ",'" & txtObsTaxa.Text & "')")
 
 
                     txtIDTaxa.Text = ""
@@ -1442,8 +1450,8 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," 
                     ddlBaseCalculoTaxa.SelectedValue = 0
                     ddlMoedaCompraTaxa.SelectedValue = 0
                     ddlMoedaVendaTaxa.SelectedValue = 0
-                    ddlTipoPagamentoTaxa.SelectedValue = 0
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 0
+                    ddlTipoPagamentoTaxa.SelectedValue = 1
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
                     txtValorTaxaCompra.Text = ""
                     txtValorTaxaVenda.Text = ""
                     txtValorTaxaVendaMin.Text = ""
@@ -1465,7 +1473,13 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," 
                     Exit Sub
 
                 Else
-
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlItemDespesaTaxa.SelectedValue)
+                    Dim OPERADOR As String = "+"
+                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ITEM_DESPESA") = 3 Then
+                        OPERADOR = "-"
+                    Else
+                        OPERADOR = "+"
+                    End If
 
                     'ALTERA TAXAS
                     ds = Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET 
@@ -1477,11 +1491,11 @@ FL_DIVISAO_PROFIT = '" & ckbProfitTaxa.Checked & "',
 ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCobrancaTaxa.SelectedValue & ",
 ID_BASE_CALCULO_TAXA = " & ddlBaseCalculoTaxa.SelectedValue & ",
 ID_MOEDA_COMPRA = " & ddlMoedaCompraTaxa.SelectedValue & ",
-VL_TAXA_COMPRA = '" & txtValorTaxaCompra.Text & "',
-VL_TAXA_COMPRA_MIN = '" & txtValorTaxaCompraMin.Text & "',
+VL_TAXA_COMPRA =" & OPERADOR & txtValorTaxaCompra.Text & ",
+VL_TAXA_COMPRA_MIN = " & OPERADOR & txtValorTaxaCompraMin.Text & ",
 ID_MOEDA_VENDA = " & ddlMoedaVendaTaxa.SelectedValue & ",
-VL_TAXA_VENDA = '" & txtValorTaxaVenda.Text & "',
-VL_TAXA_VENDA_MIN = '" & txtValorTaxaVendaMin.Text & "',
+VL_TAXA_VENDA = " & OPERADOR & txtValorTaxaVenda.Text & ",
+VL_TAXA_VENDA_MIN = " & OPERADOR & txtValorTaxaVendaMin.Text & ",
 OB_TAXAS = '" & txtObsTaxa.Text & "'
 WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
 
@@ -1491,8 +1505,8 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     ddlBaseCalculoTaxa.SelectedValue = 0
                     ddlMoedaCompraTaxa.SelectedValue = 0
                     ddlMoedaVendaTaxa.SelectedValue = 0
-                    ddlTipoPagamentoTaxa.SelectedValue = 0
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 0
+                    ddlTipoPagamentoTaxa.SelectedValue = 1
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
                     txtValorTaxaCompra.Text = ""
                     txtValorTaxaVenda.Text = ""
                     txtValorTaxaVendaMin.Text = ""
@@ -1788,7 +1802,7 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
                 For Each linha As DataRow In ds.Tables(0).Rows
 
                     Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA_MIN,FL_TAXA_TRANSPORTADOR)
-                    SELECT " & txtID.Text & ",ID_ITEM_DESPESA,CASE WHEN ID_ORIGEM_PAGAMENTO = 1 THEN 1 WHEN ID_ORIGEM_PAGAMENTO =2 THEN 2 END ID_TIPO_PAGAMENTO ,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,VL_TAXA_COMPRA_MIN,1 FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & " AND ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                    SELECT " & txtID.Text & ",ID_ITEM_DESPESA,1,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,VL_TAXA_COMPRA_MIN,1 FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & " AND ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                 Next
                 divDeleteTaxas.Visible = True
                 lblDeleteTaxas.Text = "Ação realizada com sucesso!"

@@ -158,7 +158,7 @@ A.VL_TAXA_VENDA_CALCULADO,
 case when (A.VL_TAXA_VENDA <> 0 and  A.VL_TAXA_VENDA_CALCULADO = 0) then 'Taxa não calculada' else  cast(a.VL_TAXA_VENDA_CALCULADO as varchar) end as CALCULADO,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA ) TAXA 
 FROM TB_COTACAO_TAXA A
-WHERE FL_DECLARADO = 1
+WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
     AND A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
@@ -189,23 +189,21 @@ WHERE FL_DECLARADO = 1
 
 
 
-
+            'total origem
             Dim DescTotalOrigem As String = ""
-
 
             ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
-
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     If DescTotalOrigem = "" Then
                         DescTotalOrigem &= linha("descricao")
                     Else
                         DescTotalOrigem &= " + " & linha("descricao")
-
                     End If
                 Next
             End If
+            DescTotalOrigem = DescTotalOrigem.Replace("+ -", "-")
 
             lblTotalTaxasOrigem.Text = DescTotalOrigem
 
@@ -227,6 +225,7 @@ WHERE FL_DECLARADO = 1
 
         'DESTINO
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,
+(SELECT ID_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = (SELECT ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)) ID_TIPO_ITEM_DESPESA,
 A.ID_COTACAO_TAXA,
 A.FL_DECLARADO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA )BASE_CALCULO,
@@ -236,7 +235,7 @@ A.VL_TAXA_VENDA_CALCULADO,
 case when (A.VL_TAXA_VENDA <> 0 and  A.VL_TAXA_VENDA_CALCULADO = 0) then 'Taxa não calculada' else  cast(a.VL_TAXA_VENDA_CALCULADO as varchar) end as CALCULADO,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA ) TAXA 
 FROM TB_COTACAO_TAXA A
-WHERE FL_DECLARADO = 0
+WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
     AND A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
@@ -279,17 +278,32 @@ WHERE FL_DECLARADO = 0
                     If DescTotalDestino = "" Then
                         DescTotalDestino &= linha("descricao")
                     Else
+
                         DescTotalDestino &= " + " & linha("descricao")
+
 
                     End If
                 Next
             End If
+
+
+            DescTotalDestino = DescTotalDestino.Replace("+ -", "-")
 
             lblTotalTaxasDestino.Text = DescTotalDestino
 
 
 
         End If
+
+
+
+
+
+
+
+
+
+
 
 
         'total final taxas
@@ -306,44 +320,55 @@ WHERE FL_DECLARADO = 0
                     TotalFinalTaxas &= linha("descricao")
                 Else
                     TotalFinalTaxas &= " + " & linha("descricao")
-
                 End If
             Next
         End If
 
+        TotalFinalTaxas = TotalFinalTaxas.Replace("+ -", "-")
 
 
         lblTotalFinalTaxas.Text = TotalFinalTaxas
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         'total final geral
-        ds = Con.ExecutarQuery(" select cast(sum(valor)as varchar) + ' '+MOEDA as TOTAL  from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
+        ds = Con.ExecutarQuery("select cast(sum(valor)as varchar) + ' '+MOEDA as TOTAL  from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
         If ds.Tables(0).Rows.Count > 0 Then
-
-
             For Each linha As DataRow In ds.Tables(0).Rows
                 If TotalFinal = "" Then
                     TotalFinal &= linha("TOTAL")
                 Else
                     TotalFinal &= " + " & linha("TOTAL")
-
                 End If
             Next
         End If
+        TotalFinal = TotalFinal.Replace("+ -", "-")
+
         lblTotalFinal.Text = TotalFinal
 
-        'lblTotalBRL.Text = ds.Tables(0).Rows(0).Item("FL_ACESSAR")
-
-
-        'lblTaxasOrigem.Text = lblTaxasOrigem.Text.Replace("³", "<sup>3</sup>")
-        'lblTaxasDestino.Text = lblTaxasDestino.Text.Replace("³", "<sup>3</sup>")
-        ' lblfretes.Text = lblfretes.Text.Replace("³", "<sup>3</sup>")
 
     End Sub
 
     Sub CONTAINER()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_TIPO_CONTAINER, CAST((VL_FRETE_VENDA/QT_CONTAINER)AS NUMERIC(13,2))VALOR,SUM(QT_CONTAINER)QTD
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_TIPO_CONTAINER, CAST((VL_FRETE_VENDA)AS NUMERIC(13,2))VALOR,SUM(QT_CONTAINER)QTD
 FROM TB_COTACAO_MERCADORIA A
 LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE ID_COTACAO = " & Request.QueryString("c") & " and A.QT_CONTAINER > 0 
 GROUP BY B.NM_TIPO_CONTAINER,VL_FRETE_VENDA,QT_CONTAINER

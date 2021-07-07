@@ -460,6 +460,7 @@
     <Content Include="ReciboProvisorioServico.aspx" />
     <Content Include="ContratosFirmados.aspx" />
     <Content Include="RelatorioVendedor.aspx" />
+    <Content Include="RemessaBoletos.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
     <Content Include="SOA_I.aspx" />
     <Content Include="SOA_II.aspx" />
@@ -947,6 +948,13 @@
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.vb">
       <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RemessaBoletos.aspx.designer.vb">
+      <DependentUpon>RemessaBoletos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RemessaBoletos.aspx.vb">
+      <DependentUpon>RemessaBoletos.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
