@@ -17,20 +17,23 @@
             Response.Redirect("Default.aspx")
         Else
 
-            If Request.QueryString("tipo") = "e" Then
-                lblTipoModulo.Text = " EMBARQUE"
-                txtID_BasicoMaritimo.Text = 0
-                txtID_BasicoAereo.Text = 0
 
-            ElseIf Request.QueryString("tipo") = "h" Then
-                lblTipoModulo.Text = " HOUSE"
-                txtID_BasicoMaritimo.Text = 0
-                txtID_BasicoAereo.Text = 0
 
-            End If
+            If Not Page.IsPostBack Then
+                If Request.QueryString("tipo") = "e" Then
+                    lblTipoModulo.Text = " EMBARQUE"
+                    txtID_BasicoMaritimo.Text = 0
+                    txtID_BasicoAereo.Text = 0
 
-            If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
-                CarregaCampos()
+                ElseIf Request.QueryString("tipo") = "h" Then
+                    lblTipoModulo.Text = " HOUSE"
+                    txtID_BasicoMaritimo.Text = 0
+                    txtID_BasicoAereo.Text = 0
+
+                End If
+                If Request.QueryString("id") <> "" Then
+                    CarregaCampos()
+                End If
             End If
 
         End If
@@ -45,14 +48,15 @@
         Session("ID_BL_MASTER") = 0
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO, ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE, 103)DT_CE,OB_REFERENCIA_COMERCIAL,OB_REFERENCIA_AUXILIAR,NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,ID_PARCEIRO_ARMAZEM_DESEMBARACO,ID_PARCEIRO_RODOVIARIO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER,(SELECT DT_CHEGADA FROM TB_BL WHERE TB_BL.ID_BL = A.ID_BL_MASTER)DT_CHEGADA_MASTER,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)NM_RAZAO_CLIENTE,
+ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO, ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE, 103)DT_CE,OB_REFERENCIA_COMERCIAL,OB_REFERENCIA_AUXILIAR,NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,ID_PARCEIRO_ARMAZEM_DESEMBARACO,ID_PARCEIRO_RODOVIARIO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER,(SELECT DT_CHEGADA FROM TB_BL WHERE TB_BL.ID_BL = A.ID_BL_MASTER)DT_CHEGADA_MASTER,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
 
                 If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 1 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 4 Then
                     'AGENCIAMENTO DE EXPORTACAO MARITIMA
                     'AGENCIAMENTO DE IMPORTACAO MARITIMA
-
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -83,6 +87,7 @@
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")) Then
+                        txtCodCliente_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                         ddlCliente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                     End If
 
@@ -95,14 +100,17 @@
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")) Then
+                        txtCodExportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
                         ddlExportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")) Then
+                        txtCodComissaria_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
                         ddlComissaria_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")) Then
+                        txtCodImportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
                         ddlImportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
                     End If
 
@@ -245,10 +253,12 @@
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")) Then
+                        txtCodCliente_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                         ddlCliente_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")) Then
+                        txtCodImportador_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
                         ddlImportador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
                     End If
 
@@ -261,10 +271,12 @@
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")) Then
+                        txtCodExportador_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
                         ddlExportador_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")) Then
+                        txtCodComissaria_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
                         ddlComissaria_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
                     End If
 
@@ -2071,7 +2083,7 @@ WHERE ID_CARGA_BL = " & ID)
 
                     'INSERE 
                     ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_CNTR_BL, ID_EMBALAGEM, DS_GRUPO_NCM,ID_BL,ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,DS_MERCADORIA) VALUES (" & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "," & ddlEmbalagem_CargaMaritimo.SelectedValue & "," & txtGrupoNCM_CargaMaritimo.Text & "," & txtID_BasicoMaritimo.Text & "," & ddlMercadoria_CargaMaritimo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaMaritimo.Text & "," & txtPesoVolumetrico_CargaMaritimo.Text & "," & txtQtdVolumes_CargaMaritimo.Text & "," & txtDescMercadoriaCNTR_Maritimo.Text & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
-                Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
+                    Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
 
                     If ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
@@ -2946,6 +2958,185 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "none")
             divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "block")
 
+        End If
+    End Sub
+
+    Private Sub txtNomeCliente_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeCliente_Maritimo.TextChanged
+        divErro_BasicoMaritimo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodCliente_Maritimo.Text = "" Then
+            txtCodCliente_Maritimo.Text = 0
+        End If
+        If txtNomeCliente_Maritimo.Text = "" Then
+            txtNomeCliente_Maritimo.Text = "NULL"
+        End If
+
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and (NM_RAZAO like '%" & txtNomeCliente_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodCliente_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsCliente_Maritimo.SelectCommand = Sql
+            dsCliente_Maritimo.DataBind()
+            ddlCliente_BasicoMaritimo.DataBind()
+        Else
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeImportador_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeImportador_Maritimo.TextChanged
+        divErro_BasicoMaritimo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodImportador_Maritimo.Text = "" Then
+            txtCodImportador_Maritimo.Text = 0
+        End If
+        If txtNomeImportador_Maritimo.Text = "" Then
+            txtNomeImportador_Maritimo.Text = "NULL"
+        End If
+
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and  (NM_RAZAO like '%" & txtNomeImportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodImportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsImportador_Maritimo.SelectCommand = Sql
+            dsImportador_Maritimo.DataBind()
+            ddlImportador_BasicoMaritimo.DataBind()
+        Else
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeCliente_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeCliente_Aereo.TextChanged
+        divErro_BasicoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodCliente_Aereo.Text = "" Then
+            txtCodCliente_Aereo.Text = 0
+        End If
+        If txtNomeCliente_Aereo.Text = "" Then
+            txtNomeCliente_Aereo.Text = "NULL"
+        End If
+
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodCliente_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsCliente_Aereo.SelectCommand = Sql
+            dsCliente_Aereo.DataBind()
+            ddlCliente_BasicoAereo.DataBind()
+        Else
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeImportador_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeImportador_Aereo.TextChanged
+        divErro_BasicoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodImportador_Aereo.Text = "" Then
+            txtCodImportador_Aereo.Text = 0
+        End If
+        If txtNomeImportador_Aereo.Text = "" Then
+            txtNomeImportador_Aereo.Text = "NULL"
+        End If
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and  (NM_RAZAO like '%" & txtNomeImportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodImportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsImportador_Aereo.SelectCommand = Sql
+            dsImportador_Aereo.DataBind()
+            ddlImportador_BasicoAereo.DataBind()
+        Else
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeComissaria_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeComissaria_Aereo.TextChanged
+        divErro_BasicoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodComissaria_Aereo.Text = "" Then
+            txtCodComissaria_Aereo.Text = 0
+        End If
+        If txtNomeComissaria_Aereo.Text = "" Then
+            txtNomeComissaria_Aereo.Text = "NULL"
+        End If
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_COMISSARIA =1 and (NM_RAZAO like '%" & txtNomeComissaria_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodComissaria_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsComissaria_Aereo.SelectCommand = Sql
+            dsComissaria_Aereo.DataBind()
+            ddlComissaria_BasicoAereo.DataBind()
+        Else
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeComissaria_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeComissaria_Maritimo.TextChanged
+        divErro_BasicoMaritimo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodComissaria_Maritimo.Text = "" Then
+            txtCodComissaria_Maritimo.Text = 0
+        End If
+        If txtNomeComissaria_Maritimo.Text = "" Then
+            txtNomeComissaria_Maritimo.Text = "NULL"
+        End If
+
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_COMISSARIA =1 and (NM_RAZAO like '%" & txtNomeComissaria_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodComissaria_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsComissaria_Maritimo.SelectCommand = Sql
+            dsComissaria_Maritimo.DataBind()
+            ddlComissaria_BasicoMaritimo.DataBind()
+        Else
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+
+    Private Sub txtNomeExportador_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeExportador_Maritimo.TextChanged
+        divErro_BasicoMaritimo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodComissaria_Aereo.Text = "" Then
+            txtCodComissaria_Aereo.Text = 0
+        End If
+        If txtNomeComissaria_Aereo.Text = "" Then
+            txtNomeComissaria_Aereo.Text = "NULL"
+        End If
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =1 and (NM_RAZAO like '%" & txtNomeExportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsExportador_Maritimo.SelectCommand = Sql
+            dsExportador_Maritimo.DataBind()
+            ddlExportador_BasicoMaritimo.DataBind()
+        Else
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
+        End If
+    End Sub
+    Private Sub txtNomeExportador_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeExportador_Aereo.TextChanged
+        divErro_BasicoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodExportador_Aereo.Text = "" Then
+            txtCodExportador_Aereo.Text = 0
+        End If
+        If txtNomeExportador_Aereo.Text = "" Then
+            txtNomeExportador_Aereo.Text = "NULL"
+        End If
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =1 and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsExportador_Aereo.SelectCommand = Sql
+            dsExportador_Aereo.DataBind()
+            ddlExportador_BasicoAereo.DataBind()
+        Else
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
         End If
     End Sub
 End Class

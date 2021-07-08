@@ -3202,6 +3202,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaFCLimpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoFCLimpo").value = 1;
             })
 
             $("#btnEditarLCLimpo").click(function () {
@@ -3285,6 +3287,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaLCLimpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoLCLimpo").value = 1;
             })
 
             $("#btnEditarFCLexpo").click(function () {
@@ -3368,6 +3372,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaFCLexpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoFCLexpo").value = 1;
             })
 
             $("#btnEditarLCLexpo").click(function () {
@@ -3451,6 +3457,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaLCLexpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoLCLexpo").value = 1;
             })
 
             $("#btnEditarAereoImpo").click(function () {
@@ -3534,6 +3542,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaAereoImpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoAereoImpo").value = 1;
             })
 
             $("#btnEditarAereoExpo").click(function () {
@@ -3617,6 +3627,8 @@
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaAereoExpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoAereoExpo").value = 1;
             })
         })
 

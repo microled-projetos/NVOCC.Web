@@ -487,7 +487,7 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -495,7 +495,7 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -509,7 +509,7 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -517,7 +517,7 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -530,7 +530,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -538,7 +538,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -555,7 +555,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                         x = linha.Item("VL_M3")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = x * y
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -563,7 +563,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                         x = linha.Item("VL_M3")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = x * y
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -576,7 +576,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
 
                         z = x / 1000
                         z = y * z
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN.ToString
                         Else
                             CompraCalc = z.ToString
@@ -587,7 +587,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = x / 1000
                         z = y * z
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN.ToString
                         Else
                             VendaCalc = z.ToString
@@ -604,7 +604,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -612,7 +612,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (19)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -626,7 +626,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (5,6,2,9,10,12,
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -634,7 +634,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (5,6,2,9,10,12,
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -648,7 +648,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -656,7 +656,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -667,7 +667,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         x = linha.Item("VL_M3")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = x * y
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -675,7 +675,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         x = linha.Item("VL_M3")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = x * y
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -687,7 +687,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
 
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = x * y
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z
@@ -695,7 +695,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
 
                         y = linha.Item("VL_TAXA_VENDA")
                         z = x * y
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z
@@ -709,7 +709,7 @@ WHERE A.ID_COTACAO " & txtID.Text & " ")
                         x = ds1.Tables(0).Rows(0).Item("VALOR")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -717,7 +717,7 @@ WHERE A.ID_COTACAO " & txtID.Text & " ")
                         x = ds1.Tables(0).Rows(0).Item("VALOR")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -731,7 +731,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_PAGAMENTO = 1 AND GRAU = 'C'
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -739,7 +739,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_PAGAMENTO = 1 AND GRAU = 'C'
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -753,7 +753,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER = 10")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -761,7 +761,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER = 10")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -775,7 +775,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (15)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -783,7 +783,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (15)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -797,7 +797,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (9)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -805,7 +805,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (9)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -819,7 +819,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -827,7 +827,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -840,7 +840,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (16)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -848,7 +848,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (16)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -862,7 +862,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (5)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -870,7 +870,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (5)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -884,7 +884,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (4)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -892,7 +892,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (4)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -906,7 +906,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -914,7 +914,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -923,12 +923,12 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
                         'VALOR POR EMBARQUE- valor fixo digitado
 
                         VendaCalc = linha.Item("VL_TAXA_VENDA").ToString()
-                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN Then
+                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN.ToString
                         End If
 
                         CompraCalc = linha.Item("VL_TAXA_COMPRA").ToString()
-                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN Then
+                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN.ToString
                         End If
 
@@ -943,7 +943,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -951,7 +951,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -960,12 +960,12 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         'POR HAWB (AEREO)- na cotação é 1 por 1
 
                         VendaCalc = linha.Item("VL_TAXA_VENDA").ToString()
-                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN Then
+                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN.ToString
                         End If
 
                         CompraCalc = linha.Item("VL_TAXA_COMPRA").ToString()
-                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN Then
+                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN.ToString
                         End If
 
@@ -973,12 +973,12 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         'POR HBL (MARITIMO) - na cotação é 1 por 1
 
                         VendaCalc = linha.Item("VL_TAXA_VENDA").ToString()
-                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN Then
+                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN.ToString
                         End If
 
                         CompraCalc = linha.Item("VL_TAXA_COMPRA").ToString()
-                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN Then
+                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN.ToString
                         End If
 
@@ -986,12 +986,12 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         'POR DOCUMENTO
 
                         VendaCalc = linha.Item("VL_TAXA_VENDA").ToString()
-                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN Then
+                        If linha.Item("VL_TAXA_VENDA") < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN.ToString
                         End If
 
                         CompraCalc = linha.Item("VL_TAXA_COMPRA").ToString()
-                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN Then
+                        If linha.Item("VL_TAXA_COMPRA") < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN.ToString
                         End If
 
@@ -1004,7 +1004,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
-                        If z < COMPRA_MIN Then
+                        If z < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             z = COMPRA_MIN
                         End If
                         CompraCalc = z.ToString
@@ -1012,7 +1012,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
-                        If z < VENDA_MIN Then
+                        If z < VENDA_MIN And VENDA_MIN <> 0 Then
                             z = VENDA_MIN
                         End If
                         VendaCalc = z.ToString
@@ -1038,12 +1038,12 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
                         z = x + y
 
                         VendaCalc = z * linha.Item("VL_TAXA_VENDA")
-                        If VendaCalc < VENDA_MIN Then
+                        If VendaCalc < VENDA_MIN And VENDA_MIN <> 0 Then
                             VendaCalc = VENDA_MIN
                         End If
 
                         CompraCalc = z * linha.Item("VL_TAXA_COMPRA")
-                        If CompraCalc < COMPRA_MIN Then
+                        If CompraCalc < COMPRA_MIN And COMPRA_MIN <> 0 Then
                             CompraCalc = COMPRA_MIN
                         End If
 

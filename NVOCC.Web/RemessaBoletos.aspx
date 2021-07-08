@@ -57,25 +57,7 @@
                                <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                     </div>
-                                    </div>
-                      <div class="col-sm-2">
-                                    <div class="linha-colorida">Número RPS</div>
-                                     <div class="col-sm-6">
-                                     <div class="form-group">
-                                        <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control"></asp:TextBox>
-                           </div>
-                                         </div>
-                                     <div class="col-sm-6">
-                                     <div class="form-group">
-                                        <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control"></asp:TextBox>
-                           </div>
-                                     </div>
-                                                                
-
-                                </div>
-                      
+                                    </div>                      
                                                              <div class="col-sm-2">      <div class="linha-colorida">Vencimento</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
@@ -91,7 +73,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-2">  
-                      <div class="linha-colorida">Liquidação</div>
+                      <div class="linha-colorida">Data de Emissao NF</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -111,7 +93,13 @@
                                                              
                                                                 <div class="col-sm-2"><div class="linha-colorida">Cliente</div><br />
                                      <div class="form-group"> 
-                              <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="COD" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
+                              <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO_CLIENTE" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
+                                                </asp:DropDownList>
+                           </div>
+                                     </div>
+                                              <div class="col-sm-2"><div class="linha-colorida">Banco</div><br />
+                                     <div class="form-group"> 
+                              <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO_CLIENTE" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
                                                 </asp:DropDownList>
                            </div>
                                      </div>
@@ -148,18 +136,11 @@
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NM_CLIENTE" HeaderText="Cliente" SortExpression="NM_CLIENTE" />
-                                            <asp:BoundField DataField="REFERENCIA_CLIENTE" HeaderText="Ref. Cliente" SortExpression="REFERENCIA_CLIENTE" />
-                                            <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
-                                            <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Debito." SortExpression="NR_NOTA_DEBITO" />
-                                            <asp:BoundField DataField="DT_NOTA_DEBITO" HeaderText="Data de Nota de Deb." SortExpression="DT_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_RPS" HeaderText="RPS" SortExpression="NR_RPS" />
                                             <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
-                                            <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
-                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo" SortExpression="DT_RECIBO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
-                                            <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
-                                            <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
+                                            <asp:BoundField DataField="VL_BOLETO" HeaderText="Valor do Boleto" SortExpression="VL_BOLETO" />
 
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
@@ -195,14 +176,14 @@
     <asp:TextBox ID="txtResultado" runat="server" Style="display: none" CssClass="form-control"></asp:TextBox>
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Faturamento] WHERE DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL AND NOSSONUMERO IS NOT NULL ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Boletos_Remessa] ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
 
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
+        SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>

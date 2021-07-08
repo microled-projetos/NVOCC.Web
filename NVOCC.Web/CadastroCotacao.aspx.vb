@@ -1395,6 +1395,17 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
             txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(",", ".")
 
 
+
+            txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace("-", "")
+
+            txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace("-", "")
+
+            txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace("-", "")
+
+            txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace("-", "")
+
+
+
             If txtValorTaxaCompraMin.Text = "" Then
                 txtValorTaxaCompraMin.Text = "0"
             End If
@@ -1456,6 +1467,8 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlItemDespesaTaxa.SelectedValue & "," 
                     txtValorTaxaVenda.Text = ""
                     txtValorTaxaVendaMin.Text = ""
                     txtValorTaxaCompraMin.Text = ""
+                    txtValorTaxaVendaCalc.Text = ""
+                    txtValorTaxaCompraCalc.Text = ""
 
                     Con.Fechar()
                     dgvTaxas.DataBind()
@@ -1511,6 +1524,9 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     txtValorTaxaVenda.Text = ""
                     txtValorTaxaVendaMin.Text = ""
                     txtValorTaxaCompraMin.Text = ""
+                    txtValorTaxaVendaCalc.Text = ""
+                    txtValorTaxaCompraCalc.Text = ""
+
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
                     dgvTaxas.DataBind()
@@ -1759,8 +1775,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CLIENTE_FINAL"
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
-                Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,FL_DIVISAO_PROFIT,OB_TAXAS,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO)
-select " & txtID.Text & " , ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,(SELECT ID_MOEDA FROM TB_MOEDA WHERE CD_MOEDA = ID_MOEDA_COMPRA)ID_MOEDA_COMPRA,VL_TAXA_COMPRA,(SELECT ID_MOEDA FROM TB_MOEDA WHERE CD_MOEDA = ID_MOEDA_VENDA)ID_MOEDA_VENDA,VL_TAXA_VENDA,FL_DIVISAO_PROFIT,OB_TAXAS,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO from TB_TAXA_CLIENTE where ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
+                Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,FL_DIVISAO_PROFIT,OB_TAXAS,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA)
+select " & txtID.Text & " , ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,(SELECT ID_MOEDA FROM TB_MOEDA WHERE CD_MOEDA = ID_MOEDA_COMPRA)ID_MOEDA_COMPRA,VL_TAXA_COMPRA,(SELECT ID_MOEDA FROM TB_MOEDA WHERE CD_MOEDA = ID_MOEDA_VENDA)ID_MOEDA_VENDA,VL_TAXA_VENDA,FL_DIVISAO_PROFIT,OB_TAXAS,1,ID_ORIGEM_PAGAMENTO,1 from TB_TAXA_CLIENTE where ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
             Next
 
             divDeleteTaxas.Visible = True
@@ -1787,8 +1803,8 @@ select " & txtID.Text & " , ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,(SELECT ID_MOED
             ds = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR,ID_ITEM_DESPESA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " AND ID_VIATRANSPORTE = (select ID_VIATRANSPORTE from TB_SERVICO b where ID_SERVICO = " & ddlServico.SelectedValue & ") " & FILTROCOMEX & " AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & "  )")
             If ds.Tables(0).Rows.Count > 0 Then
                 For Each linha As DataRow In ds.Tables(0).Rows
-                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,ID_BASE_CALCULO_TAXA,FL_TAXA_TRANSPORTADOR)   
-SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_BASE_CALCULO,1  FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " AND ID_VIATRANSPORTE = (select ID_VIATRANSPORTE from TB_SERVICO b where ID_SERVICO = " & ddlServico.SelectedValue & ") " & FILTROCOMEX & " AND ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
+                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,ID_BASE_CALCULO_TAXA,FL_TAXA_TRANSPORTADOR,ID_DESTINATARIO_COBRANCA,ID_TIPO_PAGAMENTO)   
+SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_BASE_CALCULO,1,1,1  FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ddlDestinoFrete.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & " AND ID_VIATRANSPORTE = (select ID_VIATRANSPORTE from TB_SERVICO b where ID_SERVICO = " & ddlServico.SelectedValue & ") " & FILTROCOMEX & " AND ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
                 Next
                 divDeleteTaxas.Visible = True
                 lblDeleteTaxas.Text = "Ação realizada com sucesso!"
@@ -1801,8 +1817,8 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
             If ds.Tables(0).Rows.Count > 0 Then
                 For Each linha As DataRow In ds.Tables(0).Rows
 
-                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA_MIN,FL_TAXA_TRANSPORTADOR)
-                    SELECT " & txtID.Text & ",ID_ITEM_DESPESA,1,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,VL_TAXA_COMPRA_MIN,1 FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & " AND ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA_MIN,FL_TAXA_TRANSPORTADOR,ID_DESTINATARIO_COBRANCA)
+                    SELECT " & txtID.Text & ",ID_ITEM_DESPESA,1,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_MIN,VL_TAXA_COMPRA_MIN,1,1 FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & " AND ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                 Next
                 divDeleteTaxas.Visible = True
                 lblDeleteTaxas.Text = "Ação realizada com sucesso!"

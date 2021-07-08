@@ -14,7 +14,9 @@ Public Class CotacaoPDF_PT
 
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_TIPO_ESTUFAGEM,
 A.NR_COTACAO,
-A.DT_VALIDADE_COTACAO,
+CONVERT(VARCHAR,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
+(SELECT NM_TIPO_FREQUENCIA FROM TB_TIPO_FREQUENCIA WHERE ID_TIPO_FREQUENCIA = A.ID_TIPO_FREQUENCIA)NM_TIPO_FREQUENCIA,
+VL_FREQUENCIA,
 A.ID_ANALISTA_COTACAO,
 (SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = A.ID_ANALISTA_COTACAO )NOME_ANALISTA,
 A.ID_INCOTERM,
@@ -42,7 +44,10 @@ ID_VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
 VL_TOTAL_FRETE_VENDA,
 VL_TOTAL_FRETE_VENDA_CALCULADO,
-(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA
+(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1 )PORTO_ESCALA1,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA2 )PORTO_ESCALA2,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA3 )PORTO_ESCALA3
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
@@ -77,6 +82,14 @@ FROM  TB_COTACAO A
                 lblPesoBruto.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_PESO_BRUTO").ToString
             End If
 
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_FREQUENCIA")) Then
+                lblFrequencia.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_FREQUENCIA").ToString
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_FREQUENCIA")) Then
+                lblValorFrequencia.Text = " - " & ds.Tables(0).Rows(0).Item("VL_FREQUENCIA").ToString
+            End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_M3")) Then
                 lblM3.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
             End If
@@ -91,6 +104,15 @@ FROM  TB_COTACAO A
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
                 lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA1")) Then
+                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA1").ToString
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA2")) Then
+                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA2").ToString
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA3")) Then
+                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA3").ToString
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VIA_ROTA")) Then
@@ -118,14 +140,27 @@ FROM  TB_COTACAO A
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
                 tabela &= "<th style='padding-right:10px'>Taxa</th>"
                 tabela &= "<th style='padding-right:10px'>Valor</th>"
-                tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
+                tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th>"
+
+                If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                    tabela &= "<th style='padding-right:10px'>Base de Calc.</th>"
+                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
+                End If
 
                 For Each linha As DataRow In ds.Tables(0).Rows
-                    tabela &= "<tr><td style='padding-right:10px'>FRETE INTERNACIONAL</td>"
+                    tabela &= "</tr><tr><td style='padding-right:10px'>FRETE INTERNACIONAL</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
-                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td></tr>"
+                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
+                    If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                        tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
+                    End If
+                    tabela &= "</tr>"
+
                 Next
 
+                tabela = tabela.Replace("³", "<sup>3</sup>")
+                tabela = tabela.Replace("ã", "&atilde;")
                 tabela &= "</table>"
                 divConteudofrete.InnerHtml = tabela
                 lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
@@ -182,7 +217,9 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             Next
             tabela &= "</table>"
             tabela = tabela.Replace("³", "<sup>3</sup>")
+            tabela = tabela.Replace("Ã", "&Atilde;")
             tabela = tabela.Replace("ã", "&atilde;")
+            tabela = tabela.Replace("Ç", "&Ccedil;")
             divTaxaOrigem.InnerHtml = tabela
 
 
@@ -259,8 +296,9 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
             Next
             tabela = tabela.Replace("³", "<sup>3</sup>")
+            tabela = tabela.Replace("Ã", "&Atilde;")
             tabela = tabela.Replace("ã", "&atilde;")
-
+            tabela = tabela.Replace("Ç", "&Ccedil;")
             tabela &= "</table>"
             divTaxaDestino.InnerHtml = tabela
 

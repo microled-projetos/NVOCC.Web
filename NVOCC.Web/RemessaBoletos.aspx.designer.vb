@@ -77,24 +77,6 @@ Partial Public Class RemessaBoletos
     Protected WithEvents txtConsultaNotaFim As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtConsultaRPSInicio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtConsultaRPSInicio As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtConsultaRPSFim.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtConsultaRPSFim As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtConsultaVencimentoInicio.
     '''</summary>
     '''<remarks>
@@ -138,6 +120,15 @@ Partial Public Class RemessaBoletos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlCliente As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle DropDownList1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DropDownList1 As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnPesquisar.
