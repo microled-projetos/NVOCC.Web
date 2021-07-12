@@ -152,13 +152,19 @@
                                 
                                 </div>                     
                             <div class="row">
-                               <%-- <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <label class="control-label">Pesquisa:</label></label><label runat="server" style="color:red" >*</label>
-                                         <asp:TextBox ID="TextBox1" runat="server"  CssClass="form-control" ></asp:TextBox>
-                                    </div>
-                                </div>--%>
-                                <div class="col-sm-4">
+                                 <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Cliente:</label>
+                                                <asp:TextBox ID="txtCodCliente" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Cliente:</label>
+                                                <asp:TextBox ID="txtNomeCliente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
                                        <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsCliente" >
@@ -270,6 +276,8 @@
 
     <Triggers>
         <ASP:PostBackTrigger ControlID="btnGravar" />
+                        <asp:AsyncPostBackTrigger  ControlID="txtNomeCliente" />
+
                 <asp:AsyncPostBackTrigger  ControlID="ddlCliente" />
     </Triggers>
 </asp:UpdatePanel>
@@ -1243,7 +1251,7 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        selectcommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
@@ -1258,7 +1266,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+        selectcommand="SELECT ID_PARCEIRO,  NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')'  AS NM_RAZAO   FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1299,12 +1307,17 @@ union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsClienteFinal" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
-union SELECT  0, 'Selecione' ORDER BY ID_CLIENTE_FINAL">
+union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then cnpj +' - ' + NM_RAZAO when TP_PESSOA = 2 then cpf +' - ' + NM_RAZAO else nm_razao end  as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+              <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>
+
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">

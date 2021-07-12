@@ -394,13 +394,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">ARMADOR</label>
-                                                <asp:DropDownList ID="ddlfiltroTabelaDemu" runat="server" class="form-control" type="text" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <label class="control-label"></label>
-                                                <button type="button" id="btnFiltroTabelaDemurrage" onclick="listarTabelaDemurrage()" class="btn btn-primary btn-ok">Consultar</button>
+                                                <asp:DropDownList ID="ddlfiltroTabelaDemu" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                             </div>
                                         </div>
                                     </div>
@@ -1267,7 +1261,7 @@
             </div>
         </div>
     </div>
-    <p>versão 01/07/2021 17:42</p>
+    <p>versão 12/07/2021 12:32</p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -1320,6 +1314,29 @@
                 input.parentNode.parentNode.style.background = '';
             }
         }
+        /*function insertListaArmador() {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/carregarArmador",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#ddlfiltroTabelaDemu").empty();
+                    $("#ddlfiltroTabelaDemu").append("<option value=''>Selecione</option>");
+                    if (dado != null) {
+                        for (var i = 0; i < dado.length; i++) {
+                            $("#ddlfiltroTabelaDemu").append("<option value='" + dado[i]["ID_PARCEIRO"]+"'>"+dado[i]["NM_RAZAO"]+"</option>");
+                        }
+                    }
+                }
+            })
+        }*/
+
+        $("#MainContent_ddlfiltroTabelaDemu").change(function () {
+            listarTabelaDemurrage();
+        })
 
         function listarTabelaDemurrage() {
             var armadortabela = document.getElementById("MainContent_ddlfiltroTabelaDemu").value;
@@ -3114,6 +3131,7 @@
                                 doc.text("VENDA", 141, 110);
                                 doc.text("TOTAL", 157, 105);
                                 doc.text("VENDA", 157, 110);
+                                doc.text("DESCONTO", 172, 110);
                                 doc.setFontStyle("normal");
 
 
@@ -3151,7 +3169,7 @@
                                                 doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"].toString(), 141, positionV);
                                                 doc.addImage(bg, 'png', 154, positionbgV, 16, 4);
                                                 doc.text(dado[i]["VL_DEMURRAGE_VENDA"].toString(), 156, positionV);
-                                                doc.addImage(bg, 'png', 171, positionbgV, 14, 4);
+                                                doc.addImage(bg, 'png', 171, positionbgV, 18, 4);
                                                 doc.text(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString(), 172, positionV);
                                                 positionV = positionV + 5;
                                                 positionbgV = positionbgV + 5;

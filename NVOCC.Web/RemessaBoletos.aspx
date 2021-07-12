@@ -77,13 +77,13 @@
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaEmissaoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
                               <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
-                               <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtConsultaEmissaoFim" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
                        </div>
@@ -99,7 +99,7 @@
                                      </div>
                                               <div class="col-sm-2"><div class="linha-colorida">Banco</div><br />
                                      <div class="form-group"> 
-                              <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO_CLIENTE" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
+                              <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="Codigo" DataTextField="COD_BANCO" DataSourceID="dsBanco">
                                                 </asp:DropDownList>
                            </div>
                                      </div>
@@ -120,8 +120,22 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
+                                <br />
+                                <br />
+                                  <div id="divBotoes" runat="server" visible="false">
+                                      <div class="row">
+                                <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <br />
+                                            <asp:Button runat="server" Text="Marcar Todos" ID="btnMarcar" CssClass="btn btn-primary" />
+                                            <asp:Button runat="server" Text="Desmarcar Todos" ID="btnDesmarcar" CssClass="btn btn-warning" />
+                                        </div>
+                                    </div>
+                                </div>
+                                                                      <br />
+
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false" allowpaging="true" PageSize="100">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
@@ -130,14 +144,13 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField >
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NM_CLIENTE" HeaderText="Cliente" SortExpression="NM_CLIENTE" />
-                                            <asp:BoundField DataField="NR_RPS" HeaderText="RPS" SortExpression="NR_RPS" />
-                                            <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
+                                            <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="VL_BOLETO" HeaderText="Valor do Boleto" SortExpression="VL_BOLETO" />
@@ -154,8 +167,17 @@
                                     </asp:GridView>
                                 </div>
 
-                               
-                                
+                            
+                                   
+                                    <div class="row">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <br />
+                                            <asp:Button runat="server" Text="Enviar Remessa" ID="btnEnviarRemessa" CssClass="btn btn-success" />
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
 
                             </ContentTemplate>
                             <Triggers>
@@ -178,9 +200,8 @@
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Boletos_Remessa] ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
-
+    <asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT DISTINCT COD_BANCO Codigo, COD_BANCO FROM TB_FATURAMENTO WHERE COD_BANCO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY COD_BANCO"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE"></asp:SqlDataSource>

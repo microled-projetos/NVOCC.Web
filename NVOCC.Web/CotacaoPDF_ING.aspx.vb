@@ -229,7 +229,7 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             'total origem
             Dim DescTotalOrigem As String = ""
 
-            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -308,7 +308,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
             'total destino
-            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
 
@@ -349,7 +349,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
         Dim TotalFinalTaxas As String = ""
         Dim TotalFinalFrete As String = ""
 
-        ds = Con.ExecutarQuery("SELECT CAST(SUM(ISNULL(A.VL_TAXA_VENDA_CALCULADO,0))AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & "  GROUP BY A.ID_MOEDA_VENDA ")
+        ds = Con.ExecutarQuery("SELECT CAST(SUM(ISNULL(A.VL_TAXA_VENDA_CALCULADO,0))AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
         If ds.Tables(0).Rows.Count > 0 Then
 
 

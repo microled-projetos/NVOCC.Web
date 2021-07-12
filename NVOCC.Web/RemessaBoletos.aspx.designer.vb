@@ -95,22 +95,22 @@ Partial Public Class RemessaBoletos
     Protected WithEvents txtConsultaVencimentoFim As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtConsultaPagamentoInicio.
+    '''Controle txtConsultaEmissaoInicio.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtConsultaPagamentoInicio As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtConsultaEmissaoInicio As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtConsultaPagamentoFim.
+    '''Controle txtConsultaEmissaoFim.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtConsultaPagamentoFim As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtConsultaEmissaoFim As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlCliente.
@@ -122,13 +122,13 @@ Partial Public Class RemessaBoletos
     Protected WithEvents ddlCliente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle DropDownList1.
+    '''Controle ddlBanco.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DropDownList1 As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlBanco As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnPesquisar.
@@ -176,6 +176,33 @@ Partial Public Class RemessaBoletos
     Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divBotoes.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divBotoes As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle btnMarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnMarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDesmarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDesmarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle dgvFaturamento.
     '''</summary>
     '''<remarks>
@@ -183,6 +210,15 @@ Partial Public Class RemessaBoletos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvFaturamento As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnEnviarRemessa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnEnviarRemessa As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle txtResultado.
@@ -212,13 +248,13 @@ Partial Public Class RemessaBoletos
     Protected WithEvents dsFaturamento As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsParceiros.
+    '''Controle dsBanco.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsBanco As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsClientes.

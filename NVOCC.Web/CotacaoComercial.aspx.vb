@@ -665,6 +665,18 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         'POR TON / M³
 
                         x = linha.Item("VL_M3")
+                        y = linha.Item("VL_PESO_BRUTO") / 1000
+
+
+
+                        If x > y Then
+                            x = x
+                        Else
+                            x = y
+                        End If
+
+
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = x * y
                         If z < VENDA_MIN And VENDA_MIN <> 0 Then
@@ -672,7 +684,6 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         End If
                         VendaCalc = z.ToString
 
-                        x = linha.Item("VL_M3")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = x * y
                         If z < COMPRA_MIN And COMPRA_MIN <> 0 Then

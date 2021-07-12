@@ -194,6 +194,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlAnalista As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodCliente As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeCliente As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlCliente.
     '''</summary>
     '''<remarks>

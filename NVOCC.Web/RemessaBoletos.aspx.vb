@@ -29,6 +29,10 @@
 
         End If
 
+        If ddlBanco.SelectedValue <> 0 Then
+            filtro &= " AND COD_BANCO = " & ddlBanco.SelectedValue
+        End If
+
         If txtConsultaNotaInicio.Text <> "" Then
             If txtConsultaNotaFim.Text <> "" Then
                 'filtro
@@ -56,12 +60,26 @@
             End If
         End If
 
+        If txtConsultaEmissaoInicio.Text <> "" Then
+            If txtConsultaEmissaoFim.Text <> "" Then
+                'filtro
+                filtro &= " AND CONVERT(DATE,DT_NOTA_FISCAL,103)  BETWEEN CONVERT(DATE,'" & txtConsultaEmissaoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaEmissaoFim.Text & "',103) "
+
+            Else
+                'msg erro
+                divErro.Visible = True
+                lblmsgErro.Text = "É necessário informar data de inicio e fim para prosseguir com a consulta!"
+                Exit Sub
+
+            End If
+        End If
 
 
         Dim sql As String = "SELECT * FROM [dbo].[View_Boletos_Remessa] WHERE FL_ENVIADO_REM = 0  " & filtro & " ORDER BY DT_VENCIMENTO,NR_PROCESSO"
         dsFaturamento.SelectCommand = sql
         dgvFaturamento.DataBind()
         dgvFaturamento.Visible = True
+        divBotoes.Visible = True
 
         ddlCliente.SelectedValue = 0
 
@@ -72,8 +90,33 @@
         txtConsultaVencimentoInicio.Text = ""
         txtConsultaVencimentoFim.Text = ""
 
-        txtConsultaPagamentoInicio.Text = ""
-        txtConsultaPagamentoFim.Text = ""
+        txtConsultaEmissaoInicio.Text = ""
+        txtConsultaEmissaoFim.Text = ""
 
+    End Sub
+
+    Private Sub btnDesmarcar_Click(sender As Object, e As EventArgs) Handles btnDesmarcar.Click
+        For i As Integer = 0 To Me.dgvFaturamento.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvFaturamento.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = False
+        Next
+        divErro.Visible = False
+    End Sub
+
+    Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
+        For i As Integer = 0 To Me.dgvFaturamento.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvFaturamento.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
+    End Sub
+
+    Private Sub btnEnviarRemessa_Click(sender As Object, e As EventArgs) Handles btnEnviarRemessa.Click
+        For Each linha As GridViewRow In dgvFaturamento.Rows
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            If check.Checked Then
+
+            End If
+        Next
     End Sub
 End Class

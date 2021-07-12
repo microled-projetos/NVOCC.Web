@@ -45,6 +45,17 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string carregarArmador()
+        {
+            string SQL;
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
+            DataTable parceiroTransportador = new DataTable();
+            parceiroTransportador = DBS.List(SQL);
+            return JsonConvert.SerializeObject(parceiroTransportador);
+        }
+        
+
+        [WebMethod]
         public string ListarDemurrageContainer(string armador)
         {
             string SQL;
@@ -463,6 +474,8 @@ namespace ABAINFRA.Web
                 return "0";
             }
         }
+
+
 
         [WebMethod]
         public string listarTabela()

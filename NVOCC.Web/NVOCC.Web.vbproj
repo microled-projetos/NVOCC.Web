@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(08072021)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web(12072021)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -362,6 +362,8 @@
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
+    <Content Include="DemurrageService.asmx" />
+    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
@@ -379,8 +381,6 @@
     <Content Include="DBS.cs" />
     <Content Include="DemurrageControl.cs" />
     <Content Include="DemurragesCls.cs" />
-    <Content Include="DemurrageService.asmx" />
-    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="EmissaoBL.aspx" />
     <Content Include="FollowUp.aspx" />
     <Content Include="FreteTransportador.aspx" />

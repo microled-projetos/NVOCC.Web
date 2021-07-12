@@ -41,16 +41,7 @@ namespace ABAINFRA.Web
 
         }
 
-        private void CarregarArmador()
-        {
-            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
-            DataTable parceiroTransportador = new DataTable();
-            parceiroTransportador = DBS.List(SQL);
-            Session["TaskTableParceiroTransportador"] = parceiroTransportador;
-            ddlfiltroTabelaDemu.DataSource = Session["TaskTableParceiroTransportador"];
-            ddlfiltroTabelaDemu.DataBind();
-            ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
-        }
+       
         protected void CarregarParceiroTransportador()
         {
             SQL = "SELECT * FROM tb_parceiro where FL_TRANSPORTADOR = 1";
@@ -73,6 +64,17 @@ namespace ABAINFRA.Web
             ddlTipoContainer.DataSource = Session["TaskTableTipoContainerDemurrage"];
             ddlTipoContainer.DataBind();
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        protected void CarregarArmador()
+        {
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
+            DataTable parceiroTransportador = new DataTable();
+            parceiroTransportador = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = parceiroTransportador;
+            ddlfiltroTabelaDemu.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlfiltroTabelaDemu.DataBind();
+            ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         protected void CarregarMoeda()

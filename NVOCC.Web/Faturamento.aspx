@@ -91,7 +91,7 @@
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
                            <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
-                           <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
+                           <asp:LinkButton ID="lkOpcoesBoletos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boletos</asp:LinkButton>
 
                        </div>
                    </div>
@@ -140,6 +140,40 @@
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender11" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="lkOpcoesBoletos" CancelControlID="btnFecharOpcoesBoletos" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlOpcoesBoletos" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OPÇÕES DE BOLETO</h5>
+                                                        </div>
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
+                            <div class="row">
+                                   <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                           <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Imprimir Boleto</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                                                                    <asp:LinkButton ID="lkBoletoRemessa" href="RemessaBoletos.aspx" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Enviar Remessa</asp:LinkButton>
+                           
+                                        </div>
+                                         </div>
+                                   </div>                                         
+                                </div>  
+                             </div>
+                               <div class="modal-footer">
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharOpcoesBoletos" text="Close" />
+                                                        </div>                                                    
+                                                </div>
+                                       </div>     </center>
+                                </asp:Panel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlFatura" TargetControlID="lkFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
