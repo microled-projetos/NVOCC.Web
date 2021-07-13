@@ -17,23 +17,13 @@
             Response.Redirect("Default.aspx")
         Else
 
-
-
-            If Not Page.IsPostBack Then
-                If Request.QueryString("tipo") = "e" Then
-                    lblTipoModulo.Text = " EMBARQUE"
-                    txtID_BasicoMaritimo.Text = 0
-                    txtID_BasicoAereo.Text = 0
-
-                ElseIf Request.QueryString("tipo") = "h" Then
-                    lblTipoModulo.Text = " HOUSE"
-                    txtID_BasicoMaritimo.Text = 0
-                    txtID_BasicoAereo.Text = 0
-
-                End If
-                If Request.QueryString("id") <> "" Then
-                    CarregaCampos()
-                End If
+            If Request.QueryString("tipo") = "e" Then
+                lblTipoModulo.Text = " EMBARQUE"
+            ElseIf Request.QueryString("tipo") = "h" Then
+                lblTipoModulo.Text = " HOUSE"
+            End If
+            If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
+                CarregaCampos()
             End If
 
         End If

@@ -245,6 +245,20 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         mpeNovoFrete.Hide()
     End Sub
     Private Sub btnFecharMercadoria_Click(sender As Object, e As EventArgs) Handles btnFecharMercadoria.Click
+         Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_FRETE_COMPRA,0)VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+        If ds.Tables(0).Rows.Count > 0 Then
+            If ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA") = 0 And txtFreteCompraMercadoria.Text <> 0 Then
+                txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(".", "")
+                txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_FRETE_COMPRA =  " & txtFreteCompraMercadoria.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+                Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
+(SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+            End If
+        End If
+
         divErroMercadoria.Visible = False
         divSuccessMercadoria.Visible = False
         ddlMercadoria.SelectedValue = 0
@@ -646,7 +660,26 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
                     txtQtdContainerMercadoria.Text = ds.Tables(0).Rows(0).Item("QT_CONTAINER")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA")) Then
-                    txtFreteCompraMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA")
+                    If ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA") = 0 Then
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT QT_DIAS_FREETIME,VL_COMPRA from TB_TARIFARIO_FRETE_TRANSPORTADOR where ID_FRETE_TRANSPORTADOR = " & ddlFreteTransportador_Frete.SelectedValue & " AND ID_TIPO_CONTAINER = " & ds.Tables(0).Rows(0).Item("ID_TIPO_CONTAINER"))
+
+                        If ds1.Tables(0).Rows.Count > 0 Then
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("QT_DIAS_FREETIME")) Then
+                                txtFreeTimeMercadoria.Text = ds1.Tables(0).Rows(0).Item("QT_DIAS_FREETIME")
+                            End If
+
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("VL_COMPRA")) Then
+                                Dim valor As Double = ds1.Tables(0).Rows(0).Item("VL_COMPRA")
+                                Dim qtd As Integer = txtQtdContainerMercadoria.Text
+                                Dim X As Double = valor * qtd
+                                Dim TOTAL As String = X.ToString("#,###.00")
+                                txtFreteCompraMercadoria.Text = TOTAL
+                            End If
+                        End If
+                    Else
+                        txtFreteCompraMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA")
+                    End If
+
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_FRETE_VENDA")) Then
                     txtFreteVendaMercadoria.Text = ds.Tables(0).Rows(0).Item("VL_FRETE_VENDA")

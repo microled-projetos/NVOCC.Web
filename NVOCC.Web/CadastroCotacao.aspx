@@ -237,20 +237,20 @@
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Cliente:</label>
-                                        <asp:TextBox ID="txtObsCliente" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCliente" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Operacional:</label>
-                                        <asp:TextBox ID="txtObsOperacional" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsOperacional" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                 
                                 <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Motivo Cancelamento:</label>
-                                        <asp:TextBox ID="txtObsCancelamento" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>                                          
@@ -984,7 +984,7 @@
                                  <div class="col-sm-12" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Taxas:</label>
-                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control cpf" MaxLength="18"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                  

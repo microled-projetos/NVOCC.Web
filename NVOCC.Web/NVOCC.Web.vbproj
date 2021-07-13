@@ -266,6 +266,13 @@
     <Content Include="CadastroNavios.aspx" />
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
+    <Content Include="Classes\CourrierInfo.cs" />
+    <Content Include="Classes\DemurrageControl.cs" />
+    <Content Include="Classes\DemurragesCls.cs" />
+    <Content Include="Classes\FiltroModuloOperacional.cs" />
+    <Content Include="Classes\Processos.cs" />
+    <Content Include="Classes\Taxas.cs" />
+    <Content Include="Classes\Week.cs" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />
     <Content Include="ComissaoIndicadorNacional.aspx" />
@@ -664,6 +671,7 @@
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
     <Compile Include="Class\References.vb" />
+    <Compile Include="Class\Remessa.vb" />
     <Compile Include="Class\Traking.vb" />
     <Compile Include="Class\Transport.vb" />
     <Compile Include="ClienteFinal.aspx.designer.vb">

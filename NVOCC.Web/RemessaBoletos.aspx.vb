@@ -1,4 +1,6 @@
-﻿Public Class RemessaBoletos
+﻿Imports Newtonsoft.Json
+
+Public Class RemessaBoletos
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -30,7 +32,11 @@
         End If
 
         If ddlBanco.SelectedValue <> 0 Then
-            filtro &= " AND COD_BANCO = " & ddlBanco.SelectedValue
+            filtro &= " AND COD_BANCO = '" & ddlBanco.SelectedItem.Text & "' "
+        Else
+            divErro.Visible = True
+            lblmsgErro.Text = "É necessário informar o banco para prosseguir com a consulta!"
+            Exit Sub
         End If
 
         If txtConsultaNotaInicio.Text <> "" Then
@@ -111,12 +117,18 @@
     End Sub
 
     Private Sub btnEnviarRemessa_Click(sender As Object, e As EventArgs) Handles btnEnviarRemessa.Click
+
+        Dim Remessa As New Remessa()
+        Remessa.Banco = ddlBanco.SelectedItem.Text
+        Remessa.Id = New List(Of String)
         For Each linha As GridViewRow In dgvFaturamento.Rows
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             If check.Checked Then
-
+                Remessa.Id.Add(ID)
             End If
         Next
+        ' Label1.Text = JsonConvert.SerializeObject(Remessa)
+        JsonConvert.SerializeObject(Remessa)
     End Sub
 End Class

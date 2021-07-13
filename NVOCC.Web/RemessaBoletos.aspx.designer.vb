@@ -59,6 +59,15 @@ Partial Public Class RemessaBoletos
     Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtConsultaNotaInicio.
     '''</summary>
     '''<remarks>

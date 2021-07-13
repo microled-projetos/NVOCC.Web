@@ -144,7 +144,7 @@
               <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control"></asp:TextBox>
           </div>
                             <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align:center" >
-                                <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" HeaderStyle-CssClass="teste">
+                                <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" HeaderStyle-CssClass="teste" allowpaging="true" PageSize="100">
                                     <Columns >
                                        <asp:BoundField DataField="ID_COTACAO" HeaderText="#" visible="false" />
                                         <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO"/>

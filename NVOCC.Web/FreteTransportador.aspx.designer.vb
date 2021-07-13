@@ -167,130 +167,49 @@ Partial Public Class FreteTransportador
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlConsultas.
+    '''Controle txtValidadeFinal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlConsultas As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ocean.
+    '''Controle ddlOrigem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ocean As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents ddlOrigem As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlOrigemOcean.
+    '''Controle ddlDestino.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlOrigemOcean As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlDestino As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlDestinoOcena.
+    '''Controle ddlTransportador.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlDestinoOcena As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTransportador As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlTransportadorOcean.
+    '''Controle btnBusca.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlTransportadorOcean As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlContainer.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlContainer As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtDataInicial.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtDataInicial As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtDataFinal.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtDataFinal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle bntPesquisarOcean.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents bntPesquisarOcean As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle locais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents locais As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle ddlOrigemLocais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlOrigemLocais As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlDestinoLocais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlDestinoLocais As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlTransportadorLocais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTransportadorLocais As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle bntPesquisarLocais.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents bntPesquisarLocais As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnBusca As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle mpeImprimir.
