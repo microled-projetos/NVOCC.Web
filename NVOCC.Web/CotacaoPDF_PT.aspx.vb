@@ -43,6 +43,7 @@ ID_VIA_ROTA,
 (SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA )VIA_ROTA,
 QT_TRANSITTIME_MEDIA,
 VL_TOTAL_FRETE_VENDA,
+VL_TOTAL_FRETE_VENDA_MIN,
 VL_TOTAL_FRETE_VENDA_CALCULADO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE )MOEDA,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1 )PORTO_ESCALA1,
@@ -142,6 +143,7 @@ FROM  TB_COTACAO A
                 tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th>"
                 If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
                     tabela &= "<th style='padding-right:10px'>Base de Calc.</th>"
+                    tabela &= "<th style='padding-right:10px'>Valor Min.</th>"
                     tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
                 End If
                 tabela &= "<th style='padding-right:10px'>Valor</th>"
@@ -155,6 +157,7 @@ FROM  TB_COTACAO A
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
                         tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
+                        tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_MIN") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                     End If
                     tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
@@ -164,6 +167,7 @@ FROM  TB_COTACAO A
 
                 tabela = tabela.Replace("³", "<sup>3</sup>")
                 tabela = tabela.Replace("ã", "&atilde;")
+                tabela = tabela.Replace("Á", "&Aacute;")
                 tabela &= "</table>"
                 divConteudofrete.InnerHtml = tabela
                 lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
@@ -192,6 +196,7 @@ A.FL_DECLARADO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA )BASE_CALCULO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA )MOEDA,
 A.VL_TAXA_VENDA,
+A.VL_TAXA_VENDA_MIN,
 A.VL_TAXA_VENDA_CALCULADO,
 case when (A.VL_TAXA_VENDA <> 0 and  A.VL_TAXA_VENDA_CALCULADO = 0) then 'Taxa não calculada' else  cast(a.VL_TAXA_VENDA_CALCULADO as varchar) end as CALCULADO,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA ) TAXA 
@@ -205,14 +210,16 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Base de Calc.</th>"
+            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Min</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th></tr>"
 
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA") & "</td>"
-
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA_MIN") & "</td>"
+
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
                 End If
@@ -271,6 +278,7 @@ A.FL_DECLARADO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA )BASE_CALCULO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA )MOEDA,
 A.VL_TAXA_VENDA,
+A.VL_TAXA_VENDA_MIN,
 A.VL_TAXA_VENDA_CALCULADO,
 case when (A.VL_TAXA_VENDA <> 0 and  A.VL_TAXA_VENDA_CALCULADO = 0) then 'Taxa não calculada' else  cast(a.VL_TAXA_VENDA_CALCULADO as varchar) end as CALCULADO,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA ) TAXA 
@@ -285,13 +293,15 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
             tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Base de Calc.</th>"
+            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Min</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th></tr>"
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA") & "</td>"
-
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA_MIN") & "</td>"
+
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
                 End If

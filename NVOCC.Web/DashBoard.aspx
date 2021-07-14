@@ -36,7 +36,10 @@
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label class="control-label">Ano - Inicial<span class="required">&nbsp</span></label>
-                                        <asp:DropDownList ID="ddlAnoInicial" runat="server" CssClass="form-control"></asp:DropDownList>                                    </div>
+                                        <select id="ddlAnoInicial" class="form-control">
+                                            <option value="">Selecione</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
@@ -44,11 +47,13 @@
                                         <asp:DropDownList ID="ddlMesFinal" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-1">
+                                <div class="col-md-1">
                                     <div class="form-group">
                                         <label class="control-label">Ano - Final<span class="required">&nbsp</span></label>
-                                        <asp:DropDownList ID="ddlAnoFinal" runat="server" CssClass="form-control"></asp:DropDownList>
-                                    </div>
+                                        <select id="ddlAnoFinal" class="form-control">
+                                            <option value="">Selecione</option>
+                                        </select>
+                                    </div>q
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
@@ -160,9 +165,18 @@
             });
 
         });
+
+        var ano = new Date().getFullYear();
+        for (var i = ano; i >= 2018; i--) {
+            console.log(ano);
+            var value = i.toString().substr(2, 2);
+            $("#ddlAnoInicial").append("<option value='" + value + "'>" + i + "</option>")
+            $("#ddlAnoFinal").append("<option value='" + value + "'>" + i + "</option>")
+        }
+
         function gerarGrafico() {
-            var anoInicial = document.getElementById("MainContent_ddlAnoInicial");
-            var anoFinal = document.getElementById("MainContent_ddlAnoFinal");
+            var anoInicial = document.getElementById("ddlAnoInicial");
+            var anoFinal = document.getElementById("ddlAnoFinal");
             var mesInicial = document.getElementById("MainContent_ddlMesInicial");
             var mesFinal = document.getElementById("MainContent_ddlMesFinal");
             var vendedor = document.getElementById("ddlVendedor");
@@ -195,48 +209,79 @@
                     }
                     $("#graph").empty();
                     $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
-                    var ctx = document.getElementById('mainGraph').getContext('2d');
-                    myChart = new Chart(ctx, {
-                        type: type,
-                        data: {
-                            labels: label,
-                            datasets: [
-                                {
-                                    barThickness: 30,
-                                    label: 'TEUS',
-                                    data: [lineChartTeus[0]],
-                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'Processos',
-                                    data: [lineChartProcesso],
-                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'Containers',
-                                    data: [lineChartCntr],
-                                    backgroundColor: ['rgba(54, 162, 235,1)'],
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            layout: {
-                                padding: 10
+                    if (ddlEstilo.value == "bar") {
+                        var ctx = document.getElementById('mainGraph').getContext('2d');
+                        myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: label,
+                                datasets: [
+                                    {
+                                        barThickness: 30,
+                                        label: 'TEUS',
+                                        data: [lineChartTeus],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'Processos',
+                                        data: [lineChartProcesso],
+                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'Containers',
+                                        data: [lineChartCntr],
+                                        backgroundColor: ['rgba(54, 162, 235,1)'],
+                                        borderWidth: 1
+                                    }
+                                ]
                             },
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
-                                    font: { size: 20 }
+                            options: {
+                                layout: {
+                                    padding: 10
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
+                                        font: { size: 20 }
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else if (ddlEstilo.value == "pie") {
+                        var ctx = document.getElementById('mainGraph').getContext('2d');
+                        myChart = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: ['TEUS','Processos','Containers'],
+                                datasets: [
+                                    {
+                                        label: 'TEUS',
+                                        data: [lineChartTeus[0], lineChartProcesso[0], lineChartCntr[0]],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
+                                        font: { size: 20 }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 },
                 error: function (data) {
 
@@ -270,48 +315,78 @@
                     }
                     $("#processGraph").empty();
                     $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
-                    var ctx2 = document.getElementById('pgraph').getContext('2d');
-                    var myChart2 = new Chart(ctx2, {
-                        type: type,
-                        data: {
-                            labels: label,
-                            datasets: [
-                                {
-                                    barThickness: 30,
-                                    label: 'IMP',
-                                    data: [lineChartIMP],
-                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'EXP',
-                                    data: [lineChartAR],
-                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'AEREO',
-                                    data: [lineChartEXP],
-                                    backgroundColor: ['rgba(54, 162, 235,1)'],
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            layout: {
-                                padding: 10
+                    if (ddlEstilo.value == "bar") {
+                        var ctx2 = document.getElementById('pgraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: label,
+                                datasets: [
+                                    {
+                                        barThickness: 30,
+                                        label: 'IMP',
+                                        data: [lineChartIMP],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'EXP',
+                                        data: [lineChartAR],
+                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'AEREO',
+                                        data: [lineChartEXP],
+                                        backgroundColor: ['rgba(54, 162, 235,1)'],
+                                        borderWidth: 1
+                                    }
+                                ]
                             },
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Qtde. de Processos por Modal',
-                                    font: { size: 20 }
+                            options: {
+                                layout: {
+                                    padding: 10
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Qtde. de Processos',
+                                        font: { size: 20 }
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else if (ddlEstilo.value == "pie") {
+                        var ctx2 = document.getElementById('pgraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: ['IMP','EXP','AEREO'],
+                                datasets: [
+                                    {
+                                        label: 'IMP',
+                                        data: [lineChartIMP, lineChartAR, lineChartEXP],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Qtde. de Processos',
+                                        font: { size: 20 }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 },
                 error: function (data) {
 
@@ -342,41 +417,70 @@
                     }
                     $("#cntrGraph").empty();
                     $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
-                    var ctx2 = document.getElementById('cgraph').getContext('2d');
-                    var myChart2 = new Chart(ctx2, {
-                        type: type,
-                        data: {
-                            labels: label,
-                            datasets: [
-                                {
-                                    barThickness: 30,
-                                    label: 'IMP',
-                                    data: [lineChartIMP],
-                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'EXP',
-                                    data: [lineChartEXP],
-                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            layout: {
-                                padding: 10
+                    if (ddlEstilo.value == 'bar') {
+                        var ctx2 = document.getElementById('cgraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: label,
+                                datasets: [
+                                    {
+                                        barThickness: 30,
+                                        label: 'IMP',
+                                        data: [lineChartIMP],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'EXP',
+                                        data: [lineChartEXP],
+                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                        borderWidth: 1
+                                    }
+                                ]
                             },
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Qtde. de CNTR por Modal',
-                                    font: { size: 20 }
+                            options: {
+                                layout: {
+                                    padding: 10
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Qtde. de CNTR',
+                                        font: { size: 20 }
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    } else if (ddlEstilo.value == 'pie') {
+                        var ctx2 = document.getElementById('cgraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: ['IMP','EXP'],
+                                datasets: [
+                                    {
+                                        label: 'IMP',
+                                        data: [lineChartIMP, lineChartEXP],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Qtde. de CNTR',
+                                        font: { size: 20 }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 },
                 error: function (data) {
 
@@ -407,123 +511,76 @@
                     }
                     $("#teusGraph").empty();
                     $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
-                    var ctx2 = document.getElementById('tGraph').getContext('2d');
-                    var myChart2 = new Chart(ctx2, {
-                        type: type,
-                        data: {
-                            labels: label,
-                            datasets: [
-                                {
-                                    barThickness: 30,
-                                    label: 'IMP',
-                                    data: [lineChartProcesso],
-                                    backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                    borderWidth: 1
-                                },
-                                {
-                                    barThickness: 30,
-                                    label: 'EXP',
-                                    data: [lineChartCntr],
-                                    backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                    borderWidth: 1
-                                }
-                            ]
-                        },
-                        options: {
-                            layout: {
-                                padding: 10
+                    if (ddlEstilo.value == 'bar') {
+                        var ctx2 = document.getElementById('tGraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: label,
+                                datasets: [
+                                    {
+                                        barThickness: 30,
+                                        label: 'IMP',
+                                        data: [lineChartProcesso],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        barThickness: 30,
+                                        label: 'EXP',
+                                        data: [lineChartCntr],
+                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                        borderWidth: 1
+                                    }
+                                ]
                             },
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Teus por Modal',
-                                    font: { size: 20 }
+                            options: {
+                                layout: {
+                                    padding: 10
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Teus',
+                                        font: { size: 20 }
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    } else if (ddlEstilo.value == 'pie') {
+                        var ctx2 = document.getElementById('tGraph').getContext('2d');
+                        var myChart2 = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: ['IMP', 'EXP'],
+                                datasets: [
+                                    {
+                                        label: 'IMP',
+                                        data: [lineChartProcesso, lineChartCntr],
+                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Teus',
+                                        font: { size: 20 }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 },
                 error: function (data) {
 
                 },
             });
-            /*var ctx2 = document.getElementById('processGraph').getContext('2d');
-            $("#graph").append("<canvas id='pgraph' style='width:33%;height: 300px;'></canvas>");
-            var myChart2 = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: label,
-                    datasets: [
-                        {
-                            label: 'TEUS',
-                            data: [9, 8, 3, 15, 20, 13, 4, 26, 30, 11, 14, 24],
-                            backgroundColor: ['rgba(255, 206, 86, 1)'],
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Teus por Modal',
-                            font: { size: 20 }
-                        }
-                    }
-                }
-            });
-
-            var ctx3 = document.getElementById('cntrGraph').getContext('2d');
-            $("#graph").append("<canvas id='cgraph' style='width:33%;height: 300px;'></canvas>");
-            var myChart3 = new Chart(ctx3, {
-                type: 'bar',
-                data: {
-                    labels: label,
-                    datasets: [
-                        {
-                            label: 'Processos',
-                            data: [12, 10, 14, 23, 12, 4, 16, 20, 19, 7, 26, 13],
-                            backgroundColor: ['rgba(255, 99, 132, 1)'],
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Qtde de Processos por Modal',
-                            font: { size: 20 }
-                        }
-                    }
-                }
-            });
-
-            var ctx4 = document.getElementById('teusGraph').getContext('2d');
-            $("#graph").append("<canvas id='tgraph' style='width:33%;height: 300px;'></canvas>");
-            var myChart4 = new Chart(ctx4, {
-                type: 'bar',
-                data: {
-                    labels: label,
-                    datasets: [
-                        {
-                            label: 'Containers',
-                            data: [9, 8, 3, 15, 20, 13, 4, 26, 30, 11, 14, 24],
-                            backgroundColor: ['rgba(54, 162, 235,1)'],
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Qtde de Containers por Modal',
-                            font: { size: 20 }
-                        }
-                    }
-                }
-            });*/
+            
         }
     </script>
 </asp:Content>

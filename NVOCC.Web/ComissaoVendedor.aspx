@@ -63,7 +63,7 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competência</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -288,7 +288,7 @@
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
+                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
                                             <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
                                             <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
                                             <asp:BoundField DataField="VL_TAXA_INSIDE_SALES" HeaderText="TAXA INSIDE SALES" SortExpression="VL_TAXA_INSIDE_SALES" />
@@ -663,7 +663,7 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -692,8 +692,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
             <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1
-union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
+union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

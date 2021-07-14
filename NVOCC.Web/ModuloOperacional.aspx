@@ -19,7 +19,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="alert alert-success text-center" id="msgSuccessDemu">
-                                Registro cadastrado/atualizado com sucesso!
+                                Email enviado com sucesso.
                             </div>
                             <div class="alert alert-danger text-center" id="msgErrSelect">
                                 Selecione um Processo
@@ -306,9 +306,21 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="alert alert-success text-center" id="msgSuccessUploadArquivo">
+                                            Arquivo copiado com sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrUploadArquivo">
+                                            Erro ao copiar arquivo.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrDiretorio">
+                                            Diretório não encontrado.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrAnexo">
+                                            Não foi possível copiar o arquivo
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3 text-center">
-                                                <label style="font-size: 18px">NR MASTER</label>
+                                                <label id="titleUpload" style="font-size: 18px">MASTER BL</label>
                                                 <input type="text" id="nrMasterBL" class="form-control nobox" disabled="disabled" style="text-align:center;font-size: 20px"/>
                                             </div>
                                         </div>
@@ -316,11 +328,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label class="control-label">TIPO DE AVISO</label>
-                                                    <select id="ddlTipoAviso" class="form-control" onchange="listDocumento()">
-                                                        <option value="">SELECIONE</option>
-                                                        <option value="1">DESCONSOLIDAÇÃO</option>
-                                                        <option value="2">PREVISÃO DE CHEGADA AÉREO (PRÉ-ALERTA)</option>
-                                                        <option value="3">REDESTINAÇÃO CONSOLIDADA</option>
+                                                    <select id="ddlTipoAviso" class="form-control" onchange="listarTipoDocumento()">
                                                     </select>
                                                 </div>
                                             </div>
@@ -335,9 +343,10 @@
                                         </div>
                                         
                                         <div class="row topMarg">
-                                            <input style="margin:auto;" type="file" name="file" id="file"/>
+                                            <input style="margin:auto;" type="file" name="file" id="dadoUpload"/>
                                             <div style="display: flex; align-items: center;" class="topMarg">
-                                                <button style="margin:auto;" type="button" id="btnUpload" class="btn btn-primary btn-ok">EXCECUTAR UPLOAD</button>
+                                                <button style="margin:auto;" type="button" onclick="checarDiretorio()" id="btnUpload" class="btn btn-primary btn-ok">EXCECUTAR UPLOAD</button>
+                                                <button style="margin:auto; display: none" type="button" onclick="uploadCaminhoArquivo()" id="btnUploadx" class="btn btn-primary btn-ok">ENVIAR ARQUIVO</button>
                                             </div>
                                         </div>
 
@@ -444,17 +453,22 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <button style="margin-left: 40px" type="button" id="" onclick="" data-dismiss="modal" class="btn btn-primary btn-ok">Excluir Processo Selecionado</button>
+                                                
                                             </div>
-                                            <div id="caixaEmail" class="caixaEmail" style=" margin-left:20px">
-                                                <p id="assuntoEmail"></p>
-                                                <textarea id="corpoEmail"></textarea>
+                                            <div id="caixaEmail" class="caixaEmail" style="padding: 0px 10px;">
+                                                <div class="row" style="margin-left: 2px;">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Mensagem</label>
+                                                        <textarea id="corpoEmail" class="form-control" rows="17" style="resize:none"></textarea>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" id="" onclick="" data-dismiss="modal" class="btn btn-primary btn-ok">Enviar</button>
+                                        <button type="button" id="btnEnviarEmail" onclick="enviarEmail()" class="btn btn-primary btn-ok">Enviar</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                     </div>
                                 </div>
@@ -470,15 +484,295 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        
+                                        <div class="alert alert-danger text-center" id="msgErrRemoveEmail">
+                                            Somente emails não enviado podem ser removidos.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessRemoveEmail">
+                                            Email removido com sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrReenvioEmail">
+                                            Esse email não pode ser reenviado.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessReenvioEmail">
+                                            Email reenviado com sucesso.
+                                        </div>
+                                        <div class="row" style="display: flex;margin:auto">
+                                            <div style="margin:auto">
+                                                <button type="button" id="btnVisualizarEmail" onclick="verificarEmail()" class="btn btn-primary btn-ok">Visualizar E-mail</button>
+                                                <button type="button" id="btnRemoverEmail" onclick="verificarRemocaoEmail()" class="btn btn-primary btn-ok">Remover E-mail selecionado</button>
+                                                <button type="button" id="btnReenviarEmail" onclick="verificarReenvioEmail()" class="btn btn-primary btn-ok">Reenviar E-mail</button>
+                                                <button type="button" id="btnCaixaAgendamento" onclick="listarAgendamento()" class="btn btn-primary btn-ok">Caixa de Agendamento</button>
+                                            </div>
+                                        </div>
+                                        <div class="row topMarg" style="display:flex; align-items: flex-end;">
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label class="control-label">Consultar por:<span class="required">*</span></label>
+                                                    <select class="form-control" id="ddlFiltroCaixaSaida">
+                                                        <option value="">Selecione</option>
+                                                        <option value="1">PROCESSO</option>
+                                                        <option value="2">CLIENTE</option>
+                                                        <option value="3">TIPO EMAIL</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label class="control-label"><span class="required">&nbsp</span></label>
+                                                    <input id="txtConsulta" class="form-control" type="text" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="checkbox" id="enviado" name="email_situacao" checked>
+                                                <label for="enviado">A Enviar</label><br>
+                                                <input type="checkbox" id="todos" name="email_situacao">
+                                                <label for="todos">Enviados</label><br>
+                                            </div>
+                                             <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label for="ddlGerados">GERADOS</label><br>
+                                                    <select class="form-control" id="ddlGerados">
+                                                        <option value="1">HOJE</option>
+                                                        <option value="2">7 DIAS</option>
+                                                        <option value="3">30 DIAS</option>
+                                                        <option value="4">60 DIAS</option>
+                                                        <option value="5">90 DIAS</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                     
+                                            <div class="form-group">
+                                                <button type="button" id="btnFiltrarCaixaSaida" onclick="caixaSaida()" class="btn btn-primary btn-ok">Filtrar</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive tableFixHead topMarg" style="height: 300px;">
+                                            <table id="tblCaixaSaida" class="table tablecont">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" scope="col"></th>
+                                                        <th class="text-center" scope="col">PROCESSO</th>
+                                                        <th class="text-center" scope="col">TIPO E-MAIL</th>
+                                                        <th class="text-center" scope="col">DATA GERAÇÃO</th>
+                                                        <th class="text-center" scope="col">PREVISÃO ENVIO</th>
+                                                        <th class="text-center" scope="col">DATA ENVIO</th>
+                                                        <th class="text-center" scope="col">OCORRÊNCIA</th>
+                                                        <th class="text-center" scope="col">NOME CLIENTE</th>
+                                                        <th class="text-center" scope="col">TERMINAL</th>
+                                                        <th class="text-center" scope="col">PARCEIRO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblCaixaSaidaBody">
+                                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" id="btnEditarInfoCont" onclick="atualizarContainer()" data-dismiss="modal" class="btn btn-primary btn-ok">Atualizar</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        
+
+                        <div class="modal fade bd-example-modal-xl" id="modalVisualizarEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalDevolucaoTitle">Visualização de E-mail</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea id="visualizarEmail" class="form-control" rows="17" disabled="disabled" style="resize:none"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade bd-example-modal-xl" id="modalCaixaAgendamento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCaixaAgendamentoTitle">Caixa de Agendamento</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="alert alert-success text-center" id="msgSuccessCancelEmail">
+                                            Agendamento cancelado com sucesso
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrSelectEmail">
+                                            Selecione um Email.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrorCancelEmail">
+                                            Falha ao cancelar agendamento
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessAgendEmail">
+                                            Agendamento Reativado com sucesso.
+                                        </div>
+                                        <div class="row" style="display: flex;margin:auto">
+                                            <div style="margin:auto">
+                                                <button type="button" id="btnCancelarAgendamento" onclick="cancelarAgendamento()" class="btn btn-primary btn-ok">Cancelar E-mail Agendado</button>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row topMarg" style="display:flex; align-items: flex-end;">
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label class="control-label">Consultar por:<span class="required">*</span></label>
+                                                    <select class="form-control" id="ddlFiltroCaixaAgendamento">
+                                                        <option value="">Selecione</option>
+                                                        <option value="1">PROCESSO</option>
+                                                        <option value="2">CLIENTE</option>
+                                                        <option value="3">TIPO EMAIL</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label class="control-label"><span class="required">&nbsp</span></label>
+                                                    <input id="txtConsultaAgendamento" class="form-control" type="text" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <input type="checkbox" id="enviadoAg" name="email_situacao" checked>
+                                                <label for="enviado">A Enviar</label><br>
+                                                <input type="checkbox" id="todosAg" name="email_situacao">
+                                                <label for="todos">Enviados</label><br>
+                                            </div>
+                                             <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label for="ddlGerados">GERADOS</label><br>
+                                                    <select class="form-control" id="ddlGeradosAg">
+                                                        <option value="1">HOJE</option>
+                                                        <option value="2">7 DIAS</option>
+                                                        <option value="3">30 DIAS</option>
+                                                        <option value="4">90 DIAS</option>
+                                                        <option value="5">180 DIAS</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                     
+                                            <div class="form-group">
+                                                <button type="button" id="btnFiltrarCaixaAgendamento" onclick="listarAgendamento()" class="btn btn-primary btn-ok">Filtrar</button>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive tableFixHead topMarg" style="height: 300px;">
+                                            <table id="tblCaixaAgendamento" class="table tablecont">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" scope="col"></th>
+                                                        <th class="text-center" scope="col">PROCESSO</th>
+                                                        <th class="text-center" scope="col">MBL</th>
+                                                        <th class="text-center" scope="col">TIPO E-MAIL</th>
+                                                        <th class="text-center" scope="col">DATA GERAÇÃO</th>
+                                                        <th class="text-center" scope="col">PREVISÃO ENVIO</th>
+                                                        <th class="text-center" scope="col">DATA ENVIO</th>
+                                                        <th class="text-center" scope="col">DATA CANCELAMENTO</th>
+                                                        <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
+                                                        <th class="text-center" scope="col">CLIENTE</th>
+                                                        <th class="text-center" scope="col">TERMINAL</th>
+                                                        <th class="text-center" scope="col">PARCEIRO</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblCaixaAgendamentoBody">
+                                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade bd-example-modal-lg" id="modalCancelamentoEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCancelamentoEmailTitle">Cancelar Agendamento</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 id="msgCancelamento">Deseja Cancelar esse agendamento?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnExcluirS" onclick="cancelarAgen()" class="btn btn-primary btn-ok">Sim</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade bd-example-modal-lg" id="modalReativarEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalReativarEmailTitle">Reativar Agendamento</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 id="msgReativar">Deseja Reativar esse agendamento?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnReativarS" onclick="reatviarAgend()" class="btn btn-primary btn-ok">Sim</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade bd-example-modal-lg" id="modalRemoverEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalRemoverEmailTitle">Remover Email</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 id="msgRemover">Deseja Remover esse email?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnRemoverS" onclick="removerEmail()" class="btn btn-primary btn-ok">Sim</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade bd-example-modal-lg" id="modalReenvioEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalReenvioEmailTitle">Reenviar Email</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 id="msgReenvio">Deseja Reenviar esse email?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnReenvioS" onclick="reenviarEmail()" class="btn btn-primary btn-ok">Sim</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>                                                                                                        
             </div>
@@ -496,7 +790,8 @@
         });        
 
         var id = 0;
-
+        var idEmailCaixa = 0;
+        var idEmailAgendamento = 0;
         function listarProcessosOperacional() {
             var dadosFiltro = {
                 "via": document.getElementById("MainContent_ddlVia").value,
@@ -623,6 +918,13 @@
 
         function dadosUpload() {
             if (id != 0) {
+                listarTipoAviso();
+                var dadoUpload = document.querySelector("#dadoUpload");
+                var btnUpload = document.querySelector("#btnUpload");
+                var btnUploadx = document.querySelector("#btnUploadx");
+                btnUpload.style.display = "block";
+                btnUploadx.style.display = "none";
+                dadoUpload.style.display = "none";
                 $("#modalUploadArquivo").modal("show");
                 $.ajax({
                     type: "POST",
@@ -644,27 +946,62 @@
             }
         }
 
-        function listDocumento() {
-            var aviso = document.getElementById("ddlTipoAviso").value;
-            var opt = document.createElement('option');
-            var documento = document.getElementById("ddlDocumento");
-            $("#ddlDocumento").empty();
-            if (aviso == 1) {
-                opt.appendChild(document.createTextNode('DOCUMENTOS PARA DESCONSOLIDAÇÃO'));
-                opt.value = '4';
-                documento.appendChild(opt);
-            } else if (aviso == 2) {
-                opt.appendChild(document.createTextNode('DOCUMENTOS DO PRÉ-ALERTA AÉREO'));
-                opt.value = '5';
-                documento.appendChild(opt);
-            }
-            else if (aviso == 3) {
-                opt.appendChild(document.createTextNode('DOCUMENTOS PARA REDESTINAÇÃO CONSOLIDADA'));
-                opt.value = '6';
-                documento.appendChild(opt);
-            }
+        function checarDiretorio() {
+            var dadoUpload = document.querySelector("#dadoUpload");
+            var btnUpload = document.querySelector("#btnUpload");
+            var btnUploadx = document.querySelector("#btnUploadx");
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/checarDiretorio",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "0") {
+                        alert("não existe");
+                    } else {
+                        dadoUpload.style.display = "block";
+                        btnUpload.style.display = "none";
+                        btnUploadx.style.display = "block";
+                    }
+                }
+            })
         }
-        var tipoaviso = document.getElementById("ddlTipoAviso").value;
+
+        function uploadCaminhoArquivo() {
+            var dadoUpload = document.querySelector("#dadoUpload");
+            var btnUpload = document.querySelector("#btnUpload");
+            var btnUploadx = document.querySelector("#btnUploadx");
+            var dadoUpload = document.getElementById("dadoUpload").files[0].name;
+            console.log(document.getElementById("dadoUpload").value);
+            var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            var path = dadoUpload;
+            console.log(path)
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/criarDiretorio",
+                data: '{idProcesso: "' + id + '", path: "' + path + '", tipoaviso: "' + tipoaviso +'"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "0") {
+                        $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                        document.getElementById("dadoUpload").files == "";
+                        dadoUpload.style.display = "none";
+                        btnUpload.style.display = "block";
+                        btnUploadx.style.display = "none";
+                    } else if (dado == "1") {
+                        $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                        dadoUpload.style.display = "none";
+                        btnUpload.style.display = "block";
+                        btnUploadx.style.display = "none";
+                    }
+                }
+            })
+        }
 
         function uploadArquivo() {
             $.ajax({
@@ -676,8 +1013,9 @@
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        
+                    if (dado == "ok") {
+                        $("#modalUploadArquivo").modal("hide");
+                        $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 }
             })
@@ -685,12 +1023,65 @@
 
         function caixaSaida() {
             $("#modalCaixaSaida").modal("show");
+            var filtro = document.getElementById("ddlFiltroCaixaSaida").value;
+            var consulta = document.getElementById("txtConsulta").value;
+            var enviado = document.getElementById("enviado");
+            var nenviado = document.getElementById("todos");
+            var dtgerado = document.getElementById("ddlGerados").value;
+            var enviadov;
+            var enviadon;
 
+            if (enviado.checked) {
+                enviadov = "1";
+            } else {
+                enviadov = "0";
+            }
+
+            if (nenviado.checked) {
+                enviadon = "1";
+            } else {
+                enviadon = "0";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarEmail",
+                data: '{filtro: "' + filtro + '", consulta: "' + consulta + '", enviado: "' + enviadov + '", nenviado: "' + enviadon +'", dtgerado: "'+ dtgerado +'"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#tblCaixaSaidaBody").empty();
+                    $("#tblCaixaSaidaBody").append("<tr><td colspan='11'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#tblCaixaSaidaBody").empty();
+                    if (dado != null) {
+                        for (var i = 0; i < dado.length; i++) {
+                            $("#tblCaixaSaidaBody").append("<tr data-id='" + dado[i]["IDEMAIL"] + "'><td class='text-center'>" +
+                                "<div class='btn btn-primary select' onclick='setIdListaEmailCaixaSaida(" + dado[i]["IDEMAIL"] + ")'>Selecionar</div></td >" +
+                                "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["NMTIPOAVISO"] + "' style='max-width: 20ch;'>" + dado[i]["NMTIPOAVISO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_GERACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PREVISAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_ENVIO"] + "</td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 20ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
+                        }
+                    } else{
+                        $("#tblCaixaSaidaBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='11' class='alert alert-light text-center'>Email não encontrado</td></tr>");
+                    }
+                }
+            })
         }
 
         function montagemEmail() {
             if (id != 0) {
                 $("#modalMontagemEmail").modal("show");
+                document.getElementById("corpoEmail").value = "";
                 $.ajax({
                     type: "POST",
                     url: "Gerencial.asmx/dadosUpload",
@@ -714,8 +1105,7 @@
                                     if (dado != null) {
                                         $("#tblListaProcessoHouseBody").empty();
                                         for (let i = 0; i < dado.length; i++) {
-                                            $("#tblListaProcessoHouseBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'>" +
-                                                "<div class='btn btn-primary select' onclick='setIdListaEmail(" + dado[i]["HOUSE"] + ")'>O</div></td >" +
+                                            $("#tblListaProcessoHouseBody").append("<tr><td class='text-center'><div><input type='checkbox' class='teste' value='" + dado[i]["HOUSE"] + "' name='checks' checked/></div></td>" +
                                                 "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
                                                 "<td class='text-center' title='" + dado[i]["CLIENTE"]+ "' style='max-width: 25ch;'>" + dado[i]["CLIENTE"] + "</td></tr>");
                                         }
@@ -724,17 +1114,18 @@
                             })
                             $.ajax({
                                 type: "POST",
-                                url: "Gerencial.asmx/escreverEmail",
+                                url: "Gerencial.asmx/escreverCorpoEmail",
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
                                     var dado = dado.d;
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
-                                        
+                                        document.getElementById("corpoEmail").value = dado[0]["NM_SETOR"] + "<br> \r\n" + dado[0]["NR_TELEFONE_SETOR"] + "<br> \r\n" + dado[0]["EMAIL_SETOR"] + "";
                                     }
                                 }
                             })
+                            
                         }
                     }
                 })
@@ -743,10 +1134,119 @@
             }
         }
 
-        function escreverEmail(id) {
+        function cancelarAgendamento() {
+            if (idEmailAgendamento != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/verificarCancelamento",
+                    data: '{idEmail: "' + idEmailAgendamento + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        console.log(dado);
+                        if (dado.d == "cancelado") {
+                            $("#modalReativarEmail").modal("show");
+                                                        
+                        } else {
+                            $("#modalCancelamentoEmail").modal("show");
+                        }
+                    }
+                })
+            } else {
+                $("#msgErrSelectEmail").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        function cancelarAgen() {
             $.ajax({
                 type: "POST",
-                url: "Gerencial.asmx/escreverAssuntoEmail",
+                url: "Gerencial.asmx/cancelarAgendamento",
+                data: '{idEmail: "' + idEmailAgendamento + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    if (dado.d == "ok") {
+                        $("#modalCancelamentoEmail").modal("hide");
+                        $("#msgSuccessCancelEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        listarAgendamento();
+                    }
+                }
+            })
+        }
+
+        function reatviarAgend() {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/reativarAgendamento",
+                data: '{idEmail: "' + idEmailAgendamento + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    if (dado.d == "ok") {
+                        $("#modalReativarEmail").modal("hide");
+                        $("#msgSuccessAgendEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        listarAgendamento();
+                    }
+                }
+            })
+        }
+
+        function enviarEmail() {
+            pacote = document.querySelectorAll('[name=checks]:checked');
+            values = [];
+            var master = document.getElementById("nrMasterBLemail").textContent;
+            var corpo = document.getElementById("corpoEmail").value;
+            for (let i = 0; i < pacote.length; i++) {
+                values.push(pacote[i].value);
+            }
+            if (values.length > 0) {
+                for (let i = 0; i < values.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        url: "Gerencial.asmx/enviarEmail",
+                        data: '{house:"' + values[i] + '",corpo:"' + corpo +'"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {;
+                            if (dado.d == "ok") {
+                                $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        }
+                    })
+                }
+                $("#modalMontagemEmail").modal("hide");
+            }
+        }
+
+
+        function listarTipoAviso() {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarTipoAviso",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#ddlTipoAviso").empty();
+                    $("#ddlTipoAviso").append("<option value=''>Selecione</option>");
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#ddlTipoAviso").append("<option value='" + dado[i]["IDTIPOAVISO"] + "'>" + dado[i]["NMTIPOAVISO"] + "</option>");
+                        }
+                    }
+                    else {
+
+                    }
+                }
+            }) 
+        }
+
+        function listarTipoDocumento() {
+            var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/dadosUpload",
                 data: '{idProcesso:"' + id + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -754,7 +1254,189 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        $("#assuntoEmail").textContent = "" + dado[0]["PROCESSO + ""
+                        if (tipoaviso == 3) {
+                            document.querySelector("#titleUpload").textContent = "Nº PROCESSO: "
+                            document.querySelector("#nrMasterBL").value = dado[0]["NRHOUSE"];
+                        } else {
+                            document.querySelector("#titleUpload").textContent = "NR MASTER"
+                            document.querySelector("#nrMasterBL").value = dado[0]["NRMASTER"];
+                        }
+                    }
+                }
+            })
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarTipoDocumento",
+                data: '{idtipoaviso: "' + tipoaviso + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#ddlDocumento").empty();
+                    if (dado != null) {
+                        for (let i = 0; i<dado.length; i++) {
+                            $("#ddlDocumento").append("<option value='" + dado[i]["IDDOCUMENTO"] + "'>" + dado[i]["NMDOCUMENTO"] + "</option>");
+                        }
+                    } else {
+                    }
+                }
+            })
+        }
+
+        function verificarEmail() {
+            if (idEmailCaixa != 0) {
+                $("#modalVisualizarEmail").modal("show");
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/visualizarEmail",
+                    data: '{idProcesso: "' + idEmailCaixa + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            dado[0]["ASSUNTO"] = dado[0]["ASSUNTO"].replace("<br>", "\n");
+                            dado[0]["CORPO"] = dado[0]["CORPO"].replace("<br>", "\n");
+                            document.getElementById("visualizarEmail").value = "" + dado[0]["ASSUNTO"] + "\n \n" + dado[0]["CORPO"] + "";
+                        }
+                    }
+                })
+            }
+        }
+
+        function verificarReenvioEmail() {
+            if (idEmailCaixa != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/verificarReenvio",
+                    data: '{idProcesso: "' + idEmailCaixa + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado == "ok") {
+                            $("#modalReenvioEmail").modal('show');
+                        } else {
+                            $("#msgErrReenvioEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
+        }
+
+        function reenviarEmail() {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/verificarReenvio",
+                data: '{idProcesso: "' + idEmailCaixa + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "ok") {
+                        $("#msgSuccessReenvioEmail").fadeIn(500).delay(1000).fadeOut(500);
+                    }
+                }
+            })
+        }
+
+        function verificarRemocaoEmail() {
+            if (idEmailCaixa != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/verificarRemocao",
+                    data: '{idProcesso: "' + idEmailCaixa + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado == "ok") {
+                            $("#modalRemoverEmail").modal('show');
+                        } else {
+                            $("#msgErrRemoveEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
+        }
+
+        function removerEmail() {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/removerEmail",
+                data: '{idProcesso: "' + idEmailCaixa + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "ok") {
+                        $("#modalRemoverEmail").modal('hide');
+                        $("#msgSuccessRemoveEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        caixaSaida();
+                    }
+                }
+            })
+        }
+
+        function listarAgendamento() {
+            $("#modalCaixaAgendamento").modal("show");
+            var filtro = document.getElementById("ddlFiltroCaixaAgendamento").value;
+            var consulta = document.getElementById("txtConsultaAgendamento").value;
+            var enviado = document.getElementById("enviadoAg");
+            var aenviar = document.getElementById("todosAg");
+            var dtgerado = document.getElementById("ddlGeradosAg").value;
+            var enviadoAg;
+            var aenviarAg;
+
+            if (enviado.checked) {
+                enviadoAg = "1";
+            } else {
+                enviadoAg = "0";
+            }
+
+            if (aenviar.checked) {
+                aenviarAg = "1";
+            } else {
+                aenviarAg = "0";
+            }
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarEmailAgendado",
+                data: '{filtro: "' + filtro + '", consulta: "' + consulta + '", enviado: "' + enviadoAg + '", nenviado: "' + aenviarAg + '", dtgerado: "' + dtgerado + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#tblCaixaAgendamentoBody").empty();
+                    $("#tblCaixaAgendamentoBody").append("<tr><td colspan='12'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#tblCaixaAgendamentoBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#tblCaixaAgendamentoBody").append("<tr data-id='" + dado[i]["ID_SOLICITACAO_EMAIL"] + "'><td class='text-center'>" +
+                                "<div class='btn btn-primary select' onclick='setIdListaEmailCaixaAgendamento(" + dado[i]["ID_SOLICITACAO_EMAIL"] + ")'>Selecionar</div></td >" +
+                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NR_BL"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["NMTIPOAVISO"] + "' style='max-width: 20ch;'>" + dado[i]["NMTIPOAVISO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_SOLICITACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_START"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_GERACAO_EMAIL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["OB_CANCELAMENTO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 15ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
+                        }
+                    } else{
+                        $("#tblCaixaAgendamentoBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='12' class='alert alert-light text-center'>Email não encontrado</td></tr>");
                     }
                 }
             })
@@ -780,7 +1462,28 @@
             else {
                 $('[data-id="' + Id + '"]').addClass("colorir");
             }
-            escreverEmail(id);
+        }
+
+        function setIdListaEmailCaixaSaida(Id) {
+            idEmailCaixa = Id;
+            $('[data-id]').removeClass("colorir");
+            if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
+                $('[data-id="' + Id + '"]').removeClass("colorir");
+            }
+            else {
+                $('[data-id="' + Id + '"]').addClass("colorir");
+            }
+        }
+
+        function setIdListaEmailCaixaAgendamento(Id) {
+            idEmailAgendamento = Id;
+            $('[data-id]').removeClass("colorir");
+            if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
+                $('[data-id="' + Id + '"]').removeClass("colorir");
+            }
+            else {
+                $('[data-id="' + Id + '"]').addClass("colorir");
+            }
         }
 
         function downloadCSVAtual(csv, filename) {

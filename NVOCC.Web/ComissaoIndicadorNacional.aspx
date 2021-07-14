@@ -117,6 +117,8 @@
                                             <asp:BoundField DataField="VL_COMISSAO" HeaderText="PREMIACAO" SortExpression="VL_COMISSAO" />
                                             <asp:BoundField DataField="PARCEIRO_IMPORTADOR" HeaderText="IMPORTADOR" SortExpression="PARCEIRO_IMPORTADOR" />                          
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
+                                            <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="DATA EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
+
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

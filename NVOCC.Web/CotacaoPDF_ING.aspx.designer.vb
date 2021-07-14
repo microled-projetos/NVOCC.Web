@@ -293,13 +293,13 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblTotalFinalFrete As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTotalFinalGeral.
+    '''Controle lblTotalFinal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTotalFinalGeral As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblTotalFinal As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblAnalista.

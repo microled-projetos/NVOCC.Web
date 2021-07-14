@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Newtonsoft.Json;
 using ABAINFRA.Web.Classes;
-
+using System.IO;
 
 namespace ABAINFRA.Web
 {
@@ -666,7 +666,7 @@ namespace ABAINFRA.Web
         public string listarProcessosOperacionalFilter(FiltroModuloOperacional dados)
         {
             string SQL;
-            SQL = "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' ";
+            SQL = "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' AND C.ID_BL_MASTER IS NOT NULL ";
             if (dados.VIA != "")
             {
                 SQL += "AND V.ID_VIATRANSPORTE = "+dados.VIA+" ";
@@ -894,9 +894,6 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string listarProcessosOperacional(FiltroModuloOperacional dados)
         {
-            
-            
-
             string SQL;
             SQL = "SELECT M.ID_BL AS MASTER, C.ID_BL AS HOUSE, ISNULL(C.NR_PROCESSO,'') AS PROCESSO, ISNULL(CLT.NM_RAZAO,'') AS CLIENTE, ISNULL(PORT1.NM_PORTO,'') AS ORIGEM, ISNULL(PORT2.NM_PORTO,'') AS DESTINO ";
             SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE ";
@@ -916,7 +913,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_WEEK W ON C.ID_WEEK = W.ID_WEEK ";
             SQL += "LEFT JOIN TB_SERVICO S ON C.ID_SERVICO = S.ID_SERVICO ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
-            SQL += "" + listarProcessosOperacionalFilter(dados) + " ";            
+            SQL += "" + listarProcessosOperacionalFilter(dados) + " ";           
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -937,7 +934,7 @@ namespace ABAINFRA.Web
         public string dadosUpload(string idProcesso)
         {
             string SQL;
-            SQL = "SELECT M.NR_BL as NRMASTER FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
+            SQL = "SELECT M.NR_BL as NRMASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -974,7 +971,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string escreverEmail()
+        public string escreverCorpoEmail()
         {
             string SQL;
             SQL = "SELECT NM_SETOR, NR_TELEFONE_SETOR, EMAIL_SETOR FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
@@ -994,10 +991,502 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_PORTO P1 ON M.ID_PORTO_ORIGEM = P1.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO P2 ON M.ID_PORTO_DESTINO = P2.ID_PORTO ";
+            SQL += "WHERE C.ID_BL = '" + idprocesso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarEmail(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
+        {
+            switch (filtro)
+            {
+                case "1":
+                    filtro = "AND B.NR_PROCESSO LIKE '" + consulta + "%' ";
+                    break;
+                case "2":
+                    filtro = "AND D.NM_RAZAO LIKE '" + consulta + "%' ";
+                    break;
+                case "3":
+                    filtro = "AND E.NMTIPOAVISO LIKE '%" + consulta + "%' ";
+                    break;
+                default:
+                    filtro = "";
+                    break;
+            }
+
+            if (enviado == "1" && nenviado == "1")
+            {
+                enviado = "";
+                nenviado = "";
+            }
+            else
+            {
+                switch (enviado)
+                {
+                    case "1":
+                        enviado = "AND A.DT_ENVIO IS NULL ";
+                        break;
+                    default:
+                        enviado = "";
+                        break;
+                }
+
+                switch (nenviado)
+                {
+                    case "1":
+                        nenviado = "AND A.DT_ENVIO IS NOT NULL ";
+                        break;
+                    default:
+                        nenviado = "";
+                        break;
+                }
+            }
+            
+            switch (dtgerado)
+            {
+                case "1":
+                    dtgerado = "AND A.DT_GERACAO = CONVERT (date, GETDATE()) ";
+                    break;
+                case "2":
+                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
+                    break;
+                case "3":
+                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
+                    break;
+                case "4":
+                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
+                    break;
+                case "5":
+                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
+                    break;
+            }
+            string SQL;
+            SQL = "SELECT A.AUTONUM AS IDEMAIL, ISNULL(B.NR_PROCESSO,'') AS PROCESSO, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO , ISNULL(FORMAT(A.DT_GERACAO,'dd/MM/yyyy'),'') AS DT_GERACAO, ";
+            SQL += "ISNULL(FORMAT(A.DT_START, 'dd/MM/yyyy'), '') AS PREVISAO, ISNULL(FORMAT(A.DT_ENVIO, 'dd/MM/yyyy'), '') AS DT_ENVIO, ";
+            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO ";
+            SQL += "FROM TB_GER_EMAIL A ";
+            SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON A.IDPARCEIRO = C.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDCLIENTE = D.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
+            SQL += "WHERE A.AUTONUM IS NOT NULL ";
+            SQL += ""+filtro+" ";
+            SQL += ""+enviado+" ";
+            SQL += ""+nenviado+" ";
+            SQL += ""+dtgerado+" ";
+            
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarEmailAgendado(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
+        {
+            switch (filtro)
+            {
+                case "1":
+                    filtro = "AND B.NR_PROCESSO LIKE '" + consulta + "%' ";
+                    break;
+                case "2":
+                    filtro = "AND C.NM_RAZAO LIKE '" + consulta + "%' ";
+                    break;
+                case "3":
+                    filtro = "AND E.NMTIPOAVISO LIKE '%" + consulta + "%' ";
+                    break;
+                default:
+                    filtro = "";
+                    break;
+            }
+
+            if (enviado == "1" && nenviado == "1")
+            {
+                enviado = "";
+                nenviado = "";
+            }
+            else
+            {
+                switch (enviado)
+                {
+                    case "1":
+                        enviado = "AND A.DT_GERACAO_EMAIL IS NULL ";
+                        break;
+                    default:
+                        enviado = "";
+                        break;
+                }
+
+                switch (nenviado)
+                {
+                    case "1":
+                        nenviado = "AND A.DT_GERACAO_EMAIL IS NOT NULL ";
+                        break;
+                    default:
+                        nenviado = "";
+                        break;
+                }
+            }
+
+            switch (dtgerado)
+            {
+                case "1":
+                    dtgerado = "AND A.DT_SOLICITACAO = CONVERT (date, GETDATE()) ";
+                    break;
+                case "2":
+                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
+                    break;
+                case "3":
+                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
+                    break;
+                case "4":
+                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
+                    break;
+                case "5":
+                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
+                    break;
+            }
+            string SQL;
+            SQL = "SELECT A.ID_SOLICITACAO_EMAIL, B.NR_PROCESSO, M.NR_BL, E.NMTIPOAVISO, ISNULL(FORMAT(A.DT_SOLICITACAO,'dd/MM/yyyy'),'') AS DT_SOLICITACAO, ";
+            SQL += "ISNULL(FORMAT(A.DT_START,'dd/MM/yyyy'),'') AS DT_START, ISNULL(FORMAT(A.DT_GERACAO_EMAIL,'dd/MM/yyyy'),'') AS DT_GERACAO_EMAIL, ";
+            SQL += "ISNULL(FORMAT(A.DT_CANCELAMENTO,'dd/MM/yyyy'),'') AS DT_CANCELAMENTO, ISNULL(A.OB_CANCELAMENTO,'') AS OB_CANCELAMENTO, ";
+            SQL += "C.NM_RAZAO AS CLIENTE, ISNULL(CONVERT(VARCHAR,A.IDARMAZEM),'') AS IDARMAZEM, ISNULL(D.NM_RAZAO,'') AS PARCEIRO ";
+            SQL += "FROM TB_solicitacao_email A ";
+            SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
+            SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON B.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDPARCEIRO = D.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
+            SQL += "WHERE M.NR_BL IS NOT NULL ";
+            SQL += "" + filtro + " ";
+            SQL += "" + enviado + " ";
+            SQL += "" + nenviado + " ";
+            SQL += "" + dtgerado + " ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string verificarCancelamento(string idEmail)
+        {
+            string SQL;
+            SQL = "SELECT DT_CANCELAMENTO FROM TB_SOLICITACAO_EMAIL WHERE ID_SOLICITACAO_EMAIL = '"+idEmail+"' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if(listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "") 
+            {
+                return "cancelado";
+            }
+            else
+            {
+                return "cancelar";
+            }
+        }
+
+        [WebMethod]
+        public string cancelarAgendamento(string idEmail)
+        {
+            string SQL;
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
+            SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_CANCELAMENTO = '"+ sqlFormattedDate + "', OB_CANCELAMENTO = 'CANCELADO PELO USUÁRIO' WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "' ";
+            string cancelar = DBS.ExecuteScalar(SQL);
+
+            return "ok";
+        }
+
+        [WebMethod]
+        public string reativarAgendamento(string idEmail)
+        {
+            string SQL;
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
+            SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_GERACAO_EMAIL = NULL, DT_CANCELAMENTO = null, OB_CANCELAMENTO = NULL WHERE ID_SOLICITACAO_EMAIL = '"+idEmail+"' ";
+            string reativar = DBS.ExecuteScalar(SQL);
+
+            return "ok";
+        }
+
+        [WebMethod]
+        public string checarDiretorio()
+        {
+            string SQL;
+            SQL = "SELECT PATHDOCUMENTOS FROM TB_AVISOPARAM WHERE IDTIPOAVISOPARAM=1 ";
+            string PathDocumentos = DBS.ExecuteScalar(SQL);
+            string path = "C:\\FCA\\DOCUMENTOS";
+            if (Directory.Exists(path) == false)
+            {
+                return "0";
+            }
+            else
+            {
+                return "1";
+            }
+        }
+
+        [WebMethod]
+        public string criarDiretorio(string idProcesso, string path, string tipoaviso)
+        {
+            string SQL;
+            string result;
+            SQL = "SELECT IDTIPOAVISO, TPPROCESSO FROM TB_TIPOAVISO WHERE IDTIPOAVISO = '" + tipoaviso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string tipoprocesso = listTable.Rows[0]["TPPROCESSO"].ToString();
+            string idtipoaviso = listTable.Rows[0]["IDTIPOAVISO"].ToString();
+
+            SQL = "SELECT B.NM_TIPO_ESTUFAGEM, D.NM_VIATRANSPORTE, ";
+            SQL += "A.DT_PREVISAO_EMBARQUE, A.DT_PREVISAO_CHEGADA ";
+            SQL += "from TB_BL A ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM B ON A.ID_TIPO_ESTUFAGEM = B.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE D ON C.ID_VIATRANSPORTE = D.ID_VIATRANSPORTE ";
+            SQL += "WHERE A.ID_BL = '" + idProcesso + "' ";
+            DataTable verifica = new DataTable();
+            verifica = DBS.List(SQL);
+            string tipoEstufagem = verifica.Rows[0]["NM_TIPO_ESTUFAGEM"].ToString();
+            string viatransporte = verifica.Rows[0]["NM_VIATRANSPORTE"].ToString();
+            string previsaoEmbarque = verifica.Rows[0]["DT_PREVISAO_EMBARQUE"].ToString();
+            string previsaoChegada = verifica.Rows[0]["DT_PREVISAO_CHEGADA"].ToString();
+
+            /*if(idtipoaviso == "2" && tipoEstufagem != "LCL"){
+                result = "1";
+                return JsonConvert.SerializeObject(result);
+            } else if (idtipoaviso == "3" && viatransporte != "Aérea" || previsaoChegada == "" || previsaoEmbarque == "" ) {
+                result = "1";
+                return JsonConvert.SerializeObject(result);
+            }*/
+
+
+
+            if (listTable.Rows[0]["TPPROCESSO"].ToString() == "P")
+            {
+
+                SQL = "SELECT M.NR_BL as NRMASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
+                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
+                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
+                string documentos = "C:\\Documentosfca\\doc\\" + path + "";
+                if (Directory.Exists(diretorio) == false)
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
+                }
+                File.Copy(documentos, diretorio + path, true);
+            }
+            else
+            {
+                SQL = "SELECT C.ID_BL_MASTER as BL_MASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
+                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
+                int blmaster = (int)listTable2.Rows[0]["BL_MASTER"];
+                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\MASTER-"+blmaster.ToString("D9")+"\\";
+                string documentos = "C:\\Documentosfca\\doc\\"+path+"";
+                if (Directory.Exists(diretorio) == false)
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
+                }
+                File.Copy(documentos, diretorio + path, true);
+            }
+            result = "0";
+            return JsonConvert.SerializeObject(result);
+        }
+
+        [WebMethod]
+        public string uploadArquivo(string idprocesso, string iddocumento, string caminho, string arquivo, string idtipoaviso)
+        {
+            string SQL;
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
+            SQL = "SELECT ID_BL_MASTER  FROM TB_BL WHERE ID_BL = '" + idprocesso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string blmaster = listTable.Rows[0]["ID_BL_MASTER"].ToString();
+
+            SQL = "SELECT PATHDOCUMENTOSROBO FROM TB_AVISOPARAM ";
+            DataTable robo = new DataTable();
+            robo = DBS.List(SQL);
+            string pathrobo = robo.Rows[0]["PATHDOCUMENTOSROBO"].ToString();
+
+            if (idtipoaviso != "3")
+            {
+                SQL = "INSERT INTO TB_GER_ANEXO VALUES (IDPROCESSO, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATCHARQUIVOROBO) ";
+                SQL += "VALUES ('"+ blmaster + "','"+ iddocumento + "','"+ sqlFormattedDate + "','"+ caminho + "','"+ arquivo + "') ";
+            }
+            return "ok";
+        }
+
+        [WebMethod]
+        public string enviarEmail(string house, string corpo)
+        {
+            string SQL;
+            string destinatario = "";
+            string origem = "";
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
+            SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
+            SQL += "CLIENTE.CNPJ, C.NM_VIATRANSPORTE as VIA ";
+            SQL += "FROM TB_BL A ";
+            SQL += "LEFT JOIN TB_PORTO ORIGEM ON A.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO DESTINO ON A.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON A.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE C ON B.ID_VIATRANSPORTE = C.ID_VIATRANSPORTE ";
+            SQL += "WHERE A.ID_BL = '" + house + "' ";
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string nmCliente = listTable.Rows[0]["CLIENTE"].ToString();
+            string nrHouse = listTable.Rows[0]["NR_BL"].ToString();
+            string nrProcesso = listTable.Rows[0]["NR_PROCESSO"].ToString();
+            string origemP = listTable.Rows[0]["ORIGEM"].ToString();
+            string destinoP = listTable.Rows[0]["DESTINO"].ToString();
+            string cnpj = listTable.Rows[0]["CNPJ"].ToString();
+            string nmVia = listTable.Rows[0]["VIA"].ToString();
+            string idCliente = listTable.Rows[0]["ID_PARCEIRO_CLIENTE"].ToString();
+
+            if (nmVia == "MARÍTIMA")
+            {
+                SQL = "SELECT ID_DESTINATARIO_MAR, ORIGEM FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+                destinatario = listTable2.Rows[0]["ID_DESTINATARIO_MAR"].ToString();
+                origem = listTable2.Rows[0]["ORIGEM"].ToString();
+            }
+            else {
+                if (nmVia == "AÉREA")
+                {
+                    SQL = "SELECT ID_DESTINATARIO_AER, ORIGEM FROM TB_TIPOAVISO WHERE ID_TIPOAVISO = 12";
+                    DataTable listTable3 = new DataTable();
+                    listTable3 = DBS.List(SQL);
+                    destinatario = listTable3.Rows[0]["ID_DESTINATARIO_AER"].ToString();
+                    origem = listTable3.Rows[0]["ORIGEM"].ToString();
+                }
+            }
+
+            SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
+            SQL += "VALUES ('"+nrProcesso+" - AVISO DE EMBARQUE - "+origemP+" X "+destinoP+" - HBL: "+nrHouse+"<br>"+nmCliente+" - "+cnpj+"', ";
+            SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
+            string gerarEmail = DBS.ExecuteScalar(SQL);
+
+            return "ok";
+        }
+
+        [WebMethod]
+        public string listarTipoAviso()
+        {
+            string SQL;
+
+            SQL = "SELECT DISTINCT A.IDTIPOAVISO, A.NMTIPOAVISO ";
+            SQL += "FROM dbo.TB_TIPOAVISO A ";
+            SQL += "INNER JOIN dbo.TB_TIPOAVISOITEM B ON A.IDTIPOAVISO = B.IDTIPOAVISO ";
+            SQL += "WHERE A.ORIGEM = 'OP' ";
+            SQL += "ORDER BY A.NMTIPOAVISO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarTipoDocumento(string idtipoaviso)
+        {
+            string SQL;
+
+            SQL = "SELECT A.IDDOCUMENTO, B.NMDOCUMENTO ";
+            SQL += "FROM dbo.TB_TIPOAVISOITEM A ";
+            SQL += "INNER JOIN TB_DOCUMENTO B ON A.IDDOCUMENTO = B.IDDOCUMENTO ";
+            SQL += "WHERE A.IDTIPOAVISO = '"+ idtipoaviso + "' ";
+            SQL += "ORDER BY B.NMDOCUMENTO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string visualizarEmail(string idProcesso)
+        {
+            string SQL;
+
+            SQL = "SELECT ASSUNTO, CORPO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string verificarRemocao(string idProcesso)
+        {
+            string SQL;
+            string result;
+            SQL = "SELECT C.DT_ENVIO, C.ENVIADO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable.Rows[0]["DT_ENVIO"].ToString() == "" && listTable.Rows[0]["ENVIADO"].ToString() == "")
+            {
+                result = "ok";
+                return JsonConvert.SerializeObject(result);
+            }
+            else
+            {
+                result = "nok";
+                return JsonConvert.SerializeObject(result);
+            }
+        }
+
+        [WebMethod]
+        public string verificarReenvio(string idProcesso)
+        {
+            string SQL;
+            string result;
+            SQL = "SELECT C.DT_ENVIO, C.ENVIADO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable.Rows[0]["DT_ENVIO"].ToString() != "" && listTable.Rows[0]["ENVIADO"].ToString() != "")
+            {
+                result = "ok";
+                return JsonConvert.SerializeObject(result);
+            }
+            else
+            {
+                result = "nok";
+                return JsonConvert.SerializeObject(result);
+            }
+        }
+
+        [WebMethod]
+        public string removerEmail(string idProcesso)
+        {
+            string SQL;
+            string result;
+            SQL = "DELETE FROM TB_GER_EMAIL WHERE AUTONUM = '" + idProcesso + "' ";
+            string deletar = DBS.ExecuteScalar(SQL);
+
+            result = "ok";
+
+            return JsonConvert.SerializeObject(result);
+        }
+
+        [WebMethod]
+        public string reenviarEmail(string idProcesso)
+        {
+            string SQL;
+            string result;
+            SQL = "UPDATE TB_GER_EMAIL SET DT_ENVIO = NULL, ENVIADO = 0 WHERE AUTONUM = '" + idProcesso + "' ";
+            string deletar = DBS.ExecuteScalar(SQL);
+
+            result = "ok";
+
+            return JsonConvert.SerializeObject(result);
         }
 
         [WebMethod]

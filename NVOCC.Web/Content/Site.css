@@ -670,7 +670,7 @@ input[type=number]::-webkit-inner-spin-button {
     justify-content: space-around;
 }
 
-#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
 #modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
 #modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
 #modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
@@ -680,6 +680,15 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 20px;
     font-weight: bold;
     width: 100%;
+}
+
+#msgErrDadoCalc, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
+#msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
+#msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
+#msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+    display: none;
 }
 
 

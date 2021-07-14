@@ -547,7 +547,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor Taxa Venda(Min):</label>
+                                        <label class="control-label">Valor Taxa Compra(Min):</label>
                                         <asp:TextBox ID="txtValorTaxaCompraMin" runat="server" CssClass="form-control moeda" ></asp:TextBox>
                                     </div>
                                 </div>
@@ -744,7 +744,7 @@ union SELECT  0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESP
 union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY NM_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL  union SELECT  0, 'Selecione' ORDER BY NM_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

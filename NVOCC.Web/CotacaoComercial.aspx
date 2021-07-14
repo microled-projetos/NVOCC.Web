@@ -63,9 +63,9 @@
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 
                                  <asp:label ID="Label1" style="padding-left:18px" runat="server">Filtro:</asp:label> 
                                 <div>
-                                     <div class="col-sm-3">
+                                     <div class="col-sm-2">
                                     <div class="form-group">
-                                        <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px" >
+                                        <asp:DropDownList ID="ddlConsultas" AutoPostBack="true"  runat="server" CssClass="form-control" Font-Size="15px" >
                                              <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                              <asp:ListItem Value="1">Número da cotação</asp:ListItem>
                                              <asp:ListItem Value="2">Status da cotação</asp:ListItem>
@@ -76,7 +76,7 @@
                                         </asp:DropDownList>      </div> </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">
-                                          <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control" Width="210px"></asp:TextBox>
+                                          <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control" ></asp:TextBox>
                        </div></div>
                                 
                                                                 <asp:Button runat="server" Text="Pesquisar" id="bntPesquisar" CssClass="btn btn-success" />

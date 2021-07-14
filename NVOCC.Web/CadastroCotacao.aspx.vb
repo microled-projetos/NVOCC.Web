@@ -247,18 +247,24 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
     Private Sub btnFecharMercadoria_Click(sender As Object, e As EventArgs) Handles btnFecharMercadoria.Click
          Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_FRETE_COMPRA,0)VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
-        If ds.Tables(0).Rows.Count > 0 Then
-            If ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA") = 0 And txtFreteCompraMercadoria.Text <> 0 Then
-                txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(".", "")
-                txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(",", ".")
+        If txtIDMercadoria.Text <> "" Then
 
-                Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_FRETE_COMPRA =  " & txtFreteCompraMercadoria.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
-                Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_FRETE_COMPRA,0)VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If ds.Tables(0).Rows(0).Item("VL_FRETE_COMPRA") = 0 And txtFreteCompraMercadoria.Text <> "" Then
+                    If txtFreteCompraMercadoria.Text <> 0 Then
+                        txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(".", "")
+                        txtFreteCompraMercadoria.Text = txtFreteCompraMercadoria.Text.Replace(",", ".")
+
+                        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_FRETE_COMPRA =  " & txtFreteCompraMercadoria.Text & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+                        Con.ExecutarQuery("UPDATE TB_COTACAO SET VL_TOTAL_FRETE_COMPRA =
 (SELECT SUM(ISNULL(VL_FRETE_COMPRA,0))VL_FRETE_COMPRA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & txtID.Text & ")WHERE ID_COTACAO =  " & txtID.Text)
+                    End If
+                End If
+
             End If
         End If
-
         divErroMercadoria.Visible = False
         divSuccessMercadoria.Visible = False
         ddlMercadoria.SelectedValue = 0
@@ -953,7 +959,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             lblErroFrete.Text = "Antes de inserir o Frete é necessário cadastrar as Informações Basicas"
             divErroFrete.Visible = True
 
-        ElseIf ddlTransportadorFrete.SelectedValue = 0 Or ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Or txtTTimeFreteInicial.Text = "" Or txtTTimeFreteFinal.Text = "" Or ddlTipoCargaFrete.SelectedValue = 0 Or ddlRotaFrete.SelectedValue = 0 Or ddlFrequenciaFrete.SelectedValue = 0 Or ddlMoedaFrete.SelectedValue = 0 Or ddlEstufagemFrete.SelectedValue = 0 Or ddlTipoPagamento_Frete.SelectedValue = 0 Then
+        ElseIf ddlTransportadorFrete.SelectedValue = 0 Or ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Or txtTTimeFreteInicial.Text = "" Or txtTTimeFreteFinal.Text = "" Then
+
             lblErroFrete.Text = "Preencha todos os campos obrigatórios"
             divErroFrete.Visible = True
 
