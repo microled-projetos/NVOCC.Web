@@ -31,12 +31,12 @@
         End If
 
         If ddlFiltro.SelectedValue = 1 Then
-            filtro = " AND NR_CONTRATO LIKE '%" & txtPesquisa.Text & " %'"
+            filtro &= " AND NR_CONTRATO LIKE '%" & txtPesquisa.Text & "%'"
         ElseIf ddlFiltro.SelectedValue = 2 Then
-            filtro = " AND DT_FECHAMENTO = CONVERT(VARCHAR,'" & txtPesquisa.Text & "',103)"
+            filtro &= " AND DT_FECHAMENTO = CONVERT(VARCHAR,'" & txtPesquisa.Text & "',103)"
 
         ElseIf ddlFiltro.SelectedValue = 3 Then
-            filtro = " AND NM_AGENTE LIKE '%" & txtPesquisa.Text & " %'"
+            filtro &= " AND NM_AGENTE LIKE '%" & txtPesquisa.Text & "%'"
         End If
 
 
@@ -267,8 +267,8 @@
 
 
 
-            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (
-DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (ID_CONTA_BANCARIA,
+DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT ID_PARCEIRO_CORRETOR , GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
 
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
             ds = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS WHERE ID_ACCOUNT_FECHAMENTO =  " & txtID.Text)
@@ -390,8 +390,8 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
 FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "') A
 LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
 LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
-WHERE DT_FECHAMENTO IS NULL AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue & " group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
- G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE"
+WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL)  AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue & " group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+ G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE,DT_CANCELAMENTO_FECHAMENTO,DT_FECHAMENTO"
         dsInvoice.DataBind()
         dgvInvoice.DataBind()
         dgvInvoice.Visible = True

@@ -2972,6 +2972,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoMaritimo.Visible = True
             lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeCliente_Maritimo.Text = txtNomeCliente_Maritimo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeImportador_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeImportador_Maritimo.TextChanged
@@ -2995,6 +2997,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoMaritimo.Visible = True
             lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeImportador_Maritimo.Text = txtNomeImportador_Maritimo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeCliente_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeCliente_Aereo.TextChanged
@@ -3018,6 +3022,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoAereo.Visible = True
             lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeCliente_Aereo.Text = txtNomeCliente_Aereo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeImportador_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeImportador_Aereo.TextChanged
@@ -3040,6 +3046,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoAereo.Visible = True
             lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeImportador_Aereo.Text = txtNomeImportador_Aereo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeComissaria_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeComissaria_Aereo.TextChanged
@@ -3062,6 +3070,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoAereo.Visible = True
             lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeComissaria_Aereo.Text = txtNomeComissaria_Aereo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeComissaria_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeComissaria_Maritimo.TextChanged
@@ -3085,17 +3095,19 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoMaritimo.Visible = True
             lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeComissaria_Maritimo.Text = txtNomeComissaria_Maritimo.Text.Replace("NULL", "")
+
     End Sub
 
     Private Sub txtNomeExportador_Maritimo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeExportador_Maritimo.TextChanged
         divErro_BasicoMaritimo.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        If txtCodComissaria_Aereo.Text = "" Then
-            txtCodComissaria_Aereo.Text = 0
+        If txtCodExportador_Maritimo.Text = "" Then
+            txtCodExportador_Maritimo.Text = 0
         End If
-        If txtNomeComissaria_Aereo.Text = "" Then
-            txtNomeComissaria_Aereo.Text = "NULL"
+        If txtNomeExportador_Maritimo.Text = "" Then
+            txtNomeExportador_Maritimo.Text = "NULL"
         End If
         Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =1 and (NM_RAZAO like '%" & txtNomeExportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
@@ -3107,6 +3119,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoMaritimo.Visible = True
             lblErro_BasicoMaritimo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeExportador_Maritimo.Text = txtNomeExportador_Maritimo.Text.Replace("NULL", "")
+
     End Sub
     Private Sub txtNomeExportador_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeExportador_Aereo.TextChanged
         divErro_BasicoAereo.Visible = False
@@ -3128,5 +3142,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divErro_BasicoAereo.Visible = True
             lblErro_BasicoAereo.Text = "Parceiro não encontrado!"
         End If
+        txtNomeExportador_Aereo.Text = txtNomeExportador_Aereo.Text.Replace("NULL", "")
+
     End Sub
 End Class

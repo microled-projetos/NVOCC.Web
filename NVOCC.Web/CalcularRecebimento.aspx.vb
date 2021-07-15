@@ -73,8 +73,13 @@ FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
                 Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                 Dim DATA As Date
-                If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) Then
+                    lblErro.Text = "PROCESSO SEM DATA DE CHEGADA CADASTRADA"
+                    divErro.Visible = True
+                    Exit Sub
+                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
                     DATA = Now.Date.ToString("dd-MM-yyyy")
+
                 ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
                     DATA = ds1.Tables(0).Rows(0).Item("DT_CHEGADA").ToString
 

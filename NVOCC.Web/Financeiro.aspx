@@ -58,9 +58,9 @@
                             <asp:Label ID="Label2" runat="server">FILTRO:</asp:Label>
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" Font-Size="15px">
-                                   <asp:ListItem Value="1" Selected="True">Número do Master</asp:ListItem>
+                                   <asp:ListItem Value="1">Número do Master</asp:ListItem>
                                    <asp:ListItem Value="2">Número do processo</asp:ListItem>
-                                   <asp:ListItem Value="3">Todos em aberto</asp:ListItem>
+                                   <asp:ListItem Value="3" Selected="True">Todos em aberto</asp:ListItem>
                                </asp:DropDownList>
                            </div>
 

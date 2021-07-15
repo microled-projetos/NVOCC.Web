@@ -15,6 +15,7 @@ using System.Configuration;
 using Newtonsoft.Json;
 using ABAINFRA.Web.Classes;
 
+
 namespace ABAINFRA.Web
 {
     /// <summary>
@@ -27,7 +28,6 @@ namespace ABAINFRA.Web
     [System.Web.Script.Services.ScriptService]
     public class DemurrageService : System.Web.Services.WebService
     {
-
         [WebMethod]
         public string ListarWeek()
         {
@@ -3815,7 +3815,7 @@ namespace ABAINFRA.Web
         public string BuscarCourrier(int id)
         {
             string SQL;
-            SQL = "SELECT BL.NR_PROCESSO, BL.ID_BL_MASTER, BL.ID_BL, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
+            SQL = "SELECT BL.NR_PROCESSO, M.NR_BL AS MASTER, BL.NR_BL AS HOUSE, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
             SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, ";
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, ";
             SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
@@ -3832,8 +3832,8 @@ namespace ABAINFRA.Web
 
             resultado.NR_PROCESSO = carregarDados.Rows[0]["NR_PROCESSO"].ToString();
             resultado.NM_RAZAO = carregarDados.Rows[0]["CLIENTE"].ToString();
-            resultado.ID_BL = id.ToString();
-            resultado.ID_BL_MASTER = carregarDados.Rows[0]["ID_BL_MASTER"].ToString();
+            resultado.NR_BL = carregarDados.Rows[0]["HOUSE"].ToString();
+            resultado.NR_BL_MASTER = carregarDados.Rows[0]["MASTER"].ToString();
             resultado.DT_RECEBIMENTO_MBL = carregarDados.Rows[0]["DT_RECEBIMENTO_MBL"].ToString();
             resultado.CD_RASTREAMENTO_MBL = carregarDados.Rows[0]["CD_RASTREAMENTO_MBL"].ToString();
             resultado.DT_RECEBIMENTO_HBL = carregarDados.Rows[0]["DT_RECEBIMENTO_HBL"].ToString();
@@ -3891,5 +3891,1039 @@ namespace ABAINFRA.Web
             return "1";
             
         }
+
+        [WebMethod]
+        public string listarTOTVSNotaDespesa(string dataI, string dataF, string situacao, string nota)
+        {
+            switch(situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "AND DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
+                    break;
+            }
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT NR_NOTA, TP_NOTA, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, VL_NOTA, ";
+            SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_DESPESA,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_DESPESA, ";
+            SQL += "NR_PROCESSO, NR_REFERENCIA_CLIENTE ";
+            SQL += "FROM dbo.FN_NOTA_DESPESA(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            SQL += "WHERE NR_NOTA IS NOT NULL ";
+            SQL += "" + situacao + "";
+            SQL += "AND NR_NOTA LIKE '" + nota + "%' ";
+            SQL += "ORDER BY NR_NOTA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaDespesaCLI(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
+            SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "FROM dbo.FN_NOTA_DESPESA_CLI(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] cli = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
+                cli[i] += fmtTotvs("01", 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
+                cli[i] += fmtTotvs("F", 1);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
+                cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
+                cli[i] += fmtTotvs("1.01.010", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
+                cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
+                cli[i] += fmtTotvs("", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
+                cli[i] += fmtTotvs("", 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
+                cli[i] += fmtTotvs("", 20);
+            }
+            return JsonConvert.SerializeObject(cli);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaDespesaREC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
+            SQL += "FROM dbo.FN_NOTA_DESPESA_REC(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] rec = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                rec[i] += fmtTotvs("01", 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
+                rec[i] += fmtTotvs("", 10);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvs("I", 1);
+                rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+            }
+            return JsonConvert.SerializeObject(rec);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaServico(string dataI, string dataF, string situacao)
+        {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "AND DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
+                    break;
+            }
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT NR_NOTA, TP_NOTA, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, VL_NOTA, ";
+            SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_SERVICO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_SERVICO, ";
+            SQL += "NR_PROCESSO, NR_REFERENCIA_CLIENTE ";
+            SQL += "FROM dbo.FN_NOTA_SERVICO(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            SQL += "WHERE NR_NOTA IS NOT NULL ";
+            SQL += "" + situacao + "";
+            SQL += "ORDER BY NR_NOTA ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaServicoCLI(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
+            SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "FROM dbo.FN_NOTA_SERVICO_CLI(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] cli = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
+                cli[i] += fmtTotvs("01", 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
+                cli[i] += fmtTotvs("F", 1);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
+                cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
+                cli[i] += fmtTotvs("1.01.010", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
+                cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
+                cli[i] += fmtTotvs("", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
+                cli[i] += fmtTotvs("", 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
+                cli[i] += fmtTotvs("", 20);
+            }
+            return JsonConvert.SerializeObject(cli);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaServicoNOTA(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT DOC, SERIE, CLIENTE, LOJA, COND, DUPL, EMISSAO, EST, FRETE, SEGURO, TIPOCLI, ";
+            SQL += "VALBRUT, VALIPI, BASEIPI, VALMERC, NFORI, SERIORI, TIPO, ESPEC1, VOLUME1, ICMSRET, PLIQUI, ";
+            SQL += "PBRUTO, TRANSP, FILIAL, BASEISS, VALISS, VALFAT, ESPECIE, PREFIXO, BASIMP5, BASIMP6, VALIMP5, VALIMP6, VALINSS, ";
+            SQL += "HORA, BASEINS, MOEDA, VALCOFI, VALCSLL, VALPIS, DTDIGIT, RECISS, NFELETR, EMINFE, CREDNFE, CODNFE, TPNFEXP, CLIENT, ";
+            SQL += "LOJENT, CHVNFE, TPFRETE, HORNFE, XCNPJ ";
+            SQL += "FROM dbo.FN_NOTA_SERVICO_NOTA(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] nota = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                nota[i] += fmtTotvs(listTable.Rows[i]["DOC"].ToString(), 9);
+                nota[i] += fmtTotvs(listTable.Rows[i]["SERIE"].ToString(), 3);
+                nota[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                nota[i] += fmtTotvs("01", 2);
+                nota[i] += fmtTotvs("001", 3);
+                nota[i] += fmtTotvs(listTable.Rows[i]["DUPL"].ToString(), 9);
+                nota[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                nota[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvs("F", 1);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                nota[i] += fmtTotvs("", 9);
+                nota[i] += fmtTotvs("", 3);
+                nota[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
+                nota[i] += fmtTotvs("", 10);
+                nota[i] += fmtTotvsNum("0", 6, 0);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("0", 9, 2);
+                nota[i] += fmtTotvsNum("0", 9, 2);
+                nota[i] += fmtTotvs("", 6);
+                nota[i] += fmtTotvs("02", 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALISS"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                nota[i] += fmtTotvs(listTable.Rows[i]["ESPECIE"].ToString(), 5);
+                nota[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP5"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP6"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP5"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP6"].ToString(), 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvs(listTable.Rows[i]["HORA"].ToString(), 5);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("1", 2, 0);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvsNum("0", 14, 2);
+                nota[i] += fmtTotvs(listTable.Rows[i]["DTDIGIT"].ToString(), 10);
+                nota[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
+                nota[i] += fmtTotvs("", 20);
+                nota[i] += fmtTotvs("", 8);
+                nota[i] += fmtTotvsNum("0", 16, 2);
+                nota[i] += fmtTotvs("", 50);
+                nota[i] += fmtTotvs("", 1);
+                nota[i] += fmtTotvs("", 7);
+                nota[i] += fmtTotvs("", 2);
+                nota[i] += fmtTotvs("", 44);
+                nota[i] += fmtTotvs("", 1);
+                nota[i] += fmtTotvs("", 8);
+                nota[i] += fmtTotvs(listTable.Rows[i]["XCNPJ"].ToString(), 14);
+            }
+            return JsonConvert.SerializeObject(nota);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaServicoNOTITE(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT FILIAL, COD, UM, SEGUM, QUANT, PRCVEN, TOTAL, VALIPI, VALICM, TES, CF, ";
+            SQL += "IPI, PESO, CONTA, PEDIDO, ITEMPV, CLIENTE, LOJA, LOCAL, DOC, EMISSAO, GRUPO, ";
+            SQL += "TP, SERIE, CUSTO1, EST, TIPO, NFORI, SERIORI, QTDEDEV, ITEM, CODISS, CLASFIS, BASIMP5, BASIMP6, ";
+            SQL += "VALIMP5, VALIMP6, ITEMORI, ALIQINS, ALIQISS, BASEINS, BASEIPI, BASEISS, CCUSTO, ITEMCC, ALQIMP5, DTDIGIT, VALISS, ALQIMP6 ";
+            SQL += "FROM dbo.FN_NOTA_SERVICO_NOTITE(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] notite = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                notite[i] += fmtTotvs("02", 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 15);
+                notite[i] += fmtTotvs("SV", 2);
+                notite[i] += fmtTotvs("SV", 2);
+                notite[i] += fmtTotvsNum("1", 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["PRCVEN"].ToString(), 16, 8);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["TOTAL"].ToString(), 14, 2);
+                notite[i] += fmtTotvsNum("0", 14, 2);
+                notite[i] += fmtTotvsNum("0", 14, 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["TES"].ToString(), 3);
+                notite[i] += fmtTotvs(listTable.Rows[i]["CF"].ToString(), 5);
+                notite[i] += fmtTotvsNum("0", 5, 2);
+                notite[i] += fmtTotvsNum("0", 10, 3);
+                notite[i] += fmtTotvs("", 20);
+                notite[i] += fmtTotvs("", 6);
+                notite[i] += fmtTotvs("", 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                notite[i] += fmtTotvs("01", 2);
+                notite[i] += fmtTotvs("01", 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["DOC"].ToString(), 9);
+                notite[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                notite[i] += fmtTotvs("", 4);
+                notite[i] += fmtTotvs("", 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["SERIE"].ToString(), 3);
+                notite[i] += fmtTotvsNum("0", 14, 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
+                notite[i] += fmtTotvs("", 9);
+                notite[i] += fmtTotvs("", 3);
+                notite[i] += fmtTotvsNum("0", 14, 5);
+                notite[i] += fmtTotvs("01", 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["CODISS"].ToString(), 8);
+                notite[i] += fmtTotvs(listTable.Rows[i]["CLASFIS"].ToString(), 3);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP5"].ToString(), 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP6"].ToString(), 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP5"].ToString(), 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP6"].ToString(), 14, 2);
+                notite[i] += fmtTotvs("", 4);
+                notite[i] += fmtTotvsNum("0", 5, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["ALIQISS"].ToString(), 5, 2);
+                notite[i] += fmtTotvsNum("0", 14, 2);
+                notite[i] += fmtTotvsNum("0", 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["BASEISS"].ToString(), 14, 2);
+                notite[i] += fmtTotvs("500", 9);
+                notite[i] += fmtTotvs("", 15);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["ALQIMP5"].ToString(), 6, 2);
+                notite[i] += fmtTotvs(listTable.Rows[i]["DTDIGIT"].ToString(), 10);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["VALISS"].ToString(), 14, 2);
+                notite[i] += fmtTotvsNum(listTable.Rows[i]["ALQIMP6"].ToString(), 6, 2);
+            }
+            return JsonConvert.SerializeObject(notite);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSNotaServicoREC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA ";
+            SQL += "FROM dbo.FN_NOTA_SERVICO_REC(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] rec = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                rec[i] += fmtTotvs("01", 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
+                rec[i] += fmtTotvs("", 10);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvs("I", 1);
+                rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+            }
+            return JsonConvert.SerializeObject(rec);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvCredit(string dataI, string dataF, string situacao, string nota)
+        {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT NR_CONTRATO, TP_CONTRATO, FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, VL_LIQUIDO, ";
+            SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO, ";
+            SQL += "NR_PROCESSO, NR_REFERENCIA_CLIENTE ";
+            SQL += "FROM dbo.FN_INV_CREDIT(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            SQL += "WHERE NR_CONTRATO IS NOT NULL ";
+            SQL += "" + situacao + "";
+            SQL += "AND NR_CONTRATO LIKE '" + nota + "%' ";
+            SQL += "ORDER BY NR_CONTRATO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvCreditCLI(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
+            SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "FROM dbo.FN_INV_CREDIT_CLI(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if(listTable != null) { 
+                string[] cli = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
+                    cli[i] += fmtTotvs("01", 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
+                    cli[i] += fmtTotvs("F", 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
+                    cli[i] += fmtTotvs("1.01.010", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
+                    cli[i] += fmtTotvs("", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
+                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
+                    cli[i] += fmtTotvs("", 20);
+                }
+                return JsonConvert.SerializeObject(cli);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvCreditREC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
+            SQL += "FROM dbo.FN_INV_CREDIT_REC(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] rec = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                rec[i] += fmtTotvs("01", 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
+                rec[i] += fmtTotvs("", 10);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvs("I", 1);
+                rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+
+            }
+            return JsonConvert.SerializeObject(rec);
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvDebit(string dataI, string dataF, string situacao, string nota, string filter)
+        {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '"+nota+"%' ";
+                    break;
+
+                case "2":
+                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, ";
+            SQL += "ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy HH:mm:ss'),'') AS DT_EXPORTACAO, ISNULL(NM_CLIENTE,'') AS NM_CLIENTE, NM_ITEM_DESPESA, VL_LIQUIDO, NR_DOCUMENTO ";
+            SQL += "FROM dbo.FN_INV_DEBIT(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
+            SQL += "" + situacao + " ";
+            SQL += "" + nota + " ";
+            SQL += "ORDER BY FORMAT(DT_PAGAMENTO,'dd/MM/yyyy'), NR_PROCESSO";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvDebitFornec(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT XPROD, COD, LOJA, NOME, NREDUZ, END1, ";
+            SQL += "BAIRRO, EST, COD_MUN, CEP, TIPO, CGC, TEL, INSCR, INSCRM, EMAIL, DDD, ";
+            SQL += "NATUREZ, CODPAIS, CONTATO, SIMPNAC ";
+            SQL += "FROM dbo.FN_DEBIT_CLI(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable != null)
+            {
+                string[] cli = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    cli[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 3);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 7);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["END1"].ToString(), 40);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 50);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["INSCR"].ToString(), 18);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
+                    cli[i] += fmtTotvs("", 30);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["DDD"].ToString(), 3);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CODPIAS"].ToString(), 5);
+                    cli[i] += fmtTotvs("", 15);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 20);
+                }
+                return JsonConvert.SerializeObject(cli);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod]
+        public string listarTOTVSInvDebitREC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, ISNULL(FORMAT(EMISSAO,'dd/MM/yyyy') AS EMISSAO, ";
+            SQL += "ISNULL(FORMAT(VENCTO,'dd/MM/yyyy') AS VENCTO, ISNULL(FORMAT(VENCREA,'dd/MM/yyyy') AS VENCREA, ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "FROM dbo.FN_INV_DEBIT_REC(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable != null)
+            {
+                string[] rec = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                    rec[i] += fmtTotvs("01", 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
+                    rec[i] += fmtTotvs("", 10);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
+                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
+                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvs("I", 1);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+
+                }
+                return JsonConvert.SerializeObject(rec);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("erro");
+            }
+        }
+
+        [WebMethod]
+        public string listarTOTVSPA(string dataI, string dataF, string situacao, string nota, string filter)
+        {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+
+                case "2":
+                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO , ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, ";
+            SQL += "FORMAT(DT_EXPORTACAO,'dd/MM/yyyy') AS DT_EXPORTACAO, NM_CLIENTE, NM_ITEM_DESPESA, VL_LIQUIDO, VL_ISS ";
+            SQL += "FROM dbo.FN_PA(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
+            SQL += "" + situacao + " ";
+            SQL += "" + nota + " ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string listarTOTVSPAFORNEC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
+            SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "FROM dbo.FN_DEBIT_CLI(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] cli = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
+                cli[i] += fmtTotvs("01", 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
+                cli[i] += fmtTotvs("F", 1);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
+                cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
+                cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
+                cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
+                cli[i] += fmtTotvs("1.01.010", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
+                cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
+                cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
+                cli[i] += fmtTotvs("", 10);
+                cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
+                cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
+                cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
+                cli[i] += fmtTotvs("", 20);
+                cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
+                cli[i] += fmtTotvs("", 20);
+            }
+            return JsonConvert.SerializeObject(cli);
+        }
+
+        [WebMethod]
+        public string listarTOTVSPAREC(string dataI, string dataF)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+
+            SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
+            SQL += "FROM dbo.FN_INV_DEBIT_REC(";
+            SQL += "'" + dataI + "','" + dataF + "'";
+            SQL += ")";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string[] rec = new string[listTable.Rows.Count];
+            for (int i = 0; i < listTable.Rows.Count; i++)
+            {
+                rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
+                rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
+                rec[i] += fmtTotvs("01", 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
+                rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
+                rec[i] += fmtTotvs("", 10);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvsNum("0", 14, 2);
+                rec[i] += fmtTotvs("I", 1);
+                rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+
+            }
+            return JsonConvert.SerializeObject(rec);
+        }
+
+
+
+        public static string fmtDecV(double campo, int decimais)
+        {
+            if (string.IsNullOrEmpty(campo.ToString())) { campo = 0; }
+
+            string novocampo = campo.ToString();
+
+            if (decimais == 2) { novocampo = String.Format("{0:#0.00}", campo); }
+            if (decimais == 0) { novocampo = String.Format("{0:#0.}", campo); }
+            if (decimais == 1) { novocampo = String.Format("{0:#0.0}", campo); }
+            if (decimais == 3) { novocampo = String.Format("{0:#0.000}", campo); }
+            if (decimais == 4) { novocampo = String.Format("{0:#0.0000}", campo); }
+            if (decimais == 5) { novocampo = String.Format("{0:#0.00000}", campo); }
+            if (decimais == 6) { novocampo = String.Format("{0:#0.000000}", campo); }
+            if (decimais == 7) { novocampo = String.Format("{0:#0.0000000}", campo); }
+            if (decimais == 8) { novocampo = String.Format("{0:#0.00000000}", campo); }
+            if (decimais == 9) { novocampo = String.Format("{0:#0.000000000}", campo); }
+
+            return novocampo;
+        }
+
+        public static double cvDoub(string campo)
+        {
+            if (string.IsNullOrEmpty(campo)) { return 0; }
+            if (campo == "") { return 0; }
+
+            return Convert.ToDouble(campo);
+        }
+
+
+        public static string fmtPlanilha(string campo)
+        {
+            campo = campo.ToUpper();
+            campo = campo.Replace(";", ",");
+            campo = campo.Replace("Á", "A");
+            campo = campo.Replace("À", "A");
+            campo = campo.Replace("Ã", "A");
+            campo = campo.Replace("Â", "A");
+            campo = campo.Replace("Ä", "A");
+            campo = campo.Replace("É", "E");
+            campo = campo.Replace("Ê", "E");
+            campo = campo.Replace("È", "E");
+            campo = campo.Replace("Ë", "E");
+            campo = campo.Replace("Í", "I");
+            campo = campo.Replace("Ì", "I");
+            campo = campo.Replace("Î", "I");
+            campo = campo.Replace("Ï", "I");
+            campo = campo.Replace("Ó", "O");
+            campo = campo.Replace("Õ", "O");
+            campo = campo.Replace("Ô", "O");
+            campo = campo.Replace("Ò", "O");
+            campo = campo.Replace("Ö", "O");
+            campo = campo.Replace("Ú", "U");
+            campo = campo.Replace("Û", "U");
+            campo = campo.Replace("Ù", "U");
+            campo = campo.Replace("Ü", "U");
+            campo = campo.Replace(";", ",");
+            campo = campo.Replace("[", "(");
+            campo = campo.Replace("]", ")");
+            campo = System.Text.RegularExpressions.Regex.Replace(campo, "[^0-9A-Z Ç/.,:*º&_<>{}()%=+$#@|!-]+", "");
+            //
+            return campo;
+        }
+        public static string fmtTotvsNum(string campo, int tam, int Decimais)
+        {
+
+            if (string.IsNullOrEmpty(campo)) { campo = "0"; }
+            if (campo == "") { campo = "0"; }
+            campo = fmtDecV(cvDoub(campo), Decimais);
+            if (campo.Length < tam)
+            {
+                return campo + ";";
+            }
+            return campo.Substring(0, tam) + ";";
+        }
+
+
+
+        public static string fmtTotvs(string campo, int tam)
+        {
+            if (string.IsNullOrEmpty(campo)) { return ";"; }
+            if (campo == "") { return ";"; }
+            campo = fmtPlanilha(campo);
+            if (campo.Length < tam)
+            {
+                return "'" + campo + "';";
+            }
+            return "'" + campo.Substring(0, tam) + "';";
+        }
+
+
+
+        
     }
 }

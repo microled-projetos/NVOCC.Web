@@ -262,14 +262,14 @@ WHERE DT_CANCELAMENTO IS NULL)")
             End If
 
             If ddlFiltro.SelectedValue = 1 Then
-                filtro = " AND A.NR_INVOICE LIKE '%" & txtPesquisa.Text & " %'"
+                filtro = " AND A.NR_INVOICE LIKE '%" & txtPesquisa.Text & "%'"
 
             ElseIf ddlFiltro.SelectedValue = 2 Then
-                filtro = " AND B.NR_PROCESSO LIKE '%" & txtPesquisa.Text & " %'"
+                filtro = " AND B.NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 3 Then
-                filtro = " AND B.NR_BL LIKE '%" & txtPesquisa.Text & " %'"
+                filtro = " AND B.NR_BL LIKE '%" & txtPesquisa.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 4 Then
-                filtro = " AND A.NM_AGENTE LIKE '%" & txtPesquisa.Text & " %'"
+                filtro = " AND A.NM_AGENTE LIKE '%" & txtPesquisa.Text & "%'"
             End If
 
 

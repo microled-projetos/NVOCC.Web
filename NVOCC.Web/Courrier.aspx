@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <button type="button" id="btnConsulta" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsulta" onclick="listarCourrier()" class="btn btn-primary">Consultar</button>
                                         <button type="button" id="btnGerarCSV" onclick="GerarCSV('Courrier.csv')" class="btn btn-primary">Gerar Arquivo CSV</button>
                                     </div>
                                 </div>
@@ -62,6 +62,7 @@
                                 <table id="courrierExport" class="table tablecont">
                                     <thead>
                                         <tr>
+                                            <th class="text-center" scope="col">&nbsp;</th>
                                             <th class="text-center" scope="col">PROCESSO</th>
                                             <th class="text-center" scope="col">MBL</th>
                                             <th class="text-center" scope="col">HBL</th>
@@ -78,7 +79,6 @@
                                             <th class="text-center" scope="col">DATA CHEGADA</th>
                                             <th class="text-center" scope="col">FATURA</th>
                                             <th class="text-center" scope="col">TIPO</th>
-                                            <th class="text-center" scope="col">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody id="containerCourrier">
@@ -125,6 +125,14 @@
                                                     <div class="form-group">
                                                         <label class="control-label">HBL:</label>
                                                         <input id="idhbl" class="nobox" type="text" disabled="disabled"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-sm-offset-9">
+                                                    <div class="form-group">
+                                                        <input type="checkbox" id="checkOrigem" name="Origem" onchange="flagOrigem()"/>
+                                                        <label for="Origem">Origem</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,7 +184,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" id="btnEditarCourrier" class="btn btn-success">Editar Courrier</button>
+                                            <button type="button" id="btnEditarCourrier" class="btn btn-success">Salvar</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
@@ -195,53 +203,15 @@
         var stringConsulta;
         var tipo;
         var tipoValue;
+        var idblC;
         $(document).ready(function () {
-            idFiltro = document.getElementById("MainContent_ddlFiltro").value;
-            stringConsulta = document.getElementById("txtConsulta").value;
-            tipo = document.getElementById("MainContent_chkFCL");
-            tipoValue;
-            if (tipo.checked) {
-                tipoValue = "1";
-            }
-            else {
-                tipoValue = "0";
-            }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarCourrier",
-                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#containerCourrier").empty();
-                    $("#containerCourrier").append("<tr><td colspan='17'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        $("#containerCourrier").empty();
-                        for (let i = 0; i < dado.length; i++) {
-                            $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ID_BL"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td></tr>");
-                        }
-                    }
-                    else {
-                        $("#containerCourrier").empty();
-                        $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='17' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                    }
-                }
-            })
+            listarCourrier();
         });
 
        
 
         function BuscarCourrier(id) {
+            idblC = id;
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/BuscarCourrier",
@@ -253,19 +223,51 @@
                     data = $.parseJSON(data);
                     document.getElementById('nrprocesso').value = data.NR_PROCESSO;
                     document.getElementById('nmcliente').value = data.NM_RAZAO;
-                    document.getElementById('idmbl').value = data.ID_BL_MASTER;
-                    document.getElementById('idhbl').value = data.ID_BL;
+                    document.getElementById('idmbl').value = data.NR_BL_MASTER;
+                    document.getElementById('idhbl').value = data.NR_BL;
                     document.getElementById('dtRecebimentoMBL').value = data.DT_RECEBIMENTO_MBL;
                     document.getElementById('cdRastreamentoMBL').value = data.CD_RASTREAMENTO_MBL;
                     document.getElementById('dtRecebimentoHBL').value = data.DT_RECEBIMENTO_HBL;
                     document.getElementById('cdRastreamentoHBL').value = data.CD_RASTREAMENTO_HBL;
                     document.getElementById('dtRetirada').value = data.DT_RETIRADA_COURRIER;
                     document.getElementById('receptor').value = data.NM_RETIRADO_POR_COURRIER;
-                    document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;                    
+                    document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;
+                    if (data.CD_RASTREAMENTO_HBL == "ORIGEM") {
+                        document.getElementById('dtRecebimentoHBL').disabled = true;
+                        document.getElementById('cdRastreamentoHBL').disabled = true;
+                        document.getElementById('dtRetirada').disabled = true;
+                        document.getElementById('receptor').disabled = true;
+                        document.getElementById("checkOrigem").checked = true;
+                        document.getElementById("checkOrigem").disabled = true;
+                    } else {
+                        document.getElementById('dtRecebimentoHBL').disabled = false;
+                        document.getElementById('cdRastreamentoHBL').disabled = false;
+                        document.getElementById('dtRetirada').disabled = false;
+                        document.getElementById('receptor').disabled = false;
+                        document.getElementById("checkOrigem").checked = false;
+                        document.getElementById("checkOrigem").disabled = false;
+                    }
                 }
             })
         }
-        $("#btnConsulta").click(function () {
+
+        function flagOrigem() {
+            if (document.getElementById("checkOrigem").checked) {
+                document.getElementById('dtRecebimentoHBL').disabled = true;
+                document.getElementById('cdRastreamentoHBL').disabled = true;
+                document.getElementById('dtRetirada').disabled = true;
+                document.getElementById('receptor').disabled = true;
+                document.getElementById('cdRastreamentoHBL').value = "ORIGEM";
+            } else{
+                document.getElementById('dtRecebimentoHBL').disabled = false;
+                document.getElementById('cdRastreamentoHBL').disabled = false;
+                document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('receptor').disabled = false;
+                document.getElementById('cdRastreamentoHBL').value = "";
+            }
+        }
+
+        function listarCourrier() {
             idFiltro = document.getElementById("MainContent_ddlFiltro").value;
             stringConsulta = document.getElementById("txtConsulta").value;
             tipo = document.getElementById("MainContent_chkFCL");
@@ -276,10 +278,10 @@
             else {
                 tipoValue = "0";
             }
-            
+
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/listarCourrierFiltrada",
+                url: "DemurrageService.asmx/listarCourrier",
                 contentType: "application/json; charset=utf-8",
                 data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
                 dataType: "json",
@@ -293,13 +295,14 @@
                     if (dado != null) {
                         $("#containerCourrier").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ID_BL"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
+                            $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
+                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["MASTER"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["HOUSE"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] +"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["NM_NAVIO"] +"' style='max-width: 14ch;'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td></tr>");
+                                "</tr>");
                         }
                     }
                     else {
@@ -308,7 +311,8 @@
                     }
                 }
             })
-        })
+        }
+
         $("#btnEditarCourrier").click(function () {
             $("#modalEditCourrier").modal("hide");
             idFiltro = document.getElementById("MainContent_ddlFiltro").value;
@@ -322,8 +326,9 @@
                 tipoValue = "0";
             }
             var dadoEdit = {
-                "ID_BL_MASTER": document.getElementById("idmbl").value,
-                "ID_BL": document.getElementById('idhbl').value,
+                "ID_BL": idblC,
+                "NR_BL_MASTER": document.getElementById("idmbl").value,
+                "NR_BL": document.getElementById('idhbl').value,
                 "DT_RECEBIMENTO_MBL": document.getElementById('dtRecebimentoMBL').value,
                 "CD_RASTREAMENTO_MBL": document.getElementById('cdRastreamentoMBL').value,
                 "DT_RECEBIMENTO_HBL": document.getElementById('dtRecebimentoHBL').value,
@@ -343,72 +348,12 @@
                     dado = $.parseJSON(dado);
                     if (dado == "1") {
                         $("#msgSuccessUpdate").fadeIn(500).delay(1000).fadeOut(500);
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/listarCourrier",
-                            data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#containerCourrier").empty();
-                                $("#containerCourrier").append("<tr><td colspan='17'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#containerCourrier").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["ID_BL"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                            "<td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td></tr>");
-                                    }
-                                }
-                                else {
-                                    $("#containerCourrier").empty();
-                                    $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='17' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                }
-                            }
-                        })
+                        listarCourrier();
                     }
                     else {
                         $("#msgErrUpdate").fadeIn(500).delay(1000).fadeOut(500);
                         $("#containerCourrier").empty();
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/listarCourrier",
-                            data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#containerCourrier").empty();
-                                $("#containerCourrier").append("<tr><td colspan='17'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#containerCourrier").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["ID_BL"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                            "<td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td></tr>");
-                                    }
-                                }
-                                else {
-                                    $("#containerCourrier").empty();
-                                    $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='17' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                }
-                            }
-                        })
+                        listarCourrier();
                     }
                 }
             })
