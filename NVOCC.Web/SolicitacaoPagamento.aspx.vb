@@ -26,6 +26,8 @@
                             lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL")
                         ElseIf ds1.Tables(0).Rows(0).Item("GRAU") = "C" Then
                             lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL_MASTER")
+                            lblID_MBL.Text = ds1.Tables(0).Rows(0).Item("ID_BL_MASTER")
+
                         End If
 
                     End If
@@ -44,11 +46,11 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 
 
-            dsTaxas.SelectParameters("ID_BL").DefaultValue = txtID_BL.Text
+            dsTaxas.SelectParameters("ID_BL").DefaultValue = lblID_MBL.Text
             dgvTaxas.DataBind()
             divgrids.Visible = True
 
@@ -56,7 +58,7 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
-                Dim valor2 As Double = lblTotal.Text
+                Dim valor2 As Decimal = lblTotal.Text
                 Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
 
                 If check.Checked Then
@@ -102,8 +104,8 @@ WHERE  (ID_BL = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA =
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
-            Dim valor2 As Double = lblTotal.Text
+            Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+            Dim valor2 As Decimal = lblTotal.Text
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
 
             If check.Checked Then

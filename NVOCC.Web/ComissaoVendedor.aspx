@@ -47,12 +47,15 @@
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                <asp:ListItem Value="1">Vendedor(a)</asp:ListItem>
+                                                <asp:ListItem Value="3" Selected="True">Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="4">Sub Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="5">Equipe Inside</asp:ListItem>
+                                                <asp:ListItem Value="1">Nome</asp:ListItem>
                                                 <asp:ListItem Value="2">Número do processo</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
                                     </div>
+                                   
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:Label ID="Label4" Style="padding-left: 35px" runat="server"></asp:Label>
@@ -66,6 +69,16 @@
                                             <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
+                                    <%-- <div class="col-sm-2">
+
+                                        <div class="form-group">
+                                            <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                                <asp:ListItem Value="1" Selected="True">&nbsp;Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="2">&nbsp;Sub Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="3">&nbsp;Equipe Inside Sales</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>--%>
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <asp:Label ID="Label3" runat="server"></asp:Label><br />

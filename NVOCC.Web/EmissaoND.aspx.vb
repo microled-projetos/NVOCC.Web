@@ -125,7 +125,7 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
 
                 Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
-(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES
+(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,VL_TAXA_CALCULADO
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
@@ -142,11 +142,11 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                     For Each linha As DataRow In dsTaxas.Tables(0).Rows
                         tabela &= "<tr><td style='padding-left:10px;padding-right:10px''>" & linha("ITEM_DESPESA") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_CALCULADO") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CAMBIO") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td></tr>"
 
-                        valores = valores + linha("VALORES")
+                        valores = valores + linha("VL_LANCAMENTO")
 
 
                     Next

@@ -17,9 +17,9 @@
         Else
             If Request.QueryString("id") <> "" Then
                 txtID_BL.Text = Request.QueryString("id")
-                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_PROCESSO FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then
-                    lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_BL")
+                    lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
                 txtCambio.Text = Now.Date.ToString("dd-MM-yyyy")
 
@@ -451,7 +451,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                                 Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS)SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR,VL_TAXA_BR,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
                             Else
 
-                                Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR,VL_TAXA_BR  - (" & desconto_final & "), ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                                Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR,VL_TAXA_BR, ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
                             End If
                         Else
                             Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,VL_PIS,VL_COFINS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR,VL_TAXA_BR,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA, " & ISS_final & "," & PIS_final & " ," & COFINS_final & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
@@ -493,7 +493,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             Dim valor As Decimal = CType(linha.FindControl("lblValorBR"), Label).Text
             Dim valor2 As Decimal = txtValor.Text
 
-            If check.Checked Then
+            If check.Checked = True Then
                 'i = i + 1
                 txtValor.Text = valor2 + valor
 
@@ -547,7 +547,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
             ckbSelecionar.Checked = True
-            Dim valor As Double = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
+            Dim valor As Double = CType(Me.dgvTaxas.Rows(i).FindControl("lblValorBR"), Label).Text
             txtValor.Text = txtValor.Text + valor
 
             VerificaTaxas()

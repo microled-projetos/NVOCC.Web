@@ -102,19 +102,24 @@ FROM  TB_COTACAO A
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ORIGEM")) Then
                 lblOrigem.Text = ds.Tables(0).Rows(0).Item("PORTO_ORIGEM").ToString
             End If
-
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_DESTINO")) Then
                 lblDestino.Text = ds.Tables(0).Rows(0).Item("PORTO_DESTINO").ToString
             End If
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA1")) Then
-                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA1").ToString
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VIA_ROTA")) Then
+                If ds.Tables(0).Rows(0).Item("ID_VIA_ROTA") = 2 Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA1")) Then
+                        lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA1").ToString
+                    End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA2")) Then
+                        lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA2").ToString
+                    End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA3")) Then
+                        lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA3").ToString
+                    End If
+                End If
             End If
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA2")) Then
-                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA2").ToString
-            End If
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PORTO_ESCALA3")) Then
-                lblEscalas.Text &= " / " & ds.Tables(0).Rows(0).Item("PORTO_ESCALA3").ToString
-            End If
+
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VIA_ROTA")) Then
                 lblVia.Text = ds.Tables(0).Rows(0).Item("VIA_ROTA").ToString

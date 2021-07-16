@@ -374,7 +374,7 @@ Where A.ID_COTACAO = " & txtID.Text)
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                         'ID_BASE_CALCULO 34 - POR CNTR
-                        FRETE_CALCULADO = (FRETE_CALCULADO * QT_CONTAINER)
+                        '  FRETE_CALCULADO = (FRETE_CALCULADO * QT_CONTAINER)
                         If FRETE_CALCULADO < VENDA_MIN Then
                             FRETE_CALCULADO = VENDA_MIN
                         End If
@@ -574,6 +574,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
                                 z = COMPRA_MIN
                             End If
                         End If
+
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")

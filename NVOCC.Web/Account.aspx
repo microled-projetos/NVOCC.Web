@@ -468,7 +468,7 @@
                                      
                                       
                                        <div class="col-sm-12">
-                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_ACCOUNT_INVOICE_ITENS"  HeaderText="ID" Visible="False" SortExpression="ID_ACCOUNT_INVOICE_ITENS" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />

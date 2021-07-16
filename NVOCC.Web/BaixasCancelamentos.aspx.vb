@@ -40,45 +40,59 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
+
         If Request.QueryString("t") = "p" Then
-            If rdStatus.SelectedValue = 2 Then
-                For Each linha As GridViewRow In dgvTaxasPagar.Rows
-                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                    If check.Checked Then
-                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            For Each linha As GridViewRow In dgvTaxasPagar.Rows
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                If check.Checked Then
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NOT NULL  AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
+                        divErro.Visible = True
+                        Exit Sub
+                    Else
+
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "'  WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                        lblSuccess.Text = "Cancelamento realizado com sucesso!"
+                        divSuccess.Visible = True
                     End If
-                Next
-                lblSuccess.Text = "Cancelamento realizado com sucesso!"
-                divSuccess.Visible = True
-            Else
-                lblErro.Text = "Só é possivel cancelar faturas fechadas!"
-                divErro.Visible = True
-            End If
+
+                End If
+            Next
+
+
 
             dgvTaxasPagar.DataBind()
 
         ElseIf Request.QueryString("t") = "r" Then
-            If rdStatus.SelectedValue = 2 Then
-                For Each linha As GridViewRow In dgvTaxasReceber.Rows
-                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
 
-                    If check.Checked Then
-                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            For Each linha As GridViewRow In dgvTaxasReceber.Rows
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+
+                If check.Checked Then
+
+                    Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NOT NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
+                        divErro.Visible = True
+                        Exit Sub
+                    Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
+                        lblSuccess.Text = "Cancelamento realizado com sucesso!"
+                        divSuccess.Visible = True
+
                     End If
-                Next
-                lblSuccess.Text = "Cancelamento realizado com sucesso!"
-                divSuccess.Visible = True
-            Else
-                lblErro.Text = "Só é possivel cancelar faturas fechadas!"
-                divErro.Visible = True
-            End If
+
+                End If
+            Next
 
             dgvTaxasReceber.DataBind()
 
         End If
-
 
         Con.Fechar()
 

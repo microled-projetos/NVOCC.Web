@@ -37,6 +37,7 @@
                                         <div class="form-group" style="margin-bottom: 18px">
                                             <label class="control-label">NÚMERO MASTER:</label><br />
                                             <asp:Label runat="server" ID="lblMBL" CssClass="control-label" />
+                                              <asp:Label runat="server" ID="lblID_MBL" CssClass="control-label" Style="display:none" />
                                         </div>
                                     </div>
                                     <div>
@@ -222,9 +223,9 @@
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY NR_PROCESSO">
+WHERE (ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORDER BY NR_PROCESSO">
         <SelectParameters>
-            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="lblID_MBL" />
                         <asp:ControlParameter Name="ID_EMPRESA" Type="Int32" ControlID="ddlFornecedor" />
 
         </SelectParameters>
@@ -241,10 +242,10 @@ WHERE (ID_BL = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPRESA ORD
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND ID_BL = @ID_BL  AND VL_TAXA_CALCULADO>0)
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND VL_TAXA_CALCULADO > 0 AND ID_BL IN ( SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = @ID_BL))
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
          <SelectParameters>
-            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="lblID_MBL" />
         </SelectParameters>
      </asp:SqlDataSource>
 </asp:Content>

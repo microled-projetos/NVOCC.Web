@@ -238,14 +238,12 @@
                         document.getElementById('dtRetirada').disabled = true;
                         document.getElementById('receptor').disabled = true;
                         document.getElementById("checkOrigem").checked = true;
-                        document.getElementById("checkOrigem").disabled = true;
                     } else {
                         document.getElementById('dtRecebimentoHBL').disabled = false;
                         document.getElementById('cdRastreamentoHBL').disabled = false;
                         document.getElementById('dtRetirada').disabled = false;
                         document.getElementById('receptor').disabled = false;
                         document.getElementById("checkOrigem").checked = false;
-                        document.getElementById("checkOrigem").disabled = false;
                     }
                 }
             })

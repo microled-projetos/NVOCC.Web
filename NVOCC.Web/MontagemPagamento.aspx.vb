@@ -50,7 +50,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
         For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
             ckbSelecionar.Checked = True
-            Dim valor As Double = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
+            Dim valor As Decimal = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
             txtValor.Text = txtValor.Text + valor
         Next
     End Sub
@@ -107,8 +107,8 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim valor As String = CType(linha.FindControl("lblValor"), Label).Text
-            Dim valor2 As Double = txtValor.Text
+            Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+            Dim valor2 As Decimal = txtValor.Text
 
             If check.Checked Then
                 txtValor.Text = valor2 + valor

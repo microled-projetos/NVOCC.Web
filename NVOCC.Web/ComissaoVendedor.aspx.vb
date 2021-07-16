@@ -129,6 +129,12 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                 filtro = " AND PARCEIRO_VENDEDOR LIKE '%" & txtPesquisa.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 2 Then
                 filtro = " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+            ElseIf ddlFiltro.SelectedValue = 3 Then
+                filtro = " AND FL_CALC_INSIDE = 0 AND FL_CALC_SUB = 0"
+            ElseIf ddlFiltro.SelectedValue = 4 Then
+                filtro = " AND FL_CALC_SUB = 1"
+            ElseIf ddlFiltro.SelectedValue = 5 Then
+                filtro = " AND FL_CALC_INSIDE = 1"
             End If
 
             dsComissao.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
