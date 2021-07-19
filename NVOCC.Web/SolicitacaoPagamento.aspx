@@ -66,7 +66,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="col-sm-8 table-responsive tableFixHead">
+                                    <div class="col-sm-9 table-responsive tableFixHead">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -106,18 +106,16 @@
                                         </asp:GridView>
                                     </div>
 
-                                    <div class="col-sm-4 table-responsive tableFixHead">
+                                    <div class="col-sm-3 table-responsive tableFixHead">
                                         
-                                        <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
+                                        <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
                                             <Columns>
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-<%--                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
                                                 <asp:TemplateField HeaderText="Valor">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
@@ -127,16 +125,15 @@
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
 
-                                        <asp:GridView ID="dgvMoedasArmador" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoedaArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
+                                        <asp:GridView ID="dgvMoedasArmador" DataKeyNames="ID_MOEDA" DataSourceID="dsMoedaArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
                                             <Columns>
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-<%--                                                <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
                                                 <asp:TemplateField HeaderText="Valor">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
+                                               <%-- <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />--%>
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
@@ -232,13 +229,27 @@ WHERE (ID_BL_MASTER = @ID_BL) AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = @ID_EMPR
     </asp:SqlDataSource>
    
     <asp:SqlDataSource ID="dsMoedaArmador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE DT_CAMBIO = CONVERT(DATE,GETDATE(),103) AND ID_MOEDA <> 124 AND ID_ARMADOR = @ARMADOR">   
+        SelectCommand="SELECT 
+A.ID_MOEDA, A.NM_MOEDA ,CASE WHEN(SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE_ARMADOR B WHERE  ID_ARMADOR = @ARMADOR AND A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) IS NULL THEN 0
+ELSE (SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE_ARMADOR B WHERE ID_ARMADOR = @ARMADOR AND A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) END VL_TXOFICIAL
+FROM TB_MOEDA A
+WHERE 
+A.ID_MOEDA <> 124  ">   
          <SelectParameters>
                         <asp:ControlParameter Name="ARMADOR" Type="Int32" ControlID="ddlFornecedor" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE DT_CAMBIO = CONVERT(DATE,GETDATE(),103) AND ID_MOEDA <> 124">   
+        SelectCommand="SELECT 
+A.ID_MOEDA, A.NM_MOEDA ,CASE WHEN(SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE B WHERE  A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) IS NULL THEN 0
+ELSE (SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) END VL_TXOFICIAL
+FROM TB_MOEDA A
+WHERE 
+A.ID_MOEDA <> 124  ">   
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

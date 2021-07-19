@@ -236,17 +236,31 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
     End Sub
 
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
-        Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_PERCENTUAL,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " AND FL_CALC_INSIDE = 1 ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+        txtID.Text = ""
+        txtlinha.Text = ""
+        divErro.Visible = False
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoEquipeInside")
+        If txtCompetencia.Text = "" Then
+            lblmsgErro.Text = "É necessario informar a competência."
+            divErro.Visible = True
+        Else
+            If ddlFiltro.SelectedValue = 1 Then
+                filtro = " AND PARCEIRO_VENDEDOR LIKE '%" & txtPesquisa.Text & "%'"
+            ElseIf ddlFiltro.SelectedValue = 2 Then
+                filtro = " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+            ElseIf ddlFiltro.SelectedValue = 3 Then
+                filtro = " AND FL_CALC_INSIDE = 0 AND FL_CALC_SUB = 0"
+            ElseIf ddlFiltro.SelectedValue = 4 Then
+                filtro = " AND FL_CALC_SUB = 1"
+            ElseIf ddlFiltro.SelectedValue = 5 Then
+                filtro = " AND FL_CALC_INSIDE = 1"
+            End If
 
-        SQL = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_PERCENTUAL,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " AND FL_CALC_SUB = 1 ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+            Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_PERCENTUAL,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
 
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoSubVendedor")
+            Classes.Excel.exportaExcel(SQL, "NVOCC", "Comissao")
+        End If
 
-        SQL = "SELECT COMPETENCIA,NR_PROCESSO,NR_NOTAS_FISCAL,DT_NOTA_FISCAL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,TP_SERVICO,TP_VIA,TIPO_ESTUFAGEM,QT_BL,QT_CNTR,VL_COMISSAO_BASE,VL_PERCENTUAL,VL_COMISSAO_TOTAL,DT_LIQUIDACAO,DS_OBSERVACAO FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " AND FL_CALC_SUB = 0 AND FL_CALC_INSIDE = 0 ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
-
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoVendedor")
     End Sub
 
     Private Sub txtLiquidacaoInicial_TextChanged(sender As Object, e As EventArgs) Handles txtLiquidacaoInicial.TextChanged

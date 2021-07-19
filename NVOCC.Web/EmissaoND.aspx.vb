@@ -56,6 +56,10 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                     lblFatura.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
                 End If
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                    lblConhecimento.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("ORIGEM")
                 End If

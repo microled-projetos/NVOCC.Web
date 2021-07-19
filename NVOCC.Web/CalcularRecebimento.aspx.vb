@@ -111,27 +111,23 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 2 Then
 
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,ISNULL(VL_TXABERTURA,0)VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
+
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
@@ -149,29 +145,23 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblAcordo.Text = ds.Tables(0).Rows(0).Item("ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 4 Then
-
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA, DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
@@ -189,28 +179,22 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
 
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 4 Then
-
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
@@ -232,28 +216,24 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
 
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 4 Then
 
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM  TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
+
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 5 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL") = 11 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
@@ -274,15 +254,13 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
 
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
+
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
@@ -302,16 +280,14 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                                 lblSpread.Text = ds.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
 
                                 If ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 1 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 2 Then
-                                    dsMoedaFrete.SelectCommand = "SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,VL_TXABERTURA ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFrete.DataBind()
+
                                     dgvMoedaFrete.Visible = True
 
                                     dgvMoedaFreteArmador.Visible = False
 
 
                                 ElseIf ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 3 Or ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO") = 4 Then
-                                    dsMoedaFreteArmador.SelectCommand = "SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"
-                                    dgvMoedaFreteArmador.DataBind()
+
                                     dgvMoedaFreteArmador.Visible = True
 
                                     dgvMoedaFrete.Visible = False
@@ -575,69 +551,67 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                 If moeda = 124 Then
                     Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO,DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
                 Else
-                    Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_TRANSPORTADOR FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
-                    If ds.Tables(0).Rows.Count > 0 Then
-                        If ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR") = True Then
-                            For Each linhaMoedas As GridViewRow In dgvMoedaFreteArmador.Rows
-                                Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
 
-                                If MoedaFrete = moeda Then
-                                    ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
-                                    If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                                        If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                            ValorCambio = ValorCambio + spread
-                                        End If
+                    If dgvMoedaFreteArmador.Visible = True Then
+                        For Each linhaMoedas As GridViewRow In dgvMoedaFreteArmador.Rows
+                            Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
 
+                            If MoedaFrete = moeda Then
+                                ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
+                                If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                                    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
+                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                        ValorCambio = ValorCambio + spread
                                     End If
-                                    Dim valorCambioFinal As String = ValorCambio
-                                    valorCambioFinal = valorCambioFinal.Replace(".", "")
-                                    valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
                                 End If
+                                Dim valorCambioFinal As String = ValorCambio
+                                valorCambioFinal = valorCambioFinal.Replace(".", "")
+                                valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-                            Next
 
-                        Else
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
+                            End If
+
+                        Next
+
+                    Else
 
 
-                            For Each linhaMoedas As GridViewRow In dgvMoedaFrete.Rows
-                                Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
+                        For Each linhaMoedas As GridViewRow In dgvMoedaFrete.Rows
+                            Dim MoedaFrete As String = CType(linhaMoedas.FindControl("lblMoedaFrete"), Label).Text
 
-                                If MoedaFrete = moeda Then
-                                    ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
-                                    If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                                        If lblAcordo.Text = "CAMBIO PTAX + SPREAD" Then
-                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                            ValorCambio = ValorCambio + spread
-                                        End If
-
-                                        If lblAcordo.Text = "TAXA ABERTURA PTAX + SPREAD" Then
-                                            ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
-                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                            ValorCambio = ValorCambio + spread
-                                        End If
-                                        If lblAcordo.Text = "TAXA ABERTURA PTAX" Then
-                                            ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
-                                        End If
+                            If MoedaFrete = moeda Then
+                                ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
+                                If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                                    If lblAcordo.Text = "CAMBIO PTAX + SPREAD" Then
+                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                        ValorCambio = ValorCambio + spread
                                     End If
-                                    Dim valorCambioFinal As String = ValorCambio
-                                    valorCambioFinal = valorCambioFinal.Replace(".", "")
-                                    valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
+                                    If lblAcordo.Text = "TAXA ABERTURA PTAX + SPREAD" Then
+                                        ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
+                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                        ValorCambio = ValorCambio + spread
+                                    End If
+                                    If lblAcordo.Text = "TAXA ABERTURA PTAX" Then
+                                        ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
+                                    End If
                                 End If
+                                Dim valorCambioFinal As String = ValorCambio
+                                valorCambioFinal = valorCambioFinal.Replace(".", "")
+                                valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-                            Next
-                        End If
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
+                            End If
 
-
+                        Next
                     End If
-                End If
 
+
+                End If
             End If
+
         Next
         dgvTaxas.DataBind()
         VerificaTaxas()

@@ -159,11 +159,9 @@
                                         <div class="col-sm-3">
 
                                             <div class="table-responsive tableFixHead">
-                                                <asp:GridView ID="dgvMoedaFreteArmador" DataKeyNames="ID_MOEDA_FRETE_ARMADOR" DataSourceID="dsMoedaFreteArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
+                                                <asp:GridView ID="dgvMoedaFreteArmador" DataKeyNames="ID_MOEDA" DataSourceID="dsMoedaFreteArmador" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-                                                        <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
-<%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
                                                           <asp:TemplateField HeaderText="Valor" SortExpression="VL_TXOFICIAL">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
@@ -178,11 +176,10 @@
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
 
-                                                <asp:GridView ID="dgvMoedaFrete" DataKeyNames="ID_MOEDA_FRETE" DataSourceID="dsMoedaFrete" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
+                                                <asp:GridView ID="dgvMoedaFrete" DataKeyNames="ID_MOEDA" DataSourceID="dsMoedaFrete" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com a data de câmbio atual." Visible="false">
                                                     <Columns>
                                                         <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
-                                                        <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />
-<%--                                                        <asp:BoundField DataField="VL_TXOFICIAL" HeaderText="Valor" SortExpression="VL_TXOFICIAL" />--%>
+
                                                     <asp:TemplateField HeaderText="Valor" SortExpression="VL_TXOFICIAL">
                                                     <ItemTemplate>
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
@@ -287,10 +284,27 @@ WHERE (ID_BL = @ID_BL OR ID_BL_MASTER = @ID_BL) AND CD_PR = 'R' AND ID_PARCEIRO_
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMoedaFreteArmador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE_ARMADOR,VL_TXOFICIAL ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE_ARMADOR A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"></asp:SqlDataSource>
+        SelectCommand="SELECT A.ID_MOEDA, A.NM_MOEDA ,CASE WHEN(SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE_ARMADOR B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) IS NULL THEN 0
+ELSE (SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE_ARMADOR B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) END VL_TXOFICIAL
+FROM TB_MOEDA A
+WHERE A.ID_MOEDA <> 124 "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsMoedaFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA_FRETE,VL_TXOFICIAL,ISNULL(VL_TXABERTURA,0)VL_TXABERTURA,VALOR_ACORDADO ,DT_CAMBIO,ID_MOEDA,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA) NM_MOEDA FROM TB_MOEDA_FRETE A WHERE A.ID_MOEDA <> 124 AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103)"></asp:SqlDataSource>
+        SelectCommand="SELECT 
+A.ID_MOEDA, A.NM_MOEDA ,CASE WHEN(SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) IS NULL THEN 0
+ELSE (SELECT B.VL_TXOFICIAL
+FROM TB_MOEDA_FRETE B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) END VL_TXOFICIAL,
+
+CASE WHEN(SELECT B.VL_TXABERTURA
+FROM TB_MOEDA_FRETE B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) IS NULL THEN 0
+ELSE (SELECT B.VL_TXABERTURA
+FROM TB_MOEDA_FRETE B WHERE A.ID_MOEDA = B.ID_MOEDA AND DT_CAMBIO = CONVERT(DATE,GETDATE(),103) ) END VL_TXABERTURA
+FROM TB_MOEDA A
+WHERE 
+A.ID_MOEDA <> 124 "></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'R' AND ID_BL = @ID_BL or ID_BL IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = @ID_BL))
