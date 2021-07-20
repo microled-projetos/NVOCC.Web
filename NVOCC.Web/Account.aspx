@@ -169,7 +169,7 @@
 
                                                                
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlRelatorios" TargetControlID="lkRelatorios" CancelControlID="btnFecharRelatorios" OkControlID="lkSOA"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlRelatorios" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -936,12 +936,12 @@
                                                                 <div class="col-sm-2">
 <div class="form-group">
      <label class="control-label">Embarque Inicial:</label>
-                                            <asp:TextBox ID="txtEmbarqueInicial" runat="server" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="txtEmbarqueInicial" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                            </div><div class="col-sm-2">
                                         <div class="form-group">
                                              <label class="control-label">Embarque Final:</label>
-                                            <asp:TextBox ID="txtEmbarqueFinal" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="txtEmbarqueFinal" runat="server" CssClass="form-control data" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                     </div>
       <div class="col-sm-offset-4 col-sm-2">
@@ -1007,6 +1007,7 @@
                                          <asp:AsyncPostBackTrigger ControlID="txtEmbarqueFinal" />
                                          <asp:PostBackTrigger ControlID="btnCSVProcessoPeriodo" />
                                          <asp:PostBackTrigger ControlID="btnRelacaoAgentes" />
+                                                <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvProcessoPeriodo" />
 
                                          
                                          </Triggers>
@@ -1128,7 +1129,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsOutrasTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO  FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />

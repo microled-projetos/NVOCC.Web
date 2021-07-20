@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+     <style>
+         #imgFundo {
+            display: none;
+        }
+         </style>
     <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -27,18 +32,18 @@
                                 <br />
 
 
-                                <div class="row linhabotao text-center" style="margin-left: 20px; border: ridge 1px;">
+                                <div class="row linhabotao text-center" style="margin-left: 20px;margin-right: 20px;border: ridge 1px;">
                                     
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">Data Vencimento:</label>
-                                            <asp:TextBox ID="txtVencimento" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
+                                            <asp:TextBox ID="txtVencimento" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
 
                            <div class="form-group">
-                                   <asp:RadioButtonList ID="rdStatus" runat="server" AutoPostBack="true" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                   <asp:RadioButtonList ID="rdStatus" runat="server" Style="margin-top:5%;margin-left: 30%; font-size: 12px; text-align: justify">
                                                         <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
                                                     </asp:RadioButtonList>      
@@ -51,18 +56,12 @@
 
                                         </div>
                                     </div>
-                                    <div class="col-sm-offset-4 col-sm-1" runat="server">
-
-                                        <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Data Liquidação:</label>
-                                            <asp:TextBox ID="txtData" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                                                            <div class="col-sm-2">
+                                    
+                                                                            <div class="col-sm-offset-6 col-sm-2">
 
                                         <div class="form-group">
                                             <br />
-                                                                                        <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
+                                                                                        <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
 
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
 
@@ -201,18 +200,26 @@
                                             <asp:label runat="server" ID="lblClienteBaixa" /></h5>
                         
                                            <h5>CONFIRMAÇÃO DA LIQUIDAÇÃO</h5>
-                                        
-                                         </div>
+                                                            <div class="row">
+                                        <div class="col-sm-offset-5 col-sm-2" runat="server">
+
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Data Liquidação:</label>
+                                            <asp:TextBox ID="txtData" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                            </div>                </div>
+                                       
                                                                                        
                                                                         
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura" />
                                                         </div>
-                                                    
+                                                  </div>    
                                                 </div>
       
-                                       </div>     </center>
+                                         </center>
                                 </asp:Panel>
 
 

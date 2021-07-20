@@ -149,6 +149,15 @@ Partial Public Class Conferencia
     Protected WithEvents dgvInvoiceMBL As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle updPainel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divHouse.
     '''</summary>
     '''<remarks>
@@ -264,6 +273,24 @@ Partial Public Class Conferencia
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblM3_House As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle dgvDevolucaoHBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvDevolucaoHBL As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dgvComissoesHBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvComissoesHBL As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle dgvOutrasTaxasHBL.

@@ -104,20 +104,19 @@
                                     <table >
             <tr>
                 <td>
-                                        <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="lblCorrespondenteBank" runat="server" /><br/>
+                                       <%-- <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="lblCorrespondenteBank" runat="server" /><br/>
                                         <strong>STANDART:</strong>&nbsp;<asp:Label ID="Label2" runat="server" /><br/>
                                         <strong>SWIFT:</strong>&nbsp;<asp:Label ID="Label4" runat="server" /><br/>
-                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label3" runat="server" /><br/>
+                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label3" runat="server" /><br/>--%>
 
                 </td>
                 <td>
-                                        <strong>BENEFICIARY BANK:</strong>&nbsp;<asp:Label ID="Label1" runat="server" /><br/>
-                                        <strong>CORRESPONDENT BANK:</strong>&nbsp;<asp:Label ID="Label5" runat="server" /><br/>
-                                        <strong>AGENCY:</strong>&nbsp;<asp:Label ID="Label6" runat="server" /><br/>
-                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="Label8" runat="server" /><br/>
-                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="Label9" runat="server" /><br/>
-                                        <strong>NAME:</strong>&nbsp;<asp:Label ID="Label10" runat="server" /><br/>
-                                        <strong>IBAN-BR:</strong>&nbsp;<asp:Label ID="Label11" runat="server" /><br/>
+<strong>BANCO:</strong> SANTANDER<br/>
+<strong>SWIFT:</strong> BSCHBRSPXXX<br/>
+<strong>AGENCY:</strong> 3297<br/>
+<strong>ACCOUNT:</strong> 130010712<br/>
+<strong>NAME:</strong> FCA COMERCIO EXTERIOR E LOGISTICA LTDA<br/>
+<strong>IBAN-BR:</strong> BR7890400888032970130010712C1<br/>
                 </td>
             </tr>
         </table>

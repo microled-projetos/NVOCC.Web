@@ -36,7 +36,7 @@
                             <div runat="server" id="divMaster">
 
                             <div class="row">
-
+                                <div class="linha-colorida">MASTER</div>
                                        <div class="col-sm-2">
                                     <div class="form-group">
                                         <strong>MBL:</strong>&nbsp;<asp:Label ID="lblMBL"  runat="server"/>
@@ -89,18 +89,15 @@
                                        <div class="col-sm-8">
                                     <div class="form-group">                                        <h5>DEVOLUÇÃO FRETE</h5>
 
-                                                                                  <asp:GridView ID="dgvDevolucaoMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                                                                  <asp:GridView ID="dgvDevolucaoMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NM_ACCOUNT_TIPO_EMISSOR" HeaderText="EMISSOR" SortExpression="NM_ACCOUNT_TIPO_EMISSOR" />
-                                                <asp:BoundField DataField="DT_INVOICE" HeaderText="DATA INVOICE" SortExpression="DT_INVOICE" />                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />             
-                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
+                                               <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />                                                     <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        
+                                                <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValorCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'  />
                                                     </ItemTemplate>
@@ -121,7 +118,7 @@
                                     <div class="form-group">
                                                                                 <h5>COMISSÕES</h5>
 
-<asp:GridView ID="dgvComissoesMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+<asp:GridView ID="dgvComissoesMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
                                                <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -150,7 +147,7 @@
                                     <div class="form-group">
                                                                                 <h5>TAXAS</h5>
 
-                                          <asp:GridView ID="dgvOutrasTaxasMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                          <asp:GridView ID="dgvOutrasTaxasMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
                                                  <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -180,7 +177,7 @@
                                        <div class="col-sm-12">
                                     <div class="form-group">
                                         <h5>INVOICES</h5>
-                                            <asp:GridView ID="dgvInvoiceMBL" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                            <asp:GridView ID="dgvInvoiceMBL" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                                 <Columns>
                                                     <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
                                                     <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
@@ -211,6 +208,10 @@
 
                         <div class="tab-pane fade" id="House">
                             <br />
+
+<asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+    <ContentTemplate>
+
                             <div runat="server" id="divHouse">
                              <div class="row">
                                                                          <div class="linha-colorida">MASTER</div>
@@ -282,13 +283,70 @@
                                         </div>
                                            </div>
                                 </div>
-<br /><br /><br />
+<br /><br /><br /><div class="row">
+                                       <div class="col-sm-8">
+                                    <div class="form-group">                                        <h5>DEVOLUÇÃO FRETE</h5>
+
+                                                                                  <asp:GridView ID="dgvDevolucaoHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
+                                            <Columns>
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        
+                                                <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValorCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>    
+                                                 <asp:TemplateField HeaderText="VALOR VENDA" SortExpression="VL_VENDA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValorVenda" runat="server" Text='<%# Eval("VL_VENDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>    
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+                                       
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+                                        </div>
+                                           </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                                                                <h5>COMISSÕES</h5>
+
+<asp:GridView ID="dgvComissoesHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
+                                            <Columns>
+                                               <asp:TemplateField HeaderText="ID" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
+             
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                          <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>         
+                                                                                           
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+                                        </div>
+                                           </div>
+                                
+                                </div>
+                                                        <br />
+
                             <div class="row">
                                        <div class="col-sm-12">
                                     <div class="form-group">
                                                                                 <h5>TAXAS</h5>
 
-                                          <asp:GridView ID="dgvOutrasTaxasHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                          <asp:GridView ID="dgvOutrasTaxasHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
                                                                <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -318,7 +376,7 @@
                                     <div class="form-group">                                        <h5>INVOICES</h5>
 
 
-                                            <asp:GridView ID="dgvInvoiceHBL" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                            <asp:GridView ID="dgvInvoiceHBL" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10" >
                                                 <Columns>
                                                     <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
                                                     <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
@@ -342,7 +400,19 @@
                                 </div>
 
                             </div>
+ </ContentTemplate>
+    <Triggers>
+       <asp:AsyncPostBackTrigger ControlID="dgvComissoesHBL" />
+        <asp:AsyncPostBackTrigger ControlID="dgvInvoiceHBL" />
+        <asp:AsyncPostBackTrigger ControlID="dgvOutrasTaxasHBL" />
+        <asp:AsyncPostBackTrigger ControlID="dgvDevolucaoHBL" />
+    </Triggers>
+</asp:UpdatePanel>
+
+
+
                         </div>
+                                     
                     </div>
 
 

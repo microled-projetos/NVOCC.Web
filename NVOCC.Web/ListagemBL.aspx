@@ -443,6 +443,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="MBL" SortExpression="NR_BL" />
+                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="Tipo Frete" SortExpression="TIPO_PAGAMENTO" />

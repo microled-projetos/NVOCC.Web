@@ -51,6 +51,7 @@ CPF,
 TP_PESSOA,
 INSCR_ESTADUAL,
 INSCR_MUNICIPAL,
+EMAIL,
 ENDERECO,
 NR_ENDERECO,
 BAIRRO,
@@ -115,6 +116,9 @@ WHERE ID_PARCEIRO =" & ID)
                 txtNumero.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO").ToString()
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
+                    txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
+                End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CIDADE")) Then
 
                     Dim dsCidade As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_CIDADE WHERE ID_CIDADE =" & ds.Tables(0).Rows(0).Item("ID_CIDADE"))

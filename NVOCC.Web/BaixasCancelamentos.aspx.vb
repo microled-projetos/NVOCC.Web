@@ -216,40 +216,6 @@
         Next
     End Sub
 
-    Private Sub rdStatus_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdStatus.SelectedIndexChanged
-        divErro.Visible = False
-        divSuccess.Visible = False
-        Dim FILTRO As String = ""
-        If rdStatus.SelectedValue = 2 Then
-
-            If txtVencimento.Text = "" Then
-                lblErro.Text = "É necessário informar a data de vencimento para busca de faturas fechadas!"
-                divErro.Visible = True
-                Exit Sub
-            Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
-
-            End If
-
-
-        ElseIf rdStatus.SelectedValue = 1 Then
-
-            If txtVencimento.Text = "" Then
-                FILTRO &= " AND DT_LIQUIDACAO IS NULL"
-
-            Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NULL and DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
-
-            End If
-
-        End If
-        dsReceber.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
-        dgvTaxasReceber.DataBind()
-
-        dsPagar.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
-        dgvTaxasPagar.DataBind()
-    End Sub
-
     Private Sub btnpesquisar_Click(sender As Object, e As EventArgs) Handles btnpesquisar.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -261,7 +227,7 @@
                 divErro.Visible = True
                 Exit Sub
             Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and DT_VENCIMENTO = CONVERT(VARCHAR,'" & txtVencimento.Text & "',103)"
+                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and CONVERT(DATE,DT_VENCIMENTO,103) = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
 
             End If
 
@@ -273,7 +239,7 @@
                 FILTRO &= " AND DT_LIQUIDACAO IS NULL"
 
             Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NULL and DT_VENCIMENTO = CONVERT(VARCHAR,'" & txtVencimento.Text & "',103)"
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL and CONVERT(DATE,DT_VENCIMENTO,103) = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
 
             End If
 

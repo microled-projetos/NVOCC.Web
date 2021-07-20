@@ -179,6 +179,18 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
 
                     lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
 
+                    ds = Con.ExecutarQuery(" SELECT convert(varchar,count(A.ID_CNTR_BL)) +' x '+ (SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER B WHERE B.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR )CONTAINER from TB_CNTR_BL A INNER JOIN TB_AMR_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL WHERE C.ID_BL IN (  SELECT ID_BL FROM TB_CONTA_PAGAR_RECEBER_ITENS  WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID & " )) GROUP BY A.ID_TIPO_CNTR")
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        lblContainer.Text = ""
+                        For Each linha As DataRow In ds.Tables(0).Rows
+                            If lblContainer.Text = "" Then
+                                lblContainer.Text = linha("CONTAINER")
+                            Else
+                                lblContainer.Text &= " + " & linha("CONTAINER")
+                            End If
+                        Next
+                    End If
+
 
                     Con.Fechar()
                 End If

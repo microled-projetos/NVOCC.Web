@@ -15,7 +15,11 @@
             #DivImpressao{
                 display: block;
             }
-           
+           td{
+               font-size:8px !important;
+               padding-left:5px;
+                padding-right:5px
+           }
         }
     </style>
         <div style="display:none">
@@ -23,7 +27,12 @@
         <asp:Label ID="lblID_BL"  runat="server"/>
         <asp:Label ID="lblGrau"  runat="server"/>
         </div>
-          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   <center><h3>DEBIT/CREDIT NOTE</h3></center>                                   
+          <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">   
+              
+                  <asp:Label ID="lblDatas" runat="server" />
+                    <br /><asp:Label ID="lblUsuario" runat="server" />
+                    <br />
+                                    
     <div id="divConteudoDinamico" runat="server"  >
         </div>
               </div>

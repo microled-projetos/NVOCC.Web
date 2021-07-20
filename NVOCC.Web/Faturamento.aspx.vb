@@ -210,6 +210,9 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                             Exit Sub
                         Else
                             Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                            Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = NULL WHERE ID_CONTA_PAGAR_RECEBER  IN  (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO  WHERE ID_FATURAMENTO = " & txtID.Text & " )")
+
                             Con.Fechar()
                             lblContador.Text = ""
                             btnSalvarCancelamento.Text = "Salvar"
@@ -221,6 +224,9 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
 
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                        Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = NULL WHERE ID_CONTA_PAGAR_RECEBER  IN  (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO  WHERE ID_FATURAMENTO = " & txtID.Text & " )")
+
                         Con.Fechar()
                         lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
                         divSuccess.Visible = True

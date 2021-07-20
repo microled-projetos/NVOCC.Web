@@ -179,6 +179,19 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                     lblProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
 
+                ds = Con.ExecutarQuery("SELECT convert(varchar,count(A.ID_CNTR_BL)) +' x '+ (SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER B WHERE B.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR )CONTAINER from TB_CNTR_BL A INNER JOIN TB_AMR_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL WHERE C.ID_BL IN (  SELECT TOP 1 ID_BL FROM TB_CONTA_PAGAR_RECEBER_ITENS
+ WHERE ID_CONTA_PAGAR_RECEBER = " & ID & ") GROUP BY A.ID_TIPO_CNTR")
+                If ds.Tables(0).Rows.Count > 0 Then
+                    lblContainer.Text = ""
+                    For Each linha As DataRow In ds.Tables(0).Rows
+                        If lblContainer.Text = "" Then
+                            lblContainer.Text = linha("CONTAINER")
+                        Else
+                            lblContainer.Text &= " + " & linha("CONTAINER")
+                        End If
+                    Next
+                End If
+
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)
 
             End If

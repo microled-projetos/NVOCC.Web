@@ -470,11 +470,7 @@
                                                                 <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">BANCO:</label><label runat="server" style="color:red" >*</label>
-                                                <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px">
-                                                    <asp:ListItem Value="001">BANCO DO BRASIL</asp:ListItem>
-                                                    <asp:ListItem Value="104">CAIXA ECONÔMICA</asp:ListItem>
-                                                    <asp:ListItem Value="033" Selected="True">BANCO SANTANDER</asp:ListItem>
-                                                    <asp:ListItem Value="237">BANCO BRADESCO</asp:ListItem>                                                
+                                                <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsBanco" DataValueField="ID_CONTA_BANCARIA">                                             
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -666,6 +662,9 @@
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
+<asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_CONTA_BANCARIA, NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA
+union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>

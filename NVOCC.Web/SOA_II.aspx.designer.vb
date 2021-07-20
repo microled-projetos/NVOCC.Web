@@ -41,6 +41,24 @@ Partial Public Class SOA_II
     Protected WithEvents lblGrau As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblDatas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDatas As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblUsuario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblUsuario As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>

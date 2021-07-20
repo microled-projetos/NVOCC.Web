@@ -173,6 +173,11 @@ WHERE DT_CANCELAMENTO IS NULL)")
 
     Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
         RegistrosGrid()
+        txtVencimentoInicialSOA.Text = txtVencimentoInicial.Text
+        txtVencimentoFinalSOA.Text = txtVencimentoFinal.Text
+
+        txtEmbarqueInicial.Text = txtVencimentoInicial.Text
+        txtEmbarqueFinal.Text = txtVencimentoFinal.Text
     End Sub
 
     Function VerificaPositivoNegativo() As String
@@ -924,11 +929,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
             divErro.Visible = True
             lblErro.Text = "É necessário informar vencimento inicial e final!"
         Else
-            Session("Vencimento_Inicial") = ""
-            Session("Vencimento_Final") = ""
+            Session("DataInicial") = ""
+            Session("DataFinal") = ""
 
-            Session("Vencimento_Inicial") = txtVencimentoInicialSOA.Text
-            Session("Vencimento_Final") = txtVencimentoFinalSOA.Text
+            Session("DataInicial") = txtVencimentoInicialSOA.Text
+            Session("DataFinal") = txtVencimentoFinalSOA.Text
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SOA2()", True)
         End If

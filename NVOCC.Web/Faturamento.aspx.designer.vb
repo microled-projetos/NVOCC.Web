@@ -968,6 +968,15 @@ Partial Public Class Faturamento
     Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsBanco As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsClientes.
     '''</summary>
     '''<remarks>

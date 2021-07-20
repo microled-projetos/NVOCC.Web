@@ -22,21 +22,25 @@
         Dim tabela As String = ""
 
 
-
+        lblDatas.Text = Session("DataInicial") & " - " & Session("DataFinal")
         Dim titulo As String = ""
         Dim ds As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_AGENTE,ID_MOEDA,NM_AGENTE,SIGLA_MOEDA FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "') " & FILTRO)
 
         For Each linhaTitulo As DataRow In ds.Tables(0).Rows
             Dim PARCEIRO As String = linhaTitulo("ID_PARCEIRO_AGENTE")
             Dim MOEDA As String = linhaTitulo("ID_MOEDA")
+            If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
+                lblMoeda.Text = linhaTitulo("SIGLA_MOEDA")
+                lblAgente.Text = linhaTitulo("NM_AGENTE")
+            End If
 
             tabela &= "<h5>AGENTE: " & linhaTitulo("NM_AGENTE") & "<br/>CURRENCY: " & linhaTitulo("SIGLA_MOEDA") & "</h5>"
 
-            tabela &= "<table style='font-size:10px'>"
+            tabela &= "<table  border='1' style='font-size:10px;'>"
             tabela &= "<tr><td><strong>CUSTOMER</strong></td>"
             tabela &= "<td><strong>POL</strong></td>"
             tabela &= "<td><strong>DEST</strong></td>"
-            tabela &= "<td><strong>NR_BL</strong></td>"
+            tabela &= "<td><strong>Nº BL</strong></td>"
             tabela &= "<td><strong>ETD</strong></td>"
             tabela &= "<td><strong>ETA</strong></td>"
             tabela &= "<td><strong>INVOICE</strong></td>"
@@ -70,10 +74,10 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
 
             Next
-
+            tabela &= "</table>"
 
         Next
-        tabela &= "</table></div>"
+
         divConteudoDinamico.InnerHtml &= tabela
 
         Con.Fechar()
