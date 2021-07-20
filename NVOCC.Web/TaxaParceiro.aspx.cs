@@ -33,6 +33,8 @@ namespace ABAINFRA.Web
                 CarregarMoedaVenda();
                 CarregarParceiro();
                 DisableField();
+                CarregarOrigem();
+                CarregarTipoPagamento();
             }
         }
         private void DisableField()
@@ -115,6 +117,18 @@ namespace ABAINFRA.Web
             ddlProfitAereoExpo.Attributes.Add("disabled", "disabled");
             ddlCobrancaAereoExpo.Attributes.Add("disabled", "disabled");
             txtObsTaxaAereoExpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoFCLimpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoFCLimpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoFCLexpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoFCLexpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoLCLimpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoLCLimpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoLCLexpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoLCLexpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoAereoImpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoAereoImpo.Attributes.Add("disabled", "disabled");
+            ddlTipoPagamentoAereoExpo.Attributes.Add("disabled", "disabled");
+            ddlOrigemServicoAereoExpo.Attributes.Add("disabled", "disabled");
 
         }
         private void CarregarParceiro()
@@ -310,6 +324,69 @@ namespace ABAINFRA.Web
 
         }
 
+        private void CarregarTipoPagamento()
+        {
+            SQL = "SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO";
+
+            DataTable tipoPagamento = new DataTable();
+            tipoPagamento = DBS.List(SQL);
+            Session["TaskTableTipoPagamento"] = tipoPagamento;
+            ddlTipoPagamentoFCLimpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoFCLimpo.DataBind();
+            ddlTipoPagamentoFCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoFCLexpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoFCLexpo.DataBind();
+            ddlTipoPagamentoFCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoLCLimpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoLCLimpo.DataBind();
+            ddlTipoPagamentoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoLCLimpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoLCLimpo.DataBind();
+            ddlTipoPagamentoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoAereoImpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoAereoImpo.DataBind();
+            ddlTipoPagamentoAereoImpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlTipoPagamentoAereoExpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoAereoExpo.DataBind();
+            ddlTipoPagamentoAereoExpo.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        private void CarregarOrigem()
+        {
+            SQL = "SELECT ID_ORIGEM_PAGAMENTO, NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO";
+
+            DataTable cobranca = new DataTable();
+            cobranca = DBS.List(SQL);
+            Session["TaskTableOrigem"] = cobranca;
+            ddlOrigemServicoFCLimpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoFCLimpo.DataBind();
+            ddlOrigemServicoFCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoFCLexpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoFCLexpo.DataBind();
+            ddlOrigemServicoFCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoLCLimpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoLCLimpo.DataBind();
+            ddlOrigemServicoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoLCLimpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoLCLimpo.DataBind();
+            ddlOrigemServicoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoAereoImpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoAereoImpo.DataBind();
+            ddlOrigemServicoAereoImpo.Items.Insert(0, new ListItem("Selecione", ""));
+
+            ddlOrigemServicoAereoExpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoAereoExpo.DataBind();
+            ddlOrigemServicoAereoExpo.Items.Insert(0, new ListItem("Selecione", ""));
+        }
 
         public static string decBD(string numero)
         {

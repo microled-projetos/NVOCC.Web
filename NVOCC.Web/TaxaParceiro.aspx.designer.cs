@@ -159,6 +159,24 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaFCLimpo;
 
         /// <summary>
+        /// Controle ddlTipoPagamentoFCLimpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoFCLimpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoFCLimpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoFCLimpo;
+
+        /// <summary>
         /// Controle txtObsTaxaFCLimpo.
         /// </summary>
         /// <remarks>
@@ -310,6 +328,24 @@ namespace ABAINFRA.Web
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaLCLimpo;
+
+        /// <summary>
+        /// Controle ddlTipoPagamentoLCLimpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoLCLimpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoLCLimpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoLCLimpo;
 
         /// <summary>
         /// Controle txtObsTaxaLCLimpo.
@@ -465,6 +501,24 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaFCLexpo;
 
         /// <summary>
+        /// Controle ddlTipoPagamentoFCLexpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoFCLexpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoFCLexpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoFCLexpo;
+
+        /// <summary>
         /// Controle txtObsTaxaFCLexpo.
         /// </summary>
         /// <remarks>
@@ -616,6 +670,24 @@ namespace ABAINFRA.Web
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaLCLexpo;
+
+        /// <summary>
+        /// Controle ddlTipoPagamentoLCLexpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoLCLexpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoLCLexpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoLCLexpo;
 
         /// <summary>
         /// Controle txtObsTaxaLCLexpo.
@@ -771,6 +843,24 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaAereoImpo;
 
         /// <summary>
+        /// Controle ddlTipoPagamentoAereoImpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoAereoImpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoAereoImpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoAereoImpo;
+
+        /// <summary>
         /// Controle txtObsTaxaAereoImpo.
         /// </summary>
         /// <remarks>
@@ -922,6 +1012,24 @@ namespace ABAINFRA.Web
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCobrancaAereoExpo;
+
+        /// <summary>
+        /// Controle ddlTipoPagamentoAereoExpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoPagamentoAereoExpo;
+
+        /// <summary>
+        /// Controle ddlOrigemServicoAereoExpo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrigemServicoAereoExpo;
 
         /// <summary>
         /// Controle txtObsTaxaAereoExpo.

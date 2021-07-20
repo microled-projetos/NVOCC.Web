@@ -15,7 +15,7 @@
             Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,NAVIO_MASTER,NR_VIAGEM_MASTER,NR_PROCESSO,PARCEIRO_CLIENTE,PARCEIRO_IMPORTADOR,PARCEIRO_AGENTE,ORIGEM,DESTINO,TIPO_ESTUFAGEM,(SELECT NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL = A.ID_BL)NR_REFERENCIA_CLIENTE,CONVERT(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER,
 CONVERT(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER,
 CONVERT(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER, PORTO_1T_MASTER,NAVIO_1T_MASTER,
-CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRANSPORTADOR,ID_BL_MASTER
+CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRANSPORTADOR,ID_BL_MASTER,QT_MERCADORIA,NM_RESUMO_MERCADORIA,VL_PESO_BRUTO
 	FROM [dbo].[View_Emissao_BL] A WHERE ID_BL =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 lblProcesso_FCL.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
@@ -33,7 +33,9 @@ CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRAN
                 lblDestino_FCL.Text = ds.Tables(0).Rows(0).Item("DESTINO").ToString()
                 lblMaster_FCL.Text = ds.Tables(0).Rows(0).Item("NR_BL_MASTER").ToString()
                 lblHouse_FCL.Text = ds.Tables(0).Rows(0).Item("NR_BL").ToString()
-
+                lblPesoBruto_FCL.Text = ds.Tables(0).Rows(0).Item("VL_PESO_BRUTO").ToString()
+                lblDescMercadoria_FCL.Text = ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA").ToString()
+                lblQtdVolume_FCL.Text = ds.Tables(0).Rows(0).Item("QT_MERCADORIA").ToString()
 
 
 
@@ -49,28 +51,29 @@ CONVERT(varchar,DT_1T_MASTER,103)DT_1T_MASTER,NR_BL_MASTER,NM_WEEK,PARCEIRO_TRAN
                 lblArmador_LCL.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_TRANSPORTADOR").ToString()
             End If
 
-            Dim ds1 As DataSet = Con.ExecutarQuery("SELECT PARCEIRO_IMPORTADOR,NR_BL,(SELECT NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL = A.ID_BL_MASTER)NR_REFERENCIA_CLIENTE,INCOTERM
+            Dim ds1 As DataSet = Con.ExecutarQuery("SELECT PARCEIRO_IMPORTADOR,NR_BL,NR_PROCESSO,INCOTERM, (SELECT MIN(NR_NOTA_DEBITO) NR_NOTA_DEBITO FROM TB_FATURAMENTO 
+WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_BL = A.ID_BL))NR_NOTA_DEBITO
 	FROM [dbo].[View_Emissao_BL] A WHERE ID_BL_MASTER =" & ds.Tables(0).Rows(0).Item("ID_BL_MASTER").ToString())
             If ds1.Tables(0).Rows.Count > 0 Then
-                Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
-                tabela &= "<th style='padding-right:10px'>REFERENCIA</th>"
-                tabela &= "<th style='padding-right:10px'>HOUSE</th>"
-                tabela &= "<th style='padding-right:10px'>CNEE</th>"
-                tabela &= "<th style='padding-right:10px'>EMISSÃO ORIGINAIS</th>"
-                tabela &= "<th style='padding-right:10px'>INCOTERM</th>"
-                tabela &= "<th style='padding-right:10px'>BL RETIRADO/TROCADO</th>"
-                tabela &= "<th style='padding-right:10px'>NOTA DE DÉBITO</th>"
-                tabela &= "<th style='padding-right:10px;'>LIBERAÇÃO TERMINAL</th></tr>"
+                Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px !important;'><tr>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>REFERENCIA</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>HOUSE</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>CNEE</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>EMISSÃO ORIGINAIS</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>INCOTERM</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>BL RETIRADO/TROCADO</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>NOTA DE DÉBITO</strong></td>"
+                tabela &= "<td style='padding-right:10px;font-size:10px !important;'><strong>LIBERAÇÃO TERMINAL</strong></td></tr>"
 
                 For Each linha As DataRow In ds1.Tables(0).Rows
-                    tabela &= "<tr><td style='padding-right:10px'>" & linha("NR_REFERENCIA_CLIENTE") & "</td>"
-                    tabela &= "<td style='padding-right:10px'>" & linha("NR_BL") & "</td>"
-                    tabela &= "<td style='padding-right:10px'>" & linha("PARCEIRO_IMPORTADOR") & "</td>"
-                    tabela &= "<td style='padding-right:10px'></td>"
-                    tabela &= "<td style='padding-right:10px'>" & linha("INCOTERM") & "</td>"
-                    tabela &= "<td style='padding-right:10px'></td>"
-                    tabela &= "<td style='padding-right:10px'></td>"
-                    tabela &= "<td style='padding-right:10px'></td></tr>"
+                    tabela &= "<tr><td style='padding-right:10px;font-size:10px !important;'>" & linha("NR_PROCESSO") & "</td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'>" & linha("NR_BL") & "</td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'>" & linha("PARCEIRO_IMPORTADOR") & "</td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'></td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'>" & linha("INCOTERM") & "</td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'></td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'>" & linha("NR_NOTA_DEBITO") & "</td>"
+                    tabela &= "<td style='padding-right:10px;font-size:10px !important;'></td></tr>"
                 Next
 
                 tabela &= "</table>"

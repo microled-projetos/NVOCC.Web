@@ -211,10 +211,24 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlCobrancaFCLimpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlTipoPagamentoFCLimpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlOrigemServicoFCLimpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -414,10 +428,24 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlCobrancaLCLimpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                        <asp:DropDownList ID="ddlCobrancaLCLimpo" runat="server" CssClass="form-control">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlTipoPagamentoLCLimpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlOrigemServicoLCLimpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -633,10 +661,24 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlCobrancaFCLexpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlTipoPagamentoFCLexpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlOrigemServicoFCLexpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -836,10 +878,24 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlCobrancaLCLexpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlTipoPagamentoLCLexpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlOrigemServicoLCLexpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
@@ -1057,10 +1113,24 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                 <asp:DropDownList ID="ddlCobrancaAereoImpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                </asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                <asp:DropDownList ID="ddlTipoPagamentoAereoImpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                </asp:DropDownList>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                <asp:DropDownList ID="ddlOrigemServicoAereoImpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
@@ -1266,6 +1336,20 @@
                                                                 <div class="form-group">
                                                                     <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                     <asp:DropDownList ID="ddlCobrancaAereoExpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
+                                                                    </asp:DropDownList>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Tipo Pagamento</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:DropDownList ID="ddlTipoPagamentoAereoExpo" runat="server" CssClass="form-control" DataTextField="NM_TIPO_PAGAMENTO" DataValueField="ID_TIPO_PAGAMENTO">
+                                                                    </asp:DropDownList>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Origem</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:DropDownList ID="ddlOrigemServicoAereoExpo" runat="server" CssClass="form-control" DataTextField="NM_ORIGEM_PAGAMENTO" DataValueField="ID_ORIGEM_PAGAMENTO">
                                                                     </asp:DropDownList>
                                                                 </div>
                                                             </div>
@@ -1527,6 +1611,8 @@
                     document.getElementById('MainContent_ddlProfitFCLimpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaFCLimpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaFCLimpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value = data.ID_TIPO_PAGAMENTO;
                    
                     var forms = ['MainContent_txtCodigoTipoItemFCLimpo',
                         'MainContent_ddlTipoItemFCLimpo',
@@ -1540,7 +1626,9 @@
                         'MainContent_ddlDeclaradoFCLimpo',
                         'MainContent_ddlProfitFCLimpo',
                         'MainContent_ddlCobrancaFCLimpo',
-                        'MainContent_txtObsTaxaFCLimpo'];
+                        'MainContent_txtObsTaxaFCLimpo',
+                        'MainContent_ddlTipoPagamentoFCLimpo',
+                        'MainContent_ddlOrigemServicoFCLimpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1578,6 +1666,8 @@
                     document.getElementById('MainContent_ddlProfitLCLimpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaLCLimpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaLCLimpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value = data.ID_TIPO_PAGAMENTO;
 
                     var forms = ['MainContent_txtCodigoTipoItemLCLimpo',
                         'MainContent_ddlTipoItemLCLimpo',
@@ -1591,7 +1681,9 @@
                         'MainContent_ddlDeclaradoLCLimpo',
                         'MainContent_ddlProfitLCLimpo',
                         'MainContent_ddlCobrancaLCLimpo',
-                        'MainContent_txtObsTaxaLCLimpo'];
+                        'MainContent_txtObsTaxaLCLimpo',
+                        'MainContent_ddlOrigemServicoLCLimpo',
+                        'MainContent_ddlTipoPagamentoLCLimpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1629,6 +1721,8 @@
                     document.getElementById('MainContent_ddlProfitFCLexpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaFCLexpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaFCLexpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value = data.ID_TIPO_PAGAMENTO;
 
                     var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                         'MainContent_ddlTipoItemFCLexpo',
@@ -1642,7 +1736,9 @@
                         'MainContent_ddlDeclaradoFCLexpo',
                         'MainContent_ddlProfitFCLexpo',
                         'MainContent_ddlCobrancaFCLexpo',
-                        'MainContent_txtObsTaxaFCLexpo'];
+                        'MainContent_txtObsTaxaFCLexpo',
+                        'MainContent_ddlOrigemServicoFCLexpo',
+                        'MainContent_ddlTipoPagamentoFCLexpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1680,6 +1776,8 @@
                     document.getElementById('MainContent_ddlProfitLCLexpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaLCLexpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaLCLexpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value = data.ID_TIPO_PAGAMENTO;
 
                     var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                         'MainContent_ddlTipoItemLCLexpo',
@@ -1693,7 +1791,9 @@
                         'MainContent_ddlDeclaradoLCLexpo',
                         'MainContent_ddlProfitLCLexpo',
                         'MainContent_ddlCobrancaLCLexpo',
-                        'MainContent_txtObsTaxaLCLexpo'];
+                        'MainContent_txtObsTaxaLCLexpo',
+                        'MainContent_ddlOrigemServicoLCLexpo',
+                        'MainContent_ddlTipoPagamentoLCLexpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1731,6 +1831,8 @@
                     document.getElementById('MainContent_ddlProfitAereoImpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaAereoImpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaAereoImpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value = data.ID_TIPO_PAGAMENTO;
 
                     var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                         'MainContent_ddlTipoItemAereoImpo',
@@ -1744,7 +1846,9 @@
                         'MainContent_ddlDeclaradoAereoImpo',
                         'MainContent_ddlProfitAereoImpo',
                         'MainContent_ddlCobrancaAereoImpo',
-                        'MainContent_txtObsTaxaAereoImpo'];
+                        'MainContent_txtObsTaxaAereoImpo',
+                        'MainContent_ddlOrigemServicoAereoImpo',
+                        'MainContent_ddlTipoPagamentoAereoImpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1782,6 +1886,8 @@
                     document.getElementById('MainContent_ddlProfitAereoExpo').value = data.FL_DIVISAO_PROFIT;
                     document.getElementById('MainContent_ddlCobrancaAereoExpo').value = data.ID_DESTINATARIO_COBRANCA;
                     document.getElementById('MainContent_txtObsTaxaAereoExpo').value = data.OB_TAXAS;
+                    document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value = data.ID_ORIGEM_PAGAMENTO;
+                    document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value = data.ID_TIPO_PAGAMENTO;
 
                     var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                         'MainContent_ddlTipoItemAereoExpo',
@@ -1795,7 +1901,9 @@
                         'MainContent_ddlDeclaradoAereoExpo',
                         'MainContent_ddlProfitAereoExpo',
                         'MainContent_ddlCobrancaAereoExpo',
-                        'MainContent_txtObsTaxaAereoExpo'];
+                        'MainContent_txtObsTaxaAereoExpo',
+                        'MainContent_ddlOrigemServicoAereoExpo',
+                        'MainContent_ddlTipoPagamentoAereoExpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1824,6 +1932,8 @@
         "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitFCLimpo").value,
         "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaFCLimpo").value,
         "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLimpo").value,
+        "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value,
+        "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value,
         "ID_PARCEIRO": id
         }
         $.ajax({
@@ -1910,6 +2020,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaFCLimpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLimpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteFCLimpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -1995,6 +2107,8 @@
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitLCLimpo").value,
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaLCLimpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLimpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2081,6 +2195,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaLCLimpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLimpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteLCLimpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2166,6 +2282,8 @@
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitFCLexpo").value,
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaFCLexpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLexpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2252,6 +2370,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaFCLexpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLexpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteFCLexpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2337,6 +2457,8 @@
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitLCLexpo").value,
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaLCLexpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLexpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2423,6 +2545,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaLCLexpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLexpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteLCLexpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2508,6 +2632,8 @@
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitAereoImpo").value,
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaAereoImpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoImpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2594,6 +2720,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaAereoImpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoImpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteAereoImpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2679,6 +2807,8 @@
                 "FL_DIVISAO_PROFIT": document.getElementById("MainContent_ddlProfitAereoExpo").value,
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaAereoExpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoExpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2765,6 +2895,8 @@
                 "ID_DESTINATARIO_COBRANCA": document.getElementById("MainContent_ddlCobrancaAereoExpo").value,
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoExpo").value,
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteAereoExpo").value,
+                "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value,
+                "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2847,7 +2979,9 @@
                 'MainContent_ddlDeclaradoFCLimpo',
                 'MainContent_ddlProfitFCLimpo',
                 'MainContent_ddlCobrancaFCLimpo',
-                'MainContent_txtObsTaxaFCLimpo'];
+                'MainContent_txtObsTaxaFCLimpo',
+                'MainContent_ddlOrigemServicoFCLimpo',
+                'MainContent_ddlTipoPagamentoFCLimpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2869,7 +3003,9 @@
                 'MainContent_ddlDeclaradoLCLimpo',
                 'MainContent_ddlProfitLCLimpo',
                 'MainContent_ddlCobrancaLCLimpo',
-                'MainContent_txtObsTaxaLCLimpo'];
+                'MainContent_txtObsTaxaLCLimpo',
+                'MainContent_ddlOrigemServicoLCLimpo',
+                'MainContent_ddlTipoPagamentoLCLimpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2893,7 +3029,9 @@
                 'MainContent_ddlDeclaradoFCLexpo',
                 'MainContent_ddlProfitFCLexpo',
                 'MainContent_ddlCobrancaFCLexpo',
-                'MainContent_txtObsTaxaFCLexpo'];
+                'MainContent_txtObsTaxaFCLexpo',
+                'MainContent_ddlOrigemServicoFCLexpo',
+                'MainContent_ddlTipoPagamentoFCLexpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2917,7 +3055,9 @@
                 'MainContent_ddlDeclaradoLCLexpo',
                 'MainContent_ddlProfitLCLexpo',
                 'MainContent_ddlCobrancaLCLexpo',
-                'MainContent_txtObsTaxaLCLexpo'];
+                'MainContent_txtObsTaxaLCLexpo',
+                'MainContent_ddlOrigemServicoLCLexpo',
+                'MainContent_ddlTipoPagamentoLCLexpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2941,7 +3081,9 @@
                 'MainContent_ddlDeclaradoAereoImpo',
                 'MainContent_ddlProfitAereoImpo',
                 'MainContent_ddlCobrancaAereoImpo',
-                'MainContent_txtObsTaxaAereoImpo'];
+                'MainContent_txtObsTaxaAereoImpo',
+                'MainContent_ddlOrigemServicoAereoImpo',
+                'MainContent_ddlTipoPagamentoAereoImpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2965,7 +3107,9 @@
                 'MainContent_ddlDeclaradoAereoExpo',
                 'MainContent_ddlProfitAereoExpo',
                 'MainContent_ddlCobrancaAereoExpo',
-                'MainContent_txtObsTaxaAereoExpo'];
+                'MainContent_txtObsTaxaAereoExpo',
+                'MainContent_ddlOrigemServicoAereoExpo',
+                'MainContent_ddlTipoPagamentoAereoExpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -2996,7 +3140,9 @@
                     'MainContent_ddlDeclaradoFCLimpo',
                     'MainContent_ddlProfitFCLimpo',
                     'MainContent_ddlCobrancaFCLimpo',
-                    'MainContent_txtObsTaxaFCLimpo'];
+                    'MainContent_txtObsTaxaFCLimpo',
+                    'MainContent_ddlOrigemServicoFCLimpo',
+                    'MainContent_ddlTipoPagamentoFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3021,7 +3167,9 @@
                     'MainContent_ddlDeclaradoFCLimpo',
                     'MainContent_ddlProfitFCLimpo',
                     'MainContent_ddlCobrancaFCLimpo',
-                    'MainContent_txtObsTaxaFCLimpo'];
+                    'MainContent_txtObsTaxaFCLimpo',
+                    'MainContent_ddlOrigemServicoFCLimpo',
+                    'MainContent_ddlTipoPagamentoFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3047,11 +3195,15 @@
                     'MainContent_ddlDeclaradoFCLimpo',
                     'MainContent_ddlProfitFCLimpo',
                     'MainContent_ddlCobrancaFCLimpo',
-                    'MainContent_txtObsTaxaFCLimpo'];
+                    'MainContent_txtObsTaxaFCLimpo',
+                    'MainContent_ddlOrigemServicoFCLimpo',
+                    'MainContent_ddlTipoPagamentoFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaFCLimpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoFCLimpo").value = 1;
             })
 
             $("#btnEditarLCLimpo").click(function () {
@@ -3073,7 +3225,9 @@
                     'MainContent_ddlDeclaradoLCLimpo',
                     'MainContent_ddlProfitLCLimpo',
                     'MainContent_ddlCobrancaLCLimpo',
-                    'MainContent_txtObsTaxaLCLimpo'];
+                    'MainContent_txtObsTaxaLCLimpo',
+                    'MainContent_ddlOrigemServicoLCLimpo',
+                    'MainContent_ddlTipoPagamentoLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3098,7 +3252,9 @@
                     'MainContent_ddlDeclaradoLCLimpo',
                     'MainContent_ddlProfitLCLimpo',
                     'MainContent_ddlCobrancaLCLimpo',
-                    'MainContent_txtObsTaxaLCLimpo'];
+                    'MainContent_txtObsTaxaLCLimpo',
+                    'MainContent_ddlOrigemServicoLCLimpo',
+                    'MainContent_ddlTipoPagamentoLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3124,11 +3280,15 @@
                     'MainContent_ddlDeclaradoLCLimpo',
                     'MainContent_ddlProfitLCLimpo',
                     'MainContent_ddlCobrancaLCLimpo',
-                    'MainContent_txtObsTaxaLCLimpo'];
+                    'MainContent_txtObsTaxaLCLimpo',
+                    'MainContent_ddlOrigemServicoLCLimpo',
+                    'MainContent_ddlTipoPagamentoLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaLCLimpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoLCLimpo").value = 1;
             })
 
             $("#btnEditarFCLexpo").click(function () {
@@ -3150,7 +3310,9 @@
                     'MainContent_ddlDeclaradoFCLexpo',
                     'MainContent_ddlProfitFCLexpo',
                     'MainContent_ddlCobrancaFCLexpo',
-                    'MainContent_txtObsTaxaFCLexpo'];
+                    'MainContent_txtObsTaxaFCLexpo',
+                    'MainContent_ddlOrigemServicoFCLexpo',
+                    'MainContent_ddlTipoPagamentoFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3175,7 +3337,9 @@
                     'MainContent_ddlDeclaradoFCLexpo',
                     'MainContent_ddlProfitFCLexpo',
                     'MainContent_ddlCobrancaFCLexpo',
-                    'MainContent_txtObsTaxaFCLexpo'];
+                    'MainContent_txtObsTaxaFCLexpo',
+                    'MainContent_ddlOrigemServicoFCLexpo',
+                    'MainContent_ddlTipoPagamentoFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3201,11 +3365,15 @@
                     'MainContent_ddlDeclaradoFCLexpo',
                     'MainContent_ddlProfitFCLexpo',
                     'MainContent_ddlCobrancaFCLexpo',
-                    'MainContent_txtObsTaxaFCLexpo'];
+                    'MainContent_txtObsTaxaFCLexpo',
+                    'MainContent_ddlOrigemServicoFCLexpo',
+                    'MainContent_ddlTipoPagamentoFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaFCLexpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoFCLexpo").value = 1;
             })
 
             $("#btnEditarLCLexpo").click(function () {
@@ -3227,7 +3395,9 @@
                     'MainContent_ddlDeclaradoLCLexpo',
                     'MainContent_ddlProfitLCLexpo',
                     'MainContent_ddlCobrancaLCLexpo',
-                    'MainContent_txtObsTaxaLCLexpo'];
+                    'MainContent_txtObsTaxaLCLexpo',
+                    'MainContent_ddlOrigemServicoLCLexpo',
+                    'MainContent_ddlTipoPagamentoLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3252,7 +3422,9 @@
                     'MainContent_ddlDeclaradoLCLexpo',
                     'MainContent_ddlProfitLCLexpo',
                     'MainContent_ddlCobrancaLCLexpo',
-                    'MainContent_txtObsTaxaLCLexpo'];
+                    'MainContent_txtObsTaxaLCLexpo',
+                    'MainContent_ddlOrigemServicoLCLexpo',
+                    'MainContent_ddlTipoPagamentoLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3278,11 +3450,15 @@
                     'MainContent_ddlDeclaradoLCLexpo',
                     'MainContent_ddlProfitLCLexpo',
                     'MainContent_ddlCobrancaLCLexpo',
-                    'MainContent_txtObsTaxaLCLexpo'];
+                    'MainContent_txtObsTaxaLCLexpo',
+                    'MainContent_ddlOrigemServicoLCLexpo',
+                    'MainContent_ddlTipoPagamentoLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaLCLexpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoLCLexpo").value = 1;
             })
 
             $("#btnEditarAereoImpo").click(function () {
@@ -3304,7 +3480,9 @@
                     'MainContent_ddlDeclaradoAereoImpo',
                     'MainContent_ddlProfitAereoImpo',
                     'MainContent_ddlCobrancaAereoImpo',
-                    'MainContent_txtObsTaxaAereoImpo'];
+                    'MainContent_txtObsTaxaAereoImpo',
+                    'MainContent_ddlOrigemServicoAereoImpo',
+                    'MainContent_ddlTipoPagamentoAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3329,7 +3507,9 @@
                     'MainContent_ddlDeclaradoAereoImpo',
                     'MainContent_ddlProfitAereoImpo',
                     'MainContent_ddlCobrancaAereoImpo',
-                    'MainContent_txtObsTaxaAereoImpo'];
+                    'MainContent_txtObsTaxaAereoImpo',
+                    'MainContent_ddlOrigemServicoAereoImpo',
+                    'MainContent_ddlTipoPagamentoAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3355,11 +3535,15 @@
                     'MainContent_ddlDeclaradoAereoImpo',
                     'MainContent_ddlProfitAereoImpo',
                     'MainContent_ddlCobrancaAereoImpo',
-                    'MainContent_txtObsTaxaAereoImpo'];
+                    'MainContent_txtObsTaxaAereoImpo',
+                    'MainContent_ddlOrigemServicoAereoImpo',
+                    'MainContent_ddlTipoPagamentoAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaAereoImpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoAereoImpo").value = 1;
             })
 
             $("#btnEditarAereoExpo").click(function () {
@@ -3381,7 +3565,9 @@
                     'MainContent_ddlDeclaradoAereoExpo',
                     'MainContent_ddlProfitAereoExpo',
                     'MainContent_ddlCobrancaAereoExpo',
-                    'MainContent_txtObsTaxaAereoExpo'];
+                    'MainContent_txtObsTaxaAereoExpo',
+                    'MainContent_ddlOrigemServicoAereoExpo',
+                    'MainContent_ddlTipoPagamentoAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3406,7 +3592,9 @@
                     'MainContent_ddlDeclaradoAereoExpo',
                     'MainContent_ddlProfitAereoExpo',
                     'MainContent_ddlCobrancaAereoExpo',
-                    'MainContent_txtObsTaxaAereoExpo'];
+                    'MainContent_txtObsTaxaAereoExpo',
+                    'MainContent_ddlOrigemServicoAereoExpo',
+                    'MainContent_ddlTipoPagamentoAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3432,11 +3620,15 @@
                     'MainContent_ddlDeclaradoAereoExpo',
                     'MainContent_ddlProfitAereoExpo',
                     'MainContent_ddlCobrancaAereoExpo',
-                    'MainContent_txtObsTaxaAereoExpo'];
+                    'MainContent_txtObsTaxaAereoExpo',
+                    'MainContent_ddlOrigemServicoAereoExpo',
+                    'MainContent_ddlTipoPagamentoAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
                 }
+                document.getElementById("MainContent_ddlCobrancaAereoExpo").value = 1;
+                document.getElementById("MainContent_ddlTipoPagamentoAereoExpo").value = 1;
             })
         })
 

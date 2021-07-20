@@ -23,6 +23,15 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblID_CONTA_PAGAR_RECEBER.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblID_CONTA_PAGAR_RECEBER As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>
@@ -212,6 +221,24 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents divConteudo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle btnMarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnMarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDesmarcar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDesmarcar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>
@@ -239,6 +266,24 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents dgvMoedaFrete As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle btnAtualizaValor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnAtualizaValor As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle txtValor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValor As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnCalcularRecebimento.
     '''</summary>
     '''<remarks>
@@ -255,6 +300,42 @@ Partial Public Class CalcularRecebimento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle mpeND.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeND As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle btnNao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnNao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle dsTaxas.

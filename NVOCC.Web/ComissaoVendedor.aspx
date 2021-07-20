@@ -47,12 +47,15 @@
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                <asp:ListItem Value="1">Vendedor(a)</asp:ListItem>
+                                                <asp:ListItem Value="3" Selected="True">Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="4">Sub Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="5">Equipe Inside</asp:ListItem>
+                                                <asp:ListItem Value="1">Nome</asp:ListItem>
                                                 <asp:ListItem Value="2">Número do processo</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
                                     </div>
+                                   
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <asp:Label ID="Label4" Style="padding-left: 35px" runat="server"></asp:Label>
@@ -63,9 +66,19 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competência</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
+                                    <%-- <div class="col-sm-2">
+
+                                        <div class="form-group">
+                                            <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                                <asp:ListItem Value="1" Selected="True">&nbsp;Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="2">&nbsp;Sub Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="3">&nbsp;Equipe Inside Sales</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>--%>
                                     <div class="col-sm-1">
                                         <div class="form-group">
                                             <asp:Label ID="Label3" runat="server"></asp:Label><br />
@@ -230,7 +243,7 @@
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
-                                               <asp:Label ID="Label5" runat="server">Validade</asp:Label><br />
+                                               <asp:Label ID="Label5" runat="server">Validade Inicial</asp:Label><br />
 
                                <asp:TextBox ID="txtValidade" placeholder="___/___/____" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
@@ -288,7 +301,7 @@
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
+                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
                                             <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
                                             <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
                                             <asp:BoundField DataField="VL_TAXA_INSIDE_SALES" HeaderText="TAXA INSIDE SALES" SortExpression="VL_TAXA_INSIDE_SALES" />
@@ -663,7 +676,7 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -685,15 +698,15 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_ESTUFAGEM] ORDER BY ID_TIPO_ESTU
 
             <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO 
-union SELECT  0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSource>
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_CLIENTE FROM TB_BL)
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Selecione' ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
             <asp:SqlDataSource ID="dsVendedores" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE (FL_VENDEDOR_DIRETO = 1 OR FL_VENDEDOR = 1 OR ID_PARCEIRO = (SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)) AND FL_ATIVO = 1 
+union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

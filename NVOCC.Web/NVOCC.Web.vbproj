@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(10062021)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web(15072021)2\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -249,8 +249,8 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ABAINFRA.Web.dll" />
     <Content Include="Account.aspx" />
+    <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
     <Content Include="BuscaFreteTransportador.aspx" />
@@ -265,10 +265,18 @@
     <Content Include="CadastroNavios.aspx" />
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
+    <Content Include="Classes\CourrierInfo.cs" />
+    <Content Include="Classes\DemurrageControl.cs" />
+    <Content Include="Classes\DemurragesCls.cs" />
+    <Content Include="Classes\FiltroModuloOperacional.cs" />
+    <Content Include="Classes\Processos.cs" />
+    <Content Include="Classes\Taxas.cs" />
+    <Content Include="Classes\Week.cs" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />
     <Content Include="ComissaoIndicadorNacional.aspx" />
     <Content Include="ComissaoVendedor.aspx" />
+    <Content Include="Conferencia.aspx" />
     <Content Include="ConsultaParceiro.aspx" />
     <Content Include="ConsultarWeek.aspx" />
     <Content Include="ConsultarWeek.aspx.cs" />
@@ -338,6 +346,7 @@
     <Content Include="Content\js\jquery.easy-autocomplete.min.js" />
     <Content Include="Content\js\jquery.mask.js" />
     <Content Include="Content\js\jquery.mask.min.js" />
+    <Content Include="Content\js\jquery.maskMoney.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\jquery.smartWizard.js" />
     <Content Include="Content\js\jquery.smartWizard.min.js" />
@@ -355,9 +364,12 @@
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
+    <Content Include="DebitNote.aspx" />
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
+    <Content Include="DemurrageService.asmx" />
+    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
@@ -375,8 +387,6 @@
     <Content Include="DBS.cs" />
     <Content Include="DemurrageControl.cs" />
     <Content Include="DemurragesCls.cs" />
-    <Content Include="DemurrageService.asmx" />
-    <Content Include="DemurrageService.asmx.cs" />
     <Content Include="EmissaoBL.aspx" />
     <Content Include="FollowUp.aspx" />
     <Content Include="FreteTransportador.aspx" />
@@ -435,6 +445,7 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="ListagemBL.aspx" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
@@ -442,6 +453,8 @@
     <Content Include="ModuloGerencial.aspx.cs" />
     <Content Include="ModuloGerencial.aspx.designer.cs" />
     <Content Include="ModuloOperacional.aspx" />
+    <Content Include="ModuloOperacional.aspx.cs" />
+    <Content Include="ModuloOperacional.aspx.designer.cs" />
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
     <Content Include="Processos.cs" />
@@ -451,8 +464,12 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
+    <Content Include="ContratosFirmados.aspx" />
     <Content Include="RelatorioVendedor.aspx" />
+    <Content Include="RemessaBoletos.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
+    <Content Include="SOA_I.aspx" />
+    <Content Include="SOA_II.aspx" />
     <Content Include="SolicitacaoPagamento.aspx" />
     <Content Include="TaxaParceiro.aspx" />
     <Content Include="TaxaParceiro.aspx.cs" />
@@ -540,6 +557,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="AvisoEmbarque.aspx.designer.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AvisoEmbarque.aspx.vb">
+      <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="BaixarComissao.aspx.designer.vb">
       <DependentUpon>BaixarComissao.aspx</DependentUpon>
     </Compile>
@@ -646,6 +670,7 @@
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
     <Compile Include="Class\References.vb" />
+    <Compile Include="Class\Remessa.vb" />
     <Compile Include="Class\Traking.vb" />
     <Compile Include="Class\Transport.vb" />
     <Compile Include="ClienteFinal.aspx.designer.vb">
@@ -678,12 +703,26 @@
     </Compile>
     <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Conexao_sql.vb" />
+    <Compile Include="Conferencia.aspx.designer.vb">
+      <DependentUpon>Conferencia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Conferencia.aspx.vb">
+      <DependentUpon>Conferencia.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ConsultaParceiro.aspx.designer.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConsultaParceiro.aspx.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DebitNote.aspx.designer.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DebitNote.aspx.vb">
+      <DependentUpon>DebitNote.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="EmissaoNDFaturamento.aspx.designer.vb">
       <DependentUpon>EmissaoNDFaturamento.aspx</DependentUpon>
@@ -808,18 +847,18 @@
       <DependentUpon>ItemDespesa.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ListagemBL.aspx.designer.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListagemBL.aspx.vb">
+      <DependentUpon>ListagemBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Login.aspx.designer.vb">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.vb">
       <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.designer.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ModuloOperacional.aspx.vb">
-      <DependentUpon>ModuloOperacional.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MoedaFrete.aspx.designer.vb">
@@ -904,11 +943,25 @@
       <DependentUpon>Registrar.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="ContratosFirmados.aspx.designer.vb">
+      <DependentUpon>ContratosFirmados.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContratosFirmados.aspx.vb">
+      <DependentUpon>ContratosFirmados.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="RelatorioVendedor.aspx.designer.vb">
       <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.vb">
       <DependentUpon>RelatorioVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RemessaBoletos.aspx.designer.vb">
+      <DependentUpon>RemessaBoletos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RemessaBoletos.aspx.vb">
+      <DependentUpon>RemessaBoletos.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SelecionaPerfil.aspx.designer.vb">
@@ -926,6 +979,20 @@
     <Compile Include="Site.Master.vb">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SOA_I.aspx.designer.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SOA_I.aspx.vb">
+      <DependentUpon>SOA_I.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="SOA_II.aspx.designer.vb">
+      <DependentUpon>SOA_II.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SOA_II.aspx.vb">
+      <DependentUpon>SOA_II.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="SolicitacaoPagamento.aspx.designer.vb">
       <DependentUpon>SolicitacaoPagamento.aspx</DependentUpon>

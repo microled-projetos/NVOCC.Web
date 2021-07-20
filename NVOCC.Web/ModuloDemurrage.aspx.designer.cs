@@ -78,6 +78,15 @@ namespace ABAINFRA.Web
         protected global::System.Web.UI.WebControls.DropDownList ddlStatusCalculoSelecionado;
 
         /// <summary>
+        /// Controle ddlfiltroTabelaDemu.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlfiltroTabelaDemu;
+
+        /// <summary>
         /// Controle ddlParceiroTransportador.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,24 @@ namespace ABAINFRA.Web
         /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlFaturaFiltro;
+
+        /// <summary>
+        /// Controle chkFaturaF.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFaturaF;
+
+        /// <summary>
+        /// Controle chkFaturaA.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFaturaA;
 
         /// <summary>
         /// Controle ddlContaBancaria.

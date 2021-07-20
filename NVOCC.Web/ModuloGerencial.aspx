@@ -27,30 +27,36 @@
                             <div class="row topMarg flexdiv">
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label class="control-label">Consultar por:<span class="required">*</span></label>
+                                        <label class="control-label">Consultar por:</label>
                                         <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label class="control-label"><span class="required">&nbsp</span></label>
+                                        <label class="control-label"></label>
                                         <input id="txtConsulta" class="form-control" type="text" />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="control-label">Via<span class="required">&nbsp</span></label>
+                                        <label class="control-label">Tipo Estufagem</label>
+                                        <asp:DropDownList ID="ddlTipoEstufagem" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Via</label>
                                         <asp:DropDownList ID="ddlVia" runat="server" CssClass="form-control"></asp:DropDownList>                                    </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="control-label">Serviço<span class="required">&nbsp</span></label>
+                                        <label class="control-label">Serviço</label>
                                         <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
-                                        <button type="button" id="btnConsulta" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsulta" onclick="listarProcessos()" class="btn btn-primary">Consultar</button>
                                     </div>
                                 </div>
                             </div>
@@ -69,8 +75,8 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center" scope="col">PROCESSO</th>
-                                            <th class="text-center" scope="col">CLIENTE</th>
-                                            <th class="text-center" scope="col">CARRIER</th>
+                                            <th class="text-center" scope="col" style="width: 200px;">CLIENTE</th>
+                                            <th class="text-center" scope="col" style="width: 200px;">CARRIER</th>
                                             <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
                                             <th class="text-center" scope="col">CNTR 20</th>
                                             <th class="text-center" scope="col">CNTR 40</th>
@@ -92,10 +98,10 @@
                                             <th class="text-center" scope="col">VALOR PAGAMENTO</th>
                                             <th class="text-center" scope="col">DATA RECEBTO</th>
                                             <th class="text-center" scope="col">VALOR RECEBTO</th>
-                                            <th class="text-center" scope="col">DEMURRAGE VALOR</th>
-                                            <th class="text-center" scope="col">DEMURRAGE DATA</th>
-                                            <th class="text-center" scope="col">DEMURRAGE VALOR</th>
-                                            <th class="text-center" scope="col">DEMURRAGE DATA</th>
+                                            <th class="text-center" scope="col">DEMU VALOR</th>
+                                            <th class="text-center" scope="col">DEMU DATA</th>
+                                            <th class="text-center" scope="col">DEMU VALOR</th>
+                                            <th class="text-center" scope="col">DEMU DATA</th>
                                             <th class="text-center" scope="col">&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -118,9 +124,20 @@
     <script>
 
         $(document).ready(function () {
+            listarProcessos();
+        });
+
+
+        function listarProcessos() {
+            var nmfilter = document.getElementById("MainContent_ddlFiltro").value;
+            var txtfilter = document.getElementById("txtConsulta").value;
+            var via = document.getElementById("MainContent_ddlVia").value;
+            var servico = document.getElementById("MainContent_ddlServico").value;
+            var estufagem = document.getElementById("MainContent_ddlTipoEstufagem").value;
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarProcessos",
+                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "'+estufagem+'",via:"' + via + '",servico:"' + servico + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -133,27 +150,27 @@
                     if (dado != null) {
                         $("#containerCourrier").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CARRIER"] + "</td><td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["QTDE20"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["QTDE40"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["DTABERTURA"] + "</td><td class='text-center'>" + dado[i]["ETD"] + "</td>" +
+                            $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;>" + dado[i]["CLIENTE"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 10ch;'>" + dado[i]["CARRIER"] + "</td><td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["QTDE20"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTDE40"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center' title='" + dado[i]["ORIGEM"] + "' style='max-width: 10ch;'>" + dado[i]["ORIGEM"] + "</td>" +
+                                "<td class='text-center'  title='" + dado[i]["DESTINO"] + "' style='max-width: 10ch;'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["DTABERTURA"] + "</td><td class='text-center'>" + dado[i]["ETD"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ETA"] + "</td><td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DATARECEBIMENTO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td > <td class='text-center'>" + dado[i]["AGENTECARGA"] + "</td><td class='text-center'>" + dado[i]["NMCOMISSARIA"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
-                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'></td>" +
-                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'></td>" +
-                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'></td>" +
-                                "<td class='text-center'></td></tr > ");
+                                "<td class='text-center'  title='" + dado[i]["VENDEDOR"] + "' style='max-width: 10ch;'>" + dado[i]["VENDEDOR"] + "</td > <td class='text-center'  title='" + dado[i]["AGENTECARGA"] + "' style='max-width: 10ch;'>" + dado[i]["AGENTECARGA"] + "</td><td class='text-center'  title='" + dado[i]["NMCOMISSARIA"] + "' style='max-width: 10ch;'>" + dado[i]["NMCOMISSARIA"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
+                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'>" + dado[i]["DT_PAGO"] + "</td>" +
+                                "<td class='text-center'></td>" + dado[i]["VL_PAGO"] + "<td class='text-center'></td><td class='text-center'>" + dado[i]["DT_RECEBIDO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_RECEBIDO"] + "</td><td class='text-center'></td><td class='text-center'></td>" +
+                                "<td class='text-center'></td><td class='text-center'></td></tr>");
 
-                            }
                         }
-                  
+                    }
+
                     else {
                         $("#containerCourrier").empty();
                         $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })
-        });
+        }
 
         function downloadCSVAtual(csv, filename) {
             var csvFile;

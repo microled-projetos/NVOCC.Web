@@ -189,10 +189,10 @@ LEFT JOIN TB_PARCEIRO C ON C.ID_PARCEIRO = A.ID_ARMADOR"
         </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA" >
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA" >
         </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsArmador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO" >
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 union SELECT  0, 'Selecione'  ORDER BY ID_PARCEIRO" >
      </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

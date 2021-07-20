@@ -48,87 +48,39 @@
                        
                             </div>
                <br />
-                            <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" Visible="false" >                        
-                               <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Tipo Consulta:</label>
-                                        <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px" >
-                                             <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                            <asp:ListItem Value="1">OCEAN FREIGHT</asp:ListItem>
-                                            <asp:ListItem Value="2">TAXAS LOCAIS</asp:ListItem>
-                                        </asp:DropDownList>                                    </div>
-                                </div></div>
-                                                            
-
+                            <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" Visible="True" >                        
                                
-                                    <div id="ocean" runat="server" visible="false">
-                                        <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Validade Final:</label>
+                                        <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                    </div>
+                                </div>
                                             <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigemOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                             <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Porto Destino:</label>
-                                        <asp:DropDownList ID="ddlDestinoOcena" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
-                                </div>
-                                
-
-                                             <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Transportador:</label>
-                                        <asp:DropDownList ID="ddlTransportadorOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
-                                    </div>
-                                             <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Container:</label>
-                                        <asp:DropDownList ID="ddlContainer" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER" ></asp:DropDownList>            </div>
-                                    </div>
-
-                                </div>
-                                        <div class="row">
-
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Data Inicial:</label>
-                                        <asp:TextBox ID="txtDataInicial" runat="server" CssClass="form-control data" ></asp:TextBox>
-                                    </div>
-                                </div>
-                                 <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Data Final:</label>
-                                        <asp:TextBox ID="txtDataFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
-                                    </div>
-                                </div>
-
-                            </div>
-   <asp:Button runat="server" Text="Pesquisar" id="bntPesquisarOcean" CssClass="btn btn-success" />
-                                    </div>
-                                    <div id="locais" runat="server" visible="false">
-                                         <div class="row">
-                                            <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Porto Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigemLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
-                                </div>
-                                            <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Porto Destino:</label>
-                                        <asp:DropDownList ID="ddlDestinoLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                              <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Transportador:</label>
-                                        <asp:DropDownList ID="ddlTransportadorLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
+                                        <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
                                     </div>
-                                </div>
-                                <asp:Button runat="server" Text="Pesquisar" id="bntPesquisarLocais" CssClass="btn btn-success" />
+                                  <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label" style="color:white">x:</label><br />
+                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnBusca" text="Pesquisar" />
+                                        </div>
                                     </div>
-                       </div>
 
 
+                                    </div>
+        
 
         <ajaxToolkit:ModalPopupExtender id="mpeImprimir" runat="server" PopupControlID="Panel1" TargetControlID="lkExportar"  CancelControlID="btnFechar"></ajaxToolkit:ModalPopupExtender>
    <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
@@ -171,9 +123,6 @@
                                      </ContentTemplate>
   <Triggers>
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
-             <asp:AsyncPostBackTrigger ControlID="ddlConsultas" />
-       <asp:AsyncPostBackTrigger ControlID="bntPesquisarOcean" />
-             <asp:AsyncPostBackTrigger ControlID="bntPesquisarLocais" />
             <asp:PostBackTrigger ControlID="lkExportar" />
                   <asp:PostBackTrigger ControlID="lkExportaTarifario" />
     </Triggers>
@@ -184,7 +133,7 @@
     <ContentTemplate>
 
                             <div id="DivGrid" class="table-responsive tableFixHead DivGrid" >
-                                <asp:GridView ID="dgvFreteTranportador" DataKeyNames="Id,ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." >
+                                <asp:GridView ID="dgvFreteTranportador" DataKeyNames="Id,ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable dgvFreteTranportador" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFreteTranportador"  AutoGenerateColumns="false" style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvFreteTranportador_Sorting"  EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                         <asp:TemplateField>
 	                                        <ItemTemplate>                                                                
@@ -200,7 +149,7 @@
                                         <asp:BoundField DataField="PORTO_ORIGEM" HeaderText="Origem" ReadOnly="true" SortExpression="PORTO_ORIGEM" />
                                         <asp:BoundField DataField="PORTO_DESTINO" HeaderText="Destino" ReadOnly="true" SortExpression="PORTO_DESTINO" />
                                          <asp:BoundField DataField="Transportador" HeaderText="Transportador" ReadOnly="true" SortExpression="Transportador" />
-                                        <asp:BoundField DataField="NM_FANTASIA" HeaderText="Agente" ReadOnly="true" SortExpression="NM_FANTASIA" />
+                                        <asp:BoundField DataField="AGENTE" HeaderText="Agente" ReadOnly="true" SortExpression="AGENTE" />
                                         <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />
                                         <asp:BoundField DataField="QT_DIAS_TRANSITTIME_MEDIA" HeaderText="TTime(Média)" SortExpression="QT_DIAS_TRANSITTIME_MEDIA" />
                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
@@ -224,9 +173,10 @@
              
          </ContentTemplate>
   <Triggers>
-       <asp:AsyncPostBackTrigger ControlID="bntPesquisarOcean" />
-             <asp:AsyncPostBackTrigger ControlID="bntPesquisarLocais" />
              <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvFreteTranportador" />
+                   <asp:AsyncPostBackTrigger ControlID="btnBusca" />
+
+
     </Triggers>
    </asp:UpdatePanel>  
                         </div>
@@ -236,33 +186,7 @@
         </div>
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT A.ID_FRETE_TRANSPORTADOR as Id ,A.ID_TRANSPORTADOR,G.NM_FANTASIA Transportador, A.ID_AGENTE, F.NM_FANTASIA,A.ID_PORTO_ORIGEM,D.NM_PORTO as PORTO_ORIGEM,A.ID_PORTO_DESTINO,E.NM_PORTO as PORTO_DESTINO,A.QT_DIAS_TRANSITTIME_INICIAL,A.QT_DIAS_TRANSITTIME_FINAL,A.QT_DIAS_TRANSITTIME_MEDIA,A.FL_ATIVO,A.DT_VALIDADE_FINAL, 
-case when A.FL_Ativo = 1 then 'Sim' else 'Não' end as Ativo,
-
-(SELECT TIPO_CONTAINER FROM [View_Tarifario_Transportador] B
-WHERE B.ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS Tarifario,
-
-
-(select MAX( DT_VALIDADE_INICIAL)AS DT_VALIDADE_INICIAL from TB_TARIFARIO_FRETE_TRANSPORTADOR B
-WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS DT_VALIDADE_INICIAL,
-
-(select MAX( ID_TARIFARIO_FRETE_TRANSPORTADOR)AS ID_TARIFARIO_FRETE_TRANSPORTADOR from TB_TARIFARIO_FRETE_TRANSPORTADOR B
-WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS ID_TARIFARIO_FRETE_TRANSPORTADOR,
-
-(select MAX( QT_DIAS_FREETIME)AS Tarifario from TB_TARIFARIO_FRETE_TRANSPORTADOR B
-WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS QT_DIAS_FREETIME,
-
-(select MAX( VL_COMPRA)AS Tarifario from TB_TARIFARIO_FRETE_TRANSPORTADOR B
-WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR ) AS VL_COMPRA
-
-FROM TB_FRETE_TRANSPORTADOR A
-              
-            left Join TB_PORTO D ON D.ID_PORTO = A.ID_PORTO_ORIGEM
-            left Join TB_PORTO E ON E.ID_PORTO = A.ID_PORTO_DESTINO
-            left join TB_PARCEIRO F ON F.ID_PARCEIRO = A.ID_AGENTE
-            left join TB_PARCEIRO G ON G.ID_PARCEIRO = A.ID_TRANSPORTADOR
-
-           order by ID_FRETE_TRANSPORTADOR DESC "
+        selectcommand="SELECT * FROM [View_FreteTransportador] order by ID DESC "
         	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_INICIAL = @QT_DIAS_TRANSITTIME_INICIAL , QT_DIAS_TRANSITTIME_FINAL = @QT_DIAS_TRANSITTIME_FINAL , QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; 
             
             UPDATE [dbo].[TB_TARIFARIO_FRETE_TRANSPORTADOR] SET QT_DIAS_FREETIME = @QT_DIAS_FREETIME WHERE ID_FRETE_TRANSPORTADOR =  @Id AND ID_TARIFARIO_FRETE_TRANSPORTADOR = @ID_TARIFARIO_FRETE_TRANSPORTADOR "  >
@@ -281,15 +205,15 @@ FROM TB_FRETE_TRANSPORTADOR A
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
 
 

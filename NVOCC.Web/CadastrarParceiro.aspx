@@ -191,7 +191,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -487,7 +487,11 @@
                                         <asp:Checkbox ID="ckbVendedorDireto" runat="server" CssClass="form-control" text="&nbsp;Vendedor Direto" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                      
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbShipper" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Shipper" ></asp:Checkbox>
+                                    </div>
+                                </div>     
                                     
                                
                         </div>        
@@ -666,15 +670,14 @@
         selectcommand="SELECT ID_PARCEIRO, NM_FANTASIA FROM [dbo].[TB_PARCEIRO] #FILTRO Order by NM_FANTASIA">
 </asp:SqlDataSource>
  <asp:SqlDataSource ID="dsEventos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT [IDTIPOAVISO],[NMTIPOAVISO] FROM [dbo].[TB_TIPOAVISO] union SELECT 0 , 'Selecione'  FROM [dbo].[TB_TIPOAVISO]
-Order by [IDTIPOAVISO]">
+        selectcommand="SELECT [IDTIPOAVISO],[NMTIPOAVISO] FROM [dbo].[TB_TIPOAVISO] union SELECT 0 , 'Selecione' Order by [IDTIPOAVISO]">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
           <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>  
       <asp:SqlDataSource ID="dsEmailvento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT A.ID as Id, A.ENDERECOS,A.ID_EVENTO,C.NMTIPOAVISO, A.ID_TERMINAL,B.NM_PORTO, A.ID_PESSOA, D.NM_RAZAO FROM 
@@ -688,11 +691,11 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
 </asp:SqlDataSource>
     
         <asp:SqlDataSource ID="dsAcordoCambio" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' FROM [dbo].[TB_ACORDO_CAMBIO] ORDER BY ID_ACORDO_CAMBIO">
+        selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' ORDER BY ID_ACORDO_CAMBIO">
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_FATURAMENTO] ORDER BY ID_TIPO_FATURAMENTO">
+        selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
 </asp:Content>
 
@@ -715,5 +718,6 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
              if (tecla != 44 && tecla < 48 || tecla > 57)
                  return false;
          }
+  
      </script>
 </asp:Content>

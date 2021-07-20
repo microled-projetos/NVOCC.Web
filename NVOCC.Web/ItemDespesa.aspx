@@ -140,7 +140,7 @@
         <div id="divInfo" runat="server" visible="false" class="alert alert-success">
                               <asp:label ID="lblInfo" Text="" runat="server" /></div>
          <div class="table-responsive tableFixHead">
-                                <asp:GridView ID="dgvItemDespesa" style="max-height:600px; overflow:auto;"  DataKeyNames="Id" DataSourceID="dsItemDespesa"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AllowSorting="true" OnSorting="dgvItemDespesa_Sorting" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
+                                <asp:GridView ID="dgvItemDespesa" style="max-height:600px; overflow:auto;"  DataKeyNames="Id" DataSourceID="dsItemDespesa"  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AllowSorting="true" OnSorting="dgvItemDespesa_Sorting" AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Descrição" SortExpression="NM_ITEM_DESPESA" />
@@ -190,7 +190,7 @@ FROM [dbo].[TB_ITEM_DESPESA] A
         </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTipoItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TIPO_ITEM_DESPESA, NM_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA union SELECT  0, 'Selecione' FROM TB_TIPO_ITEM_DESPESA ORDER BY ID_TIPO_ITEM_DESPESA" >
+        SelectCommand="SELECT ID_TIPO_ITEM_DESPESA, NM_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ITEM_DESPESA" >
         <DeleteParameters>
                     <asp:Parameter Name="ID" Type="Int32" />
                 </DeleteParameters>

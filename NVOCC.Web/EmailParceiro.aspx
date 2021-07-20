@@ -115,10 +115,17 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label">Endereços de Email:</label><label runat="server" style="color:red" >*</label> 
-                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Style="max-width: 800px;" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de eMail's separados por vírgula)</small>                       
+                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Style="max-width: 800px;" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de eMail's separados por ponto e vírgula)</small>                       
                         </div>
                     </div>
                 </div>
+         <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <asp:Checkbox ID="ckbReplica" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Desejo replicar estes emails para todos os eventos" ></asp:Checkbox>
+                 </div>
+              </div>
+        </div>
                 <div class="row">
 
                                 <div class="col-sm-3 col-sm-offset-6">

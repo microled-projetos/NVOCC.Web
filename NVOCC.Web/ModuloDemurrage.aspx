@@ -21,15 +21,15 @@
                                 Erro ao cadastrar/atualizar.
                             </div>
                             <div class="alert alert-danger text-center" id="msgErrSelect">
-                                Selecione um Processo
+                                Selecione um Processo/Container.
                             </div>
                         </div>
                     </div>
                     <div class="functionBar">
                         <div class="btnBoxFunc">
-                            <button type="button" id="btnNovaDemurrage" class="btn btn-primary" data-toggle="modal" data-target="#modalDemurrage">Cadastro Tabela de Demurrage</button>
-                            <button type="button" id="btnEditarInfoCntr" class="btn btn-primary" data-toggle="modal" data-target="#modalEditContInfo" onclick="infoContainer()">Editar Info. CNTR</button>
-                            <button type="button" id="btnAtualizarDataDevo" class="btn btn-primary" data-toggle="modal" data-target="#modalDevolucao" onclick="DevolucaoContainer()">Atualizar Data Devol</button>
+                            <button type="button" id="btnNovaDemurrage" class="btn btn-primary" onclick="listarTabelaDemurrage()" data-toggle="modal" data-target="#modalTabelaDemurrage">Cadastro Tabela de Demurrage</button>
+                            <button type="button" id="btnEditarInfoCntr" class="btn btn-primary" onclick="infoContainer()">Editar Info. CNTR</button>
+                            <button type="button" id="btnAtualizarDataDevo" class="btn btn-primary" onclick="DevolucaoContainer()">Atualizar Data Devol</button>
                         </div>
                         <div class="btnDemuFunc">
                             <div>
@@ -40,8 +40,8 @@
                             </div>
                             <div class="demuFunc">
                                 <button type="button" id="btnCalcularDemurrage" class="btn btn-primary" onclick="CalculoDemurrage()">Cálculo Demurrage</button>           
-                                <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary" data-toggle="modal" data-target="#modalPrint">Imprimir Cálculo</button>                
-                                <button type="button" id="btnFatura" class="btn btn-primary" data-toggle="modal" data-target="#modalFaturas" onclick="listarFatura()">Faturas</button>
+                                <button type="button" id="btnImprimirCalc" onclick="imprimirDadosCalculo()" class="btn btn-primary">Imprimir Cálculo</button>                
+                                <button type="button" id="btnFatura" class="btn btn-primary" onclick="listarFatura()">Faturas</button>
                             </div>
                         </div>
                         <div class="oFunc">
@@ -62,14 +62,11 @@
                                 <input id="txtConsulta" class="form-control" type="text" />
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1">
                             <div class="form-group">
                                 <button type="button" id="btnConsulta" onclick="consultaFiltrada()" class="btn btn-primary">Consultar</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="row topMarg">
-                        
                         <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
                             <div>
                                 <asp:CheckBox ID="chkFinalizado" runat="server" CssClass="form-control noborder" Text="&nbsp;Finalizados"></asp:CheckBox>
@@ -78,6 +75,10 @@
                                 <asp:CheckBox ID="chkAtivo" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Ativos"></asp:CheckBox>
                             </div>
                         </div>
+                    </div>
+                    <div class="row topMarg">
+                        
+                        
                     </div>
                     <br />
                     
@@ -91,6 +92,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="alert alert-danger text-center" id="msgErrEditCont">
+                                            Preencha todos os campos Obrigatórios
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
@@ -114,13 +118,13 @@
                                     <div class="row topMarg">
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Data Status</label>
+                                                <label class="control-label">Data Status<span class="required">*</span></label>
                                                 <input id="dtStatus" class="form-control" type="date"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-9">
                                             <div class="form-group">
-                                                <label class="control-label">Status</label>
+                                                <label class="control-label">Status<span class="required">*</span></label>
                                                 <asp:DropDownList ID="dsStatus" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_DEMURRAGE" DataTextField="DS_STATUS_DEMURRAGE"></asp:DropDownList>
                                             </div>
                                         </div>
@@ -128,7 +132,7 @@
                                     <div class="row topMarg">
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label class="control-label">Quantidade Dias de FreeTime<span id="faturado">(Faturado)</span><span id="nFaturado">(Sem Faturamento)</span></label>
+                                                <label class="control-label">Quantidade Dias de FreeTime</label>
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
                                         </div>
@@ -143,7 +147,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" id="btnEditarInfoCont" onclick="atualizarContainer()" data-dismiss="modal" class="btn btn-primary btn-ok">Atualizar</button>
+                                    <button type="button" id="btnEditarInfoCont" onclick="atualizarContainer()" class="btn btn-primary btn-ok">Atualizar</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                                 </div>
                             </div>
@@ -160,6 +164,12 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="alert alert-danger text-center" id="msgErrSelectDevol">
+                                        Selecione um Container
+                                    </div>
+                                    <div class="alert alert-danger text-center" id="msgErrDados">
+                                        Preencha os campos Obrigatórios
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
@@ -183,13 +193,13 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="control-label">Status</label>
+                                                <label class="control-label">Status<span class="required">*</span></label>
                                                 <asp:DropDownList ID="ddlStatusDevolucao" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_DEMURRAGE" DataTextField="DS_STATUS_DEMURRAGE"></asp:DropDownList>
                                             </div>
                                         </div>
                                          <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Data Status</label>
+                                                <label class="control-label">Data Status<span class="required">*</span></label>
                                                 <input id="dtStatusDevolucao" class="form-control" type="date"/>
                                             </div>
                                         </div>
@@ -303,6 +313,9 @@
                                         <div class="alert alert-danger text-center" id="msgErrTable">
                                             Tabela Demurrage não encontrada
                                         </div>
+                                        <div class="alert alert-danger text-center" id="msgErrDadoCalc">
+                                            Preencha todos os dados obrigatórios
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -339,13 +352,13 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label class="control-label">Status</label>
+                                                <label class="control-label">Status<span class="required">*</span></label>
                                                 <asp:DropDownList ID="ddlStatusCalculoSelecionado" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_DEMURRAGE" DataTextField="DS_STATUS_DEMURRAGE"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label class="control-label">Data Status</label>
+                                                <label class="control-label">Data Status<span class="required">*</span></label>
                                                 <input id="dtStatusCalculoSelecionado" class="form-control" type="date"/>
                                             </div>
                                         </div>
@@ -362,6 +375,46 @@
                                     <button type="button" id="btnIgnorar" onclick="ignorar()" class="btn btn-primary btn-ok">Ignorar</button>
                                     <button type="button" id="btnCalcularSelecionado" onclick="calcularSelecionados()" class="btn btn-primary btn-ok">Calcular</button>
                                     <button type="button" id="btnProximo" onclick="proximo()" class="btn btn-primary btn-ok">Proximo</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-lg" id="modalTabelaDemurrage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTabelaDemurrageTitle">Tabela Demurrage</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label">ARMADOR</label>
+                                                <asp:DropDownList ID="ddlfiltroTabelaDemu" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive tableFixHead">
+                                        <table class="table tablecont">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" scope="col">Tipo Container</th>
+                                                    <th class="text-center" scope="col">Data de Validade Inicial</th>
+                                                    <th class="text-center" scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="grdDemurrageContainer">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btnCadastrarNovaDemurrage" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalDemurrage">Novo Cadastro</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -616,145 +669,38 @@
                                             DEMONSTRATIVO DE CÁLCULO DEMURRAGE
                                         </span>
                                     </div>
-                                    <div class="row" style="margin-top: 10px">
-                                        <div class="col-sm-12">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">RAZÃO SOCIAL</label>
-                                                <input id="txtRazaoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                    <div class="topMarg">
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Razão Social:</span>
+                                            <span id="txtRazaoC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">ENDEREÇO</label>
-                                                <input id="txtEnderecoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Endereço:</span>
+                                            <span id="txtEnderecoC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">MUNICIPIO</label>
-                                                <input id="txtMunicipioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Município:</span>
+                                            <span id="txtMunicipioC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">BAIRRO</label>
-                                                <input id="txtBairroC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Bairro:</span>
+                                            <span id="txtBairroC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">UF</label>
-                                                <input id="txtUFC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">UF:</span>
+                                            <span id="txtUFC" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CEP</label>
-                                                <input id="txtCEPC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">CEP:</span>
+                                            <span id="txtCEPC" style="margin-left: 10px"></span>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CNPJ</label>
-                                                <input id="txtCNPJC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">CNPJ:</span>
+                                            <span id="txtCNPJ" style="margin-left: 10px"></span>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">INSCRIÇÃO ESTADUAL</label>
-                                                <input id="txtInscricaoEstadualC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br />
-                                    <div class="row topMarg">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">PROCESSO</label>
-                                                <input id="txtProcessoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">SERVIÇO</label>
-                                                <input id="txtServicoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">REF CLIENTE</label>
-                                                <input id="txtRefClienteC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">ORIGEM</label>
-                                                <input id="txtOrigemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">SHIPPER</label>
-                                                <input id="txtShipperC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">DESTINO</label>
-                                                <input id="txtDestinoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">MASTER</label>
-                                                <input id="txtMasterC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">PESO(TON)</label>
-                                                <input id="txtPesoC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">HOUSE</label>
-                                                <input id="txtHouseC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">VOLUMES</label>
-                                                <input id="txtVolumesC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">NAVIO</label>
-                                                <input id="txtNavioC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group flexdiv">
-                                                <label class="control-label">CUBAGEM</label>
-                                                <input id="txtCubagemC" class="form-control noboxP" style="margin-left: 10px" type="text" disabled="disabled" />
-                                            </div>
+                                        <div style="display: flex;">
+                                            <span style="font-weight: bold; color: black;">Inscrição Estadual:</span>
+                                            <span id="txtInscricaoEstadualC" style="margin-left: 10px"></span>
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 20px">
@@ -797,7 +743,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalFaturaTitle">Fatura Vendas</h5>
+                                    <h5 class="modal-title" id="modalFaturaTitle"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -809,6 +755,9 @@
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrCancelar">
                                             Erro ao cancelar Fatura
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgSelectErrFatura">
+                                            Selecione uma Fatura.
                                         </div>
                                         <div class="alert alert-success text-center" id="msgSuccessCancelar">
                                             Fatura cancelada com sucesso.
@@ -825,8 +774,11 @@
                                         <div class="alert alert-success text-center" id="msgDeleteErr">
                                             Erro ao deletar Fatura.
                                         </div>
-                                        <div class="alert alert-success text-center" id="msgExportErr">
+                                        <div class="alert alert-danger text-center" id="msgExportErr">
                                             Erro ao Exportar Fatura.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrExportDadoConta">
+                                            Selecione uma Conta Bancária na aba Atualização Cambial
                                         </div>
                                     </div>
                                      <div class="functionFaturaBar">
@@ -842,7 +794,7 @@
                                             <label>&nbsp;</label>
                                             <div class="btnFaturaFuncSec">
                                                 <button type="button" id="btnAtualizacaoCambial" onclick="listarAtualizacaoCambial()" class="btn btn-primary">Atualização Cambial</button>           
-                                                <button type="button" id="btnImprimirFatura" class="btn btn-primary" onclick="exportTableToCSVAtual('members.csv')">Imprimir Fatura</button>                
+                                                <button type="button" id="btnImprimirFatura" class="btn btn-primary" onclick="imprimirFatura()">Imprimir Fatura</button>                
                                                 <button type="button" id="btnExportarContaCorrente" class="btn btn-primary" onclick="exportarCC()">Exportar Conta Corrente</button>
                                             </div>
                                         </div>
@@ -860,9 +812,17 @@
                                                 <input id="txtConsultaFatura" class="form-control" type="text" />
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-1">
                                             <div class="form-group">
-                                                <button type="button" id="btnConsultaFatura" onclick="consultaFiltradaFatura()" class="btn btn-primary">Consultar</button>
+                                                <button type="button" id="btnConsultaFatura" onclick="listarFatura()" class="btn btn-primary">Consultar</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
+                                            <div>
+                                                <asp:CheckBox ID="chkFaturaF" runat="server" CssClass="form-control noborder" Text="&nbsp;Finalizados"></asp:CheckBox>
+                                            </div>
+                                            <div>
+                                                <asp:CheckBox ID="chkFaturaA" runat="server" CssClass="form-control noborder" Checked="true" Text="&nbsp;Ativos"></asp:CheckBox>
                                             </div>
                                         </div>
                                     </div> 
@@ -894,12 +854,15 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalNovaFaturaTitle">Devolução Conteiner</h5>
+                                    <h5 class="modal-title" id="modalNovaFaturaTitle">Nova Fatura</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="alert alert-danger text-center" id="msgSelectErrFaturaProcessar">
+                                        Selecione uma Fatura.
+                                    </div>
                                     <div class="row flexdiv">
                                         <div class="col-sm-3">
                                             <div class="form-group">
@@ -966,7 +929,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalCancelarTitle">Calcular Demurrage</h5>
+                                    <h5 class="modal-title" id="modalCancelarTitle">Cancelar Fatura</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1019,6 +982,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="alert alert-danger text-center" id="msgSelectErrFaturaItens">
+                                        Selecione uma Fatura.
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -1114,6 +1080,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="alert alert-danger text-center" id="msgErrExportDado">
+                                        Preencha todos os Dados Obrigatórios
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -1167,7 +1136,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalEstimativaTitle">Fatura Vendas</h5>
+                                    <h5 class="modal-title" id="modalEstimativaTitle"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -1276,10 +1245,10 @@
                                     <th class="text-center" scope="col">Status</th>
                                     <th class="text-center" scope="col">Data Status</th>
                                     <th class="text-center" scope="col">Observação</th>
-                                    <th class="text-center" scope="col">Data Calculo Demurrage Compra</th>
+                                    <th class="text-center" scope="col">Id Fatura Compra</th>
                                     <th class="text-center" scope="col">Demurrage Compra R$</th>
                                     <th class="text-center" scope="col">Data Pagamento</th>
-                                    <th class="text-center" scope="col">Data Calculo Demurrage Venda</th>
+                                    <th class="text-center" scope="col">Id Fatura Venda</th>
                                     <th class="text-center" scope="col">Demurrage Venda R$</th>
                                     <th class="text-center" scope="col">Data Recebimento</th>
                                 </tr>
@@ -1292,6 +1261,7 @@
             </div>
         </div>
     </div>
+    <p>versão 12/07/2021 12:32</p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -1300,20 +1270,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
     <script> 
-        window.onload = function () {
-            document.getElementById("btnImprimir")
-                .addEventListener("click", () => {
-                    const pdf = this.document.getElementById("referPDF");
-                    var opt = {
-                        margin: 1,
-                        filename: 'myfile.pdf',
-                        image: { type: 'jpeg', quality: 1 },
-                        html2canvas: { scale: 1 },
-                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                    };
-                    html2pdf().from(pdf).set(opt).save();
-                })
-        }
     </script>
     <script>
        
@@ -1342,56 +1298,7 @@
         var transportador; 
 
         $(document).ready(function () {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTabela",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#grdDemurrageAtualBody").empty();
-                    $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        $("#grdModuloDemurrage").empty();
-                        for (let i = 0; i < dado.length; i++) {
-                            if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                            }
-                            else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                            }
-                            else {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                            }
-                        }
-                    }
-                    else {
-                        $("#grdModuloDemurrage").empty();
-                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='20' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                    }
-                }
-            })
+            consultaFiltrada();
         });
 
         function cbClick() {
@@ -1407,50 +1314,500 @@
                 input.parentNode.parentNode.style.background = '';
             }
         }
-
-        function DevolucaoContainer() {
+        /*function insertListaArmador() {
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/infoContainerDevolucao",
-                data: '{idCont:"' + id + '" }',
+                url: "DemurrageService.asmx/carregarArmador",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#ddlfiltroTabelaDemu").empty();
+                    $("#ddlfiltroTabelaDemu").append("<option value=''>Selecione</option>");
+                    if (dado != null) {
+                        for (var i = 0; i < dado.length; i++) {
+                            $("#ddlfiltroTabelaDemu").append("<option value='" + dado[i]["ID_PARCEIRO"]+"'>"+dado[i]["NM_RAZAO"]+"</option>");
+                        }
+                    }
+                }
+            })
+        }*/
+
+        $("#MainContent_ddlfiltroTabelaDemu").change(function () {
+            listarTabelaDemurrage();
+        })
+
+        function listarTabelaDemurrage() {
+            var armadortabela = document.getElementById("MainContent_ddlfiltroTabelaDemu").value;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/ListarDemurrageContainer",
+                data: '{armador: "' + armadortabela +'" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdDemurrageContainer").empty();
+                    $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        $("#grdDemurrageContainer").empty();
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#grdDemurrageContainer").append("<tr><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
+                                "<td class='text-center'> <div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
+                                "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td></tr>");
+                        }
+                    }
+                    else {
+                        $("#grdDemurrageContainer").empty();
+                        $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                    }
+                }
+            })
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/DemurrageList",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
-                        document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
-                        document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
-                        if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
-                            dado[0]['DT_DEVOLUCAO_CNTR'] = "";
+                        $("#ddlDemurrage").empty();
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#ddlDemurrage").append("<option value='" + dado[i]["ID_TABELA_DEMURRAGE"] + "'>" + dado[i]["NM_TIPO_CONTAINER"] + "</option>");
                         }
+                    }
+                }
+            })
+        }
+
+        function BuscarDemurrage(Id) {
+            $("#btnSalvarEditDemurrage").removeProp("disabled");
+            $("#listDemurrage").show();
+            $("#btnSalvarDemurrage").hide();
+            $("#btnEditarDemurrage").show();
+            $("#btnSalvarEditDemurrage").hide();
+            $("#btnEditarDemurrage").removeProp("disabled");
+            $("#btnCancelDemurrage").hide();
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/BuscarDemurrage",
+                data: '{Id:"' + Id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var data = data.d;
+                    data = $.parseJSON(data);
+                    if (data.FL_ESCALONADA == "True") {
+                        $("#MainContent_checkEsc").prop('checked', true);
+                    }
+                    else {
+                        $("#MainContent_checkEsc").prop('checked', false);
+                    }
+                    if (data.FL_INICIO_CHEGADA == "True") {
+                        $("#MainContent_checkInicioFreetime").prop('checked', true);
+                    }
+                    else {
+                        $("#MainContent_checkInicioFreetime").prop('checked', false);
+                    }
+                    document.getElementById("ddlDemurrage").value = data.ID_TABELA_DEMURRAGE;
+                    document.getElementById("MainContent_ddlParceiroTransportador").value = data.ID_PARCEIRO_TRANSPORTADOR;
+                    document.getElementById("MainContent_ddlTipoContainer").value = data.ID_TIPO_CONTAINER;
+                    document.getElementById("dtValidade").value = data.DT_VALIDADE_INICIAL;
+                    document.getElementById("qtFreetime").value = data.QT_DIAS_FREETIME;
+                    document.getElementById("MainContent_ddlMoeda").value = data.ID_MOEDA;
+                    document.getElementById("dtDemurrage1").value = data.QT_DIAS_01;
+                    document.getElementById("vlDemurrage1").value = data.VL_VENDA_01;
+                    document.getElementById("dtDemurrage2").value = data.QT_DIAS_02;
+                    document.getElementById("vlDemurrage2").value = data.VL_VENDA_02;
+                    document.getElementById("dtDemurrage3").value = data.QT_DIAS_03;
+                    document.getElementById("vlDemurrage3").value = data.VL_VENDA_03;
+                    document.getElementById("dtDemurrage4").value = data.QT_DIAS_04;
+                    document.getElementById("vlDemurrage4").value = data.VL_VENDA_04;
+                    document.getElementById("dtDemurrage5").value = data.QT_DIAS_05;
+                    document.getElementById("vlDemurrage5").value = data.VL_VENDA_05;
+                    document.getElementById("dtDemurrage6").value = data.QT_DIAS_06;
+                    document.getElementById("vlDemurrage6").value = data.VL_VENDA_06;
+                    document.getElementById("dtDemurrage7").value = data.QT_DIAS_07;
+                    document.getElementById("vlDemurrage7").value = data.VL_VENDA_07;
+                    document.getElementById("dtDemurrage8").value = data.QT_DIAS_08;
+                    document.getElementById("vlDemurrage8").value = data.VL_VENDA_08;
+
+
+                    var forms = ['MainContent_ddlParceiroTransportador',
+                        'MainContent_ddlTipoContainer',
+                        'dtValidade',
+                        'qtFreetime',
+                        'MainContent_ddlMoeda',
+                        'MainContent_checkEsc',
+                        'MainContent_checkInicioFreetime',
+                        'dtDemurrage1',
+                        'vlDemurrage1',
+                        'dtDemurrage2',
+                        'vlDemurrage2',
+                        'dtDemurrage3',
+                        'vlDemurrage3',
+                        'dtDemurrage4',
+                        'vlDemurrage4',
+                        'dtDemurrage5',
+                        'vlDemurrage5',
+                        'dtDemurrage6',
+                        'vlDemurrage6',
+                        'dtDemurrage7',
+                        'vlDemurrage7',
+                        'dtDemurrage8',
+                        'vlDemurrage8'];
+                    for (let i = 0; i < forms.length; i++) {
+                        var aux = document.getElementById(forms[i]);
+                        $(aux).attr("disabled", "true");
+                    }
+                }
+            })
+        };
+
+        $("#btnCadastrarNovaDemurrage").click(function () {
+            $("#btnSalvarDemurrage").show();
+            $("#btnSalvarDemurrage").removeProp("disabled");
+            $("#btnEditarDemurrage").hide();
+            $("#btnSalvarEditDemurrage").hide();
+            $("#btnCancelDemurrage").hide();
+            $("#listDemurrage").hide();
+            var forms = ['MainContent_ddlParceiroTransportador',
+                'MainContent_ddlTipoContainer',
+                'dtValidade',
+                'qtFreetime',
+                'MainContent_ddlMoeda',
+                'MainContent_checkEsc',
+                'MainContent_checkInicioFreetime',
+                'dtDemurrage1',
+                'vlDemurrage1',
+                'dtDemurrage2',
+                'vlDemurrage2',
+                'dtDemurrage3',
+                'vlDemurrage3',
+                'dtDemurrage4',
+                'vlDemurrage4',
+                'dtDemurrage5',
+                'vlDemurrage5',
+                'dtDemurrage6',
+                'vlDemurrage6',
+                'dtDemurrage7',
+                'vlDemurrage7',
+                'dtDemurrage8',
+                'vlDemurrage8'];
+            for (let i = 0; i < forms.length; i++) {
+                var aux = document.getElementById(forms[i]);
+                aux.removeAttribute("disabled");
+            }
+            var formsempty = ['MainContent_ddlParceiroTransportador',
+                'MainContent_ddlTipoContainer',
+                'dtValidade',
+                'qtFreetime',
+                'MainContent_ddlMoeda',
+                'dtDemurrage1',
+                'vlDemurrage1']
+            for (let i = 0; i < formsempty.length; i++) {
+                var aux = document.getElementById(formsempty[i]);
+                aux.value = "";
+            }
+
+            var emptyvalues = ['dtDemurrage2',
+                'vlDemurrage2',
+                'dtDemurrage3',
+                'vlDemurrage3',
+                'dtDemurrage4',
+                'vlDemurrage4',
+                'dtDemurrage5',
+                'vlDemurrage5',
+                'dtDemurrage6',
+                'vlDemurrage6',
+                'dtDemurrage7',
+                'vlDemurrage7',
+                'dtDemurrage8',
+                'vlDemurrage8']
+            for (let i = 0; i < emptyvalues.length; i++) {
+                var x = document.getElementById(emptyvalues[i]);
+                x.value = "0";
+            }
+        })
+
+        $("#btnCancelDemurrage").click(function () {
+            $("#btnEditarDemurrage").show();
+            $("#btnSalvarEditDemurrage").hide();
+            $("#btnCancelDemurrage").hide();
+            var forms = ['MainContent_ddlParceiroTransportador',
+                'MainContent_ddlTipoContainer',
+                'dtValidade',
+                'qtFreetime',
+                'MainContent_ddlMoeda',
+                'MainContent_checkEsc',
+                'MainContent_checkInicioFreetime',
+                'dtDemurrage1',
+                'vlDemurrage1',
+                'dtDemurrage2',
+                'vlDemurrage2',
+                'dtDemurrage3',
+                'vlDemurrage3',
+                'dtDemurrage4',
+                'vlDemurrage4',
+                'dtDemurrage5',
+                'vlDemurrage5',
+                'dtDemurrage6',
+                'vlDemurrage6',
+                'dtDemurrage7',
+                'vlDemurrage7',
+                'dtDemurrage8',
+                'vlDemurrage8'];
+            for (let i = 0; i < forms.length; i++) {
+                var aux = document.getElementById(forms[i]);
+                $(aux).attr("disabled", "true");
+            }
+        })
+        $("#btnEditarDemurrage").click(function () {
+            $("#btnEditarDemurrage").hide();
+            $("#btnSalvarEditDemurrage").show();
+            $("#btnCancelDemurrage").show();
+            var forms = ['MainContent_ddlParceiroTransportador',
+                'MainContent_ddlTipoContainer',
+                'dtValidade',
+                'qtFreetime',
+                'MainContent_ddlMoeda',
+                'MainContent_checkEsc',
+                'MainContent_checkInicioFreetime',
+                'dtDemurrage1',
+                'vlDemurrage1',
+                'dtDemurrage2',
+                'vlDemurrage2',
+                'dtDemurrage3',
+                'vlDemurrage3',
+                'dtDemurrage4',
+                'vlDemurrage4',
+                'dtDemurrage5',
+                'vlDemurrage5',
+                'dtDemurrage6',
+                'vlDemurrage6',
+                'dtDemurrage7',
+                'vlDemurrage7',
+                'dtDemurrage8',
+                'vlDemurrage8'];
+            for (let i = 0; i < forms.length; i++) {
+                var aux = document.getElementById(forms[i]);
+                aux.removeAttribute("disabled");
+            }
+        })
+
+        function EditarDemurrage() {
+            var checkbox = document.getElementById("MainContent_checkEsc");
+            var checkboxvalue;
+            var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
+            var checkboxfreetimevalue;
+            if (checkbox.checked) {
+                checkboxvalue = "1";
+            }
+            else {
+                checkboxvalue = "0";
+            }
+            if (checkboxfreetime.checked) {
+                checkboxfreetimevalue = "1";
+            }
+            else {
+                checkboxfreetimevalue = "0";
+            }
+            var dadosEdit = {
+                "ID_TABELA_DEMURRAGE": document.getElementById("ddlDemurrage").value,
+                "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
+                "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value,
+                "DT_VALIDADE_INICIAL": document.getElementById("dtValidade").value,
+                "QT_DIAS_FREETIME": document.getElementById("qtFreetime").value,
+                "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
+                "FL_ESCALONADA": checkboxvalue,
+                "FL_INICIO_CHEGADA": checkboxfreetimevalue,
+                "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
+                "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
+                "QT_DIAS_02": document.getElementById("dtDemurrage2").value,
+                "VL_VENDA_02": document.getElementById("vlDemurrage2").value,
+                "QT_DIAS_03": document.getElementById("dtDemurrage3").value,
+                "VL_VENDA_03": document.getElementById("vlDemurrage3").value,
+                "QT_DIAS_04": document.getElementById("dtDemurrage4").value,
+                "VL_VENDA_04": document.getElementById("vlDemurrage4").value,
+                "QT_DIAS_05": document.getElementById("dtDemurrage5").value,
+                "VL_VENDA_05": document.getElementById("vlDemurrage5").value,
+                "QT_DIAS_06": document.getElementById("dtDemurrage6").value,
+                "VL_VENDA_06": document.getElementById("vlDemurrage6").value,
+                "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
+                "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
+                "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
+                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
+            }
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/EditarDemurrageContainer",
+                data: JSON.stringify({ dadosEdit: (dadosEdit) }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#btnSalvarEditDemurrage").prop("disabled", "disabled");
+                },
+                success: function (dado) {
+                    $("#modalDemurrage").modal('hide');
+                    if (dado.d == "1") {
+                        $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
                         $.ajax({
                             type: "POST",
-                            url: "DemurrageService.asmx/listarContainerDevolucao",
-                            data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
+                            url: "DemurrageService.asmx/ListarDemurrageContainer",
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             beforeSend: function () {
-                                $("#grdDevolucaoContainerBody").empty();
-                                $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
+                                $("#grdDemurrageContainer").empty();
+                                $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
                             },
                             success: function (dado) {
                                 var dado = dado.d;
                                 dado = $.parseJSON(dado);
-                                $("#grdDevolucaoContainerBody").empty();
                                 if (dado != null) {
+                                    $("#grdDemurrageContainer").empty();
                                     for (let i = 0; i < dado.length; i++) {
-                                        $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
+                                        $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
+                                            "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
+                                            "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
+                                    }
+                                }
+                                else {
+                                    $("#grdDemurrageContainer").empty();
+                                    $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                                }
+                            }
+                        })
+                        $.ajax({
+                            type: "POST",
+                            url: "DemurrageService.asmx/DemurrageList",
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (dado) {
+                                var dado = dado.d;
+                                dado = $.parseJSON(dado);
+                                if (dado != null) {
+                                    $("#ddlDemurrage").empty();
+                                    for (let i = 0; i < dado.length; i++) {
+                                        $("#ddlDemurrage").append("<option value='" + dado[i]["ID_TABELA_DEMURRAGE"] + "'>" + dado[i]["NM_TIPO_CONTAINER"] + "</option>");
                                     }
                                 }
                             }
                         })
                     }
+                    if (dado.d == "0") {
+                        $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
+                    }
+                    if (dado.d == "2") {
+                        $("#msgErrExistDemu").fadeIn(500).delay(1000).fadeOut(500);
+                    }
                 }
             })
+        }
+
+        function DeletarDemurrage() {
+            var Id = document.getElementById("deletar-id").value;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/DeletarDemurrage",
+                data: '{Id:"' + Id + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.d == "1") {
+                        $("#msgSuccessDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
+                    }
+                    else {
+                        $("#msgErrDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/ListarDemurrageContainer",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#grdDemurrageContainer").empty();
+                            $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != null) {
+                                $("#grdDemurrageContainer").empty();
+                                for (let i = 0; i < dado.length; i++) {
+                                    $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
+                                        "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
+                                        "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
+                                }
+                            }
+                            else {
+                                $("#grdDemurrageContainer").empty();
+                                $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        function SetIdDelete(Id) {
+            $("#modalDeleteDemurrage").modal('show');
+            $("#deletar-id").val(Id);
+        }
+
+        function DevolucaoContainer() {
+            if (id != 0) {
+                $("#modalDevolucao").modal("show");
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/infoContainerDevolucao",
+                    data: '{idCont:"' + id + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
+                            document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
+                            document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
+                            if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
+                                dado[0]['DT_DEVOLUCAO_CNTR'] = "";
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: "DemurrageService.asmx/listarContainerDevolucao",
+                                data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                beforeSend: function () {
+                                    $("#grdDevolucaoContainerBody").empty();
+                                    $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
+                                },
+                                success: function (dado) {
+                                    var dado = dado.d;
+                                    dado = $.parseJSON(dado);
+                                    $("#grdDevolucaoContainerBody").empty();
+                                    if (dado != null) {
+                                        for (let i = 0; i < dado.length; i++) {
+                                            $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
+                                        }
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+            else {
+                $("#msgErrSelect").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
 
         function atualizarDevolucao() {
@@ -1462,155 +1819,115 @@
             var dtStatus = document.getElementById('dtStatusDevolucao').value;
             var dsStatus = document.getElementById('MainContent_ddlStatusDevolucao').value;
             var dtDevolucao = document.getElementById('dtDevolucao').value;
-            if (values.length > 0) {
-                for (var c = 0; c < values.length; c++) {
-                    $("#modalDevolucao").modal("hide");
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/atualizarDevolucao",
-                        data: '{idCont:"' + values[c] + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (dado) {
-                            $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
-                            $.ajax({
-                                type: "POST",
-                                url: "DemurrageService.asmx/infoContainerDevolucao",
-                                data: '{idCont:"' + id + '" }',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (dado) {
-                                    var dado = dado.d;
-                                    dado = $.parseJSON(dado);
-                                    if (dado != null) {
-                                        document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
-                                        document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
-                                        document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
-                                        if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
-                                            dado[0]['DT_DEVOLUCAO_CNTR'] = "";
-                                        }
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "DemurrageService.asmx/listarContainerDevolucao",
-                                            data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            beforeSend: function () {
-                                                $("#grdDevolucaoContainerBody").empty();
-                                                $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
-                                            },
-                                            success: function (dado) {
-                                                var dado = dado.d;
-                                                dado = $.parseJSON(dado);
-                                                $("#grdDevolucaoContainerBody").empty();
-                                                if (dado != null) {
-                                                    for (let i = 0; i < dado.length; i++) {
-                                                        $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                                            "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
+            if (dsStatus != "") {
+                if (values.length > 0) {
+                    for (var c = 0; c < values.length; c++) {
+                        $("#modalDevolucao").modal("hide");
+                        $.ajax({
+                            type: "POST",
+                            url: "DemurrageService.asmx/atualizarDevolucao",
+                            data: '{idCont:"' + values[c] + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (dado) {
+                                $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "DemurrageService.asmx/infoContainerDevolucao",
+                                    data: '{idCont:"' + id + '" }',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (dado) {
+                                        var dado = dado.d;
+                                        dado = $.parseJSON(dado);
+                                        if (dado != null) {
+                                            document.getElementById('nrProcessoDevolucao').value = dado[0]['NR_PROCESSO'];
+                                            document.getElementById('nmClienteDevolucao').value = dado[0]['CLIENTE'];
+                                            document.getElementById('dtStatusDevolucao').value = dataAtual = ano + '-' + mes + '-' + dia;
+                                            if (dado[0]['DT_DEVOLUCAO_CNTR'] == null) {
+                                                dado[0]['DT_DEVOLUCAO_CNTR'] = "";
+                                            }
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "DemurrageService.asmx/listarContainerDevolucao",
+                                                data: '{nrProcesso:"' + dado[0]['NR_PROCESSO'] + '" }',
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                beforeSend: function () {
+                                                    $("#grdDevolucaoContainerBody").empty();
+                                                    $("#grdDevolucaoContainerBody").append("<tr><td colspan='5'><div class='loader'></div></td></tr>");
+                                                },
+                                                success: function (dado) {
+                                                    var dado = dado.d;
+                                                    dado = $.parseJSON(dado);
+                                                    $("#grdDevolucaoContainerBody").empty();
+                                                    if (dado != null) {
+                                                        for (let i = 0; i < dado.length; i++) {
+                                                            $("#grdDevolucaoContainerBody").append("<tr><td class='text-center'><div><input type='checkbox' class='cntr' value='" + dado[i]["ID_CNTR"] + "' name='cntr'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td></tr>");
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        })
-                                    }
-                                }
-                            })
-                            $.ajax({
-                                type: "POST",
-                                url: "DemurrageService.asmx/listarTabela",
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                beforeSend: function () {
-                                    $("#grdDemurrageAtualBody").empty();
-                                    $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                                },
-                                success: function (dado) {
-                                    var dado = dado.d;
-                                    dado = $.parseJSON(dado);
-                                    if (dado != null) {
-                                        $("#grdModuloDemurrage").empty();
-                                        for (let i = 0; i < dado.length; i++) {
-                                            if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                            }
-                                            else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                            }
-                                            else {
-                                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                            }
+                                            })
                                         }
                                     }
-                                    else {
-                                        $("#grdModuloDemurrage").empty();
-                                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                    }
-                                }
-                            })
-                        }
-                    })
+                                })
+                                consultaFiltrada();
+                            }
+                        })
+                    }
+                }
+                else {
+                    values = [];
+                    $("#msgErrSelectDevol").fadeIn(500).delay(1000).fadeOut(500);
                 }
             }
             else {
-                values = [];
+                $("#msgErrDados").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
         function infoContainer() {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/infoContainer",
-                data: '{idCont:"' + id + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        document.getElementById('nrProcesso').value = dado[0]['NR_PROCESSO'];
-                        document.getElementById('nrContainer').value = dado[0]['NR_CNTR'];
-                        document.getElementById('nmCliente').value = dado[0]['CLIENTE'];
-                        document.getElementById('MainContent_dsStatus').value = dado[0]["ID_STATUS_DEMURRAGE"];
-                        document.getElementById('dtStatus').value = dado[0]['DATA_STATUS_DEMURRAGE'];
-                        document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
-                        if (dado[0]['DS_OBSERVACAO'] == null) {
-                            document.getElementById('obsInfoCont').value = "";
-                        }
-                        else {
-                            document.getElementById('obsInfoCont').value = dado[0]['DS_OBSERVACAO'];
-                        }
+            if (id != 0) {
+                $("#modalEditContInfo").modal("show");
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/infoContainer",
+                    data: '{idCont:"' + id + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            document.getElementById('nrProcesso').value = dado[0]['NR_PROCESSO'];
+                            document.getElementById('nrContainer').value = dado[0]['NR_CNTR'];
+                            document.getElementById('nmCliente').value = dado[0]['CLIENTE'];
+                            document.getElementById('MainContent_dsStatus').value = dado[0]["ID_STATUS_DEMURRAGE"];
+                            document.getElementById('dtStatus').value = dado[0]['DATA_STATUS_DEMURRAGE'];
+                            document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
+                            if (dado[0]['DS_OBSERVACAO'] == null) {
+                                document.getElementById('obsInfoCont').value = "";
+                            }
+                            else {
+                                document.getElementById('obsInfoCont').value = dado[0]['DS_OBSERVACAO'];
+                            }
 
-                        if (dado[0]["ID_DEMURRAGE_FATURA_PAGAR"] == null && dado[0]["ID_DEMURRAGE_FATURA_RECEBER"] == null) {
-                            document.getElementById('qtDiasFreeTime').disabled = false;
-                            document.getElementById("nFaturado").style.display = "block";
-                            document.getElementById("faturado").style.display = "none";
-                        }
-                        else {
-                            document.getElementById('qtDiasFreeTime').disabled = true;
-                            document.getElementById("nFaturado").style.display = "none";
-                            document.getElementById("faturado").style.display = "block";
+                            if (dado[0]["ID_DEMURRAGE_FATURA_PAGAR"] == null && dado[0]["ID_DEMURRAGE_FATURA_RECEBER"] == null) {
+                                document.getElementById('qtDiasFreeTime').disabled = false;
+                                
+                            }
+                            else {
+                                document.getElementById('qtDiasFreeTime').disabled = true;
+                            }
                         }
                     }
-                }
-            })
+                })
+            }
+            else {
+                $("#msgErrSelect").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
 
         function atualizarContainer() {
@@ -1618,118 +1935,30 @@
             var dsStatus = document.getElementById("MainContent_dsStatus").value;
             var qtDiasFreeTime = document.getElementById("qtDiasFreeTime").value;
             var obsInfoCont = document.getElementById("obsInfoCont").value;
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/atualizarContainer",
-                data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/listarTabela",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#grdDemurrageAtualBody").empty();
-                            $("#grdDemurrageAtualBody").append("<tr><td colspan='19'><div class='loader'></div></td></tr>");
-                        },
-                        success: function (dado) {
-                            var dado = dado.d;
-                            dado = $.parseJSON(dado);
-                            if (dado != null) {
-                                $("#grdModuloDemurrage").empty();
-                                for (let i = 0; i < dado.length; i++) {
-                                    if (dado[i]["QT_DIAS_DEMURRAGE"] <= 10 && dado[i]["QT_DIAS_DEMURRAGE"] >= 1) {
-                                        $("#grdModuloDemurrage").append("<tr style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                    else if (dado[i]["QT_DIAS_DEMURRAGE"] < 1) {
-                                        $("#grdModuloDemurrage").append("<tr style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                    else {
-                                        $("#grdModuloDemurrage").append("<tr><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                }
-                            }
-                            else {
-                                $("#grdModuloDemurrage").empty();
-                                $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                            }
+            if (dsStatus != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/atualizarContainer",
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#modalEditContInfo").modal("hide");
+                        if (dado != 2) {
+                            $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
+                            consultaFiltrada();
                         }
-                    })
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/listarTabela",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#grdDemurrageAtualBody").empty();
-                            $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                        },
-                        success: function (dado) {
-                            var dado = dado.d;
-                            dado = $.parseJSON(dado);
-                            if (dado != null) {
-                                $("#grdModuloDemurrage").empty();
-                                for (let i = 0; i < dado.length; i++) {
-                                    if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                        $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                    else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                        $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                    else {
-                                        $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                            "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                    }
-                                }
-                            }
-                            else {
-                                $("#grdModuloDemurrage").empty();
-                                $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                            }
+                        else {
+
                         }
-                    })
-                }
-            })
+                    }
+                })
+            }
+            else {
+                $("#msgErrEditCont").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
         
         function CalculoDemurrage() {
@@ -1806,6 +2035,7 @@
             if (values.length > 0) {
                 if (vlCheck == 1) {
                     $("#modalCalucloSelecionados").modal("show");
+                    document.getElementById("MainContent_ddlStatusCalculoSelecionado").value = 3;
                     $.ajax({
                         type: "POST",
                         url: "DemurrageService.asmx/infoCalculoMarcadoVendaTaxa",
@@ -1958,7 +2188,7 @@
                 }
             }
             else {
-
+                $("#msgErrDadoCalc").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
@@ -2106,56 +2336,7 @@
                         }
                     }
                 })
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/listarTabela",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#grdDemurrageAtualBody").empty();
-                        $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        if (dado != null) {
-                            $("#grdModuloDemurrage").empty();
-                            for (let i = 0; i < dado.length; i++) {
-                                if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                    $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                }
-                                else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                    $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                }
-                                else {
-                                    $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                        "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                }
-                            }
-                        }
-                        else {
-                            $("#grdModuloDemurrage").empty();
-                            $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                        }
-                    }
-                })
+                consultaFiltrada();
             }
         }
          
@@ -2301,56 +2482,7 @@
                                 }
                             })
                         }
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/listarTabela",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#grdDemurrageAtualBody").empty();
-                                $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#grdModuloDemurrage").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                        else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                        else {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                    }
-                                }
-                                else {
-                                    $("#grdModuloDemurrage").empty();
-                                    $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                }
-                            }
-                        })
+                        consultaFiltrada();
                     }
                 })
             }
@@ -2530,110 +2662,212 @@
                                 }
                             })
                         }
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/listarTabela",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#grdDemurrageAtualBody").empty();
-                                $("#grdDemurrageAtualBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#grdModuloDemurrage").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                        else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")' data-id='(" + dado[i]["ID_CNTR"] + "'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                        else {
-                                            $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
-                                        }
-                                    }
-                                }
-                                else {
-                                    $("#grdModuloDemurrage").empty();
-                                    $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
-                                }
-                            }
-                        })
+                        consultaFiltrada();
                     }
                 })
             }
         }
 
         function imprimirDadosCalculo() {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/imprimirDadosCalc",
-                data: '{id:"' + id + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#grdProcessosFaturaBody").empty();
-                    $("#grdProcessosFaturaBody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        document.getElementById("txtRazaoC").value = dado[0]["NM_RAZAO"];
-                        document.getElementById("txtEnderecoC").value = dado[0]["ENDERECO"] + dado[0]["NR_ENDERECO"];
-                        document.getElementById("txtMunicipioC").value = dado[0]["NM_CIDADE"];
-                        document.getElementById("txtBairroC").value = dado[0]["BAIRRO"];
-                        document.getElementById("txtUFC").value = dado[0]["NM_ESTADO"];
-                        document.getElementById("txtCEPC").value = dado[0]["CEP"];
-                        document.getElementById("txtCNPJC").value = dado[0]["CNPJ"];
-                        document.getElementById("txtProcessoC").value = dado[0]["NR_PROCESSO"];
-                        document.getElementById("txtServicoC").value = dado[0]["NM_SERVICO"];
-                        document.getElementById("txtOrigemC").value = dado[0]["ORIGEM"];
-                        document.getElementById("txtDestinoC").value = dado[0]["DESTINO"];
-                        
+            if (id != 0) {
+                var tipoCalculo;
+                var vlc
+                var position = 95;
+                var positionbg = 92;
+                var total = 0;
+                var totalv = 0;
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/imprimirDadosCalc",
+                    data: '{id:"' + id + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            var imgData = new Image();
+                            imgData.src = 'Content/imagens/FCA-LOG(deitado).png';
+                            var bg = new Image();
+                            bg.src = 'Content/imagens/bg.png';
+                            var doc = new jsPDF();
+                            doc.setFontSize(8);
+                            doc.addImage(imgData, 'png', 10, 0, 90, 30);
+                            
+                            doc.setFontStyle("bold");
+                            doc.text("Razão Social: ", 4, 40);
 
+                            doc.setFontStyle("normal");
+                            doc.addImage(bg, 'png', 24, 37, 182, 4);
+                            doc.text(dado[0]["NM_RAZAO"], 25, 40);
+
+
+                            doc.setFontStyle("bold");
+                            doc.text("Processo: ", 4, 50);
+                            doc.text("Ref. Cliente: ", 4, 55);
+                            doc.text("Shipper: ", 4, 60);
+                            doc.text("Master: ", 4, 65);
+                            doc.text("House: ", 4, 70);
+                            doc.text("Navio: ", 4, 75);
+
+                            doc.setFontStyle("normal");
+                            doc.addImage(bg, 'png', 24, 47, 78, 4);
+                            doc.text(dado[0]["NR_PROCESSO"], 25, 50);
+                            doc.addImage(bg, 'png', 24, 52, 78, 4);
+                            doc.addImage(bg, 'png', 24, 57, 78, 4);
+                            doc.text(dado[0]["TRANSPORTADOR"], 25, 60);
+                            doc.addImage(bg, 'png', 24, 62, 78, 4);
+                            doc.text(dado[0]["MASTER"], 25, 65);
+                            doc.addImage(bg, 'png', 24, 67, 78, 4);
+                            doc.text(dado[0]["HOUSE"], 25, 70);
+                            doc.addImage(bg, 'png', 24, 72, 78, 4);
+                            doc.text(dado[0]["NAVIO"], 25, 75);
+
+                            doc.setFontStyle("bold");
+                            doc.text("Serviço: ", 106, 50);
+                            doc.text("Origem: ", 106, 55);
+                            doc.text("Destino: ", 106, 60);
+                            doc.text("Peso(TON): ", 106, 65);
+                            doc.text("Volumes: ", 106, 70);
+                            doc.text("Cubagem(M3): ", 106, 75);
+
+                            doc.setFontStyle("normal");
+                            doc.addImage(bg, 'png', 128, 47, 78, 4);
+                            doc.text(dado[0]["NM_SERVICO"], 129, 50);
+                            doc.addImage(bg, 'png', 128, 52, 78, 4);
+                            doc.text(dado[0]["ORIGEM"] + " - " + dado[0]["DT_EMBARQUE"], 129, 55);
+                            doc.addImage(bg, 'png', 128, 57, 78, 4);
+                            doc.text(dado[0]["DESTINO"] + " - " + dado[0]["DT_CHEGADA"], 129, 60);
+                            doc.addImage(bg, 'png', 128, 62, 78, 4);
+                            doc.text(dado[0]["VL_PESO_BRUTO"], 129, 65);
+                            doc.addImage(bg, 'png', 128, 67, 78, 4);
+                            doc.text(dado[0]["VL_INDICE_VOLUMETRICO"], 129, 70);
+                            doc.addImage(bg, 'png', 128, 72, 78, 4);
+                            doc.text(dado[0]["VL_M3"], 129, 75);
+
+                            doc.setFontStyle("bold");
+                            doc.text("CONTEINER", 14, 90);
+                            doc.text("TIPO", 40, 90);
+                            doc.text("FREETIME", 66, 85);
+                            doc.text("INICIO", 56, 90);
+                            doc.text("FINAL", 70, 90);
+                            doc.text("DIAS", 82, 90);
+                            doc.text("DEMURRAGE", 100, 85);
+                            doc.text("INICIO", 92, 90);
+                            doc.text("FINAL", 106, 90);
+                            doc.text("DIAS", 118, 90);
+                            doc.text("MOEDA", 127, 90);
+                            doc.text("DIÁRIA", 141, 85);
+                            doc.text("COMPRA", 140, 90);
+                            doc.text("TOTAL", 157, 85);
+                            doc.text("COMPRA", 156, 90);
+                            doc.text("DIÁRIA", 172, 85);
+                            doc.text("VENDA", 172, 90);
+                            doc.text("TOTAL", 185, 85);
+                            doc.text("VENDA", 185, 90);
+                            doc.setFontStyle("normal");
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: "DemurrageService.asmx/listarContainerCalculoPrint",
+                                data: '{idprocess:"' + id + '"}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (dado) {
+                                    var dado = dado.d;
+                                    dado = $.parseJSON(dado);
+                                    if (dado != null) {
+                                        for (let i = 0; i < dado.length; i++) {
+                                            doc.addImage(bg, 'png', 12, positionbg, 22, 4);
+                                            doc.text(dado[i]["NR_CNTR"], 13, position);
+                                            doc.addImage(bg, 'png', 35, positionbg, 18, 4);
+                                            doc.text(dado[i]["NM_TIPO_CONTAINER"], 36, position);
+                                            doc.addImage(bg, 'png', 54, positionbg, 13, 4);
+                                            doc.text(dado[i]["INICIALFT"], 55, position);
+                                            doc.addImage(bg, 'png', 68, positionbg, 13, 4);
+                                            doc.text(dado[i]["FINALFT"], 69, position);
+                                            doc.addImage(bg, 'png', 82, positionbg, 7, 4);
+                                            doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 84, position);
+                                            doc.addImage(bg, 'png', 90, positionbg, 13, 4);
+                                            doc.text(dado[i]["INICIALDEM"].substr(0, 8), 91, position);
+                                            doc.addImage(bg, 'png', 104, positionbg, 13, 4);
+                                            doc.text(dado[i]["FINALDEM"], 105, position);
+                                            doc.addImage(bg, 'png', 118, positionbg, 7, 4);
+                                            doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 120, position);
+                                            doc.addImage(bg, 'png', 126, positionbg, 12, 4);
+                                            doc.text(dado[i]["SIGLA_MOEDA"], 129, position);
+                                            doc.addImage(bg, 'png', 139, positionbg, 14, 4);
+                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"], 141, position);
+                                            doc.addImage(bg, 'png', 154, positionbg, 16, 4);
+                                            doc.text(dado[i]["VL_DEMURRAGE_COMPRA"], 156, position);
+                                            doc.addImage(bg, 'png', 171, positionbg, 12, 4);
+                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"], 172, position);
+                                            doc.addImage(bg, 'png', 184, positionbg, 13, 4);
+                                            doc.text(dado[i]["VL_DEMURRAGE_VENDA"], 184, position);
+                                            position = position + 5;
+                                            positionbg = positionbg + 5;
+                                            total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                            totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                        }
+                                        doc.setFontStyle("bold");
+                                        doc.text("TOTAL COMPRA: ", 162, position+10);
+                                        doc.setFontStyle("normal");
+                                        doc.text(total.toString(), 188, position + 10);
+                                        doc.setFontStyle("bold");
+                                        doc.text("TOTAL VENDA: ", 162, position + 15);
+                                        doc.setFontStyle("normal");
+                                        doc.text(totalv.toString(), 188, position + 15);
+                                        doc.output("dataurlnewwindow")
+                                    }
+                                }
+                            })
+                        }
+                        else {
+                        }
                     }
-                    else {
-                        
-                    }
-                    
-                }
-            })
+                })
+            }
+            else {
+                $("#msgErrSelect").fadeIn(500).delay(1000).fadeOut(500); 
+            }
         }
 
         function listarFatura() {
+            $("#modalFaturas").modal('show');
             idFatura = 0;
+            var filtroFatura = document.getElementById("MainContent_ddlFaturaFiltro").value;
+            var txtFiltro = document.getElementById("txtConsultaFatura").value;
+            var chkA = document.getElementById("MainContent_chkFaturaA");
+            var chkF = document.getElementById("MainContent_chkFaturaF");
+            var chkAvalue;
+            var chkFvalue;
+            if (chkA.checked) {
+                chkAvalue = "1";
+            }
+            else {
+                chkAvalue = "0";
+            }
+
+            if (chkF.checked) {
+                chkFvalue = "1";
+            }
+            else {
+                chkFvalue = "0";
+            }
             if (checkV.checked) {
                 vlCheck = checkV.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Venda";
             }
             else {
                 vlCheck = checkC.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Compra";
             }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarFaturas",
-                data: '{check:"' + vlCheck + '"}',
+                data: '{check:"' + vlCheck + '", filtroFatura: "' + filtroFatura + '", txtFiltro: "' + txtFiltro + '", Ativo: "' + chkAvalue + '",Finalizado: "' + chkFvalue + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -2719,6 +2953,7 @@
             var processoFatura = document.getElementById("nrProcessoFatura").value;
             contFatura = document.querySelectorAll('[name=fatura]:checked');
             faturaV = [];
+            console.log(contFatura.length);
             for (var i = 0; i < contFatura.length; i++) {
                 faturaV.push(contFatura[i].value);
             }
@@ -2740,7 +2975,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
-                                    
+                                    consultaFiltrada();
                                 }
                             })
                         }
@@ -2749,6 +2984,388 @@
                         $("#msgSuccessProcess").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 })
+            }
+            else {
+                $("#msgSelectErrFaturaProcessar").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
+        function imprimirFatura() {
+            if (idFatura != 0) {
+                var tipoCalculo;
+                
+                var positionV = 115;
+                var positionbgV = 112;
+                var positionC = 95;
+                var positionbgC = 92;
+                var total = 0;
+                var totalv = 0;
+                var desconto = 0;
+                var totalliquido = 0;
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/imprimirDadosFatura",
+                    data: '{idFatura:"' + idFatura + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            var imgData = new Image();
+                            imgData.src = 'Content/imagens/FCA-LOG(deitado).png';
+                            var bg = new Image();
+                            bg.src = 'Content/imagens/bg.png';
+                            var doc = new jsPDF();
+                            doc.setFontSize(8);
+                            doc.addImage(imgData, 'png', 10, 0, 90, 30);
+                            var nrprocesso = dado[0]["NR_PROCESSO"];
+                            if (checkV.checked) {
+                                doc.setFontStyle("bold");
+                                doc.text("FATURA DEMURRAGE", 150, 7);
+                                doc.addImage(bg, 'png', 130, 8, 70, 4);
+                                doc.setFontStyle("normal");
+                                doc.text(dado[0]["NR_PROCESSO"], 158, 11);
+                                doc.text("ESTE DOCUMENTO NÃO TEM VALOR FISCAL, SERVE", 130, 15);
+                                doc.text("SOMENTE COMO PRESTAÇÃO DE CONTAS.", 130, 18);
+                                doc.setFontStyle("bold");
+                                doc.text("EMISSÃO", 140, 21);
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 130, 22, 70, 4);
+                                doc.text(dado[0]["DT_LANCAMENTO"], 141, 25);
+                                doc.setFontStyle("bold");
+                                doc.text("VENCIMENTO", 175, 21);
+                                doc.setFontStyle("normal");
+                                doc.text(dado[0]["DT_VENCIMENTO"], 178, 25);
+
+
+                                doc.setFontStyle("bold");
+                                doc.text("Razão Social: ", 4, 40);
+                                doc.text("Endereço: ", 4, 45);
+                                doc.text("Município: ", 4, 50);
+                                doc.text("Bairro: ", 62, 50);
+                                doc.text("UF: ", 113, 50);
+                                doc.text("CEP: ", 158, 50);
+                                doc.text("CNPJ: ", 4, 55);
+                                doc.text("INSCR. ESTADUAL: ", 80, 55);
+
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 24, 37, 182, 4);
+                                doc.text(dado[0]["CLIENTE"], 25, 40);
+                                doc.addImage(bg, 'png', 24, 42, 182, 4);
+                                doc.text(dado[0]["ENDERECO"] + "-" + dado[0]["NR_ENDERECO"], 25, 45);
+                                doc.addImage(bg, 'png', 24, 47, 35, 4);
+                                doc.text(dado[0]["NM_CIDADE"], 25, 50);
+                                doc.addImage(bg, 'png', 73, 47, 37, 4);
+                                doc.text(dado[0]["BAIRRO"], 74, 50);
+                                doc.addImage(bg, 'png', 119, 47, 35, 4);
+                                doc.text(dado[0]["NM_ESTADO"], 120, 50);
+                                doc.addImage(bg, 'png', 167, 47, 39, 4);
+                                doc.text(dado[0]["CEP"], 168, 50);
+                                doc.addImage(bg, 'png', 24, 52, 50, 4);
+                                doc.text(dado[0]["CNPJ"], 25, 55);
+                                doc.addImage(bg, 'png', 110, 52, 96, 4);
+                                doc.text(dado[0]["INSCR_ESTADUAL"], 111, 55);
+                                
+
+
+
+
+
+                                doc.setFontStyle("bold");
+                                doc.text("Processo: ", 4, 70);
+                                doc.text("Ref. Cliente: ", 4, 75);
+                                doc.text("Shipper: ", 4, 80);
+                                doc.text("Master: ", 4, 85);
+                                doc.text("House: ", 4, 90);
+                                doc.text("Navio: ", 4, 95);
+
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 24, 67, 78, 4);
+                                doc.text(dado[0]["NR_PROCESSO"], 25, 70);
+                                doc.addImage(bg, 'png', 24, 72, 78, 4);
+                                doc.addImage(bg, 'png', 24, 77, 78, 4);
+                                doc.text(dado[0]["TRANSPORTADOR"], 25, 80);
+                                doc.addImage(bg, 'png', 24, 82, 78, 4);
+                                doc.text(dado[0]["MASTER"], 25, 85);
+                                doc.addImage(bg, 'png', 24, 87, 78, 4);
+                                doc.text(dado[0]["HOUSE"], 25, 90);
+                                doc.addImage(bg, 'png', 24, 92, 78, 4);
+                                doc.text(dado[0]["NAVIO"], 25, 95);
+
+                                doc.setFontStyle("bold");
+                                doc.text("Serviço: ", 106, 70);
+                                doc.text("Origem: ", 106, 75);
+                                doc.text("Destino: ", 106, 80);
+                                doc.text("Peso(TON): ", 106, 85);
+                                doc.text("Volumes: ", 106, 90);
+                                doc.text("Cubagem(M3): ", 106, 95);
+
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 128, 67, 78, 4);
+                                doc.text(dado[0]["NM_SERVICO"], 129, 70);
+                                doc.addImage(bg, 'png', 128, 72, 78, 4);
+                                doc.text(dado[0]["ORIGEM"] + " - " + dado[0]["DT_EMBARQUE"], 129, 75);
+                                doc.addImage(bg, 'png', 128, 77, 78, 4);
+                                doc.text(dado[0]["DESTINO"] + " - " + dado[0]["DT_CHEGADA"], 129, 80);
+                                doc.addImage(bg, 'png', 128, 82, 78, 4);
+                                doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 129, 85);
+                                doc.addImage(bg, 'png', 128, 87, 78, 4);
+                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".", ","), 129, 90);
+                                doc.addImage(bg, 'png', 128, 92, 78, 4);
+                                doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 129, 95);
+
+                                doc.setFontStyle("bold");
+                                doc.text("CONTEINER", 14, 110);
+                                doc.text("TIPO", 40, 110);
+                                doc.text("FREETIME", 66, 105);
+                                doc.text("INICIO", 56, 110);
+                                doc.text("FINAL", 70, 110);
+                                doc.text("DIAS", 82, 110);
+                                doc.text("DEMURRAGE", 100, 105);
+                                doc.text("INICIO", 92, 110);
+                                doc.text("FINAL", 106, 110);
+                                doc.text("DIAS", 118, 110);
+                                doc.text("MOEDA", 127, 110);
+                                doc.text("DIÁRIA", 141, 105);
+                                doc.text("VENDA", 141, 110);
+                                doc.text("TOTAL", 157, 105);
+                                doc.text("VENDA", 157, 110);
+                                doc.text("DESCONTO", 172, 110);
+                                doc.setFontStyle("normal");
+
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "DemurrageService.asmx/listarContainerFaturaPrintVenda",
+                                    data: '{idFatura:"' + idFatura + '"}',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (dado) {
+                                        var dado = dado.d;
+                                        dado = $.parseJSON(dado);
+                                        if (dado != null) {
+                                            for (let i = 0; i < dado.length; i++) {
+                                                doc.addImage(bg, 'png', 12, positionbgV, 22, 4);
+                                                doc.text(dado[i]["NR_CNTR"], 13, positionV);
+                                                doc.addImage(bg, 'png', 35, positionbgV, 18, 4);
+                                                doc.text(dado[i]["NM_TIPO_CONTAINER"], 36, positionV);
+                                                doc.addImage(bg, 'png', 54, positionbgV, 13, 4);
+                                                doc.text(dado[i]["INICIALFT"], 55, positionV);
+                                                doc.addImage(bg, 'png', 68, positionbgV, 13, 4);
+                                                doc.text(dado[i]["FINALFT"], 69, positionV);
+                                                doc.addImage(bg, 'png', 82, positionbgV, 7, 4);
+                                                doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 84, positionV);
+                                                doc.addImage(bg, 'png', 90, positionbgV, 13, 4);
+                                                doc.text(dado[i]["INICIALDEM"].substr(0, 8), 91, positionV);
+                                                doc.addImage(bg, 'png', 104, positionbgV, 13, 4);
+                                                doc.text(dado[i]["FINALDEM"], 105, positionV);
+                                                doc.addImage(bg, 'png', 118, positionbgV, 7, 4);
+                                                doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 120, positionV);
+                                                doc.addImage(bg, 'png', 126, positionbgV, 12, 4);
+                                                doc.text(dado[i]["SIGLA_MOEDA"].toString(), 129, positionV);
+                                                doc.addImage(bg, 'png', 139, positionbgV, 14, 4);
+                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"].toString(), 141, positionV);
+                                                doc.addImage(bg, 'png', 154, positionbgV, 16, 4);
+                                                doc.text(dado[i]["VL_DEMURRAGE_VENDA"].toString(), 156, positionV);
+                                                doc.addImage(bg, 'png', 171, positionbgV, 18, 4);
+                                                doc.text(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString(), 172, positionV);
+                                                positionV = positionV + 5;
+                                                positionbgV = positionbgV + 5;
+                                                totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                                desconto = parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                                totalliquido = parseFloat(totalv) - parseFloat(desconto);
+                                            }
+                                            doc.setFontStyle("bold");
+                                            doc.text("TOTAL DAS DESPESAS: ", 155, positionV + 15);
+                                            doc.setFontStyle("normal");
+                                            doc.text(totalv.toString(), 190, positionV + 15);
+                                            doc.setFontStyle("bold");
+                                            doc.text("ACRÉSCIMOS/DESCONTOS: ", 149, positionV + 20);
+                                            doc.setFontStyle("normal");
+                                            doc.text(desconto.toString(), 190, positionV + 20);
+                                            doc.setFontStyle("bold");
+                                            doc.text("TOTAL DA FATURA: ", 160, positionV + 25);
+                                            doc.setFontStyle("normal");
+                                            doc.text(totalliquido.toString(), 190, positionV + 25);
+
+                                            doc.setFontStyle("bold");
+                                            doc.addImage(bg, 'png', 176, positionbgV+33, 32, 42);
+                                            doc.text("AVISO IMPORTANTE: ", 177, positionV + 34);
+                                            doc.text("OS FRETES E", 177, positionV + 37);
+                                            doc.text("SERVIÇO ", 177, positionV + 40);
+                                            doc.text("INTERNACIONAIS: ", 177, positionV + 43);
+                                            doc.text("DEVEM SER ", 177, positionV + 46);
+                                            doc.text("REGISTRADOS", 177, positionV + 49);
+                                            doc.text("NO SISCOSERV CASO", 177, positionV + 52);
+                                            doc.text("TENHA SIDO", 177, positionV + 55);
+                                            doc.text("EMPRESA", 177, positionV + 58);
+                                            doc.text("TRANSPORTADORA", 177, positionV + 61);
+                                            doc.text("ESTRANGEIRA NÃO", 177, positionV + 64);
+                                            doc.text("DOMICILIADA NO", 177, positionV + 67);
+                                            doc.text("BRASIL", 177, positionV + 70);
+
+                                            doc.setFontStyle("normal");
+                                            doc.text("Prezado Cliente, ", 4, positionV + 36);
+                                            doc.text("O pagamento desta fatura deverá ser realizada até a data de vencimento, após o vencimento poderão ser ", 4, positionV + 39);
+                                            doc.text("cancelados quaisquer benefícios de tarifa ou free time diferenciado por ventura existentes.", 4, positionV + 42);
+                                            doc.setFontStyle("bold");
+                                            doc.text("DADOS BANCÁRIOS PARA PAGAMENTO: ", 4, positionV + 48);
+                                            doc.setFontStyle("normal");
+                                            doc.text("BANCO (033): SANTANDER - FCA LOG - AG: 3297 - C/C: 13001071-2", 4, positionV + 51);
+                                            doc.text("FCA COMERCIO EXTERIOR E LOGISTICA LTDA. ", 4, positionV + 54);
+                                            doc.text("CNPJ: 00.639.367/0001-50", 4, positionV + 57);
+                                            doc.text("Taxa do dólar valida até a data de vencimento desta fatura, após vencido solicitar nova fatura para:", 4, positionV + 63);
+                                            doc.text("financeiro@abainfra.com.br e operacao@fcalog.com", 4, positionV + 66);
+                                            doc.text("--------------------------------------------------------------------------------------------------------------------------------------", 45, positionV + 75);
+                                            doc.text("RECEBEMOS OS SERVIÇOS CONSTANTES DO RECIBO PROVISÓRIOS DE SERVIÇO", 55, positionV + 78);
+                                            doc.addImage(bg, 'png', 4, positionbgV+78, 22, 10);
+                                            doc.text(nrprocesso, 7, positionV + 81);
+                                            doc.text("_________________________________ , _____ de _________________ de ___________  ASS _______________________________", 26, positionV + 84);
+                                            doc.output("dataurlnewwindow")
+
+                                        }
+                                    }
+                                })
+
+                            }
+                            else {
+                                doc.setFontStyle("bold");
+                                doc.text("Razão Social: ", 4, 40);
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 24, 37, 182, 4);
+                                doc.text(dado[0]["CLIENTE"], 25, 40);
+
+                                doc.setFontStyle("bold");
+                                doc.text("Processo: ", 4, 50);
+                                doc.text("Ref. Cliente: ", 4, 55);
+                                doc.text("Shipper: ", 4, 60);
+                                doc.text("Master: ", 4, 65);
+                                doc.text("House: ", 4, 70);
+                                doc.text("Navio: ", 4, 75);
+
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 24, 47, 78, 4);
+                                doc.text(dado[0]["NR_PROCESSO"], 25, 50);
+                                doc.addImage(bg, 'png', 24, 52, 78, 4);
+                                doc.addImage(bg, 'png', 24, 57, 78, 4);
+                                doc.text(dado[0]["TRANSPORTADOR"], 25, 60);
+                                doc.addImage(bg, 'png', 24, 62, 78, 4);
+                                doc.text(dado[0]["MASTER"], 25, 65);
+                                doc.addImage(bg, 'png', 24, 67, 78, 4);
+                                doc.text(dado[0]["HOUSE"], 25, 70);
+                                doc.addImage(bg, 'png', 24, 72, 78, 4);
+                                doc.text(dado[0]["NAVIO"], 25, 75);
+
+                                doc.setFontStyle("bold");
+                                doc.text("Serviço: ", 106, 50);
+                                doc.text("Origem: ", 106, 55);
+                                doc.text("Destino: ", 106, 60);
+                                doc.text("Peso(TON): ", 106, 65);
+                                doc.text("Volumes: ", 106, 70);
+                                doc.text("Cubagem(M3): ", 106, 75);
+
+                                doc.setFontStyle("normal");
+                                doc.addImage(bg, 'png', 128, 47, 78, 4);
+                                doc.text(dado[0]["NM_SERVICO"], 129, 50);
+                                doc.addImage(bg, 'png', 128, 52, 78, 4);
+                                doc.text(dado[0]["ORIGEM"] + " - " + dado[0]["DT_EMBARQUE"], 129, 55);
+                                doc.addImage(bg, 'png', 128, 57, 78, 4);
+                                doc.text(dado[0]["DESTINO"] + " - " + dado[0]["DT_CHEGADA"], 129, 60);
+                                doc.addImage(bg, 'png', 128, 62, 78, 4);
+                                doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 129, 65);
+                                doc.addImage(bg, 'png', 128, 67, 78, 4);
+                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".", ","), 129, 70);
+                                doc.addImage(bg, 'png', 128, 72, 78, 4);
+                                doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 129, 75);
+
+                                doc.setFontStyle("bold");
+                                doc.text("CONTEINER", 14, 90);
+                                doc.text("TIPO", 40, 90);
+                                doc.text("FREETIME", 66, 85);
+                                doc.text("INICIO", 56, 90);
+                                doc.text("FINAL", 70, 90);
+                                doc.text("DIAS", 82, 90);
+                                doc.text("DEMURRAGE", 100, 85);
+                                doc.text("INICIO", 92, 90);
+                                doc.text("FINAL", 106, 90);
+                                doc.text("DIAS", 118, 90);
+                                doc.text("MOEDA", 127, 90);
+                                doc.text("DIÁRIA", 141, 85);
+                                doc.text("COMPRA", 140, 90);
+                                doc.text("TOTAL", 157, 85);
+                                doc.text("COMPRA", 156, 90);
+                                doc.setFontStyle("normal");
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "DemurrageService.asmx/listarContainerFaturaPrintCompra",
+                                    data: '{idFatura:"' + idFatura + '"}',
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (dado) {
+                                        var dado = dado.d;
+                                        dado = $.parseJSON(dado);
+                                        if (dado != null) {
+                                            for (let i = 0; i < dado.length; i++) {
+                                                doc.addImage(bg, 'png', 12, positionbgC, 22, 4);
+                                                doc.text(dado[i]["NR_CNTR"], 13, positionC);
+                                                doc.addImage(bg, 'png', 35, positionbgC, 18, 4);
+                                                doc.text(dado[i]["NM_TIPO_CONTAINER"], 36, positionC);
+                                                doc.addImage(bg, 'png', 54, positionbgC, 13, 4);
+                                                doc.text(dado[i]["INICIALFT"], 55, positionC);
+                                                doc.addImage(bg, 'png', 68, positionbgC, 13, 4);
+                                                doc.text(dado[i]["FINALFT"], 69, positionC);
+                                                doc.addImage(bg, 'png', 82, positionbgC, 7, 4);
+                                                doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 84, positionC);
+                                                doc.addImage(bg, 'png', 90, positionbgC, 13, 4);
+                                                doc.text(dado[i]["INICIALDEM"].substr(0, 8), 91, positionC);
+                                                doc.addImage(bg, 'png', 104, positionbgC, 13, 4);
+                                                doc.text(dado[i]["FINALDEM"], 105, positionC);
+                                                doc.addImage(bg, 'png', 118, positionbgC, 7, 4);
+                                                doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 120, positionC);
+                                                doc.addImage(bg, 'png', 126, positionbgC, 12, 4);
+                                                doc.text(dado[i]["SIGLA_MOEDA"].toString(), 129, positionC);
+                                                doc.addImage(bg, 'png', 139, positionbgC, 14, 4);
+                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"].toString(), 141, positionC);
+                                                doc.addImage(bg, 'png', 154, positionbgC, 16, 4);
+                                                doc.text(dado[i]["VL_DEMURRAGE_COMPRA"].toString(), 156, positionC);
+                                                doc.addImage(bg, 'png', 171, positionbgC, 14, 4);
+                                                doc.text(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString(), 172, positionC);
+                                                positionC = positionC + 5;
+                                                positionbgC = positionbgC + 5;
+                                                total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                                desconto = parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                                totalliquido = parseFloat(total) - parseFloat(desconto);
+                                            }
+                                            doc.setFontStyle("bold");
+                                            doc.text("TOTAL DAS DESPESAS: ", 155, positionC + 10);
+                                            doc.setFontStyle("normal");
+                                            doc.text(total.toString(), 190, positionC + 10);
+                                            doc.setFontStyle("bold");
+                                            doc.text("ACRÉSCIMOS/DESCONTOS: ", 149, positionC + 15);
+                                            doc.setFontStyle("normal");
+                                            doc.text(desconto.toString(), 190, positionC + 15);
+                                            doc.setFontStyle("bold");
+                                            doc.text("TOTAL DA FATURA: ", 160, positionC + 20);
+                                            doc.setFontStyle("normal");
+                                            doc.text(totalliquido.toString(), 190, positionC + 20);
+
+                                            doc.output("dataurlnewwindow")
+                                        }
+                                    }
+                                })
+                                
+                            }
+                        }
+                        else {
+                        }
+                    }
+                })
+            }
+            else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
@@ -2777,12 +3394,16 @@
                         }
                     }
                 })
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
         function confirmExcluirFatura() {
             if (idFatura != 0) {
                 $("#modalExcluirFatura").modal('show');
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
@@ -2800,11 +3421,13 @@
                         $("#msgDeleteSucess").fadeIn(500).delay(1000).fadeOut(500);
                         listarFatura();
                         $("#modalExcluirFatura").modal('hide');
+                        consultaFiltrada();
                     },
                     error: function (err) {
                         $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);
                         listarFatura();
                         $("#modalExcluirFatura").modal('hide');
+                        consultaFiltrada();
                     }
 
                 })
@@ -2850,6 +3473,7 @@
                             document.getElementById("nrProcessoFaturaAtualizacaoCambial").value = dado[0]["NR_PROCESSO"];
                             document.getElementById("nmClienteFaturaAtualizacaoCambial").value = dado[0]["CLIENTE"];
                             document.getElementById("dtCambioAtualizacao").value = dataAtual = ano + '-' + mes + '-' + dia;
+                            document.getElementById("vlCambioAtualizacao").value = dado[0]["VL_TAXA"];
                             document.getElementById("dtVencimentoAtualizacaoCambial").value = dataAtual = ano + '-' + mes + '-' + dia;
                             $.ajax({
                                 type: "POST",
@@ -2879,50 +3503,60 @@
                         }
                     }
                 })
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
         function atualizacaoCambial() {
-            var idFaturaAtualizacaoCambial = document.getElementById("idFaturaAtualizacaoCambial").value;
-            var dtVencimento = document.getElementById("dtVencimentoAtualizacaoCambial").value;
-            var dtCambio = document.getElementById("dtCambioAtualizacao").value;
-            var vlCambio = document.getElementById("vlCambioAtualizacao").value;
-            var idContaBancaria = document.getElementById("MainContent_ddlContaBancaria").value;
-            var linhas = document.querySelectorAll(".desconto");
-            var linhas2 = document.querySelectorAll(".vlDemurrage");
-            var desc = document.querySelectorAll("#grdAtualizacaoCambialBody tr");
-            var valorCambio = new String(vlCambio);
-            var vcambio = valorCambio.replace(",", ".");
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/atualizacaoCambialFatura",
-                data: '{idFatura:"' + idFaturaAtualizacaoCambial + '", dtVencimento: "' + dtVencimento + '", idContaBancaria: "' + idContaBancaria + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function () {
-                    for (var ind = 0; ind < linhas.length; ind++) {
-                        var vlDemurrage = linhas2[ind].textContent.toString().replace(",", ".");
-                        var descontoBRL = linhas[ind].textContent.toString().replace(",", ".");
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/atualizacaoCambialContainer",
-                            data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage +'" ,descontoBRL: "' + descontoBRL + '",check:"'+vlCheck+'"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function () {
-                                $("#modalAtualizacaoCambial").modal("hide");
-                                $("#msgUpdtSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                            }
-                        })
+            if (idFaturaItens != 0) {
+                var idFaturaAtualizacaoCambial = document.getElementById("idFaturaAtualizacaoCambial").value;
+                var dtVencimento = document.getElementById("dtVencimentoAtualizacaoCambial").value;
+                var dtCambio = document.getElementById("dtCambioAtualizacao").value;
+                var vlCambio = document.getElementById("vlCambioAtualizacao").value;
+                var idContaBancaria = document.getElementById("MainContent_ddlContaBancaria").value;
+                var linhas = document.querySelectorAll(".desconto");
+                var linhas2 = document.querySelectorAll(".vlDemurrage");
+                var desc = document.querySelectorAll("#grdAtualizacaoCambialBody tr");
+                var valorCambio = new String(vlCambio);
+                var vcambio = valorCambio.replace(",", ".");
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/atualizacaoCambialFatura",
+                    data: '{idFatura:"' + idFaturaAtualizacaoCambial + '", dtVencimento: "' + dtVencimento + '", idContaBancaria: "' + idContaBancaria + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function () {
+                        for (var ind = 0; ind < linhas.length; ind++) {
+                            var vlDemurrage = linhas2[ind].textContent.toString();
+                            var descontoBRL = linhas[ind].textContent.toString();
+                            $.ajax({
+                                type: "POST",
+                                url: "DemurrageService.asmx/atualizacaoCambialContainer",
+                                data: '{idCntr:"' + desc[ind].attributes[1].value + '",dtCambio: "' + dtCambio + '", vlCambio: "' + vcambio + '",vlDemurrage:"' + vlDemurrage + '" ,descontoBRL: "' + descontoBRL + '",check:"' + vlCheck + '"}',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function () {
+                                    $("#modalAtualizacaoCambial").modal("hide");
+                                    $("#msgUpdtSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                                }
+                            })
+                        }
                     }
-                }
-            })
-
+                })
+            } else {
+                $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
 
         function aplicarDesconto() {
-            var desc = document.querySelector("#r" + idFaturaItens + "s td:nth-child(5)");
-            desc.textContent = document.getElementById("vlDescontoBr").value;
+            if (idFaturaItens != "") {
+                var desc = document.querySelector("#r" + idFaturaItens + "s td:nth-child(5)");
+                desc.textContent = document.getElementById("vlDescontoBr").value;
+            }
+            else {
+                $("#msgSelectErrFaturaItens").fadeIn(500).delay(1000).fadeOut(500);
+            }
         }
 
         function exportarCC() {
@@ -2945,44 +3579,62 @@
                             document.getElementById("nrProcessoFaturaContaCorrente").value = dado[0]["NR_PROCESSO"];
                             document.getElementById("nmClienteFaturaContaCorrente").value = dado[0]["CLIENTE"];
                             document.getElementById("dtLiquidacaoFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
-                            document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value = dado[0]["ID_STATUS_DEMURRAGE"];
+                            document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value = 5;
                             document.getElementById("dtStatusFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
                         }
                         else {
-
+                            
                         }
                     }
                 })
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
         }
 
         function exportarConta() {
             var dtLiquidacao = document.getElementById("dtLiquidacaoFaturaContaCorrente").value;
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/exportarCC",
-                data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao +'", check: "'+vlCheck+'"}',
-                contentType: "application/json; charset=utf-8",
-                beforeSend: function () {
-                },
-                success: function (dado) {
-                    if (dado != null) {
-                        $("#modalExportarContaCorrente").modal("hide");
-                        $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                        listarFatura();
+            var dsStatus = document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value;
+            if (dsStatus != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/exportarCC",
+                    data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '", dsStatus: "' + dsStatus +'"}',
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function () {
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != "null" && dado != null) {
+                            $("#modalExportarContaCorrente").modal("hide");
+                            $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                            listarFatura();
+                        }
+                        else{
+                            $("#modalExportarContaCorrente").modal("hide");
+                            $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
+                            listarFatura();
+                        }
                     }
-                    else {
-                        $("#modalExportarContaCorrente").modal("hide");
-                        $("#msgExportErr").fadeIn(500).delay(1000).fadeOut(500);
-                        listarFatura();
-                    }
-                }
-            })
+                })
+            } else {
+                $("#msgErrExportDado").fadeIn(500).delay(1000).fadeOut(500); 
+            }
         }
 
         function estimativaCV() {
             var estimadoCompra;
-            var estimadoVenda;
+            var estimadoVenda
+            if (checkV.checked) {
+                vlCheck = checkV.value;
+                document.getElementById("modalEstimativaTitle").textContent = "Estimativa Compra e Venda";
+            }
+            else {
+                vlCheck = checkC.value;
+                document.getElementById("modalEstimativaTitle").textContent = "Estimativa Compra e Venda";
+            }
+            
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarEstimativa",
@@ -2998,6 +3650,16 @@
                     if (dado != null) {
                         $("#grdEstimativaBody").empty();
                         for (let i = 0; i < dado.length; i++) {
+                            if (dado[i]["MOEDA_COMPRA"] == 0) {
+                                dado[i]["MOEDA_COMPRA"] = "TABELA";
+                                dado[i]["VALOR_COMPRA"] = "TABELA";
+                                dado[i]["VALOR_COMPRA_REAL"] = "TABELA";
+                            }
+                            if (dado[i]["MOEDA_VENDA"] == 0) {
+                                dado[i]["MOEDA_VENDA"] = "TABELA";
+                                dado[i]["VALOR_VENDA"] = "TABELA";
+                                dado[i]["VALOR_VENDA_REAL"] = "TABELA";
+                            }
                             $("#grdEstimativaBody").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["DT_FINAL_FREETIME"] + "</td>" +
@@ -3022,8 +3684,9 @@
                             }
                         }
                     }
-                    else {
-
+                    else {                        
+                        $("#grdEstimativaBody").empty();
+                        $("#grdEstimativaBody").append("<tr id='msgEmptyWeek'><td colspan='23' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })
@@ -3286,7 +3949,7 @@
                 "ID_TABELA_DEMURRAGE": document.getElementById("ddlDemurrage").value,
                 "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
                 "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value,
-                "DT_VALIDADE_FINAL": document.getElementById("dtValidade").value,
+                "DT_VALIDADE_INICIAL": document.getElementById("dtValidade").value,
                 "QT_DIAS_FREETIME": document.getElementById("qtFreetime").value,
                 "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
                 "FL_ESCALONADA": checkboxvalue,
@@ -3458,6 +4121,7 @@
         }
 
         function consultaFiltrada() {
+            idFatura = 0;
             var idFiltro = document.getElementById("MainContent_ddlFiltro").value;
             var stringConsulta = document.getElementById("txtConsulta").value;
             var finalizado = document.getElementById("MainContent_chkFinalizado");
@@ -3493,29 +4157,29 @@
                     if (dado != null) {
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            if (dado[i]["QT_DIAS_DEMURRAGE"] <= -10 && dado[i]["QT_DIAS_DEMURRAGE"] >= -1) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                            if (dado[i]["QT_DIAS_DEMURRAGE"] >= -10 && dado[i]["QT_DIAS_DEMURRAGE"] <= -1) {
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
                             }
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
                             }
                             else {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");

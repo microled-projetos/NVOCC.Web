@@ -23,6 +23,8 @@ namespace ABAINFRA.Web
                 CarregarMoeda();
                 CarregarStatus();
                 CarregarContaBancaria();
+                CarregarFiltroFatura();
+                CarregarArmador();
             }
         }
 
@@ -39,6 +41,7 @@ namespace ABAINFRA.Web
 
         }
 
+       
         protected void CarregarParceiroTransportador()
         {
             SQL = "SELECT * FROM tb_parceiro where FL_TRANSPORTADOR = 1";
@@ -48,21 +51,30 @@ namespace ABAINFRA.Web
             ddlParceiroTransportador.DataSource = Session["TaskTableParceiroTransportador"];
             ddlParceiroTransportador.DataBind();
             ddlParceiroTransportador.Items.Insert(0, new ListItem("Selecione", ""));
-            ddlParceiroTransportador.Items.Insert(1, new ListItem("FCA LOG", "0"));
             ddlTransportador.DataSource = Session["TaskTableParceiroTransportador"];
             ddlTransportador.DataBind();
-            ddlTransportador.Items.Insert(1, new ListItem("FCA LOG", "0"));
         }
 
         protected void CarregarTipoContainer()
         {
-            SQL = "SELECT * FROM tb_tipo_container";
+            SQL = "SELECT * FROM tb_tipo_container ORDER BY SUBSTRING(NM_TIPO_CONTAINER,0,2)";
             DataTable tipoContainerDemurrage = new DataTable();
             tipoContainerDemurrage = DBS.List(SQL);
             Session["TaskTableTipoContainerDemurrage"] = tipoContainerDemurrage;
             ddlTipoContainer.DataSource = Session["TaskTableTipoContainerDemurrage"];
             ddlTipoContainer.DataBind();
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
+        }
+
+        protected void CarregarArmador()
+        {
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
+            DataTable parceiroTransportador = new DataTable();
+            parceiroTransportador = DBS.List(SQL);
+            Session["TaskTableMoedaDemurrage"] = parceiroTransportador;
+            ddlfiltroTabelaDemu.DataSource = Session["TaskTableMoedaDemurrage"];
+            ddlfiltroTabelaDemu.DataBind();
+            ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
         protected void CarregarMoeda()
@@ -104,6 +116,14 @@ namespace ABAINFRA.Web
             ddlStatusFaturaContaCorrente.DataBind();
             ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
             
+        }
+        protected void CarregarFiltroFatura()
+        {
+            ddlFaturaFiltro.DataBind();
+            ddlFaturaFiltro.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlFaturaFiltro.Items.Insert(1, new ListItem("Nº Processo", "1"));
+            ddlFaturaFiltro.Items.Insert(2, new ListItem("Cliente", "2"));
+            ddlFaturaFiltro.Items.Insert(3, new ListItem("Armador", "3"));
         }
     }
 }

@@ -698,6 +698,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ckbVendedorDireto As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle ckbShipper.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbShipper As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle divVendedor.
     '''</summary>
     '''<remarks>

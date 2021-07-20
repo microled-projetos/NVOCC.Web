@@ -176,15 +176,6 @@ Partial Public Class EmissaoND
     Protected WithEvents lblTelefone As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblFax.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblFax As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Controle lblDataEmissao.
     '''</summary>
     '''<remarks>

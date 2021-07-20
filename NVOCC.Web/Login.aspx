@@ -91,7 +91,7 @@
     <script src="Content/js/bootstrap.min.js"></script>
     <asp:SqlDataSource ID="dsVinculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_PARCEIRO,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO)Razao FROM TB_VINCULO_USUARIO A WHERE A.ID_USUARIO = @ID_USUARIO union
- SELECT  0, 'Selecione' FROM TB_VINCULO_USUARIO ORDER BY ID_PARCEIRO">
+ SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
         <SelectParameters>
                 <asp:Parameter Name="ID_USUARIO" Type="Int32"  />
             </SelectParameters>

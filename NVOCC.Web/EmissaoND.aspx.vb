@@ -56,6 +56,10 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                     lblFatura.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
                 End If
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                    lblConhecimento.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                End If
+
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ORIGEM")) Then
                     lblOrigem.Text = ds.Tables(0).Rows(0).Item("ORIGEM")
                 End If
@@ -125,7 +129,7 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
 
                 Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
-(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES
+(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,VL_LANCAMENTO,VL_CAMBIO,VL_TAXA_CALCULADO
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
@@ -133,24 +137,26 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 If dsTaxas.Tables(0).Rows.Count > 0 Then
 
                     Dim tabela As String = "<br/><table style='font-family:Arial;font-size:10px;'><tr>"
-                    tabela &= "<th style='padding-right:10px'>Taxa</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa</th>"
                     tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa de Câmbio</th>"
+                    tabela &= "<th style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
 
                     For Each linha As DataRow In dsTaxas.Tables(0).Rows
-                        tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
+                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px''>" & linha("ITEM_DESPESA") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_CALCULADO") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CAMBIO") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td></tr>"
 
-                        valores = valores + linha("VALORES")
+                        valores = valores + linha("VL_LANCAMENTO")
 
 
                     Next
-                    tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
+                    valores = FormatCurrency(valores)
+                    Dim Total As String = FormatCurrency(valores)
+                    tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & Total & "</td></tr>"
                     tabela &= "</table>"
                     divConteudoDinamico.InnerHtml = tabela
                     'lbltotal.Text = "Total: " & valores
@@ -165,11 +171,25 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 'lblUsuario.Text = lblLogin.Text
 
                 lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
+                lblDataEmissao.Text = Now.Date.ToString("dd/MM/yyyy")
 
 
                 ds = Con.ExecutarQuery("SELECT NR_PROCESSO FROM View_Contas_Receber WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 If ds.Tables(0).Rows.Count > 0 Then
                     lblProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                End If
+
+                ds = Con.ExecutarQuery("SELECT convert(varchar,count(A.ID_CNTR_BL)) +' x '+ (SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER B WHERE B.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR )CONTAINER from TB_CNTR_BL A INNER JOIN TB_AMR_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL WHERE C.ID_BL IN (  SELECT TOP 1 ID_BL FROM TB_CONTA_PAGAR_RECEBER_ITENS
+ WHERE ID_CONTA_PAGAR_RECEBER = " & ID & ") GROUP BY A.ID_TIPO_CNTR")
+                If ds.Tables(0).Rows.Count > 0 Then
+                    lblContainer.Text = ""
+                    For Each linha As DataRow In ds.Tables(0).Rows
+                        If lblContainer.Text = "" Then
+                            lblContainer.Text = linha("CONTAINER")
+                        Else
+                            lblContainer.Text &= " + " & linha("CONTAINER")
+                        End If
+                    Next
                 End If
 
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirND()", True)

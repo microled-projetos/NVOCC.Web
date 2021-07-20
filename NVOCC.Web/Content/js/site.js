@@ -35,6 +35,7 @@ $(document).ready(function () {
     $('.placa').mask('SSS-9A99');
 });
 
+
 function CheckMaxCount(txtBox, e, maxLength) {
     if (txtBox) {
         if (txtBox.value.length > maxLength) {

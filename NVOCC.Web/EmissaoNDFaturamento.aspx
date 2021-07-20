@@ -16,6 +16,9 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding-left:10px;
+            }
         }
     </style> 
     <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">

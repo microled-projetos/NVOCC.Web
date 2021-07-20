@@ -57,7 +57,7 @@
 
                     <table style="border-style: solid; border-width: thin;">
                         <tr>
-                            <td>RECEBEMOS DE<asp:Label ID="lblEmpresa" runat="server" /><br />
+                            <td>RECEBEMOS DE <asp:Label ID="lblEmpresa" runat="server" /><br />
                                 O VALOR REFERENTE AO(S) PROCESSO(S):
                     <br />
                             </td>

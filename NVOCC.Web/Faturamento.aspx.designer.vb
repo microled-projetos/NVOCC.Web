@@ -104,15 +104,6 @@ Partial Public Class Faturamento
     Protected WithEvents lkFatura As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkRPS.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkDesmosntrativos.
     '''</summary>
     '''<remarks>
@@ -120,6 +111,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkDesmosntrativos As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRPS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRPS As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkNotasFiscais.
@@ -131,13 +131,13 @@ Partial Public Class Faturamento
     Protected WithEvents lkNotasFiscais As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkBoleto.
+    '''Controle lkOpcoesBoletos.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkBoleto As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkOpcoesBoletos As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle divAuxiliar.
@@ -183,6 +183,51 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvFaturamento As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle ModalPopupExtender11.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender11 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlOpcoesBoletos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlOpcoesBoletos As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle lkBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkBoleto As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkBoletoRemessa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkBoletoRemessa As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle btnFecharOpcoesBoletos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnFecharOpcoesBoletos As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender7.
@@ -842,6 +887,51 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharConsulta As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ModalPopupExtender10.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ModalPopupExtender10 As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle pnlOBSRPS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents pnlOBSRPS As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle txtOBSRPS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtOBSRPS As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnProsseguir.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnProsseguir As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle txtResultado.
     '''</summary>
     '''<remarks>
@@ -876,6 +966,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsBanco As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsClientes.

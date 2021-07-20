@@ -1,6 +1,11 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+     <style>
+         #imgFundo {
+            display: none;
+        }
+         </style>
     <div class="row principal">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -27,22 +32,37 @@
                                 <br />
 
 
-                                <div class="row linhabotao text-center" style="margin-left: 20px; border: ridge 1px;">
+                                <div class="row linhabotao text-center" style="margin-left: 20px;margin-right: 20px;border: ridge 1px;">
+                                    
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="text-align: left"></label>
-                                            <asp:TextBox ID="txtData" runat="server" placeholder="__/__/__" CssClass="form-control data"></asp:TextBox>
+                                            <label class="control-label" style="text-align: left">Data Vencimento:</label>
+                                            <asp:TextBox ID="txtVencimento" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
+                                    <div class="col-sm-1">
+
+                           <div class="form-group">
+                                   <asp:RadioButtonList ID="rdStatus" runat="server" Style="margin-top:5%;margin-left: 30%; font-size: 12px; text-align: justify">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                                                    </asp:RadioButtonList>      
+                           </div>
+                       </div>
                                     <div class="col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
+                                                                                        <asp:Button runat="server" Text="Pesquisar Fatura" ID="btnpesquisar" CssClass="btn btn-success" />
+
                                         </div>
                                     </div>
-                                    <div class="col-sm-offset-7 col-sm-2" runat="server">
+                                    
+                                                                            <div class="col-sm-offset-6 col-sm-2">
+
                                         <div class="form-group">
                                             <br />
+                                                                                        <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
+
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
 
                                         </div>
@@ -73,15 +93,18 @@
                                                         <asp:Label ID="lblFatura" runat="server" Text='<%# Eval("NR_FATURA_FORNECEDOR") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Liquidação" SortExpression="Liquidação">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
-                                                <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
-                                                <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
+                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />                                    
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                             </Columns>
@@ -108,14 +131,17 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
+                                                <asp:TemplateField HeaderText="Liquidação" SortExpression="Liquidação">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
-                                                <asp:BoundField DataField="VL_DESCONTO" HeaderText="Desconto" SortExpression="VL_DESCONTO" />
-                                                <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Acréscimo" SortExpression="VL_ACRESCIMO" />
+                                                <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                             </Columns>
@@ -173,19 +199,27 @@
                                                 <asp:label runat="server" ID="lblProcessoBaixa"  />                                          
                                             <asp:label runat="server" ID="lblClienteBaixa" /></h5>
                         
-                                           <h3>CONFIRMAÇÃO DA LIQUIDAÇÃO</h3>
-                                        
-                                         </div>
+                                           <h5>CONFIRMAÇÃO DA LIQUIDAÇÃO</h5>
+                                                            <div class="row">
+                                        <div class="col-sm-offset-5 col-sm-2" runat="server">
+
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Data Liquidação:</label>
+                                            <asp:TextBox ID="txtData" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                            </div>                </div>
+                                       
                                                                                        
                                                                         
                                                         <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar Fatura" />
                                                         </div>
-                                                    
+                                                  </div>    
                                                 </div>
       
-                                       </div>     </center>
+                                         </center>
                                 </asp:Panel>
 
 
@@ -205,10 +239,10 @@
         </div>
     </div>
     <asp:SqlDataSource ID="dsPagar" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'P' ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'P' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

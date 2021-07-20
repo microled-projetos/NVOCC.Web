@@ -156,7 +156,28 @@
                         mnConsultarWeek.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2027 And linha.Item("Acessar").ToString() = 0 Then
                         mnFinanceiro.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2029 And linha.Item("Acessar").ToString() = 0 Then
+                        mnComissaoVendedor.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2030 And linha.Item("Acessar").ToString() = 0 Then
+                        mnComissaoIndicadorNacional.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2031 And linha.Item("Acessar").ToString() = 0 Then
+                        mnComissaoIndicadorInternacional.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2032 And linha.Item("Acessar").ToString() = 0 Then
+                        mnAccount.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2033 And linha.Item("Acessar").ToString() = 0 Then
+                        mnCourrier.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2034 And linha.Item("Acessar").ToString() = 0 Then
+                        mnModuloDemurrage.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2035 And linha.Item("Acessar").ToString() = 0 Then
+                        mnFechamentoCambio.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2028 And linha.Item("Acessar").ToString() = 0 Then
+                        mnFaturamento.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2036 And linha.Item("Acessar").ToString() = 0 Then
+                        mnModuloGerencial.Visible = False
                     End If
+
+
+
                 Next
             End If
             Con.Fechar()
@@ -168,6 +189,26 @@
                 MenuUsuario.Visible = False
             End If
 
+            If MenuUsuario.Visible = False And MenuParceiro.Visible = False And mnMoedaFrete.Visible = False And mnMoedaFreteArmador.Visible = False And mnItemDespesa.Visible = False Then
+                MenuCadastros.Visible = False
+            End If
+
+
+
+            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False Then
+                MenuComercial.Visible = False
+            End If
+
+
+
+            If mnModuloOperacional.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False Then
+                MenuOperacao.Visible = False
+            End If
+
+
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False Then
+                MenuFinanceiro.Visible = False
+            End If
         End If
 
 

@@ -72,9 +72,9 @@
 
                            <div class="form-group">
 
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Abertos</asp:ListItem>
-                                   <asp:ListItem Value="2">&nbsp;Fechados</asp:ListItem>
+                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 11px; text-align: justify" runat="server" RepeatDirection="vertical">
+                                   <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
+                                   <asp:ListItem Value="2">&nbsp;Liquidados</asp:ListItem>
                                    <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
                                </asp:CheckBoxList>
                            </div>
@@ -88,10 +88,10 @@
 
                        <div class="col-sm-6">
                            <asp:LinkButton ID="lkFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Fatura</asp:LinkButton>
-                           <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
+                           <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              
                            <asp:LinkButton ID="lkNotasFiscais" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Notas Ficais</asp:LinkButton>
-                           <asp:LinkButton ID="lkBoleto" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boleto</asp:LinkButton>
+                           <asp:LinkButton ID="lkOpcoesBoletos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Boletos</asp:LinkButton>
 
                        </div>
                    </div>
@@ -110,7 +110,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField >
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckSelecionar" runat="server" Visible='<%# Not IsDBNull(Eval("NR_NOTA_FISCAL")) %>' AutoPostBack="true"></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
@@ -120,13 +120,15 @@
                                             <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Debito." SortExpression="NR_NOTA_DEBITO" />
                                             <asp:BoundField DataField="DT_NOTA_DEBITO" HeaderText="Data de Nota de Deb." SortExpression="DT_NOTA_DEBITO" />
-                                            <asp:BoundField DataField="NR_RPS" HeaderText="Nota RPS" SortExpression="NR_RPS" />
-                                            <asp:BoundField DataField="DT_RPS" HeaderText="Data Nota RPS" SortExpression="DT_RPS" />
-                                            <asp:BoundField DataField="NR_RECIBO" HeaderText="Nota de Recibo" SortExpression="NR_RECIBO" />
-                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Nota de Deb." SortExpression="DT_RECIBO" />
+                                            <asp:BoundField DataField="NR_RPS" HeaderText="RPS" SortExpression="NR_RPS" />
+                                            <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
+                                            <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
+                                            <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo" SortExpression="DT_RECIBO" />
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
+                                            <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
+
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -138,6 +140,40 @@
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender11" runat="server" PopupControlID="pnlOpcoesBoletos" TargetControlID="lkOpcoesBoletos" CancelControlID="btnFecharOpcoesBoletos" OkControlID="lkBoleto"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlOpcoesBoletos" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OPÇÕES DE BOLETO</h5>
+                                                        </div>
+                                                        <div class="modal-body" style="padding-left: 50px;">                                       
+                            <div class="row">
+                                   <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                           <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Imprimir Boleto</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                    <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                                                                    <asp:LinkButton ID="lkBoletoRemessa" href="RemessaBoletos.aspx" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Enviar Remessa</asp:LinkButton>
+                           
+                                        </div>
+                                         </div>
+                                   </div>                                         
+                                </div>  
+                             </div>
+                               <div class="modal-footer">
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharOpcoesBoletos" text="Close" />
+                                                        </div>                                                    
+                                                </div>
+                                       </div>     </center>
+                                </asp:Panel>
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlFatura" TargetControlID="lkFatura" CancelControlID="btnFecharFatura" OkControlID="lkBaixarFatura"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlFatura" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -151,7 +187,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -159,7 +195,7 @@
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                                                                    <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
+                                                                                    <asp:LinkButton ID="lkCancelamento" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Cancelar Fatura</asp:LinkButton>
                            
                                         </div>
                                          </div>
@@ -185,7 +221,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -193,7 +229,7 @@
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                                                                      <asp:LinkButton ID="lkReenviarRPS" visible="false" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Reenviar RPS</asp:LinkButton>                           
+                                                                                      <asp:LinkButton ID="lkReenviarRPS" visible="false" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Reenviar RPS</asp:LinkButton>                           
                                         </div>
                                          </div>
                                    </div>                                         
@@ -229,7 +265,7 @@
                                            <asp:label runat="server" ID="lblClienteBaixa"/></h5>
                                          </div>                          
                                                                                         <div class="row">                        
-                                           <h3>CONFIRMAÇÃO DA LIQUIDAÇÃO</h3>                           
+                                           <h5>CONFIRMAÇÃO DA LIQUIDAÇÃO</h5>                           
                                 </div>
                              </div>                         
                                <div class="modal-footer">
@@ -434,13 +470,7 @@
                                                                 <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">BANCO:</label><label runat="server" style="color:red" >*</label>
-                                                <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px">
-                                                    <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                    <asp:ListItem Value="001">BANCO DO BRASIL</asp:ListItem>
-                                                    <asp:ListItem Value="104">CAIXA ECONÔMICA</asp:ListItem>
-                                                    <asp:ListItem Value="033">BANCO SANTANDER</asp:ListItem>
-                                                    <asp:ListItem Value="341">ITAÚ UNIBANCO</asp:ListItem>
-                                                    <asp:ListItem Value="237">BANCO BRADESCO</asp:ListItem>                                                
+                                                <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsBanco" DataValueField="ID_CONTA_BANCARIA">                                             
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -476,35 +506,42 @@
        <div class="alert alert-danger" id="divErroConsultasNotas" runat="server" visible="false">
                                     <asp:Label ID="lblErroConsultasNotas" runat="server"></asp:Label>
                                 </div>
-                                                            <div class="row"><div class="linha-colorida">Número Nota Fiscal</div>
-                                <div class="col-sm-6">
+                  <div class="row">
+                                        <div class="col-sm-6">
+                                    <div class="linha-colorida">Número Nota Fiscal</div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaNotaInicio" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                                                                <div class="col-sm-6">
+   </div>
+                                    <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaNotaFim" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                       </div>                      
-                               <div class="row"><div class="linha-colorida">Número RPS</div>
-                                <div class="col-sm-6">
+                                    </div>
+                                    </div>
+                      <div class="col-sm-6">
+                                    <div class="linha-colorida">Número RPS</div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaRPSInicio" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                                     </div>
-                                                                <div class="col-sm-6">
+                                         </div>
+                                     <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaRPSFim" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
+                                                                
+
+                                </div>
                        </div>  
-                                                            <div class="row"><div class="linha-colorida">Vencimento</div>
+                                                            <div class="row">
+                                                             <div class="col-sm-6">      <div class="linha-colorida">Vencimento</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -517,24 +554,27 @@
                                <asp:TextBox ID="txtConsultaVencimentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
-                       </div> <div class="row"><div class="linha-colorida">Pagamento</div>
+                                                                 </div>
+                                                                 <div class="col-sm-6">  
+                      <div class="linha-colorida">Liquidação</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
                                <asp:TextBox ID="txtConsultaPagamentoInicio" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
-                                                                <div class="col-sm-6">
+                              <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">Até:</label>
                                <asp:TextBox ID="txtConsultaPagamentoFim" runat="server" CssClass="form-control data"></asp:TextBox>
                            </div>
                                      </div>
                        </div>
-                                                            <div class="row"><div class="linha-colorida">Status</div>
-                                                                                                                                <br />
 
-                                <div class="col-sm-12">
+                                                          </div>
+                                                          <div class="row">                                                                                                                           
+                                <div class="col-sm-6">
+                                    <div class="linha-colorida">Status</div><br />
                                      <div class="form-group">
                                <asp:DropDownList ID="ddlStatusConsultaNotas" runat="server" CssClass="form-control" Font-Size="11px">
                                                     <asp:ListItem Value="0" Text="TODAS"></asp:ListItem>
@@ -543,17 +583,16 @@
                                            
                                                 </asp:DropDownList>
                            </div>
-                                     </div> </div>
-                                                            <div class="row"><div class="linha-colorida">Cliente</div>
-                                                                <br />
-                                                                <div class="col-sm-12">
-                                     <div class="form-group">
+                                     </div> 
+                                                             
+                                                                <div class="col-sm-6"><div class="linha-colorida">Cliente</div><br />
+                                     <div class="form-group"> 
                               <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="COD" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
                                                 </asp:DropDownList>
                            </div>
                                      </div></div>
                                                             
-                             </div>                         
+                             </div>
                                <div class="modal-footer">
                                                                   <asp:Button runat="server" Text="Pesquisar" ID="btnConsultaNotas" CssClass="btn btn-success"  />
 
@@ -570,6 +609,33 @@
                             </Triggers>
                         </asp:UpdatePanel>
 
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+
+                                                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender10" runat="server" PopupControlID="pnlOBSRPS" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlOBSRPS" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">OBSERVAÇÃO DE RPS</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                    
+                                            <asp:TextBox ID="txtOBSRPS" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
+                                        
+                                         </div>
+                                  
+                           
+                      
+                                                       
+                                                                        
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnProsseguir" text="Prosseguir"/>
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
 
                             </ContentTemplate>
                             <Triggers>
@@ -596,9 +662,12 @@
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
+<asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_CONTA_BANCARIA, NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA
+union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' FROM [dbo].[TB_FATURAMENTO] ORDER BY COD"></asp:SqlDataSource>
+        SelectCommand="SELECT DISTINCT 1 COD, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, 'Selecione' ORDER BY COD"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

@@ -61,18 +61,21 @@ Segue sua proposta visando uma oportunidade de embarque.<br /><br/>
 <asp:label runat="server" ID="lblTitulo" class="control-label" /><br />
 N&uacute;mero:<asp:label runat="server" ID="lblNumeroCotacao" class="control-label" /><br/>
 Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-label" /><br/></div>
-<br/>
+<br/><div id="detalhesCarga" runat="server">
 <div class="linha-colorida2">Detalhes da carga</div>
 <strong>Peso bruto:</strong> <asp:label runat="server" ID="lblPesoBruto" class="control-label" /><br />
 <strong>Volume m3:</strong> <asp:label runat="server" ID="lblM3" class="control-label" /><br /> 
-<strong>Peso taxado:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br /> 
+<strong>Peso taxado:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br /> </div>
 <br/>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERM" class="control-label" /></div>
 <strong>Origem: </strong><asp:label runat="server" ID="lblOrigem" class="control-label" /><br />
 <strong>Destino: </strong><asp:label runat="server" ID="lblDestino" class="control-label" /><br />
-<strong>Via: </strong><asp:label runat="server" ID="lblVia" class="control-label" /><br />
+<strong>Via: </strong><asp:label runat="server" ID="lblVia" class="control-label" /><asp:label runat="server" ID="lblEscalas" class="control-label" /><br />
 <strong>Transit Time: </strong><asp:label runat="server" ID="lblTTime" class="control-label" /><br />
 <strong>Data de validade:</strong> <asp:label runat="server" ID="lblValidade" class="control-label" /><br />
+<strong>Frequencia:</strong> <asp:label runat="server" ID="lblFrequencia" class="control-label" /><asp:label runat="server" ID="lblValorFrequencia" class="control-label" /><br />
+
+
 <br/>
                
 <div id="divConteudoDinamico" style="font-family:Arial;font-size:10px;" runat="server">

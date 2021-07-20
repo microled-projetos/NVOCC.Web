@@ -15,6 +15,10 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding-left:5px;
+                padding-right:5px
+            }
         }
     </style> 
     <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
@@ -124,54 +128,21 @@
             </tr>
             <tr>
                 <td>
-                    <strong>MERCADORIA:</strong>&nbsp;<asp:Label ID="lblMercadoria" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>CIF R$:</strong>&nbsp;<asp:Label ID="lblCIF" runat="server" />
-                    <br />
-                </td>
-                <td>
                     <strong>CHEGADA:</strong>&nbsp;<asp:Label ID="lblChegada" runat="server" />
-                    <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>PROCEDÊNCIA:</strong>&nbsp;<asp:Label ID="lblProcedencia" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>FOB R$:</strong>&nbsp;<asp:Label ID="lblFOB" runat="server" />
-                    <br />
-                </td>
-                  <td>                    
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <strong>VEICULO:</strong>&nbsp;<asp:Label ID="lblVeiculo" runat="server" />
                     <br />
                 </td>
                 <td>
                     <strong>HOUSE:</strong>&nbsp;<asp:Label ID="lblHouse" runat="server" />
                     <br />
                 </td>
-                <td>                    
+                <td>
+                   <strong>MASTER:</strong>&nbsp;<asp:Label ID="lblMaster" runat="server" />
+ <br />
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <strong>DI/DSI:</strong>&nbsp;<asp:Label ID="lblDSI" runat="server" />
-                    <br />
-                </td>
-                <td>
-                    <strong>MASTER:</strong>&nbsp;<asp:Label ID="lblMaster" runat="server" />
-                    <br />
-                </td>
-                                  <td>                    
-                </td>
-            </tr>
+            
+            
+          
         </table>
         <table border="1">
             <tr>
@@ -181,14 +152,15 @@
             </tr>
         </table>
                             <br />
-            <br />
         <div id="divConteudoDinamico" runat="server" >
         </div>
             <div id="div1" runat="server" style="border-style:solid;border-width: thin;padding:10px;" >
                  <strong>OBSERVAÇÕES:</strong>&nbsp;<asp:Label ID="lblObs" runat="server" /><br/>
         </div>
             <div id="div2" runat="server" style="border-style:solid;border-width: thin;padding:10px;padding-top:50px;" >
-                    <strong>_____________________________________________________________________________________________________________________________</strong><br />
+                    <br />            
+                <br />
+                <strong>_____________________________________________________________________________________________________________________________</strong><br />
                     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
 
         </div>

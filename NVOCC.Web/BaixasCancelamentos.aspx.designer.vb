@@ -86,13 +86,31 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtData.
+    '''Controle txtVencimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle rdStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdStatus As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''Controle btnpesquisar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnpesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnBaixar.
@@ -264,6 +282,15 @@ Partial Public Class BaixasCancelamentos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblClienteBaixa As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtData.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtData As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnFecharBaixa.

@@ -16,6 +16,11 @@
             #DivImpressao{
                 display: block;
             }
+            td{
+                padding-left:10px;
+                padding-right:10px;
+
+            }
         }
     </style> <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
@@ -49,8 +54,6 @@
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor de Lançamento" SortExpression="VL_LANCAMENTO" />
-                                    <asp:BoundField DataField="VL_DESCONTO" HeaderText="Valor de Desconto" SortExpression="VL_DESCONTO" />
-                                    <asp:BoundField DataField="VL_ACRESCIMO" HeaderText="Valor de Acréscimo" SortExpression="VL_ACRESCIMO" />
                                     <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Valor Liquido" SortExpression="VL_LIQUIDO" />
                                     <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuario de Lançamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
                                     <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
@@ -80,7 +83,7 @@
                         <td>
         <table border="1">
             <tr>
-                <td>
+                <td >
                     <center>
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
                     <div style="text-align: center;">
@@ -108,7 +111,7 @@
         </table>
         <table  style="border-style:solid;border-width: thin;">
             <tr>
-                <td>
+                <td style="padding-left:10px">
                     <strong>CLIENTE</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
                     <br />
                 </td>
@@ -143,8 +146,6 @@
                     <br />
                 </td>
                 <td>
-                    <strong>FAX:</strong>&nbsp;<asp:Label ID="lblFax" runat="server" />
-                    <br />
                 </td>
             </tr>
         </table>
@@ -272,7 +273,11 @@
                                         </Triggers>
                                     </asp:UpdatePanel>
     <asp:SqlDataSource ID="dsNotas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE DT_CANCELAMENTO IS NULL AND (CD_PR = 'R') AND ID_BL = @ID_BL" >
+         <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BL" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

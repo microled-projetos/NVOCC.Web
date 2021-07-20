@@ -51,6 +51,7 @@ CPF,
 TP_PESSOA,
 INSCR_ESTADUAL,
 INSCR_MUNICIPAL,
+EMAIL,
 ENDERECO,
 NR_ENDERECO,
 BAIRRO,
@@ -86,7 +87,8 @@ QT_DIAS_FATURAMENTO,
 QT_DIAS_FATURAMENTO,
 ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
-FL_EQUIPE_INSIDE_SALES
+FL_EQUIPE_INSIDE_SALES,
+FL_SHIPPER
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -102,6 +104,7 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbArmazemDesembaraco.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESEMBARACO")
                 ckbArmazemDescarga.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESCARGA")
                 ckbPrestador.Checked = ds.Tables(0).Rows(0).Item("FL_PRESTADOR")
+                ckbShipper.Checked = ds.Tables(0).Rows(0).Item("FL_SHIPPER")
                 txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 txtNomeFantasia.Text = ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
                 ddlTipoPessoa.SelectedValue = ds.Tables(0).Rows(0).Item("TP_PESSOA").ToString()
@@ -113,7 +116,26 @@ WHERE ID_PARCEIRO =" & ID)
                 txtNumero.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO").ToString()
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
-                ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE")
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
+                    txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CIDADE")) Then
+
+                    Dim dsCidade As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_CIDADE WHERE ID_CIDADE =" & ds.Tables(0).Rows(0).Item("ID_CIDADE"))
+                    If dsCidade.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        If ddlTipoPessoa.SelectedValue <> 3 Then
+                            msgErro.Text = "Atualização Cadastral Pendente: Cidade selecionada inexistente!"
+                            divmsg1.Visible = True
+                        End If
+
+
+                    Else
+                        divmsg1.Visible = False
+                        ddlCidade.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CIDADE")
+
+                    End If
+                End If
+
                 txtTelefone.Text = ds.Tables(0).Rows(0).Item("TELEFONE").ToString()
                 txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP").ToString()
                 ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
@@ -208,7 +230,7 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
-        ElseIf ddlTipoPessoa.SelectedValue <> 3 And (ddlCidade.SelectedValue = 0 Or txtEndereco.Text = "" Or txtBairro.Text = "" Or txtNumero.Text = "" Or txtCEP.Text = "") Then
+        ElseIf (ddlTipoPessoa.SelectedValue <> 3 And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False) And (ddlCidade.SelectedValue = 0 Or txtEndereco.Text = "" Or txtBairro.Text = "" Or txtNumero.Text = "" Or txtCEP.Text = "") Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -253,7 +275,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbShipper.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -273,12 +295,13 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "E-Mail informado na aba Contatos é inválido."
             divmsg1.Visible = True
             msgErro.Visible = True
-        ElseIf txtEmail.Text <> "" And ValidaEmail.Validar(txtEmail.Text) = False Then
+        ElseIf txtEmail.Text <> "" And SeparaEmail(txtEmail.Text) = False Then
             msgErro.Text = "E-Mail informado na aba Email x Eventos é inválido."
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
             Con.Conectar()
+
 
             If txtID.Text = "" Then
 
@@ -459,114 +482,116 @@ WHERE ID_PARCEIRO =" & ID)
                             Con.Conectar()
 
                             Dim SQL As String = ("INSERT INTO [dbo].[TB_PARCEIRO] (
-FL_IMPORTADOR, 
-FL_EXPORTADOR, 
-FL_AGENTE, 
-FL_AGENTE_INTERNACIONAL, 
-FL_TRANSPORTADOR, 
-FL_COMISSARIA, 
-FL_VENDEDOR, 
-FL_ARMAZEM_ATRACACAO,
-FL_ARMAZEM_DESEMBARACO,
-FL_ARMAZEM_DESCARGA, 
-FL_PRESTADOR, 
-NM_RAZAO, 
-NM_FANTASIA,
-CNPJ, 
-CPF, 
-TP_PESSOA, 
-INSCR_ESTADUAL, 
-INSCR_MUNICIPAL, 
-ENDERECO,
-NR_ENDERECO,
-BAIRRO,
-COMPL_ENDERECO,
-ID_CIDADE,
-TELEFONE,
-CEP,
-ID_VENDEDOR,
-FL_ISENTO_ISS,
-FL_ISENTO_PIS,
-FL_ISENTO_COFINS,
-VL_ALIQUOTA_ISS,
-VL_ALIQUOTA_PIS,
-VL_ALIQUOTA_COFINS,
-EMAIL_NF_ELETRONICA,
-CD_IATA,
-FL_SIMPLES_NACIONAL,
-FL_ATIVO,
-FL_INDICADOR,
-SPREAD_MARITIMO_IMPO_FCL,
-SPREAD_MARITIMO_IMPO_LCL,
-SPREAD_MARITIMO_EXPO_FCL,
-SPREAD_MARITIMO_EXPO_LCL,
-SPREAD_AEREO_IMPO,
-SPREAD_AEREO_EXPO,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-ID_ACORDO_CAMBIO_AEREO,
-QT_DIAS_FATURAMENTO,
-ID_TIPO_FATURAMENTO,
-EMAIL,
-FL_VENDEDOR_DIRETO,
-FL_EQUIPE_INSIDE_SALES
-) 
-VALUES ( 
-'" & ckbImportador.Checked & "',
-'" & ckbExportador.Checked & "',
-'" & ckbAgente.Checked & "', 
-'" & ckbAgenteInternacional.Checked & "',
-'" & ckbTransportador.Checked & "',
-'" & ckbComissaria.Checked & "',
-'" & ckbVendedor.Checked & "',
-'" & ckbArmazemAtracacao.Checked & "',
-'" & ckbArmazemDesembaraco.Checked & "',
-'" & ckbArmazemDescarga.Checked & "',
-'" & ckbPrestador.Checked & "', 
-'" & txtRazaoSocial.Text & "',
-" & txtNomeFantasia.Text & ",
-#filtro 
-" & ddlTipoPessoa.SelectedValue & ",
-" & txtInscEstadual.Text & ",
-" & txtInscMunicipal.Text & ",
-" & txtEndereco.Text & ",
-" & txtNumero.Text & ",
-" & txtBairro.Text & ",
-" & txtComplemento.Text & ",
-" & ddlCidade.SelectedValue & ",
-" & txtTelefone.Text & ",
-" & txtCEP.Text & ",
-" & ddlVendedor.SelectedValue & ",
-'" & ckbISS.Checked & "',
-'" & ckbPIS.Checked & "',
-'" & ckbCOFINS.Checked & "',
-'" & txtAliquotaISS.Text & "',
-'" & txtAliquotaPIS.Text & "',
-'" & txtAliquotaCOFINS.Text & "',
-" & txtEmailNF.Text & ",
-" & txtCDIATA.Text & ",
-'" & ckbSimplesNacional.Checked & "',
-'" & ckbAtivo.Checked & "',
-'" & ckbIndicador.Checked & "',
-'" & txtMaritimoImpoFCL.Text & "',
-'" & txtMaritimoImpoLCL.Text & "',
-'" & txtMaritimoExpoFCL.Text & "',
-'" & txtMaritimoExpoLCL.Text & "',
-'" & txtAereoImpo.Text & "',
-'" & txtAereoExpo.Text & "',
-" & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
-" & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
-" & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
-" & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
-" & ddlAcordoCambioAereo.SelectedValue & ",
-" & txtQtdFaturamento.Text & ",
-" & ddlTipoFaturamento.SelectedValue & ",
-" & txtEmailParceiro.Text & ",
-'" & ckbVendedorDireto.Checked & "',
-'" & ckbEquipeInsideSales.Checked & "'
-) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
+            FL_IMPORTADOR, 
+            FL_EXPORTADOR, 
+            FL_AGENTE, 
+            FL_AGENTE_INTERNACIONAL, 
+            FL_TRANSPORTADOR, 
+            FL_COMISSARIA, 
+            FL_VENDEDOR, 
+            FL_ARMAZEM_ATRACACAO,
+            FL_ARMAZEM_DESEMBARACO,
+            FL_ARMAZEM_DESCARGA, 
+            FL_PRESTADOR, 
+            NM_RAZAO, 
+            NM_FANTASIA,
+            CNPJ, 
+            CPF, 
+            TP_PESSOA, 
+            INSCR_ESTADUAL, 
+            INSCR_MUNICIPAL, 
+            ENDERECO,
+            NR_ENDERECO,
+            BAIRRO,
+            COMPL_ENDERECO,
+            ID_CIDADE,
+            TELEFONE,
+            CEP,
+            ID_VENDEDOR,
+            FL_ISENTO_ISS,
+            FL_ISENTO_PIS,
+            FL_ISENTO_COFINS,
+            VL_ALIQUOTA_ISS,
+            VL_ALIQUOTA_PIS,
+            VL_ALIQUOTA_COFINS,
+            EMAIL_NF_ELETRONICA,
+            CD_IATA,
+            FL_SIMPLES_NACIONAL,
+            FL_ATIVO,
+            FL_INDICADOR,
+            SPREAD_MARITIMO_IMPO_FCL,
+            SPREAD_MARITIMO_IMPO_LCL,
+            SPREAD_MARITIMO_EXPO_FCL,
+            SPREAD_MARITIMO_EXPO_LCL,
+            SPREAD_AEREO_IMPO,
+            SPREAD_AEREO_EXPO,
+            ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
+            ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
+            ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
+            ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
+            ID_ACORDO_CAMBIO_AEREO,
+            QT_DIAS_FATURAMENTO,
+            ID_TIPO_FATURAMENTO,
+            EMAIL,
+            FL_VENDEDOR_DIRETO,
+            FL_EQUIPE_INSIDE_SALES,
+            FL_SHIPPER
+            ) 
+            VALUES ( 
+            '" & ckbImportador.Checked & "',
+            '" & ckbExportador.Checked & "',
+            '" & ckbAgente.Checked & "', 
+            '" & ckbAgenteInternacional.Checked & "',
+            '" & ckbTransportador.Checked & "',
+            '" & ckbComissaria.Checked & "',
+            '" & ckbVendedor.Checked & "',
+            '" & ckbArmazemAtracacao.Checked & "',
+            '" & ckbArmazemDesembaraco.Checked & "',
+            '" & ckbArmazemDescarga.Checked & "',
+            '" & ckbPrestador.Checked & "', 
+            '" & txtRazaoSocial.Text & "',
+            " & txtNomeFantasia.Text & ",
+            #filtro 
+            " & ddlTipoPessoa.SelectedValue & ",
+            " & txtInscEstadual.Text & ",
+            " & txtInscMunicipal.Text & ",
+            " & txtEndereco.Text & ",
+            " & txtNumero.Text & ",
+            " & txtBairro.Text & ",
+            " & txtComplemento.Text & ",
+            " & ddlCidade.SelectedValue & ",
+            " & txtTelefone.Text & ",
+            " & txtCEP.Text & ",
+            " & ddlVendedor.SelectedValue & ",
+            '" & ckbISS.Checked & "',
+            '" & ckbPIS.Checked & "',
+            '" & ckbCOFINS.Checked & "',
+            '" & txtAliquotaISS.Text & "',
+            '" & txtAliquotaPIS.Text & "',
+            '" & txtAliquotaCOFINS.Text & "',
+            " & txtEmailNF.Text & ",
+            " & txtCDIATA.Text & ",
+            '" & ckbSimplesNacional.Checked & "',
+            '" & ckbAtivo.Checked & "',
+            '" & ckbIndicador.Checked & "',
+            '" & txtMaritimoImpoFCL.Text & "',
+            '" & txtMaritimoImpoLCL.Text & "',
+            '" & txtMaritimoExpoFCL.Text & "',
+            '" & txtMaritimoExpoLCL.Text & "',
+            '" & txtAereoImpo.Text & "',
+            '" & txtAereoExpo.Text & "',
+            " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
+            " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
+            " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
+            " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
+            " & ddlAcordoCambioAereo.SelectedValue & ",
+            " & txtQtdFaturamento.Text & ",
+            " & ddlTipoFaturamento.SelectedValue & ",
+            " & txtEmailParceiro.Text & ",
+            '" & ckbVendedorDireto.Checked & "',
+            '" & ckbEquipeInsideSales.Checked & "',
+            '" & ckbShipper.Checked & "'
+            ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
 
@@ -617,7 +642,7 @@ VALUES (
                             End If
 
 
-                            If txtEmail.Text = "" And ddlPorto.SelectedValue = 0 And ddlEvento.SelectedValue = 0 Then
+                            If txtEmail.Text = "" And ddlEvento.SelectedValue = 0 Then
                                 divInformativa.Visible = True
                                 lblInformacao.Text &= " <br/> Parceiro cadastrado sem informações de email e evento"
                             Else
@@ -664,6 +689,8 @@ VALUES (
 
                                         End If
                                     End If
+
+
 
                                 End If
 
@@ -854,58 +881,59 @@ VALUES (
                             Con.Conectar()
 
                             Dim SQL As String = ("UPDATE [dbo].[TB_PARCEIRO] SET FL_IMPORTADOR = '" & ckbImportador.Checked & "',
-FL_EXPORTADOR = '" & ckbExportador.Checked & "',
-FL_AGENTE = '" & ckbAgente.Checked & "' ,
-FL_AGENTE_INTERNACIONAL= '" & ckbAgenteInternacional.Checked & "',
-FL_TRANSPORTADOR= '" & ckbTransportador.Checked & "',
-FL_COMISSARIA ='" & ckbComissaria.Checked & "',
-FL_VENDEDOR='" & ckbVendedor.Checked & "',
-FL_ARMAZEM_ATRACACAO = '" & ckbArmazemDescarga.Checked & "',
-FL_ARMAZEM_DESEMBARACO = '" & ckbArmazemDesembaraco.Checked & "',
-FL_ARMAZEM_DESCARGA = '" & ckbArmazemAtracacao.Checked & "',
-FL_PRESTADOR= '" & ckbPrestador.Checked & "',
-NM_RAZAO= '" & txtRazaoSocial.Text & "',
-NM_FANTASIA = " & txtNomeFantasia.Text & ",
-#filtro 
-TP_PESSOA= '" & ddlTipoPessoa.SelectedValue & "',
-INSCR_ESTADUAL=" & txtInscEstadual.Text & ",
-INSCR_MUNICIPAL= " & txtInscMunicipal.Text & ",
-ENDERECO=" & txtEndereco.Text & ",
-NR_ENDERECO=" & txtNumero.Text & ",
-BAIRRO=" & txtBairro.Text & ",
-COMPL_ENDERECO=" & txtComplemento.Text & ",
-ID_CIDADE=" & ddlCidade.SelectedValue & ",
-TELEFONE=" & txtTelefone.Text & ",
-CEP=" & txtCEP.Text & ",
-ID_VENDEDOR=" & ddlVendedor.SelectedValue & ",
-FL_ISENTO_ISS='" & ckbISS.Checked & "',
-FL_ISENTO_PIS='" & ckbPIS.Checked & "',
-FL_ISENTO_COFINS='" & ckbCOFINS.Checked & "',
-VL_ALIQUOTA_ISS='" & txtAliquotaISS.Text & "',
-VL_ALIQUOTA_PIS= '" & txtAliquotaPIS.Text & "',
-VL_ALIQUOTA_COFINS='" & txtAliquotaCOFINS.Text & "',
-EMAIL_NF_ELETRONICA=" & txtEmailNF.Text & ",
-CD_IATA=" & txtCDIATA.Text & ",
-FL_SIMPLES_NACIONAL='" & ckbSimplesNacional.Checked & "',
-FL_ATIVO = '" & ckbAtivo.Checked & "', 
-FL_INDICADOR = '" & ckbIndicador.Checked & "',
-SPREAD_MARITIMO_IMPO_FCL = '" & txtMaritimoImpoFCL.Text & "',
-SPREAD_MARITIMO_IMPO_LCL = '" & txtMaritimoImpoLCL.Text & "',
-SPREAD_MARITIMO_EXPO_FCL = '" & txtMaritimoExpoFCL.Text & "',
-SPREAD_MARITIMO_EXPO_LCL = '" & txtMaritimoExpoLCL.Text & "',
-SPREAD_AEREO_IMPO = '" & txtAereoImpo.Text & "',
-SPREAD_AEREO_EXPO = '" & txtAereoExpo.Text & "',
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL = " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL = " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL = " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
-ID_ACORDO_CAMBIO_AEREO = " & ddlAcordoCambioAereo.SelectedValue & ",
-QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
-ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
-EMAIL =  " & txtEmailParceiro.Text & ",
-FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
-FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "'
-where ID_PARCEIRO = " & ID)
+            FL_EXPORTADOR = '" & ckbExportador.Checked & "',
+            FL_AGENTE = '" & ckbAgente.Checked & "' ,
+            FL_AGENTE_INTERNACIONAL= '" & ckbAgenteInternacional.Checked & "',
+            FL_TRANSPORTADOR= '" & ckbTransportador.Checked & "',
+            FL_COMISSARIA ='" & ckbComissaria.Checked & "',
+            FL_VENDEDOR='" & ckbVendedor.Checked & "',
+            FL_ARMAZEM_DESCARGA = '" & ckbArmazemDescarga.Checked & "',
+            FL_ARMAZEM_DESEMBARACO = '" & ckbArmazemDesembaraco.Checked & "',
+            FL_ARMAZEM_ATRACACAO= '" & ckbArmazemAtracacao.Checked & "',
+            FL_PRESTADOR= '" & ckbPrestador.Checked & "',
+            NM_RAZAO= '" & txtRazaoSocial.Text & "',
+            NM_FANTASIA = " & txtNomeFantasia.Text & ",
+            #filtro 
+            TP_PESSOA= '" & ddlTipoPessoa.SelectedValue & "',
+            INSCR_ESTADUAL=" & txtInscEstadual.Text & ",
+            INSCR_MUNICIPAL= " & txtInscMunicipal.Text & ",
+            ENDERECO=" & txtEndereco.Text & ",
+            NR_ENDERECO=" & txtNumero.Text & ",
+            BAIRRO=" & txtBairro.Text & ",
+            COMPL_ENDERECO=" & txtComplemento.Text & ",
+            ID_CIDADE=" & ddlCidade.SelectedValue & ",
+            TELEFONE=" & txtTelefone.Text & ",
+            CEP=" & txtCEP.Text & ",
+            ID_VENDEDOR=" & ddlVendedor.SelectedValue & ",
+            FL_ISENTO_ISS='" & ckbISS.Checked & "',
+            FL_ISENTO_PIS='" & ckbPIS.Checked & "',
+            FL_ISENTO_COFINS='" & ckbCOFINS.Checked & "',
+            VL_ALIQUOTA_ISS='" & txtAliquotaISS.Text & "',
+            VL_ALIQUOTA_PIS= '" & txtAliquotaPIS.Text & "',
+            VL_ALIQUOTA_COFINS='" & txtAliquotaCOFINS.Text & "',
+            EMAIL_NF_ELETRONICA=" & txtEmailNF.Text & ",
+            CD_IATA=" & txtCDIATA.Text & ",
+            FL_SIMPLES_NACIONAL='" & ckbSimplesNacional.Checked & "',
+            FL_ATIVO = '" & ckbAtivo.Checked & "', 
+            FL_INDICADOR = '" & ckbIndicador.Checked & "',
+            SPREAD_MARITIMO_IMPO_FCL = '" & txtMaritimoImpoFCL.Text & "',
+            SPREAD_MARITIMO_IMPO_LCL = '" & txtMaritimoImpoLCL.Text & "',
+            SPREAD_MARITIMO_EXPO_FCL = '" & txtMaritimoExpoFCL.Text & "',
+            SPREAD_MARITIMO_EXPO_LCL = '" & txtMaritimoExpoLCL.Text & "',
+            SPREAD_AEREO_IMPO = '" & txtAereoImpo.Text & "',
+            SPREAD_AEREO_EXPO = '" & txtAereoExpo.Text & "',
+            ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL = " & ddlAcordoCambioMaritimoImpoFCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL = " & ddlAcordoCambioMaritimoImpoLCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL = " & ddlAcordoCambioMaritimoExpoFCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL = " & ddlAcordoCambioMaritimoExpoLCL.SelectedValue & ",
+            ID_ACORDO_CAMBIO_AEREO = " & ddlAcordoCambioAereo.SelectedValue & ",
+            QT_DIAS_FATURAMENTO =  " & txtQtdFaturamento.Text & ",
+            ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue & ",
+            EMAIL =  " & txtEmailParceiro.Text & ",
+            FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
+            FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
+            FL_SHIPPER = '" & ckbShipper.Checked & "'
+            where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 
                             SQL = SQL.Replace("#filtro", FILTRO)
@@ -960,7 +988,7 @@ where ID_PARCEIRO = " & ID)
 
                             End If
 
-                            If txtEmail.Text <> "" And ddlPorto.SelectedValue <> 0 And ddlEvento.SelectedValue <> 0 Then
+                            If txtEmail.Text <> "" And ddlEvento.SelectedValue <> 0 Then
 
                                 If txtEmail.Text = "" Then
                                     msgErro.Text = "Preencha o campo de Endereços de Email na aba Email x Eventos."
@@ -983,9 +1011,51 @@ where ID_PARCEIRO = " & ID)
                                         TIPO_PESSOA = "C"
                                     End If
 
+                                    Dim dsEmail As DataSet = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ddlEvento.SelectedValue)
+                                    If dsEmail.Tables(0).Rows.Count = 0 Then
+                                        'insere emails
+                                        Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ddlEvento.SelectedValue & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
 
-                                    'update emails
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID_PESSOA = " & ID)
+                                    Else
+
+                                        For Each linha As DataRow In dsEmail.Tables(0).Rows
+                                            'update emails
+                                            Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ID_EVENTO = " & ddlEvento.SelectedValue & ", ID_TERMINAL =" & ddlPorto.SelectedValue & ", TIPO = '" & TIPO & "', TIPO_PESSOA ='" & TIPO_PESSOA & "', ENDERECOS= '" & txtEmail.Text & "' where ID = " & linha.Item("ID").ToString())
+                                        Next
+
+                                    End If
+
+
+                                    'REPLICA EMAILS
+                                    If ckbReplica.Checked = True Then
+
+                                        ds = Con.ExecutarQuery("select IDTIPOAVISO FROM TB_TIPOAVISO WHERE TPPROCESSO = 'P'")
+
+
+                                        If ds.Tables(0).Rows.Count > 0 Then
+
+                                            For Each linha As DataRow In ds.Tables(0).Rows
+                                                Dim ID_AVISO As Integer = linha.Item("IDTIPOAVISO").ToString()
+
+
+                                                dsEmail = Con.ExecutarQuery("SELECT ID FROM TB_AMR_PESSOA_EVENTO WHERE ID_PESSOA  = " & ID & " AND ID_EVENTO = " & ID_AVISO)
+                                                If dsEmail.Tables(0).Rows.Count = 0 Then
+                                                    'insere emails
+                                                    Con.ExecutarQuery("INSERT INTO TB_AMR_PESSOA_EVENTO (ID_EVENTO, ID_TERMINAL, ID_PESSOA, TIPO, TIPO_PESSOA, ENDERECOS) values(" & ID_AVISO & "," & ddlPorto.SelectedValue & "," & ID & ",'" & TIPO & "','" & TIPO_PESSOA & "', '" & txtEmail.Text & "')")
+
+                                                Else
+
+                                                    For Each linhaEmail As DataRow In dsEmail.Tables(0).Rows
+                                                        'update emails
+                                                        Con.ExecutarQuery("UPDATE [dbo].[TB_AMR_PESSOA_EVENTO] SET ENDERECOS= '" & txtEmail.Text & "' where ID = " & linhaEmail.Item("ID").ToString())
+                                                    Next
+
+                                                End If
+                                            Next
+
+                                        End If
+                                    End If
+
                                 End If
 
                             End If
@@ -1188,4 +1258,28 @@ where ID_PARCEIRO = " & ID)
         End If
 
     End Sub
+
+
+    Function SeparaEmail(ByVal email As String) As Boolean
+        Dim erro As Boolean
+        'quebrar a string
+        Dim palavras As String() = email.Split(New String() _
+          {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+        'exibe o resultado
+        For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+            If ValidaEmail.Validar(palavras(i)) = False Then
+                erro = False
+                Return erro
+
+                Exit Function
+
+            Else
+                erro = True
+
+            End If
+
+        Next
+        Return erro
+    End Function
 End Class

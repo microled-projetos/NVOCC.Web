@@ -60,6 +60,7 @@ Public Class TaxasLocaisArmador
 
                 Else
                     ds = Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = '" & txtValorTaxaLocal.Text & "', DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103) FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
+                    lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccess.Visible = True
                     dgvTaxas.DataBind()
                     'mpe.Show()
@@ -73,6 +74,43 @@ Public Class TaxasLocaisArmador
 
         Con.Fechar()
     End Sub
+
+    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
+        msgerro.Text = ""
+        Dim FILTRO As String = ""
+
+        If txtConsulta.Text = "" Then
+            dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
+            dgvTaxas.DataBind()
+        Else
+            If ddlConsulta.SelectedValue = 1 Then
+                FILTRO = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
+            ElseIf ddlConsulta.SelectedValue = 3 Then
+                FILTRO = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
+            Else
+                FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+
+            End If
+            dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
+A.ID_TRANSPORTADOR,
+A.ID_PORTO,B.NM_PORTO,
+A.ID_TIPO_COMEX,D.NM_TIPO_COMEX,
+A.ID_VIATRANSPORTE,C.NM_VIATRANSPORTE,
+A.ID_ITEM_DESPESA,F.NM_ITEM_DESPESA,
+A.VL_TAXA_LOCAL_COMPRA,
+A.DT_VALIDADE_INICIAL 
+FROM 
+TB_TAXA_LOCAL_TRANSPORTADOR A 
+LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
+LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
+LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
+LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
+        WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO
+            dgvTaxas.DataBind()
+        End If
+
+    End Sub
+
 
     Private Sub btnSalvarNovo_Click(sender As Object, e As EventArgs) Handles btnSalvarNovo.Click
         divErroNovo.Visible = False
@@ -106,7 +144,8 @@ Public Class TaxasLocaisArmador
                 Else
 
                     ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO ) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ")")
-                    divSuccessNovo.Visible = True
+                    lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
+                    divSuccess.Visible = True
                     Call Limpar(Me)
                     dgvTaxas.DataBind()
                     ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
@@ -194,7 +233,15 @@ Public Class TaxasLocaisArmador
                 divExcluir_Success.Visible = True
 
             End If
+        ElseIf e.CommandName = "Duplicar" Then
 
+
+            Dim id As String = e.CommandArgument
+
+            Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO ) SELECT ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
+            lblmsgSuccess.Text = "Registro duplicado com sucesso!"
+            divSuccess.Visible = True
+            dgvTaxas.DataBind()
         End If
 
     End Sub
@@ -239,6 +286,30 @@ Public Class TaxasLocaisArmador
         Call Limpar(Me)
         dgvTaxas.DataBind()
         mpeNovo.Hide()
+    End Sub
+
+    Private Sub btnProximo_Click(sender As Object, e As EventArgs) Handles btnProximo.Click
+        If dgvTaxas.Rows.Count > 0 Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+
+                txtIDTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
+                ddlTransportadorTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR")
+                ddlPortoTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO")
+                ddlComexTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_COMEX")
+                ddlViaTransporte.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
+                ddlDespesaTaxa.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                Dim data As Date = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")
+                data = data.ToString("dd-MM-yyyy")
+                txtValidadeInicialTaxa.Text = data
+                txtValorTaxaLocal.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
+                ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                ddlBaseCalculo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
+            End If
+        End If
     End Sub
 
     'Private Sub btnFechar_Click(sender As Object, e As EventArgs) Handles btnFechar.Click

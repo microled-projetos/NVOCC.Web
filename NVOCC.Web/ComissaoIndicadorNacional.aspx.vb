@@ -57,7 +57,7 @@
             lkAjustarComissao.Visible = True
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_CABECALHO_COMISSAO_NACIONAL ,B.ID_DETALHE_COMISSAO_NACIONAL ,B.NR_PROCESSO,B.ID_PARCEIRO_VENDEDOR,B.VL_COMISSAO,B.VL_TAXA,B.DT_LIQUIDACAO,B.ID_MOEDA
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_CABECALHO_COMISSAO_NACIONAL ,B.ID_DETALHE_COMISSAO_NACIONAL ,B.NR_PROCESSO,B.ID_PARCEIRO_INDICADOR,B.VL_COMISSAO,B.VL_TAXA,B.DT_LIQUIDACAO,B.ID_MOEDA,A.DT_EXPORTACAO
 FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                          dbo.TB_DETALHE_COMISSAO_NACIONAL AS B ON B.ID_CABECALHO_COMISSAO_NACIONAL = A.ID_CABECALHO_COMISSAO_NACIONAL
 						 WHERE B.ID_DETALHE_COMISSAO_NACIONAL = " & txtID.Text)
@@ -68,8 +68,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                     txtAjusteProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR")) Then
-                    ddlAjusteVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR")
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")) Then
+                    ddlAjusteVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
                     ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
@@ -82,6 +82,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                     txtAjusteLiquidacao.Text = ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")
                 End If
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
+                    lkGravar_CCProcesso.Visible = False
+                End If
 
             End If
             Con.Fechar()
@@ -104,7 +107,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         Else
 
             If ddlFiltro.SelectedValue = 1 Then
-                filtro = " AND PARCEIRO_VENDEDOR LIKE '%" & txtPesquisa.Text & "%'"
+                filtro = " AND PARCEIRO_INDICADOR LIKE '%" & txtPesquisa.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 2 Then
                 filtro = " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
             ElseIf ddlFiltro.SelectedValue = 3 Then
@@ -113,7 +116,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 filtro = " AND HBL LIKE '%" & txtPesquisa.Text & "%'"
             End If
 
-            dsComissao.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+            dsComissao.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO"
             dgvComissoes.DataBind()
             ddlFiltro.SelectedValue = 0
             txtPesquisa.Text = ""
@@ -123,113 +126,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
     End Sub
 
-    Private Sub dgvTabelaComissao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTabelaComissao.RowCommand
-        DivExcluir.Visible = False
-        divInfo.Visible = False
-        Dim ID As String = e.CommandArgument
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        If e.CommandName = "Excluir" Then
-
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão para realizar exclusões"
-                DivExcluir.Visible = True
-            Else
-                Con.ExecutarQuery("DELETE FROM [dbo].[TB_TAXA_COMISSAO_INDICADOR] WHERE ID_TAXA_COMISSAO_INDICADOR =" & ID)
-                dgvTabelaComissao.DataBind()
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa excluída com sucesso"
-                ModalPopupExtender1.Show()
-            End If
-
-        ElseIf e.CommandName = "Editar" Then
-
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,VL_TAXA,ID_PARCEIRO_VENDEDOR,ID_MOEDA FROM TB_TAXA_COMISSAO_INDICADOR  WHERE ID_TAXA_COMISSAO_INDICADOR = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_INDICADOR")) Then
-                    txtIDTabelaTaxa.Text = ds.Tables(0).Rows(0).Item("ID_TAXA_COMISSAO_INDICADOR").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")) Then
-                    txtValidadeTabela.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
-                    txtTaxaTabela.Text = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR")) Then
-                    ddlVendedorTabela.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_VENDEDOR").ToString()
-                End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
-                    ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
-                End If
-            End If
-
-            ModalPopupExtender1.Show()
-        End If
-        Con.Fechar()
-    End Sub
-
-    Private Sub btnGravaTaxaTabela_Click(sender As Object, e As EventArgs) Handles btnGravaTaxaTabela.Click
-        divInfo.Visible = False
-
-        txtTaxaTabela.Text = txtTaxaTabela.Text.Replace(".", "")
-        txtTaxaTabela.Text = txtTaxaTabela.Text.Replace(",", ".")
-        Dim ds As DataSet
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        If txtIDTabelaTaxa.Text = "" Then
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
-            Else
-
-                Con.ExecutarQuery("INSERT INTO TB_TAXA_COMISSAO_INDICADOR (DT_VALIDADE_INICIAL,VL_TAXA,ID_PARCEIRO_VENDEDOR,ID_MOEDA) VALUES (CONVERT(DATE,'" & txtValidadeTabela.Text & "',103)," & txtTaxaTabela.Text & "," & ddlVendedorTabela.SelectedValue & ", " & ddlMoedaTabela.SelectedValue & ") ")
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa cadastrada com sucesso!"
-                txtIDTabelaTaxa.Text = ""
-                txtValidadeTabela.Text = ""
-                ddlMoedaTabela.SelectedValue = 0
-                ddlVendedorTabela.SelectedValue = 0
-                txtTaxaTabela.Text = ""
-                dgvTabelaComissao.DataBind()
-                ModalPopupExtender1.Show()
-
-            End If
-
-        Else
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
-            Else
-                Con.ExecutarQuery("UPDATE TB_TAXA_COMISSAO_INDICADOR SET DT_VALIDADE_INICIAL = CONVERT(DATE,'" & txtValidadeTabela.Text & "',103),VL_TAXA = " & txtTaxaTabela.Text & " ,ID_PARCEIRO_VENDEDOR  " & ddlVendedorTabela.SelectedValue & ",ID_MOEDA = " & ddlMoedaTabela.SelectedValue & " WHERE ID_TAXA_COMISSAO_INDICADOR = " & txtIDTabelaTaxa.Text)
-                divInfo.Visible = True
-                lblInfo.Text = "Taxa alterada com sucesso"
-                txtIDTabelaTaxa.Text = ""
-                txtValidadeTabela.Text = ""
-                ddlMoedaTabela.SelectedValue = 0
-                ddlVendedorTabela.SelectedValue = 0
-                txtTaxaTabela.Text = ""
-                dgvTabelaComissao.DataBind()
-                ModalPopupExtender1.Show()
-            End If
-        End If
-    End Sub
-
-
-    Private Sub btnFecharTabela_Click(sender As Object, e As EventArgs) Handles btnFecharTabela.Click
-        txtIDTabelaTaxa.Text = ""
-        txtValidadeTabela.Text = ""
-        ddlMoedaTabela.SelectedValue = 0
-        ddlVendedorTabela.SelectedValue = 0
-        txtTaxaTabela.Text = ""
-        divInfo.Visible = False
-        DivExcluir.Visible = False
-    End Sub
-
     Private Sub lkCSV_Click(sender As Object, e As EventArgs) Handles lkCSV.Click
-        Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_BL,PARCEIRO_VENDEDOR,PARCEIRO_CLIENTE,PARCEIRO_INDICADOR,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO, FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+        Dim SQL As String = "SELECT COMPETENCIA,NR_PROCESSO,NR_BL,PARCEIRO_CLIENTE,PARCEIRO_INDICADOR,TIPO_ESTUFAGEM,MOEDA,VL_TAXA,VL_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO FROM [dbo].[View_Comissao_Nacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' " & filtro & " ORDER BY PARCEIRO_INDICADOR,NR_PROCESSO"
 
         Classes.Excel.exportaExcel(SQL, "NVOCC", "ComissaoNacional")
     End Sub
@@ -249,10 +147,11 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
             divErroGerarComissao.Visible = True
 
         Else
+            'VerificaCompetencia()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2030 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
+                lblErroGerarComissao.Text = "Usuário não tem permissão!"
+                divErroGerarComissao.Visible = True
             Else
                 If txtObs.Text = "" Then
                     txtObs.Text = "NULL"
@@ -265,7 +164,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 Dim dsInsert As DataSet
                 Dim cabecalho As String
 
-                If lblCompetenciaSobrepor.Text <> 0 Then
+                If lblCompetenciaSobrepor.Text <> "" And lblCompetenciaSobrepor.Text <> 0 Then
                     Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL = " & lblCompetenciaSobrepor.Text)
                     Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_NACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL = " & lblCompetenciaSobrepor.Text)
                 End If
@@ -273,9 +172,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_NACIONAL  (DT_COMPETENCIA,NR_QUINZENA,DT_LIQUIDACAO_INICIAL,DT_LIQUIDACAO_FINAL,ID_USUARIO_GERACAO,DT_GERACAO,DS_OBSERVACAO) VALUES('" & NOVA_COMPETECIA & "','" & txtNovaQuinzena.Text & "',CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)," & Session("ID_USUARIO") & ", getdate()," & txtObs.Text & " ) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_INTERNACIONAL  ")
                 cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
-                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_NACIONAL  (ID_CABECALHO_COMISSAO_INTERNACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_VENDEDOR,ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_CAMBIO,DT_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO) 
- SELECT " & cabecalho & " A.ID_BL, A.NR_PROCESSO, A.ID_PARCEIRO_VENDEDOR, C.ID_BL_TAXA, C.ID_MOEDA, C.VL_TAXA,(SELECT VL_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )VL_CAMBIO,(SELECT DT_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )DT_CAMBIO, C.VL_TAXA *(SELECT DT_CAMBIO FROM TB_CONTA_PAGAR_RECEBER_ITENS D WHERE D.ID_BL_TAXA = C.ID_BL_TAXA )VL_COMISSAO, B.DT_LIQUIDACAO  FROM TB_BL A  LEFT JOIN VW_PROCESSO_LIQUIDADO B ON  A.ID_BL = A.ID_BL 
- LEFT JOIN TB_BL_TAXA C ON C.ID_BL = A.ID_BL WHERE C.FL_PREMIACAO = 1 AND B.DT_LIQUIDACAO BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)")
+                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_NACIONAL  (ID_CABECALHO_COMISSAO_NACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_INDICADOR,ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_CAMBIO,DT_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO)
+SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MOEDA,VL_TAXA_CALCULADO,VL_CAMBIO,DT_CAMBIO,VL_TAXA_CALCULADO * VL_CAMBIO AS COMISSAO,DT_LIQUIDACAO  FROM FN_INDICADOR_NACIONAL(CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)) WHERE DT_PAGAMENTO IS NULL")
 
                 divSuccessGerarComissao.Visible = True
                 lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
@@ -292,6 +190,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         VerificaCompetencia()
     End Sub
 
+    Private Sub txtNovaQuinzena_TextChanged(sender As Object, e As EventArgs) Handles txtNovaQuinzena.TextChanged
+        VerificaCompetencia()
+    End Sub
     Sub VerificaCompetencia()
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -363,7 +264,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                 txtAjusteBase.Text = txtAjusteBase.Text.Replace(".", "")
                 txtAjusteBase.Text = txtAjusteBase.Text.Replace(",", ".")
 
-                Con.ExecutarQuery("UPDATE TB_DETALHE_COMISSAO_NACIONAL  SET NR_PROCESSO = '" & txtAjusteProcesso.Text & "',ID_PARCEIRO_VENDEDOR= " & ddlAjusteVendedor.SelectedValue & ",ID_MOEDA = " & ddlMoeda.SelectedValue & ",VL_TAXA = " & txtAjusteBase.Text & ",DT_LIQUIDACAO =  CONVERT(DATE,'" & txtAjusteLiquidacao.Text & "',103) WHERE ID_DETALHE_COMISSAO_NACIONAL  = " & txtIDAjuste.Text)
+                Con.ExecutarQuery("UPDATE TB_DETALHE_COMISSAO_NACIONAL  SET NR_PROCESSO = '" & txtAjusteProcesso.Text & "',ID_PARCEIRO_INDICADOR= " & ddlAjusteVendedor.SelectedValue & ",ID_MOEDA = " & ddlMoeda.SelectedValue & ",VL_TAXA = " & txtAjusteBase.Text & ",DT_LIQUIDACAO =  CONVERT(DATE,'" & txtAjusteLiquidacao.Text & "',103) WHERE ID_DETALHE_COMISSAO_NACIONAL  = " & txtIDAjuste.Text)
                 divSuccesAjuste.Visible = True
                 lblSuccesAjuste.Text = "Comissão alterada com sucesso!"
 
@@ -425,19 +326,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
         Next
     End Sub
 
-    Private Sub btnLimpaTaxaTabela_Click(sender As Object, e As EventArgs) Handles btnLimpaTaxaTabela.Click
-        txtIDTabelaTaxa.Text = ""
-        txtValidadeTabela.Text = ""
-        ddlMoedaTabela.SelectedValue = 0
-        ddlVendedorTabela.SelectedValue = 0
-        txtTaxaTabela.Text = ""
-        divInfo.Visible = False
-        DivExcluir.Visible = False
-        ModalPopupExtender1.Show()
-    End Sub
-
-
-    Private Sub lkGravarCCProcesso_Click(sender As Object, e As EventArgs) Handles lkGravarCCProcesso.Click
+    Private Sub lkGravar_CCProcesso_Click(sender As Object, e As EventArgs) Handles lkGravar_CCProcesso.Click
         divSuccesAjuste.Visible = False
         divErroAjuste.Visible = False
 
@@ -460,9 +349,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (CD_PR, DT_COMPETENCIA,NR_QUINZENA, DT_LANCAMENTO ,DT_LIQUIDACAO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_TIPO_LANCAMENTO_CAIXA ,
         ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) 
 		VALUES('P','" & txtCompetencia.Text & "','" & txtQuinzena.Text & "',GETDATE(),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103)," & ddlContaBancaria.SelectedValue & ",7, " & Session("ID_USUARIO") & "," & Session("ID_USUARIO") & ", 'CNAC')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER")
-            Dim ID_CONTAS_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTAS_PAGAR_RECEBER")
+            Dim ID_CONTAS_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
 
-            Con.ExecutarQuery("INSERT INTO TB_CONTAS_PAGAR_RECEBER_ITENS (DS_HISTORICO_LANCAMENTO,ID_BL_TAXA,ID_CONTA_PAGAR_RECEBER,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO ,VL_LIQUIDO)
+            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (DS_HISTORICO_LANCAMENTO,ID_BL_TAXA,ID_CONTA_PAGAR_RECEBER,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO ,VL_LIQUIDO)
                 SELECT 'COMISSÃO INDICADOR NACIONAL – " & txtCompetencia.Text & "-" & txtQuinzena.Text & "',ID_BL_TAXA," & ID_CONTAS_PAGAR_RECEBER & ",DT_CAMBIO,VL_CAMBIO,VL_COMISSAO, VL_COMISSAO FROM TB_DETALHE_COMISSAO_NACIONAL  WHERE ID_CABECALHO_COMISSAO_NACIONAL IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM View_Comissao_Nacional WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "') ")
 
 
@@ -477,10 +366,28 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
     End Sub
 
+    Private Sub ddlContaBancaria_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlContaBancaria.SelectedIndexChanged
+        VerificaCCPRocesso()
+    End Sub
 
     Private Sub txtCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtCompetencia.TextChanged
         lblCompetenciaCCProcesso.Text = txtCompetencia.Text
     End Sub
 
+    Sub VerificaCCPRocesso()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
 
+        'Verifica se a competencia já existe
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CINT' AND DT_COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "'")
+        If ds.Tables(0).Rows.Count > 0 Then
+            divInfoCCProcesso.Visible = True
+            lblInfoCCProcesso.Text = "COMPETENCIA JÁ EXPORTADA!<br/> Prosseguir com esta ação ocasionará a sobreposição dos dados."
+            lblContasReceber.Text = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+        Else
+            lblContasReceber.Text = 0
+            divInfoCCProcesso.Visible = False
+        End If
+        ModalPopupExtender6.Show()
+    End Sub
 End Class

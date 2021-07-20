@@ -1,5 +1,5 @@
 ﻿Imports System.Configuration
-Public Class ModuloOperacional
+Public Class ListagemBL
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -124,6 +124,7 @@ Public Class ModuloOperacional
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (ID_BL_MASTER,NR_BL,GRAU,NR_PROCESSO,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_USUARIO_ABERTURA,DT_ABERTURA,ID_USUARIO_CANCELAMENTO,DT_CANCELAMENTO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_COTACAO,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,VL_PROFIT_DIVISAO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO) SELECT ID_BL_MASTER,NR_BL,GRAU,NR_PROCESSO,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,NR_CE,DT_CE,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_PARCEIRO_AGENTE,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PARCEIRO_AGENCIA,ID_PARCEIRO_COLOADER,ID_PARCEIRO_COMISSARIA,ID_SERVICO,ID_USUARIO_ABERTURA,DT_ABERTURA,ID_USUARIO_CANCELAMENTO,DT_CANCELAMENTO,ID_MOEDA_FRETE,DT_CALCULO_FRETE,VL_CAMBIO_FRETE,VL_FRETE,VL_FRETE_CONVERT,VL_CARGA,ID_PARCEIRO_OPERADOR,ID_PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,ID_NAVIO,NR_VIAGEM,ID_COTACAO,ID_TIPO_CARGA,ID_INCOTERM,VL_M3,QT_MERCADORIA,VL_PESO_BRUTO,VL_PESO_TAXADO,OB_OPERACIONAL_INTERNA,OB_COMERCIAL,OB_AGENTE_INTERNACIONAL,OB_CLIENTE,NR_FATURA_COURRIER,VL_PROFIT_DIVISAO,FL_DIVISAO_INFORMADA,DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK,DT_EMISSAO_BL,DT_EMISSAO_CONHECIMENTO,OB_REFERENCIA_AUXILIAR,OB_REFERENCIA_COMERCIAL,NM_RESUMO_MERCADORIA,ID_PARCEIRO_RODOVIARIO,DT_FLWP_LCL,ID_PARCEIRO_EXPORTADOR,VL_PESO_BRUTO_AGENTE,VL_M3_AGENTE,QT_MERCADORIA_AGENTE,DT_READY_DATE,DT_FORECAST_WH,DT_DRAFT_CUTOFF,DT_ARRIVE_WH,ID_MERCADORIA,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,DT_RECEBIMENTO_HBL,DT_RECEBIMENTO_MBL,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,DT_RETIRADA_COURRIER,NM_RETIRADO_POR_COURRIER,ID_STATUS_BL,ID_WEEK_CONTAINER,DT_ULTIMO_CALCULO_PROFIT,DT_ULTIMO_CALCULO_TAXAS,ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_NAVIO_1T,ID_NAVIO_2T,ID_NAVIO_3T,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,DT_1T,DT_2T,DT_3T,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA, ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,ID_PARCEIRO_ARMAZEM_DESEMBARACO from TB_BL WHERE ID_BL =" & ID & " ; Select SCOPE_IDENTITY() as ID_BL ")
         Dim NOVA_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
+        NumeroProcesso(NOVA_BL)
 
         If TIPO = "HOUSE" Or TIPO = "EMBARQUE" Then
             Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA )  select " & NOVA_BL & ",ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA from TB_CARGA_BL WHERE ID_BL = " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA)  select " & NOVA_BL & ",ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA from TB_BL_TAXA WHERE ID_BL = " & ID & " ; INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE)  select " & NOVA_BL & ",NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE WHERE ID_BL = " & ID)
@@ -138,7 +139,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     End Sub
     Sub GridHouse()
 
-        Dim sql As String
+        Dim sql As String = ""
         'AGENCIAMENTO DE IMPORTACAO AEREO
         If rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 1 Then
             sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2"
@@ -413,15 +414,45 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione um registro para calcular!"
         Else
-            Dim Calcula As New CalculaBL
-            Dim retorno As String = Calcula.Calcular(txtIDHouse.Text)
+            Dim dataatual As Date = Now.Date.ToString("dd/MM/yyyy")
 
-            If retorno = "BL calculada com sucesso!" Then
-                lblSuccessHouse.Text = retorno
-                divSuccessHouse.Visible = True
-            Else
-                lblErroHouse.Text = retorno
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](2131) 
+WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErroHouse.Visible = True
+                lblErroHouse.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
+                Exit Sub
+            Else
+                Dim i As Integer = 0
+
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+
+                        If retorno = "BL calculada com sucesso!" Then
+                            lblSuccessHouse.Text = "BL calculada com sucesso!"
+                            divSuccessHouse.Visible = True
+                        Else
+                            i = i + 1
+                        End If
+                    Next
+
+
+                End If
+
+                If i > 0 Then
+                    divSuccessHouse.Visible = False
+                    divErroHouse.Visible = True
+                    lblErroHouse.Text = "Verifique a base de cálculo!"
+                Else
+                    lblSuccessHouse.Text = "BL calculada com sucesso!"
+                    divSuccessHouse.Visible = True
+                End If
+
             End If
         End If
 
@@ -484,7 +515,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divErroEmbarque.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 And FL_ATUALIZAR = 1 And ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroEmbarque.Visible = True
             lblErroEmbarque.Text = "Usuário não possui permissão."
@@ -508,7 +539,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         divErroMaster.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 And FL_ATUALIZAR = 1 And ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Usuário não possui permissão."
@@ -551,7 +582,7 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
 
             If ddlFiltroEmbarque.SelectedValue = 1 Then
-                FILTRO = " NR_PROCESSO LIKE '%" & txtPesquisaEmbarque.Text & "%' "
+                FILTRO = " NR_PROCESSO Like '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 2 Then
                 FILTRO = " TIPO_ESTUFAGEM LIKE '%" & txtPesquisaEmbarque.Text & "%' "
             ElseIf ddlFiltroEmbarque.SelectedValue = 3 Then
@@ -963,4 +994,59 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
         End If
         Con.Fechar()
     End Sub
+
+    Sub NumeroProcesso(ID_BL As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+
+        ds = Con.ExecutarQuery("SELECT NRSEQUENCIALPROCESSO, AnoSequencialProcesso FROM TB_PARAMETROS")
+
+        Dim PROCESSO_FINAL As String
+
+        Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
+        Dim AnoSequencialProcesso = ds.Tables(0).Rows(0).Item("AnoSequencialProcesso")
+        Dim ano_atual = Now.Year.ToString.Substring(2)
+        Dim SIGLA_PROCESSO As String
+        Dim mes_atual As String
+        If Now.Month < 10 Then
+            mes_atual = "0" & Now.Month.ToString
+        Else
+            mes_atual = Now.Month.ToString
+        End If
+
+
+        ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & ID_BL)
+
+        If ds.Tables(0).Rows.Count > 0 Then
+            SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
+
+            If AnoSequencialProcesso = ano_atual Then
+
+                NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & ID_BL)
+
+            Else
+
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
+
+                NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
+
+            End If
+
+            Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & ID_BL)
+        End If
+
+
+
+    End Sub
+
 End Class
