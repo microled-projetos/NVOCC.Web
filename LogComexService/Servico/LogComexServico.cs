@@ -1,5 +1,6 @@
 ﻿using LogComexService.Model;
 using LogComexService.Repositorio;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace LogComexService.Servico
     {
         private readonly ILogComexRepositorio _logComexRepositorio;
         private readonly IBlMasterRepositorio _blmasterRepositorio;
-        public LogComexServico(ILogComexRepositorio logComexRepositorio, IBlMasterRepositorio blMasterRepositorio)
+        IConfiguration _configuration;
+        public LogComexServico(ILogComexRepositorio logComexRepositorio, IBlMasterRepositorio blMasterRepositorio, IConfiguration configuration)
         {
             _logComexRepositorio = logComexRepositorio;
             _blmasterRepositorio = blMasterRepositorio;
+            _configuration = configuration;
         }
         public string IniciarRastreioLogComex(BlMaster bl)
         {
@@ -28,8 +31,8 @@ namespace LogComexService.Servico
             {
                 bl_number = bl.NR_BL,
                 reference = "",
-                consignee_cnpj = "58138058003100",
-                emails = "andre.rodrigues@abainfra.com.br",
+                consignee_cnpj = _configuration.GetSection("LogComex").GetSection("consignee_cnpj").Value,
+                emails = _configuration.GetSection("LogComex").GetSection("email").Value,
                 shipowner = bl.ID_ARMADOR_LOGCOMEX
             };
             var jsonString = JsonConvert.SerializeObject(campos);
