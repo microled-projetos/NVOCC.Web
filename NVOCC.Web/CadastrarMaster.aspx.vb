@@ -8,26 +8,26 @@
 
         End If
 
+
+        ''CHAMA SERVIÇO DE RASTREIO
+        'Dim rastreio As New RastreioService
+        'rastreio.PostAsyncBl("COSU6279259300", "61064838016560", "andre.rodrigues@abainfra.com.br", "185")
+
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
+            Response.Redirect("Default.aspx")
+        Else
 
-                Response.Redirect("Default.aspx")
-
-            Else
-
-                If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
-                    CarregaCampos()
-                End If
+            If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
+                CarregaCampos()
+                PermissoesEspeciais()
 
             End If
-
-        Else
-            Response.Redirect("Default.aspx")
         End If
+
         Con.Fechar()
     End Sub
 
@@ -35,7 +35,7 @@
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_WEEK,ID_BL_MASTER,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE,103)DT_CE,CONVERT(varchar,DT_EMISSAO_BL,103)DT_EMISSAO_BL, CONVERT(varchar,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,CONVERT(varchar,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,CONVERT(varchar,DT_CHEGADA,103)DT_CHEGADA,CONVERT(varchar,DT_EMBARQUE,103)DT_EMBARQUE,
-NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_3T,ID_PORTO_2T,ID_PARCEIRO_AGENCIA,ID_MOEDA_FRETE,VL_FRETE,VL_PESO_BRUTO,VL_PESO_TAXADO,QT_MERCADORIA,CONVERT(varchar,DT_EMISSAO_CONHECIMENTO,103)DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO) NM_NAVIO,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_1T) NM_NAVIO1,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_2T) NM_NAVIO2,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_3T) NM_NAVIO3
+NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_3T,ID_PORTO_2T,ID_PARCEIRO_AGENCIA,ID_MOEDA_FRETE,VL_FRETE,VL_PESO_BRUTO,VL_PESO_TAXADO,QT_MERCADORIA,CONVERT(varchar,DT_EMISSAO_CONHECIMENTO,103)DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO) NM_NAVIO,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_1T) NM_NAVIO1,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_2T) NM_NAVIO2,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_3T) NM_NAVIO3,ID_STATUS_FRETE_AGENTE 
 FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
@@ -199,6 +199,11 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                         txtTarifaMasterMin_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TARIFA_MASTER_MINIMA")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")) Then
+                        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
+                    Else
+                        ddlStatusFreteAgente_BasicoMaritimo.SelectedValue = 0
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CE")) Then
                         txtCE_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_CE")
@@ -289,6 +294,12 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                         ddlAeroporto1_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_PORTO_1T")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")) Then
+                        ddlStatusFreteAgente_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
+                    Else
+                        ddlStatusFreteAgente_BasicoAereo.SelectedValue = 0
+                    End If
+
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_VIAGEM_2T")) Then
                         txtVoo2_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_VIAGEM_2T")
@@ -351,7 +362,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TARIFA_MASTER")) Then
-                        txtTarifaMaster_BasicoAereo = ds.Tables(0).Rows(0).Item("VL_TARIFA_MASTER")
+                        txtTarifaMaster_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("VL_TARIFA_MASTER")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_WEEK")) Then
@@ -425,10 +436,16 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         ddlBaseCalculo_TaxaAereo.SelectedValue = 0
         ddlMoedaCompra_TaxaAereo.SelectedValue = 0
         ddlEmpresa_TaxaAereo.SelectedValue = 0
-        txtTaxa_TaxaAereo.Text = ""
-        txtCalculo_TaxaAereo.Text = ""
-        txtMinimo_TaxaAereo.Text = ""
+        txtTaxaCompra_TaxaAereo.Text = ""
+        txtCalculoCompra_TaxaAereo.Text = ""
+        txtMinimoCompra_TaxaAereo.Text = ""
         txtID_TaxaAereo.Text = ""
+        'txtCalculoVenda_TaxaAereo.Text = ""
+        'txtTaxaVenda_TaxaAereo.Text = ""
+        'txtMinimoVenda_TaxaAereo.Text = ""
+        Session("CD_PR") = 0
+        'divVendaAereo.Visible = True
+        divCompraAereo.Visible = True
 
         mpeTaxaAereo.Hide()
     End Sub
@@ -451,10 +468,16 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         ddlBaseCalculo_TaxasMaritimo.SelectedValue = 0
         ddlMoedaCompra_TaxasMaritimo.SelectedValue = 0
         ddlEmpresa_TaxasMaritimo.SelectedValue = 0
-        txtCalculo_TaxasMaritimo.Text = ""
-        txtTaxa_TaxasMaritimo.Text = ""
-        txtMinimo_TaxasMaritimo.Text = ""
+        txtCalculoCompra_TaxasMaritimo.Text = ""
+        txtTaxaCompra_TaxasMaritimo.Text = ""
+        txtMinimoCompra_TaxasMaritimo.Text = ""
+        'txtCalculoVenda_TaxasMaritimo.Text = ""
+        'txtTaxaVenda_TaxasMaritimo.Text = ""
+        'txtMinimoVenda_TaxasMaritimo.Text = ""
         txtID_TaxasMaritimo.Text = ""
+        Session("CD_PR") = 0
+        'divVendaMaritimo.Visible = True
+        divCompraMaritimo.Visible = True
 
         mpeTaxasMaritimo.Hide()
     End Sub
@@ -481,19 +504,16 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1026 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-                    Con.ExecutarQuery("DELETE From TB_CNTR_BL Where ID_CNTR_BL = " & ID)
-                    lblSuccess_CNTRMaritimo1.Text = "Registro deletado!"
-                    divSuccess_CNTRMaritimo1.Visible = True
-                    dgvContainer.DataBind()
-
-                Else
-                    lblErro_CNTRMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
-                    divErro_CNTRMaritimo1.Visible = True
-                End If
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErro_CNTRMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
+                divErro_CNTRMaritimo1.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE From TB_CNTR_BL Where ID_CNTR_BL = " & ID)
+                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ID & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                lblSuccess_CNTRMaritimo1.Text = "Registro deletado!"
+                divSuccess_CNTRMaritimo1.Visible = True
+                dgvContainer.DataBind()
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -538,7 +558,7 @@ WHERE ID_CNTR_BL = " & ID)
         ElseIf e.CommandName = "Duplicar" Then
             Dim ID As String = e.CommandArgument
 
-            Con.ExecutarQuery("INSERT INTO TB_CNTR_BL (ID_BL_MASTER,NR_CNTR,NR_LACRE,VL_PESO_TARA,ID_TIPO_CNTR,QT_DIAS_FREETIME,DT_INICIAL_FREETIME,DT_FINAL_FREETIME,DT_DEVOLUCAO_CNTR,QT_DIAS_DEMURRAGE,DS_STATUS_TERC,DT_STATUS_TERC,DT_VENCIMENTO_FATURA_TERC,DT_PAGAMENTO_FATURA_TERC,FL_DEMURRAGE_FINALIZADA,DS_OBSERVACAO_DEMUR,DT_EXPORTACAO_TERCEIRIZADA,VL_FATURA_TERC)  select ID_BL_MASTER,NR_CNTR,NR_LACRE,VL_PESO_TARA,ID_TIPO_CNTR,QT_DIAS_FREETIME,DT_INICIAL_FREETIME,DT_FINAL_FREETIME,DT_DEVOLUCAO_CNTR,QT_DIAS_DEMURRAGE,DS_STATUS_TERC,DT_STATUS_TERC,DT_VENCIMENTO_FATURA_TERC,DT_PAGAMENTO_FATURA_TERC,FL_DEMURRAGE_FINALIZADA,DS_OBSERVACAO_DEMUR,DT_EXPORTACAO_TERCEIRIZADA,VL_FATURA_TERC from TB_CNTR_BL
+            Con.ExecutarQuery("INSERT INTO TB_CNTR_BL (ID_BL_MASTER,ID_TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME,DT_DEVOLUCAO_CNTR,FL_DEMURRAGE_FINALIZADA,FL_INICIO_CHEGADA,ID_STATUS_DEMURRAGE,DT_STATUS_DEMURRAGE,DS_OBSERVACAO)  select ID_BL_MASTER,ID_TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME,DT_DEVOLUCAO_CNTR,FL_DEMURRAGE_FINALIZADA,FL_INICIO_CHEGADA,ID_STATUS_DEMURRAGE,DT_STATUS_DEMURRAGE,DS_OBSERVACAO from TB_CNTR_BL
 WHERE ID_CNTR_BL =  " & ID)
             lblSuccess_CNTRMaritimo1.Text = "Registro duplicado!"
             divSuccess_CNTRMaritimo1.Visible = True
@@ -559,39 +579,35 @@ WHERE ID_CNTR_BL =  " & ID)
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1026 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErro_TaxasMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
+                divErro_TaxasMaritimo1.Visible = True
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
-
-                    Dim ds1 As DataSet = Con.ExecutarQuery("select COUNT(A.ID_BL_TAXA)ID_BL_TAXA
+            Else
+                Dim ds1 As DataSet = Con.ExecutarQuery("select COUNT(A.ID_BL_TAXA)ID_BL_TAXA
 from TB_CONTA_PAGAR_RECEBER_ITENS A 
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
-                    If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
-                        divErro_TaxasMaritimo1.Visible = True
-                        lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
-                    Else
-
-                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                        lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
-                        divSuccess_TaxasMaritimo1.Visible = True
-                        dgvTaxasMaritimo.DataBind()
-
-                    End If
-
-                Else
-                    lblErro_TaxasMaritimo1.Text = "Usuário não tem permissão para realizar exclusões"
+                If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                     divErro_TaxasMaritimo1.Visible = True
+                    lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                Else
+
+                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                    lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
+                    divSuccess_TaxasMaritimo1.Visible = True
+                    dgvTaxasMaritimo.DataBind()
+
                 End If
             End If
 
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO 
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR 
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -625,6 +641,7 @@ WHERE A.ID_BL_TAXA = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
                     ddlMoedaCompra_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                    ' ddlMoedaVenda_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_PAGAMENTO")) Then
@@ -632,15 +649,18 @@ WHERE A.ID_BL_TAXA = " & ID)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
-                    txtTaxa_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    txtTaxaCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    ' txtTaxaVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")) Then
-                    txtCalculo_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                    txtCalculoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                    'txtCalculoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")) Then
-                    txtMinimo_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
+                    txtMinimoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
+                    ' txtMinimoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")) Then
@@ -675,9 +695,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             Else
 
 
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
+                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
                 lblSuccess_TaxasMaritimo1.Text = "Registro duplicado!"
-            divSuccess_TaxasMaritimo1.Visible = True
+                divSuccess_TaxasMaritimo1.Visible = True
                 dgvTaxasMaritimo.DataBind()
             End If
         End If
@@ -695,38 +715,36 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] WHERE ID_MENU = 1026 AND ID_TIPO_USUARIO =" & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                If ds.Tables(0).Rows(0).Item("FL_EXCLUIR").ToString() = True Then
+                lblErro_TaxaAereo1.Text = "Usuário não tem permissão para realizar exclusões"
+                divErro_TaxaAereo1.Visible = True
+            Else
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("select COUNT(A.ID_BL_TAXA)ID_BL_TAXA
+                Dim ds1 As DataSet = Con.ExecutarQuery("select COUNT(A.ID_BL_TAXA)ID_BL_TAXA
 from TB_CONTA_PAGAR_RECEBER_ITENS A 
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
-                    If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
-                        divErro_TaxaAereo1.Visible = True
-                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
-                    Else
-
-                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                        lblSuccess_TaxaAereo1.Text = "Registro deletado!"
-                        divSuccess_TaxaAereo1.Visible = True
-                        dgvTaxasAereo.DataBind()
-
-                    End If
-                Else
-                    lblErro_TaxaAereo1.Text = "Usuário não tem permissão para realizar exclusões"
+                If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                     divErro_TaxaAereo1.Visible = True
+                    lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                Else
+
+                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                    lblSuccess_TaxaAereo1.Text = "Registro deletado!"
+                    divSuccess_TaxaAereo1.Visible = True
+                    dgvTaxasAereo.DataBind()
+
                 End If
             End If
 
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO  from TB_BL_TAXA A
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR  from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID)
@@ -766,20 +784,25 @@ WHERE A.ID_BL_TAXA =" & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
                     ddlMoedaCompra_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+                    'ddlMoedaVenda_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
+
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
-                    txtTaxa_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    txtTaxaCompra_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    ' txtTaxaVenda_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")) Then
-                    txtCalculo_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                    txtCalculoCompra_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+                    ' txtCalculoVenda_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
+
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")) Then
-                    txtMinimo_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
+                    txtMinimoCompra_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
+                    ' txtMinimoVenda_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
                 End If
-
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
                     If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
@@ -809,9 +832,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
             Else
 
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO )    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,CD_PR,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO  from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
+                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR)    select ID_BL,ID_ITEM_DESPESA,ID_TIPO_ITEM_DESPESA,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,VL_TAXA,VL_TAXA_MIN,VL_TAXA_CALCULADO,VL_TAXA_BR,ID_MOEDA,VL_CAMBIO,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_PARCEIRO_EMPRESA,VL_PESO_TAXADO,OB_TAXAS,DT_ATUALIZACAO_CAMBIO,DT_SOLICITACAO_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,FL_INTEGRA_PA,FL_NOTIFICADO,FL_ACCOUNT,FL_TAXA_TRANSPORTADOR,FL_PREMIACAO,CD_PR from TB_BL_TAXA WHERE ID_BL_TAXA = " & ID)
                 lblSuccess_TaxaAereo1.Text = "Registro duplicado!"
-            divSuccess_TaxaAereo1.Visible = True
+                divSuccess_TaxaAereo1.Visible = True
                 dgvTaxasAereo.DataBind()
             End If
         End If
@@ -828,244 +851,251 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         Dim ds As DataSet
         Dim v As New VerificaData
 
-
-        txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", "")
-        txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(",", ".")
-
-
-
-        If txtNumeroBL_BasicoAereo.Text = "" Then
-            txtNumeroBL_BasicoAereo.Text = "NULL"
+        If ddlServico_BasicoAereo.SelectedValue = 0 Then
+            divErro_BasicoAereo.Visible = True
+            lblErro_BasicoAereo.Text = "É necesário informar o tipo de serviço."
         Else
-            txtNumeroBL_BasicoAereo.Text = "'" & txtNumeroBL_BasicoAereo.Text & "'"
-        End If
 
-        If txtNumeroVoo_BasicoAereo.Text = "" Then
-            txtNumeroVoo_BasicoAereo.Text = "NULL"
-        Else
-            txtNumeroVoo_BasicoAereo.Text = "'" & txtNumeroVoo_BasicoAereo.Text & "'"
-        End If
 
-        If txtTarifaMaster_BasicoAereo.Text = "" Then
-            txtTarifaMaster_BasicoAereo.Text = 0
-        End If
+            txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", "")
+            txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(",", ".")
 
-        If txtDataConhecimento_BasicoAereo.Text = "" Then
-            txtDataConhecimento_BasicoAereo.Text = "NULL"
-        Else
-            If v.ValidaData(txtDataConhecimento_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data de conhecimento é inválido."
+
+
+            If txtNumeroBL_BasicoAereo.Text = "" Then
+                txtNumeroBL_BasicoAereo.Text = "NULL"
             Else
-                txtDataConhecimento_BasicoAereo.Text = "CONVERT(date,'" & txtDataConhecimento_BasicoAereo.Text & "',103)"
-
+                txtNumeroBL_BasicoAereo.Text = "'" & txtNumeroBL_BasicoAereo.Text & "'"
             End If
-        End If
 
-
-        If txtPrevisaoChegada_BasicoAereo.Text = "" Then
-            txtPrevisaoChegada_BasicoAereo.Text = "NULL"
-        Else
-            If v.ValidaData(txtPrevisaoChegada_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtNumeroVoo_BasicoAereo.Text = "" Then
+                txtNumeroVoo_BasicoAereo.Text = "NULL"
             Else
-                txtPrevisaoChegada_BasicoAereo.Text = "CONVERT(date,'" & txtPrevisaoChegada_BasicoAereo.Text & "',103)"
-
+                txtNumeroVoo_BasicoAereo.Text = "'" & txtNumeroVoo_BasicoAereo.Text & "'"
             End If
-        End If
 
-        If txtChegada_BasicoAereo.Text = "" Then
-            txtChegada_BasicoAereo.Text = "NULL"
-        Else
+            If txtTarifaMaster_BasicoAereo.Text = "" Then
+                txtTarifaMaster_BasicoAereo.Text = 0
+            End If
 
-            If v.ValidaData(txtChegada_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtDataConhecimento_BasicoAereo.Text = "" Then
+                txtDataConhecimento_BasicoAereo.Text = "NULL"
             Else
-                txtChegada_BasicoAereo.Text = "CONVERT(date,'" & txtChegada_BasicoAereo.Text & "',103)"
+                If v.ValidaData(txtDataConhecimento_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data de conhecimento é inválido."
+                Else
+                    txtDataConhecimento_BasicoAereo.Text = "CONVERT(date,'" & txtDataConhecimento_BasicoAereo.Text & "',103)"
 
+                End If
             End If
-        End If
 
-        If txtPrevisaoEmbarque_BasicoAereo.Text = "" Then
-            txtPrevisaoEmbarque_BasicoAereo.Text = "NULL"
-        Else
 
-            If v.ValidaData(txtPrevisaoEmbarque_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtPrevisaoChegada_BasicoAereo.Text = "" Then
+                txtPrevisaoChegada_BasicoAereo.Text = "NULL"
             Else
-                txtPrevisaoEmbarque_BasicoAereo.Text = "CONVERT(date,'" & txtPrevisaoEmbarque_BasicoAereo.Text & "',103)"
+                If v.ValidaData(txtPrevisaoChegada_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtPrevisaoChegada_BasicoAereo.Text = "CONVERT(date,'" & txtPrevisaoChegada_BasicoAereo.Text & "',103)"
 
+                End If
             End If
-        End If
 
-        If txtEmbarque_BasicoAereo.Text = "" Then
-            txtEmbarque_BasicoAereo.Text = "NULL"
-        Else
-
-            If v.ValidaData(txtEmbarque_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtChegada_BasicoAereo.Text = "" Then
+                txtChegada_BasicoAereo.Text = "NULL"
             Else
-                txtEmbarque_BasicoAereo.Text = "CONVERT(date,'" & txtEmbarque_BasicoAereo.Text & "',103)"
 
+                If v.ValidaData(txtChegada_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtChegada_BasicoAereo.Text = "CONVERT(date,'" & txtChegada_BasicoAereo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-        If txtDataPrevista1_BasicoAereo.Text = "" Then
-            txtDataPrevista1_BasicoAereo.Text = "NULL"
-        Else
-            If v.ValidaData(txtDataPrevista1_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtPrevisaoEmbarque_BasicoAereo.Text = "" Then
+                txtPrevisaoEmbarque_BasicoAereo.Text = "NULL"
             Else
-                txtDataPrevista1_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista1_BasicoAereo.Text & "',103)"
 
+                If v.ValidaData(txtPrevisaoEmbarque_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtPrevisaoEmbarque_BasicoAereo.Text = "CONVERT(date,'" & txtPrevisaoEmbarque_BasicoAereo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-        If txtVoo1_BasicoAereo.Text = "" Then
-            txtVoo1_BasicoAereo.Text = "NULL"
-        Else
-            txtVoo1_BasicoAereo.Text = "'" & txtVoo1_BasicoAereo.Text & "'"
-        End If
-
-
-
-        If txtDataPrevista2_BasicoAereo.Text = "" Then
-            txtDataPrevista2_BasicoAereo.Text = "NULL"
-        Else
-            If v.ValidaData(txtDataPrevista2_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtEmbarque_BasicoAereo.Text = "" Then
+                txtEmbarque_BasicoAereo.Text = "NULL"
             Else
-                txtDataPrevista2_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista2_BasicoAereo.Text & "',103)"
 
+                If v.ValidaData(txtEmbarque_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtEmbarque_BasicoAereo.Text = "CONVERT(date,'" & txtEmbarque_BasicoAereo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-        If txtVoo2_BasicoAereo.Text = "" Then
-            txtVoo2_BasicoAereo.Text = "NULL"
-        Else
-            txtVoo2_BasicoAereo.Text = "'" & txtVoo2_BasicoAereo.Text & "'"
-        End If
-
-
-        If txtDataPrevista3_BasicoAereo.Text = "" Then
-            txtDataPrevista3_BasicoAereo.Text = "NULL"
-        Else
-            If v.ValidaData(txtDataPrevista3_BasicoAereo.Text) = False Then
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+            If txtDataPrevista1_BasicoAereo.Text = "" Then
+                txtDataPrevista1_BasicoAereo.Text = "NULL"
             Else
-                txtDataPrevista3_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista3_BasicoAereo.Text & "',103)"
+                If v.ValidaData(txtDataPrevista1_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtDataPrevista1_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista1_BasicoAereo.Text & "',103)"
 
+                End If
             End If
-        End If
 
-        If txtVoo3_BasicoAereo.Text = "" Then
-            txtVoo3_BasicoAereo.Text = "NULL"
-        Else
-            txtVoo3_BasicoAereo.Text = "'" & txtVoo3_BasicoAereo.Text & "'"
-        End If
+            If txtVoo1_BasicoAereo.Text = "" Then
+                txtVoo1_BasicoAereo.Text = "NULL"
+            Else
+                txtVoo1_BasicoAereo.Text = "'" & txtVoo1_BasicoAereo.Text & "'"
+            End If
 
 
-        If txtID_BasicoAereo.Text = "" Then
 
-            Session("ID_WEEK") = 0
+            If txtDataPrevista2_BasicoAereo.Text = "" Then
+                txtDataPrevista2_BasicoAereo.Text = "NULL"
+            Else
+                If v.ValidaData(txtDataPrevista2_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtDataPrevista2_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista2_BasicoAereo.Text & "',103)"
 
-            ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
+                End If
+            End If
 
-                If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
+            If txtVoo2_BasicoAereo.Text = "" Then
+                txtVoo2_BasicoAereo.Text = "NULL"
+            Else
+                txtVoo2_BasicoAereo.Text = "'" & txtVoo2_BasicoAereo.Text & "'"
+            End If
+
+
+            If txtDataPrevista3_BasicoAereo.Text = "" Then
+                txtDataPrevista3_BasicoAereo.Text = "NULL"
+            Else
+                If v.ValidaData(txtDataPrevista3_BasicoAereo.Text) = False Then
+                    divErro_BasicoAereo.Visible = True
+                    lblErro_BasicoAereo.Text = "O valor informado no campo Data CE é inválido."
+                Else
+                    txtDataPrevista3_BasicoAereo.Text = "CONVERT(date,'" & txtDataPrevista3_BasicoAereo.Text & "',103)"
+
+                End If
+            End If
+
+            If txtVoo3_BasicoAereo.Text = "" Then
+                txtVoo3_BasicoAereo.Text = "NULL"
+            Else
+                txtVoo3_BasicoAereo.Text = "'" & txtVoo3_BasicoAereo.Text & "'"
+            End If
+
+            If txtID_BasicoAereo.Text = "" Then
+
+                Session("ID_WEEK") = 0
+
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_BasicoAereo.Visible = True
                     lblErro_BasicoAereo.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
 
                 Else
 
-                    'INSERE 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_MOEDA_FRETE, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,ID_SERVICO) VALUES ('M'," & txtNumeroBL_BasicoAereo.Text & "," & ddltransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & txtNumeroVoo_BasicoAereo.Text & "," & txtVoo1_BasicoAereo.Text & "," & txtVoo2_BasicoAereo.Text & "," & txtVoo3_BasicoAereo.Text & "," & txtDataPrevista1_BasicoAereo.Text & "," & txtDataPrevista2_BasicoAereo.Text & "," & txtDataPrevista3_BasicoAereo.Text & "," & ddlAeroporto1_BasicoAereo.SelectedValue & "," & ddlAeroporto2_BasicoAereo.SelectedValue & "," & ddlAeroporto3_BasicoAereo.SelectedValue & "," & ddlMoedaFrete_BasicoAereo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoAereo.Text & ", " & txtPrevisaoChegada_BasicoAereo.Text & ", " & txtChegada_BasicoAereo.Text & ", " & txtEmbarque_BasicoAereo.Text & "," & txtDataConhecimento_BasicoAereo.Text & ", " & txtTarifaMaster_BasicoAereo.Text & ", " & ddlServico_BasicoAereo.Text & ") Select SCOPE_IDENTITY() as ID_BL ")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL WHERE NR_BL = " & txtNumeroBL_BasicoAereo.Text & "")
+                    If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        'CHAMA SERVIÇO DE RASTREIO
+                        'Dim rastreio As New RastreioService
+                        'rastreio.IniciarRastreio("COSU6279259300", "61064838016560", "andre.rodrigues@abainfra.com.br", "185")
 
-                    'PREENCHE SESSÃO E CAMPO DE ID
-                    Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
-                    txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+                        'INSERE 
+                        ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T,ID_MOEDA_FRETE, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,ID_SERVICO,DT_ABERTURA,ID_STATUS_FRETE_AGENTE) VALUES ('M'," & txtNumeroBL_BasicoAereo.Text & "," & ddltransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & txtNumeroVoo_BasicoAereo.Text & "," & txtVoo1_BasicoAereo.Text & "," & txtVoo2_BasicoAereo.Text & "," & txtVoo3_BasicoAereo.Text & "," & txtDataPrevista1_BasicoAereo.Text & "," & txtDataPrevista2_BasicoAereo.Text & "," & txtDataPrevista3_BasicoAereo.Text & "," & ddlAeroporto1_BasicoAereo.SelectedValue & "," & ddlAeroporto2_BasicoAereo.SelectedValue & "," & ddlAeroporto3_BasicoAereo.SelectedValue & "," & ddlMoedaFrete_BasicoAereo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoAereo.Text & ", " & txtPrevisaoChegada_BasicoAereo.Text & ", " & txtChegada_BasicoAereo.Text & ", " & txtEmbarque_BasicoAereo.Text & "," & txtDataConhecimento_BasicoAereo.Text & ", " & txtTarifaMaster_BasicoAereo.Text & ", " & ddlServico_BasicoAereo.Text & ",GETDATE()," & ddlStatusFreteAgente_BasicoAereo.SelectedValue & ") Select SCOPE_IDENTITY() as ID_BL ")
 
-                    If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
-                        Week(2)
+                        'PREENCHE SESSÃO E CAMPO DE ID
+                        Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+                        txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+
+                        If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
+                            Week(2)
+                        End If
+
+                        NumeroProcesso()
+                        AtualizaHouse(2)
+
+
+
+                        txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("',103)", "")
+                        txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("NULL", "")
+
+
+                        txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("NULL", "")
+                        txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("NULL", "")
+                        txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("NULL", "")
+                        txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("NULL", "")
+                        txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("NULL", "")
+                        txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("NULL", "")
+                        txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("NULL", "")
+                        txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
+                        txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("',103)", "")
+
+                        txtNumeroVoo_BasicoAereo.Text = txtNumeroVoo_BasicoAereo.Text.Replace("'", "")
+                        txtNumeroVoo_BasicoAereo.Text = txtNumeroVoo_BasicoAereo.Text.Replace("NULL", "")
+
+                        txtVoo1_BasicoAereo.Text = txtVoo1_BasicoAereo.Text.Replace("'", "")
+                        txtVoo1_BasicoAereo.Text = txtVoo1_BasicoAereo.Text.Replace("NULL", "")
+
+                        txtVoo2_BasicoAereo.Text = txtVoo2_BasicoAereo.Text.Replace("'", "")
+                        txtVoo2_BasicoAereo.Text = txtVoo2_BasicoAereo.Text.Replace("NULL", "")
+
+                        txtVoo3_BasicoAereo.Text = txtVoo3_BasicoAereo.Text.Replace("'", "")
+                        txtVoo3_BasicoAereo.Text = txtVoo3_BasicoAereo.Text.Replace("NULL", "")
+
+                        txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
+                        txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
+
+                        Con.Fechar()
+                        divSuccess_BasicoAereo.Visible = True
+
+                    Else
+                        divErro_BasicoAereo.Visible = True
+                        lblErro_BasicoAereo.Text = "Já existe BL cadastrada com este número."
+                        Exit Sub
                     End If
-
-                    NumeroProcesso()
-
-
-
-                    txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("',103)", "")
-                    txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("NULL", "")
-
-
-                    txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("NULL", "")
-                    txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtPrevisaoEmbarque_BasicoAereo.Text = txtPrevisaoEmbarque_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("NULL", "")
-                    txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtChegada_BasicoAereo.Text = txtChegada_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("NULL", "")
-                    txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtEmbarque_BasicoAereo.Text = txtEmbarque_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("NULL", "")
-                    txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtDataPrevista1_BasicoAereo.Text = txtDataPrevista1_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("NULL", "")
-                    txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtDataPrevista2_BasicoAereo.Text = txtDataPrevista2_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("NULL", "")
-                    txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtDataPrevista3_BasicoAereo.Text = txtDataPrevista3_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("NULL", "")
-                    txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
-                    txtDataConhecimento_BasicoAereo.Text = txtDataConhecimento_BasicoAereo.Text.Replace("',103)", "")
-
-                    txtNumeroVoo_BasicoAereo.Text = txtNumeroVoo_BasicoAereo.Text.Replace("'", "")
-                    txtNumeroVoo_BasicoAereo.Text = txtNumeroVoo_BasicoAereo.Text.Replace("NULL", "")
-
-                    txtVoo1_BasicoAereo.Text = txtVoo1_BasicoAereo.Text.Replace("'", "")
-                    txtVoo1_BasicoAereo.Text = txtVoo1_BasicoAereo.Text.Replace("NULL", "")
-
-                    txtVoo2_BasicoAereo.Text = txtVoo2_BasicoAereo.Text.Replace("'", "")
-                    txtVoo2_BasicoAereo.Text = txtVoo2_BasicoAereo.Text.Replace("NULL", "")
-
-                    txtVoo3_BasicoAereo.Text = txtVoo3_BasicoAereo.Text.Replace("'", "")
-                    txtVoo3_BasicoAereo.Text = txtVoo3_BasicoAereo.Text.Replace("NULL", "")
-
-                    txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("'", "")
-                    txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace("NULL", "")
-
-                    Con.Fechar()
-                    divSuccess_BasicoAereo.Visible = True
                 End If
+
+
             Else
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "Usuário não possui permissão para cadastrar."
-                Exit Sub
 
-            End If
-
-
-        Else
-
-            ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_BasicoAereo.Visible = True
                     lblErro_BasicoAereo.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
@@ -1074,11 +1104,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
                     'REALIZA UPDATE 
-                    ds = Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
+                    ds = Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ",ID_STATUS_FRETE_AGENTE =  " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
 
                     If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
                         Week(2)
                     End If
+                    AtualizaHouse(2)
 
                     txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("CONVERT(varchar,'", "")
                     txtPrevisaoChegada_BasicoAereo.Text = txtPrevisaoChegada_BasicoAereo.Text.Replace("',103)", "")
@@ -1133,16 +1164,10 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
                 End If
-            Else
-
-                divErro_BasicoAereo.Visible = True
-                lblErro_BasicoAereo.Text = "Usuário não possui permissão para alterar."
-                Exit Sub
 
             End If
 
         End If
-
     End Sub
 
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click
@@ -1154,286 +1179,272 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         Dim ds As DataSet
         Dim v As New VerificaData
 
-
-        txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(".", "")
-        txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(",", ".")
-
-
-        If txtNumeroBL_BasicoMaritimo.Text = "" Then
-            txtNumeroBL_BasicoMaritimo.Text = "NULL"
+        If ddlServico_BasicoMaritimo.SelectedValue = 0 Then
+            divErro_BasicoMaritimo.Visible = True
+            lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
         Else
-            txtNumeroBL_BasicoMaritimo.Text = "'" & txtNumeroBL_BasicoMaritimo.Text & "'"
-        End If
 
-        If txtNumeroViagem_BasicoMaritimo.Text = "" Then
-            txtNumeroViagem_BasicoMaritimo.Text = "NULL"
-        Else
-            txtNumeroViagem_BasicoMaritimo.Text = "'" & txtNumeroViagem_BasicoMaritimo.Text & "'"
-        End If
 
-        If txtCE_BasicoMaritimo.Text = "" Then
-            txtCE_BasicoMaritimo.Text = "NULL"
-        Else
-            txtCE_BasicoMaritimo.Text = "'" & txtCE_BasicoMaritimo.Text & "'"
-        End If
+            txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(".", "")
+            txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(",", ".")
 
-        If txtTarifaMasterMin_BasicoMaritimo.Text = "" Then
-            txtTarifaMasterMin_BasicoMaritimo.Text = 0
-        End If
 
-        If txtEmissaoBL_BasicoMaritimo.Text = "" Then
-            txtEmissaoBL_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtEmissaoBL_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de previsão de chegada é inválida."
+            If txtNumeroBL_BasicoMaritimo.Text = "" Then
+                txtNumeroBL_BasicoMaritimo.Text = "NULL"
             Else
-                txtEmissaoBL_BasicoMaritimo.Text = "CONVERT(date,'" & txtEmissaoBL_BasicoMaritimo.Text & "',103)"
-
+                txtNumeroBL_BasicoMaritimo.Text = "'" & txtNumeroBL_BasicoMaritimo.Text & "'"
             End If
-        End If
 
-        If txtPrevisaoChegada_BasicoMaritimo.Text = "" Then
-            txtPrevisaoChegada_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtPrevisaoChegada_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de previsão de chegada é inválida."
+            If txtNumeroViagem_BasicoMaritimo.Text = "" Then
+                txtNumeroViagem_BasicoMaritimo.Text = "NULL"
             Else
-                txtPrevisaoChegada_BasicoMaritimo.Text = "CONVERT(date,'" & txtPrevisaoChegada_BasicoMaritimo.Text & "',103)"
-
+                txtNumeroViagem_BasicoMaritimo.Text = "'" & txtNumeroViagem_BasicoMaritimo.Text & "'"
             End If
-        End If
 
-        If txtChegada_BasicoMaritimo.Text = "" Then
-            txtChegada_BasicoMaritimo.Text = "NULL"
-        Else
-
-            If v.ValidaData(txtChegada_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de chegada é inválida."
+            If txtCE_BasicoMaritimo.Text = "" Then
+                txtCE_BasicoMaritimo.Text = "NULL"
+                txtDataCE_BasicoMaritimo.Text = "NULL"
             Else
-                txtChegada_BasicoMaritimo.Text = "CONVERT(date,'" & txtChegada_BasicoMaritimo.Text & "',103)"
-
+                txtCE_BasicoMaritimo.Text = "'" & txtCE_BasicoMaritimo.Text & "'"
+                txtDataCE_BasicoMaritimo.Text = " getdate() "
             End If
-        End If
 
-        If txtPrevisaoEmbarque_BasicoMaritimo.Text = "" Then
-            txtPrevisaoEmbarque_BasicoMaritimo.Text = "NULL"
-        Else
+            If txtTarifaMasterMin_BasicoMaritimo.Text = "" Then
+                txtTarifaMasterMin_BasicoMaritimo.Text = 0
+            End If
 
-            If v.ValidaData(txtPrevisaoEmbarque_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de previsão de embarque é inválida."
+            If txtEmissaoBL_BasicoMaritimo.Text = "" Then
+                txtEmissaoBL_BasicoMaritimo.Text = "NULL"
             Else
-                txtPrevisaoEmbarque_BasicoMaritimo.Text = "CONVERT(date,'" & txtPrevisaoEmbarque_BasicoMaritimo.Text & "',103)"
+                If v.ValidaData(txtEmissaoBL_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de previsão de chegada é inválida."
+                Else
+                    txtEmissaoBL_BasicoMaritimo.Text = "CONVERT(date,'" & txtEmissaoBL_BasicoMaritimo.Text & "',103)"
 
+                End If
             End If
-        End If
 
-        If txtEmbarque_BasicoMaritimo.Text = "" Then
-            txtEmbarque_BasicoMaritimo.Text = "NULL"
-        Else
-
-            If v.ValidaData(txtEmbarque_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de embarque é inválida."
+            If txtPrevisaoChegada_BasicoMaritimo.Text = "" Then
+                txtPrevisaoChegada_BasicoMaritimo.Text = "NULL"
             Else
-                txtEmbarque_BasicoMaritimo.Text = "CONVERT(date,'" & txtEmbarque_BasicoMaritimo.Text & "',103)"
+                If v.ValidaData(txtPrevisaoChegada_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de previsão de chegada é inválida."
+                Else
+                    txtPrevisaoChegada_BasicoMaritimo.Text = "CONVERT(date,'" & txtPrevisaoChegada_BasicoMaritimo.Text & "',103)"
 
+                End If
             End If
-        End If
 
-        If txtDataCE_BasicoMaritimo.Text = "" Then
-            txtDataCE_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtDataCE_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "O valor informado no campo Data CE é inválido."
+            If txtChegada_BasicoMaritimo.Text = "" Then
+                txtChegada_BasicoMaritimo.Text = "NULL"
             Else
-                txtDataCE_BasicoMaritimo.Text = "CONVERT(date,'" & txtDataCE_BasicoMaritimo.Text & "',103)"
 
+                If v.ValidaData(txtChegada_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de chegada é inválida."
+                Else
+                    txtChegada_BasicoMaritimo.Text = "CONVERT(date,'" & txtChegada_BasicoMaritimo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-        If txtData1_BasicoMaritimo.Text = "" Then
-            txtData1_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtData1_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de transbordo 1 inválida."
+            If txtPrevisaoEmbarque_BasicoMaritimo.Text = "" Then
+                txtPrevisaoEmbarque_BasicoMaritimo.Text = "NULL"
             Else
-                txtData1_BasicoMaritimo.Text = "CONVERT(date,'" & txtData1_BasicoMaritimo.Text & "',103)"
 
+                If v.ValidaData(txtPrevisaoEmbarque_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de previsão de embarque é inválida."
+                Else
+                    txtPrevisaoEmbarque_BasicoMaritimo.Text = "CONVERT(date,'" & txtPrevisaoEmbarque_BasicoMaritimo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-
-        If txtData2_BasicoMaritimo.Text = "" Then
-            txtData2_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtData2_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de transbordo 2 inválida."
+            If txtEmbarque_BasicoMaritimo.Text = "" Then
+                txtEmbarque_BasicoMaritimo.Text = "NULL"
             Else
-                txtData2_BasicoMaritimo.Text = "CONVERT(date,'" & txtData2_BasicoMaritimo.Text & "',103)"
 
+                If v.ValidaData(txtEmbarque_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de embarque é inválida."
+                Else
+                    txtEmbarque_BasicoMaritimo.Text = "CONVERT(date,'" & txtEmbarque_BasicoMaritimo.Text & "',103)"
+
+                End If
             End If
-        End If
 
-        If txtData3_BasicoMaritimo.Text = "" Then
-            txtData3_BasicoMaritimo.Text = "NULL"
-        Else
-            If v.ValidaData(txtData3_BasicoMaritimo.Text) = False Then
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Data de transbordo 3 inválida."
+            If txtData1_BasicoMaritimo.Text = "" Then
+                txtData1_BasicoMaritimo.Text = "NULL"
             Else
-                txtData3_BasicoMaritimo.Text = "CONVERT(date,'" & txtData3_BasicoMaritimo.Text & "',103)"
+                If v.ValidaData(txtData1_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de transbordo 1 inválida."
+                Else
+                    txtData1_BasicoMaritimo.Text = "CONVERT(date,'" & txtData1_BasicoMaritimo.Text & "',103)"
 
+                End If
             End If
-        End If
-
-        If txtViagem1_BasicoMaritimo.Text = "" Then
-            txtViagem1_BasicoMaritimo.Text = "NULL"
-        Else
-            txtViagem1_BasicoMaritimo.Text = "'" & txtViagem1_BasicoMaritimo.Text & "'"
-        End If
-
-        If txtViagem2_BasicoMaritimo.Text = "" Then
-            txtViagem2_BasicoMaritimo.Text = "NULL"
-        Else
-            txtViagem2_BasicoMaritimo.Text = "'" & txtViagem2_BasicoMaritimo.Text & "'"
-        End If
-
-        If txtViagem3_BasicoMaritimo.Text = "" Then
-            txtViagem3_BasicoMaritimo.Text = "NULL"
-        Else
-            txtViagem3_BasicoMaritimo.Text = "'" & txtViagem3_BasicoMaritimo.Text & "'"
-        End If
 
 
-        Dim ID_NAVIO As String = 0
-        Dim ID_NAVIO1 As String = 0
-        Dim ID_NAVIO2 As String = 0
-        Dim ID_NAVIO3 As String = 0
+            If txtData2_BasicoMaritimo.Text = "" Then
+                txtData2_BasicoMaritimo.Text = "NULL"
+            Else
+                If v.ValidaData(txtData2_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de transbordo 2 inválida."
+                Else
+                    txtData2_BasicoMaritimo.Text = "CONVERT(date,'" & txtData2_BasicoMaritimo.Text & "',103)"
 
-        If ddlNavio_BasicoMaritimo.SelectedIndex <> 0 Then
-            ID_NAVIO = SeparaIDNavio(ddlNavio_BasicoMaritimo.SelectedValue)
-        End If
-        If ddlNavio1_BasicoMaritimo.SelectedIndex <> 0 Then
-            ID_NAVIO1 = SeparaIDNavio(ddlNavio1_BasicoMaritimo.SelectedValue)
-        End If
-        If ddlNavio2_BasicoMaritimo.SelectedIndex <> 0 Then
-            ID_NAVIO2 = SeparaIDNavio(ddlNavio2_BasicoMaritimo.SelectedValue)
-        End If
-        If ddlNavio3_BasicoMaritimo.SelectedIndex <> 0 Then
-            ID_NAVIO3 = SeparaIDNavio(ddlNavio3_BasicoMaritimo.SelectedValue)
-        End If
+                End If
+            End If
+
+            If txtData3_BasicoMaritimo.Text = "" Then
+                txtData3_BasicoMaritimo.Text = "NULL"
+            Else
+                If v.ValidaData(txtData3_BasicoMaritimo.Text) = False Then
+                    divErro_BasicoMaritimo.Visible = True
+                    lblErro_BasicoMaritimo.Text = "Data de transbordo 3 inválida."
+                Else
+                    txtData3_BasicoMaritimo.Text = "CONVERT(date,'" & txtData3_BasicoMaritimo.Text & "',103)"
+
+                End If
+            End If
+
+            If txtViagem1_BasicoMaritimo.Text = "" Then
+                txtViagem1_BasicoMaritimo.Text = "NULL"
+            Else
+                txtViagem1_BasicoMaritimo.Text = "'" & txtViagem1_BasicoMaritimo.Text & "'"
+            End If
+
+            If txtViagem2_BasicoMaritimo.Text = "" Then
+                txtViagem2_BasicoMaritimo.Text = "NULL"
+            Else
+                txtViagem2_BasicoMaritimo.Text = "'" & txtViagem2_BasicoMaritimo.Text & "'"
+            End If
+
+            If txtViagem3_BasicoMaritimo.Text = "" Then
+                txtViagem3_BasicoMaritimo.Text = "NULL"
+            Else
+                txtViagem3_BasicoMaritimo.Text = "'" & txtViagem3_BasicoMaritimo.Text & "'"
+            End If
 
 
+            Dim ID_NAVIO As String = 0
+            Dim ID_NAVIO1 As String = 0
+            Dim ID_NAVIO2 As String = 0
+            Dim ID_NAVIO3 As String = 0
 
+            If ddlNavio_BasicoMaritimo.SelectedIndex <> 0 Then
+                ID_NAVIO = SeparaIDNavio(ddlNavio_BasicoMaritimo.SelectedValue)
+            End If
+            If ddlNavio1_BasicoMaritimo.SelectedIndex <> 0 Then
+                ID_NAVIO1 = SeparaIDNavio(ddlNavio1_BasicoMaritimo.SelectedValue)
+            End If
+            If ddlNavio2_BasicoMaritimo.SelectedIndex <> 0 Then
+                ID_NAVIO2 = SeparaIDNavio(ddlNavio2_BasicoMaritimo.SelectedValue)
+            End If
+            If ddlNavio3_BasicoMaritimo.SelectedIndex <> 0 Then
+                ID_NAVIO3 = SeparaIDNavio(ddlNavio3_BasicoMaritimo.SelectedValue)
+            End If
 
+            If txtID_BasicoMaritimo.Text = "" Then
 
+                Session("ID_WEEK") = 0
 
-        If txtID_BasicoMaritimo.Text = "" Then
-
-            Session("ID_WEEK") = 0
-
-            ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_BasicoMaritimo.Visible = True
                     lblErro_BasicoMaritimo.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
 
                 Else
 
-                    'INSERE 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_CE,VL_TARIFA_MASTER_MINIMA,NR_CE,ID_SERVICO,ID_PARCEIRO_AGENCIA,ID_TIPO_ESTUFAGEM,DT_EMISSAO_BL,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA, ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T) VALUES ('M'," & txtNumeroBL_BasicoMaritimo.Text & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & txtNumeroViagem_BasicoMaritimo.Text & "," & txtViagem1_BasicoMaritimo.Text & "," & txtViagem2_BasicoMaritimo.Text & "," & txtViagem3_BasicoMaritimo.Text & "," & txtData1_BasicoMaritimo.Text & "," & txtData2_BasicoMaritimo.Text & "," & txtData3_BasicoMaritimo.Text & "," & ddlPorto1_BasicoMaritimo.SelectedValue & "," & ddlPorto2_BasicoMaritimo.SelectedValue & "," & ddlPorto3_BasicoMaritimo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoMaritimo.Text & ", " & txtPrevisaoChegada_BasicoMaritimo.Text & ", " & txtChegada_BasicoMaritimo.Text & ", " & txtEmbarque_BasicoMaritimo.Text & "," & txtDataCE_BasicoMaritimo.Text & ", " & txtTarifaMasterMin_BasicoMaritimo.Text & "," & txtCE_BasicoMaritimo.Text & ", " & ddlServico_BasicoMaritimo.Text & "," & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & ", " & ddlEstufagem_BasicoMaritimo.SelectedValue & "," & txtEmissaoBL_BasicoMaritimo.Text & "," & ddlArmazemAtracacao_BasicoMaritimo.Text & "," & ddlArmazemDescarga_BasicoMaritimo.Text & "," & ID_NAVIO & ", " & ID_NAVIO1 & "," & ID_NAVIO2 & "," & ID_NAVIO3 & ") Select SCOPE_IDENTITY() as ID_BL ")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL WHERE NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & "")
+                    If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-                    'PREENCHE SESSÃO E CAMPO DE ID
-                    Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
-                    txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+                        'INSERE 
+                        ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_CE,VL_TARIFA_MASTER_MINIMA,NR_CE,ID_SERVICO,ID_PARCEIRO_AGENCIA,ID_TIPO_ESTUFAGEM,DT_EMISSAO_BL,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA, ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T,DT_ABERTURA,ID_STATUS_FRETE_AGENTE) VALUES ('M'," & txtNumeroBL_BasicoMaritimo.Text & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & txtNumeroViagem_BasicoMaritimo.Text & "," & txtViagem1_BasicoMaritimo.Text & "," & txtViagem2_BasicoMaritimo.Text & "," & txtViagem3_BasicoMaritimo.Text & "," & txtData1_BasicoMaritimo.Text & "," & txtData2_BasicoMaritimo.Text & "," & txtData3_BasicoMaritimo.Text & "," & ddlPorto1_BasicoMaritimo.SelectedValue & "," & ddlPorto2_BasicoMaritimo.SelectedValue & "," & ddlPorto3_BasicoMaritimo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoMaritimo.Text & ", " & txtPrevisaoChegada_BasicoMaritimo.Text & ", " & txtChegada_BasicoMaritimo.Text & ", " & txtEmbarque_BasicoMaritimo.Text & "," & txtDataCE_BasicoMaritimo.Text & ", " & txtTarifaMasterMin_BasicoMaritimo.Text & "," & txtCE_BasicoMaritimo.Text & ", " & ddlServico_BasicoMaritimo.Text & "," & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & ", " & ddlEstufagem_BasicoMaritimo.SelectedValue & "," & txtEmissaoBL_BasicoMaritimo.Text & "," & ddlArmazemAtracacao_BasicoMaritimo.Text & "," & ddlArmazemDescarga_BasicoMaritimo.Text & "," & ID_NAVIO & ", " & ID_NAVIO1 & "," & ID_NAVIO2 & "," & ID_NAVIO3 & ",GETDATE()," & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & ") Select SCOPE_IDENTITY() as ID_BL ")
 
-                    If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
-                        Week(1)
+                        'PREENCHE SESSÃO E CAMPO DE ID
+                        Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+                        txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+
+                        If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
+                            Week(1)
+                        End If
+                        AtualizaHouse(1)
+                        NumeroProcesso()
+
+                        txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("',103)", "")
+                        txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("NULL", "")
+
+
+                        txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("NULL", "")
+                        txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
+                        txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("',103)", "")
+
+                        txtCE_BasicoMaritimo.Text = txtCE_BasicoMaritimo.Text.Replace("'", "")
+                        txtCE_BasicoMaritimo.Text = txtCE_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        txtNumeroViagem_BasicoMaritimo.Text = txtNumeroViagem_BasicoMaritimo.Text.Replace("'", "")
+                        txtNumeroViagem_BasicoMaritimo.Text = txtNumeroViagem_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        txtViagem1_BasicoMaritimo.Text = txtViagem1_BasicoMaritimo.Text.Replace("'", "")
+                        txtViagem1_BasicoMaritimo.Text = txtViagem1_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        txtViagem2_BasicoMaritimo.Text = txtViagem2_BasicoMaritimo.Text.Replace("'", "")
+                        txtViagem2_BasicoMaritimo.Text = txtViagem2_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        txtViagem3_BasicoMaritimo.Text = txtViagem3_BasicoMaritimo.Text.Replace("'", "")
+                        txtViagem3_BasicoMaritimo.Text = txtViagem3_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("'", "")
+                        txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("NULL", "")
+
+                        Con.Fechar()
+                        divSuccess_BasicoMaritimo.Visible = True
+                    Else
+                        divErro_BasicoMaritimo.Visible = True
+                        lblErro_BasicoMaritimo.Text = "Já existe BL cadastrada com este número!"
                     End If
-
-                    NumeroProcesso()
-
-                    txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("',103)", "")
-                    txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("NULL", "")
-
-
-                    txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtPrevisaoEmbarque_BasicoMaritimo.Text = txtPrevisaoEmbarque_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtChegada_BasicoMaritimo.Text = txtChegada_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtEmbarque_BasicoMaritimo.Text = txtEmbarque_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtData1_BasicoMaritimo.Text = txtData1_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtData2_BasicoMaritimo.Text = txtData2_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtData3_BasicoMaritimo.Text = txtData3_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtDataCE_BasicoMaritimo.Text = txtDataCE_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("NULL", "")
-                    txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
-                    txtEmissaoBL_BasicoMaritimo.Text = txtEmissaoBL_BasicoMaritimo.Text.Replace("',103)", "")
-
-                    txtCE_BasicoMaritimo.Text = txtCE_BasicoMaritimo.Text.Replace("'", "")
-                    txtCE_BasicoMaritimo.Text = txtCE_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    txtNumeroViagem_BasicoMaritimo.Text = txtNumeroViagem_BasicoMaritimo.Text.Replace("'", "")
-                    txtNumeroViagem_BasicoMaritimo.Text = txtNumeroViagem_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    txtViagem1_BasicoMaritimo.Text = txtViagem1_BasicoMaritimo.Text.Replace("'", "")
-                    txtViagem1_BasicoMaritimo.Text = txtViagem1_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    txtViagem2_BasicoMaritimo.Text = txtViagem2_BasicoMaritimo.Text.Replace("'", "")
-                    txtViagem2_BasicoMaritimo.Text = txtViagem2_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    txtViagem3_BasicoMaritimo.Text = txtViagem3_BasicoMaritimo.Text.Replace("'", "")
-                    txtViagem3_BasicoMaritimo.Text = txtViagem3_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("'", "")
-                    txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("NULL", "")
-
-                    Con.Fechar()
-                    divSuccess_BasicoMaritimo.Visible = True
                 End If
+
             Else
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Usuário não possui permissão para cadastrar."
-                Exit Sub
 
-            End If
-
-
-        Else
-
-            ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_BasicoMaritimo.Visible = True
                     lblErro_BasicoMaritimo.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
@@ -1442,11 +1453,12 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
                     'REALIZA UPDATE 
-                    ds = Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ",NR_VIAGEM = " & txtNumeroViagem_BasicoMaritimo.Text & ",NR_VIAGEM_1T = " & txtViagem1_BasicoMaritimo.Text & ",NR_VIAGEM_2T = " & txtViagem2_BasicoMaritimo.Text & ",NR_VIAGEM_3T = " & txtViagem3_BasicoMaritimo.Text & ", DT_1T = " & txtData1_BasicoMaritimo.Text & ", DT_2T = " & txtData2_BasicoMaritimo.Text & ", DT_3T = " & txtData3_BasicoMaritimo.Text & ", ID_PORTO_1T =" & ddlPorto1_BasicoMaritimo.SelectedValue & ",ID_PORTO_3T =" & ddlPorto3_BasicoMaritimo.SelectedValue & ",ID_PORTO_2T =" & ddlPorto2_BasicoMaritimo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoMaritimo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoMaritimo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoMaritimo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoMaritimo.Text & ",DT_EMISSAO_BL = " & txtEmissaoBL_BasicoMaritimo.Text & ",VL_TARIFA_MASTER_MINIMA =  " & txtTarifaMasterMin_BasicoMaritimo.Text & ",NR_CE = " & txtCE_BasicoMaritimo.Text & ",DT_CE = " & txtDataCE_BasicoMaritimo.Text & " ,ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_AGENCIA = " & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & " , ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ", ID_NAVIO = " & ID_NAVIO & " ,ID_NAVIO_1T = " & ID_NAVIO1 & " , ID_NAVIO_2T = " & ID_NAVIO2 & " ,ID_NAVIO_3T =  " & ID_NAVIO3 & ",ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ddlArmazemAtracacao_BasicoMaritimo.Text & ",ID_PARCEIRO_ARMAZEM_DESCARGA = " & ddlArmazemDescarga_BasicoMaritimo.Text & "  WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                    ds = Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ",NR_VIAGEM = " & txtNumeroViagem_BasicoMaritimo.Text & ",NR_VIAGEM_1T = " & txtViagem1_BasicoMaritimo.Text & ",NR_VIAGEM_2T = " & txtViagem2_BasicoMaritimo.Text & ",NR_VIAGEM_3T = " & txtViagem3_BasicoMaritimo.Text & ", DT_1T = " & txtData1_BasicoMaritimo.Text & ", DT_2T = " & txtData2_BasicoMaritimo.Text & ", DT_3T = " & txtData3_BasicoMaritimo.Text & ", ID_PORTO_1T =" & ddlPorto1_BasicoMaritimo.SelectedValue & ",ID_PORTO_3T =" & ddlPorto3_BasicoMaritimo.SelectedValue & ",ID_PORTO_2T =" & ddlPorto2_BasicoMaritimo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoMaritimo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoMaritimo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoMaritimo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoMaritimo.Text & ",DT_EMISSAO_BL = " & txtEmissaoBL_BasicoMaritimo.Text & ",VL_TARIFA_MASTER_MINIMA =  " & txtTarifaMasterMin_BasicoMaritimo.Text & ",NR_CE = " & txtCE_BasicoMaritimo.Text & ",DT_CE = " & txtDataCE_BasicoMaritimo.Text & " ,ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_AGENCIA = " & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & " , ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ", ID_NAVIO = " & ID_NAVIO & " ,ID_NAVIO_1T = " & ID_NAVIO1 & " , ID_NAVIO_2T = " & ID_NAVIO2 & " ,ID_NAVIO_3T =  " & ID_NAVIO3 & ",ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ddlArmazemAtracacao_BasicoMaritimo.Text & ",ID_PARCEIRO_ARMAZEM_DESCARGA = " & ddlArmazemDescarga_BasicoMaritimo.Text & "  , ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
 
                     If ddlWeekMaritimo.SelectedValue <> Session("ID_WEEK") Then
                         Week(1)
                     End If
+                    AtualizaHouse(1)
 
 
                     txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
@@ -1509,13 +1521,10 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
                 End If
-            Else
 
-                divErro_BasicoMaritimo.Visible = True
-                lblErro_BasicoMaritimo.Text = "Usuário não possui permissão para alterar."
-                Exit Sub
 
             End If
+
 
         End If
     End Sub
@@ -1529,62 +1538,52 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        txtCalculo_TaxaAereo.Text = txtCalculo_TaxaAereo.Text.Replace(".", "")
-        txtCalculo_TaxaAereo.Text = txtCalculo_TaxaAereo.Text.Replace(",", ".")
+        txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", "")
+        txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(",", ".")
 
-        txtMinimo_TaxaAereo.Text = txtMinimo_TaxaAereo.Text.Replace(".", "")
-        txtMinimo_TaxaAereo.Text = txtMinimo_TaxaAereo.Text.Replace(",", ".")
+        txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", "")
+        txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(",", ".")
 
-        txtTaxa_TaxaAereo.Text = txtTaxa_TaxaAereo.Text.Replace(".", "")
-        txtTaxa_TaxaAereo.Text = txtTaxa_TaxaAereo.Text.Replace(",", ".")
-
-        If txtTaxa_TaxaAereo.Text = "" Then
-            txtTaxa_TaxaAereo.Text = 0
+        If txtTaxaCompra_TaxaAereo.Text = "" Then
+            txtTaxaCompra_TaxaAereo.Text = 0
         End If
 
-        If txtMinimo_TaxaAereo.Text = "" Then
-            txtMinimo_TaxaAereo.Text = 0
+        If txtMinimoCompra_TaxaAereo.Text = "" Then
+            txtMinimoCompra_TaxaAereo.Text = 0
         End If
 
-        If txtCalculo_TaxaAereo.Text = "" Then
-            txtCalculo_TaxaAereo.Text = 0
-        End If
-
-        If txtID_TaxaAereo.Text = "" Then
+        If txtTaxaCompra_TaxaAereo.Text <> "" And txtTaxaCompra_TaxaAereo.Text <> 0 Then
+            If txtID_TaxaAereo.Text = "" Then
 
 
-            ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
 
                 Else
 
-                    'INSERE 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxa_TaxaAereo.Text & "," & txtMinimo_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+
+
+                    'REALIZA INSERT TAXA COMPRA
+                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+
+
+
 
                     dgvTaxasAereo.DataBind()
                     Con.Fechar()
                     divSuccess_TaxaAereo2.Visible = True
 
                 End If
+
+
+
             Else
-                divErro_TaxaAereo2.Visible = True
-                lblErro_TaxaAereo2.Text = "Usuário não possui permissão para cadastrar."
-                Exit Sub
 
-            End If
-
-
-        Else
-
-            ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
@@ -1601,8 +1600,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
                     Else
 
-                        'REALIZA UPDATE 
-                        Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxa_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimo_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
+
+
+
+                        'REALIZA UPDATE TAXA COMPRA
+                        Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaCompra_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoCompra_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
+
+
+
+                        ''REALIZA UPDATE TAXA VENDA
+                        'Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoVenda_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
+
 
                         divSuccess_TaxaAereo2.Visible = True
                         Con.Fechar()
@@ -1610,16 +1618,16 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     End If
 
                 End If
-            Else
-
-                divErro_TaxaAereo2.Visible = True
-                lblErro_TaxaAereo2.Text = "Usuário não possui permissão para alterar."
-                Exit Sub
 
             End If
-
-
+        Else
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "É necessário informar um valor para que a taxa seja cadastrada/alterada."
         End If
+
+
+
+        mpeTaxaAereo.Show()
 
     End Sub
 
@@ -1632,34 +1640,27 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Con.Conectar()
         Dim ds As DataSet
 
-        txtCalculo_TaxasMaritimo.Text = txtCalculo_TaxasMaritimo.Text.Replace(".", "")
-        txtCalculo_TaxasMaritimo.Text = txtCalculo_TaxasMaritimo.Text.Replace(",", ".")
+        txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", "")
+        txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(",", ".")
 
-        txtMinimo_TaxasMaritimo.Text = txtMinimo_TaxasMaritimo.Text.Replace(".", "")
-        txtMinimo_TaxasMaritimo.Text = txtMinimo_TaxasMaritimo.Text.Replace(",", ".")
+        txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", "")
+        txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(",", ".")
 
-        txtTaxa_TaxasMaritimo.Text = txtTaxa_TaxasMaritimo.Text.Replace(".", "")
-        txtTaxa_TaxasMaritimo.Text = txtTaxa_TaxasMaritimo.Text.Replace(",", ".")
-
-        If txtTaxa_TaxasMaritimo.Text = "" Then
-            txtTaxa_TaxasMaritimo.Text = 0
+        If txtTaxaCompra_TaxasMaritimo.Text = "" Then
+            txtTaxaCompra_TaxasMaritimo.Text = 0
         End If
 
-        If txtMinimo_TaxasMaritimo.Text = "" Then
-            txtMinimo_TaxasMaritimo.Text = 0
+        If txtMinimoCompra_TaxasMaritimo.Text = "" Then
+            txtMinimoCompra_TaxasMaritimo.Text = 0
         End If
 
-        If txtCalculo_TaxasMaritimo.Text = "" Then
-            txtCalculo_TaxasMaritimo.Text = 0
-        End If
 
-        If txtID_TaxasMaritimo.Text = "" Then
+        If txtTaxaCompra_TaxasMaritimo.Text <> "" And txtTaxaCompra_TaxasMaritimo.Text <> 0 Then
+            If txtID_TaxasMaritimo.Text = "" Then
 
 
-            ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxasMaritimo2.Visible = True
                     lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
@@ -1668,8 +1669,9 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
 
 
-                    'INSERE 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxa_TaxasMaritimo.Text & "," & txtMinimo_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    'REALIZA INSERT TAXA COMPRA
+                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxaCompra_TaxasMaritimo.Text & "," & txtMinimoCompra_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+
 
                     dgvTaxasMaritimo.DataBind()
 
@@ -1677,20 +1679,11 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
                     divSuccess_TaxasMaritimo2.Visible = True
                 End If
+
             Else
-                divErro_TaxasMaritimo2.Visible = True
-                lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para cadastrar."
-                Exit Sub
 
-            End If
-
-
-        Else
-
-            ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxasMaritimo2.Visible = True
                     lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
@@ -1707,8 +1700,11 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                         lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
                     Else
 
-                        'REALIZA UPDATE 
-                        Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxasMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxasMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & ",ID_STATUS_PAGAMENTO = " & ddlStatusPagamento_TaxasMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxasMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxasMaritimo.SelectedValue & ",VL_TAXA = " & txtTaxa_TaxasMaritimo.Text & ",VL_TAXA_MIN = " & txtMinimo_TaxasMaritimo.Text & ",ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxasMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO ='" & ckbPremiacao_TaxasMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxasMaritimo.Text)
+
+                        'REALIZA UPDATE TAXA COMPRA
+                        Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxasMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxasMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & ",ID_STATUS_PAGAMENTO = " & ddlStatusPagamento_TaxasMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxasMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxasMaritimo.SelectedValue & ",VL_TAXA = " & txtTaxaCompra_TaxasMaritimo.Text & ",VL_TAXA_MIN = " & txtMinimoCompra_TaxasMaritimo.Text & ",ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxasMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO ='" & ckbPremiacao_TaxasMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxasMaritimo.Text)
+
+
 
                         dgvTaxasMaritimo.DataBind()
                         divSuccess_TaxasMaritimo2.Visible = True
@@ -1718,18 +1714,12 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
 
 
                 End If
-            Else
-
-                divErro_TaxasMaritimo2.Visible = True
-                lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para alterar."
-                Exit Sub
 
             End If
-
-
+        Else
+            divErro_TaxasMaritimo2.Visible = True
+            lblErro_TaxasMaritimo2.Text = "É necessário informar um valor para que a taxa seja cadastrada/alterada."
         End If
-
-
         mpeTaxasMaritimo.Show()
 
     End Sub
@@ -1771,76 +1761,62 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
             If txtID_CNTRMaritimo.Text = "" Then
 
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divErro_CNTRMaritimo2.Visible = True
-                        lblErro_CNTRMaritimo2.Text = "Usuário não possui permissão para cadastrar."
-                        Exit Sub
-
-                    Else
-
-
-
-                        'INSERE 
-                        ds = Con.ExecutarQuery("INSERT INTO TB_CNTR_BL (ID_BL_MASTER,ID_TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME)  
- VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlTipoContainer_CNTRMaritimo.SelectedValue & "," & txtNumeroContainer_CNTRMaritimo.Text & "," & txtLacre_CNTRMaritimo.Text & "," & txtTara_CNTRMaritimo.Text & "," & txtFreeTime_CNTRMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_CNTR_BL ")
-
-                        dgvContainer.DataBind()
-
-                        Con.Fechar()
-
-                        txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("NULL", "")
-                        txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("'", "")
-
-                        txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("NULL", "")
-                        txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("'", "")
-
-                        divSuccess_CNTRMaritimo2.Visible = True
-                    End If
-                Else
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_CNTRMaritimo2.Visible = True
                     lblErro_CNTRMaritimo2.Text = "Usuário não possui permissão para cadastrar."
                     Exit Sub
 
+                Else
+
+                    'INSERE 
+                    ds = Con.ExecutarQuery("INSERT INTO TB_CNTR_BL (ID_BL_MASTER,ID_TIPO_CNTR,NR_CNTR,NR_LACRE,VL_PESO_TARA,QT_DIAS_FREETIME)  
+ VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlTipoContainer_CNTRMaritimo.SelectedValue & "," & txtNumeroContainer_CNTRMaritimo.Text & "," & txtLacre_CNTRMaritimo.Text & "," & txtTara_CNTRMaritimo.Text & "," & txtFreeTime_CNTRMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_CNTR_BL ")
+
+                    AMR_CNTR_INSERT(txtID_BasicoMaritimo.Text, ds.Tables(0).Rows(0).Item("ID_CNTR_BL"))
+                    dgvContainer.DataBind()
+
+                    Con.Fechar()
+
+                    txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("NULL", "")
+                    txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("'", "")
+
+                    txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("NULL", "")
+                    txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("'", "")
+
+                    divSuccess_CNTRMaritimo2.Visible = True
                 End If
+
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
 
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divErro_CNTRMaritimo2.Visible = True
-                        lblErro_CNTRMaritimo2.Text = "Usuário não possui permissão para alterar."
-                        Exit Sub
-
-                    Else
-
-
-                        'REALIZA UPDATE 
-                        Con.ExecutarQuery("UPDATE TB_CNTR_BL SET ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & ",ID_TIPO_CNTR = " & ddlTipoContainer_CNTRMaritimo.SelectedValue & ",NR_CNTR = " & txtNumeroContainer_CNTRMaritimo.Text & " ,NR_LACRE = " & txtLacre_CNTRMaritimo.Text & " ,VL_PESO_TARA = " & txtTara_CNTRMaritimo.Text & " ,QT_DIAS_FREETIME = " & txtFreeTime_CNTRMaritimo.Text & " WHERE ID_CNTR_BL = " & txtID_CNTRMaritimo.Text)
-
-                        dgvContainer.DataBind()
-                        divSuccess_CNTRMaritimo2.Visible = True
-                        Con.Fechar()
-
-                        txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("NULL", "")
-                        txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("'", "")
-
-                        txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("NULL", "")
-                        txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("'", "")
-
-                    End If
-                Else
-
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_CNTRMaritimo2.Visible = True
                     lblErro_CNTRMaritimo2.Text = "Usuário não possui permissão para alterar."
                     Exit Sub
 
+                Else
+
+
+                    'REALIZA UPDATE 
+                    Con.ExecutarQuery("UPDATE TB_CNTR_BL SET ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & ",ID_TIPO_CNTR = " & ddlTipoContainer_CNTRMaritimo.SelectedValue & ",NR_CNTR = " & txtNumeroContainer_CNTRMaritimo.Text & " ,NR_LACRE = " & txtLacre_CNTRMaritimo.Text & " ,VL_PESO_TARA = " & txtTara_CNTRMaritimo.Text & " ,QT_DIAS_FREETIME = " & txtFreeTime_CNTRMaritimo.Text & " WHERE ID_CNTR_BL = " & txtID_CNTRMaritimo.Text)
+
+                    dgvContainer.DataBind()
+                    divSuccess_CNTRMaritimo2.Visible = True
+                    Con.Fechar()
+
+                    txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("NULL", "")
+                    txtNumeroContainer_CNTRMaritimo.Text = txtNumeroContainer_CNTRMaritimo.Text.Replace("'", "")
+
+                    txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("NULL", "")
+                    txtLacre_CNTRMaritimo.Text = txtLacre_CNTRMaritimo.Text.Replace("'", "")
+
                 End If
+
 
 
             End If
@@ -1886,6 +1862,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
 
                 Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = " & txtID_BasicoMaritimo.Text & " WHERE ID_BL = " & ID)
 
+                AtualizaHouse(1)
+
             End If
         Next
         Con.Fechar()
@@ -1914,8 +1892,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
     Private Sub btnSalvarNavio_Click(sender As Object, e As EventArgs) Handles btnSalvarNavio.Click
         Dim id As String = rdNavios.SelectedValue
         Dim nome As String = rdNavios.SelectedItem.Text
-
-        'ddlNavio_BasicoMaritimo.Items.Remove(1)
 
         ddlNavio_BasicoMaritimo.Items.Insert(1, id & " - " & nome)
         ddlNavio_BasicoMaritimo.SelectedIndex = 1
@@ -1964,9 +1940,74 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
             ds = Con.ExecutarQuery("UPDATE TB_BL SET ID_WEEK = " & ddlWeekMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
             ds = Con.ExecutarQuery("UPDATE TB_BL SET ID_WEEK = " & ddlWeekMaritimo.SelectedValue & " WHERE GRAU = 'C' AND ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & "")
 
+
         ElseIf tipo = 2 Then
             ds = Con.ExecutarQuery("UPDATE TB_BL SET ID_WEEK = " & ddlWeekAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
             ds = Con.ExecutarQuery("UPDATE TB_BL SET ID_WEEK = " & ddlWeekAereo.SelectedValue & " WHERE GRAU = 'C' AND ID_BL_MASTER = " & txtID_BasicoAereo.Text & "")
+
+        End If
+
+    End Sub
+
+    Sub AtualizaHouse(tipo As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+
+        If tipo = 1 Then
+
+
+
+            Con.ExecutarQuery("UPDATE TB_BL SET 
+NR_VIAGEM = (SELECT NR_VIAGEM FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+NR_VIAGEM_1T = (SELECT NR_VIAGEM_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+NR_VIAGEM_2T =(SELECT NR_VIAGEM_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") ,
+NR_VIAGEM_3T = (SELECT NR_VIAGEM_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") , 
+DT_1T =(SELECT DT_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") , 
+DT_2T = (SELECT DT_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "), 
+DT_3T =(SELECT DT_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") , 
+ID_PORTO_1T =(SELECT ID_PORTO_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_PORTO_3T =(SELECT ID_PORTO_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_PORTO_2T =(SELECT ID_PORTO_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "), 
+DT_PREVISAO_EMBARQUE =  (SELECT DT_PREVISAO_EMBARQUE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+DT_PREVISAO_CHEGADA = (SELECT DT_PREVISAO_CHEGADA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+DT_CHEGADA = (SELECT DT_CHEGADA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+DT_EMBARQUE = (SELECT DT_EMBARQUE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_NAVIO = (SELECT ID_NAVIO FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") ,
+ID_NAVIO_1T = (SELECT ID_NAVIO_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") , 
+ID_NAVIO_2T = (SELECT ID_NAVIO_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") ,
+ID_NAVIO_3T =  (SELECT ID_NAVIO_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_PARCEIRO_ARMAZEM_ATRACACAO =(SELECT ID_PARCEIRO_ARMAZEM_ATRACACAO FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_PARCEIRO_ARMAZEM_DESCARGA = (SELECT ID_PARCEIRO_ARMAZEM_DESCARGA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "), 
+ID_STATUS_FRETE_AGENTE =(SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & "),
+ID_PARCEIRO_TRANSPORTADOR =(SELECT ID_PARCEIRO_TRANSPORTADOR FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ")
+WHERE GRAU = 'C' AND ID_BL_MASTER = " & txtID_BasicoMaritimo.Text)
+
+
+        ElseIf tipo = 2 Then
+
+
+            ds = Con.ExecutarQuery("UPDATE TB_BL SET 
+NR_VIAGEM = (SELECT NR_VIAGEM FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+NR_VIAGEM_1T = (SELECT NR_VIAGEM_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+NR_VIAGEM_2T =(SELECT NR_VIAGEM_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") ,
+NR_VIAGEM_3T = (SELECT NR_VIAGEM_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") , 
+DT_1T =(SELECT DT_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") , 
+DT_2T = (SELECT DT_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "), 
+DT_3T =(SELECT DT_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") , 
+ID_PORTO_1T =(SELECT ID_PORTO_1T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+ID_PORTO_3T =(SELECT ID_PORTO_3T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+ID_PORTO_2T =(SELECT ID_PORTO_2T FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "), 
+DT_PREVISAO_EMBARQUE =  (SELECT DT_PREVISAO_EMBARQUE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+DT_PREVISAO_CHEGADA = (SELECT DT_PREVISAO_CHEGADA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+DT_CHEGADA = (SELECT DT_CHEGADA FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+DT_EMBARQUE = (SELECT DT_EMBARQUE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+ID_STATUS_FRETE_AGENTE =(SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & "),
+ID_PARCEIRO_TRANSPORTADOR =(SELECT ID_PARCEIRO_TRANSPORTADOR FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ")
+WHERE GRAU = 'C' AND ID_BL_MASTER = " & txtID_BasicoAereo.Text)
+
+
+
         End If
 
     End Sub
@@ -2009,7 +2050,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If ds.Tables(0).Rows(0).Item("AnoSequencialProcesso") = ano_atual Then
+                If AnoSequencialProcesso = ano_atual Then
 
                     NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
@@ -2042,7 +2083,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If ds.Tables(0).Rows(0).Item("AnoSequencialProcesso") = ano_atual Then
+                If AnoSequencialProcesso = ano_atual Then
 
                     NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
@@ -2101,6 +2142,17 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
         ds = Con.ExecutarQuery("SELECT FL_PREMIACAO FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue)
         If ds.Tables(0).Rows.Count > 0 Then
             ckbPremiacao_TaxaAereo.Checked = ds.Tables(0).Rows(0).Item("FL_PREMIACAO")
+        End If
+
+    End Sub
+
+    Sub AMR_CNTR_INSERT(ID_BL As Integer, CNTR As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsAMR As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL & "  AND ID_CNTR_BL = " & CNTR)
+
+        If dsAMR.Tables(0).Rows(0).Item("QTD") = 0 Then
+            Con.ExecutarQuery("INSERT INTO TB_AMR_CNTR_BL (ID_BL,ID_CNTR_BL) VALUES(" & ID_BL & "," & CNTR & ")")
         End If
 
     End Sub

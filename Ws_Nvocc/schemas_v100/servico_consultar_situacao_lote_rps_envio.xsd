@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema elementFormDefault="qualified"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ConsultarSituacaoLoteRpsEnvio">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Prestador" type="tcIdentificacaoPrestador" />
+				<xs:element name="Protocolo" type="tsNumeroProtocolo" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+		<xs:complexType name="tcIdentificacaoPrestador">
+			<xs:annotation>
+				<xs:documentation>Representa dados para identificação do
+					prestador de serviço</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element name="Cnpj" type="TsCnpj" />
+				<xs:element minOccurs="0" name="InscricaoMunicipal" type="tsInscricaoMunicipal" />
+			</xs:sequence>
+		</xs:complexType>
+		<xs:simpleType name="TsCnpj">
+			<xs:annotation>
+				<xs:documentation>Número CNPJ</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="14"></xs:maxLength>
+				<xs:minLength value="1"></xs:minLength>
+				<xs:whiteSpace value="collapse"></xs:whiteSpace>
+			</xs:restriction>
+		</xs:simpleType>
+		<xs:simpleType name="tsInscricaoMunicipal">
+			<xs:annotation>
+				<xs:documentation>
+					Número de inscrição municipal
+  		</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="15"></xs:maxLength>
+				<xs:minLength value="1"></xs:minLength>
+				<xs:whiteSpace value="collapse"></xs:whiteSpace>
+			</xs:restriction>
+		</xs:simpleType>
+		<xs:simpleType name="tsNumeroProtocolo">
+			<xs:annotation>
+				<xs:documentation>Número do protocolo de recebimento do RPS
+				</xs:documentation>
+			</xs:annotation>
+			<xs:restriction base="xs:long">
+				<xs:totalDigits value="15"></xs:totalDigits>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:schema>

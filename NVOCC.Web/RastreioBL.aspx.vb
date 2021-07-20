@@ -32,7 +32,7 @@ Public Class RastreioBL
         situacao.Text = "Ativo"
         eta.Text = data.dates.eta
         'ADUANA
-        ce.Text = data.aduana.ce_number
+        'ce.Text = ValorExtenso.nNull()
         manifesto.Text = data.aduana.manifest
         'Mercadoria
         'ENVOLVIDOS
@@ -59,17 +59,15 @@ Public Class RastreioBL
         data_presenca_carga.Text = data.dates.last_update
         'eta
 
-
-
-
-
-
     End Sub
     Private Function DeserializarNewtonsoft() As BL
         Dim Json = Session("TRAKING_BL")
         Return JsonConvert.DeserializeObject(Of BL)(Json)
     End Function
 
+    Protected Sub btnAtualizar_Click(sender As Object, e As EventArgs) Handles btnAtualizar.Click
+        Response.Redirect("https://localhost:44327/Rastreio/rastrear/iniciar")
+    End Sub
 End Class
 
 

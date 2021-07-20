@@ -7,8 +7,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">FRETE TRANSPORTADOR
                     </h3>
-                </div>
-                       
+                </div>                      
                 <div class="panel-body">
                     <br />
     <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" >                        
@@ -25,11 +24,15 @@
                                                                                           
                                     <div id="ocean" runat="server" visible="false">
                                         <div class="row">
-                                            
+                                             <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Porto de Origem:</label>
+                                        <asp:DropDownList ID="ddlOrigemOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                </div>
                                             <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Porto:</label>
-                                        <asp:DropDownList ID="ddlDestinoOcena" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <label class="control-label">Porto de Destino:</label>
+                                        <asp:DropDownList ID="ddlDestinoOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                 
 
@@ -47,13 +50,13 @@
                                 </div>
                                         <div class="row">--%>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-1">
                                     <div class="form-group">
-                                        <label class="control-label">Validade de:</label>
+                                        <label class="control-label">Validade inicial de:</label>
                                         <asp:TextBox ID="txtDataInicial" runat="server" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                 <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">até:</label>
                                         <asp:TextBox ID="txtDataFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
@@ -88,7 +91,7 @@
                                     </div>
         <br/>
      
-                            <div id="DivGrid" runat="server" class="table-responsive tableFixHead" visible="false">
+                            <div id="DivGridLocais" runat="server" class="table-responsive tableFixHead" visible="false">
                                 <asp:GridView ID="dgvTaxas" DataKeyNames="ID_TAXA_LOCAL_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsTaxas"  AutoGenerateColumns="false"  style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvTaxas_Sorting"  EmptyDataText="Nenhum registro encontrado." >
                                     <Columns>
                                         <asp:TemplateField>
@@ -111,6 +114,35 @@
                                     <HeaderStyle CssClass="headerStyle" />
                                 </asp:GridView>
                             </div>
+                    <div id="DivGridTarifario" runat="server" class="table-responsive tableFixHead" visible="false">
+                                <asp:GridView ID="dgvTarifario" DataKeyNames="ID_TARIFARIO_FRETE_TRANSPORTADOR" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsTarifario"  AutoGenerateColumns="false"  style="max-height:600px; overflow:auto;" AllowSorting="true" OnSorting="dgvTaxas_Sorting"  EmptyDataText="Nenhum registro encontrado." >
+                                    <Columns>
+                                        <asp:TemplateField>
+	                                        <ItemTemplate>                                                                
+		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select"
+                                Style="display: none;"></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" />
+                                        <asp:BoundField DataField="ID_FRETE_TRANSPORTADOR" HeaderText="Tabela de Frete" ReadOnly="true" SortExpression="ID_FRETE_TRANSPORTADOR" />
+                                        <asp:BoundField DataField="TRANSPORTADOR" HeaderText="Transportador" ReadOnly="true" SortExpression="TRANSPORTADOR" />
+                                                                                <asp:BoundField DataField="ORIGEM" HeaderText="Porto de Origem" ReadOnly="true" SortExpression="ORIGEM" />
+
+                                        <asp:BoundField DataField="DESTINO" HeaderText="Porto de Destino" ReadOnly="true" SortExpression="DESTINO" />
+                                           <asp:BoundField DataField="ESTUFAGEM" HeaderText="Estufagem" ReadOnly="true" SortExpression="ESTUFAGEM" />
+                                               
+                                        <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_INICIAL"/>                                                      <asp:BoundField DataField="DT_VALIDADE_FINAL" HeaderText="Validade Final" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_FINAL"/>                             
+                                        <asp:BoundField DataField="MERCADORIA" HeaderText="Mercadoria" ReadOnly="true" SortExpression="MERCADORIA" />
+                                        <asp:BoundField DataField="VL_MINIMO" HeaderText="Valor Minimo" SortExpression="VL_MINIMO" />
+                                     <asp:BoundField DataField="VL_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_COMPRA" />
+                                        <asp:BoundField DataField="VL_M3_INICIAL" HeaderText="M3 Inicial" SortExpression="VL_M3_INICIAL" />               <asp:BoundField DataField="VL_M3_FINAL" HeaderText="M3 Final" SortExpression="VL_M3_FINAL" />
+                                           <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime(dias)" SortExpression="QT_DIAS_FREETIME" />   <asp:BoundField DataField="TIPO_CONTAINER" HeaderText="Container" SortExpression="TIPO_CONTAINER" />
+
+
+                                    </Columns>
+                                    <HeaderStyle CssClass="headerStyle" />
+                                </asp:GridView>
+                            </div>
                     </div>
                 </div>
               </div>
@@ -126,20 +158,45 @@
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TAXA_LOCAL_TRANSPORTADOR, (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO)PORTO, (SELECT NM_TIPO_COMEX FROM TB_TIPO_COMEX WHERE ID_TIPO_COMEX = A.ID_TIPO_COMEX)COMEX, (SELECT NM_VIATRANSPORTE FROM TB_VIATRANSPORTE WHERE ID_VIATRANSPORTE = A.ID_VIATRANSPORTE)VIATRANSPORTE, (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)ITEMDESPESA,(SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO)BASECALCULO,(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 CONVERT(varchar,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LOCAL_COMPRA FROM TB_TAXA_LOCAL_TRANSPORTADOR A">
+         </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsTarifario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT 
+ID_TARIFARIO_FRETE_TRANSPORTADOR,
+ID_FRETE_TRANSPORTADOR,
+DT_VALIDADE_INICIAL,
+DT_VALIDADE_FINAL,
+VL_COMPRA,
+VL_MINIMO,
+VL_M3_INICIAL,
+VL_M3_FINAL,
+QT_DIAS_FREETIME,
+(SELECT ID_PORTO_ORIGEM FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR)ID_PORTO_ORIGEM,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = (SELECT ID_PORTO_ORIGEM FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR))ORIGEM,
+(SELECT ID_PORTO_DESTINO FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR)ID_PORTO_DESTINO,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = (SELECT ID_PORTO_DESTINO FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR))DESTINO,
+(SELECT ID_TRANSPORTADOR FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR)ID_TRANSPORTADOR,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = (SELECT ID_TRANSPORTADOR FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = A.ID_FRETE_TRANSPORTADOR))TRANSPORTADOR,
+(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM)ESTUFAGEM,
+(select NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER)TIPO_CONTAINER,
+(select NM_MERCADORIA FROM TB_MERCADORIA WHERE ID_MERCADORIA = A.ID_MERCADORIA)MERCADORIA,
+SERVICO
+FROM
+TB_TARIFARIO_FRETE_TRANSPORTADOR A">
          </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

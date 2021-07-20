@@ -302,6 +302,42 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtComplemento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle mpeTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeTaxas As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle btnNao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnNao As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel3.
     '''</summary>
     '''<remarks>
@@ -374,6 +410,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtMaritimoImpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlAcordoCambioMaritimoImpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioMaritimoImpoFCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtMaritimoImpoLCL.
     '''</summary>
     '''<remarks>
@@ -383,13 +428,13 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtMaritimoImpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoImpo.
+    '''Controle ddlAcordoCambioMaritimoImpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoImpo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoImpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtMaritimoExpoFCL.
@@ -401,6 +446,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtMaritimoExpoFCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlAcordoCambioMaritimoExpoFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioMaritimoExpoFCL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtMaritimoExpoLCL.
     '''</summary>
     '''<remarks>
@@ -410,13 +464,13 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtMaritimoExpoLCL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioMaritimoExpo.
+    '''Controle ddlAcordoCambioMaritimoExpoLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioMaritimoExpo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioMaritimoExpoLCL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtAereoImpo.
@@ -480,6 +534,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtQtdFaturamento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ckbAtivo.
@@ -633,6 +696,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbVendedorDireto As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbShipper.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbShipper As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''Controle divVendedor.
@@ -858,4 +930,13 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsAcordoCambio As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoFaturamento As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

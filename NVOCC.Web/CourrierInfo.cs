@@ -18,6 +18,8 @@ namespace ABAINFRA.Web.Classes
         private string nm_razao;
         private string id_bl;
         private string id_bl_master;
+        private string nr_bl_master;
+        private string nr_bl;
 
         public string NR_PROCESSO { get => nr_processo; set => nr_processo = value; }
         public string DT_RECEBIMENTO_MBL { get => dt_recebimento_mbl; set => dt_recebimento_mbl = value; }
@@ -30,5 +32,7 @@ namespace ABAINFRA.Web.Classes
         public string NM_RAZAO { get => nm_razao; set => nm_razao = value; }
         public string ID_BL { get => id_bl; set => id_bl = value; }
         public string ID_BL_MASTER { get => id_bl_master; set => id_bl_master = value; }
+        public string NR_BL_MASTER { get => nr_bl_master; set => nr_bl_master = value; }
+        public string NR_BL{ get => nr_bl; set => nr_bl= value; }
     }
 }

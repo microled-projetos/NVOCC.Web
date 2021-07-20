@@ -167,6 +167,15 @@ Partial Public Class EmailParceiro
     Protected WithEvents txtEmail As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ckbReplica.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbReplica As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle btnLimpar.
     '''</summary>
     '''<remarks>

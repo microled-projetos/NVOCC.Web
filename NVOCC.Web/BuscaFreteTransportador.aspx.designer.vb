@@ -50,13 +50,22 @@ Partial Public Class BuscaFreteTransportador
     Protected WithEvents ocean As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlDestinoOcena.
+    '''Controle ddlOrigemOcean.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlDestinoOcena As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlOrigemOcean As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlDestinoOcean.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDestinoOcean As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlTransportadorOcean.
@@ -167,13 +176,13 @@ Partial Public Class BuscaFreteTransportador
     Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle DivGrid.
+    '''Controle DivGridLocais.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents DivGrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents DivGridLocais As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle dgvTaxas.
@@ -183,6 +192,24 @@ Partial Public Class BuscaFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle DivGridTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DivGridTarifario As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle dgvTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvTarifario As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle dsParceiros.
@@ -228,4 +255,13 @@ Partial Public Class BuscaFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsTarifario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTarifario As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

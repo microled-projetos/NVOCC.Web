@@ -12,7 +12,7 @@ Option Explicit On
 
 
 Partial Public Class ConsultaParceiro
-
+    
     '''<summary>
     '''Controle updPainel1.
     '''</summary>
@@ -21,7 +21,16 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
-
+    
+    '''<summary>
+    '''Controle txtID.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
+    
     '''<summary>
     '''Controle ddlConsulta.
     '''</summary>
@@ -30,7 +39,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlConsulta As Global.System.Web.UI.WebControls.DropDownList
-
+    
     '''<summary>
     '''Controle divPesquisa.
     '''</summary>
@@ -39,7 +48,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''Controle txtConsulta.
     '''</summary>
@@ -48,7 +57,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtConsulta As Global.System.Web.UI.WebControls.TextBox
-
+    
     '''<summary>
     '''Controle msgerro.
     '''</summary>
@@ -57,7 +66,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents msgerro As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''Controle diverro.
     '''</summary>
@@ -66,7 +75,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents diverro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''Controle lblErroExcluir.
     '''</summary>
@@ -75,7 +84,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblErroExcluir As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''Controle divInfo.
     '''</summary>
@@ -84,7 +93,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divInfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
+    
     '''<summary>
     '''Controle lblInfo.
     '''</summary>
@@ -93,7 +102,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblInfo As Global.System.Web.UI.WebControls.Label
-
+    
     '''<summary>
     '''Controle dgvParceiros.
     '''</summary>
@@ -102,7 +111,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvParceiros As Global.System.Web.UI.WebControls.GridView
-
+    
     '''<summary>
     '''Controle dsCidades.
     '''</summary>
@@ -111,7 +120,7 @@ Partial Public Class ConsultaParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsCidades As Global.System.Web.UI.WebControls.SqlDataSource
-
+    
     '''<summary>
     '''Controle dsParceiros.
     '''</summary>

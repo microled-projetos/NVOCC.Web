@@ -179,7 +179,7 @@ namespace ABAINFRA.Web
                 string SQL;
                 SQL = "SELECT TB_TAXA_CLIENTE.OB_TAXAS, TB_ITEM_DESPESA.ID_ITEM_DESPESA,TB_TAXA_CLIENTE.ID_BASE_CALCULO_TAXA,VL_TAXA_COMPRA, ";
                 SQL += "REPLICATE('0', 3 - LEN(ID_MOEDA_COMPRA)) + RTRIM(ID_MOEDA_COMPRA) AS MOEDA_COMPRA, VL_TAXA_VENDA, REPLICATE('0', 3 - LEN(ID_MOEDA_VENDA)) + RTRIM(ID_MOEDA_VENDA) AS MOEDA_VENDA, TB_TAXA_CLIENTE.FL_DECLARADO, TB_TAXA_CLIENTE.FL_DIVISAO_PROFIT, ";
-                SQL += "TB_TAXA_CLIENTE.ID_DESTINATARIO_COBRANCA, ";
+                SQL += "TB_TAXA_CLIENTE.ID_DESTINATARIO_COBRANCA, TB_TAXA_CLIENTE.ID_TIPO_PAGAMENTO, TB_TAXA_CLIENTE.ID_ORIGEM_PAGAMENTO, ";
                 SQL += "TB_TAXA_CLIENTE.ID_ITEM_DESPESA ";
                 SQL += "FROM TB_TAXA_CLIENTE ";
                 SQL += "INNER JOIN TB_ITEM_DESPESA ";
@@ -217,6 +217,8 @@ namespace ABAINFRA.Web
                     resultado.FL_DIVISAO_PROFIT = 0;
                 }
                 resultado.ID_DESTINATARIO_COBRANCA = (int)carregarDados.Rows[0]["ID_DESTINATARIO_COBRANCA"];
+                resultado.ID_TIPO_PAGAMENTO = carregarDados.Rows[0]["ID_TIPO_PAGAMENTO"].ToString();
+                resultado.ID_ORIGEM_PAGAMENTO = carregarDados.Rows[0]["ID_ORIGEM_PAGAMENTO"].ToString();
                 resultado.OB_TAXAS = carregarDados.Rows[0]["OB_TAXAS"].ToString();
 
 
@@ -271,6 +273,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if(dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if(dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
@@ -278,13 +288,13 @@ namespace ABAINFRA.Web
             if (dados.ID_MOEDA_COMPRA.ToString() == "")
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
-                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA,";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM, ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,1) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,1,'"+dados.ID_ORIGEM_PAGAMENTO+"','"+ dados.ID_TIPO_PAGAMENTO + "') ";
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
             }
@@ -292,12 +302,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,1) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,1,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -339,6 +349,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
 
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
@@ -349,12 +367,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,2) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,2,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -363,12 +381,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,2) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,1,2,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -410,6 +428,15 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
+
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
@@ -419,12 +446,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,1) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,1,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -433,12 +460,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,1) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,1,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -480,6 +507,15 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
+
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
@@ -488,12 +524,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,2) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,2,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -502,12 +538,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,2) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',1,2,2,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -549,6 +585,15 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
+
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
@@ -557,12 +602,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,1,null) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,1,null,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -571,12 +616,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,1,null) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,1,null,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -618,6 +663,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dados.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dados.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dados.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = dados.VL_TAXA_VENDA.ToString().Replace(',', '.');
             string vlTaxaCompra = dados.VL_TAXA_COMPRA.ToString().Replace(',', '.');
@@ -626,12 +679,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "',0,0,'" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,2,null) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,2,null,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -640,12 +693,12 @@ namespace ABAINFRA.Web
             {
                 SQL = "INSERT INTO TB_TAXA_CLIENTE(ID_ITEM_DESPESA, ID_BASE_CALCULO_TAXA, ";
                 SQL += "ID_MOEDA_COMPRA, VL_TAXA_COMPRA, ID_MOEDA_VENDA, VL_TAXA_VENDA, FL_DECLARADO, ID_DESTINATARIO_COBRANCA, ";
-                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM) ";
+                SQL += "FL_DIVISAO_PROFIT, OB_TAXAS, ID_PARCEIRO,ID_VIATRANSPORTE, ID_TIPO_COMEX, ID_TIPO_ESTUFAGEM,ID_ORIGEM_PAGAMENTO, ID_TIPO_PAGAMENTO) ";
                 SQL += "VALUES('" + dados.ID_ITEM_DESPESA + "',";
                 SQL += "'" + dados.ID_BASE_CALCULO_TAXA + "','" + dados.ID_MOEDA_COMPRA + "','" + vlTaxaCompra + "','" + dados.ID_MOEDA_VENDA + "', ";
                 SQL += "'" + vlTaxaVenda + "','" + dados.FL_DECLARADO + "','" + dados.ID_DESTINATARIO_COBRANCA + "', ";
                 SQL += "'" + dados.FL_DIVISAO_PROFIT + "',";
-                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,2,null) ";
+                SQL += "'" + dados.OB_TAXAS + "','" + dados.ID_PARCEIRO + "',2,2,null,'" + dados.ID_ORIGEM_PAGAMENTO + "','" + dados.ID_TIPO_PAGAMENTO + "') ";
 
                 string taxa = DBS.ExecuteScalar(SQL);
                 return "1";
@@ -691,6 +744,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -701,7 +762,8 @@ namespace ABAINFRA.Web
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
                 SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
-                SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
+                SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "',";
+                SQL += "FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 1, ID_TIPO_ESTUFAGEM = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
 
@@ -713,7 +775,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 1, ID_TIPO_ESTUFAGEM = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -762,6 +824,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -771,7 +841,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 1, ID_TIPO_ESTUFAGEM = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -784,7 +854,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 1, ID_TIPO_ESTUFAGEM = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -833,6 +903,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -842,7 +920,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 2, ID_TIPO_ESTUFAGEM = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -855,7 +933,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 2, ID_TIPO_ESTUFAGEM = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -904,6 +982,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -913,7 +999,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 2, ID_TIPO_ESTUFAGEM = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -926,7 +1012,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 1, ID_TIPO_COMEX = 2, ID_TIPO_ESTUFAGEM = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -979,6 +1065,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -988,7 +1082,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 2, ID_TIPO_COMEX = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -1001,7 +1095,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 2, ID_TIPO_COMEX = 1 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -1058,6 +1152,14 @@ namespace ABAINFRA.Web
             {
                 return "0";
             }
+            if (dadosEdit.ID_ORIGEM_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_ORIGEM_PAGAMENTO = "null";
+            }
+            if (dadosEdit.ID_TIPO_PAGAMENTO.ToString() == "")
+            {
+                dadosEdit.ID_TIPO_PAGAMENTO = "null";
+            }
             string SQL;
             string vlTaxaVenda = decBD(dadosEdit.VL_TAXA_VENDA.ToString());
             string vlTaxaCompra = decBD(dadosEdit.VL_TAXA_COMPRA.ToString());
@@ -1067,7 +1169,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = 0, VL_TAXA_COMPRA = 0, ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 2, ID_TIPO_COMEX = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -1080,7 +1182,7 @@ namespace ABAINFRA.Web
                 SQL = "UPDATE TB_TAXA_CLIENTE SET ID_ITEM_DESPESA = '" + dadosEdit.ID_ITEM_DESPESA + "', ";
                 SQL += "ID_BASE_CALCULO_TAXA = '" + dadosEdit.ID_BASE_CALCULO_TAXA + "', ";
                 SQL += "ID_MOEDA_COMPRA = '" + dadosEdit.ID_MOEDA_COMPRA + "', VL_TAXA_COMPRA = '" + vlTaxaCompra + "', ID_MOEDA_VENDA = '" + dadosEdit.ID_MOEDA_VENDA + "', ";
-                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "', ";
+                SQL += "VL_TAXA_VENDA = '" + vlTaxaVenda + "', FL_DECLARADO = '" + dadosEdit.FL_DECLARADO + "',ID_ORIGEM_PAGAMENTO = '" + dadosEdit.ID_ORIGEM_PAGAMENTO + "' , ID_TIPO_PAGAMENTO = '" + dadosEdit.ID_TIPO_PAGAMENTO + "', ";
                 SQL += "ID_DESTINATARIO_COBRANCA = '" + dadosEdit.ID_DESTINATARIO_COBRANCA + "', FL_DIVISAO_PROFIT = '" + dadosEdit.FL_DIVISAO_PROFIT + "', ";
                 SQL += "OB_TAXAS = '" + dadosEdit.OB_TAXAS + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', ID_VIATRANSPORTE = 2, ID_TIPO_COMEX = 2 ";
                 SQL += "WHERE ID_TAXA_CLIENTE = '" + dadosEdit.ID_TAXA_CLIENTE + "' ";
@@ -1521,10 +1623,10 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_CLIENTE = P3.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P4 ON B.ID_PARCEIRO_EXPORTADOR = P4.ID_PARCEIRO ";
-            SQL += "JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
-            SQL += "JOIN TB_MERCADORIA ON B.ID_MERCADORIA = TB_MERCADORIA.ID_MERCADORIA ";
-            SQL += "JOIN TB_INCOTERM ON B.ID_INCOTERM = TB_INCOTERM.ID_INCOTERM ";
-            SQL += "JOIN TB_WEEK ON B.ID_WEEK = TB_WEEK.ID_WEEK ";
+            SQL += "LEFT JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
+            SQL += "LEFT JOIN TB_MERCADORIA ON B.ID_MERCADORIA = TB_MERCADORIA.ID_MERCADORIA ";
+            SQL += "LEFT JOIN TB_INCOTERM ON B.ID_INCOTERM = TB_INCOTERM.ID_INCOTERM ";
+            SQL += "LEFT JOIN TB_WEEK ON B.ID_WEEK = TB_WEEK.ID_WEEK ";
             SQL += "WHERE B.ID_WEEK = '" + Id + "' ";
             SQL += "AND B.ID_WEEK_CONTAINER = '" + IdCont + "' ";
 

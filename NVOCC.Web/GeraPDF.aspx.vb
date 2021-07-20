@@ -30,13 +30,12 @@ Public Class GeraPDF
             Dim ms As New MemoryStream()
 
 
-            Dim Documento As New Document(iTextSharp.text.PageSize.A4, 10, 10, 180, 90)
+            Dim Documento As New Document(PageSize.A4, 10, 10, 180, 90)
             Dim writer As PdfWriter = PdfWriter.GetInstance(Documento, fs)
             Dim writer1 As PdfWriter = PdfWriter.GetInstance(Documento, ms)
 
             Documento.Open()
             Documento.AddTitle("NVOCC")
-            Documento.AddAuthor("NVOCC")
             Documento.AddAuthor("NVOCC")
             XMLWorkerHelper.GetInstance().ParseXHtml(writer, Documento, conteudo)
 

@@ -113,6 +113,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents txtIDTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle btnProximo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnProximo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle ddlTransportadorTaxa.
     '''</summary>
     '''<remarks>
@@ -381,6 +390,42 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharNovo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle ddlConsulta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlConsulta As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divPesquisa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtConsulta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtConsulta As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle msgerro.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents msgerro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle btnNovo.

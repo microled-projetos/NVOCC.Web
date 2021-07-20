@@ -191,10 +191,37 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
+                           <ajaxToolkit:ModalPopupExtender id="mpeTaxas" runat="server" PopupControlID="Panel1" TargetControlID="txtID"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+   <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">Taxas</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA INSERIR TAXAS PARA ESSE PARCEIRO?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNao" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSim" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
@@ -248,44 +275,58 @@
                                 </div>
                              </div >
                             <div class="row"> <div class="linha-colorida">SPREAD MARITIMO IMPORTAÇÃO</div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">FCL:</label>
                                         <asp:TextBox ID="txtMaritimoImpoFCL" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                  <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Acordo Câmbio</label>
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                            </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">LCL:</label>
                                         <asp:TextBox ID="txtMaritimoImpoLCL" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Acordo Câmbio</label>
-                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpo" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
         <div class="row">                                                     <div class="linha-colorida">SPREAD MARITIMO EXPORTAÇÃO</div>
             
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">FCL:</label>
                                         <asp:TextBox ID="txtMaritimoExpoFCL" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+            <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Acordo Câmbio</label>
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                            </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">LCL:</label>
                                         <asp:TextBox ID="txtMaritimoExpoLCL" runat="server" CssClass="form-control" onkeypress="return nomeFuncao( this , event ) ;"  MaxLength="6"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Acordo Câmbio</label>
-                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpo" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                        <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>
@@ -327,10 +368,17 @@
                                         <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="50" ></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Qtd. Dias de Faturamento:</label>
                                         <asp:TextBox ID="txtQtdFaturamento" runat="server" CssClass="form-control inteiro" MaxLength="50" ></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de Faturamento:</label>
+                                       <asp:DropDownList ID="ddlTipoFaturamento" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
+                                            </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +402,7 @@
                                  <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="teste form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
+                                        <asp:Checkbox ID="ckbImportador" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Importador" ></asp:Checkbox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">
@@ -439,7 +487,11 @@
                                         <asp:Checkbox ID="ckbVendedorDireto" runat="server" CssClass="form-control" text="&nbsp;Vendedor Direto" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                      
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbShipper" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Shipper" ></asp:Checkbox>
+                                    </div>
+                                </div>     
                                     
                                
                         </div>        
@@ -548,6 +600,7 @@
                  </div>
               </div>
         </div>
+
         </ContentTemplate>
     <Triggers>
        <asp:AsyncPostBackTrigger ControlID="ddlEvento"  />
@@ -617,15 +670,14 @@
         selectcommand="SELECT ID_PARCEIRO, NM_FANTASIA FROM [dbo].[TB_PARCEIRO] #FILTRO Order by NM_FANTASIA">
 </asp:SqlDataSource>
  <asp:SqlDataSource ID="dsEventos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT [IDTIPOAVISO],[NMTIPOAVISO] FROM [dbo].[TB_TIPOAVISO] union SELECT 0 , 'Selecione'  FROM [dbo].[TB_TIPOAVISO]
-Order by [IDTIPOAVISO]">
+        selectcommand="SELECT [IDTIPOAVISO],[NMTIPOAVISO] FROM [dbo].[TB_TIPOAVISO] union SELECT 0 , 'Selecione' Order by [IDTIPOAVISO]">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
           <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>  
       <asp:SqlDataSource ID="dsEmailvento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT A.ID as Id, A.ENDERECOS,A.ID_EVENTO,C.NMTIPOAVISO, A.ID_TERMINAL,B.NM_PORTO, A.ID_PESSOA, D.NM_RAZAO FROM 
@@ -639,7 +691,11 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
 </asp:SqlDataSource>
     
         <asp:SqlDataSource ID="dsAcordoCambio" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' FROM [dbo].[TB_ACORDO_CAMBIO] ORDER BY ID_ACORDO_CAMBIO">
+        selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' ORDER BY ID_ACORDO_CAMBIO">
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
 </asp:Content>
 
@@ -662,5 +718,6 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
              if (tecla != 44 && tecla < 48 || tecla > 57)
                  return false;
          }
+  
      </script>
 </asp:Content>

@@ -24,7 +24,7 @@
                         </li>
                          <li>
                             <a href="#mercadorias" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right:8px;"></i>Mercadorias
+                                <i class="fa fa-edit" style="padding-right:8px;"></i>Embalagem
                             </a>
                         </li>
                               <li>
@@ -152,10 +152,22 @@
                                 
                                 </div>                     
                             <div class="row">
-                                <div class="col-sm-4">
+                                 <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Cliente:</label>
+                                                <asp:TextBox ID="txtCodCliente" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Cliente:</label>
+                                                <asp:TextBox ID="txtNomeCliente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsCliente" >
+                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsCliente" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -225,20 +237,20 @@
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Cliente:</label>
-                                        <asp:TextBox ID="txtObsCliente" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCliente" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Operacional:</label>
-                                        <asp:TextBox ID="txtObsOperacional" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsOperacional" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                 
                                 <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Motivo Cancelamento:</label>
-                                        <asp:TextBox ID="txtObsCancelamento" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>                                          
@@ -264,6 +276,8 @@
 
     <Triggers>
         <ASP:PostBackTrigger ControlID="btnGravar" />
+                        <asp:AsyncPostBackTrigger  ControlID="txtNomeCliente" />
+
                 <asp:AsyncPostBackTrigger  ControlID="ddlCliente" />
     </Triggers>
 </asp:UpdatePanel>
@@ -405,42 +419,10 @@
                                 </div>
                                   
                               </div>  
+                                        
+                                
                                         <div class="row">
-                                  <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Compra):</label>
-                                        <asp:TextBox ID="txtFreteCompra" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Venda):</label>
-                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                      <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
-                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                            </div>
-                                        <div class="row">
-                                      <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
-                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
                                             <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Moeda Frete:</label>
-                                         <asp:DropDownList ID="ddlMoedaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
-                                        </asp:DropDownList> 
-                                    </div>
-
-                                </div>
-                                             <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Estufagem:</label>
                                          <asp:DropDownList ID="ddlEstufagemFrete" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
@@ -448,9 +430,6 @@
                                     </div>
 
                                 </div> 
-                                            </div>
-                                
-                                        <div class="row">
                                         <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo Divisão Profit:</label>
@@ -466,14 +445,57 @@
                                     </div>
                                 </div>
                                 </div>
-                                 
-                   <div class="row">
-                                <div class="col-sm-12">
+                                 <div class="row">
+                                            <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Moeda Frete:</label>
+                                         <asp:DropDownList ID="ddlMoedaFrete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
+                                        </asp:DropDownList> 
+                                    </div>
+
+                                </div>
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra):</label>
+                                        <asp:TextBox ID="txtFreteCompra" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda):</label>
+                                        <asp:TextBox ID="txtFreteVenda" runat="server" enabled="false" CssClass="form-control moeda" MaxLength="100" AutoPostBack="true"></asp:TextBox>
+                                    </div>
+                                </div>
+                                      
+                                            </div>
+                                        <div class="row" id="divMinimosFCL" runat="server">                                            
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
+                                        <asp:TextBox ID="txtCompraMinimaFCL" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
+                                        <asp:TextBox ID="txtVendaMinimaFCL" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>                                     
+                           </div>
+                   <div class="row">  
+                       <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Pagamento:</label>
+<asp:DropDownList ID="ddlTipoPagamento_Frete" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>                                    </div>
+                                </div>
+                                <div class="col-sm-8">
                                     <div class="form-group">
                                         <label class="control-label">Taxas Included:</label>
-                                        <asp:TextBox ID="txtIncludedFrete" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtIncludedFrete" runat="server"  CssClass="form-control"></asp:TextBox>
                                     </div>
-                                </div></div>
+                                </div>
+                   
+                   </div>
                                     </div>
                                </div>
                                <div class="modal-footer">
@@ -595,7 +617,7 @@
                                      <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Mercadoria:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlMercadoria" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA">
+                                         <asp:DropDownList ID="ddlMercadoria" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCarga" DataValueField="ID_TIPO_CARGA">
                                         </asp:DropDownList>
                                     </div>
                                 </div> 
@@ -633,54 +655,68 @@
                                         <asp:TextBox ID="txtFreteCompraMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                  
-                                  <div class="col-sm-3">
+                                 <div class="col-sm-3" runat="server" id="divCompraMinimaLCL">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Compra Mínina):</label>
+                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>     
+                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda):</label>
-                                        <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                  <div class="col-sm-3" runat="server" id="divVendaMinimaLCL">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete (Venda Mínina):</label>
+                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                          </div> 
+                                                            <div class="row">
+                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Peso(Bruto):</label><asp:label Visible="false" runat="server" ID="RedPesoBruto" style="color:red" >*</asp:label>
                                         <asp:TextBox ID="txtPesoBrutoMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                   
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3:</label><asp:label Visible="false" runat="server" ID="RedM3" style="color:red" >*</asp:label>
                                         <asp:TextBox ID="txtM3Mercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                                                   <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor da Carga:</label>
+                                        <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>
                            
                            
                                  <div class="row">                              
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Comprimento:</label>
                                         <asp:TextBox ID="txtComprimentoMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Altura:</label>
-                                        <asp:TextBox ID="txtAlturaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>
-                                     <div class="col-sm-3">
+                                </div>                                
+                                     <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Largura:</label>
                                         <asp:TextBox ID="txtLarguraMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                     <div class="col-sm-3">
+                                     <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor da Carga:</label>
-                                        <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <label class="control-label">Altura:</label>
+                                        <asp:TextBox ID="txtAlturaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
+
                                 </div>
                        
                                   
@@ -688,13 +724,21 @@
                             <div class="row">
                                  <div class="col-sm-12" >
                                     <div class="form-group">
-                                        <label class="control-label">DS Mercadoria:</label>
-                                        <asp:TextBox ID="txtDsMercadoria" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control"></asp:TextBox>
+                                        <label class="control-label">Desc. Mercadoria:</label>
+                                        <asp:TextBox ID="txtDsMercadoria" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                                  
                                 </div>
-                           
+                           <div class="row">
+                                 <div class="col-sm-12" >
+                                    <div class="form-group">
+                                        <label class="control-label">OBS Endereço:</label>
+                                        <asp:TextBox ID="txtOBS_Endereco" runat="server" MaxLength="200" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 
+                                </div>
                       
                                                        
                                                         </div>                     
@@ -750,15 +794,17 @@
                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />      
                                            <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
+                            <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                  <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
                             <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate>  
+                                               <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -864,7 +910,7 @@
                                 </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Origem pagamento:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlOrigemPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
                                         </asp:DropDownList>
                                     </div>
@@ -938,7 +984,7 @@
                                  <div class="col-sm-12" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Taxas:</label>
-                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control cpf" MaxLength="18"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                  
@@ -967,9 +1013,10 @@
         <br/>
                           <div class="row">
                                      
-                                  <div class="col-sm-4"">
+                                  <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
+                                                         <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
                                                     </div>
                                                 </div>
                             </div>
@@ -991,22 +1038,24 @@
                                         <asp:BoundField DataField="NM_TIPO_ITEM_DESPESA" HeaderText="Item Despesa"  SortExpression="NM_TIPO_ITEM_DESPESA"/>
                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="Origem de Pagamento"  SortExpression="NM_ORIGEM_PAGAMENTO" />
                                         <asp:BoundField DataField="DECLARADO" HeaderText="Declarado"   SortExpression="DECLARADO"/>
-                                             <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc."  SortExpression="NM_BASE_CALCULO_TAXA" />
+                                        <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálc."  SortExpression="NM_BASE_CALCULO_TAXA" />
                                         <asp:BoundField DataField="NM_MOEDA_COMPRA" HeaderText="Moeda de Compra"  SortExpression="NM_MOEDA_COMPRA" />
                                         <asp:BoundField DataField="VL_TAXA_COMPRA" HeaderText="Valor de Compra"  SortExpression="VL_TAXA_COMPRA"  />
                                         <asp:BoundField DataField="NM_MOEDA_VENDA" HeaderText="Moeda de Venda"  SortExpression="NM_MOEDA_VENDA" />
                                         <asp:BoundField DataField="VL_TAXA_VENDA" HeaderText="Valor de Venda" SortExpression="VL_TAXA_VENDA"  />      
                                            <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>'  
+                            <asp:LinkButton ID="LinkButton2" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>'  
                                 Text="Visualizar" title="Editar"  CssClass="btn btn-info btn-sm" ><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>   
+                                                  <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
-                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>' 
+                            <asp:LinkButton ID="LinkButton3" runat="server" CausesValidation="False" CommandName="Excluir"  CommandArgument='<%# Eval("ID_COTACAO_TAXA") %>' 
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
-                                   </ItemTemplate>                                        
+                                   </ItemTemplate>    
+                                               <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                     </asp:TemplateField>
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
@@ -1020,8 +1069,8 @@
             <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                                  <asp:AsyncPostBackTrigger ControlID="btnSalvarTaxa" />
                         <asp:AsyncPostBackTrigger  ControlID="btnFecharFrete" />
-
-
+      <asp:AsyncPostBackTrigger ControlID="btnImportar" />
+     
 
      </Triggers>   
      </asp:UpdatePanel>
@@ -1195,93 +1244,104 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
                  <SelectParameters>
                 <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID"  />
             </SelectParameters>
-</asp:SqlDataSource>        
+</asp:SqlDataSource>   
+    
         <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA">
+        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_TIPO_COMEX">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_COMEX">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsRota" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_VIA_ROTA,NM_VIA_ROTA FROM [dbo].[TB_VIA_ROTA]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_VIA_ROTA] ORDER BY ID_VIA_ROTA">
+union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO,  NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')'  AS NM_RAZAO   FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_FREQUENCIA] ORDER BY ID_TIPO_FREQUENCIA">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FREQUENCIA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsCarga" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CARGA, NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CARGA] ORDER BY ID_TIPO_CARGA">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CARGA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM [dbo].[TB_MERCADORIA] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_MERCADORIA">
+union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsEstufagem" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_ESTUFAGEM, NM_TIPO_ESTUFAGEM FROM [dbo].[TB_TIPO_ESTUFAGEM] 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_MERCADORIA] ORDER BY ID_TIPO_ESTUFAGEM">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM">
 </asp:SqlDataSource>
 
 <asp:SqlDataSource ID="dsStatusCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO 
-union SELECT  0, 'Selecione' FROM TB_STATUS_COTACAO ORDER BY ID_STATUS_COTACAO">
+union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsDestinatarioComercial" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_DESTINATARIO_COMERCIAL,NM_DESTINATARIO_COMERCIAL FROM TB_DESTINATARIO_COMERCIAL
-union SELECT  0, 'Selecione' FROM TB_DESTINATARIO_COMERCIAL ORDER BY ID_DESTINATARIO_COMERCIAL">
+union SELECT  0, 'Selecione' ORDER BY ID_DESTINATARIO_COMERCIAL">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_INCOTERM, cast((CD_INCOTERM)as varchar)+ ' - '+ NM_INCOTERM as NM_INCOTERM FROM TB_INCOTERM 
-union SELECT  0, 'Selecione' FROM TB_INCOTERM ORDER BY ID_INCOTERM">
+union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO union SELECT  0, 'Selecione' FROM TB_USUARIO ORDER BY ID_USUARIO">
+        selectcommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO union SELECT  0, 'Selecione' ORDER BY ID_USUARIO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsClienteFinal" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
-union SELECT  0, 'Selecione' FROM TB_CLIENTE_FINAL ORDER BY ID_CLIENTE_FINAL">
+union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+              <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>
+
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO 
-union SELECT  0, 'Selecione' FROM TB_CONTATO ORDER BY ID_CONTATO">
+        selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
+union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
+           <%--<SelectParameters>
+                <asp:ControlParameter Name="CLIENTE" Type="Int32" ControlID="ddlCliente"  />
+                               <asp:Parameter Name="CONTATO" Type="Int32"/>
+
+            </SelectParameters>--%>
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
-union SELECT  0, 'Selecione' FROM TB_PARCEIRO ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOTIVO_CANCELAMENTO,NM_MOTIVO_CANCELAMENTO FROM TB_MOTIVO_CANCELAMENTO
-union SELECT  0, 'Selecione' FROM TB_MOTIVO_CANCELAMENTO ORDER BY ID_MOTIVO_CANCELAMENTO">
+union SELECT  0, 'Selecione' ORDER BY ID_MOTIVO_CANCELAMENTO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsServico" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO
-union SELECT  0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO">
+union SELECT  0, 'Selecione' ORDER BY ID_SERVICO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsBL" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_BL, NM_TIPO_BL FROM TB_TIPO_BL 
-union SELECT  0, 'Selecione' FROM TB_TIPO_BL ORDER BY ID_TIPO_BL">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_BL">
 </asp:SqlDataSource>
 
          <asp:SqlDataSource ID="dsMercadorias" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1297,10 +1357,10 @@ WHERE ID_COTACAO = @ID_COTACAO
  </asp:SqlDataSource>                 
   <asp:SqlDataSource ID="dsIDMercadoria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MERCADORIA, NM_MERCADORIA FROM TB_MERCADORIA
-union SELECT  0, 'Selecione' FROM TB_MERCADORIA ORDER BY ID_MERCADORIA">
+union SELECT  0, 'Selecione' ORDER BY ID_MERCADORIA">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsFreteTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR as varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE DT_VALIDADE_FINAL > getdate() and ID_PORTO_ORIGEM = 0 AND ID_PORTO_DESTINO = 0 AND ID_TRANSPORTADOR =0 union SELECT  0, 'Selecione' FROM TB_FRETE_TRANSPORTADOR ORDER BY ID_FRETE_TRANSPORTADOR">
+        selectcommand="SELECT ID_FRETE_TRANSPORTADOR, cast(ID_FRETE_TRANSPORTADOR as varchar) +' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM)+' - ' + (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) as Descricao FROM TB_FRETE_TRANSPORTADOR A WHERE DT_VALIDADE_FINAL > getdate() and ID_PORTO_ORIGEM = 0 AND ID_PORTO_DESTINO = 0 AND ID_TRANSPORTADOR =0 union SELECT  0, 'Selecione' ORDER BY ID_FRETE_TRANSPORTADOR">
 </asp:SqlDataSource>
 <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT 
@@ -1343,11 +1403,11 @@ FROM TB_COTACAO_TAXA A
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsOrigemPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ORIGEM_PAGAMENTO,NM_ORIGEM_PAGAMENTO FROM  [dbo].[TB_ORIGEM_PAGAMENTO]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_ORIGEM_PAGAMENTO] ORDER BY ID_ORIGEM_PAGAMENTO">
+union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione' FROM TB_DESTINATARIO_COBRANCA ORDER BY ID_DESTINATARIO_COBRANCA
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA
 ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1363,28 +1423,29 @@ ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
 ID_PORTO_DESTINO, 
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) Destino
-FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE ">
+FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIPO_ESTUFAGEM ">
         <SelectParameters>
                 <asp:Parameter Name="ID_CLIENTE" Type="Int32"  />
+                <asp:Parameter Name="ID_TIPO_ESTUFAGEM" Type="Int32"  />
             </SelectParameters>
 </asp:SqlDataSource>
 
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_CALCULO_TAXA">
+union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
-union SELECT  0, 'Selecione' FROM [dbo].TB_TIPO_DIVISAO_PROFIT ORDER BY ID_TIPO_DIVISAO_PROFIT">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
-union SELECT  0, ' Selecione' FROM [dbo].[TB_TIPO_ITEM_DESPESA] ORDER BY NM_ITEM_DESPESA">
+union SELECT  0, ' Selecione' ORDER BY NM_ITEM_DESPESA">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsTipoPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
-union SELECT  0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO">
 </asp:SqlDataSource>
  
    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
@@ -1395,4 +1456,9 @@ union SELECT  0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO">
 </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        function Func() {
+            alert("O valor de venda é menor que o valor de compra!");
+        }
+    </script>
 </asp:Content>

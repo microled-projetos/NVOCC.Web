@@ -40,7 +40,9 @@ WHERE ID_TRANSPORTADOR = " & ddlTransportadorLocais.SelectedValue & " AND ID_POR
             dsTaxas.SelectCommand = sql
             dgvTaxas.DataBind()
 
-            DivGrid.Visible = True
+            DivGridLocais.Visible = True
+            DivGridTarifario.Visible = False
+
         End If
 
 
@@ -50,19 +52,20 @@ WHERE ID_TRANSPORTADOR = " & ddlTransportadorLocais.SelectedValue & " AND ID_POR
         diverro.Visible = False
 
         If v.ValidaData(txtDataFinal.Text) = False Or v.ValidaData(txtDataInicial.Text) = False Then
-            divErro.Visible = True
+            diverro.Visible = True
             lblmsgErro.Text = "Data Inválida."
-        ElseIf ddlTransportadorOcean.SelectedValue = 0 Or ddlDestinoOcena.SelectedValue = 0 Then 'Or ddlContainer.SelectedValue = 0
+        ElseIf ddlTransportadorOcean.SelectedValue = 0 Or ddlDestinoOcean.SelectedValue = 0 Then 'Or ddlContainer.SelectedValue = 0
             lblmsgErro.Text = "Preencha os filtros para pesquisar"
             diverro.Visible = True
 
         Else
-            Dim sql As String = " SELECT * FROM [dbo].[View_Taxas_locais_Armador]
-WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORTO = " & ddlDestinoOcena.SelectedValue & " AND DT_VALIDADE_INICIAL BETWEEN '" & txtDataInicial.Text & "' AND '" & txtDataFinal.Text & "' order by VL_TAXA_LOCAL_COMPRA"
-            dsTaxas.SelectCommand = sql
-            dgvTaxas.DataBind()
-            DivGrid.Visible = True
+            Dim sql As String = "SELECT * FROM [dbo].[View_Frete_Tarifario]
+WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORTO_ORIGEM = " & ddlOrigemOcean.SelectedValue & " AND ID_PORTO_DESTINO = " & ddlDestinoOcean.SelectedValue & " AND DT_VALIDADE_INICIAL BETWEEN  convert(date,'" & txtDataInicial.Text & "',103) AND convert(date,'" & txtDataFinal.Text & "',103) order by VL_COMPRA"
+            dsTarifario.SelectCommand = sql
+            dgvTarifario.DataBind()
 
+            DivGridLocais.Visible = False
+            DivGridTarifario.Visible = True
             'container LIKE '%" & ddlContainer.SelectedItem.Text & "%'
         End If
 
@@ -100,7 +103,6 @@ WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORT
             dgvTaxas.DataBind()
             dgvTaxas.HeaderRow.TableSection = TableRowSection.TableHeader
         End If
-        DivGrid.Page.SetFocus(dgvTaxas)
 
     End Sub
 

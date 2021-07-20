@@ -29,6 +29,7 @@
                 </div>
                 <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
     <ContentTemplate>
+              <asp:TextBox ID="txtID" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
                        <div class="row" style="padding:10px">                        
                                 <div class="col-sm-3">
                                     <div class="form-group">
@@ -61,7 +62,7 @@
                                         <asp:label ID="lblInfo" Text="" runat="server" />
                                    </div>   
                                 
-                                <asp:GridView ID="dgvParceiros" DataKeyNames="Id" OnSorting="dgvParceiros_Sorting"  style="max-height:600px; overflow:auto;" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsParceiros"  AutoGenerateColumns="false" AllowSorting="True" EmptyDataText="Nenhum registro encontrado.">
+                                <asp:GridView ID="dgvParceiros" DataKeyNames="Id" OnSorting="dgvParceiros_Sorting"  style="max-height:600px; overflow:auto;" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsParceiros"  AutoGenerateColumns="false" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                         <asp:BoundField DataField="RazaoSocial" HeaderText="Razão Social" SortExpression="RazaoSocial"/>
@@ -134,14 +135,22 @@
        <link href="Content/css/select2.css" rel="stylesheet" />
         <script src="Content/ScrollableGridPlugin.js"></script>
     <script>
-         <%-- $(document).ready(function () {
-         
-            $('#<%= dgvParceiros.ClientID %>').DataTable({
-                "language": {
-                    "url": "Content/js/pt-br.json"
-                }
-            });
-          });--%>
+       function TaxaParceiro() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+             console.log(ID);
+
+            window.open('TaxaParceiro.aspx?id=' + ID, '_blank');
+        }
+        function TaxaTransportador() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('TaxasLocaisArmador.aspx?id=' + ID, '_blank');
+        }
     </script>
    
 </asp:Content>

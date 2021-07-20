@@ -20,7 +20,7 @@
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccess" runat="server" visible="false">
-                                        <asp:label ID="lblmsgSuccess" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:label>
+                                        <asp:label ID="lblmsgSuccess" runat="server"></asp:label>
                                     </div>
                                                             
                                     <div class="alert alert-danger" ID="divErro" runat="server" visible="false">
@@ -31,6 +31,13 @@
                                     <div class="form-group">
                                         <label class="control-label">Código:</label>
                                         <asp:TextBox ID="txtIDTaxa" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>
+                                    </div>     
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+ <%--                                        <label class="control-label">Código:</label>
+                                       <asp:ImageButton ID="ImageButton1" runat="server"  src="Content/imagens/sort_both.png" />--%>
+                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnProximo" text="Close" Visible="false" />
                                     </div>     
                                 </div>
                             </div>
@@ -134,7 +141,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitleNovo">TAXAS LOCAIS ARMADOR</h5>
+                                                            <h5 class="modal-title">TAXAS LOCAIS ARMADOR</h5>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccessNovo" runat="server" visible="false">
@@ -256,6 +263,28 @@
                     </h3>                  
                 </div>
 
+                                                                        <div class="row" style="padding:10px">                        
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Consultar por:</label>
+                                         <asp:DropDownList ID="ddlConsulta" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True">
+                                            <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
+                                            <asp:ListItem Value="1">Porto</asp:ListItem>
+                                            <asp:ListItem Value="3">Comex</asp:ListItem>
+                                            <asp:ListItem Value="2">Via Transporte</asp:ListItem>
+
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" id="divPesquisa" runat="server">
+                                    <div class="form-group">   
+                                        <label class="control-label">Pesquisar</label>
+                                        <asp:TextBox ID="txtConsulta" runat="server" autopostback="true" CssClass="form-control"></asp:TextBox>
+                                        <asp:label ID="msgerro" runat="server" style ="color:red" />
+                                    </div>                                   
+                                </div>
+                       </div>
+
                 <div class="panel-body">                                   
                             <br />
                              <div class="row">
@@ -280,21 +309,30 @@
                             <div class="table-responsive tableFixHead" id="divGrid" runat="server">
                                 
                                 <asp:GridView ID="dgvTaxas" DataKeyNames="ID_TAXA_LOCAL_TRANSPORTADOR" DataSourceID="dstaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AutoGenerateColumns="false"  style="max-height:400px; overflow:auto;" AllowSorting="true" OnSorting="dgvTaxas_Sorting" >
-                                    <Columns>                                          
+                                    <Columns> 
+                                                                               
                                         <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
-                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'  
-                                Text="Visualizar"  CssClass="btn btn-primary btn-sm" ><i class="fas fa-eye"></i></div></asp:LinkButton>
-                                   </ItemTemplate>  
-                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="" >
-                                         <ItemTemplate>                          
-                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash" style="font-size:medium"></span></asp:LinkButton>
+                            <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
                                    </ItemTemplate>
                                              <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="" >
+                                         <ItemTemplate>                          
+                            <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>' Text="Visualizar"  CssClass="btn btn-primary btn-sm" ><i class="fas fa-eye"></i></div></asp:LinkButton>
+                                   </ItemTemplate>  
+                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                         <asp:TemplateField HeaderText="" >
+                                        <ItemTemplate>
+                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
+                                                                            Text="Duplicar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate"></i></div></asp:LinkButton>
+                                                                    </ItemTemplate>
+                                                                                          <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+
+                                                                             </asp:TemplateField>
+                                        
                                         <asp:BoundField DataField="ID_TAXA_LOCAL_TRANSPORTADOR" HeaderText="#"  SortExpression="ID_TAXA_LOCAL_TRANSPORTADOR"/>
                                         <asp:BoundField DataField="NM_PORTO" HeaderText="Porto"  SortExpression="NM_PORTO"/>
                                         <asp:BoundField DataField="NM_TIPO_COMEX" HeaderText="Tipo Comex" SortExpression="NM_TIPO_COMEX" />
@@ -312,6 +350,8 @@
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                     <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
                                <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
+                                    <asp:AsyncPostBackTrigger  ControlID="txtConsulta" />
+
 <%--            <asp:AsyncPostBackTrigger  ControlID="btnFechar" />
             <asp:AsyncPostBackTrigger  ControlID="btnFecharNovo" />--%>
 
@@ -354,11 +394,11 @@ LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' FROM [dbo].[TB_PORTO] ORDER BY ID_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_TIPO_COMEX">
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_COMEX">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsItemDespesa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_ITEM_DESPESA,NM_ITEM_DESPESA FROM  [dbo].[TB_ITEM_DESPESA]
@@ -366,19 +406,19 @@ union SELECT  0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESP
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsContinente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTINENTE,NM_CONTINENTE FROM [dbo].[TB_CONTINENTE]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_CONTINENTE] ORDER BY ID_CONTINENTE">
+union SELECT  0, 'Selecione' ORDER BY ID_CONTINENTE">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_VIATRANSPORTE] ORDER BY ID_VIATRANSPORTE">
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1 
-union SELECT  0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
+union SELECT  0, 'Selecione'  ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
-union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONTAINER">
+union SELECT  0, 'Selecione'  ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
     </div>
 
@@ -397,79 +437,13 @@ union SELECT  0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CON
 
 
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA">
+        selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
-union SELECT  0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_CALCULO_TAXA">
+union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-<%--    <script src="Scripts/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-
-        function teste() {
-
-            
-            $.ajax({
-                type: "GET",
-                url: "TaxasLocaisArmador.aspx/CarregaCampos(1)",
-                dataType: 'html',
-
-                success: function (msg) {
-                    // Do something interesting here.
-                    console.log("1")
-                }
-            });
-
-    
-        }
-
-        function BuscarLCLimpo(Id) {
-            $("#btnEditarLCLimpo").show();
-            $("#MainContent_btnSalvarEditLCLimpo").hide();
-            $("#btnSalvarLCLimpo").hide();
-            $("#btnCancelLCLimpo").hide();
-            $("#listTaxaLCLimpo").show();
-
-            $.ajax({
-                type: "POST",
-                url: "WebService2.asmx/BuscaCliente",
-                data: '{Id:"' + Id + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var data = data.d;
-                    data = $.parseJSON(data);
-                    document.getElementById('MainContent_txtIDTaxa').value = data.IDTAXA;
-                    document.getElementById('MainContent_ddlTransportadorTaxa').value = data.TRANSPORTADOR;
-                    document.getElementById('MainContent_ddlPortoTaxa').value = data.PORTO;
-                    document.getElementById('MainContent_ddlViaTransporte').value = data.VIATRANSPORTE;
-                    document.getElementById('MainContent_ddlComexTaxa').value = data.COMEX;
-                    document.getElementById('MainContent_ddlContinenteTaxa').value = data.CONTAINER;
-                    document.getElementById('MainContent_ddlDespesaTaxa').value = data.DESPESA;
-                    document.getElementById('MainContent_txtValorTaxaLocal').value = data.VALIDADE;
-                    document.getElementById('MainContent_txtValidadeInicialTaxa').value = data.VALORTAXA;
-
-
-                    var forms = ['MainContent_txtIDTaxa',
-                        'MainContent_ddlTransportadorTaxa',
-                        'MainContent_ddlPortoTaxa',
-                        'MainContent_ddlViaTransporte',
-                        'MainContent_ddlComexTaxa',
-                        'MainContent_ddlContinenteTaxa',
-                        'MainContent_ddlDespesaTaxa',
-                        'MainContent_txtValorTaxaLocal',
-                        'MainContent_txtValidadeInicialTaxa'];
-                    for (let i = 0; i < forms.length; i++) {
-                        var aux = document.getElementById(forms[i]);
-                        $(aux).attr("disabled", "true");
-                    }
-                }
-            })
-        };
-
-    </script>--%>
-
 </asp:Content>

@@ -23,112 +23,22 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle txtID_Embarque.
+    '''Controle txtID_BL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtID_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtID_BL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtLinhaEmbarque.
+    '''Controle txtLinhaBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtLinhaEmbarque As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle divSuccessEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divSuccessEmbarque As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblSuccessEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblSuccessEmbarque As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle divErroEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divErroEmbarque As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblErroEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblErroEmbarque As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle ddlFiltroEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlFiltroEmbarque As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtPesquisaEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtPesquisaEmbarque As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle btnPesquisaEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnPesquisaEmbarque As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle dgvEmbarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvEmbarque As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle Panel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle UpdatePanel2.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel2 As Global.System.Web.UI.UpdatePanel
+    Protected WithEvents txtLinhaBL As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divSuccess.
@@ -140,13 +50,13 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents divSuccess As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblmsgSuccess.
+    '''Controle lblSuccess.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblmsgSuccess As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblSuccess As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divErro.
@@ -158,209 +68,209 @@ Partial Public Class SolicitacaoPagamento
     Protected WithEvents divErro As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle lblmsgErro.
+    '''Controle lblErro.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblmsgErro As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtAgente_Embarque.
+    '''Controle lblMBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtAgente_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblMBL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtExportador_Embarque.
+    '''Controle lblID_MBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtExportador_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblID_MBL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtTransportador_Embarque.
+    '''Controle ddlFornecedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtTransportador_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtCliente_Embarque.
+    '''Controle divgrids.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtCliente_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents divgrids As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle txtRefCliente_Embarque.
+    '''Controle btnMarcar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtRefCliente_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnMarcar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtEstufagem_Embarque.
+    '''Controle btnDesmarcar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtEstufagem_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnDesmarcar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtOrigem_Embarque.
+    '''Controle dgvTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtOrigem_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dgvTaxas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle txtDestino_Embarque.
+    '''Controle dgvMoedas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDestino_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dgvMoedas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle txtTipoFrete_Embarque.
+    '''Controle dgvMoedasArmador.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtTipoFrete_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dgvMoedasArmador As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle txtNavio_Embarque.
+    '''Controle btnAtualizaValor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtNavio_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnAtualizaValor As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtNavioTransb_Embarque.
+    '''Controle lblTotal.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtNavioTransb_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents lblTotal As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtPrevInicialEmbarque_Embarque.
+    '''Controle txtVencimento.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtPrevInicialEmbarque_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtPrevFimEmbarque_Embarque.
+    '''Controle btnSolicitar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtPrevFimEmbarque_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnSolicitar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtInicialEmbarque_Embarque.
+    '''Controle btnCancelar.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtInicialEmbarque_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnCancelar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtFimEmbarque_Embarque.
+    '''Controle mpeMontagem.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFimEmbarque_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents mpeMontagem As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle txtPrevInicialChegada_Embarque.
+    '''Controle Panel1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtPrevInicialChegada_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle txtPrevFimChegada_Embarque.
+    '''Controle btnNao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtPrevFimChegada_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnNao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtInicialChegada_Embarque.
+    '''Controle btnSim.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtInicialChegada_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtFimChegada_Embarque.
+    '''Controle dsTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFimChegada_Embarque As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents dsTaxas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle btnFiltrar_Embarque.
+    '''Controle dsMoedaArmador.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFiltrar_Embarque As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dsMoedaArmador As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle btnFechar_Embarque.
+    '''Controle dsMoeda.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFechar_Embarque As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsEmbarque.
+    '''Controle dsFornecedor.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsEmbarque As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

@@ -257,6 +257,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents txtCE_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlStatusFreteAgente_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlStatusFreteAgente_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtDataCE_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -1076,22 +1085,13 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlEmpresa_TaxasMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtCalculo_TaxasMaritimo.
+    '''Controle divCompraMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtCalculo_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtMinimo_TaxasMaritimo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtMinimo_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents divCompraMaritimo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle ddlMoedaCompra_TaxasMaritimo.
@@ -1103,13 +1103,31 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlMoedaCompra_TaxasMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtTaxa_TaxasMaritimo.
+    '''Controle txtMinimoCompra_TaxasMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtTaxa_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMinimoCompra_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtTaxaCompra_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTaxaCompra_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtCalculoCompra_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCalculoCompra_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlBaseCalculo_TaxasMaritimo.
@@ -1344,6 +1362,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlAgente_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlStatusFreteAgente_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlStatusFreteAgente_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddltransportador_BasicoAereo.
@@ -1724,22 +1751,13 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlEmpresa_TaxaAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtCalculo_TaxaAereo.
+    '''Controle divCompraAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtCalculo_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtMinimo_TaxaAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtMinimo_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents divCompraAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle ddlMoedaCompra_TaxaAereo.
@@ -1751,13 +1769,31 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlMoedaCompra_TaxaAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtTaxa_TaxaAereo.
+    '''Controle txtMinimoCompra_TaxaAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtTaxa_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtMinimoCompra_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtTaxaCompra_TaxaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTaxaCompra_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtCalculoCompra_TaxaAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCalculoCompra_TaxaAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlBaseCalculo_TaxaAereo.
@@ -2037,4 +2073,40 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsNavios As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsNavios1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsNavios1 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsNavios2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsNavios2 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsNavios3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsNavios3 As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsStatusFreteAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsStatusFreteAgente As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

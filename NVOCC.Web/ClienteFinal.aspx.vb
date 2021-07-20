@@ -13,19 +13,11 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_ACESSAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            If ds.Tables(0).Rows(0).Item("FL_ACESSAR") <> True Then
-
-                Response.Redirect("Default.aspx")
-
-
-            End If
-
-
-        Else
             Response.Redirect("Default.aspx")
+
         End If
     End Sub
 
@@ -69,51 +61,38 @@
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CLIENTE_FINAL,ID_PARCEIRO,NR_CNPJ,NM_CLIENTE_FINAL FROM [dbo].[TB_CLIENTE_FINAL] WHERE NR_CNPJ ='" & txtCNPJ.Text & "' and ID_PARCEIRO = " & ddlParceiro.SelectedValue)
             If ds.Tables(0).Rows.Count > 0 Then
-                ds = Con.ExecutarQuery("SELECT FL_ATUALIZAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_ATUALIZAR") <> True Then
-                        divmsg1.Visible = True
-                        msgErro.Visible = True
-                        msgErro.Text = "Usuário não possui permissão para alterar."
-                    Else
-                        Dim ID As String = ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL").ToString()
-                        ds = Con.ExecutarQuery("UPDATE [dbo].[TB_CLIENTE_FINAL] SET [NR_CNPJ] = '" & txtCNPJ.Text & "', ID_PARCEIRO = " & ddlParceiro.SelectedValue & ", NM_CLIENTE_FINAL = '" & txtNome.Text & "' WHERE ID_CLIENTE_FINAL =" & ID)
-                        txtNome.Text = ""
-                        txtCNPJ.Text = ""
-                        ddlParceiro.SelectedValue = 0
-                        divmsg.Visible = True
-
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divmsg1.Visible = True
                     msgErro.Visible = True
                     msgErro.Text = "Usuário não possui permissão para alterar."
+                Else
+                    Dim ID As String = ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL").ToString()
+                    ds = Con.ExecutarQuery("UPDATE [dbo].[TB_CLIENTE_FINAL] SET [NR_CNPJ] = '" & txtCNPJ.Text & "', ID_PARCEIRO = " & ddlParceiro.SelectedValue & ", NM_CLIENTE_FINAL = '" & txtNome.Text & "' WHERE ID_CLIENTE_FINAL =" & ID)
+                    txtNome.Text = ""
+                    txtCNPJ.Text = ""
+                    ddlParceiro.SelectedValue = 0
+                    divmsg.Visible = True
+
                 End If
 
 
             Else
 
-                ds = Con.ExecutarQuery("SELECT FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-                If ds.Tables(0).Rows.Count > 0 Then
-
-                    If ds.Tables(0).Rows(0).Item("FL_CADASTRAR") <> True Then
-                        divmsg1.Visible = True
-                        msgErro.Visible = True
-                        msgErro.Text = "Usuário não possui permissão para cadastrar."
-                    Else
-
-                        ds = Con.ExecutarQuery("INSERT INTO [dbo].[TB_CLIENTE_FINAL] (ID_PARCEIRO,NR_CNPJ, NM_CLIENTE_FINAL) VALUES (" & ddlParceiro.SelectedValue & ",'" & txtCNPJ.Text & "' ,'" & txtNome.Text & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
-                        txtNome.Text = ""
-                        txtCNPJ.Text = ""
-                        ddlParceiro.SelectedValue = 0
-                        divmsg.Visible = True
-                    End If
-                Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divmsg1.Visible = True
                     msgErro.Visible = True
                     msgErro.Text = "Usuário não possui permissão para cadastrar."
+                Else
+
+                    ds = Con.ExecutarQuery("INSERT INTO [dbo].[TB_CLIENTE_FINAL] (ID_PARCEIRO,NR_CNPJ, NM_CLIENTE_FINAL) VALUES (" & ddlParceiro.SelectedValue & ",'" & txtCNPJ.Text & "' ,'" & txtNome.Text & "'); SELECT CAST(SCOPE_IDENTITY() AS INT)")
+                    txtNome.Text = ""
+                    txtCNPJ.Text = ""
+                    ddlParceiro.SelectedValue = 0
+                    divmsg.Visible = True
                 End If
+
 
             End If
             Con.Fechar()
@@ -164,17 +143,9 @@
         Con.Conectar()
 
         'verifica se o usuario tem permissão de exclusão de Cliente Final
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT FL_EXCLUIR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND  ID_TIPO_USUARIO = " & Session("ID_TIPO_USUARIO"))
-        If ds.Tables(0).Rows.Count > 0 Then
-
-            If ds.Tables(0).Rows(0).Item("FL_EXCLUIR") <> True Then
-
-                dgvCliente.Columns(4).Visible = False
-
-            End If
-        Else
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             dgvCliente.Columns(4).Visible = False
-
         End If
     End Sub
 End Class
