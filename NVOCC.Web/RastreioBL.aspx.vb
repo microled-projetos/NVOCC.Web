@@ -12,17 +12,16 @@ Public Class RastreioBL
         pais_destino.Text = data.transport.destination_country
         porto_embarque.Text = data.transport.lading_port
         porto_embarque.Text = data.transport.origin_port
-        porto_descarga.Text = data.transport.lading_port
-        porto_destino.Text = data.transport.destination_port
+        porto_descarga.Text = data.transport.landing_terminal
+        porto_destino.Text = data.transport.transport
         'Principal
-        status.Text = "verifcar campo"
+        status.Text = data.tracking.status_description
         bl.Text = data.references.bill_of_lading
         consig_informado.Text = data.tracking.consignee_info
         fluxo.Text = data.references.transaction
         navio.Text = data.transport.vessel_name
         imo.Text = data.transport.vessel_imo
         conta.Text = data.tracking.customer_name
-        booking.Text = "nulo"
         embarque.Text = data.tracking.maritime_type_name
         tipo.Text = "Maritimo"
         tipo_carga.Text = data.references.cargo_type
@@ -32,9 +31,22 @@ Public Class RastreioBL
         situacao.Text = "Ativo"
         eta.Text = data.dates.eta
         'ADUANA
-        'ce.Text = ValorExtenso.nNull()
+        ce.Text = data.aduana.ce_number
         manifesto.Text = data.aduana.manifest
         'Mercadoria
+        volume_m3.Text = data.commodity.unit_quantity
+        peso_bruto.Text = data.commodity.gross_weight_kg
+        teus.Text = data.commodity.teus
+        cntrs.Text = data.commodity.c40
+        total_cntrs.Text = data.commodity.fcl_total
+        'ITENS MERCADORIA
+        m_container.Text = data.fcl(0).container_number
+        m_lacre.Text = data.fcl(0).seal_number
+        m_pes.Text = data.fcl(0).feet
+        m_peso_bruto.Text = data.fcl(0).gross_weight_decimal
+        m_tara.Text = data.fcl(0).tare_container
+        m_volume_m3.Text = data.fcl(0).volume_m3
+
         'ENVOLVIDOS
         consignatario.Text = data.logistics.forwarder_name
         armador.Text = data.logistics.carrier_name
@@ -43,15 +55,15 @@ Public Class RastreioBL
         armador_informado.Text = data.logistics.informed_carrier_name
         agente_internacional.Text = data.logistics.forwarder_name_foreign
         'IMPORTADOR
-        atividade.Text = data.consignee.activity
-        telefone.Text = data.consignee.phone
-        natureza.Text = data.consignee.legal_nature
-        email.Text = data.consignee.email
+        'atividade.Text = data.consignee.activity
+        'telefone.Text = data.consignee.phone
+        'natureza.Text = data.consignee.legal_nature
+        'email.Text = data.consignee.email
         'DATAS
         data_cadastro.Text = data.dates.created_datetime
         data_emissao_bl.Text = data.dates.bl_emission_date
         data_embarque.Text = data.dates.loading
-        data_operacao.Text = data.dates.operation_date
+        data_operacao2.Text = data.dates.operation_date
         data_eta_armador.Text = data.dates.shipowner_eta
         data_ultima_atualizacao.Text = data.dates.last_update
         data_emissao_ce.Text = data.dates.bl_emission_date
