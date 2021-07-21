@@ -822,6 +822,7 @@
     </Compile>
     <Compile Include="GeraPDF.aspx.vb">
       <DependentUpon>GeraPDF.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
