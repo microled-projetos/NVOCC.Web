@@ -667,6 +667,7 @@
     <Compile Include="Class\Boleto.vb" />
     <Compile Include="Class\Consignee.vb" />
     <Compile Include="Class\Dates.vb" />
+    <Compile Include="Class\Documentos.vb" />
     <Compile Include="Class\Itens.vb" />
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
@@ -824,7 +825,6 @@
     </Compile>
     <Compile Include="GeraPDF.aspx.vb">
       <DependentUpon>GeraPDF.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
