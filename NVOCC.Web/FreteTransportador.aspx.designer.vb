@@ -203,6 +203,15 @@ Partial Public Class FreteTransportador
     Protected WithEvents ddlTransportador As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle btnBusca.
     '''</summary>
     '''<remarks>
@@ -309,6 +318,15 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle TextBox1.

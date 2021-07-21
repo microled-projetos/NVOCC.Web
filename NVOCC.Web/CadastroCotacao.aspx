@@ -631,7 +631,7 @@
                                       
                                         <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Quantidade Container:</label><asp:label Visible="false" runat="server" ID="RedQTDContainer" style="color:red" >*</asp:label>
+                                        <label class="control-label">Qtd. Container:</label><asp:label Visible="false" runat="server" ID="RedQTDContainer" style="color:red" >*</asp:label>
                                          <asp:TextBox ID="txtQtdContainerMercadoria" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
@@ -649,25 +649,33 @@
                                 </div>
                             </div>
                              <div class="row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Valor Frete(Compra):</label>
+                                        <label class="control-label">Valor Frete(Compra Unit.):</label>
+                                        <asp:TextBox ID="txtFreteCompraMercadoriaUnitario"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                  <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Valor Frete(Compra Calc.):</label>
                                         <asp:TextBox ID="txtFreteCompraMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3" runat="server" id="divCompraMinimaLCL">
+                                 <div class="col-sm-4" runat="server" id="divCompraMinimaLCL">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Compra Mínina):</label>
                                         <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                     </div>
-                                </div>     
-                                 <div class="col-sm-3">
+                                </div>   
+                                 </div>
+                                  <div class="row">
+                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda):</label>
                                         <asp:TextBox ID="txtFreteVendaMercadoria"   runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                  <div class="col-sm-3" runat="server" id="divVendaMinimaLCL">
+                                  <div class="col-sm-4" runat="server" id="divVendaMinimaLCL">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Venda Mínina):</label>
                                         <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
@@ -791,7 +799,8 @@
                                         <asp:BoundField DataField="NM_TIPO_CONTAINER" HeaderText="Container"  SortExpression="NM_TIPO_CONTAINER" />
                                         <asp:BoundField DataField="QT_CONTAINER" HeaderText="Qtd. Container"   SortExpression="QT_CONTAINER"/>   
                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto"  SortExpression="VL_PESO_BRUTO"  />
-                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />      
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" /> 
+                                        <asp:BoundField DataField="ESTUFAGEM" HeaderText="Estufagem" SortExpression="ESTUFAGEM" /> 
                                            <asp:TemplateField HeaderText="" >
                                          <ItemTemplate>                          
                             <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO_MERCADORIA") %>'  
@@ -1346,11 +1355,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_BL">
 
          <asp:SqlDataSource ID="dsMercadorias" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT 
-A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,C.NM_MERCADORIA,A.ID_TIPO_CONTAINER,B.NM_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME
+A.ID_COTACAO_MERCADORIA,A.ID_COTACAO,A.ID_MERCADORIA,A.ID_TIPO_CONTAINER,B.NM_TIPO_CONTAINER,A.QT_CONTAINER,A.VL_FRETE_COMPRA,A.VL_FRETE_VENDA,A.VL_PESO_BRUTO,A.VL_M3,A.DS_MERCADORIA,A.VL_COMPRIMENTO,A.VL_LARGURA,A.VL_ALTURA,A.VL_CARGA,A.QT_DIAS_FREETIME,(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE  C.ID_TIPO_ESTUFAGEM = ID_TIPO_ESTUFAGEM)ESTUFAGEM
 FROM TB_COTACAO_MERCADORIA A
 LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER
-LEFT JOIN TB_MERCADORIA C ON C.ID_MERCADORIA = A.ID_MERCADORIA 
-WHERE ID_COTACAO = @ID_COTACAO
+LEFT JOIN TB_COTACAO C ON C.ID_COTACAO = A.ID_COTACAO
+WHERE A.ID_COTACAO = @ID_COTACAO
 "> <SelectParameters>
                 <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID"  />
             </SelectParameters>

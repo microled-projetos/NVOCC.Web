@@ -554,7 +554,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
                     'VERIFIFA SE HÁ TARIFARIO EM ABERTO
                     ds = Con.ExecutarQuery("SELECT ID_TARIFARIO_FRETE_TRANSPORTADOR FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_TIPO_CONTAINER = " & ddlContainer.SelectedValue & " AND DT_VALIDADE_FINAL >= convert(date,getdate(),103) and ID_FRETE_TRANSPORTADOR =" & txtFreteTransportadorTarifario.Text)
                     If ds.Tables(0).Rows.Count > 0 Then
-                        Dim data As DateTime = txtValidadeFinal_Tarifario.Text
+                        Dim data As DateTime = txtValidadeInicial.Text
                         data = data.AddDays(-1)
                         'ALTERA DATA DO TAFIFARIO EM ABERTO
                         For Each linha As DataRow In ds.Tables(0).Rows

@@ -56,7 +56,7 @@ display:none;
                 <div class="row">
                    <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label">Consignor:</label>
+                            <label class="control-label">Consignee:</label>
                             <asp:TextBox ID="txtImportador2" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" ></asp:TextBox>                    
                         </div>
                     </div>
@@ -322,7 +322,7 @@ display:none;
         </td>
 </tr>
 <tr>
-<td><strong>FREIGH PAYABLE</strong><br/>
+<td><strong>FREIGHT PAYABLE</strong><br/>
         <asp:Label ID="lblTipoPagamento" class="lblTipoPagamento" runat="server"></asp:Label> </td>
 <td style="font-size:8px"><strong>NUMBER OF ORIGINAL B/LS</strong><br/>
         <asp:Label ID="lblCampoEditavel1" class="lblCampoEditavel1" runat="server"></asp:Label></td>

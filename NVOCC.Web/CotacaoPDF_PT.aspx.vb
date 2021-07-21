@@ -28,6 +28,7 @@ A.ID_CLIENTE,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )NOME_CLIENTE,
 (SELECT CNPJ FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )CNPJ_CLIENTE,
 (SELECT CPF FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )CPF_CLIENTE,
+(SELECT NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = A.ID_CONTATO )CONTATO,
 A.ID_CONTATO,
 A.ID_SERVICO,
 (SELECT NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO )NOME_SERVICO,
@@ -66,6 +67,10 @@ FROM  TB_COTACAO A
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_CLIENTE")) Then
                 lblCliente.Text = ds.Tables(0).Rows(0).Item("NOME_CLIENTE")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("CONTATO")) Then
+                lblNome.Text = ds.Tables(0).Rows(0).Item("CONTATO")
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("CNPJ_CLIENTE")) Then
@@ -200,6 +205,7 @@ A.ID_COTACAO_TAXA,
 A.FL_DECLARADO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA )BASE_CALCULO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA )MOEDA,
+(SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,
 A.VL_TAXA_VENDA,
 A.VL_TAXA_VENDA_MIN,
 A.VL_TAXA_VENDA_CALCULADO,
@@ -216,8 +222,9 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Base de Calc.</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Min</th>"
-            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th></tr>"
-
+            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th>"
+            tabela &= "<th style='padding-left:10px;padding-right:10px'>Tipo Pag.</th>"
+            tabela &= "</tr>"
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
@@ -228,6 +235,7 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
                 End If
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
             Next
             tabela &= "</table>"
@@ -282,6 +290,7 @@ A.ID_COTACAO_TAXA,
 A.FL_DECLARADO,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA )BASE_CALCULO,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA )MOEDA,
+(SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,
 A.VL_TAXA_VENDA,
 A.VL_TAXA_VENDA_MIN,
 A.VL_TAXA_VENDA_CALCULADO,
@@ -299,7 +308,10 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Base de Calc.</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Min</th>"
-            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th></tr>"
+            tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Calc.</th>"
+            tabela &= "<th style='padding-left:10px;padding-right:10px'>Tipo Pag.</th>"
+            tabela &= "</tr>"
+
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
@@ -310,6 +322,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
                 End If
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
 
             Next
@@ -424,20 +437,20 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
     Sub CONTAINER()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_TIPO_CONTAINER, CAST((VL_FRETE_VENDA)AS NUMERIC(13,2))VALOR,SUM(QT_CONTAINER)QTD
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_TIPO_CONTAINER, ISNULL(VL_FRETE_VENDA,0)VALOR,QT_CONTAINER QTD,QT_DIAS_FREETIME
 FROM TB_COTACAO_MERCADORIA A
-LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE ID_COTACAO = " & Request.QueryString("c") & " and A.QT_CONTAINER > 0 
-GROUP BY B.NM_TIPO_CONTAINER,VL_FRETE_VENDA,QT_CONTAINER
-")
+LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE ID_COTACAO =" & Request.QueryString("c") & "  and A.QT_CONTAINER > 0 ")
         Dim tabela As String = " <div class='linha-colorida2'>CONTAINER</div>
 <table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
         tabela &= "<th style='padding-right:10px'>Tipo Container</th>"
         tabela &= "<th style='padding-left:10px;padding-right:10px'>Qtd.</th>"
+        tabela &= "<th style='padding-left:10px;padding-right:10px'>FreeTime</th>"
         tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Unit.</th></tr>"
 
         For Each linha As DataRow In ds.Tables(0).Rows
             tabela &= "<tr><td style='padding-right:10px'>" & linha("NM_TIPO_CONTAINER") & "</td>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("QTD") & "</td>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("QT_DIAS_FREETIME") & "</td>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALOR") & "</td></tr>"
         Next
 

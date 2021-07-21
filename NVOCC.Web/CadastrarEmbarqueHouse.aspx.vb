@@ -19,6 +19,7 @@
 
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
+                lkProximo.Visible = False
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
             End If
@@ -1227,9 +1228,9 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_TaxaAereo2.Visible = False
         divSuccess_TaxaAereo2.Visible = False
         ddlDespesa_TaxaAereo.SelectedValue = 0
-        ddlTipoPagamento_TaxaAereo.SelectedValue = 0
+        'ddlTipoPagamento_TaxaAereo.SelectedValue = 0
         ddlOrigemPagamento_TaxaAereo.SelectedValue = 0
-        ddlDestinatarioCob_TaxaAereo.SelectedValue = 0
+        'ddlDestinatarioCob_TaxaAereo.SelectedValue = 0
         ddlBaseCalculo_TaxaAereo.SelectedValue = 0
         ddlMoedaCompra_TaxaAereo.SelectedValue = 0
         ddlMoedaVenda_TaxaAereo.SelectedValue = 0
@@ -1255,9 +1256,9 @@ WHERE ID_CARGA_BL = " & ID)
         txtID_TaxaMaritimo.Text = ""
         ddlStatusPagamento_TaxaMaritimo.SelectedValue = 0
         ddlDespesa_TaxaMaritimo.SelectedValue = 0
-        ddlTipoPagamento_TaxaMaritimo.SelectedValue = 0
+        ' ddlTipoPagamento_TaxaMaritimo.SelectedValue = 0
         ddlOrigemPagamento_TaxaMaritimo.SelectedValue = 0
-        ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0
+        ' ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0
         ddlBaseCalculo_TaxaMaritimo.SelectedValue = 0
         ddlMoedaCompra_TaxaMaritimo.SelectedValue = 0
         ddlMoedaVenda_TaxaMaritimo.SelectedValue = 0
@@ -2250,8 +2251,21 @@ WHERE ID_CARGA_BL = " & ID)
 
 
 
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+                    ddlDespesa_TaxaAereo.SelectedValue = 0
+                    'ddlTipoPagamento_TaxaAereo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxaAereo.SelectedValue = 0
+                    'ddlDestinatarioCob_TaxaAereo.SelectedValue = 0
+                    ddlBaseCalculo_TaxaAereo.SelectedValue = 0
+                    ddlMoedaCompra_TaxaAereo.SelectedValue = 0
+                    ddlMoedaVenda_TaxaAereo.SelectedValue = 0
+                    ddlEmpresa_TaxaAereo.SelectedValue = 0
+                    txtValorCompra_TaxaAereo.Text = ""
+                    txtValorVenda_TaxaAereo.Text = ""
+                    'txtBaseCompra_TaxaAereo.Text = ""
+                    txtObs_TaxaAereo.Text = ""
+                    txtMinCompra_TaxaAereo.Text = ""
+                    txtMinVenda_TaxaAereo.Text = ""
+                    txtID_TaxaAereo.Text = ""
 
                     dgvTaxaAereoVendas.DataBind()
                     dgvTaxaAereoCompras.DataBind()
@@ -2412,11 +2426,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Dim ds As DataSet
         Dim v As New VerificaData
 
-
-
-
-
-
         If txtMinCompra_TaxaMaritimo.Text = "" Then
             txtMinCompra_TaxaMaritimo.Text = 0
         End If
@@ -2515,9 +2524,21 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     dgvTaxaMaritimoCompras.DataBind()
                     dgvTaxaMaritimoVendas.DataBind()
 
+                    txtID_TaxaMaritimo.Text = ""
+                    ddlStatusPagamento_TaxaMaritimo.SelectedValue = 0
+                    ddlDespesa_TaxaMaritimo.SelectedValue = 0
+                    ddlOrigemPagamento_TaxaMaritimo.SelectedValue = 0
+                    ddlBaseCalculo_TaxaMaritimo.SelectedValue = 0
+                    ddlMoedaCompra_TaxaMaritimo.SelectedValue = 0
+                    ddlMoedaVenda_TaxaMaritimo.SelectedValue = 0
+                    ddlEmpresa_TaxaMaritimo.SelectedValue = 0
+                    txtValorCompra_TaxaMaritimo.Text = ""
+                    txtValorVenda_TaxaMaritimo.Text = ""
+                    txtObs_TaxaMaritimo.Text = ""
+                    txtMinCompra_TaxaMaritimo.Text = ""
+                    txtMinVenda_TaxaMaritimo.Text = ""
 
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
 
 
                     Con.Fechar()
@@ -2580,7 +2601,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
 
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
-                        'Con.ExecutarQuery("UPDATE TB_BL SET FL_CALCULADO = 0 WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
+
                         Con.Fechar()
                     End If
                 End If
@@ -3109,7 +3131,14 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         If txtNomeExportador_Maritimo.Text = "" Then
             txtNomeExportador_Maritimo.Text = "NULL"
         End If
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (FL_EXPORTADOR= 1 OR FL_SHIPPER =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+
+        Dim Sql As String = ""
+        If ddlServico_BasicoMaritimo.SelectedValue = 1 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_SHIPPER = 1 ) and (NM_RAZAO like '%" & txtNomeExportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        ElseIf ddlServico_BasicoMaritimo.SelectedValue = 4 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_EXPORTADOR =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Maritimo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Maritimo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        End If
+
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
             dsExportador_Maritimo.SelectCommand = Sql
@@ -3132,7 +3161,13 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         If txtNomeExportador_Aereo.Text = "" Then
             txtNomeExportador_Aereo.Text = "NULL"
         End If
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_SHIPPER =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        Dim Sql As String = ""
+
+        If ddlServico_BasicoMaritimo.SelectedValue = 2 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        ElseIf ddlServico_BasicoMaritimo.SelectedValue = 5 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_SHIPPER =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        End If
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
             dsExportador_Aereo.SelectCommand = Sql
@@ -3144,5 +3179,39 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
         txtNomeExportador_Aereo.Text = txtNomeExportador_Aereo.Text.Replace("NULL", "")
 
+    End Sub
+
+    Private Sub lkProximo_Click(sender As Object, e As EventArgs) Handles lkProximo.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim LinhaAtual As Integer = 0
+        Dim ProximaLinha As Integer = 0
+        Dim PrimeiroBL As String = 0
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ISNULL(ID_BL_MASTER,0) ID_BL_MASTER, ROW_NUMBER() OVER(ORDER BY ID_BL) AS num
+  From TB_BL where ID_BL_MASTER =  " & Session("ID_BL_MASTER"))
+        If ds.Tables(0).Rows.Count > 0 Then
+            PrimeiroBL = ds.Tables(0).Rows(0).Item("ID_BL")
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("ID_BL") = Request.QueryString("id") Then
+                    LinhaAtual = linha.Item("num")
+                    ProximaLinha = linha.Item("num") + 1
+                End If
+
+                If ProximaLinha = linha.Item("num") Then
+                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                    url = String.Format(url, linha.Item("ID_BL"))
+                    Response.Redirect(url)
+                ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
+                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                    url = String.Format(url, PrimeiroBL)
+                    Response.Redirect(url)
+                End If
+
+            Next
+
+            'Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+            'url = String.Format(url, ds.Tables(0).Rows(0).Item("ID_BL"))
+            'Response.Redirect(url)
+        End If
     End Sub
 End Class

@@ -21,8 +21,10 @@
         <div class="panel panel-primary">
             <div class="panel-heading titulo">
                 <h4>NUMERO DA BL:<asp:Label runat="server" ID="nr_bl"></asp:Label>
-                    <asp:Button ID="btnAtualizar" runat="server" BackColor="White" ForeColor="Black" Text="ATUALIZAR" style="float: right;" CssClass="btn btn-default"  />
-                </h4>
+                   
+                </h4> 
+                <asp:Button ID="btnAtualizar" runat="server" BackColor="White" ForeColor="Black" Text="ATUALIZAR" style="float: right;MARGIN-TOP: -25PX;
+    POSITION: static;" CssClass="btn btn-default"  />
             </div>
             
         </div>

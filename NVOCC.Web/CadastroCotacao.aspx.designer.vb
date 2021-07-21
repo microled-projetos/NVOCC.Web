@@ -923,6 +923,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtFreeTimeMercadoria As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtFreteCompraMercadoriaUnitario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteCompraMercadoriaUnitario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtFreteCompraMercadoria.
     '''</summary>
     '''<remarks>

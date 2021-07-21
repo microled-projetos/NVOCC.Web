@@ -24,14 +24,23 @@
              td{
                 padding-left:10px;
                 padding-right:10px;
-
+                 font-size:9px !important;
             }
         }
     </style> 
-
-    <div id="divConteudoDinamico" runat="server" style="border-style:solid;border-width: thin;" >
+     <div id="DivImpressao" runat="server" >
+        
+    <asp:Label ID="lblDatas" runat="server" />
+    <center><h5>RELAÇÃO DOS FECHAMENTOS DE CÂMBIO</h5> </center>
+   
+    <div id="divConteudoDinamico" runat="server" >
         </div>
-
+</div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+     <script>
+        $(window).load(function () {
+            window.print();
+        });
+     </script>
 </asp:Content>

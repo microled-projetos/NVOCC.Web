@@ -18,7 +18,7 @@
             Response.Redirect("Default.aspx")
 
         Else
-
+            lblDatas.Text = "De " & Session("DataInicial") & " Até " & Session("DataFinal")
             Dim dsMoeda As DataSet = Con.ExecutarQuery("SELECT 
 DISTINCT ID_MOEDA
 FROM TB_ACCOUNT_FECHAMENTO 
