@@ -31,7 +31,6 @@
                 </h4>
 >>>>>>> 2e1613ef30f81c9e71d5acb75daaba109630d477
             </div>
-
         </div>
     </div>
     <!--TRANSPORTE E LOGISTTICA -->
@@ -144,13 +143,21 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_container"></asp:Label></td>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_lacre"></asp:Label></td>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_pes"></asp:Label></td>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_tara"></asp:Label></td>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_peso_bruto"></asp:Label></td>
-                                    <td><asp:Label Font-Bold="true" runat="server" ID="m_volume_m3"></asp:Label></td>
-                                    <td><p></p></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_container"></asp:Label></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_lacre"></asp:Label></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_pes"></asp:Label></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_tara"></asp:Label></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_peso_bruto"></asp:Label></td>
+                                    <td>
+                                        <asp:Label Font-Bold="true" runat="server" ID="m_volume_m3"></asp:Label></td>
+                                    <td>
+                                        <p></p>
+                                    </td>
                                 </tr>
                             </tbody>
 
@@ -197,36 +204,6 @@
                 </div>
             </div>
         </div>
-        <!-- IMPORTADOR -->
-        <%--<div class="panel panel-primary">
-            <div class="panel-heading">
-                <h5>IMPORTADOR</h5>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <p>
-                            ATIVIDADE:
-                            <asp:Label Font-Bold="true" runat="server" ID="atividade"></asp:Label>
-                        </p>
-                        <p>
-                            TELEFONE:
-                            <asp:Label Font-Bold="true" runat="server" ID="telefone"></asp:Label>
-                        </p>
-                    </div>
-                    <div class="col-lg-6">
-                        <p>
-                            NATUREZA:
-                            <asp:Label Font-Bold="true" runat="server" ID="natureza"></asp:Label>
-                        </p>
-                        <p>
-                            EMAIL:
-                            <asp:Label Font-Bold="true" runat="server" ID="email"></asp:Label>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
         <!-- DATAS -->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -294,7 +271,8 @@
                         <article>
                             <p>
                                 STATUS:
-                                <span class="badge badge-secondary"><asp:Label Font-Bold="true" runat="server" ID="status"></asp:Label></span>
+                                <span class="badge badge-secondary">
+                                    <asp:Label Font-Bold="true" runat="server" ID="status"></asp:Label></span>
                             </p>
                             <p>
                                 Bl:
@@ -320,7 +298,7 @@
                                 CONTA:
                                 <asp:Label Font-Bold="true" runat="server" ID="conta"></asp:Label>
                             </p>
-                            
+
                         </article>
                     </div>
                     <div class="col-lg-6">
@@ -358,6 +336,57 @@
                                 <asp:Label Font-Bold="true" runat="server" ID="eta"></asp:Label>
                             </p>
                         </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--WORKFLOW -->
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>WORKFLOW</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div id="tracking-pre"></div>
+                        <div id="tracking">
+                            <div class="text-center tracking-status-intransit">
+                                <p class="tracking-status text-tight">historico</p>
+                            </div>
+                            <div id="trakinglist" runat="server" class="tracking-list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DOCUMENTOS -->
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>DOCUMENTOS</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="divConteudoDinamico" runat="server" class="col-lg-12">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FOLLOWUP -->
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>FOLLOW UP</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="followup" runat="server" class="col-lg-12">
                     </div>
                 </div>
             </div>

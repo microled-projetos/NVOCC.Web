@@ -22,6 +22,7 @@
     <link href="Content/css/toastr.css" rel="stylesheet" />
     <%--    <link href="Content/css/site.css?id=123" rel="stylesheet" />--%>
     <link href="Content/Site.css?id=123" rel="stylesheet" />
+    <link href="Content/css/traking.css" rel="stylesheet" />
 
     <link href="Content/css/smart_wizard.css" rel="stylesheet" />
     <link href="Content/css/smart_wizard_theme_dots.css" rel="stylesheet" />

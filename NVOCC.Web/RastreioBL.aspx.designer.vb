@@ -480,4 +480,31 @@ Partial Public Class RastreioBL
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''trakinglist control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents trakinglist As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''divConteudoDinamico control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''followup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents followup As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class

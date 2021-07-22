@@ -305,6 +305,7 @@
     <Content Include="Content\css\smart_wizard.css" />
     <Content Include="Content\css\smart_wizard_theme_dots.css" />
     <Content Include="Content\css\toastr.css" />
+    <Content Include="Content\css\traking.css" />
     <Content Include="Content\fonts\fa-brands-400.svg" />
     <Content Include="Content\fonts\fa-regular-400.svg" />
     <Content Include="Content\fonts\fa-solid-900.svg" />
@@ -668,6 +669,7 @@
     <Compile Include="Class\Consignee.vb" />
     <Compile Include="Class\Dates.vb" />
     <Compile Include="Class\Documentos.vb" />
+    <Compile Include="Class\FollowUps.vb" />
     <Compile Include="Class\Itens.vb" />
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
@@ -825,6 +827,7 @@
     </Compile>
     <Compile Include="GeraPDF.aspx.vb">
       <DependentUpon>GeraPDF.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
