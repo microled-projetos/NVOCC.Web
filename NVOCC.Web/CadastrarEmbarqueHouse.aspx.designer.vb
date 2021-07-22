@@ -50,6 +50,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents btnCapaAereo As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle UpdatePanel15.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle divSuccess_BasicoMaritimo.
     '''</summary>
     '''<remarks>

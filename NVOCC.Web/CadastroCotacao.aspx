@@ -74,12 +74,18 @@
                                         <asp:TextBox ID="txtAbertura" runat="server" CssClass="form-control data"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Estufagem:</label></label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlEstufagem" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem"></asp:DropDownList>
                                     </div>
                                 </div>
+                                 <div class="col-sm-2">
+                                     <div class="form-group">
+                                           <label class="control-label" style="color:white">X</label>
+                                             <asp:Checkbox ID="ckbFreeHand" runat="server" CssClass="form-control" text="&nbsp;&nbsp;FREE HAND" ></asp:Checkbox>
+                                    </div>
+                                     </div>
                             </div>  
                             <div class="row">
                                 <div class="col-sm-4">
@@ -90,17 +96,24 @@
                                     </div>
 
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Status:</label></label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlStatusCotacao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_COTACAO" DataSourceID="dsStatusCotacao" DataValueField="ID_STATUS_COTACAO">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-2">
                                 <div class="form-group">
                                         <label class="control-label">Data de Status:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtDataStatus" runat="server" Enabled="false" CssClass="form-control data"></asp:TextBox>
+                                    </div>
+                                    </div>
+                                 <div class="col-sm-4">
+                                <div class="form-group">
+                                        <label class="control-label">Status Frete Agente:</label>
+                                                <asp:DropDownList ID="ddlStatusFreteAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
+                                                </asp:DropDownList>
                                     </div>
                                     </div>
                                     </div>
@@ -1456,7 +1469,10 @@ union SELECT  0, ' Selecione' ORDER BY NM_ITEM_DESPESA">
         selectcommand="SELECT ID_TIPO_PAGAMENTO, NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO">
 </asp:SqlDataSource>
- 
+ <asp:SqlDataSource ID="dsStatusFreteAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" 
+               SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
+union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE">
+    </asp:SqlDataSource>
    <asp:SqlDataSource ID="dsHistoricoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:StringConexaoOracle %>" ProviderName="<%$ConnectionStrings:StringConexaoOracle.ProviderName %> "
         selectcommand="SELECT * FROM VW_VALOR_FRETE_LOTE where rownum <= 10 and cnpj = '@cnpj'">
        <SelectParameters>

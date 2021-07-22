@@ -25,7 +25,7 @@
                 padding-left:10px;
                 padding-right:10px;
                  font-size:9px !important;
-            }
+             }
         }
     </style> 
      <div id="DivImpressao" runat="server" >

@@ -1037,7 +1037,7 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
                 Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                NRSEQUENCIALPROCESSO = 1
 
                 PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 

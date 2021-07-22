@@ -20,8 +20,12 @@
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
                 lkProximo.Visible = False
+                btnVisualizarMBL_Aereo.Text = "Gerar Master"
+                btnVisualizarMBL_Maritimo.Text = "Gerar Master"
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
+                btnVisualizarMBL_Aereo.Text = "Visualizar MBL"
+                btnVisualizarMBL_Maritimo.Text = "Visualizar MBL"
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
@@ -284,11 +288,11 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")) Then
-                        ddlTipoPagamento_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")
+                        ddlTipoPagamento_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")) Then
-                        ddlTipoCarga_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")
+                        ddlTipoCarga_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
@@ -2744,7 +2748,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                    NRSEQUENCIALPROCESSO = 1
 
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
@@ -2776,7 +2780,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                    NRSEQUENCIALPROCESSO = 1
 
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
@@ -3164,9 +3168,9 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         Dim Sql As String = ""
 
         If ddlServico_BasicoMaritimo.SelectedValue = 2 Then
-            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_SHIPPER = 1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
         ElseIf ddlServico_BasicoMaritimo.SelectedValue = 5 Then
-            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_SHIPPER =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR =1 ) and (NM_RAZAO like '%" & txtNomeExportador_Aereo.Text & "%' or ID_PARCEIRO =  " & txtCodExportador_Aereo.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
         End If
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
@@ -3212,6 +3216,135 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             'Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
             'url = String.Format(url, ds.Tables(0).Rows(0).Item("ID_BL"))
             'Response.Redirect(url)
+        End If
+    End Sub
+
+    Private Sub btnVisualizarMBL_Maritimo_Click(sender As Object, e As EventArgs) Handles btnVisualizarMBL_Maritimo.Click
+
+        If Request.QueryString("tipo") = "e" Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,ID_SERVICO,DT_ABERTURA,ID_USUARIO_ABERTURA,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_STATUS_FRETE_AGENTE) VALUES ('M'," & ddlServico_BasicoMaritimo.Text & ",GETDATE()," & Session("ID_USUARIO") & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & ddlEstufagem_BasicoMaritimo.SelectedValue & ",(SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") ) Select SCOPE_IDENTITY() as ID_BL ")
+
+            txtIDMaster_BasicoAereo.Text = ""
+            txtIDMaster_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+
+            NumeroProcessoMaster()
+
+            Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = " & txtIDMaster_BasicoMaritimo.Text & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLMaritimo()", True)
+
+        ElseIf Request.QueryString("tipo") = "h" Then
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLMaritimo()", True)
+        End If
+
+    End Sub
+
+    Private Sub btnVisualizarMBL_Aereo_Click(sender As Object, e As EventArgs) Handles btnVisualizarMBL_Aereo.Click
+        If Request.QueryString("tipo") = "e" Then
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+
+
+            Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,ID_SERVICO,DT_ABERTURA,ID_USUARIO_ABERTURA,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,ID_TIPO_ESTUFAGEM,ID_STATUS_FRETE_AGENTE) VALUES ('M'," & ddlServico_BasicoAereo.Text & ",GETDATE()," & Session("ID_USUARIO") & "," & ddlTransportador_BasicoAereo.SelectedValue & ", " & ddlOrigem_BasicoAereo.SelectedValue & ", " & ddlDestino_BasicoAereo.SelectedValue & "," & ddlAgente_BasicoAereo.SelectedValue & "," & ddlTipoPagamento_BasicoAereo.SelectedValue & "," & ddlEstufagem_BasicoAereo.SelectedValue & ",(SELECT ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") ) Select SCOPE_IDENTITY() as ID_BL ")
+
+            txtIDMaster_BasicoMaritimo.Text = ""
+            txtIDMaster_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
+
+            NumeroProcessoMaster()
+
+            Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = " & txtIDMaster_BasicoAereo.Text & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLAereo()", True)
+
+        ElseIf Request.QueryString("tipo") = "h" Then
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLAereo()", True)
+        End If
+    End Sub
+
+    Sub NumeroProcessoMaster()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+
+        ds = Con.ExecutarQuery("SELECT NRSEQUENCIALPROCESSO, AnoSequencialProcesso FROM TB_PARAMETROS")
+
+        Dim PROCESSO_FINAL As String
+
+        Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
+        Dim AnoSequencialProcesso = ds.Tables(0).Rows(0).Item("AnoSequencialProcesso")
+        Dim ano_atual = Now.Year.ToString.Substring(2)
+        Dim SIGLA_PROCESSO As String
+        Dim mes_atual As String
+        If Now.Month < 10 Then
+            mes_atual = "0" & Now.Month.ToString
+        Else
+            mes_atual = Now.Month.ToString
+        End If
+
+
+        If txtIDMaster_BasicoMaritimo.Text <> "" Then
+            'MARITIMO
+
+            ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & txtIDMaster_BasicoMaritimo.Text)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
+
+                If AnoSequencialProcesso = ano_atual Then
+
+                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+
+                Else
+
+                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "' ")
+
+                    NRSEQUENCIALPROCESSO = 1
+
+                End If
+
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtIDMaster_BasicoMaritimo.Text)
+
+            End If
+
+
+        ElseIf txtIDMaster_BasicoAereo.Text <> "" Then
+            'AEREO
+
+            ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & txtIDMaster_BasicoAereo.Text)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
+
+                If AnoSequencialProcesso = ano_atual Then
+
+                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+
+                Else
+
+                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
+
+                    NRSEQUENCIALPROCESSO = 1
+
+                End If
+
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtIDMaster_BasicoAereo.Text)
+
+            End If
+
         End If
     End Sub
 End Class

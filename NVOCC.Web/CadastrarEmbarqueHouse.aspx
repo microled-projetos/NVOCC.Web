@@ -68,6 +68,8 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane fade active in" id="BasicoMaritimo">
+                                    <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
                                     <div class="alert alert-success" id="divSuccess_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccess_BasicoMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                     </div>
@@ -104,7 +106,7 @@
                                         <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
-                                                <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server" OnClientClick="MBLMaritimo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                                <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server"  CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -333,7 +335,19 @@
                                             </div>
                                         </div>
                                     </div>
+</ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeCliente_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeImportador_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Maritimo" />
 
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="CargaMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1124,7 +1138,7 @@ VENDAS:
                                                 <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
-                                                <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" OnClientClick="MBLAereo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                                <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
                                                 <div class="col-sm-3">
@@ -1359,9 +1373,9 @@ VENDAS:
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeCliente_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeImportador_Aereo" />
-                                                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Aereo" />
-
-                                                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
 
                                         </Triggers>
                                     </asp:UpdatePanel>
