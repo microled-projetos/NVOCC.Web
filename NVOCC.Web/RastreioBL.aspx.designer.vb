@@ -480,4 +480,40 @@ Partial Public Class RastreioBL
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''btn_baixar_arquivo control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btn_baixar_arquivo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''dc_data control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dc_data As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''dc_documento control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dc_documento As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''dc_categoria control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dc_categoria As Global.System.Web.UI.WebControls.Label
 End Class

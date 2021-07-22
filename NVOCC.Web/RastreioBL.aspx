@@ -190,36 +190,6 @@
                 </div>
             </div>
         </div>
-        <!-- IMPORTADOR -->
-        <%--<div class="panel panel-primary">
-            <div class="panel-heading">
-                <h5>IMPORTADOR</h5>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <p>
-                            ATIVIDADE:
-                            <asp:Label Font-Bold="true" runat="server" ID="atividade"></asp:Label>
-                        </p>
-                        <p>
-                            TELEFONE:
-                            <asp:Label Font-Bold="true" runat="server" ID="telefone"></asp:Label>
-                        </p>
-                    </div>
-                    <div class="col-lg-6">
-                        <p>
-                            NATUREZA:
-                            <asp:Label Font-Bold="true" runat="server" ID="natureza"></asp:Label>
-                        </p>
-                        <p>
-                            EMAIL:
-                            <asp:Label Font-Bold="true" runat="server" ID="email"></asp:Label>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
         <!-- DATAS -->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -351,6 +321,44 @@
                                 <asp:Label Font-Bold="true" runat="server" ID="eta"></asp:Label>
                             </p>
                         </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DOCUMENTOS -->
+    <div class="col-lg-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>DOCUMENTOS</h5>
+            </div>
+            <div class="panel-body">
+                <div class="panel-heading">
+                    <h6>ITENS</h6>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DOWNLOAD</th>
+                                    <th>DATA</th>
+                                    <th>DOCUMENTO</th>
+                                    <th>RESPONSAVEL</th>
+                                    <th>CATEGORIA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><asp:button runat="server" class="btn btn-primary" ID="btn_baixar_arquivo" Text="Baixar Arquivo"></asp:button></td>
+                                    <td><asp:Label Font-Bold="true" runat="server" ID="dc_data"></asp:Label></td>
+                                    <td><asp:Label Font-Bold="true" runat="server" ID="dc_documento"></asp:Label></td>
+                                    <td><asp:Label Font-Bold="true" runat="server" ID="dc_categoria"></asp:Label></td>
+                                    <td><p></p></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
             </div>
