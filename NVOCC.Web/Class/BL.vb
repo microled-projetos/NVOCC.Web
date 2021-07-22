@@ -6,7 +6,9 @@
     Public Property dates As Dates
     Public Property aduana As Aduana
     Public Property logistics As Logistics
-
+    Public Property commodity As Mercadoria
+    Public Property fcl As List(Of Itens)
+    Public Property documents As List(Of Documentos)
 
 
 End Class

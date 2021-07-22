@@ -77,7 +77,7 @@ namespace LogComexService.Repositorio
                 try
                 {
                     con.Open();
-                    var query = "UPDATE TB_BL SET TRAKING_BL = '" + bl.TRAKING_BL + "' WHERE BL_TOKEN = '" + bl.BL_TOKEN + "'";
+                    var query = "UPDATE TB_BL SET TRAKING_BL = '" + bl.TRAKING_BL.Replace("'","") + "' WHERE BL_TOKEN = '" + bl.BL_TOKEN + "'";
                     count = con.Execute(query, bl);
                 }
                 catch (Exception ex)

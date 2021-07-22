@@ -667,8 +667,11 @@
     <Compile Include="Class\Boleto.vb" />
     <Compile Include="Class\Consignee.vb" />
     <Compile Include="Class\Dates.vb" />
+    <Compile Include="Class\Documentos.vb" />
+    <Compile Include="Class\Itens.vb" />
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
+    <Compile Include="Class\Mercadoria.vb" />
     <Compile Include="Class\References.vb" />
     <Compile Include="Class\Remessa.vb" />
     <Compile Include="Class\Traking.vb" />

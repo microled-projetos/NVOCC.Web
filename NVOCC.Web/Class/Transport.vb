@@ -24,4 +24,5 @@
     Public Property obs_notes As String
     Public Property freight_currency As String
     Public Property payment_type As String
+    Public Property transport As String
 End Class
