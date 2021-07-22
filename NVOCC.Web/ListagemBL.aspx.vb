@@ -923,22 +923,25 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
         Session("NR_BL") = 0
         Session("TRAKING_BL") = 0
-
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND GRAU = 'M'")
-        If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-            Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-            Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
-
-            Response.Redirect("RastreioBL.aspx")
-
-        Else
+        If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
-            lblErroMaster.Text = "BL não cadastrada no Logcomex."
-        End If
+            lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
+            'Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND GRAU = 'M'")
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+                Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
 
+                Response.Redirect("RastreioBL.aspx")
+
+            Else
+                divErroMaster.Visible = True
+                lblErroMaster.Text = "BL não cadastrada no Logcomex."
+            End If
+        End If
 
     End Sub
 
@@ -1034,7 +1037,7 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
                 Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                NRSEQUENCIALPROCESSO = 1
 
                 PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
@@ -1049,4 +1052,27 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
     End Sub
 
+    Private Sub lkCancelarEmbarque_Click(sender As Object, e As EventArgs) Handles lkCancelarEmbarque.Click
+        divErroEmbarque.Visible = False
+        divSuccessEmbarque.Visible = False
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtID_Embarque.Text = "" Then
+            divErroEmbarque.Visible = True
+            lblErroEmbarque.Text = "Selecione o registro que deseja cancelar!"
+        Else
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_BL WHERE ID_BL_MASTER IS NULL AND ID_BL = " & txtID_Embarque.Text)
+            If ds.Tables(0).Rows(0).Item("QTD") = 1 Then
+                Con.ExecutarQuery("UPDATE TB_BL SET FL_CANCELADO = 1, ID_USUARIO_CANCELAMENTO =  " & Session("ID_USUARIO") & ", DT_CANCELAMENTO = GETDATE() WHERE ID_BL = " & txtID_Embarque.Text)
+                lblSuccessEmbarque.Text = "Registro cancelado!"
+                divSuccessEmbarque.Visible = True
+                dgvEmbarque.DataBind()
+            Else
+                divErroEmbarque.Visible = True
+                lblErroEmbarque.Text = "Só é permitido o cancelamento de registros sem BL Master vinculada!"
+            End If
+
+        End If
+    End Sub
 End Class

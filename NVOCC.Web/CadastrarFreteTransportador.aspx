@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarFreteTransportador.aspx.vb" Inherits="NVOCC.Web.CadastrarFreteTransportador" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server"> 
-    <%--<asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-    <ContentTemplate>--%>
+
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
 
@@ -433,6 +432,7 @@
                                         <asp:BoundField DataField="NM_TIPO_CONTAINER" HeaderText="Tipo de Container" SortExpression="NM_TIPO_CONTAINER"/>
                                         <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Tipo de Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade (Inicial)" SortExpression="DT_VALIDADE_INICIAL" DataFormatString="{0:dd/MM/yyyy}"/>
+                                        <asp:BoundField DataField="DT_VALIDADE_FINAL" HeaderText="Validade (Final)" SortExpression="DT_VALIDADE_FINAL" DataFormatString="{0:dd/MM/yyyy}"/>
                                         <asp:BoundField DataField="VL_COMPRA" HeaderText="Valor de Compra" SortExpression="VL_COMPRA"  />
                                         <asp:BoundField DataField="VL_MINIMO" HeaderText="Valor Mínimo" SortExpression="VL_MINIMO" />
                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="Qtd. Dias Freetime" SortExpression="QT_DIAS_FREETIME" />
@@ -675,13 +675,7 @@
 
 
     </div>
-  <%--/ContentTemplate>
-    <Triggers>
-            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFreteTarifario" />
-            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
 
-    </Triggers>
-</asp:UpdatePanel>--%>
        <asp:SqlDataSource ID="dsFreteTarifario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TARIFARIO_FRETE_TRANSPORTADOR,
            A.ID_FRETE_TRANSPORTADOR,
@@ -695,6 +689,7 @@
 
  
 		   A.DT_VALIDADE_INICIAL,
+           A.DT_VALIDADE_FINAL,
            A.VL_COMPRA,
            A.VL_MINIMO,
            A.QT_DIAS_FREETIME,
@@ -756,11 +751,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 

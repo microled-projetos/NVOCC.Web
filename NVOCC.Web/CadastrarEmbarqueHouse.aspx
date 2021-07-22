@@ -6,8 +6,10 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MÓDULO OPERACIONAL -
-                    <asp:Label ID="lblTipoModulo" runat="server" />
-                    </h3>
+                    <asp:Label ID="lblTipoModulo" runat="server" /></h3>
+                    
+                   <asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;MARGIN-TOP: -25PX;
+    POSITION: static;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -66,6 +68,8 @@
                             <div class="tab-content">
 
                                 <div class="tab-pane fade active in" id="BasicoMaritimo">
+                                    <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
                                     <div class="alert alert-success" id="divSuccess_BasicoMaritimo" runat="server" visible="false">
                                         <asp:Label ID="lblSuccess_BasicoMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
                                     </div>
@@ -102,7 +106,7 @@
                                         <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
-                                                <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server" OnClientClick="MBLMaritimo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                                <asp:Button ID="btnVisualizarMBL_Maritimo" runat="server"  CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -331,7 +335,19 @@
                                             </div>
                                         </div>
                                     </div>
+</ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeCliente_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeImportador_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Maritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Maritimo" />
 
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                                 </div>
                                 <div class="tab-pane fade" id="CargaMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -429,8 +445,8 @@
                                                                     <div class="row">
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Mercadoria:</label>
-                                                                                <asp:DropDownList ID="ddlMercadoria_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA"></asp:DropDownList>
+                                                                                <label class="control-label">Tipo de Carga:</label>
+                                                                                <asp:DropDownList ID="ddlMercadoria_CargaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
 
@@ -627,6 +643,8 @@
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                                <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -661,6 +679,8 @@ VENDAS:
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                                <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1118,7 +1138,7 @@ VENDAS:
                                                 <div class="col-sm-1">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
-                                                <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" OnClientClick="MBLAereo()" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
+                                                <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
                                             </div>
                                         </div>
                                                 <div class="col-sm-3">
@@ -1353,9 +1373,9 @@ VENDAS:
                                             <asp:AsyncPostBackTrigger ControlID="btnLimpar_BasicoAereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeCliente_Aereo" />
                                             <asp:AsyncPostBackTrigger ControlID="txtNomeImportador_Aereo" />
-                                                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Aereo" />
-
-                                                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeExportador_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnVisualizarMBL_Aereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtNomeComissaria_Aereo" />
 
                                         </Triggers>
                                     </asp:UpdatePanel>
@@ -1454,8 +1474,8 @@ VENDAS:
                                                             <div class="row">
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Mercadoria:</label>
-                                                                        <asp:DropDownList ID="ddlMercadoria_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MERCADORIA" DataSourceID="dsMercadoria" DataValueField="ID_MERCADORIA"></asp:DropDownList>
+                                                                        <label class="control-label">Tipo de Carga:</label>
+                                                                        <asp:DropDownList ID="ddlMercadoria_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
 
@@ -1631,6 +1651,8 @@ VENDAS:
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                        <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1665,6 +1687,8 @@ VENDAS:
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                        <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -2280,7 +2304,7 @@ union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
 ID_MERCADORIA,
-(SELECT NM_MERCADORIA FROM TB_MERCADORIA WHERE ID_MERCADORIA = A.ID_MERCADORIA)MERCADORIA,
+(SELECT NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,
 ID_NCM,
@@ -2294,7 +2318,7 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,ID_MERCADORIA,
-(SELECT NM_MERCADORIA FROM TB_MERCADORIA WHERE ID_MERCADORIA = A.ID_MERCADORIA)MERCADORIA,
+(SELECT NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,
 ID_NCM,
@@ -2315,6 +2339,8 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
@@ -2333,6 +2359,8 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
@@ -2351,6 +2379,8 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
@@ -2369,6 +2399,8 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'

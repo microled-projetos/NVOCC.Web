@@ -14,6 +14,24 @@ Option Explicit On
 Partial Public Class ContratosFirmados
 
     '''<summary>
+    '''Controle DivImpressao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents DivImpressao As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblDatas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblDatas As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>

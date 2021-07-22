@@ -288,6 +288,13 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
                 filtro &= " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue
             End If
         End If
+        If ddlAgente.SelectedValue <> 0 Then
+            If filtro = "" Then
+                filtro &= " WHERE ID_AGENTE = " & ddlAgente.SelectedValue
+            Else
+                filtro &= " AND ID_AGENTE = " & ddlAgente.SelectedValue
+            End If
+        End If
         If ddlOrigem.SelectedValue <> 0 Then
             If filtro = "" Then
                 filtro &= " WHERE ID_PORTO_ORIGEM = " & ddlOrigem.SelectedValue

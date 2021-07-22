@@ -767,6 +767,8 @@
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                                <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -998,11 +1000,14 @@
                                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>' />
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
+                                                              
+
                                                                 <asp:TemplateField HeaderText="Processo">
                                                                     <ItemTemplate>
                                                                         <asp:CheckBox ID="PROCESSO" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
                                                                     </ItemTemplate>
-                                                                </asp:TemplateField>
+                                                                </asp:TemplateField> 
+                                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
                                                                 <asp:TemplateField HeaderText="">
@@ -1040,12 +1045,16 @@
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>' />
                                                                     </ItemTemplate>
+
                                                                 </asp:TemplateField>
+                                                                                                                               
+
                                                                 <asp:TemplateField HeaderText="Processo">
                                                                     <ItemTemplate>
                                                                         <asp:CheckBox ID="PROCESSO" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
+                                                                <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" />
                                                                 <asp:BoundField DataField="NM_RAZAO" HeaderText="Cliente" />
                                                                 <asp:BoundField DataField="PORTOS" HeaderText="Origem/Destino" />
                                                                 <asp:TemplateField HeaderText="">
@@ -1356,6 +1365,8 @@
                                                         <asp:BoundField DataField="VL_TAXA_CALCULADO" HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO" />
                                                         <asp:BoundField DataField="BASE_CALCULO" HeaderText="BASE DE CALCULO" SortExpression="BASE_CALCULO" />
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
+                                                                <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
+                                                        <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1641,6 +1652,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_TIPO_CONTAINER] ORDER BY ID_TIPO_CONT
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
@@ -1658,7 +1671,8 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
 (SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)MOEDA,
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
-VL_TAXA,
+(SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
 
@@ -1668,7 +1682,7 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
+        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
 left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
 left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
 left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
@@ -1678,7 +1692,7 @@ left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_B
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsNaoVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
+        SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
 left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
 left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
 left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO 

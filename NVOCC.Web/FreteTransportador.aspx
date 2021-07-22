@@ -56,20 +56,25 @@
                                         <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto Origem:</label>
                                         <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto Destino:</label>
                                         <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                             <div class="col-sm-4">
+                                             <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Transportador:</label>
                                         <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
+                                    </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Agente:</label>
+                                         <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>         </div>
                                     </div>
                                   <div class="col-sm-1">
                                     <div class="form-group">
@@ -209,13 +214,16 @@
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
-union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsContainer" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER WHERE FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_CONTAINER">
 </asp:SqlDataSource>
-
+        <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
+</asp:SqlDataSource>
 
                   <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 

@@ -48,6 +48,10 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+                        txtProcesso_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_SERVICO")) Then
                         ddlServico_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_SERVICO")
                     End If
@@ -238,6 +242,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+                        txtProcesso_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_SERVICO")) Then
@@ -2064,7 +2072,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                    NRSEQUENCIALPROCESSO = 1
 
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
@@ -2096,7 +2104,7 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
+                    NRSEQUENCIALPROCESSO = 1
 
                     PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
