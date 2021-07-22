@@ -27,7 +27,7 @@
                     </div>
                     <div class="functionBar">
                         <div class="btnBoxFunc">
-                            <button type="button" id="btnNovaDemurrage" class="btn btn-primary" onclick="listarTabelaDemurrage()" data-toggle="modal" data-target="#modalTabelaDemurrage">Cadastro Tabela de Demurrage</button>
+                            <button type="button" id="btnNovaDemurrage" class="btn btn-primary" data-toggle="modal" data-target="#modalTabelaDemurrage">Cadastro Tabela de Demurrage</button>
                             <button type="button" id="btnEditarInfoCntr" class="btn btn-primary" onclick="infoContainer()">Editar Info. CNTR</button>
                             <button type="button" id="btnAtualizarDataDevo" class="btn btn-primary" onclick="DevolucaoContainer()">Atualizar Data Devol</button>
                         </div>
@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableModalFix">
-                                        <table id="grdDevolucaoContainer" class="table tablecont">
+                                        <table id="grdDevolucaoContainer" class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -268,7 +268,7 @@
                                     </div>
                                     
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdCalculoContainer" class="table tablecont">
+                                        <table id="grdCalculoContainer" class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -399,7 +399,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableFixHead">
-                                        <table class="table tablecont">
+                                        <table class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">Tipo Container</th>
@@ -482,8 +482,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group dflex">
                                                 <label class="control-label">&nbsp;</label>
-                                                <asp:CheckBox ID="checkInicioFreetime" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Iniciar Free Time na Data de Chegada
-"></asp:CheckBox>
+                                                <asp:CheckBox ID="checkInicioFreetime" runat="server" CssClass="form-control noborder" Text="&nbsp;&nbsp;Iniciar Free Time na Data de Chegada" Checked="true"></asp:CheckBox>
                                             </div>
                                         </div>
                                     </div>
@@ -759,6 +758,9 @@
                                         <div class="alert alert-danger text-center" id="msgSelectErrFatura">
                                             Selecione uma Fatura.
                                         </div>
+                                        <div class="alert alert-danger text-center" id="msgCambioErrFatura">
+                                            Falta Atualização Cambial.
+                                        </div>
                                         <div class="alert alert-success text-center" id="msgSuccessCancelar">
                                             Fatura cancelada com sucesso.
                                         </div>
@@ -771,7 +773,7 @@
                                         <div class="alert alert-success text-center" id="msgDeleteSucess">
                                             Fatura Deletada com Sucesso.
                                         </div>
-                                        <div class="alert alert-success text-center" id="msgDeleteErr">
+                                        <div class="alert alert-danger text-center" id="msgDeleteErr">
                                             Erro ao deletar Fatura.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgExportErr">
@@ -827,7 +829,7 @@
                                         </div>
                                     </div> 
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdFatura" class="table tablecont">
+                                        <table id="grdFatura" class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -877,7 +879,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableModalFix">
-                                        <table id="grdProcessosFatura" class="table tablecont">
+                                        <table id="grdProcessosFatura" class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -1032,7 +1034,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdAtualizacaoCambial" class="table tablecont">
+                                        <table id="grdAtualizacaoCambial" class="table table-striped tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -1183,15 +1185,14 @@
                                                     <th class="text-center" scope="col">Valor Compra Estimado</th>
                                                     <th class="text-center" scope="col">Moeda Compra</th>
                                                     <th class="text-center" scope="col">Valor Compra</th>
-                                                    <th class="text-center" scope="col">Valor Compra R$</th>
+                                                    <th class="text-center" scope="col">Valor Compra</th>
                                                     <th class="text-center" scope="col">Data Pagamento</th>
                                                     <th class="text-center" scope="col">Valor Venda Estimado</th>
                                                     <th class="text-center" scope="col">Moeda Venda</th>
                                                     <th class="text-center" scope="col">Valor Venda</th>
-                                                    <th class="text-center" scope="col">Valor Venda R$</th>
+                                                    <th class="text-center" scope="col">Valor Venda</th>
                                                     <th class="text-center" scope="col">Data Recebimento</th>
                                                     <th class="text-center" scope="col">Status</th>
-                                                    <th class="text-center" scope="col">Data Status</th>
                                                     <th class="text-center" scope="col">Observação</th>
                                                 </tr>
                                             </thead>
@@ -1243,13 +1244,12 @@
                                     <th class="text-center" scope="col">Data Devolução</th>
                                     <th class="text-center" scope="col">Qtd Dias Demurrage</th>
                                     <th class="text-center" scope="col">Status</th>
-                                    <th class="text-center" scope="col">Data Status</th>
                                     <th class="text-center" scope="col">Observação</th>
                                     <th class="text-center" scope="col">Id Fatura Compra</th>
-                                    <th class="text-center" scope="col">Demurrage Compra R$</th>
+                                    <th class="text-center" scope="col">Demurrage Compra</th>
                                     <th class="text-center" scope="col">Data Pagamento</th>
                                     <th class="text-center" scope="col">Id Fatura Venda</th>
-                                    <th class="text-center" scope="col">Demurrage Venda R$</th>
+                                    <th class="text-center" scope="col">Demurrage Venda</th>
                                     <th class="text-center" scope="col">Data Recebimento</th>
                                 </tr>
                             </thead>
@@ -1261,7 +1261,7 @@
             </div>
         </div>
     </div>
-    <p>versão 12/07/2021 12:32</p>
+    <p>versão 19/07/2021 08:29</p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -1272,9 +1272,9 @@
     <script> 
     </script>
     <script>
-       
         var id = 0;
         var idFatura = 0;
+        var atualizaCambio = 0;
         var idFaturaItens = 0;
         var values;
         var faturaV;
@@ -1991,7 +1991,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/listarCalculoDemurrage",
-                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '" }',
+                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '", tipoCalculo: "' + vlCheck + '" }',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 beforeSend: function () {
@@ -2027,6 +2027,7 @@
         function obterMarcados() {
             pacote = document.querySelectorAll('[name=checks]:checked');
             document.getElementById("dtStatusCalculoSelecionado").value = dataAtual = ano + '-' + mes + '-' + dia;
+            document.getElementById("MainContent_ddlStatusCalculoSelecionado").value = 3;
             values = [];
             for (var i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
@@ -2309,7 +2310,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/listarCalculoDemurrage",
-                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '" }',
+                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '",tipoCalculo: "'+vlCheck+'" }',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 beforeSend: function () {
@@ -2457,7 +2458,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/listarCalculoDemurrage",
-                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '" }',
+                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '", tipoCalculo: "' + vlCheck + '" }',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 beforeSend: function () {
@@ -2637,7 +2638,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "DemurrageService.asmx/listarCalculoDemurrage",
-                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '" }',
+                                data: '{nrProcesso:"' + dado[0]["PROCESSO"] + '", tipoCalculo: "' + vlCheck +'"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 beforeSend: function () {
@@ -2814,11 +2815,11 @@
                                         doc.setFontStyle("bold");
                                         doc.text("TOTAL COMPRA: ", 162, position+10);
                                         doc.setFontStyle("normal");
-                                        doc.text(total.toString(), 188, position + 10);
+                                        doc.text(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 188, position + 10);
                                         doc.setFontStyle("bold");
                                         doc.text("TOTAL VENDA: ", 162, position + 15);
                                         doc.setFontStyle("normal");
-                                        doc.text(totalv.toString(), 188, position + 15);
+                                        doc.text(totalv.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 188, position + 15);
                                         doc.output("dataurlnewwindow")
                                     }
                                 }
@@ -2880,7 +2881,7 @@
                     if (dado != null) {
                         $("#grdFaturaBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + ")'>Selecionar</div></td>" +
+                            $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + "," + dado[i]["FALTA_ATUALIZACAO_CAMBIAL"] + ")'>Selecionar</div></td>" +
                                 "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
@@ -2976,10 +2977,10 @@
                                 dataType: "json",
                                 success: function (dado) {
                                     consultaFiltrada();
+                                    listarFatura();
                                 }
                             })
                         }
-                        listarFatura();
                         $("#modalNovaFatura").modal('hide');
                         $("#msgSuccessProcess").fadeIn(500).delay(1000).fadeOut(500);
                     }
@@ -2998,10 +2999,10 @@
                 var positionbgV = 112;
                 var positionC = 95;
                 var positionbgC = 92;
-                var total = 0;
-                var totalv = 0;
-                var desconto = 0;
-                var totalliquido = 0;
+                var total = 0.00;
+                var totalv = 0.00;
+                var desconto = 0.00;
+                var totalliquido = 0.00;
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/imprimirDadosFatura",
@@ -3127,11 +3128,9 @@
                                 doc.text("FINAL", 106, 110);
                                 doc.text("DIAS", 118, 110);
                                 doc.text("MOEDA", 127, 110);
-                                doc.text("DIÁRIA", 141, 105);
-                                doc.text("VENDA", 141, 110);
-                                doc.text("TOTAL", 157, 105);
-                                doc.text("VENDA", 157, 110);
-                                doc.text("DESCONTO", 172, 110);
+                                doc.text("DIÁRIA", 141, 110);
+                                doc.text("TAXA", 157, 110)
+                                doc.text("TOTAL BR", 173, 110);
                                 doc.setFontStyle("normal");
 
 
@@ -3168,27 +3167,33 @@
                                                 doc.addImage(bg, 'png', 139, positionbgV, 14, 4);
                                                 doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"].toString(), 141, positionV);
                                                 doc.addImage(bg, 'png', 154, positionbgV, 16, 4);
-                                                doc.text(dado[i]["VL_DEMURRAGE_VENDA"].toString(), 156, positionV);
-                                                doc.addImage(bg, 'png', 171, positionbgV, 18, 4);
-                                                doc.text(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString(), 172, positionV);
+                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_VENDA"].toString(), 156, positionV);
+                                                doc.addImage(bg, 'png', 171, positionbgV, 16, 4);
+                                                doc.text(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString(), 173, positionV);
                                                 positionV = positionV + 5;
                                                 positionbgV = positionbgV + 5;
-                                                totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
-                                                desconto = parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
-                                                totalliquido = parseFloat(totalv) - parseFloat(desconto);
+                                                if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
+                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(".", ""));
+                                                }
+                                                if (dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString() != "") {
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                                }
+                                                if (dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString() != "") {
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(".", ""));
+                                                }
                                             }
                                             doc.setFontStyle("bold");
-                                            doc.text("TOTAL DAS DESPESAS: ", 155, positionV + 15);
+                                            doc.text("TOTAL DAS DESPESAS: ", 145, positionV + 15);
                                             doc.setFontStyle("normal");
-                                            doc.text(totalv.toString(), 190, positionV + 15);
+                                            doc.text(totalv.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 180, positionV + 15);
                                             doc.setFontStyle("bold");
-                                            doc.text("ACRÉSCIMOS/DESCONTOS: ", 149, positionV + 20);
+                                            doc.text("ACRÉSCIMOS/DESCONTOS: ", 139, positionV + 20);
                                             doc.setFontStyle("normal");
-                                            doc.text(desconto.toString(), 190, positionV + 20);
+                                            doc.text(desconto.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 180, positionV + 20);
                                             doc.setFontStyle("bold");
-                                            doc.text("TOTAL DA FATURA: ", 160, positionV + 25);
+                                            doc.text("TOTAL DA FATURA: ", 150, positionV + 25);
                                             doc.setFontStyle("normal");
-                                            doc.text(totalliquido.toString(), 190, positionV + 25);
+                                            doc.text(totalliquido.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 180, positionV + 25);
 
                                             doc.setFontStyle("bold");
                                             doc.addImage(bg, 'png', 176, positionbgV+33, 32, 42);
@@ -3292,10 +3297,9 @@
                                 doc.text("FINAL", 106, 90);
                                 doc.text("DIAS", 118, 90);
                                 doc.text("MOEDA", 127, 90);
-                                doc.text("DIÁRIA", 141, 85);
-                                doc.text("COMPRA", 140, 90);
-                                doc.text("TOTAL", 157, 85);
-                                doc.text("COMPRA", 156, 90);
+                                doc.text("DIÁRIA", 141, 90);
+                                doc.text("TAXA", 157, 90)
+                                doc.text("TOTAL BR", 173, 90);
                                 doc.setFontStyle("normal");
 
                                 $.ajax({
@@ -3330,27 +3334,33 @@
                                                 doc.addImage(bg, 'png', 139, positionbgC, 14, 4);
                                                 doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"].toString(), 141, positionC);
                                                 doc.addImage(bg, 'png', 154, positionbgC, 16, 4);
-                                                doc.text(dado[i]["VL_DEMURRAGE_COMPRA"].toString(), 156, positionC);
-                                                doc.addImage(bg, 'png', 171, positionbgC, 14, 4);
-                                                doc.text(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString(), 172, positionC);
+                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_COMPRA"].toString(), 156, positionC);
+                                                doc.addImage(bg, 'png', 171, positionbgC, 16, 4);
+                                                doc.text(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString(), 173, positionC);
                                                 positionC = positionC + 5;
                                                 positionbgC = positionbgC + 5;
-                                                total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
-                                                desconto = parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", ""));
-                                                totalliquido = parseFloat(total) - parseFloat(desconto);
+                                                if (dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString() != "") {
+                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(".", ""));
+                                                }
+                                                if (dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString() != "") {
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                                }
+                                                if (dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString() != "") {
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(".", ""));
+                                                }
                                             }
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DAS DESPESAS: ", 155, positionC + 10);
                                             doc.setFontStyle("normal");
-                                            doc.text(total.toString(), 190, positionC + 10);
+                                            doc.text(total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 190, positionC + 10);
                                             doc.setFontStyle("bold");
                                             doc.text("ACRÉSCIMOS/DESCONTOS: ", 149, positionC + 15);
                                             doc.setFontStyle("normal");
-                                            doc.text(desconto.toString(), 190, positionC + 15);
+                                            doc.text(desconto.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 190, positionC + 15);
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DA FATURA: ", 160, positionC + 20);
                                             doc.setFontStyle("normal");
-                                            doc.text(totalliquido.toString(), 190, positionC + 20);
+                                            doc.text(totalliquido.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), 190, positionC + 20);
 
                                             doc.output("dataurlnewwindow")
                                         }
@@ -3418,10 +3428,19 @@
 
                     },
                     success: function (dado) {
-                        $("#msgDeleteSucess").fadeIn(500).delay(1000).fadeOut(500);
-                        listarFatura();
-                        $("#modalExcluirFatura").modal('hide');
-                        consultaFiltrada();
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado == "1") {
+                            $("#msgDeleteSucess").fadeIn(500).delay(1000).fadeOut(500);
+                            listarFatura();
+                            $("#modalExcluirFatura").modal('hide');
+                            consultaFiltrada();
+                        } else {
+                            $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);
+                            listarFatura();
+                            $("#modalExcluirFatura").modal('hide');
+                            consultaFiltrada();
+                        }
                     },
                     error: function (err) {
                         $("#msgDeleteErr").fadeIn(500).delay(1000).fadeOut(500);
@@ -3447,9 +3466,13 @@
                     dado = $.parseJSON(dado);
                     if (dado != null) {
                         $("#msgSuccessCancelar").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        consultaFiltrada();
                     }
                     else {
                         $("#msgErrCancelar").fadeIn(500).delay(1000).fadeOut(500);
+                        listarFatura();
+                        consultaFiltrada();
                     }
                 }
             })
@@ -3539,6 +3562,7 @@
                                 success: function () {
                                     $("#modalAtualizacaoCambial").modal("hide");
                                     $("#msgUpdtSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                                    listarFatura();
                                 }
                             })
                         }
@@ -3561,32 +3585,36 @@
 
         function exportarCC() {
             if (idFatura != 0) {
-                $("#modalExportarContaCorrente").modal("show");
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/infoExportCC",
-                    data: '{idFatura:"' + idFatura + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
+                if (atualizaCambio != 1) {
+                    $("#modalExportarContaCorrente").modal("show");
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/infoExportCC",
+                        data: '{idFatura:"' + idFatura + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        beforeSend: function () {
 
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        if (dado != null) {
-                            document.getElementById("idFaturaContaCorrente").value = dado[0]["ID_DEMURRAGE_FATURA"];
-                            document.getElementById("nrProcessoFaturaContaCorrente").value = dado[0]["NR_PROCESSO"];
-                            document.getElementById("nmClienteFaturaContaCorrente").value = dado[0]["CLIENTE"];
-                            document.getElementById("dtLiquidacaoFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
-                            document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value = 5;
-                            document.getElementById("dtStatusFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
+                        },
+                        success: function (dado) {
+                            var dado = dado.d;
+                            dado = $.parseJSON(dado);
+                            if (dado != null) {
+                                document.getElementById("idFaturaContaCorrente").value = dado[0]["ID_DEMURRAGE_FATURA"];
+                                document.getElementById("nrProcessoFaturaContaCorrente").value = dado[0]["NR_PROCESSO"];
+                                document.getElementById("nmClienteFaturaContaCorrente").value = dado[0]["CLIENTE"];
+                                document.getElementById("dtLiquidacaoFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value = 5;
+                                document.getElementById("dtStatusFaturaContaCorrente").value = dataAtual = ano + '-' + mes + '-' + dia;
+                            }
+                            else {
+
+                            }
                         }
-                        else {
-                            
-                        }
-                    }
-                })
+                    })
+                } else {
+                    $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                }
             } else {
                 $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
             }
@@ -3610,11 +3638,13 @@
                             $("#modalExportarContaCorrente").modal("hide");
                             $("#msgExportSuccess").fadeIn(500).delay(1000).fadeOut(500);
                             listarFatura();
+                            consultaFiltrada();
                         }
                         else{
                             $("#modalExportarContaCorrente").modal("hide");
                             $("#msgErrExportDadoConta").fadeIn(500).delay(1000).fadeOut(500);
                             listarFatura();
+                            consultaFiltrada();
                         }
                     }
                 })
@@ -3703,8 +3733,9 @@
             }
         }
 
-        function setIdFatura(Id) {
+        function setIdFatura(Id,cambio) {
             idFatura = Id;
+            atualizaCambio = cambio;
             $('[data-id]').removeClass("colorir");
             if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
                 $('[data-id="' + Id + '"]').removeClass("colorir");
@@ -3714,8 +3745,9 @@
             }
         }
 
-        function setIdFaturaItens(Id) {
+        function setIdFaturaItens(Id, cambio) {
             idFaturaItens = Id;
+            atualizaCambio = cambio;
             $('[data-id]').removeClass("colorir");
             if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
                 $('[data-id="' + Id + '"]').removeClass("colorir");
@@ -4082,10 +4114,7 @@
             })
         }
 
-        function SetId(Id) {
-            $("#modalDeleteDemurrage").modal('show');
-            $("#deletar-id").val(Id);
-        }
+        
         function data_valida(date) {
             var matches = /(\d{4})[-.\/](\d{2})[-.\/](\d{2})/.exec(date);
             if (matches == null) {
@@ -4162,8 +4191,8 @@
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
                             }
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
@@ -4171,8 +4200,8 @@
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
                             }
                             else {
@@ -4180,8 +4209,8 @@
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DATA_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_COMPRA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["CALC_DEMU_VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
                             }
                         }
