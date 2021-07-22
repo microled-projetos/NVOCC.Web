@@ -482,38 +482,29 @@ Partial Public Class RastreioBL
     Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''btn_baixar_arquivo control.
+    '''trakinglist control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btn_baixar_arquivo As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents trakinglist As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''dc_data control.
+    '''divConteudoDinamico control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dc_data As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''dc_documento control.
+    '''followup control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents dc_documento As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''dc_categoria control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents dc_categoria As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents followup As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class
