@@ -558,11 +558,14 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
                         VendaCalc = z.ToString
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 4 Then
-                        'TOTAL DO HOUSE
-                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(COUNT(ID_BL),0)QTD FROM TB_BL A
-WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
+                        '% TOTAL DO HOUSE
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT sum(VL_TAXA_VENDA)TOTAL_VENDA, sum(VL_TAXA_COMPRA)TOTAL_COMPRA
+FROM TB_COTACAO_TAXA  
+WHERE FL_DECLARADO = 1
+AND ID_MOEDA_VENDA = (SELECT B.ID_MOEDA_FRETE FROM TB_COTACAO B WHERE B.ID_COTACAO = " & txtID.Text & ")
+AND ID_COTACAO = " & txtID.Text)
 
-                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        x = ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA") / 100
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -577,7 +580,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND GRAU = 'C' ")
 
                         CompraCalc = z.ToString
 
-                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        x = ds1.Tables(0).Rows(0).Item("TOTAL_VENDA") / 100
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then

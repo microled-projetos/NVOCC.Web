@@ -16,7 +16,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS ARMADOR</h5>
+                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS ARMADOR</h5><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccess" runat="server" visible="false">
@@ -33,13 +33,7 @@
                                         <asp:TextBox ID="txtIDTaxa" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>
                                     </div>     
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
- <%--                                        <label class="control-label">Código:</label>
-                                       <asp:ImageButton ID="ImageButton1" runat="server"  src="Content/imagens/sort_both.png" />--%>
-                                        <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnProximo" text="Close" Visible="false" />
-                                    </div>     
-                                </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
@@ -121,6 +115,7 @@
                                        </div>            
       </ContentTemplate>
  <Triggers>
+     <asp:AsyncPostBackTrigger  ControlID="lkProximo" />
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
             <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
      </Triggers>   
@@ -238,7 +233,7 @@
  <Triggers>
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharNovo" />
-
+      
      </Triggers>   
      </asp:UpdatePanel>
      </asp:Panel>

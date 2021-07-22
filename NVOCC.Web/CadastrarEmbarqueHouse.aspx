@@ -376,7 +376,7 @@
 
                                                                 <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
                                                                 <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
-                                                                <asp:BoundField DataField="MERCADORIA" HeaderText="Mercadoria" SortExpression="MERCADORIA" />
+                                                                <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                                 <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                                 <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
                                                                 <asp:BoundField DataField="NCM" HeaderText="NCM" SortExpression="NCM" />
@@ -1405,7 +1405,7 @@ VENDAS:
                                                     <Columns>
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
                                                         <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
-                                                        <asp:BoundField DataField="MERCADORIA" HeaderText="Mercadoria" SortExpression="MERCADORIA" />
+                                                        <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
                                                         <asp:BoundField DataField="NCM" HeaderText="NCM" SortExpression="NCM" />
