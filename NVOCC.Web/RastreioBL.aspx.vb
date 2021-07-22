@@ -69,7 +69,61 @@ Public Class RastreioBL
         data_emissao_ce.Text = data.dates.bl_emission_date
         data_manifesto.Text = data.dates.manifested_at
         data_presenca_carga.Text = data.dates.last_update
-        'eta
+        eta2.Text = data.dates.eta
+
+        'DOCUMENTOS
+        Dim tabela As String = "<table class='table'>"
+        tabela &= "<thead>"
+        tabela &= "<tr>"
+        tabela &= "<th style='padding-left:10px;padding-right:10px'>Acões</th>"
+        tabela &= "<th style='padding-left:10px;padding-right:10px'>Data / Hora</th>"
+        tabela &= "<th style='padding-left:10px;padding-right:10px'>Documento / Arquivo</th>"
+        tabela &= "<tr>"
+        tabela &= "</thead>"
+        tabela &= "<tbody>"
+        For Each item As Documentos In data.documents
+            tabela &= "<tr>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'><a href=" & item.url & ">Baixar Arquivo</a></td>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.created_at & "</td>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.name & "</td>"
+            tabela &= "</tr>"
+        Next
+        tabela &= "</tbody>"
+        tabela &= "</table>"
+        divConteudoDinamico.InnerHtml = tabela
+
+        'WORKFLOW
+        Dim traking As String = "<div class='tracking-item'>"
+        traking &= "<div class='tracking-icon status-intransit'>"
+        traking &= "<svg class='svg-inline--fa fa-circle fa-w-16' aria-hidden='true' data-prefix='fas' data-icon='circle' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' data-fa-i2svg=''>"
+        traking &= "<path fill='currentColor' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z'></path>"
+        traking &= "</svg>"
+        traking &= "</div>"
+        traking &= "<div class='tracking-date'>Aug 10, 2018<span>05:01 PM</span></div>"
+        traking &= "<div class='tracking-content'>DESTROYEDPER SHIPPER INSTRUCTION<span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span></div>"
+        traking &= "</div>"
+        trakinglist.InnerHtml = traking
+
+        'FOLLOWUP
+        Dim tb_folloup As String = "<table class='table'>"
+        tb_folloup &= "<thead>"
+        tb_folloup &= "<tr>"
+        tb_folloup &= "<th style='padding-left:10px;padding-right:10px'>Data / Hora</th>"
+        tb_folloup &= "<th style='padding-left:10px;padding-right:10px'>COMENTÁRIO/HISTÓRICO</th>"
+        tb_folloup &= "<th style='padding-left:10px;padding-right:10px'>RESPONSÁVEL / Arquivo</th>"
+        tb_folloup &= "<tr>"
+        tb_folloup &= "</thead>"
+        tb_folloup &= "<tbody>"
+        For Each item As FollowUps In data.follow_ups
+            tb_folloup &= "<tr>"
+            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.date_time & "</a></td>"
+            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.comment_history & "</td>"
+            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.user & "</td>"
+            tb_folloup &= "</tr>"
+        Next
+        tb_folloup &= "</tbody>"
+        tb_folloup &= "</table>"
+        followup.InnerHtml = tb_folloup
 
     End Sub
     Private Function DeserializarNewtonsoft() As BL
