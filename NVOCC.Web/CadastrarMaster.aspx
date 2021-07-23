@@ -1831,14 +1831,16 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
                 else {
                     somatorio = somatorio + parseInt(cleanConteiner.substr(i, 1)) * Math.pow(2, i);
                 }
+                
             }
             var calcula = (somatorio % 11).toString();
+            calcula = (calcula.substr(calcula.length -1, 1));
             if (calcula == cleanConteiner.substr(cleanConteiner.length - 1, 1)) {
                 $(".txtNumeroContainer_CNTRMaritimo").css('background', '#fff');
                 $(".erroNrContainer").hide();
                 $('.txtControle').val("1");
 
-
+                
 
             }
             else {
