@@ -9,6 +9,6 @@
     Public Property commodity As Mercadoria
     Public Property fcl As List(Of Itens)
     Public Property documents As List(Of Documentos)
-
+    Public Property follow_ups As List(Of FollowUps)
 
 End Class
