@@ -63,7 +63,7 @@
                            <div class="form-group">                           
                                <asp:Label ID="Label1" runat="server">Competencia</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                            </div>
                        </div>
                        <div class="col-sm-1" >

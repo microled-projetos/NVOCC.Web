@@ -68,6 +68,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle lkProximo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkProximo As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -111,15 +120,6 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtIDTaxa As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle btnProximo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnProximo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ddlTransportadorTaxa.

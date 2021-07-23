@@ -91,15 +91,17 @@
                 Dim numeroFinal As String = ""
                 Dim Invoice As String = ""
                 If ddlEmissor.SelectedValue = 2 Then
-                    ds = Con.ExecutarQuery("SELECT NR_INVOICE FROM TB_NUMERACAO")
+                    ds = Con.ExecutarQuery("SELECT isnull(NR_INVOICE,0)NR_INVOICE FROM TB_NUMERACAO")
                     If ds.Tables(0).Rows.Count > 0 Then
 
                         numero = ds.Tables(0).Rows(0).Item("NR_INVOICE")
                         numero = numero + 1
                         numeroFinal = numero.ToString.PadLeft(6, "0")
-                        Invoice = ddlAgente.SelectedValue & numeroFinal
+                        Invoice = numeroFinal
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numero & "' ")
                     End If
                     txtNumeroInvoice.Text = Invoice
+
                 End If
 
                 If ddlEmissor.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlTipoInvoice.SelectedValue = 0 Or txtProc_ou_BL.Text = "" Or txtVencimento.Text = "" Or ddlMoeda.SelectedValue = 0 Or ddlTipoFatura.SelectedValue = 0 Or txtDataInvoice.Text = "" Or txtNumeroInvoice.Text = "" Then
@@ -112,7 +114,7 @@
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE")
                     lblSuccessInvoice.Text = "Registro cadastrado com sucesso!"
                     divSuccessInvoice.Visible = True
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numeroFinal & "' WHERE ID_NUMERACAO = 5")
+
 
                     ModalPopupExtender2.Show()
                 End If
@@ -128,7 +130,7 @@
             Else
 
                 'update 
-                Con.ExecutarQuery("UPDATE TB_ACCOUNT_INVOICE SET ID_PARCEIRO_AGENTE = " & ddlAgente.SelectedValue & ",ID_ACCOUNT_TIPO_INVOICE =" & ddlTipoInvoice.SelectedValue & ",ID_ACCOUNT_TIPO_EMISSOR = " & ddlEmissor.SelectedValue & ",ID_ACCOUNT_TIPO_FATURA = " & ddlTipoFatura.SelectedValue & ",ID_BL = " & txtID_BL.Text & ",ID_MOEDA = " & ddlMoeda.SelectedIndex & ",NR_INVOICE = '" & txtNumeroInvoice.Text & "',DT_INVOICE = CONVERT(DATE,'" & txtDataInvoice.Text & "',103),DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103),FL_CONFERIDO = '" & ckbConferido.Checked & "',DS_OBSERVACAO = '" & txtObsInvoice.Text & "',ID_USUARIO_ALTERACAO = " & Session("ID_USUARIO") & " WHERE ID_ACCOUNT_INVOICE = " & txtIDInvoice.Text)
+                Con.ExecutarQuery("UPDATE TB_ACCOUNT_INVOICE SET ID_PARCEIRO_AGENTE = " & ddlAgente.SelectedValue & ",ID_ACCOUNT_TIPO_INVOICE =" & ddlTipoInvoice.SelectedValue & ",ID_ACCOUNT_TIPO_EMISSOR = " & ddlEmissor.SelectedValue & ",ID_ACCOUNT_TIPO_FATURA = " & ddlTipoFatura.SelectedValue & ",ID_BL = " & txtID_BL.Text & ",ID_MOEDA = " & ddlMoeda.SelectedValue & ",NR_INVOICE = '" & txtNumeroInvoice.Text & "',DT_INVOICE = CONVERT(DATE,'" & txtDataInvoice.Text & "',103),DT_VENCIMENTO = CONVERT(DATE,'" & txtVencimento.Text & "',103),FL_CONFERIDO = '" & ckbConferido.Checked & "',DS_OBSERVACAO = '" & txtObsInvoice.Text & "',ID_USUARIO_ALTERACAO = " & Session("ID_USUARIO") & " WHERE ID_ACCOUNT_INVOICE = " & txtIDInvoice.Text)
                 lblSuccess.Text = "Registro alterado com sucesso!"
                 divSuccess.Visible = True
                 ModalPopupExtender2.Show()
@@ -153,22 +155,22 @@
                 divErro.Visible = True
                 lblErro.Text = "Usuário não possui permissão"
             Else
-                ds = Con.ExecutarQuery("SELECT COUNT(ID_ACCOUNT_INVOICE)QTD FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text & " And ID_ACCOUNT_INVOICE NOT IN (SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS FI 
-INNER JOIN TB_ACCOUNT_FECHAMENTO F ON F.ID_ACCOUNT_FECHAMENTO = FI.ID_ACCOUNT_FECHAMENTO 
-WHERE DT_CANCELAMENTO IS NULL)")
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_ACCOUNT_INVOICE)QTD FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text & " And ID_ACCOUNT_INVOICE NOT IN (SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS FI INNER JOIN TB_ACCOUNT_FECHAMENTO F ON F.ID_ACCOUNT_FECHAMENTO = FI.ID_ACCOUNT_FECHAMENTO  WHERE DT_CANCELAMENTO IS NULL)")
                 'delete
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro.Visible = True
                     lblErro.Text = "Não foi possivel completar a ação:Invoice inclusa em Fechamento!"
                 Else
-                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE " & txtID.Text)
-                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE " & txtID.Text)
+                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
+                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
                     lblSuccess.Text = "Registro deletado com sucesso!"
                     divSuccess.Visible = True
+
                 End If
 
             End If
         End If
+        'dgvInvoice.DataBind()
     End Sub
 
     Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
@@ -279,8 +281,8 @@ WHERE DT_CANCELAMENTO IS NULL)")
 
 
 
-            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
-INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO"
+            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO"
 
             dgvInvoice.DataBind()
             dgvInvoice.Visible = True

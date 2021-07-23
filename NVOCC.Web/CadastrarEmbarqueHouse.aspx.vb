@@ -29,6 +29,8 @@
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
+            Else
+                lkProximo.Visible = False
             End If
 
         End If
@@ -216,6 +218,10 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+                        txtProcesso_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
