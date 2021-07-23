@@ -431,7 +431,7 @@
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:DropDownList ID="ddlCobrancaLCLimpo" runat="server" CssClass="form-control">
+                                                                        <asp:DropDownList ID="ddlCobrancaLCLimpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
