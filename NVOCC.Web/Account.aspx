@@ -1069,6 +1069,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="lkAvisoEmbarque" />
                                 <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
                                 <asp:PostBackTrigger ControlID="lkGeraCSV" />
+                                           <asp:AsyncPostBackTrigger ControlID="lkExcluirInvoice" />
 
                             </Triggers>
                         </asp:UpdatePanel>

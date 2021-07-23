@@ -29,6 +29,8 @@
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
+            Else
+                lkProximo.Visible = False
             End If
 
         End If

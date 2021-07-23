@@ -481,8 +481,9 @@ WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAM
 
                     Else
                         'delete
-                        Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
                         Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO_ITENS WHERE ID_ACCOUNT_FECHAMENTO =" & txtID.Text)
+                        Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
+
 
                         lblSuccess.Text = "Fechamento deletado com sucesso!"
                         divSuccess.Visible = True

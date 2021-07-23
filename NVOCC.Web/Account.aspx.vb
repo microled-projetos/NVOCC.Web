@@ -98,8 +98,10 @@
                         numero = numero + 1
                         numeroFinal = numero.ToString.PadLeft(6, "0")
                         Invoice = numeroFinal
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numero & "' ")
                     End If
                     txtNumeroInvoice.Text = Invoice
+
                 End If
 
                 If ddlEmissor.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlTipoInvoice.SelectedValue = 0 Or txtProc_ou_BL.Text = "" Or txtVencimento.Text = "" Or ddlMoeda.SelectedValue = 0 Or ddlTipoFatura.SelectedValue = 0 Or txtDataInvoice.Text = "" Or txtNumeroInvoice.Text = "" Then
@@ -112,7 +114,7 @@
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE")
                     lblSuccessInvoice.Text = "Registro cadastrado com sucesso!"
                     divSuccessInvoice.Visible = True
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numeroFinal & "' WHERE ID_NUMERACAO = 5")
+
 
                     ModalPopupExtender2.Show()
                 End If
@@ -159,15 +161,16 @@
                     divErro.Visible = True
                     lblErro.Text = "Não foi possivel completar a ação:Invoice inclusa em Fechamento!"
                 Else
-                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
                     Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
+                    Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
                     lblSuccess.Text = "Registro deletado com sucesso!"
                     divSuccess.Visible = True
-                    dgvInvoice.DataBind()
+
                 End If
 
             End If
         End If
+        'dgvInvoice.DataBind()
     End Sub
 
     Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
