@@ -93,17 +93,20 @@ Public Class RastreioBL
         divConteudoDinamico.InnerHtml = tabela
 
         'WORKFLOW
-        Dim traking As String = "<div class='tracking-item'>"
-        traking &= "<div class='tracking-icon status-intransit'>"
-        traking &= "<svg class='svg-inline--fa fa-circle fa-w-16' aria-hidden='true' data-prefix='fas' data-icon='circle' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' data-fa-i2svg=''>"
-        traking &= "<path fill='currentColor' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z'></path>"
-        traking &= "</svg>"
-        traking &= "</div>"
-        traking &= "<div class='tracking-date'>Aug 10, 2018<span>05:01 PM</span></div>"
-        traking &= "<div class='tracking-content'>DESTROYEDPER SHIPPER INSTRUCTION<span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span></div>"
-        traking &= "</div>"
-        trakinglist.InnerHtml = traking
 
+        Dim traking As String = ""
+        For Each item As FollowUps In data.follow_ups
+            traking &= "<div class='tracking-item'>"
+            traking &= "<div class='tracking-icon status-intransit'>"
+            traking &= "<svg class='svg-inline--fa fa-circle fa-w-16' aria-hidden='true' data-prefix='fas' data-icon='circle' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' data-fa-i2svg=''>"
+            traking &= "<path fill='currentColor' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z'></path>"
+            traking &= "</svg>"
+            traking &= "</div>"
+            traking &= "<div class='tracking-date'>" & item.date_time & "</span></div>"
+            traking &= "<div class='tracking-content'>" & item.comment_history & "</span></div>"
+            traking &= "</div>"
+        Next
+        trakinglist.InnerHtml = traking
         'FOLLOWUP
         Dim tb_folloup As String = "<table class='table'>"
         tb_folloup &= "<thead>"

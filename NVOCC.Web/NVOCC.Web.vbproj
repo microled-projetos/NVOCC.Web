@@ -669,10 +669,7 @@
     <Compile Include="Class\Consignee.vb" />
     <Compile Include="Class\Dates.vb" />
     <Compile Include="Class\Documentos.vb" />
-<<<<<<< HEAD
-=======
     <Compile Include="Class\FollowUps.vb" />
->>>>>>> Devkleiton
     <Compile Include="Class\Itens.vb" />
     <Compile Include="Class\Lock.vb" />
     <Compile Include="Class\Logistics.vb" />
