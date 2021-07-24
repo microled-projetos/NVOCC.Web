@@ -2164,4 +2164,18 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
         End If
 
     End Sub
+
+    Private Sub ddlTipoContainer_CNTRMaritimo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoContainer_CNTRMaritimo.SelectedIndexChanged
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT QT_DIAS_FREETIME FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = (SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & ") AND ID_TIPO_CONTAINER  = " & ddlTipoContainer_CNTRMaritimo.SelectedValue)
+
+        If ddlTipoContainer_CNTRMaritimo.SelectedValue <> 0 Then
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_DIAS_FREETIME")) Then
+                    txtFreeTime_CNTRMaritimo.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FREETIME")
+                End If
+            End If
+        End If
+    End Sub
 End Class

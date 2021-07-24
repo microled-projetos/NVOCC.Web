@@ -786,7 +786,7 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
 
         txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
-        If txtNumeroCotacao.Text = "" Or txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
+        If txtNumeroCotacao.Text = "" Or txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 
@@ -959,15 +959,30 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             lblErroFrete.Text = "Antes de inserir o Frete é necessário cadastrar as Informações Basicas"
             divErroFrete.Visible = True
 
-        ElseIf ddlTransportadorFrete.SelectedValue = 0 Or ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Or txtTTimeFreteInicial.Text = "" Or txtTTimeFreteFinal.Text = "" Then
+        ElseIf ddlOrigemFrete.SelectedValue = 0 Or ddlDestinoFrete.SelectedValue = 0 Then
 
             lblErroFrete.Text = "Preencha todos os campos obrigatórios"
             divErroFrete.Visible = True
 
-        ElseIf ddlEstufagemFrete.SelectedValue = 1 And (ddlDivisaoProfit.SelectedValue = 0 Or txtValorDivisaoProfit.Text = "") Then
-            lblErroFrete.Text = "Preencha os campos <strong>Tipo Divisão Profit</strong> e <strong>Valor Divisão Profit</strong>"
-            divErroFrete.Visible = True
+            'ElseIf ddlEstufagemFrete.SelectedValue = 1 And (ddlDivisaoProfit.SelectedValue = 0 Or txtValorDivisaoProfit.Text = "") Then
+            '    lblErroFrete.Text = "Preencha os campos <strong>Tipo Divisão Profit</strong> e <strong>Valor Divisão Profit</strong>"
+            '    divErroFrete.Visible = True
         Else
+            If txtValorDivisaoProfit.Text = "" Then
+                txtValorDivisaoProfit.Text = "0"
+            End If
+
+            If txtTTimeFreteInicial.Text = "" Then
+                txtTTimeFreteInicial.Text = "0"
+            End If
+
+            If txtTTimeFreteFinal.Text = "" Then
+                txtTTimeFreteFinal.Text = "0"
+            End If
+
+            If txtTTimeFreteMedia.Text = "" Then
+                txtTTimeFreteMedia.Text = "0"
+            End If
 
             Dim TTInicial As Integer = txtTTimeFreteInicial.Text
             Dim TTFinal As Integer = txtTTimeFreteFinal.Text
@@ -1013,9 +1028,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 txtValorFrequenciaFrete.Text = "0"
             End If
 
-            If txtValorDivisaoProfit.Text = "" Then
-                txtValorDivisaoProfit.Text = "0"
-            End If
+
 
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -2000,8 +2013,8 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE  ) 
-SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO) 
+SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS
@@ -2070,7 +2083,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS

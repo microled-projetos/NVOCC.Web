@@ -674,7 +674,7 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Tipo Container:</label>
-                                                                                <asp:DropDownList ID="ddlTipoContainer_CNTRMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsTipoContainer" DataValueField="ID_TIPO_CONTAINER">
+                                                                                <asp:DropDownList ID="ddlTipoContainer_CNTRMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsTipoContainer" DataValueField="ID_TIPO_CONTAINER" AutoPostBack="true">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
@@ -724,7 +724,8 @@
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_CNTRMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_CNTRMaritimo" />
-
+                                                         <asp:AsyncPostBackTrigger ControlID="ddlTipoContainer_CNTRMaritimo" />
+                                                        
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>

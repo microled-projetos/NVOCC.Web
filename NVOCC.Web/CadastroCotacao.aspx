@@ -144,7 +144,7 @@
                             <div class="row">
                                    <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Agente Internacional:</label></label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Agente Internacional:</label></label>
                                       <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
                                     </div>
                               
@@ -321,7 +321,7 @@
                                         <div class="row">
                                    <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Transportador:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Transportador:</label>
                                         <asp:DropDownList ID="ddlTransportadorFrete" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                     </div>
                                 </div>
