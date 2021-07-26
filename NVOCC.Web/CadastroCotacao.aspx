@@ -118,13 +118,13 @@
                                     </div>
                                     </div>
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Data de Validade:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtValidade"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Data de Envio:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtEnvio" enabled="false"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
@@ -140,12 +140,43 @@
                                     </div>
 
                                 </div>
+                                <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Indicador:</label>
+                                                <asp:TextBox ID="txtCodIndicador" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Indicador:</label>
+                                                <asp:TextBox ID="txtNomeIndicador" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div> 
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Indicador:</label></label>
+                                       <asp:DropDownList ID="ddlIndicador" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsIndicador" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                            </div>
                             <div class="row">
-                                   <div class="col-sm-4">
+                                <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Agente Internacional:</label>
+                                                <asp:TextBox ID="txtCodAgente" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca:</label>
+                                                <asp:TextBox ID="txtNomeAgente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div> 
+                                   <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Agente Internacional:</label></label>
-                                      <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
+                                      <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
                                     </div>
                               
                                    <div class="col-sm-4">
@@ -290,7 +321,8 @@
     <Triggers>
         <ASP:PostBackTrigger ControlID="btnGravar" />
                         <asp:AsyncPostBackTrigger  ControlID="txtNomeCliente" />
-
+        <asp:AsyncPostBackTrigger  ControlID="txtNomeAgente" />
+        <asp:AsyncPostBackTrigger  ControlID="txtNomeIndicador" />
                 <asp:AsyncPostBackTrigger  ControlID="ddlCliente" />
     </Triggers>
 </asp:UpdatePanel>
@@ -1297,9 +1329,22 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO,  NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')'  AS NM_RAZAO   FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =1  and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeAgente"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO_AGENTE" Type="Int32" ControlID="txtCodAgente" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>
+        <asp:SqlDataSource ID="dsIndicador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+            <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO_INDICADOR" Type="Int32" ControlID="txtCodIndicador" DefaultValue ="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
      <asp:SqlDataSource ID="dsFrequencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_FREQUENCIA, NM_TIPO_FREQUENCIA FROM [dbo].[TB_TIPO_FREQUENCIA] 
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FREQUENCIA">

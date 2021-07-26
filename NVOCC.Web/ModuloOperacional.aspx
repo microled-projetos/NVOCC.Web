@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ModuloOperacional.aspx.cs" Inherits="ABAINFRA.Web.ModuloOperacional" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ModuloOperacional.aspx.cs" Inherits="ABAINFRA.Web.ModuloOperacional" ValidateRequest="false" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -307,16 +307,22 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="alert alert-success text-center" id="msgSuccessUploadArquivo">
-                                            Arquivo copiado com sucesso.
+                                            Upload finalizado com sucesso.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrUploadArquivo">
-                                            Erro ao copiar arquivo.
+                                            Erro ao realizar Upload arquivo.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrDiretorio">
                                             Diretório não encontrado.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrAnexo">
-                                            Não foi possível copiar o arquivo
+                                            Não foi possível copiar o arquivo. O Diretório C:\UPLOADS não foi encontrado.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessDelete">
+                                            Documento excluído com sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrDelete">
+                                            Não foi possível excluir o documento.
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3 text-center">
@@ -367,8 +373,8 @@
                                         </div>
                                         <div style="padding: 10px" class="row topMarg">
                                             <div style="display: flex; align-items: center;">
-                                                <button style="margin:auto;" type="button" id="btnExcluir" class="btn btn-primary btn-ok">EXCLUIR</button>
-                                                <button style="margin:auto;" type="button" id="btnCaixasaida" class="btn btn-primary btn-ok">Ver Caixa de Saída</button>
+                                                <button style="margin:auto;" type="button" id="btnExcluir" data-toggle="modal" data-target="#modalDeleteDocumentoArquivado" class="btn btn-primary btn-ok">EXCLUIR</button>
+                                                <button style="margin:auto;" type="button" id="btnCaixasaida" onclick="caixaSaida()" class="btn btn-primary btn-ok">Ver Caixa de Saída</button>
                                             </div>
                                         </div>
                                     </div>
@@ -585,8 +591,8 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <textarea id="visualizarEmail" class="form-control" rows="17" disabled="disabled" style="resize:none"></textarea>
+                                    <div class="modal-body" id="visualizarEmail">
+                                        
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -773,6 +779,26 @@
                             </div>
                         </div>
 
+                        <div class="modal fade bd-example-modal-lg" id="modalDeleteDocumentoArquivado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalDeleteDocumentoArquivadoTitle">Deletar Documento Arquivado</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h3 id="msgRemoverDocumento">Deseja deleterar esse documento?</h3>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnRemoverSim" data-dismiss="modal" onclick="deletarDocumentoArquivado()" class="btn btn-primary btn-ok">Sim</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>                                                                                                        
             </div>
@@ -792,6 +818,10 @@
         var id = 0;
         var idEmailCaixa = 0;
         var idEmailAgendamento = 0;
+        var documentoArquivado = 0;
+        var dadoUploadX = document.querySelector("#dadoUpload");
+        var btnUpload = document.querySelector("#btnUpload");
+        var btnUploadx = document.querySelector("#btnUploadx");
         function listarProcessosOperacional() {
             var dadosFiltro = {
                 "via": document.getElementById("MainContent_ddlVia").value,
@@ -844,7 +874,7 @@
                         for (let i = 0; i < dado.length; i++) {
                             $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"]+"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PEMBARQUE"] + "</td><td class='text-center'>" + dado[i]["EMBARQUE"] + "</td><td class='text-center'>" + dado[i]["PCHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["BLMASTER"] + "</td > <td class='text-center'>" + dado[i]["BLHOUSE"] + "</td><td class='text-center'>" + dado[i]["CEMASTER"] + "</td><td class='text-center'>" + dado[i]["CEHOUSE"] + "</td>" +
@@ -918,13 +948,12 @@
 
         function dadosUpload() {
             if (id != 0) {
+                $("#tblUploadArquivoBody").empty();
+                $("#ddlDocumento").empty();
                 listarTipoAviso();
-                var dadoUpload = document.querySelector("#dadoUpload");
-                var btnUpload = document.querySelector("#btnUpload");
-                var btnUploadx = document.querySelector("#btnUploadx");
                 btnUpload.style.display = "block";
                 btnUploadx.style.display = "none";
-                dadoUpload.style.display = "none";
+                dadoUploadX.style.display = "none";
                 $("#modalUploadArquivo").modal("show");
                 $.ajax({
                     type: "POST",
@@ -959,9 +988,9 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado == "0") {
-                        alert("não existe");
+                        alert("O diretório C:\FCA\DOCUMENTOS\ não foi encontrado");
                     } else {
-                        dadoUpload.style.display = "block";
+                        dadoUploadX.style.display = "block";
                         btnUpload.style.display = "none";
                         btnUploadx.style.display = "block";
                     }
@@ -970,12 +999,11 @@
         }
 
         function uploadCaminhoArquivo() {
-            var dadoUpload = document.querySelector("#dadoUpload");
             var btnUpload = document.querySelector("#btnUpload");
             var btnUploadx = document.querySelector("#btnUploadx");
             var dadoUpload = document.getElementById("dadoUpload").files[0].name;
-            console.log(document.getElementById("dadoUpload").value);
             var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            var documento = document.getElementById("ddlDocumento").value;
             var path = dadoUpload;
             console.log(path)
             $.ajax({
@@ -988,16 +1016,60 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado == "0") {
-                        $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
-                        document.getElementById("dadoUpload").files == "";
-                        dadoUpload.style.display = "none";
-                        btnUpload.style.display = "block";
-                        btnUploadx.style.display = "none";
+                        $.ajax({
+                            type: "POST",
+                            url: "Gerencial.asmx/uploadArquivo",
+                            data: '{idprocesso: "' + id + '", iddocumento: "' + documento + '", arquivo: "' + path + '", idtipoaviso: "' + tipoaviso + '"}',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (dado) {
+                                var dados = dado.d;
+                                dados = $.parseJSON(dados);
+                                if (dados == "ok") {
+                                    $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                                    listarDocumentosArquivados();
+                                    dadoUploadX.files == "";
+                                    btnUpload.style.display = "block";
+                                    btnUploadx.style.display = "none";
+                                    dadoUploadX.style.display = "none";
+                                } else if (dados == "1") {
+                                    $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                                    btnUpload.style.display = "block";
+                                    btnUploadx.style.display = "none";
+                                    dadoUploadX.style.display = "none";
+                                    listarDocumentosArquivados();
+                                }
+                            }
+                        })
+                       
                     } else if (dado == "1") {
                         $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
-                        dadoUpload.style.display = "none";
+                        dadoUploadX.style.display = "none";
                         btnUpload.style.display = "block";
                         btnUploadx.style.display = "none";
+                    }
+                }
+            })
+
+            
+        }
+
+        function deletarDocumentoArquivado() {
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/deleterDocumentoArquivado",
+                data: '{documentoArquivado:"' + documentoArquivado + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado == "ok") {
+                        $("#msgSuccessDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        listarDocumentosArquivados();
+                    } else {
+                        $("#msgErrDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        listarDocumentosArquivados();
                     }
                 }
             })
@@ -1096,7 +1168,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "Gerencial.asmx/listarProcessosEmail",
-                                data: '{idProcessoMaster:"' + dado[0]["NRMASTER"] + '"}',
+                                data: '{idProcessoMaster:"' + id + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
@@ -1115,6 +1187,7 @@
                             $.ajax({
                                 type: "POST",
                                 url: "Gerencial.asmx/escreverCorpoEmail",
+                                data: '{idProcessoMaster:"' + id + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
@@ -1282,6 +1355,32 @@
                     }
                 }
             })
+            listarDocumentosArquivados();
+        }
+
+        function listarDocumentosArquivados() {
+            var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarDcoumentosArquivados",
+                data: '{idprocesso: "' + id +'", idtipoaviso: "' + tipoaviso + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#tblUploadArquivoBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#tblUploadArquivoBody").append("<tr data-id='" + dado[i]["AUTONUM"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdDocumentoArquivado(" + dado[i]["AUTONUM"] + ")'>Selecionar</div></td>" +
+                                "<td class='text-center'>" + dado[i]["DTPOSTAGEM"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["NMDOCUMENTO"] + "' style='max-width: 25ch;'>" + dado[i]["NMDOCUMENTO"] + "</td></tr>");
+                        }
+                    } else {
+                        $("#tblUploadArquivoBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='3' class='alert alert-light text-center'>Documentos não encontrados</td></tr>");
+                    }
+                }
+            })
         }
 
         function verificarEmail() {
@@ -1297,9 +1396,8 @@
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
                         if (dado != null) {
-                            dado[0]["ASSUNTO"] = dado[0]["ASSUNTO"].replace("<br>", "\n");
-                            dado[0]["CORPO"] = dado[0]["CORPO"].replace("<br>", "\n");
-                            document.getElementById("visualizarEmail").value = "" + dado[0]["ASSUNTO"] + "\n \n" + dado[0]["CORPO"] + "";
+                            console.log(dado[0]["ASSUNTO"]);
+                            document.getElementById("visualizarEmail").append(dado[0]["ASSUNTO"] + dado[0]["CORPO"]);
                         }
                     }
                 })
@@ -1477,6 +1575,17 @@
 
         function setIdListaEmailCaixaAgendamento(Id) {
             idEmailAgendamento = Id;
+            $('[data-id]').removeClass("colorir");
+            if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
+                $('[data-id="' + Id + '"]').removeClass("colorir");
+            }
+            else {
+                $('[data-id="' + Id + '"]').addClass("colorir");
+            }
+        }
+
+        function setIdDocumentoArquivado(Id) {
+            documentoArquivado = Id;
             $('[data-id]').removeClass("colorir");
             if ($('[data-id="' + Id + '"]').hasClass('colorir')) {
                 $('[data-id="' + Id + '"]').removeClass("colorir");

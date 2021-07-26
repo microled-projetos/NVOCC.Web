@@ -59,6 +59,26 @@
                     txtObsInvoice.Text = ds.Tables(0).Rows(0).Item("DS_OBSERVACAO").ToString()
                     ckbConferido.Checked = ds.Tables(0).Rows(0).Item("FL_CONFERIDO")
                     ddlTipoDevolucao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_FECHAMENTO")) Then
+                        btnSalvarNovaInvoice.Visible = False
+                        btnComissoes.Visible = False
+                        btnOutrasTaxas.Visible = False
+                        btnTaxasDeclaradas.Visible = False
+                        btnTaxasExterior.Visible = False
+                        btnDevolucaoFrete.Visible = False
+                        dgvItensInvoice.Columns(5).Visible = False
+                        btnGravarCabecalho.Visible = False
+                    Else
+                        btnSalvarNovaInvoice.Visible = True
+                        btnComissoes.Visible = True
+                        btnOutrasTaxas.Visible = True
+                        btnTaxasDeclaradas.Visible = True
+                        btnTaxasExterior.Visible = True
+                        btnDevolucaoFrete.Visible = True
+                        dgvItensInvoice.Columns(5).Visible = True
+                        btnGravarCabecalho.Visible = True
+                    End If
                 End If
                 ModalPopupExtender2.Show()
                 ddlEmissor.Enabled = False
@@ -296,8 +316,16 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
+        Dim grau As String
 
-        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU,ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE NR_PROCESSO = '" & txtProc_ou_BL.Text & "' OR NR_BL = '" & txtProc_ou_BL.Text & "'")
+        If ddlTipoInvoice.SelectedValue = 1 Then
+            grau = "M"
+        ElseIf ddlTipoInvoice.SelectedValue = 2 Then
+            grau = "C"
+        End If
+
+
+        ds = Con.ExecutarQuery("SELECT ID_BL,GRAU,ISNULL(ID_STATUS_FRETE_AGENTE,0)ID_STATUS_FRETE_AGENTE FROM TB_BL WHERE GRAU = '" & grau & "' and NR_PROCESSO = '" & txtProc_ou_BL.Text & "' OR NR_BL = '" & txtProc_ou_BL.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL")
             txtGrau.Text = ds.Tables(0).Rows(0).Item("GRAU")

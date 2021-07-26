@@ -1196,7 +1196,7 @@ input[type=file] {
 #modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
 #modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle, #modalListarContainerWeekTitle,
 #modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle, #modalListarProcessosContainerWeekTitle,
-#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle, #modalDeleteDocumentoArquivadoTitle,
 #modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalCadastrarConteinerTitle,
 #modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalDeleteProcessoWeekFCATitle,
 #modalLCLexpoTitle, #modalAereoImpoTitle, #modalInsideWeekTitle, #modalDeleteProcessoContainerFCATitle, #modalProcessosContainerTitle, #modalAdicionarProcessoTitle, #modalEditarProcessoFCATitle, #modalEditarProcessoPartnerTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
@@ -1211,9 +1211,10 @@ input[type=file] {
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
 #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
-#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
     display: none;
 }
+
 
 .flex {
     display: flex;
