@@ -1283,6 +1283,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlDestinatarioCobrancaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlBaseCalculoTaxa.
     '''</summary>
     '''<remarks>
@@ -1292,15 +1301,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlBaseCalculoTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlItemDespesaTaxa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlTipoPagamentoTaxa.
     '''</summary>
     '''<remarks>
@@ -1308,6 +1308,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoPagamentoTaxa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlItemDespesaTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlOrigemPagamentoTaxa.
@@ -1821,6 +1830,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsHistoricoCotacao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsBaseCalculo.

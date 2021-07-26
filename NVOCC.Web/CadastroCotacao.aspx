@@ -874,32 +874,33 @@
                                         <asp:label ID="lblErroTaxa" runat="server"></asp:label>
                                     </div>
                                       <div class="row">
-                                <div class="col-sm-3" style="display:none">
+                                <div class="col-sm-4" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Código:</label>
                                         <asp:TextBox ID="txtIDTaxa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                     </div>
-                               <div class="col-sm-3">
+                               <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Cotação:</label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtCotacaoTaxa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
                                           
-                              <div class="col-sm-3">
+                              <div class="col-sm-4">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                         <asp:Checkbox ID="ckbDeclaradoTaxa" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Declarado" ></asp:Checkbox>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                           <label class="control-label"></label>
                                         <asp:Checkbox ID="ckbProfitTaxa" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Divisão PROFIT" ></asp:Checkbox>
                                     </div>
-                                </div>          </div><div class="row">           
-                                  <div class="col-sm-3">
+                                </div>          </div>
+                                                            <div class="row">           
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Destinatário Cobrança:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlDestinatarioCobrancaTaxa" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA" >
@@ -907,8 +908,16 @@
                                     </div>
 
                            </div>
-                           
-                                  <div class="col-sm-3">
+                           <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Fornecedor:</label> 
+                                                                                <asp:DropDownList ID="ddlFornecedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedor" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                                            </div>
+                                    </div>
+
+                        
+                                                           
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Base de Cálculo:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlBaseCalculoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
@@ -916,21 +925,21 @@
                                     </div>
                                 </div></div>
                                  <div class="row">                             
-                                     <div class="col-sm-3">
+                                    
+                                     <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de pagamento:</label><label runat="server" style="color:red" >*</label>
+                                         <asp:DropDownList ID="ddlTipoPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div> <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo de Item(Despesa):</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"  >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                     <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Tipo de pagamento:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlTipoPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" >
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                      <div class="col-sm-3">
+                                      <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlOrigemPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
@@ -1452,6 +1461,20 @@ FROM TB_COTACAO A where ID_CLIENTE = @ID_CLIENTE AND ID_TIPO_ESTUFAGEM = @ID_TIP
             </SelectParameters>
 </asp:SqlDataSource>
 
+     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN((SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION 
+SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION 
+SELECT ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION
+SELECT DISTINCT ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL))
+union SELECT 0, 'Selecione'  
+ORDER BY ID_PARCEIRO">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]

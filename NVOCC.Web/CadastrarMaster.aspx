@@ -6,7 +6,8 @@
         <div class="row principal">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">MÓDULO OPERACIONAL - MASTER
+                    <h3 class="panel-title">MÓDULO OPERACIONAL - MASTER 
+                                           
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -969,7 +970,7 @@
                                     <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
                                             <br />
-
+                                             <asp:TextBox ID="txtCotacao_BasicoMaritimo" runat="server" CssClass="form-control" style="display:none" />
                                             <div class="alert alert-success" id="divSuccess_Vinculo" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_Vinculo" runat="server" Text="Registro atualizado com sucesso!"></asp:Label>
                                             </div>
@@ -1106,6 +1107,7 @@
                                 <div class="tab-pane fade active in" id="BasicoAereo">
                                     <asp:UpdatePanel ID="UpdatePanel14" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
+                                           <asp:TextBox ID="txtCotacao_BasicoAereo" runat="server" CssClass="form-control" style="display:none" />
 
                                             <div class="alert alert-success" id="divSuccess_BasicoAereo" runat="server" visible="false">
                                                 <asp:Label ID="lblSuccess_BasicoAereo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
@@ -1126,10 +1128,17 @@
                                                         <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                                                                <div class="col-sm-3">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do Processo:</label>
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Tipo Estufagem:</label>
+                                                        <asp:DropDownList ID="ddlEstufagem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
+                                                </asp:DropDownList>
                                                     </div>
                                                 </div>
                                             </div>

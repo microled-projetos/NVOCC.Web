@@ -331,11 +331,18 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
     Private Sub btnCalcularRecebimento_Click(sender As Object, e As EventArgs) Handles btnCalcularRecebimento.Click
         divErro.Visible = False
         divSuccess.Visible = False
+        Dim v As New VerificaData
 
         If txtVencimento.Text = "" Then
             lblErro.Text = "É necessário informar uma data de vencimento."
             divErro.Visible = True
             Exit Sub
+
+        ElseIf v.ValidaData(txtVencimento.Text) = False Then
+            lblErro.Text = "Data de vencimento invalida!"
+            divErro.Visible = True
+            Exit Sub
+
         Else
             If lblDiasFaturamento.Text = "" Then
                 lblDiasFaturamento.Text = 0
@@ -540,7 +547,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         divSuccess.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
-
+        Dim OPERADOR As String
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             If check.Checked Then
@@ -549,7 +556,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                 Dim ValorCambio As Decimal
 
                 If moeda = 124 Then
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO,DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO, DT_ATUALIZACAO_CAMBIO = GETDATE() WHERE ID_BL_TAXA =" & ID)
                 Else
 
                     If dgvMoedaFreteArmador.Visible = True Then
@@ -571,6 +578,16 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
 
 
                                 Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
+
+
+                                'Dim dsOperador As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue)
+                                'Dim OPERADOR As String = "+"
+                                'If dsOperador.Tables(0).Rows(0).Item("ID_TIPO_ITEM_DESPESA") = 3 Then
+                                '    OPERADOR = "-"
+                                'Else
+                                '    OPERADOR = "+"
+                                'End If
+                                'Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
                             End If
 
                         Next
@@ -613,6 +630,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             End If
 
         Next
+
+
         dgvTaxas.DataBind()
         VerificaTaxas()
         lblSuccess.Text = "Atualização de valor realizada com sucesso!"
