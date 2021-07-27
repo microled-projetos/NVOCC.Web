@@ -31,7 +31,7 @@ namespace LogComexService.Repositorio
                     con.Open();
                     var query = "SELECT b.NR_BL, BL_TOKEN, p.ID_ARMADOR_LOGCOMEX from TB_BL b " +
                                 "LEFT JOIN TB_PARCEIRO p ON b.ID_PARCEIRO_TRANSPORTADOR = p.ID_PARCEIRO " +
-                                "WHERE b.GRAU = 'M' AND p.ID_ARMADOR_LOGCOMEX !=''";
+                                "WHERE b.GRAU = 'M' ";
                     _blmasters = con.Query<BlMaster>(query).ToList();
                 }
                 catch (Exception ex)
