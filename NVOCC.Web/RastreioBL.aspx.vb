@@ -13,7 +13,8 @@ Public Class RastreioBL
         porto_embarque.Text = data.transport.lading_port
         porto_embarque.Text = data.transport.origin_port
         porto_descarga.Text = data.transport.landing_terminal
-        porto_destino.Text = data.transport.transport
+        porto_destino.Text = data.transport.destination_port
+        porto_origem.Text = data.transport.origin_port
         'Principal
         status.Text = data.tracking.status_description
         bl.Text = data.references.bill_of_lading
