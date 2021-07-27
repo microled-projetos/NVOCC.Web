@@ -27,8 +27,11 @@
         Con.Conectar()
         If e.CommandName = "Selecionar" Then
             Dim ID As String = e.CommandArgument
-            ds = Con.ExecutarQuery("SELECT COUNT(ID_FATURAMENTO)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_CONTA_PAGAR_RECEBER] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Não é possivel faturar este recebimento!"
+            Else
 
                 Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
@@ -47,9 +50,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Faturamento realizado com sucesso"
-            Else
-                divErro.Visible = True
-                lblmsgErro.Text = "PAGAMENTO JÁ ENVIADO AO FATURAMENTO"
+
             End If
 
             dgvContasReceber.DataBind()
@@ -77,7 +78,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
         End If
 
-        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')" & filtro
+        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R') AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL) " & filtro
         dgvContasReceber.DataBind()
 
         ddlFiltro.SelectedValue = 0

@@ -4,6 +4,11 @@
         #imgFundo {
             display: none;
         }
+        td{
+               font-size:10px !important;
+               padding-left:5px !important;
+                padding-right:5px !important;
+           }
         @media print {
 
             @page {
@@ -18,8 +23,8 @@
             }
            td{
                font-size:8px !important;
-               padding-left:5px;
-                padding-right:5px
+               padding-left:5px !important;
+                padding-right:5px !important;
            }
            
         }

@@ -1186,10 +1186,17 @@ input[type=file] {
     padding: 5px 10px !important;
 }
 
+#boxPesoFCA, #boxVolumeFCA, #boxPesoPartner, #boxVolumePartner, #boxPesoFCATOTAL, #boxPesoPartnerTotal, #boxVolumePartnerTotal, #boxVolumeFCATOTAL, #boxMercadoriaPartnerTotal, #boxMercadoriaFCATOTAL {
+    padding: 7px;
+    margin-left: 20px;
+    border-radius: 3px;
+}
+
+
 #modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
 #modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle, #modalListarContainerWeekTitle,
 #modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle, #modalListarProcessosContainerWeekTitle,
-#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle, #modalDeleteDocumentoArquivadoTitle,
 #modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalCadastrarConteinerTitle,
 #modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalDeleteProcessoWeekFCATitle,
 #modalLCLexpoTitle, #modalAereoImpoTitle, #modalInsideWeekTitle, #modalDeleteProcessoContainerFCATitle, #modalProcessosContainerTitle, #modalAdicionarProcessoTitle, #modalEditarProcessoFCATitle, #modalEditarProcessoPartnerTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
@@ -1198,15 +1205,17 @@ input[type=file] {
     width: 100%;
 }
 
-.bindBL, #cancelSelectionBL, #SelectionContainer, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL, #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
+.bindBL, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL, #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
 #msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
 #msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
 #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
-#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
     display: none;
 }
+
+
 .flex {
     display: flex;
     justify-content: space-around;

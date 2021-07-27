@@ -69,7 +69,7 @@ Public Class RastreioBL
         data_emissao_ce.Text = data.dates.bl_emission_date
         data_manifesto.Text = data.dates.manifested_at
         data_presenca_carga.Text = data.dates.last_update
-        eta.Text = data.dates.eta
+        eta2.Text = data.dates.eta
 
         'DOCUMENTOS
         Dim tabela As String = "<table class='table'>"

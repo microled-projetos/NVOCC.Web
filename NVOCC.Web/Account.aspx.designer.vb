@@ -734,6 +734,24 @@ Partial Public Class Account
     Protected WithEvents UpdatePanel4 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divinfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblinfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblinfo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlTipoDevolucao.
     '''</summary>
     '''<remarks>

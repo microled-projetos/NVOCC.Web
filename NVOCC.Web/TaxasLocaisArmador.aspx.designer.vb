@@ -140,6 +140,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents ddlPortoTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlOrigemPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlOrigemPagamento As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlViaTransporte.
     '''</summary>
     '''<remarks>
@@ -309,6 +318,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlPortoTaxaNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlOrigemPagamentoNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlOrigemPagamentoNovo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlViaTransporteNovo.
@@ -579,6 +597,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsContainer As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsOrigemPagamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsOrigemPagamento As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsMoeda.

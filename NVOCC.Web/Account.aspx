@@ -531,7 +531,11 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Devolução Frete</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body">    
+                                                            <div class="alert alert-info" id="divinfo" runat="server" visible="false">
+                                    <asp:Label ID="lblinfo" runat="server"></asp:Label>
+                                </div>
+                                                            <br />
                                    <div class="row">
                                      <div class="col-sm-12">
                                     <div class="form-group">
@@ -920,7 +924,7 @@
 
                                           <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender8" runat="server" PopupControlID="pnlProcessoPeriodo" TargetControlID="lkProcessoPeriodo" CancelControlID="btnFecharProcessoPeriodo"></ajaxToolkit:ModalPopupExtender>
                                 
-                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="conditional" ChildrenAsTriggers="True">
                                     <ContentTemplate>
                                 <asp:Panel ID="pnlProcessoPeriodo" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -960,11 +964,9 @@
                                            </div>
                                                                
                                                                 </div>
-                                    <div class="row">
-                                     
-                                       <div class="col-sm-12">
-                                    <div class="form-group">
-<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true">
+                                   
+ <div class="table-responsive tableFixHead">
+<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 10px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -974,7 +976,8 @@
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="BL_MASTER" HeaderText="MASTER" SortExpression="BL_MASTER" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="HOUSE" SortExpression="NR_BL" />
-                                                <asp:BoundField DataField="PARCEIRO_CLIENTE"  HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />           <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
+                                                <asp:BoundField DataField="PARCEIRO_CLIENTE"  HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />           
+                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
                                                 <asp:BoundField DataField="DESTINO" HeaderText="DESTINO" SortExpression="DESTINO" />
                                                 <%--<asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="TIPO ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />--%>
@@ -983,9 +986,8 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-                                        </div>
-                                         </div> 
-                                        </div>
+                                       </div>
+                                        
 
                                                            
                                 </div>  
@@ -1007,9 +1009,6 @@
                                          <asp:AsyncPostBackTrigger ControlID="txtEmbarqueFinal" />
                                          <asp:PostBackTrigger ControlID="btnCSVProcessoPeriodo" />
                                          <asp:PostBackTrigger ControlID="btnRelacaoAgentes" />
-                                                <asp:AsyncPostBackTrigger EventName="load" ControlID="dgvProcessoPeriodo" />
-
-                                         
                                          </Triggers>
                                 </asp:UpdatePanel>
 
@@ -1020,7 +1019,7 @@
                                             <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                             <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                         </div>
-                                        <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
+                                        <div class="table-responsive tableFixHead DivGrid" id="DivGrid" >
                                             <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                                 <Columns>
                                                     <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
@@ -1164,7 +1163,7 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_INVOICE ORDER BY ID_ACCOUNT_TIP
 union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO_FATURA"></asp:SqlDataSource>   
     
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT NR_PROCESSO,BL_MASTER,NR_BL,PARCEIRO_CLIENTE,ORIGEM,DESTINO,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,PARCEIRO_AGENTE_INTERNACIONAL

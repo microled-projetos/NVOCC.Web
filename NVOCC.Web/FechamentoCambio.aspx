@@ -14,7 +14,7 @@
             background-color: #e6c3a5;
         }
 
-        .none {
+       /* .none {
             display: none
         }
 
@@ -22,14 +22,13 @@
             position: sticky !important;
             top: 0;
             background-color: #e6eefa;
-            text-align: center;
         }
 
         td, th {
             padding: 0;
             padding-top: 5px;
             margin: 0;
-        }
+        }*/
     </style>
      <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -95,8 +94,9 @@
                             <div style="border: ridge 1px;">
                             <asp:LinkButton ID="lkNovoFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Novo</asp:LinkButton>
                                  <asp:LinkButton ID="lkBaixarFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Baixar</asp:LinkButton>
-                                <asp:LinkButton ID="lkCancelarFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Cancelar</asp:LinkButton>
                                  <asp:LinkButton ID="lkExcluirFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');">Excluir</asp:LinkButton>
+                                 <asp:LinkButton ID="lkCancelarFechamento" runat="server" CssClass="btn btnn btn-default" Style="font-size: 15px">Cancelar</asp:LinkButton>
+
                                <%-- </div>
                            <asp:Label ID="Label1" Style="padding-left: 35px" runat="server">Relatório:</asp:Label><br />
                                 <div style="border: ridge 1px;">--%>
@@ -148,7 +148,9 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                              <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlNovoFechamento" TargetControlID="lkNovoFechamento" CancelControlID="btnFecharNovoFechamento"></ajaxToolkit:ModalPopupExtender>
+                                 <asp:Button runat="server" CssClass="btn btn-success" ID="Button1" Style="display: none;" />
+
+                              <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender3" runat="server" PopupControlID="pnlNovoFechamento" TargetControlID="lkNovoFechamento" CancelControlID="Button1"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlNovoFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -271,11 +273,11 @@
                                         </div>
                                
                                          </div>   
-                                                            <div class="row">
+                                                            
                                      
                                       
-                                       <div class="col-sm-12">
-                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                       <div class="table-responsive tableFixHead">
+                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 100px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false" >
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
@@ -301,7 +303,7 @@
                                                 <HeaderStyle CssClass="headerStyle" />
                                             </asp:GridView>
                                            </div>
-                                                                </div>
+                                                               
                                                             <div class="row" runat="server" Visible="false"  id="divTotalInvoices"> 
                                                                 <div  style="float: right;margin-right:10px">
                                                                     TOTAL DAS INVOICES SELECIONADAS:<asp:label ID="lblValorTotalInvoices" runat="server"/>
@@ -409,8 +411,9 @@
       
                                        </div>     </center>
                                 </asp:Panel>
+                                                                 <asp:Button runat="server" CssClass="btn btn-success" ID="Button2" Style="display: none;" />
 
-                               <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlCancelFechamento" TargetControlID="TextBox3" CancelControlID="btnFechaCancel"></ajaxToolkit:ModalPopupExtender>
+                               <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlCancelFechamento" TargetControlID="TextBox3" CancelControlID="Button2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCancelFechamento" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -491,7 +494,10 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                            </ContentTemplate>                            
+                            </ContentTemplate>       
+                            <Triggers> 
+                                                            <asp:PostBackTrigger ControlID="btnSalvaCancel" />
+                                </Triggers> 
                         </asp:UpdatePanel>
                         <br />
                         <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
@@ -500,7 +506,7 @@
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
-                                <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align: center">
+                                <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                         <asp:GridView ID="dgvFechamento" DataKeyNames="ID_ACCOUNT_FECHAMENTO" DataSourceID="dsFechamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
                                                                                                 <asp:BoundField DataField="ID_ACCOUNT_FECHAMENTO" HeaderText="ID" SortExpression="ID_ACCOUNT_FECHAMENTO" />
@@ -558,21 +564,15 @@
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsCorretor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_CORRETORA = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA 
+union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
- G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE, (SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE)VALOR_TOTAL
-FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL') A
-LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
-LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
-WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL) 
-         AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE
-         group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE, (SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL') A LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL) AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE AND VL_TAXA <> 0 group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
  G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE,DT_CANCELAMENTO_FECHAMENTO,DT_FECHAMENTO">
         <SelectParameters>
             <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />

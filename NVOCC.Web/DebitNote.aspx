@@ -16,8 +16,9 @@
             #DivImpressao{
                 display: block;
             }
-            td{
-                padding:5px;
+            td{               
+                padding-left:10px;
+                padding-right:10px;
                 margin:0;
             }
         }
@@ -83,7 +84,9 @@
                     <strong>SHIPPER</strong>&nbsp;<asp:Label ID="lblCliente" runat="server" />
                     <br /><strong>MBL:</strong>&nbsp;<asp:Label ID="lblMBL" runat="server" /><asp:Label ID="Label7" runat="server" />
                     <br /><strong>CONSIGNEE:</strong>&nbsp;<asp:Label ID="lblImportador" runat="server" />
-                    <br /><strong>BY:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
+                    <br /><strong>FROM:</strong>&nbsp;<asp:Label ID="lblOrigem" runat="server" />
+                    <br /><strong>BY:</strong>&nbsp;<asp:Label ID="lblTransportador" runat="server" />
+                    <br /><strong>DATE:</strong>&nbsp;<asp:Label ID="lblEmbarque" runat="server" />
                     <br /><strong>QUANTITY:</strong>&nbsp;<asp:Label ID="lblQtdVolumes" runat="server" />
                     
                 </td>
@@ -93,7 +96,8 @@
                     <br /><strong>VOYAGE:</strong>&nbsp;<asp:Label ID="lblViagem" runat="server" />
                     <br /><strong>TO:</strong>&nbsp;<asp:Label ID="lblDestino" runat="server" />
                     <br /><strong>GROSS WEIGHT:</strong>&nbsp;<asp:Label ID="lblPesoBruto" runat="server" />
-                    <br />
+                    <br /><strong>CHARGE WEIGHT:</strong>&nbsp;<asp:Label ID="lblPesoTaxado" runat="server" />
+
                 </td>
             </tr>
                      
@@ -111,12 +115,19 @@
 
                 </td>
                 <td>
-<strong>BANCO:</strong> SANTANDER<br/>
+<%--<strong>BANCO:</strong> SANTANDER<br/>
 <strong>SWIFT:</strong> BSCHBRSPXXX<br/>
 <strong>AGENCY:</strong> 3297<br/>
 <strong>ACCOUNT:</strong> 130010712<br/>
 <strong>NAME:</strong> FCA COMERCIO EXTERIOR E LOGISTICA LTDA<br/>
-<strong>IBAN-BR:</strong> BR7890400888032970130010712C1<br/>
+<strong>IBAN-BR:</strong> BR7890400888032970130010712C1<br/>--%>
+                    <br/>
+                                        <strong>BENEFICIARY BANK:</strong>&nbsp;<asp:Label ID="lblBanco" text="BANCO SANTANDER" runat="server" /><br/>
+                                        <strong>AGENCY:</strong>&nbsp;<asp:Label ID="lblAgency" runat="server" /><br/>
+                                        <strong>SWIFT:</strong>&nbsp;<asp:Label ID="lblSwift" runat="server" /><br/>
+                                        <strong>ACCOUNT:</strong>&nbsp;<asp:Label ID="lblAccount" runat="server" /><br/>
+                                        <strong>NAME:</strong>&nbsp;<asp:Label ID="lblName" runat="server" /><br/>
+                                        <strong>IBAN-BR:</strong>&nbsp;<asp:Label ID="lblIban" runat="server" /><br/>
                 </td>
             </tr>
         </table>
