@@ -13,7 +13,8 @@ Public Class RastreioBL
         porto_embarque.Text = data.transport.lading_port
         porto_embarque.Text = data.transport.origin_port
         porto_descarga.Text = data.transport.landing_terminal
-        porto_destino.Text = data.transport.transport
+        porto_destino.Text = data.transport.destination_port
+        porto_origem.Text = data.transport.origin_port
         'Principal
         status.Text = data.tracking.status_description
         bl.Text = data.references.bill_of_lading
@@ -69,7 +70,7 @@ Public Class RastreioBL
         data_emissao_ce.Text = data.dates.bl_emission_date
         data_manifesto.Text = data.dates.manifested_at
         data_presenca_carga.Text = data.dates.last_update
-        eta.Text = data.dates.eta
+        eta2.Text = data.dates.eta
 
         'DOCUMENTOS
         Dim tabela As String = "<table class='table'>"
