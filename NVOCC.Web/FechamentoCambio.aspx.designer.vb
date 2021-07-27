@@ -122,15 +122,6 @@ Partial Public Class FechamentoCambio
     Protected WithEvents lkBaixarFechamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkCancelarFechamento.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkCancelarFechamento As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkExcluirFechamento.
     '''</summary>
     '''<remarks>
@@ -138,6 +129,15 @@ Partial Public Class FechamentoCambio
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkExcluirFechamento As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkCancelarFechamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkCancelarFechamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkContratosFirmados.
@@ -219,6 +219,15 @@ Partial Public Class FechamentoCambio
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnPesquisarContratos As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle Button1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender3.
@@ -516,6 +525,15 @@ Partial Public Class FechamentoCambio
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnSalvarBaixa As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle Button2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Button2 As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle ModalPopupExtender5.

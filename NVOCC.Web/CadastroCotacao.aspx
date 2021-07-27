@@ -68,26 +68,51 @@
                                         <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                      </div>
+                                </div>
+                            <div class="row">
                                  <div class="col-sm-4">
                                      <div class="form-group">
                                         <label class="control-label">Data de Abertura:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtAbertura" runat="server" CssClass="form-control data"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Serviço:</label></label><label runat="server" style="color:red" >*</label>
+                                       <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO">
+                                                </asp:DropDownList>           
+                                    </div>
+                                </div>
+                               <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Estufagem:</label></label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlEstufagem" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem"></asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-sm-2">
-                                     <div class="form-group">
-                                           <label class="control-label" style="color:white">X</label>
-                                             <asp:Checkbox ID="ckbFreeHand" runat="server" CssClass="form-control" text="&nbsp;&nbsp;FREE HAND" ></asp:Checkbox>
-                                    </div>
-                                     </div>
+                                
                             </div>  
                             <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Analista:</label></label><label runat="server" style="color:red" >*</label>
+                                         <asp:DropDownList ID="ddlAnalista" runat="server" CssClass="form-control" Enabled="false" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsUsuario">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Data de Validade:</label></label><label runat="server" style="color:red" >*</label>
+                                        <asp:TextBox ID="txtValidade"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Data de Envio:</label></label><label runat="server" style="color:red" >*</label>
+                                        <asp:TextBox ID="txtEnvio" enabled="false"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>  
+                                </div>
+         <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Usuario Status:</label></label><label runat="server" style="color:red" >*</label>
@@ -96,41 +121,37 @@
                                     </div>
 
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Status:</label></label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlStatusCotacao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_COTACAO" DataSourceID="dsStatusCotacao" DataValueField="ID_STATUS_COTACAO">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-sm-2">
+                                 <div class="col-sm-4">
                                 <div class="form-group">
                                         <label class="control-label">Data de Status:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtDataStatus" runat="server" Enabled="false" CssClass="form-control data"></asp:TextBox>
                                     </div>
                                     </div>
+                                       </div>
+         <div class="row">               
+                                   
+                                 
                                  <div class="col-sm-4">
                                 <div class="form-group">
                                         <label class="control-label">Status Frete Agente:</label>
                                                 <asp:DropDownList ID="ddlStatusFreteAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsStatusFreteAgente" DataValueField="ID_STATUS_FRETE_AGENTE">
                                                 </asp:DropDownList>
-                                    </div>
-                                    </div>
-                                    </div>
-                            <div class="row">
-                                <div class="col-sm-2">
+                                        </div>
+                                    </div>   
+             <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Data de Validade:</label></label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtValidade"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
+                                        <label class="control-label">Incoterm:</label></label><label runat="server" style="color:red" >*</label>
+                                       <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>              </div>
                                     </div>
-                                </div>
-                                    <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label">Data de Envio:</label></label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtEnvio" enabled="false"  runat="server" CssClass="form-control data" MaxLength="100"></asp:TextBox>
-                                    </div>
-                                </div>                               
-                              
+                         
+                                     
                                     <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Destinatario Comercial:</label></label><label runat="server" style="color:red" >*</label>
@@ -139,99 +160,17 @@
                                         </asp:DropDownList>
                                     </div>
 
-                                </div>
-                                <div class="col-sm-1" style="display:none" >
-                                            <div class="form-group">
-                                                <label class="control-label">Cód Indicador:</label>
-                                                <asp:TextBox ID="txtCodIndicador" runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Busca Indicador:</label>
-                                                <asp:TextBox ID="txtNomeIndicador" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
-                                            </div>
-                                        </div> 
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Indicador:</label></label>
-                                       <asp:DropDownList ID="ddlIndicador" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsIndicador" >
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                           </div>
+                                </div>           </div>
                             <div class="row">
-                                <div class="col-sm-1" style="display:none" >
-                                            <div class="form-group">
-                                                <label class="control-label">Cód Agente Internacional:</label>
-                                                <asp:TextBox ID="txtCodAgente" runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Busca:</label>
-                                                <asp:TextBox ID="txtNomeAgente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
-                                            </div>
-                                        </div> 
-                                   <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Agente Internacional:</label></label>
-                                      <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
+                                 <div class="col-sm-2">
+                                     <div class="form-group">
+                                           <label class="control-label" style="color:white">X</label>
+                                             <asp:Checkbox ID="ckbFreeHand" runat="server" CssClass="form-control" text="&nbsp;&nbsp;FREE HAND" ></asp:Checkbox>
                                     </div>
-                              
-                                   <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Incoterm:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlIncoterm" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM"></asp:DropDownList>              </div>
-                                    </div>
-                       
-                                  
-                               <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Analista:</label></label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlAnalista" runat="server" CssClass="form-control" Enabled="false" Font-Size="11px" DataValueField="ID_USUARIO" DataTextField="NOME" DataSourceID="dsUsuario">
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                
-                                </div>                     
-                            <div class="row">
-                                 <div class="col-sm-1" style="display:none" >
-                                            <div class="form-group">
-                                                <label class="control-label">Cód Cliente:</label>
-                                                <asp:TextBox ID="txtCodCliente" runat="server" CssClass="form-control"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Busca Cliente:</label>
-                                                <asp:TextBox ID="txtNomeCliente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
-                                            </div>
-                                        </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsCliente" >
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Contato:</label></label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlContato" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTATO" DataSourceID="dsContato" DataValueField="ID_CONTATO">
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
-                                  <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Serviço:</label></label><label runat="server" style="color:red" >*</label>
-                                       <asp:DropDownList ID="ddlServico" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServico" DataValueField="ID_SERVICO">
-                                                </asp:DropDownList>           
-                                    </div>
-                                </div>
-                                </div>  
-                            <div class="row">
-                            <div class="col-sm-4">
+                                     </div>
+                          
+                               
+                                      <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo BL:</label></label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlTipoBL" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_BL" DataSourceID="dsBL" DataValueField="ID_TIPO_BL">
@@ -239,21 +178,87 @@
                                     </div>
 
                                 </div>
-                                <div class="col-sm-4" >
+
+                                <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Indicador:</label>
+                                                <asp:TextBox ID="txtCodIndicador" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Indicador:</label>
+                                                <asp:TextBox ID="txtNomeIndicador" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div> 
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Número Processo:</label>
-                                        <asp:TextBox ID="txtProcessoCotacao" runat="server" Enabled="false" CssClass="form-control" MaxLength="18"></asp:TextBox>
+                                        <label class="control-label">Indicador:</label></label>
+                                       <asp:DropDownList ID="ddlIndicador" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsIndicador" >
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-4" id="divClienteFinal" runat="server">
+                                 </div>
+                            <div class="row">
+                                <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Agente Internacional:</label>
+                                                <asp:TextBox ID="txtCodAgente" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca:</label>
+                                                <asp:TextBox ID="txtNomeAgente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div> 
+                                   <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Agente Internacional:</label></label>
+                                      <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
+                                    </div>
+                              
+                                  
+                       
+                                  
+                              
+                                
+                        
+                                 <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Cliente:</label>
+                                                <asp:TextBox ID="txtCodCliente" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Cliente:</label>
+                                                <asp:TextBox ID="txtNomeCliente" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Cliente:</label></label><label runat="server" style="color:red" >*</label>
+                                       <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsCliente" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                        </div>                     
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Contato:</label></label><label runat="server" style="color:red" >*</label>
+                                        <asp:DropDownList ID="ddlContato" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTATO" DataSourceID="dsContato" DataValueField="ID_CONTATO">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                  <div class="col-sm-4" id="divClienteFinal" runat="server">
                                     <div class="form-group">
                                         <label class="control-label">Cliente Final:</label></label>
                                          <asp:DropDownList ID="ddlClienteFinal" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CLIENTE_FINAL" DataSourceID="dsClienteFinal" DataValueField="ID_CLIENTE_FINAL">
                                         </asp:DropDownList>
                                     </div>
                             </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-sm-4"  >
                                     <div class="form-group">
                                         <label class="control-label">Vendedor:</label></label><label runat="server" style="color:red" >*</label>
@@ -261,6 +266,19 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
+                                </div>  
+                            <div class="row">
+                                 
+                            
+                                <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Número Processo:</label>
+                                        <asp:TextBox ID="txtProcessoCotacao" runat="server" Enabled="false" CssClass="form-control" MaxLength="18"></asp:TextBox>
+                                    </div>
+                                </div>
+                                
+                      
+                               
                              
                                  <div class="col-sm-4" >
                                     <div class="form-group">
@@ -1512,6 +1530,8 @@ UNION
 SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION 
 SELECT ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
+UNION 
+SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION
 SELECT DISTINCT ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL))
 union SELECT 0, 'Selecione'  

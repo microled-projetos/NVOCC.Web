@@ -591,7 +591,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" id="visualizarEmail">
+                                    <div class="modal-body" id="visualizarEmail" style="padding:30px;">
                                         
                                     </div>
                                     <div class="modal-footer">
@@ -1186,7 +1186,7 @@
                             })
                             $.ajax({
                                 type: "POST",
-                                url: "Gerencial.asmx/escreverCorpoEmail",
+                                url: "Gerencial.asmx/escreverTituloEmail",
                                 data: '{idProcessoMaster:"' + id + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
@@ -1194,10 +1194,24 @@
                                     var dado = dado.d;
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
-                                        document.getElementById("corpoEmail").value = dado[0]["NM_SETOR"] + "<br> \r\n" + dado[0]["NR_TELEFONE_SETOR"] + "<br> \r\n" + dado[0]["EMAIL_SETOR"] + "";
+                                        document.getElementById("corpoEmail").value = "ARMADOR: " + dado[0]["NR_BL"] + "\r\nMBL Nº: " + dado[0]["TRANSPORTADOR"] + "\r\nTERMINAL ATRACAÇÃO: " + dado[0]["ARMAZEM_ATRACACAO"] + "\r\n\r\n";
                                     }
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "Gerencial.asmx/escreverCorpoEmail",
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (dado) {
+                                            var dado = dado.d;
+                                            dado = $.parseJSON(dado);
+                                            if (dado != null) {
+                                                document.getElementById("corpoEmail").value += dado[0]["NM_SETOR"] + "\r\n" + dado[0]["NR_TELEFONE_SETOR"] + "\r\n" + dado[0]["EMAIL_SETOR"] + "";
+                                            }
+                                        }
+                                    })
                                 }
                             })
+                            
                             
                         }
                     }
@@ -1393,11 +1407,12 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
+                        $("#visualizarEmail").empty();
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             console.log(dado[0]["ASSUNTO"]);
-                            document.getElementById("visualizarEmail").append(dado[0]["ASSUNTO"] + dado[0]["CORPO"]);
+                            document.getElementById("visualizarEmail").insertAdjacentHTML('afterbegin',dado[0]["ASSUNTO"] + dado[0]["CORPO"]);
                         }
                     }
                 })

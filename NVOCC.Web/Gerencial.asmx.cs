@@ -804,7 +804,23 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string escreverCorpoEmail(string idProcessoMaster)
+        public string escreverTituloEmail(string idProcessoMaster)
+        {
+            string SQL;
+            SQL = "SELECT ISNULL(M.NR_BL,'') AS NR_BL, ISNULL(P1.NM_RAZAO,'') AS TRANSPORTADOR, ISNULL(P2.NM_RAZAO,'') AS ARMAZEM_ATRACACAO ";
+            SQL += "FROM TB_BL C ";
+            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P1 ON M.ID_PARCEIRO_TRANSPORTADOR = P1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON M.ID_PARCEIRO_ARMAZEM_ATRACACAO = P2.ID_PARCEIRO ";
+            SQL += "WHERE C.ID_BL = '" + idProcessoMaster + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string escreverCorpoEmail()
         {
             string SQL;
             SQL = "SELECT NM_SETOR, NR_TELEFONE_SETOR, EMAIL_SETOR FROM TB_TIPOAVISO WHERE IDTIPOAVISO = 12";
@@ -1364,7 +1380,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT ASSUNTO, CORPO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+           SQL = "SELECT AUTONUM, ASSUNTO, REPLACE(CORPO,'''','') as CORPO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);

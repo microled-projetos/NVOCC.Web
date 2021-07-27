@@ -140,6 +140,24 @@ Partial Public Class DebitNote
     Protected WithEvents lblOrigem As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTransportador As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblEmbarque.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEmbarque As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblQtdVolumes.
     '''</summary>
     '''<remarks>
@@ -194,6 +212,15 @@ Partial Public Class DebitNote
     Protected WithEvents lblPesoBruto As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblPesoTaxado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblPesoTaxado As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>
@@ -201,6 +228,60 @@ Partial Public Class DebitNote
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents divConteudoDinamico As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblBanco.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblBanco As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblAgency.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAgency As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblSwift.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSwift As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblAccount.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAccount As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblName.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblName As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblIban.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblIban As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle dsNotas.
