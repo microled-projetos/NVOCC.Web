@@ -652,7 +652,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">Mercadoria</h5>
+                                                            <h5 class="modal-title" id="modalMercaoriaNova">Embalagem</h5>
                                                         </div>
                                                         <div class="modal-body">    
                                     <div class="alert alert-success" ID="divSuccessMercadoria" runat="server" visible="false">
@@ -840,7 +840,7 @@
                                      
                                   <div class="col-sm-4"">
                                                     <div class="form-group">
-                                                        <asp:button runat="server" Text="Nova Mercadoria" id="btnNovaMercadoria" CssClass="btn btn-primary" />
+                                                        <asp:button runat="server" Text="Nova Embalagem" id="btnNovaMercadoria" CssClass="btn btn-primary" />
                                                     </div>
                                                 </div>
                             </div>
