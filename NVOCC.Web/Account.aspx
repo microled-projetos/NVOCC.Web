@@ -19,18 +19,21 @@
             display: none
         }
 
-       /*  th {
-            position: sticky !important;
-            top: 0;
-            background-color: #e6eefa;
-            text-align: center;
-        }
+      .tableFixHead {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: auto;
+    max-width: 100%;
+}
 
-       td, th {
-            padding: 0;
-            padding-top: 5px;
-            margin: 0;
-        }*/
+
+    th {
+    position: sticky !important;
+    top: 0;
+    background-color: #e6eefa;
+    text-align:left;
+    padding-left: 18px;
+}
     </style>
 
     <div class="row principal">
@@ -790,7 +793,7 @@
                                                 </asp:TemplateField>
                                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
@@ -966,7 +969,7 @@
                                                                 </div>
                                    
  <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 10px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -1112,7 +1115,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissoes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
@@ -1147,7 +1150,7 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 AND ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE)
 union SELECT 0, 'Todos os Agentes' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoEmissor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

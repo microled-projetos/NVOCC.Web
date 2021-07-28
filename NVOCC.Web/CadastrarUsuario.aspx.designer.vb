@@ -230,6 +230,42 @@ Partial Public Class CadastrarUsuario
     Protected WithEvents cbTipoUsuario As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divEmpresa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divEmpresa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtCodEmpresa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodEmpresa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeEmpresa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeEmpresa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlEmpresa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEmpresa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ImageButton1.
     '''</summary>
     '''<remarks>
@@ -291,6 +327,15 @@ Partial Public Class CadastrarUsuario
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvUsuarios As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dsEmpresa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsEmpresa As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsUsuario.
