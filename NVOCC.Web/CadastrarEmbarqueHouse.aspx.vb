@@ -20,6 +20,7 @@
             If Request.QueryString("tipo") = "e" Then
                 lblTipoModulo.Text = " EMBARQUE"
                 lkProximo.Visible = False
+                lkAnterior.Visible = False
                 btnVisualizarMBL_Aereo.Text = "Gerar Master"
                 btnVisualizarMBL_Maritimo.Text = "Gerar Master"
             ElseIf Request.QueryString("tipo") = "h" Then
@@ -31,6 +32,8 @@
                 CarregaCampos()
             Else
                 lkProximo.Visible = False
+                lkAnterior.Visible = False
+
             End If
 
         End If
@@ -3251,6 +3254,39 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         End If
     End Sub
 
+    Private Sub lkAnterior_Click(sender As Object, e As EventArgs) Handles lkAnterior.Click
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim LinhaAtual As Integer = 0
+        Dim ProximaLinha As Integer = 0
+        Dim PrimeiroBL As String = 0
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ISNULL(ID_BL_MASTER,0) ID_BL_MASTER, ROW_NUMBER() OVER(ORDER BY ID_BL desc) AS num
+  From TB_BL where ID_BL_MASTER =  " & Session("ID_BL_MASTER") & "")
+        If ds.Tables(0).Rows.Count > 0 Then
+            PrimeiroBL = ds.Tables(0).Rows(0).Item("ID_BL")
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("ID_BL") = Request.QueryString("id") Then
+                    LinhaAtual = linha.Item("num")
+                    ProximaLinha = linha.Item("num") + 1
+                End If
+
+                If ProximaLinha = linha.Item("num") Then
+                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                    url = String.Format(url, linha.Item("ID_BL"))
+                    Response.Redirect(url)
+                ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
+                    Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+                    url = String.Format(url, PrimeiroBL)
+                    Response.Redirect(url)
+                End If
+
+            Next
+
+            'Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+            'url = String.Format(url, ds.Tables(0).Rows(0).Item("ID_BL"))
+            'Response.Redirect(url)
+        End If
+    End Sub
     Private Sub btnVisualizarMBL_Maritimo_Click(sender As Object, e As EventArgs) Handles btnVisualizarMBL_Maritimo.Click
 
         If Request.QueryString("tipo") = "e" Then
@@ -3276,7 +3312,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Response.Redirect("CadastrarMaster.aspx?s=m")
 
         ElseIf Request.QueryString("tipo") = "h" Then
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLMaritimo()", True)
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLMaritimo()", True)
         End If
 
     End Sub
@@ -3309,7 +3345,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
 
         ElseIf Request.QueryString("tipo") = "h" Then
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLAereo()", True)
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MBLAereo()", True)
         End If
     End Sub
 
