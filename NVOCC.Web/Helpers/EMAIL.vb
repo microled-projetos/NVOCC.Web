@@ -77,7 +77,7 @@ Namespace SendFileTo
             Dim intPtr As IntPtr = Marshal.AllocHGlobal(
                 m_recipients.Count * size)
 
-            Dim ptr As Integer = CType(intPtr, Integer)
+            Dim ptr As Long = CType(intPtr, Long)
             Dim mapiDesc As MapiRecipDesc
             For Each mapiDesc In m_recipients
                 Marshal.StructureToPtr(mapiDesc, CType(ptr, IntPtr), False)
@@ -105,7 +105,7 @@ Namespace SendFileTo
 
             Dim mapiFileDesc As MapiFileDesc = New MapiFileDesc()
             mapiFileDesc.position = -1
-            Dim ptr As Integer = CType(intPtr, Integer)
+            Dim ptr As Long = CType(intPtr, Long)
 
             Dim strAttachment As String
             For Each strAttachment In m_attachments
@@ -121,10 +121,10 @@ Namespace SendFileTo
 
         Private Sub Cleanup(ByRef msg As MapiMessage)
             Dim size As Integer = Marshal.SizeOf(GetType(MapiRecipDesc))
-            Dim ptr As Integer = 0
+            Dim ptr As Long = 0
 
             If msg.recips <> IntPtr.Zero Then
-                ptr = CType(msg.recips, Integer)
+                ptr = CType(msg.recips, Long)
                 Dim i As Integer
                 For i = 0 To msg.recipCount - 1 Step i + 1
                     Marshal.DestroyStructure(CType(ptr, IntPtr),
@@ -137,7 +137,7 @@ Namespace SendFileTo
             If msg.files <> IntPtr.Zero Then
                 size = Marshal.SizeOf(GetType(MapiFileDesc))
 
-                ptr = CType(msg.files, Integer)
+                ptr = CType(msg.files, Long)
                 Dim i As Integer
                 For i = 0 To msg.fileCount - 1 Step i + 1
                     Marshal.DestroyStructure(CType(ptr, IntPtr),

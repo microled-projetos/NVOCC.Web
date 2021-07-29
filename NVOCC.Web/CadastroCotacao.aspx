@@ -731,7 +731,7 @@
                                   <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Compra Unit.):</label>
-                                        <asp:TextBox ID="txtFreteCompraMercadoriaUnitario"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteCompraMercadoriaUnitario" AutoPostBack="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                   <div class="col-sm-4">
@@ -848,7 +848,7 @@
                 <asp:AsyncPostBackTrigger  ControlID="ddlEstufagem" />
 <asp:AsyncPostBackTrigger  ControlID="txtFreteVendaMercadoriaUnitario" />    
     <asp:AsyncPostBackTrigger  ControlID="txtQtdContainerMercadoria" />
-    
+    <asp:AsyncPostBackTrigger  ControlID="txtFreteCompraMercadoriaUnitario" /> 
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarMercadoria" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharMercadoria" />
      </Triggers>  

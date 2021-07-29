@@ -2429,7 +2429,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
 
     End Sub
 
-    Private Sub txtFreteVendaMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtFreteVendaMercadoriaUnitario.TextChanged
+    Private Sub txtFreteVendaMercadoriaUnitario_TextChanged(sender As Object, e As EventArgs) Handles txtFreteVendaMercadoriaUnitario.TextChanged
         If txtQtdContainerMercadoria.Text <> "" And txtFreteVendaMercadoriaUnitario.Text <> "" Then
 
             If txtQtdContainerMercadoria.Text > 0 Then
@@ -2438,6 +2438,20 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
                 Dim X As Double = valor * qtd
                 Dim TOTAL As String = X.ToString("#,###.00")
                 txtFreteVendaMercadoriaCalc.Text = TOTAL
+
+            End If
+
+        End If
+    End Sub
+    Private Sub txtFreteCompraMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtFreteCompraMercadoriaUnitario.TextChanged
+        If txtQtdContainerMercadoria.Text <> "" And txtFreteCompraMercadoriaUnitario.Text <> "" Then
+
+            If txtQtdContainerMercadoria.Text > 0 Then
+                Dim valor As String = txtFreteCompraMercadoriaUnitario.Text
+                Dim qtd As Integer = txtQtdContainerMercadoria.Text
+                Dim X As Double = valor * qtd
+                Dim TOTAL As String = X.ToString("#,###.00")
+                txtFreteCompraMercadoriaCalc.Text = TOTAL
 
             End If
 

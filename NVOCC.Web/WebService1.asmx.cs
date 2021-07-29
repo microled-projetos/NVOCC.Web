@@ -1381,13 +1381,25 @@ namespace ABAINFRA.Web
             {
                 dados.DT_CUTOFF = "NULL";
             }
+            else
+            {
+                dados.DT_CUTOFF = "'" + dados.DT_CUTOFF + "'";
+            }
             if(dados.DT_ETD.ToString() == "")
             {
                 dados.DT_ETD = "NULL";
             }
+            else
+            {
+                dados.DT_ETD = "'" + dados.DT_ETD + "'";
+            }
             if (dados.DT_ETA.ToString() == "")
             {
                 dados.DT_ETA = "NULL";
+            }
+            else
+            {
+                dados.DT_ETA = "'"+dados.DT_ETA+"'";
             }
             if (dados.NR_FREETIME.ToString() == "")
             {
@@ -1535,19 +1547,35 @@ namespace ABAINFRA.Web
             }
             if (dadosEdit.NM_MBL.ToString() == "")
             {
-                return "0";
+                dadosEdit.NM_MBL = "";
             }
             if (dadosEdit.NM_VESSEL.ToString() == "")
             {
-                return "0";
+                dadosEdit.NM_VESSEL = "";
             }
             if (dadosEdit.DT_CUTOFF.ToString() == "")
             {
-                return "0";
+                dadosEdit.DT_CUTOFF = "NULL";
+            }
+            else
+            {
+                dadosEdit.DT_CUTOFF = "'" + dadosEdit.DT_CUTOFF + "' ";
             }
             if (dadosEdit.DT_ETD.ToString() == "")
             {
-                return "0";
+                dadosEdit.DT_ETD = "NULL";
+            }
+            else
+            {
+                dadosEdit.DT_ETD = "'" + dadosEdit.DT_ETD + "' ";
+            }
+            if (dadosEdit.DT_ETA.ToString() == "")
+            {
+                dadosEdit.DT_ETA = "NULL";
+            }
+            else
+            {
+                dadosEdit.DT_ETA = "'" + dadosEdit.DT_ETA + "' ";
             }
             if (dadosEdit.NR_FREETIME.ToString() == "")
             {
@@ -1566,8 +1594,8 @@ namespace ABAINFRA.Web
             SQL = "UPDATE TB_WEEK SET NM_WEEK = '" + dadosEdit.NM_WEEK + "', ";
             SQL += "ID_PORTO_ORIGEM_LOCAL = '" + dadosEdit.ID_PORTO_ORIGEM_LOCAL + "', ";
             SQL += "ID_PORTO_ORIGEM_DESTINO = '" + dadosEdit.ID_PORTO_ORIGEM_DESTINO + "', NM_MBL = '" + dadosEdit.NM_MBL+ "', NM_VESSEL = '" + dadosEdit.NM_VESSEL + "', ";
-            SQL += "DT_CUTOFF = '" + dadosEdit.DT_CUTOFF + "', DT_ETD = '" + dadosEdit.DT_ETD+ "', ";
-            SQL += "DT_ETA = '" + dadosEdit.DT_ETA+ "', ";
+            SQL += "DT_CUTOFF = " + dadosEdit.DT_CUTOFF + ", DT_ETD = " + dadosEdit.DT_ETD+ ", ";
+            SQL += "DT_ETA = " + dadosEdit.DT_ETA+ ", ";
             SQL += "NR_FREETIME = '" + dadosEdit.NR_FREETIME + "', ID_PARCEIRO = '" + dadosEdit.ID_PARCEIRO + "', NR_FRIGHT = '" + freight + "' ";
             SQL += "WHERE ID_WEEK = '" + dadosEdit.ID_WEEK + "' ";
 
@@ -1664,8 +1692,8 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(format(TB_WEEK.DT_CUTOFF,'yyyy/MM/dd'),'') AS DT_CUTOFF, ";
             SQL += "ISNULL(CONVERT(VARCHAR(30),NR_BL),'') AS NR_BL,";
             SQL += "ISNULL(E.VL_FRETE_VENDA,0) AS VL_FRETE_VENDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(varchar,FORMAT(VL_FRETE_VENDA_MIN,'C','PT-BR')),'R$',''),'') AS VL_FRETE_VENDA_MIN, ";
-            SQL += "(SELECT ISNULL(REPLACE(CONVERT(varchar,FORMAT(Sum(H.VL_TAXA_VENDA),'C','PT-BR')),'R$',''),'') as VL_TAXA_VENDA FROM TB_BL J ";
+            SQL += "ISNULL(REPLACE(CONVERT(varchar,FORMAT(VL_FRETE_VENDA_MIN,'C','PT-BR')),'R$',''),0) AS VL_FRETE_VENDA_MIN, ";
+            SQL += "(SELECT ISNULL(REPLACE(CONVERT(varchar,FORMAT(Sum(H.VL_TAXA_VENDA),'C','PT-BR')),'R$',''),0) as VL_TAXA_VENDA FROM TB_BL J ";
             SQL += "LEFT JOIN TB_COTACAO G ON J.ID_COTACAO = G.ID_COTACAO ";
             SQL += "LEFT JOIN TB_COTACAO_TAXA H ON G.ID_COTACAO = H.ID_COTACAO ";
             SQL += "LEFT JOIN TB_MOEDA K ON G.ID_MOEDA_FRETE = K.ID_MOEDA ";
@@ -1674,7 +1702,7 @@ namespace ABAINFRA.Web
             SQL += "AND J.ID_BL = B.ID_BL )AS VL_TAXA_VENDA ";
             SQL += "FROM TB_BL B ";
             SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_VENDEDOR = P1.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_CLIENTE = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P4 ON B.ID_PARCEIRO_EXPORTADOR = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
@@ -1732,7 +1760,7 @@ namespace ABAINFRA.Web
             SQL += "AND J.ID_BL = B.ID_BL )AS VL_TAXA_VENDA ";
             SQL += "FROM TB_BL B ";
             SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_VENDEDOR = P1.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_CLIENTE = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P4 ON B.ID_PARCEIRO_EXPORTADOR = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
@@ -1813,7 +1841,7 @@ namespace ABAINFRA.Web
             SQL += "AND A.ID_BL_MASTER IS NULL ";
             SQL += "AND A.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + agentei + "' ";
             SQL += "AND D.ID_CNTR_BL IS NULL ";
-            SQL += "AND A.ID_WEEK IS NULL "; 
+            SQL += "AND (A.ID_WEEK IS NULL OR A.ID_WEEK = 0)"; 
             DataTable processo = new DataTable();
             processo = DBS.List(SQL);
 
