@@ -4,7 +4,10 @@ Public Class OUTLOOK
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+<<<<<<< HEAD
 
+=======
+>>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
         SurroundingSub()
     End Sub
 
@@ -18,5 +21,9 @@ Public Class OUTLOOK
         mail.Attachments.Add(Server.MapPath("/Content/CotacaoPDF.pdf"), OlAttachmentType.olByValue, Type.Missing, Type.Missing)
         mail.Display(True)
         Response.Redirect("CotacaoComercial.aspx")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
     End Sub
 End Class

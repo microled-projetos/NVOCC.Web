@@ -122,7 +122,12 @@
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimir" text="Imprimir" />
+<<<<<<< HEAD
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnEnviar" text="Enviar" />
+=======
+                                                                                               <asp:Button runat="server" CssClass="btn btn-success" ID="btnEnviar" text="Enviar" />
+
+>>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
                                                         </div>
                                                     
                                                 </div>
@@ -134,7 +139,11 @@
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
              <asp:PostBackTrigger ControlID="lkImprimir" />
                    <asp:PostBackTrigger ControlID="btnImprimir" />
+<<<<<<< HEAD
                          <asp:PostBackTrigger ControlID="btnEnviar" />
+=======
+                               <asp:PostBackTrigger ControlID="btnEnviar" />
+>>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
 
     </Triggers>
    </asp:UpdatePanel> 
