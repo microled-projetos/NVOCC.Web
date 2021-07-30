@@ -1599,14 +1599,27 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
         Else
             Dim url As String = ""
-            ' Response.Redirect("CotacaoPDF_PT.aspx?c=" & txtID.Text)
-            url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue
+            Response.Redirect("CotacaoPDF_PT.aspx?c=" & txtID.Text)
+            url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=i"
             Response.Write("<script>")
             Response.Write("window.open('" & url & "','_blank')")
             Response.Write("</script>")
         End If
     End Sub
 
+
+    Private Sub btnEnviar_Click(sender As Object, e As EventArgs) Handles btnEnviar.Click
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione o registro que deseja enviar!"
+
+        Else
+            Dim url As String = ""
+            url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=e"
+            Response.Redirect(url)
+
+        End If
+    End Sub
     Private Sub lkRemover_Click(sender As Object, e As EventArgs) Handles lkRemover.Click
         divSuccess.Visible = False
         divErro.Visible = False

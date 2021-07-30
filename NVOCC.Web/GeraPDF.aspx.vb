@@ -12,6 +12,7 @@ Public Class GeraPDF
             Dim obj As New System.Net.WebClient()
             Dim url As String = ""
 
+            Dim funcao As String = Request.QueryString("f")
             Dim cotacao As String = Request.QueryString("c")
             Dim Linguagem As String = Request.QueryString("l")
             If Linguagem = "p" Then
@@ -77,9 +78,19 @@ Public Class GeraPDF
                 stamper.Close()
             End Using
             reader.Close()
-            Response.Redirect("~/" & "content/CotacaoPDF.pdf")
+            If funcao = "e" Then
+                Response.Redirect("OUTLOOK.aspx")
+
+
+            ElseIf funcao = "i" Then
+                Response.Redirect("~/" & "content/CotacaoPDF.pdf")
+
+            End If
+
+
             fs.Close()
             fs_.Close()
+
         Catch ex As Exception
             Response.Write("erro: " & ex.Message)
         End Try
