@@ -11,10 +11,7 @@ Public Class GeraPDF
         Try
             Dim obj As New System.Net.WebClient()
             Dim url As String = ""
-<<<<<<< HEAD
 
-=======
->>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
             Dim funcao As String = Request.QueryString("f")
             Dim cotacao As String = Request.QueryString("c")
             Dim Linguagem As String = Request.QueryString("l")
@@ -82,18 +79,14 @@ Public Class GeraPDF
             End Using
             reader.Close()
             If funcao = "e" Then
-                Response.Redirect("OUTLOOK.aspx")
+                Response.Redirect("OUTLOOK.aspx?c=" & cotacao)
 
 
             ElseIf funcao = "i" Then
                 Response.Redirect("~/" & "content/CotacaoPDF.pdf")
 
             End If
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 466d1694bb91d9ec0afdb05f5d615ddcbc06d9e6
             fs.Close()
             fs_.Close()
 
