@@ -139,13 +139,13 @@ display:none;
                             <asp:TextBox ID="txtQtdVolumes" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" ></asp:TextBox>                    
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="display:none">
                         <div class="form-group">
                             <label class="control-label">Commodity:</label>
                             <asp:TextBox ID="txtCampoEditavel4" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" ></asp:TextBox>                    
                         </div>
                     </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">Description of goods:</label>
                             <asp:TextBox ID="txtCampoEditavel5" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" ></asp:TextBox>                 <%--   onkeyUp="return CheckMaxCount(this,event,250);"--%>
@@ -159,19 +159,18 @@ display:none;
                             <asp:TextBox ID="txtFreteTaxa" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" ></asp:TextBox>                    
                         </div> 
                  </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Currency:</label>
-                            <asp:TextBox ID="txtMoeda" runat="server" CssClass="form-control" ></asp:TextBox>                    
-                        </div>
-                    </div>
                         <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Freight:</label>
                             <asp:TextBox ID="txtFrete" runat="server" CssClass="form-control" ></asp:TextBox>                    
                         </div>
                     </div>
-                    
+                     <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Currency:</label>
+                            <asp:TextBox ID="txtMoeda" runat="server" CssClass="form-control" ></asp:TextBox>                    
+                        </div>
+                    </div>
                        
             </div>
                 <div class="row">
@@ -234,6 +233,12 @@ display:none;
                             <asp:TextBox ID="txtCampoEditavel7" runat="server" CssClass="form-control" ></asp:TextBox>                    
                         </div>
                     </div>
+                    <div class="col-sm-3" style="display:NONE">
+                                    <div class="form-group"> 
+                                        <label class="control-label" style="color:white">x</label>
+                                        <asp:Checkbox ID="ckbAprovar" runat="server" AutoPostBack="true" CssClass="form-control" text="&nbsp;&nbsp;APROVADA" ></asp:Checkbox>
+                                    </div>
+                                </div>
                 </div>
                 <div class="row">
 
@@ -248,6 +253,7 @@ display:none;
                                     <div class="form-group">
                                         <label>&nbsp;</label>                               
                                                     <button type="button" id="btnCadastrarContainer" class="btn btn-primary btn-block" onclick="Imprimir()">Imprimir</button>
+                                        <asp:Button ID="btnImprimir" runat="server" CssClass="btn btn-primary btn-block" Text="Imprimir2" visible="false" />
                                     </div>
                                 </div>
                             </div>   
@@ -270,37 +276,35 @@ display:none;
     <asp:Label ID="lblCliente" class="lblCliente" runat="server"></asp:Label>
 
 </td>
+       <td style="border:none !important;"><center>H/BL: <asp:Label ID="lblNumeroBLImpressao" class="lblNumeroBLImpressao" runat="server"></asp:Label><br /></center></td>
 </tr>
 <tr>
 <td><strong>CONSIGNED TO ORDER OF</strong><br/>
     <asp:Label ID="lblImportador1" class="lblImportador1" runat="server"></asp:Label>
 </td>
+       <td style="border:none !important;"><center><img src="Content/imagens/FCA-Log - Copia.png" /></center>
+           
+       </td>
 </tr>
 <tr>
 <td><strong>NOTIFY ADDRESS</strong><br/>
         <asp:Label ID="lblImportador3" class="lblImportador3" runat="server"></asp:Label>
 </td>
-</tr>
-</table>
-            <table>
-<tr>
-
-<td><center>H/BL: <asp:Label ID="lblNumeroBLImpressao" class="lblNumeroBLImpressao" runat="server"></asp:Label><br />
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
-   <div style="font-size:10px;text-align: center;"> R QUINZE DE NOVEMBRO, 46/48 - ANDAR 1 SALA 01 - CENTRO<br />
+    <td style="border:none !important;">
+       <div style="font-size:10px;text-align: center;">   <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
+ R QUINZE DE NOVEMBRO, 46/48 - ANDAR 1 SALA 01 - CENTRO<br />
     SANTOS - SP - BRASIL - CEP:11010150<br />
     Phone:+55 13 3797-7850 - Fax: +55</div>
-</td>
+    </td>
+    
 </tr>
-            </table>
-
+</table>
 <table>
 <tr>
 <td><strong>OCEAN VESSEL:</strong><br/>
         <asp:Label ID="lblNavio" class="lblNavio" runat="server"></asp:Label><br/></td>
 <td><strong> PLACE OF RECEIPT</strong><br/>
-        <asp:Label ID="lblCampoEditavel2" class="lblCampoEditavel2" runat="server"></asp:Label></td>
+        <asp:Label ID="lblCampoEditavel2" class="lblCampoEditavel2" runat="server"></asp:Label></td><td style="border:none !important;"></td><td style="border:none !important;"></td>
 </tr>
 <tr>
 <td>
@@ -308,51 +312,40 @@ display:none;
         <asp:Label ID="lblViagem" class="lblViagem" runat="server"></asp:Label></td>
 <td><strong>PORT OF LOADING</strong><br/>
         <asp:Label ID="lblOrigem" class="lblOrigem" runat="server"></asp:Label></td>
+    <td style="border:none !important;"></td><td style="border:none !important;"> <center><strong><asp:Label ID="lblImpressao" class="lblImpressao" runat="server"></asp:Label></strong></center></td>
 </tr>
     <tr>
 <td><strong>PORT OF DISCHARGE</strong><br/>
         <asp:Label ID="lblDestino" class="lblDestino" runat="server"></asp:Label></td>
 <td><strong>PORT OF DELIVERY</strong><br/>
-        <asp:Label ID="lblCampoEditavel3" class="lblCampoEditavel3" runat="server"></asp:Label></td>
-</tr>
-</table></td>
-<td>
-    <table >
-<tr>
-<td style="width:75%;border:none !important;"><center><strong><asp:Label ID="lblImpressao" class="lblImpressao" runat="server"></asp:Label></strong></center>
-        </td>
-</tr>
-<tr>
-<td><strong>FREIGHT PAYABLE</strong><br/>
+        <asp:Label ID="lblCampoEditavel3" class="lblCampoEditavel3" runat="server"></asp:Label></td><td><strong>FREIGHT PAYABLE</strong><br/>
         <asp:Label ID="lblTipoPagamento" class="lblTipoPagamento" runat="server"></asp:Label> </td>
 <td style="font-size:8px"><strong>NUMBER OF ORIGINAL B/LS</strong><br/>
         <asp:Label ID="lblCampoEditavel1" class="lblCampoEditavel1" runat="server"></asp:Label></td>
 </tr>
 </table>
-</td>
-</tr>
-                </table>
+   
 
     
     
     
     
-    <table style="border:none !important;">
+    <table>
 <tr>
-<td style="width:75%"><strong>MARKS AND NUMBERS</strong><br/>
+<td style="border: none !important;"><strong>MARKS AND NUMBERS</strong><br/>
         <asp:Label ID="lblContainer" class="lblContainer" runat="server"></asp:Label>
 
 </td>
 
-<td style="width:15%;font-size:8px"><div style="top:0"><strong>NUMBER OF KIND OF PACKAGES</strong></div>
+<td style="border: none !important;"><div style="top:0"><strong>NUMBER OF KIND OF PACKAGES</strong></div>
         <asp:Label ID="lblQtdVolumes" class="lblQtdVolumes" runat="server"></asp:Label><br/><br/><br />
     </td>
 
-<td><strong>DESCRIPTION OF GOODS</strong><br/>
+<td style="border: none !important;"><strong>DESCRIPTION OF GOODS</strong><br/>
         <asp:Label ID="lblCampoEditavel5" class="lblCampoEditavel5" runat="server"></asp:Label>
 
 </td>
-    <td style="width:15%;font-size:8px"><div style="top:0">
+    <td style="border: none !important;"><div style="top:0">
     <strong>GROSS WEIGHT:</strong><asp:Label ID="lblPesoBruto" class="lblPesoBruto" runat="server"></asp:Label>
     <br/>
      <strong>NET WEIGHT:</strong><asp:Label ID="lblPesoLiquido" class="lblPesoLiquido" runat="server"></asp:Label>
@@ -396,7 +389,7 @@ An enlarged copy of back clauses is available from the Carrier upon request.</di
 <td>
     <table >
     <tr>
-        <td>
+        <td style="border: none !important;">
     <strong>FREIGHT AND CHARGES</strong><br/>
     <asp:Label ID="lblFreteTaxa" class="lblFreteTaxa" runat="server"></asp:Label></td>
         </tr>
@@ -406,7 +399,7 @@ An enlarged copy of back clauses is available from the Carrier upon request.</di
     <strong>PLACE AND DATE OF ISSUE</strong><br/>
      <asp:Label ID="lblOrigemPagamento" class="lblOrigemPagamento" runat="server"></asp:Label>, <asp:Label ID="lblCampoEditavel7" class="lblCampoEditavel7" runat="server"></asp:Label><br/><br/><br/><br/></td></tr>
         <tr>
-        <td>
+        <td style="border:none !important;">
    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
             </td>
         </tr>
@@ -654,7 +647,7 @@ The contract evidenced by or contained in this Bill of Lading, and the rights an
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
 
-      
+
         function Imprimir() {
             var Cliente = document.getElementById('<%= txtCliente.ClientID %>').value;
             var Importador1 = document.getElementById('<%= txtImportador1.ClientID %>').value;
@@ -674,13 +667,13 @@ The contract evidenced by or contained in this Bill of Lading, and the rights an
             var CampoEditavel4 = document.getElementById('<%= txtCampoEditavel4.ClientID %>').value;
             var CampoEditavel5 = document.getElementById('<%= txtCampoEditavel5.ClientID %>').value;
             var Moeda = document.getElementById('<%= txtMoeda.ClientID %>').value;
-			var Frete = document.getElementById('<%= txtFrete.ClientID %>').value;
+            var Frete = document.getElementById('<%= txtFrete.ClientID %>').value;
             var OrigemPagamento = document.getElementById('<%= txtOrigemPagamento.ClientID %>').value;
             var PesoBruto = document.getElementById('<%= txtPesoBruto.ClientID %>').value;
             var PesoLiquido = document.getElementById('<%= txtPesoLiquido.ClientID %>').value;
             var M3 = document.getElementById('<%= txtM3.ClientID %>').value;
             var Agente = document.getElementById('<%= txtAgente.ClientID %>').value;
-			var CampoEditavel6 = document.getElementById('<%= txtCampoEditavel6.ClientID %>').value;
+            var CampoEditavel6 = document.getElementById('<%= txtCampoEditavel6.ClientID %>').value;
             var CPF = document.getElementById('<%= txtCPF.ClientID %>').value;
             var Impressao = document.getElementById('<%= txtImpressao.ClientID %>').value;
             var CampoEditavel7 = document.getElementById('<%= txtCampoEditavel7.ClientID %>').value;
@@ -729,6 +722,6 @@ The contract evidenced by or contained in this Bill of Lading, and the rights an
 
             window.print();
         }
-        
+
     </script>
 </asp:Content>

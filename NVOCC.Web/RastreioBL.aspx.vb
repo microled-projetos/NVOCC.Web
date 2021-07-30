@@ -136,7 +136,18 @@ Public Class RastreioBL
     End Function
 
     Protected Sub btnAtualizar_Click(sender As Object, e As EventArgs) Handles btnAtualizar.Click
-        Response.Redirect("https://localhost:44327/Rastreio/rastrear/iniciar")
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & Session("ID_BL"))
+        If ds.Tables(0).Rows.Count > 0 Then
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+                Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+                Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL")
+                Response.Redirect("RastreioBL.aspx")
+
+            End If
+        End If
     End Sub
 End Class
 

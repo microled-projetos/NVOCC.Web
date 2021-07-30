@@ -120,6 +120,7 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
             End If
 
         Next
+        'ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SalvaPosicao()", True)
 
     End Sub
     Private Sub btnSolicitar_Click(sender As Object, e As EventArgs) Handles btnSolicitar.Click
@@ -143,9 +144,9 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
             Con.Fechar()
             lblSuccess.Text = "Solicitação realizada com sucesso!"
             divSuccess.Visible = True
-            lblTotal.Text = 0
-            txtVencimento.Text = ""
-            dgvTaxas.DataBind()
+            'lblTotal.Text = 0
+            'txtVencimento.Text = ""
+            'dgvTaxas.DataBind()
             mpeMontagem.Show()
 
         End If
@@ -226,6 +227,7 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
             ckbSelecionar.Checked = False
         Next
+        AtualizaTotal()
         divErro.Visible = False
     End Sub
 
@@ -243,5 +245,9 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
         Session("VENCIMENTO") = txtVencimento.Text
         Response.Redirect("MontagemPagamento.aspx?f=" & ddlFornecedor.SelectedValue)
 
+    End Sub
+
+    Private Sub btnNao_Click(sender As Object, e As EventArgs) Handles btnNao.Click
+        Response.Redirect("Financeiro.aspx")
     End Sub
 End Class

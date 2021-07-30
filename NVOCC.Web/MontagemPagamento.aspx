@@ -70,9 +70,14 @@
                                     </div>
                                         
                                     </div>
+                                </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="txtVencimentoBusca" /> 
+                            </Triggers>
+                        </asp:UpdatePanel>
 
-
-
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                            <ContentTemplate>
 
                                 <br />
                                 <br />
@@ -172,7 +177,7 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" /> 
-                                                                <asp:AsyncPostBackTrigger ControlID="btnMontar" />     
+                                <asp:AsyncPostBackTrigger ControlID="btnMontar" />     
 
                             </Triggers>
                         </asp:UpdatePanel>

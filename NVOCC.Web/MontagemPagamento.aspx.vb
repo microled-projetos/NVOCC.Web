@@ -25,9 +25,13 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
                     ddlFornecedor.SelectedValue = Request.QueryString("f")
 
                 Else
+
                     txtVencimentoBusca.Text = Now.Date.ToString("dd-MM-yyyy")
                     txtVencimento.Text = Now.Date.ToString("dd-MM-yyyy")
                     txtDataFatura.Text = Now.Date.ToString("dd-MM-yyyy")
+                    dsFornecedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE,'" & txtVencimentoBusca.Text & "',103) )
+union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
+                    dsFornecedor.DataBind()
                 End If
 
             End If
@@ -43,6 +47,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
             ckbSelecionar.Checked = False
             txtValor.Text = 0
         Next
+        txtValor.Text = 0
     End Sub
 
     Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
@@ -51,7 +56,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
             ckbSelecionar.Checked = True
             Dim valor As Decimal = CType(Me.dgvTaxas.Rows(i).FindControl("lblValor"), Label).Text
-            txtValor.Text = txtValor.Text + valor
+            Dim valor2 As Decimal = valor + valor2
+            txtValor.Text = valor2
         Next
     End Sub
 
@@ -180,10 +186,12 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         Response.Redirect("Financeiro.aspx")
     End Sub
 
-    Private Sub txtVencimentoBusca_Load(sender As Object, e As EventArgs) Handles txtVencimentoBusca.Load
-        dsFornecedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE,'" & txtVencimentoBusca.Text & "',103) )
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
+    Private Sub txtVencimentoBusca_TextChanged(sender As Object, e As EventArgs) Handles txtVencimentoBusca.TextChanged
+        dsFornecedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO IN (SELECT ID_PARCEIRO_EMPRESA FROM dbo.TB_BL_TAXA WHERE CD_PR = 'P' AND DT_SOLICITACAO_PAGAMENTO = CONVERT(DATE,'" & txtVencimentoBusca.Text & "',103) ) union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"
         dsFornecedor.DataBind()
-
     End Sub
+
+
+
+
 End Class

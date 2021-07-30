@@ -66,7 +66,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="col-sm-9 table-responsive tableFixHead">
+                                        <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
+
+                                    <div id="DivGrid" class="col-sm-9 table-responsive tableFixHead DivGrid">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -76,7 +78,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"  AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"   AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -104,6 +106,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
+                                        
                                     </div>
 
                                     <div class="col-sm-3 table-responsive tableFixHead">
@@ -159,7 +162,7 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">VALOR DE PAGAMENTO:</label><br />
-                                            <asp:Label runat="server" ID="lblTotal" Text="0" CssClass="control-label" />
+                                            <asp:Label runat="server" ID="lblTotal" Text="0" CssClass="control-label moeda" />
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -261,4 +264,30 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
      </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+     <script type="text/javascript">
+ 
+        <%-- function SalvaPosicao() {
+             console.log('teste:' + posicao);
+          var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };--%>
+
+     </script> 
 </asp:Content>

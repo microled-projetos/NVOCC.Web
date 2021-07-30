@@ -19,7 +19,7 @@ Public Class OUTLOOK
 
         Dim app As Application = New Application()
         Dim mail As MailItem = CType(app.CreateItem(OlItemType.olMailItem), MailItem)
-        mail.[To] = Email '"contatodocliente@gmail.com"
+        mail.[To] = Email
         mail.Subject = "COTAÇÃO"
         mail.Body = "Prezado(a) " & Nome & ", segue sua proposta visando uma oportunidade de embarque."
         mail.Importance = OlImportance.olImportanceNormal
