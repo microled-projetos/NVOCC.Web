@@ -262,11 +262,9 @@ display:none;
 </div>
     <div id="DivImpressao" class="DivImpressao">
        <center><h3>BILL OF LADING</h3></center>
-        <div id="DivVariavel" class="DivVariavel" style="font-size:9px">
-            <table border="1">
-<tr>
-<td>
-    <table >
+        <div id="DivVariavel" class="DivVariavel" style="font-size:9px; border-width: thin;  border-style: solid;  border-color: black;">
+
+    <table border="1">
 <tr>
 <td><strong>SHIPPER/EXPORTER</strong><br/>
     <asp:Label ID="lblCliente" class="lblCliente" runat="server"></asp:Label>
@@ -284,7 +282,9 @@ display:none;
 </td>
 </tr>
 </table>
-</td>
+            <table>
+<tr>
+
 <td><center>H/BL: <asp:Label ID="lblNumeroBLImpressao" class="lblNumeroBLImpressao" runat="server"></asp:Label><br />
     <img src="Content/imagens/FCA-Log - Copia.png" /><br />
     <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
@@ -293,8 +293,9 @@ display:none;
     Phone:+55 13 3797-7850 - Fax: +55</div>
 </td>
 </tr>
-<tr>
-<td><table>
+            </table>
+
+<table>
 <tr>
 <td><strong>OCEAN VESSEL:</strong><br/>
         <asp:Label ID="lblNavio" class="lblNavio" runat="server"></asp:Label><br/></td>
@@ -330,13 +331,28 @@ display:none;
 </table>
 </td>
 </tr>
-<tr>
-<td><table >
+                </table>
+
+    
+    
+    
+    
+    <table style="border:none !important;">
 <tr>
 <td style="width:75%"><strong>MARKS AND NUMBERS</strong><br/>
-        <asp:Label ID="lblContainer" class="lblContainer" runat="server"></asp:Label></td>
+        <asp:Label ID="lblContainer" class="lblContainer" runat="server"></asp:Label>
+
+</td>
+
 <td style="width:15%;font-size:8px"><div style="top:0"><strong>NUMBER OF KIND OF PACKAGES</strong></div>
         <asp:Label ID="lblQtdVolumes" class="lblQtdVolumes" runat="server"></asp:Label><br/><br/><br />
+    </td>
+
+<td><strong>DESCRIPTION OF GOODS</strong><br/>
+        <asp:Label ID="lblCampoEditavel5" class="lblCampoEditavel5" runat="server"></asp:Label>
+
+</td>
+    <td style="width:15%;font-size:8px"><div style="top:0">
     <strong>GROSS WEIGHT:</strong><asp:Label ID="lblPesoBruto" class="lblPesoBruto" runat="server"></asp:Label>
     <br/>
      <strong>NET WEIGHT:</strong><asp:Label ID="lblPesoLiquido" class="lblPesoLiquido" runat="server"></asp:Label>
@@ -344,16 +360,10 @@ display:none;
    <strong>MEASUREMENT:</strong><asp:Label ID="lblM3" class="lblM3" runat="server"></asp:Label>
 </td>
 </tr>
-</table></td>
-<td>
-<table>
-<tr>
-<td><strong>DESCRIPTION OF GOODS</strong><br/>
-        <asp:Label ID="lblCampoEditavel5" class="lblCampoEditavel5" runat="server"></asp:Label></td>
-</tr>
 </table>
 
-<tr>
+<table>
+    <tr>
 <td><strong>FOR DELIVERY OF GOODS, PLEASE APPLY TO</strong><br/>
     <asp:Label ID="lblCampoEditavel" class="lblCampoEditavel" runat="server"></asp:Label>
     <br/><br />
@@ -381,20 +391,31 @@ As Carrier<br />
 An enlarged copy of back clauses is available from the Carrier upon request.</div><br />
     The goods ans instructions are accepted and dealt with subject to the Standard
 </td>
-<td><table >
-<tr>
-<td><strong>FREIGHT AND CHARGES</strong><br/>
+
+
+<td>
+    <table >
+    <tr>
+        <td>
+    <strong>FREIGHT AND CHARGES</strong><br/>
     <asp:Label ID="lblFreteTaxa" class="lblFreteTaxa" runat="server"></asp:Label></td>
-</tr>
-<tr>
-<td><strong>PLACE AND DATE OF ISSUE</strong><br/>
-     <asp:Label ID="lblOrigemPagamento" class="lblOrigemPagamento" runat="server"></asp:Label>, <asp:Label ID="lblCampoEditavel7" class="lblCampoEditavel7" runat="server"></asp:Label><br/><br/><br/><br/>
+        </tr>
+        <tr>
+
+        <td>
+    <strong>PLACE AND DATE OF ISSUE</strong><br/>
+     <asp:Label ID="lblOrigemPagamento" class="lblOrigemPagamento" runat="server"></asp:Label>, <asp:Label ID="lblCampoEditavel7" class="lblCampoEditavel7" runat="server"></asp:Label><br/><br/><br/><br/></td></tr>
+        <tr>
+        <td>
    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
+            </td>
+        </tr>
+        </table>
 </td>
 </tr>
-</table></td>
-</tr>
+
 </table>
+
         </div>
 
         <div style='break-after:page'></div>

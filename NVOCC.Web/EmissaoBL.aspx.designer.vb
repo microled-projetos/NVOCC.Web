@@ -437,6 +437,15 @@ Partial Public Class EmissaoBL
     Protected WithEvents lblQtdVolumes As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblCampoEditavel5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCampoEditavel5 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblPesoBruto.
     '''</summary>
     '''<remarks>
@@ -462,15 +471,6 @@ Partial Public Class EmissaoBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblM3 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblCampoEditavel5.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblCampoEditavel5 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle lblCampoEditavel.
