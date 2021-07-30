@@ -113,15 +113,6 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lkImprimir As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkEnviar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkEnviar As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkFiltrar.
     '''</summary>
     '''<remarks>
