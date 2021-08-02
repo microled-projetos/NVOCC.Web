@@ -21,13 +21,13 @@
             If Request.QueryString("tipo") = 1 Then
 
                 Dim ID As String = Request.QueryString("id")
-                ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = " & ID & " AND DT_COMPETENCIA = '" & COMPETENCIA & "'")
-                Dim valores As Double = 0
+                ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = (SELECT ID_PARCEIRO_VENDEDOR FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_DETALHE_COMISSAO_VENDEDOR = " & ID & ") AND COMPETENCIA = '" & COMPETENCIA & "'")
+                Dim valores As Decimal = 0
 
                 If ds.Tables(0).Rows.Count > 0 Then
 
-                    Dim tabela As String = "<div style='padding:20px'><p>OLÁ," & ds.Tables(0).Rows(0).Item("PARCEIRO_VENDEDOR").ToString() & "</p>
-<p>SEGUE SEU RELATÓRIO DE PREMIAÇÕES REFERENTE AO MÊS " & ds.Tables(0).Rows(0).Item("DT_COMPETENCIA").ToString() & "</p></div><br/><table style='font-family:Arial;font-size:10px;'><tr>"
+                    Dim tabela As String = "<div style='padding:20px'><p>OLÁ, " & ds.Tables(0).Rows(0).Item("PARCEIRO_VENDEDOR").ToString() & "</p>
+<p>SEGUE SEU RELATÓRIO DE PREMIAÇÕES REFERENTE AO MÊS " & ds.Tables(0).Rows(0).Item("COMPETENCIA").ToString() & "</p></div><br/><table style='font-family:Arial;font-size:10px;'><tr>"
                     tabela &= "<th style='padding-right:10px'>PROCESSO</th>"
                     tabela &= "<th style='padding-left:10px;padding-right:10px'>NOTA FISCAL</th>"
                     tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>DATA NF</th>"
@@ -81,11 +81,11 @@
             ElseIf Request.QueryString("tipo") = 2 Then
 
                 Dim tabela As String = ""
-                Dim dsVendedores As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR,PARCEIRO_VENDEDOR FROM [dbo].[View_Comissao_Vendedor] WHERE DT_COMPETENCIA = '" & COMPETENCIA & "'")
+                Dim dsVendedores As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR,PARCEIRO_VENDEDOR FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & COMPETENCIA & "'")
 
                 If dsVendedores.Tables(0).Rows.Count > 0 Then
                     For Each linhaVendedor As DataRow In dsVendedores.Tables(0).Rows
-                        ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = " & linhaVendedor("ID_PARCEIRO_VENDEDOR").ToString() & " AND DT_COMPETENCIA = '" & COMPETENCIA & "'")
+                        ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = " & linhaVendedor("ID_PARCEIRO_VENDEDOR").ToString() & " AND COMPETENCIA = '" & COMPETENCIA & "'")
                         Dim valores As Double = 0
                         If ds.Tables(0).Rows.Count > 0 Then
 
@@ -146,11 +146,11 @@
             ElseIf Request.QueryString("tipo") = 3 Then
 
                 Dim tabela As String = ""
-                Dim dsVendedores As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR,PARCEIRO_VENDEDOR,(SELECT EMAIL FROM TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_VENDEDOR)EMAIL FROM [dbo].[View_Comissao_Vendedor] A WHERE DT_COMPETENCIA = '" & COMPETENCIA & "'")
+                Dim dsVendedores As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR,PARCEIRO_VENDEDOR,(SELECT EMAIL FROM TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_VENDEDOR)EMAIL FROM [dbo].[View_Comissao_Vendedor] A WHERE COMPETENCIA = '" & COMPETENCIA & "'")
 
                 If dsVendedores.Tables(0).Rows.Count > 0 Then
                     For Each linhaVendedor As DataRow In dsVendedores.Tables(0).Rows
-                        ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = " & linhaVendedor("ID_PARCEIRO_VENDEDOR").ToString() & " AND DT_COMPETENCIA = '" & COMPETENCIA & "'")
+                        ds = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Comissao_Vendedor] WHERE ID_PARCEIRO_VENDEDOR = " & linhaVendedor("ID_PARCEIRO_VENDEDOR").ToString() & " AND COMPETENCIA = '" & COMPETENCIA & "'")
                         Dim Mensagem As String = ""
                         Dim valores As Double = 0
                         If ds.Tables(0).Rows.Count > 0 Then
@@ -255,13 +255,21 @@
 
 
                             tabela &= "</table><div style='break-after:page'></div>"
-
-                            Dim email As New EmailService
-                            Mensagem = Mensagem.Replace("'", """")
-                            Dim retorno As String = email.EnviarEmail(linhaVendedor("EMAIL").ToString(), "RELATÓRIO DE PREMIAÇÕES - NVOCC", Mensagem)
+                            If Not IsDBNull(linhaVendedor("EMAIL")) Then
+                                Dim email As New EmailService
+                                Mensagem = Mensagem.Replace("'", """")
+                                Dim retorno As String = email.EnviarEmail(linhaVendedor("EMAIL").ToString(), "RELATÓRIO DE PREMIAÇÕES - NVOCC", Mensagem)
+                                If retorno = "" Then
+                                    divErro.Visible = True
+                                Else
+                                    divSuccess.Visible = True
+                                    lblmsgSuccess.Text = retorno
+                                End If
+                            End If
                         End If
 
                         divConteudoDinamico.InnerHtml = tabela
+
 
                     Next
                 End If

@@ -26,6 +26,7 @@ Public Class OUTLOOK
         mail.Attachments.Add(Server.MapPath("/Content/CotacaoPDF.pdf"), OlAttachmentType.olByValue, Type.Missing, Type.Missing)
         mail.Display(True)
         Response.Redirect("CotacaoComercial.aspx")
+
     End Sub
 
 End Class

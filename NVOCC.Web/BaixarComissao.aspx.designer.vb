@@ -122,15 +122,6 @@ Partial Public Class BaixarComissao
     Protected WithEvents btnPesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnBaixar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnBaixar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle gridPagar.
     '''</summary>
     '''<remarks>
@@ -147,6 +138,15 @@ Partial Public Class BaixarComissao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasPagar As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle TextBox1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ModalPopupExtender1.

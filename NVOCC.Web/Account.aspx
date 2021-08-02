@@ -513,7 +513,7 @@
                    
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />
+                                                           <%-- <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />--%>
 
                                                         </div>
                                                     
@@ -1023,7 +1023,7 @@
                                             <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                         </div>
                                         <div class="table-responsive tableFixHead DivGrid" id="DivGrid" >
-                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false" OnSorting="dgvInvoice_Sorting">
                                                 <Columns>
                                                     <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
                                                     <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
@@ -1072,6 +1072,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
                                 <asp:PostBackTrigger ControlID="lkGeraCSV" />
                                            <asp:AsyncPostBackTrigger ControlID="lkExcluirInvoice" />
+                                       <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvInvoice" />
 
                             </Triggers>
                         </asp:UpdatePanel>
@@ -1089,10 +1090,10 @@
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
         CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
-        group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO">
+        group by A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO">
         <SelectParameters>
             <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />
-            <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal" />
+            <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal"  />
         </SelectParameters>
     </asp:SqlDataSource>
 

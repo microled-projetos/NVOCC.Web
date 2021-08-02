@@ -6,7 +6,10 @@
             padding-top: 5px;
             margin: 0;
         }
-        
+        #imgFundo { 
+display:none; 
+
+}
     </style>
         <div class="row principal">
         <div class="panel panel-primary">
@@ -60,13 +63,13 @@
                                             <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-primary" />
                                         </div>
                                     </div>     
-                                    <div class="col-sm-offset-6 col-sm-2" runat="server">
+                                    <%--<div class="col-sm-offset-6 col-sm-2" runat="server">
                                         <div class="form-group">
                                             <br />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-success" />
 
                                         </div>
-                                    </div>
+                                    </div>--%>
 
                                 </div>
 
@@ -76,10 +79,11 @@
                                     <div class="table-responsive tableFixHead" runat="server" id="gridPagar" visible="false">
                                         <asp:GridView ID="dgvTaxasPagar" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsPagar" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
-                                                         <asp:BoundField DataField="DT_COMPETENCIA" HeaderText="COMPETÊNCIA" SortExpression="DT_COMPETENCIA" />
-                                            <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="INDICADOR" SortExpression="NM_PARCEIRO_EMPRESA" />
-                                                <asp:BoundField DataField="DT_LANCAMENTO" HeaderText="DT_LANCAMENTO" SortExpression="DT_LANCAMENTO" />
-                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="USUARIO LANCAMENTO" SortExpression="NOME_USUARIO_LANCAMENTO" />                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DT_LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />             
+                                                <asp:BoundField DataField="DT_COMPETENCIA" HeaderText="COMPETÊNCIA" SortExpression="DT_COMPETENCIA" />
+                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="INDICADOR" SortExpression="NM_PARCEIRO_EMPRESA" />
+                                                <asp:BoundField DataField="DT_LANCAMENTO" HeaderText="LANCAMENTO" SortExpression="DT_LANCAMENTO" />
+                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="USUARIO LANCAMENTO" SortExpression="NOME_USUARIO_LANCAMENTO" />                                                
+                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />           
                                                 <asp:BoundField DataField="NOME_USUARIO_LIQUIDACAO" HeaderText="USUARIO LIQUIDAÇÃO" SortExpression="NOME_USUARIO_LIQUIDACAO" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -94,9 +98,9 @@
                                     </div>
                                     
 
-
+                                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"  style="display: none;"></asp:TextBox>
                   
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="TextBox1" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >

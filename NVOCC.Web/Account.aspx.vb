@@ -61,7 +61,7 @@
                     ddlTipoDevolucao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE")
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_FECHAMENTO")) Then
-                        btnSalvarNovaInvoice.Visible = False
+                        'btnSalvarNovaInvoice.Visible = False
                         btnComissoes.Visible = False
                         btnOutrasTaxas.Visible = False
                         btnTaxasDeclaradas.Visible = False
@@ -70,7 +70,7 @@
                         dgvItensInvoice.Columns(5).Visible = False
                         btnGravarCabecalho.Visible = False
                     Else
-                        btnSalvarNovaInvoice.Visible = True
+                        ' btnSalvarNovaInvoice.Visible = True
                         btnComissoes.Visible = True
                         btnOutrasTaxas.Visible = True
                         btnTaxasDeclaradas.Visible = True
@@ -91,6 +91,7 @@
 
         End If
     End Sub
+
     Private Sub btnGravarCabecalho_Click(sender As Object, e As EventArgs) Handles btnGravarCabecalho.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -276,6 +277,7 @@
     End Sub
 
     Sub RegistrosGrid()
+        dgvInvoice.DataBind()
 
         divErro.Visible = False
 
@@ -288,7 +290,7 @@
             Dim filtro As String = ""
             If rdStatus.SelectedValue = 1 Then
                 filtro &= " WHERE A.FL_CONFERIDO = 1"
-            ElseIf rdStatus.SelectedValue = 2 Then
+            ElseIf rdStatus.SelectedValue = 0 Then
                 filtro &= " WHERE A.FL_CONFERIDO = 0"
             End If
 
@@ -306,7 +308,7 @@
 
 
             dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
-INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO"
+INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO"
 
             dgvInvoice.DataBind()
             dgvInvoice.Visible = True
@@ -407,7 +409,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsDevolucao.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)"
+        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)"
 
         dgvDevolucao.DataBind()
         dgvDevolucao.Visible = True
@@ -887,7 +889,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     End Sub
 
     Private Sub btnRelacaoAgentes_Click(sender As Object, e As EventArgs) Handles btnRelacaoAgentes.Click
-        Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(DATE, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(VARCHAR,'" & txtEmbarqueFinal.Text & "',103)"
+        Dim sql As String = "SELECT DISTINCT PARCEIRO_AGENTE_INTERNACIONAL FROM [View_House] WHERE CONVERT(DATE, DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103)"
         Classes.Excel.exportaExcel(sql, "NVOCC", "RelacaoAgentes")
 
     End Sub
@@ -992,5 +994,35 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
         atualizaTotalFrete()
     End Sub
 
+    Protected Sub dgvInvoice_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
+        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
 
+        If dt IsNot Nothing Then
+            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+            Session("TaskTable") = dt
+            dgvInvoice.DataSource = Session("TaskTable")
+            dgvInvoice.DataBind()
+            dgvInvoice.HeaderRow.TableSection = TableRowSection.TableHeader
+        End If
+    End Sub
+
+    Private Function GetSortDirection(ByVal column As String) As String
+        Dim sortDirection As String = "ASC"
+        Dim sortExpression As String = TryCast(ViewState("SortExpression"), String)
+
+        If sortExpression IsNot Nothing Then
+
+            If sortExpression = column Then
+                Dim lastDirection As String = TryCast(ViewState("SortDirection"), String)
+
+                If (lastDirection IsNot Nothing) AndAlso (lastDirection = "ASC") Then
+                    sortDirection = "DESC"
+                End If
+            End If
+        End If
+
+        ViewState("SortDirection") = sortDirection
+        ViewState("SortExpression") = column
+        Return sortDirection
+    End Function
 End Class
