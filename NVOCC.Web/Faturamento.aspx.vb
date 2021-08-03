@@ -144,7 +144,7 @@ Public Class Faturamento
                 Dim NumeracaoDoc As New NumeracaoDoc
                 Dim numero As String = NumeracaoDoc.Numerar(2)
 
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT A.DT_CANCELAMENTO,(SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)DT_LIQUIDACAO FROM TB_FATURAMENTO A WHERE A.ID_FATURAMENTO = " & txtID.Text)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT A.DT_CANCELAMENTO,(SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)DT_LIQUIDACAO,(SELECT ISNULL(ID_TIPO_FATURAMENTO,0) FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)ID_TIPO_FATURAMENTO FROM TB_FATURAMENTO A WHERE A.ID_FATURAMENTO = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura cancelada!"
@@ -155,6 +155,12 @@ Public Class Faturamento
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura já liquidada!"
                         divErro.Visible = True
                         Exit Sub
+
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 2 Then
+                        lblmsgErro.Text = "Não foi possivel completar a ação: O tipo de faturamento do registro nao permite baixas pelo modulo atual!"
+                        divErro.Visible = True
+                        Exit Sub
+
 
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -243,71 +249,6 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
         End If
 
     End Sub
-
-    'Private Sub dgvFaturamento_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFaturamento.RowCommand
-    '    divSuccess.Visible = False
-    '    divErro.Visible = False
-    '    divErroSubstituir.Visible = False
-    '    divInfo.Visible = False
-
-    '    If e.CommandName = "Selecionar" Then
-    '        If txtlinha.Text <> "" Then
-    '            dgvFaturamento.Rows(txtlinha.Text).CssClass = "Normal"
-
-    '        End If
-    '        Dim ID As String = e.CommandArgument
-
-
-    '        txtID.Text = ID.Substring(0, ID.IndexOf("|"))
-
-    '        txtlinha.Text = ID.Substring(ID.IndexOf("|"))
-    '        txtlinha.Text = txtlinha.Text.Replace("|", "")
-
-
-    '        For i As Integer = 0 To dgvFaturamento.Rows.Count - 1
-    '            dgvFaturamento.Rows(txtlinha.Text).CssClass = "Normal"
-
-    '        Next
-
-    '        dgvFaturamento.Rows(txtlinha.Text).CssClass = "selected1"
-
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
-    '        If ds.Tables(0).Rows.Count > 0 Then
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
-    '                lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                lblProcessoBaixa.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                lblProcessoSubs.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '            End If
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
-    '                lblClienteCancelamento.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '                lblClienteBaixa.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '                lblClienteSubs.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '            End If
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-    '                lblNumeroNota.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")) Then
-    '                lblDataEmissao.Text = ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")) Then
-    '                Session("ID_CONTA_PAGAR_RECEBER") = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_RPS")) Then
-    '                txtOBSRPS.Text = ds.Tables(0).Rows(0).Item("OB_RPS")
-    '            End If
-
-
-    '        End If
-    '        Con.Fechar()
-
-    '    End If
-    'End Sub
 
     Private Sub lkNotaDebito_Click(sender As Object, e As EventArgs) Handles lkNotaDebito.Click
         divErro.Visible = False
