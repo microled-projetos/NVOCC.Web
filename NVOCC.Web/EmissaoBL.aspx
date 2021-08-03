@@ -29,7 +29,8 @@ display:none;
 
 <div ID="DivPrincial" class="row principal">
        <div class="col-lg-12 col-md-12 col-sm-12">
-
+             <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">EMISSÃO DO BL - <asp:label runat="server" ID="lblNumHBL" class="control-label" Style="font-size:17px" />
@@ -38,7 +39,9 @@ display:none;
                 <div class="panel-body">
                      <div class="tab-content">
                         <div class="tab-pane fade active in" id="cadastro">                  
-        <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Style="display:none"></asp:TextBox>                    
+        <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Style="display:none"></asp:TextBox>  
+                                    <asp:TextBox ID="txtIDHistorico" runat="server" CssClass="form-control" Style="display:none"></asp:TextBox>                    
+
                 <div class="row">
                        <div class="col-md-6">
                         <div class="form-group">
@@ -233,7 +236,7 @@ display:none;
                             <asp:TextBox ID="txtCampoEditavel7" runat="server" CssClass="form-control" ></asp:TextBox>                    
                         </div>
                     </div>
-                    <div class="col-sm-3" style="display:NONE">
+                    <div class="col-sm-3" style="display:block">
                                     <div class="form-group"> 
                                         <label class="control-label" style="color:white">x</label>
                                         <asp:Checkbox ID="ckbAprovar" runat="server" AutoPostBack="true" CssClass="form-control" text="&nbsp;&nbsp;APROVADA" ></asp:Checkbox>
@@ -252,8 +255,10 @@ display:none;
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>&nbsp;</label>                               
-                                                    <button type="button" id="btnCadastrarContainer" class="btn btn-primary btn-block" onclick="Imprimir()">Imprimir</button>
-                                        <asp:Button ID="btnImprimir" runat="server" CssClass="btn btn-primary btn-block" Text="Imprimir2" visible="false" />
+                                                    <button type="button" id="btnCadastrarContainer" class="btn btn-primary btn-block" onclick="Imprimir()" style="display:none">Imprimir</button>
+                                       
+                                        <asp:Button ID="btnImprimir" runat="server" CssClass="btn btn-primary btn-block" Text="Imprimir"  />
+                                            
                                     </div>
                                 </div>
                             </div>   
@@ -264,6 +269,14 @@ display:none;
 
             </div>
        </div>
+                                            </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="btnImprimir" />
+                                                                                        <asp:AsyncPostBackTrigger ControlID="ckbAprovar" />
+
+                                             
+                                        </Triggers>
+                                    </asp:UpdatePanel>
     </div>
 </div>
     <div id="DivImpressao" class="DivImpressao">

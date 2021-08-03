@@ -8,23 +8,19 @@
 
         End If
 
-        If Request.QueryString("id") <> "" Then
+        If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
             Dim Con As New Conexao_sql
             Dim ID As String = Request.QueryString("id")
             Con.Conectar()
 
-
-
-
-
-            Dim dsHistorico As DataSet = Con.ExecutarQuery("SELECT DS_SHIPPER,DS_CONSIGNED,DS_CONSIGNEE,DS_FOR_DELIVERY,DS_NOTIFY_ADDRESS,DS_VOY_NUMBER,DS_OCEAN_VESSEL,DS_NUMBER_ORIGINAL_BL,DS_FREIGHT_PAYABLE,DS_PORT_LOADING,DS_PLACE_RECEIPT,DS_PORT_DISCHARGE,DS_PORT_DELIVERY,DS_MARK_NUMBER,DS_NUMBER_KIND_PACKAGES,DS_DESCRIPTION_GOODS,DS_FREIGHT,DS_CURRENCY,DS_FREIGHT_CHARGES,DS_GROSS_WEIGHT,DS_NET_WEIGHT,DS_MEASUREMENT,DS_AGENT_FOR,DS_SIGNATURE,DS_CPF,DS_IMPRESSAO,DS_PLACE,DS_DATE_ISSUE,DS_COMMODITY,DT_APROVACAO FROM TB_BL_EMISSAO WHERE ID_BL = " & ID)
+            Dim dsHistorico As DataSet = Con.ExecutarQuery("SELECT ID_BL_EMISSAO,DS_SHIPPER,DS_CONSIGNED,DS_CONSIGNEE,DS_FOR_DELIVERY,DS_NOTIFY_ADDRESS,DS_VOY_NUMBER,DS_OCEAN_VESSEL,DS_NUMBER_ORIGINAL_BL,DS_FREIGHT_PAYABLE,DS_PORT_LOADING,DS_PLACE_RECEIPT,DS_PORT_DISCHARGE,DS_PORT_DELIVERY,DS_MARK_NUMBER,DS_NUMBER_KIND_PACKAGES,DS_DESCRIPTION_GOODS,DS_FREIGHT,DS_CURRENCY,DS_FREIGHT_CHARGES,DS_GROSS_WEIGHT,DS_NET_WEIGHT,DS_MEASUREMENT,DS_AGENT_FOR,DS_SIGNATURE,DS_CPF,DS_IMPRESSAO,DS_PLACE,DS_DATE_ISSUE,DS_COMMODITY,DT_APROVACAO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL)NR_BL FROM TB_BL_EMISSAO A WHERE ID_BL = " & ID & " ORDER BY ID_BL_EMISSAO DESC")
 
             If dsHistorico.Tables(0).Rows.Count = 0 Then
                 Con.ExecutarQuery("UPDATE TB_BL SET DT_EMISSAO_BL = GETDATE() WHERE ID_BL = " & ID)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT * FROM [dbo].[View_Emissao_BL] WHERE ID_BL = " & ID)
                 If ds.Tables(0).Rows.Count > 0 Then
                     txtID.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
-
+                    txtIDHistorico.Text = 0
                     txtCliente.Text = ds.Tables(0).Rows(0).Item("PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("ENDERECO_PARCEIRO_CLIENTE").ToString() & " " & ds.Tables(0).Rows(0).Item("NR_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("COMPL_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("BAIRRO_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("CEP_PARCEIRO_CLIENTE").ToString() & " - " & ds.Tables(0).Rows(0).Item("CIDADE_PARCEIRO_CLIENTE").ToString() & Environment.NewLine & ds.Tables(0).Rows(0).Item("TELEFONE_PARCEIRO_CLIENTE").ToString()
 
                     lblNumeroBLImpressao.Text = ds.Tables(0).Rows(0).Item("NR_BL").ToString()
@@ -80,7 +76,8 @@ SELECT 'FREIGHT: '+ CAST(SUM(ISNULL(A.VL_FRETE,0))AS varchar) + ' ' + (SELECT SI
 
                 Con.Fechar()
             Else
-                txtCliente.Text = dsHistorico.Tables(0).Rows(0).Item("PARCEIRO_CLIENTE").ToString()
+                txtIDHistorico.Text = dsHistorico.Tables(0).Rows(0).Item("ID_BL_EMISSAO").ToString()
+                txtCliente.Text = dsHistorico.Tables(0).Rows(0).Item("DS_SHIPPER").ToString()
                 lblNumeroBLImpressao.Text = dsHistorico.Tables(0).Rows(0).Item("NR_BL").ToString()
                 lblNumHBL.Text = dsHistorico.Tables(0).Rows(0).Item("NR_BL").ToString()
                 txtPesoLiquido.Text = dsHistorico.Tables(0).Rows(0).Item("DS_NET_WEIGHT").ToString()
@@ -112,6 +109,10 @@ SELECT 'FREIGHT: '+ CAST(SUM(ISNULL(A.VL_FRETE,0))AS varchar) + ' ' + (SELECT SI
                 txtOrigemPagamento.Text = dsHistorico.Tables(0).Rows(0).Item("DS_PLACE").ToString()
                 txtCampoEditavel7.Text = dsHistorico.Tables(0).Rows(0).Item("DS_DATE_ISSUE").ToString()
 
+                If Not IsDBNull(dsHistorico.Tables(0).Rows(0).Item("DT_APROVACAO")) Then
+                    ckbAprovar.Checked = True
+                    DesabilitaCampos(Me)
+                End If
             End If
 
 
@@ -131,49 +132,61 @@ SELECT 'FREIGHT: '+ CAST(SUM(ISNULL(A.VL_FRETE,0))AS varchar) + ' ' + (SELECT SI
 
     End Sub
 
+    Public Sub DesabilitaCampos(ByVal controlP As Control)
+        Dim ctl As Control
+
+        For Each ctl In controlP.Controls
+
+            If TypeOf ctl Is TextBox Then
+
+                DirectCast(ctl, TextBox).Enabled = False
+
+            ElseIf ctl.Controls.Count > 0 Then
+
+                DesabilitaCampos(ctl)
+
+            End If
+
+        Next
+        ckbAprovar.Enabled = False
+    End Sub
     Private Sub ckbAprovar_CheckedChanged(sender As Object, e As EventArgs) Handles ckbAprovar.CheckedChanged
         Dim Con As New Conexao_sql
         Dim ID As String = Request.QueryString("id")
         Con.Conectar()
-        Dim dsHistorico As DataSet = Con.ExecutarQuery("SELECT MAX(ID_BL_EMISSAO)ID_BL_EMISSAO FROM TB_BL_EMISSAO WHERE ID_BL = " & ID)
 
-        If dsHistorico.Tables(0).Rows.Count = 0 Then
-
+        If ckbAprovar.Checked = True Then
             IncluiHistorico()
+            Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = GETDATE(), ID_USUARIO_APROVACAO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & ID & " AND ID_BL_EMISSAO = " & txtIDHistorico.Text)
+            DesabilitaCampos(Me)
+        ElseIf ckbAprovar.Checked = False Then
+            Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = NULL, ID_USUARIO_APROVACAO = NULL WHERE ID_BL = " & ID & " AND ID_BL_EMISSAO = " & txtIDHistorico.Text)
 
-        Else
-            If ckbAprovar.Checked = True Then
-                Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = GETDATE(), ID_USUARIO_APROVACAO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & ID & " AND ID_BL_EMISSAO = " & dsHistorico.Tables(0).Rows(0).Item("ID_BL_EMISSAO"))
-
-            Else
-                Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = NULL, ID_USUARIO_APROVACAO = NULL WHERE ID_BL = " & ID & " AND ID_BL_EMISSAO = " & dsHistorico.Tables(0).Rows(0).Item("ID_BL_EMISSAO"))
-
-            End If
         End If
+
     End Sub
     Sub IncluiHistorico()
         Dim Con As New Conexao_sql
         Dim ID As String = Request.QueryString("id")
         Con.Conectar()
-        Con.ExecutarQuery("INSERT INTO  TB_BL_EMISSAO (ID_BL,DS_SHIPPER,DS_CONSIGNED,DS_CONSIGNEE,DS_FOR_DELIVERY,DS_NOTIFY_ADDRESS,DS_VOY_NUMBER,DS_OCEAN_VESSEL,DS_NUMBER_ORIGINAL_BL,DS_FREIGHT_PAYABLE,DS_PORT_LOADING,DS_PLACE_RECEIPT,DS_PORT_DISCHARGE,DS_PORT_DELIVERY,DS_MARK_NUMBER,DS_NUMBER_KIND_PACKAGES,DS_DESCRIPTION_GOODS,DS_FREIGHT,DS_CURRENCY,DS_FREIGHT_CHARGES,DS_GROSS_WEIGHT,DS_NET_WEIGHT,DS_MEASUREMENT,DS_AGENT_FOR,DS_SIGNATURE,DS_CPF,DS_IMPRESSAO,DS_PLACE,DS_DATE_ISSUE) VALUES (" & ID & "," & txtCliente.Text & "," & txtImportador1.Text & "," & txtImportador2.Text & "," & txtCampoEditavel.Text & "," & txtImportador3.Text & "," & txtViagem.Text & "," & txtNavio.Text & "," & txtCampoEditavel1.Text & "," & txtTipoPagamento.Text & "," & txtOrigem.Text & "," & txtCampoEditavel2.Text & "," & txtDestino.Text & "," & txtCampoEditavel3.Text & "," & txtContainer.Text & "," & txtQtdVolumes.Text & "," & txtCampoEditavel5.Text & "," & txtFrete.Text & "," & txtMoeda.Text & "," & txtFreteTaxa.Text & "," & txtPesoBruto.Text & "," & txtPesoLiquido.Text & "," & txtM3.Text & "," & txtAgente.Text & "," & txtCampoEditavel6.Text & "," & txtCPF.Text & "," & txtImpressao.Text & "," & txtOrigemPagamento.Text & "," & txtCampoEditavel7.Text & ")")
+        Dim dsHistorico As DataSet = Con.ExecutarQuery("INSERT INTO  TB_BL_EMISSAO (ID_BL,DS_SHIPPER,DS_CONSIGNED,DS_CONSIGNEE,DS_FOR_DELIVERY,DS_NOTIFY_ADDRESS,DS_VOY_NUMBER,DS_OCEAN_VESSEL,DS_NUMBER_ORIGINAL_BL,DS_FREIGHT_PAYABLE,DS_PORT_LOADING,DS_PLACE_RECEIPT,DS_PORT_DISCHARGE,DS_PORT_DELIVERY,DS_MARK_NUMBER,DS_NUMBER_KIND_PACKAGES,DS_DESCRIPTION_GOODS,DS_FREIGHT,DS_CURRENCY,DS_FREIGHT_CHARGES,DS_GROSS_WEIGHT,DS_NET_WEIGHT,DS_MEASUREMENT,DS_AGENT_FOR,DS_SIGNATURE,DS_CPF,DS_IMPRESSAO,DS_PLACE,DS_DATE_ISSUE) VALUES (" & ID & ",'" & txtCliente.Text & "','" & txtImportador1.Text & "','" & txtImportador2.Text & "','" & txtCampoEditavel.Text & "','" & txtImportador3.Text & "','" & txtViagem.Text & "','" & txtNavio.Text & "','" & txtCampoEditavel1.Text & "','" & txtTipoPagamento.Text & "','" & txtOrigem.Text & "','" & txtCampoEditavel2.Text & "','" & txtDestino.Text & "','" & txtCampoEditavel3.Text & "','" & txtContainer.Text & "','" & txtQtdVolumes.Text & "','" & txtCampoEditavel5.Text & "','" & txtFrete.Text & "','" & txtMoeda.Text & "','" & txtFreteTaxa.Text & "','" & txtPesoBruto.Text & "','" & txtPesoLiquido.Text & "','" & txtM3.Text & "','" & txtAgente.Text & "','" & txtCampoEditavel6.Text & "','" & txtCPF.Text & "','" & txtImpressao.Text & "','" & txtOrigemPagamento.Text & "','" & txtCampoEditavel7.Text & "')   Select SCOPE_IDENTITY() as ID_BL_EMISSAO ")
 
+        txtIDHistorico.Text = dsHistorico.Tables(0).Rows(0).Item("ID_BL_EMISSAO").ToString()
     End Sub
     Private Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Dim Con As New Conexao_sql
         Dim ID As String = Request.QueryString("id")
         Con.Conectar()
-        Dim dsHistorico As DataSet = Con.ExecutarQuery("SELECT MAX(ID_BL_EMISSAO)ID_BL_EMISSAO FROM TB_BL_EMISSAO WHERE ID_BL = " & ID)
 
-        If dsHistorico.Tables(0).Rows.Count = 0 Then
-        Else
-            If ckbAprovar.Checked = True Then
-                Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = GETDATE(), ID_USUARIO_APROVACAO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & ID)
+        If ckbAprovar.Checked = False Then
+            IncluiHistorico()
+            Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = NULL, ID_USUARIO_APROVACAO = NULL WHERE ID_BL = " & ID & " AND ID_BL_EMISSAO = " & txtIDHistorico.Text)
 
-            Else
-                Con.ExecutarQuery("UPDATE TB_BL_EMISSAO SET DT_APROVACAO = NULL, ID_USUARIO_APROVACAO = NULL WHERE ID_BL = " & ID)
-
-            End If
         End If
+
+
+
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "Imprimir()", True)
 
     End Sub
 End Class

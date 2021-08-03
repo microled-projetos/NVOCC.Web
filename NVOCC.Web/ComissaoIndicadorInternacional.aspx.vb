@@ -248,7 +248,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-
+        Dim CONTADOR As Integer = 0
 
         If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" And txtNovaQuinzena.Text = "" Then
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
@@ -265,6 +265,33 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                     lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
                     divErroGerarComissao.Visible = True
                 Else
+
+                    dsQtd = Con.ExecutarQuery("SELECT ID_PARCEIRO_VENDEDOR,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_VENDEDOR)NM_RAZAO,
+CASE WHEN (SELECT ID_TAXA_COMISSAO_INDICADOR FROM TB_TAXA_COMISSAO_INDICADOR WHERE ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR AND DT_VALIDADE_INICIAL <= GETDATE()) IS NULL THEN '0' ELSE 1 END TAXA
+FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
+WHERE DT_PAGAMENTO_EXP IS NULL")
+                    If dsQtd.Tables(0).Rows.Count = 0 Then
+                        lblErroGerarComissao.Text = "Não há taxa cadastrada para os indicadores!"
+                        divErroGerarComissao.Visible = True
+
+                    Else
+
+                        lblErroGerarComissao.Text = ""
+                        For Each linha As DataRow In dsQtd.Tables(0).Rows
+                            If linha("TAXA") = 0 Then
+                                CONTADOR = CONTADOR + 1
+                                lblErroGerarComissao.Text &= "Não há taxa cadastrada para: " & linha("NM_RAZAO") & "<br/>"
+                            End If
+
+                        Next
+                        If CONTADOR <> 0 Then
+                            divErroGerarComissao.Visible = True
+                            ModalPopupExtender3.Show()
+
+                            Exit Sub
+                        End If
+
+                    End If
 
                     If txtObs.Text = "" Then
                         txtObs.Text = "NULL"
@@ -299,6 +326,7 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
                     txtObs.Text = txtObs.Text.Replace("NULL", "")
                     txtObs.Text = txtObs.Text.Replace("'", "")
                 End If
+
             End If
 
         End If

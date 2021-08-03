@@ -104,6 +104,15 @@ Partial Public Class BaixarComissao
     Protected WithEvents txtCompetencia As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtQuinzena.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQuinzena As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ckStatus.
     '''</summary>
     '''<remarks>
@@ -230,13 +239,13 @@ Partial Public Class BaixarComissao
     Protected WithEvents lblCompetencia As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblIndicador.
+    '''Controle lblQuinzena.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblIndicador As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblQuinzena As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtIDBaixa.

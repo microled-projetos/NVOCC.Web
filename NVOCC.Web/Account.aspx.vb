@@ -245,10 +245,11 @@
         divSuccess.Visible = False
         divErro.Visible = False
         If e.CommandName = "Selecionar" Then
-            If txtlinha.Text <> "" Then
-                dgvInvoice.Rows(txtlinha.Text).CssClass = "Normal"
 
-            End If
+            For i As Integer = 0 To dgvInvoice.Rows.Count - 1
+                dgvInvoice.Rows(i).CssClass = "Normal"
+
+            Next
             Dim ID As String = e.CommandArgument
 
 
@@ -257,11 +258,6 @@
             txtlinha.Text = ID.Substring(ID.IndexOf("|"))
             txtlinha.Text = txtlinha.Text.Replace("|", "")
 
-
-            For i As Integer = 0 To dgvInvoice.Rows.Count - 1
-                dgvInvoice.Rows(txtlinha.Text).CssClass = "Normal"
-
-            Next
 
             dgvInvoice.Rows(txtlinha.Text).CssClass = "selected1"
 
@@ -277,7 +273,7 @@
     End Sub
 
     Sub RegistrosGrid()
-        dgvInvoice.DataBind()
+
 
         divErro.Visible = False
 
@@ -287,6 +283,7 @@
             dgvInvoice.Visible = False
 
         Else
+
             Dim filtro As String = ""
             If rdStatus.SelectedValue = 1 Then
                 filtro &= " WHERE A.FL_CONFERIDO = 1"

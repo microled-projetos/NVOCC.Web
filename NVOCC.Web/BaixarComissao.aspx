@@ -46,7 +46,12 @@ display:none;
                                             <asp:TextBox ID="txtCompetencia" runat="server" placeholder="___/______" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
-
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Quinzena:</label>
+                                            <asp:TextBox ID="txtQuinzena" runat="server"  CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-1" style="padding-top: 10px;">
 
                            <div class="form-group">
@@ -80,7 +85,7 @@ display:none;
                                         <asp:GridView ID="dgvTaxasPagar" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsPagar" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:BoundField DataField="DT_COMPETENCIA" HeaderText="COMPETÊNCIA" SortExpression="DT_COMPETENCIA" />
-                                                <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="INDICADOR" SortExpression="NM_PARCEIRO_EMPRESA" />
+                                                <asp:BoundField DataField="NR_QUINZENA" HeaderText="QUINZENA" SortExpression="NR_QUINZENA" />
                                                 <asp:BoundField DataField="DT_LANCAMENTO" HeaderText="LANCAMENTO" SortExpression="DT_LANCAMENTO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="USUARIO LANCAMENTO" SortExpression="NOME_USUARIO_LANCAMENTO" />                                                
                                                 <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />           
@@ -120,7 +125,7 @@ display:none;
                                 </div>
                                             <h5>
                                                 <asp:label runat="server" ID="lblCompetencia"  />
-                                                <asp:label runat="server" ID="lblIndicador"  /></h5>                                        
+                                                <asp:label runat="server" ID="lblQuinzena"  /></h5>                                        
                                       
                                                         <div class="row">
                                                             <div class="col-sm-offset-2 col-sm-2">

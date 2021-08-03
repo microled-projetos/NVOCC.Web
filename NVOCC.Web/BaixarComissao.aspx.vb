@@ -28,8 +28,11 @@
         If txtCompetencia.Text = "" Then
             lblErro.Text = "É necessario informar a competência."
             divErro.Visible = True
+        ElseIf txtQuinzena.Text = "" Then
+            lblErro.Text = "É necessario informar a quinzena."
+            divErro.Visible = True
         Else
-            Dim filtro As String = " AND DT_COMPETENCIA = '" & txtCompetencia.Text & "'"
+            Dim filtro As String = " AND DT_COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = " & txtQuinzena.Text
 
             If ckStatus.Items.FindByValue(1).Selected And ckStatus.Items.FindByValue(2).Selected Then
                 filtro &= " AND DT_CANCELAMENTO IS NULL"
@@ -126,7 +129,7 @@
     End Sub
 
     Private Sub dgvTaxasPagar_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxasPagar.RowCommand
-        lblIndicador.Text = ""
+        lblQuinzena.Text = ""
         lblCompetencia.Text = ""
         txtIDBaixa.Text = ""
         If e.CommandName = "Selecionar" Then
@@ -144,7 +147,7 @@
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,DT_COMPETENCIA,NM_PARCEIRO_EMPRESA FROM View_Baixas_Comissoes WHERE ID_CONTA_PAGAR_RECEBER = " & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,DT_COMPETENCIA,NR_QUINZENA FROM View_Baixas_Comissoes WHERE ID_CONTA_PAGAR_RECEBER = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")) Then
                     txtIDBaixa.Text &= ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
@@ -152,8 +155,8 @@
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_COMPETENCIA")) Then
                     lblCompetencia.Text &= "Competencia: " & ds.Tables(0).Rows(0).Item("DT_COMPETENCIA") & "<br/>"
                 End If
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_PARCEIRO_EMPRESA")) Then
-                    lblIndicador.Text &= "Indicador: " & ds.Tables(0).Rows(0).Item("NM_PARCEIRO_EMPRESA") & "<br/>"
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_QUINZENA")) Then
+                    lblQuinzena.Text &= "Quinzena: " & ds.Tables(0).Rows(0).Item("NR_QUINZENA") & "<br/>"
                 End If
                 ModalPopupExtender1.Show()
             End If
