@@ -2432,7 +2432,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
     Private Sub txtFreteVendaMercadoriaUnitario_TextChanged(sender As Object, e As EventArgs) Handles txtFreteVendaMercadoriaUnitario.TextChanged
         If txtQtdContainerMercadoria.Text <> "" And txtFreteVendaMercadoriaUnitario.Text <> "" Then
 
-            If txtQtdContainerMercadoria.Text > 0 Then
+            If txtQtdContainerMercadoria.Text > 0 And txtFreteVendaMercadoriaUnitario.Text <> 0 Then
                 Dim valor As String = txtFreteVendaMercadoriaUnitario.Text
                 Dim qtd As Integer = txtQtdContainerMercadoria.Text
                 Dim X As Double = valor * qtd
@@ -2446,7 +2446,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
     Private Sub txtFreteCompraMercadoria_TextChanged(sender As Object, e As EventArgs) Handles txtFreteCompraMercadoriaUnitario.TextChanged
         If txtQtdContainerMercadoria.Text <> "" And txtFreteCompraMercadoriaUnitario.Text <> "" Then
 
-            If txtQtdContainerMercadoria.Text > 0 Then
+            If txtQtdContainerMercadoria.Text > 0 And txtFreteCompraMercadoriaUnitario.Text <> 0 Then
                 Dim valor As String = txtFreteCompraMercadoriaUnitario.Text
                 Dim qtd As Integer = txtQtdContainerMercadoria.Text
                 Dim X As Double = valor * qtd

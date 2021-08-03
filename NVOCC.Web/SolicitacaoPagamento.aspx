@@ -66,10 +66,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                            <ContentTemplate>
                                         <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
 
                                     <div id="DivGrid" class="col-sm-9 table-responsive tableFixHead DivGrid">
-                                        <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                        <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 200px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -78,7 +80,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"   AutoPostBack="true" ToolTip="Só é possivel selecionar taxas calculadas"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"  OnClick="SalvaPosicao()" ToolTip="Só é possivel selecionar taxas calculadas"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -108,7 +110,11 @@
                                         </asp:GridView>
                                         
                                     </div>
-
+                                    </ContentTemplate>
+                            <Triggers>
+                               <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
+                            </Triggers>
+                        </asp:UpdatePanel>
                                     <div class="col-sm-3 table-responsive tableFixHead">
                                         
                                         <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA" DataSourceID="dsMoeda" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual." Visible="false">
@@ -136,7 +142,6 @@
                                                         <asp:TextBox ID="txtValorCambio" runat="server" Text='<%# Eval("VL_TXOFICIAL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                               <%-- <asp:BoundField DataField="DT_CAMBIO" HeaderText="Data Câmbio" SortExpression="DT_CAMBIO" DataFormatString="{0:dd/MM/yyyy}" />--%>
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoedaFrete" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
@@ -210,7 +215,8 @@
 
                             </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />                                                             <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
+                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />                                                            
+                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFornecedor" />
                                 <asp:PostBackTrigger ControlID="btnAtualizaValor" />
                             </Triggers>
@@ -266,7 +272,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
      <script type="text/javascript">
  
-        <%-- function SalvaPosicao() {
+   function SalvaPosicao() {
              console.log('teste:' + posicao);
           var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
@@ -279,7 +285,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
                 console.log('else:' + posicao);
 
             }
-      };
+   };
      
     
   Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
@@ -287,7 +293,8 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO">
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
-        };--%>
+            console.log('retorno:' + valor);
+        };
 
      </script> 
 </asp:Content>

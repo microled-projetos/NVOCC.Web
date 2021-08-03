@@ -95,6 +95,8 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
 
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
         AtualizaTotal()
+        'ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SalvaPosicao()", True)
+
     End Sub
 
     Sub AtualizaTotal()
@@ -120,7 +122,6 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_E
             End If
 
         Next
-        'ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "SalvaPosicao()", True)
 
     End Sub
     Private Sub btnSolicitar_Click(sender As Object, e As EventArgs) Handles btnSolicitar.Click

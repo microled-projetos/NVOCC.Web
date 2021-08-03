@@ -900,24 +900,6 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
     End Sub
 
     Private Sub lkTracking_Click(sender As Object, e As EventArgs) Handles lkTracking.Click
-        'divSuccessHouse.Visible = False
-        'divErroHouse.Visible = False
-        'Dim SiteApiTracking As String = ConfigurationSettings.AppSettings("SiteApiTracking")
-        'Dim Con As New Conexao_sql
-        'Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT BL_TOKEN FROM [TB_BL] WHERE BL_TOKEN IS NOT NULL AND ID_BL = " & txtID_Master.Text)
-
-        'If ds.Tables(0).Rows.Count > 0 Then
-        '    ' Response.Redirect("https://localhost:8081/" & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
-        '    Response.Redirect(SiteApiTracking & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
-
-        'Else
-        '    Response.Redirect(SiteApiTracking & 0)
-
-        '    'divErroHouse.Visible = True
-        '    'lblErroHouse.Text = "BL não cadastrada no Logcomex."
-        '    'Exit Sub
-        'End If
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 

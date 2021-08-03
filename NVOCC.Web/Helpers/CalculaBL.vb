@@ -255,7 +255,7 @@ AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INN
                 'POR HAWB(AEREO)
                 Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(COUNT(ID_BL),0)QTD
 FROM TB_BL A
-WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (3,5) AND GRAU = 'C' ")
+WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (2,5) AND GRAU = 'C' ")
                 x = ds1.Tables(0).Rows(0).Item("QTD")
                 y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 z = y * x
