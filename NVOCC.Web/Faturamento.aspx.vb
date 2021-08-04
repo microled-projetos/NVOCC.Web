@@ -675,7 +675,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Try
                 ''CRIAÇÃO DA PARTE DO CEDENTE
                 'Cabeçalho do Banco
-                objBoletos.Banco = Banco.Instancia(Int(ddlBanco.SelectedValue))
+                objBoletos.Banco = Banco.Instancia(33)
                 objBoletos.Banco.Cedente = New Cedente
                 objBoletos.Banco.Cedente.CPFCNPJ = "00.639.367/0001-50"
                 objBoletos.Banco.Cedente.Nome = "FCA COMERCIO EXTERIOR E LOGISTICA LTDA"
@@ -831,7 +831,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     Dim NovoBoleto = New BoletoBancario
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
-                    File.WriteAllBytes(Server.MapPath("/Content/") & "/boletos" & numBoletos & ".pdf", pdf)
+                    File.WriteAllBytes(Server.MapPath("/Content/boletos" & numBoletos & ".pdf"), pdf)
 
                     ''Parte da impressão do boleto
                     'If blnImprimir = True Then
