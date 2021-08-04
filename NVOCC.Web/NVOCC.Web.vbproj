@@ -253,6 +253,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ABAINFRA.Web.dll" />
     <Content Include="Account.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -670,7 +671,6 @@
     </Compile>
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
-    <Compile Include="Class\Boleto.vb" />
     <Compile Include="Class\Consignee.vb" />
     <Compile Include="Class\Dates.vb" />
     <Compile Include="Class\Documentos.vb" />
@@ -1125,6 +1125,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Boleto2.Net\Boleto2.Net.csproj">
+      <Project>{f173e80b-e36b-48ad-b483-a27f8ca86f3c}</Project>
+      <Name>Boleto2.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
