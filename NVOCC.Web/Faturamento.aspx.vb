@@ -623,17 +623,17 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     'Cabeçalho do Banco
                     objBoletos.Banco = Banco.Instancia(ds.Tables(0).Rows(0).Item("NR_BANCO"))
                     objBoletos.Banco.Cedente = New Cedente
-                    objBoletos.Banco.Cedente.CPFCNPJ = "00.639.367/0001-50" 'ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
-                    objBoletos.Banco.Cedente.Nome = "FCA COMERCIO EXTERIOR E LOGISTICA LTDA"  'ds.Tables(0).Rows(0).Item("NM_CEDENTE")
+                    objBoletos.Banco.Cedente.CPFCNPJ = ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
+                    objBoletos.Banco.Cedente.Nome = ds.Tables(0).Rows(0).Item("NM_CEDENTE")
                     objBoletos.Banco.Cedente.Observacoes = "Observações do cedente - o que coloca aqui?"
 
                     Dim conta As New ContaBancaria
-                    conta.Agencia = "3297" 'ds.Tables(0).Rows(0).Item("NR_AGENCIA")
-                    conta.DigitoAgencia = "2" 'ds.Tables(0).Rows(0).Item("DG_AGENCIA")
+                    conta.Agencia = ds.Tables(0).Rows(0).Item("NR_AGENCIA")
+                    conta.DigitoAgencia = ds.Tables(0).Rows(0).Item("DG_AGENCIA")
                     conta.OperacaoConta = String.Empty
-                    conta.Conta = "13001071" 'ds.Tables(0).Rows(0).Item("NR_CONTA")
-                    conta.DigitoConta = "2" 'ds.Tables(0).Rows(0).Item("DG_CONTA")
-                    conta.CarteiraPadrao = "101" 'ds.Tables(0).Rows(0).Item("CARTEIRA")
+                    conta.Conta = ds.Tables(0).Rows(0).Item("NR_CONTA")
+                    conta.DigitoConta = ds.Tables(0).Rows(0).Item("DG_CONTA")
+                    conta.CarteiraPadrao = ds.Tables(0).Rows(0).Item("CARTEIRA")
 
                     conta.VariacaoCarteiraPadrao = ""
                     conta.TipoCarteiraPadrao = TipoCarteira.CarteiraCobrancaSimples
@@ -650,9 +650,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     ender.UF = "SP"
                     ender.CEP = "000000000"
 
-                    objBoletos.Banco.Cedente.Codigo = "033" 'ds.Tables(0).Rows(0).Item("CD_CEDENTE")
+                    objBoletos.Banco.Cedente.Codigo = ds.Tables(0).Rows(0).Item("CD_CEDENTE")
                     objBoletos.Banco.Cedente.CodigoDV = "6"
-                    objBoletos.Banco.Cedente.CodigoTransmissao = "000000" 'ds.Tables(0).Rows(0).Item("CD_TRASMISSAO")
+                    objBoletos.Banco.Cedente.CodigoTransmissao = ds.Tables(0).Rows(0).Item("CD_TRASMISSAO")
                     objBoletos.Banco.Cedente.ContaBancaria = conta
                     objBoletos.Banco.Cedente.Endereco = ender
 
@@ -668,16 +668,16 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         ''CRIAÇÃO DO TITULO
                         Dim Titulo As New Boleto(objBoletos.Banco)
                         Titulo.Sacado = New Sacado With {
-                    .CPFCNPJ = "03861018250", 'linhads.Item("CNPJ").ToString()
+                    .CPFCNPJ = linhads.Item("CNPJ").ToString(),
                     .Endereco = New Boleto2Net.Endereco With {
-                    .Bairro = "Bairro", 'linhads.Item("BAIRRO").ToString()
-                    .CEP = "14154710", 'linhads.Item("CEP").ToString()
-                    .Cidade = "Cidade",'linhads.Item("CIDADE").ToString()
-                    .LogradouroComplemento = "",'linhads.Item("COMPL_ENDERECO").ToString()
-                    .LogradouroEndereco = "Rua Da Esquina Perdida Logo Ali", 'linhads.Item("ENDERECO").ToString()
-                    .LogradouroNumero = "569",'linhads.Item("NR_ENDERECO").ToString()
+                    .Bairro = linhads.Item("BAIRRO").ToString(),
+                    .CEP = linhads.Item("CEP").ToString(),
+                    .Cidade = linhads.Item("CIDADE").ToString(),
+                    .LogradouroComplemento = linhads.Item("COMPL_ENDERECO").ToString(),
+                    .LogradouroEndereco = linhads.Item("ENDERECO").ToString(),
+                    .LogradouroNumero = linhads.Item("NR_ENDERECO").ToString(),
                     .UF = "SP"},
-                    .Nome = "Nome do Pagador",'linhads.Item("NM_CLIENTE").ToString()
+                    .Nome = linhads.Item("NM_CLIENTE").ToString(),
                     .Observacoes = "Pagar com urgência para não ser protestado."
                 }
                         Titulo.CodigoOcorrencia = "01"
@@ -730,42 +730,42 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
                 '
-                'If File.Exists(Application.StartupPath & "\remessa.txt") Then
-                '    File.Delete(Application.StartupPath & "\remessa.txt")
-                'End If
-                ''GERA ARQUIVO DE REMESSA
-                'Dim st As New MemoryStream
-                'Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
-                'remessa.GerarArquivoRemessa(objBoletos, st)
-                'Dim arquivo As New FileStream(Application.StartupPath & "\remessa.txt", FileMode.Create, FileAccess.ReadWrite)
+                If File.Exists(Server.MapPath("/Content/boletos\arquivo_remessa.txt")) Then
+                    File.Delete(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
+                End If
+                'GERA ARQUIVO DE REMESSA
+                Dim st As New MemoryStream
+                Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
+                remessa.GerarArquivoRemessa(objBoletos, st)
+                Dim arquivo As New FileStream(Server.MapPath("/Content/boletos\arquivo_remessa.txt"), FileMode.Create, FileAccess.ReadWrite)
 
-                'st.WriteTo(arquivo)
-                'arquivo.Close()
-                'st.Close()
+                st.WriteTo(arquivo)
+                arquivo.Close()
+                st.Close()
 
 
-                'Dim LerArquivo As New StreamReader(Application.StartupPath & "\remessa.txt")
+                Dim LerArquivo As New StreamReader(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
 
-                'Dim RefazArquivo As New StreamWriter(Application.StartupPath & "\remessa2.txt") 'Arquivo verificado para ser enviado ao banco
-                'Dim strTexto As String = Nothing
-                'Dim conta1 As Integer = 0
-                'Do While LerArquivo.Peek <> -1
-                '    strTexto = LerArquivo.ReadLine
-                '    conta1 = strTexto.Length
-                '    If conta1 < 240 Then
-                '        conta1 = 240 - conta1
-                '        Dim strEspaco As String = Nothing
-                '        For I As Integer = 1 To conta1
-                '            strEspaco = strEspaco & " "
-                '        Next
-                '        RefazArquivo.WriteLine(strTexto & strEspaco)
-                '    Else
-                '        RefazArquivo.WriteLine(strTexto)
-                '    End If
+                Dim RefazArquivo As New StreamWriter(Server.MapPath("/Content/boletos\arquivo_remessa_validado.txt")) 'Arquivo verificado para ser enviado ao banco
+                Dim strTexto As String = Nothing
+                Dim conta1 As Integer = 0
+                Do While LerArquivo.Peek <> -1
+                    strTexto = LerArquivo.ReadLine
+                    conta1 = strTexto.Length
+                    If conta1 < 240 Then
+                        conta1 = 240 - conta1
+                        Dim strEspaco As String = Nothing
+                        For L As Integer = 1 To conta1
+                            strEspaco = strEspaco & " "
+                        Next
+                        RefazArquivo.WriteLine(strTexto & strEspaco)
+                    Else
+                        RefazArquivo.WriteLine(strTexto)
+                    End If
 
-                'Loop
-                'RefazArquivo.Close()
-                'LerArquivo.Close()
+                Loop
+                RefazArquivo.Close()
+                LerArquivo.Close()
 
                 ''Solicita se vai imprimir os boletos
                 'If MessageBox.Show("Deseja imprimir os boletos agora?", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
@@ -784,29 +784,29 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     Dim NovoBoleto = New BoletoBancario
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
-                    File.WriteAllBytes(Server.MapPath("/Content/boletos" & numBoletos & ".pdf"), pdf)
+                    File.WriteAllBytes(Server.MapPath("/Content/boletos\boleto" & numBoletos & ".pdf"), pdf)
 
                     ''Parte da impressão do boleto
-                    'If blnImprimir = True Then
-                    '    Dim MyProcess As New Process
-                    '    MyProcess.StartInfo.CreateNoWindow = False
-                    '    MyProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-                    '    MyProcess.StartInfo.Verb = "print"
-                    '    MyProcess.StartInfo.Arguments = strImpressora
 
-                    '    MyProcess.StartInfo.FileName = Application.StartupPath & "\boleto" & numBoletos & ".pdf"
-                    '    MyProcess.Start()
-                    '    'MyProcess.WaitForExit(10000)
-                    '    MyProcess.WaitForInputIdle()
+                    Dim myprocess As New Process
+                        myprocess.StartInfo.CreateNoWindow = False
+                        myprocess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+                        myprocess.StartInfo.Verb = "print"
+                        myprocess.StartInfo.Arguments = strImpressora
 
-                    '    If MyProcess.Responding Then
-                    '        MyProcess.CloseMainWindow()
-                    '    Else
-                    '        MyProcess.Kill()
-                    '    End If
+                        myprocess.StartInfo.FileName = Server.MapPath("/Content/boletos\boleto" & numBoletos & ".pdf")
+                        myprocess.Start()
+                        'myprocess.waitforexit(10000)
+                        myprocess.WaitForInputIdle()
 
-                    '    'MyProcess.Close()
-                    'End If
+                        If myprocess.Responding Then
+                            myprocess.CloseMainWindow()
+                        Else
+                            myprocess.Kill()
+                        End If
+
+                    'myprocess.close()
+
                 Next
 
             Catch ex As Exception
