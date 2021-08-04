@@ -68,7 +68,7 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competencia</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="MM/AAAA" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -124,6 +124,8 @@
                                                 <asp:BoundField DataField="DT_EMBARQUE(ETD)" HeaderText="ETD" SortExpression="DT_EMBARQUE(ETD)" />
                                                 <asp:BoundField DataField="DT_CHEGADA(ETA)" HeaderText="ETA" SortExpression="DT_CHEGADA(ETA)" />
                                                 <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="DATA EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
+
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -329,7 +331,7 @@
 
                                                <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-2">

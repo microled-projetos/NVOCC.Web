@@ -86,8 +86,10 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
                     lkGravarCCProcesso.Visible = False
+                    lkAjustarComissao.Visible = False
                 Else
                     lkGravarCCProcesso.Visible = True
+                    lkAjustarComissao.Visible = True
                 End If
 
             End If
@@ -101,6 +103,8 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
         txtlinha.Text = ""
         divErro.Visible = False
         lkGravarCCProcesso.Visible = True
+        lkAjustarComissao.Visible = True
+
         If txtQuinzena.Text = "" Then
             lblmsgErro.Text = "É necessario informar a quinzena."
             divErro.Visible = True
@@ -313,10 +317,8 @@ WHERE DT_PAGAMENTO_EXP IS NULL")
                     cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
                     Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_INTERNACIONAL  (ID_CABECALHO_COMISSAO_INTERNACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_VENDEDOR,QT_CNTR,ID_MOEDA,VL_TAXA,VL_COMISSAO,DT_LIQUIDACAO) 
-SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,
-(SELECT COUNT(ID_CNTR_BL) FROM TB_AMR_CNTR_BL WHERE ID_BL = A.ID_BL)QT_CNTR_BL,
-C.ID_MOEDA,C.VL_TAXA,
-(SELECT COUNT(ID_CNTR_BL) FROM TB_AMR_CNTR_BL WHERE ID_BL = A.ID_BL)* C.VL_TAXA AS VL_COMISSAO, DT_LIQUIDACAO 
+SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,QT_CNTR,C.ID_MOEDA,C.VL_TAXA,
+QT_CNTR* C.VL_TAXA AS VL_COMISSAO, DT_LIQUIDACAO 
 FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
 LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR 
 WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
@@ -509,8 +511,8 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
         ID_USUARIO_LANCAMENTO ,TP_EXPORTACAO) VALUES('P','" & txtCompetencia.Text & "','" & txtQuinzena.Text & "',GETDATE(),GETDATE()," & ddlContaBancaria.SelectedValue & ",7, " & Session("ID_USUARIO") & ", 'CINT')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER")
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
 
-            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_MOEDA,ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_CONTA_PAGAR_RECEBER, VL_LANCAMENTO ,VL_LIQUIDO)
-                        SELECT ID_MOEDA,ID_PARCEIRO_VENDEDOR,'COMISSÃO INDICADOR INTERNACIONAL – " & txtCompetencia.Text & "-" & txtQuinzena.Text & "'," & ID_CONTA_PAGAR_RECEBER & ",0,0 FROM TB_DETALHE_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL IN (SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL FROM View_Comissao_Internacional WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "') ")
+            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_BL,ID_MOEDA,ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_CONTA_PAGAR_RECEBER, VL_LANCAMENTO ,VL_LIQUIDO,VL_TAXA_CALCULADO )
+                        SELECT ID_BL,ID_MOEDA,ID_PARCEIRO_VENDEDOR,'COMISSÃO INDICADOR INTERNACIONAL – " & txtCompetencia.Text & "-" & txtQuinzena.Text & "'," & ID_CONTA_PAGAR_RECEBER & ",0,0, VL_COMISSAO FROM TB_DETALHE_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL IN (SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL FROM View_Comissao_Internacional WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "') ")
 
             Con.ExecutarQuery("UPDATE TB_CABECALHO_COMISSAO_INTERNACIONAL SET DT_EXPORTACAO = GETDATE(),ID_USUARIO_EXPORTACAO = " & Session("ID_USUARIO") & " WHERE DT_COMPETENCIA = '" & txtCompetencia.Text.Substring(0, 2) & txtCompetencia.Text.Substring(3, 4) & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "'")
 

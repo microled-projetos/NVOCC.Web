@@ -66,7 +66,7 @@
                                         <div class="form-group">
                                             <asp:Label ID="Label1" runat="server">Competência</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="MM/AAAA"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                     </div>
                                     <%-- <div class="col-sm-2">
@@ -368,7 +368,7 @@
 
                                                <asp:Label ID="Label11" runat="server">Competência</asp:Label><br />
 
-                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-4">

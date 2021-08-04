@@ -109,8 +109,11 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
                     lkCCProcesso.Visible = False
+                    lkAjustarComissao.Visible = False
                 Else
                     lkCCProcesso.Visible = True
+                    lkAjustarComissao.Visible = True
+
                 End If
             End If
             Con.Fechar()
@@ -120,6 +123,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
         lkCCProcesso.Visible = True
+        lkAjustarComissao.Visible = True
 
         txtID.Text = ""
         txtlinha.Text = ""
