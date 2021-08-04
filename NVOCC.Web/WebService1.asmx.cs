@@ -1325,7 +1325,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT A.ID_WEEK, A.NM_WEEK, B.NM_PORTO AS NMPORTOORIGEM, C.NM_PORTO AS NMPORTODESTINO, ";
-            SQL += "format(A.DT_ETD,'yyyy/MM/dd') as DT_ETD, format(A.DT_CUTOFF,'yyyy/MM/dd') as DT_CUTOFF ";
+            SQL += "isnull(format(A.DT_ETD,'yyyy/MM/dd'),'') as DT_ETD, isnull(format(A.DT_CUTOFF,'yyyy/MM/dd'),'') as DT_CUTOFF ";
             SQL += "FROM TB_WEEK A ";
             SQL += "LEFT JOIN TB_PORTO B ON A.ID_PORTO_ORIGEM_LOCAL = B.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO C ON A.ID_PORTO_ORIGEM_DESTINO = C.ID_PORTO ";
@@ -1351,6 +1351,8 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string CadastrarWeek(Week dados)
         {
+            string SQL;
+            
             if(dados.ID_PARCEIRO.ToString() == "")
             {
                 return "0";
@@ -1369,47 +1371,67 @@ namespace ABAINFRA.Web
             }
             if (dados.NM_MBL.ToString() == "")
             {
-                return "0";
+                dados.NM_MBL = "";
             }
             if(dados.NM_VESSEL.ToString() == "")
             {
-                return "0";
+                dados.NM_VESSEL = "";
             }
             if(dados.DT_CUTOFF.ToString() == "")
             {
-                return "0";
+                dados.DT_CUTOFF = "NULL";
             }
             if(dados.DT_ETD.ToString() == "")
             {
-                return "0";
+                dados.DT_ETD = "NULL";
             }
-            if(dados.NR_FREETIME.ToString() == "")
+            if (dados.DT_ETA.ToString() == "")
             {
-                return "0";
+                dados.DT_ETA = "NULL";
+            }
+            if (dados.NR_FREETIME.ToString() == "")
+            {
+                dados.NR_FREETIME = "";
             }
             if(dados.NR_FRIGHT.ToString() == "")
             {
-                return "0";
+                dados.NR_FRIGHT = "";
             }
-            string SQL;
+            
             string freight = decBD(dados.NR_FRIGHT.ToString());
             SQL = "insert into TB_WEEK(NM_WEEK, ID_PORTO_ORIGEM_LOCAL, ID_PORTO_ORIGEM_DESTINO, NM_MBL, NM_VESSEL, DT_CUTOFF, DT_ETD, DT_ETA, ";
             SQL += "NR_FREETIME, ID_PARCEIRO, NR_FRIGHT) VALUES('" + dados.NM_WEEK + "', '" + dados.ID_PORTO_ORIGEM_LOCAL +"',  '" + dados.ID_PORTO_ORIGEM_DESTINO +"', ";
-            SQL += " '" + dados.NM_MBL +"', '" + dados.NM_VESSEL +"', '" + dados.DT_CUTOFF +"', ";
-            SQL += " '" + dados.DT_ETD +"', '" + dados.DT_ETA +"', ";
+            SQL += " '" + dados.NM_MBL +"', '" + dados.NM_VESSEL +"', " + dados.DT_CUTOFF +", ";
+            SQL += " " + dados.DT_ETD +", " + dados.DT_ETA +", ";
             SQL += " '" + dados.NR_FREETIME +"','" + dados.ID_PARCEIRO + "', '" + freight + "') ";
 
             string week = DBS.ExecuteScalar(SQL);
             return "1";
         }
+
         [WebMethod]
-        public string BuscaWeek(int Id)
+        public string CadastrarContainer(string nrCont, string tipo)
+        {
+            if (tipo.ToString() == "" || tipo.ToString() == "0")
+            {
+                return "0";
+            }
+
+            string SQL;
+            SQL = "INSERT INTO TB_CNTR_BL (NR_CNTR, ID_BL_MASTER, ID_TIPO_CNTR) VALUES ('" + nrCont + "',0, '" + tipo + "' )";
+            string cadastrarContainer = DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("ok");
+        }
+
+        [WebMethod]
+        public string BuscaWeek(string Id)
         {
                 string SQL;
                 
                 SQL = "SELECT ID_WEEK,NM_WEEK,ID_PORTO_ORIGEM_LOCAL,ID_PORTO_ORIGEM_DESTINO,NM_MBL,NM_VESSEL,FORMAT(DT_CUTOFF,'yyyy-MM-dd') as DT_CUTOFF, ";
-                SQL += "FORMAT(DT_ETD, 'yyyy-MM-dd') as DT_ETD,FORMAT(DT_ETA, 'yyyy-MM-dd') as DT_ETA, ";
-                SQL += "NR_FREETIME,ID_PARCEIRO,NR_FRIGHT ";
+                SQL += "ISNULL(FORMAT(DT_ETD, 'yyyy-MM-dd'),'') as DT_ETD, ISNULL(FORMAT(DT_ETA, 'yyyy-MM-dd'),'') as DT_ETA, ";
+                SQL += "ISNULL(CONVERT(VARCHAR,NR_FREETIME),'') AS NR_FREETIME, ID_PARCEIRO, ISNULL(CONVERT(VARCHAR,NR_FRIGHT),'') AS NR_FRIGHT ";
                 SQL += "FROM TB_WEEK WHERE ID_WEEK = '" + Id + "' ";
 
                 DataTable carregarDados = new DataTable();
@@ -1417,21 +1439,21 @@ namespace ABAINFRA.Web
                 Week resultado = new Week();
                 resultado.ID_WEEK = Id;
                 resultado.NM_WEEK = carregarDados.Rows[0]["NM_WEEK"].ToString();
-                resultado.ID_PORTO_ORIGEM_LOCAL = (int)carregarDados.Rows[0]["ID_PORTO_ORIGEM_LOCAL"];
-                resultado.ID_PORTO_ORIGEM_DESTINO = (int)carregarDados.Rows[0]["ID_PORTO_ORIGEM_DESTINO"];
+                resultado.ID_PORTO_ORIGEM_LOCAL = carregarDados.Rows[0]["ID_PORTO_ORIGEM_LOCAL"].ToString();
+                resultado.ID_PORTO_ORIGEM_DESTINO = carregarDados.Rows[0]["ID_PORTO_ORIGEM_DESTINO"].ToString();
                 resultado.NM_MBL = carregarDados.Rows[0]["NM_MBL"].ToString();
                 resultado.NM_VESSEL = carregarDados.Rows[0]["NM_VESSEL"].ToString();
                 resultado.DT_CUTOFF = carregarDados.Rows[0]["DT_CUTOFF"].ToString();
                 resultado.DT_ETD = carregarDados.Rows[0]["DT_ETD"].ToString();
                 resultado.DT_ETA = carregarDados.Rows[0]["DT_ETA"].ToString();
                 resultado.NR_FRIGHT = carregarDados.Rows[0]["NR_FRIGHT"].ToString();
-                resultado.NR_FREETIME = (int)carregarDados.Rows[0]["NR_FREETIME"];
-                resultado.ID_PARCEIRO = (int)carregarDados.Rows[0]["ID_PARCEIRO"];
+                resultado.NR_FREETIME = carregarDados.Rows[0]["NR_FREETIME"].ToString();
+                resultado.ID_PARCEIRO = carregarDados.Rows[0]["ID_PARCEIRO"].ToString();
 
                 return JsonConvert.SerializeObject(resultado);
 
         }
-        [WebMethod]
+        /*[WebMethod]
         public string BuscaContainer(int Id)
         {
             string SQL;
@@ -1451,7 +1473,7 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(resultado);
 
-        }
+        }*/
         [WebMethod]
         public string ListarIdWeek()
         {
@@ -1491,6 +1513,7 @@ namespace ABAINFRA.Web
             weekList = DBS.List(SQL);
             return JsonConvert.SerializeObject(weekList);
         }
+
         [WebMethod]
         public string EditarWeek(Week dadosEdit)
         {
@@ -1579,61 +1602,445 @@ namespace ABAINFRA.Web
                 return "0";
             }
         }
-        [WebMethod]
-        public string CadastrarContainer(Week dados)
-        {
-            if (dados.VL_PESO_MAX != "" && dados.VL_CUBAGEM != "" && dados.NR_CONTAINER != "")
-            {
-                double vlPesoMaximo = Convert.ToDouble(dados.VL_PESO_MAX);
-                double vlCub = Convert.ToDouble(dados.VL_CUBAGEM);
-                string idTipoContainer = dados.ID_TIPO_CONTAINER.ToString();
-                string SQL;
-                if (vlPesoMaximo > 0 && vlCub > 0 && dados.VL_CUBAGEM != null && dados.VL_PESO_MAX != null && dados.NR_CONTAINER != null && idTipoContainer != "")
-                {
-                    string vlPesoMax = dados.VL_PESO_MAX.ToString().Replace(',', '.');
-                    string vlCubagem = dados.VL_CUBAGEM.ToString().Replace(',', '.');
-                    SQL = "insert into TB_WEEK_CNTR(VL_PESO_MAX, ID_TIPO_CONTAINER, ID_WEEK, VL_CUBAGEM, NR_CONTAINER) ";
-                    SQL += "VALUES('" + vlPesoMax + "', '" + dados.ID_TIPO_CONTAINER + "',  '" + dados.ID_WEEK + "', ";
-                    SQL += " '" + vlCubagem + "', '" + dados.NR_CONTAINER + "') ";
 
-                    string week = DBS.ExecuteScalar(SQL);
-                    return "1";
-                }
-                else
-                {
-                    return "0";
-                }
-            }
-            else
+        [WebMethod]
+        public string CadastrarContainerWeek(string nrContainer, string tipo)
+        {
+            if(tipo.ToString() == "" || tipo.ToString() == "0")
             {
                 return "0";
             }
+
+            string SQL;
+            SQL = "INSERT INTO TB_CNTR_BL (NR_CNTR, ID_BL_MASTER, ID_TIPO_CNTR) VALUES ('"+nrContainer+"',0, '"+tipo+"' )";
+            string cadastrarContainer = DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("ok");
         }
 
         [WebMethod]
-        public string ListarProcessosBL(int Id,int IdCont)
+        public string listarContainer(string week)
+        {
+
+            string SQL;
+            SQL = "SELECT DISTINCT(A.ID_CNTR_BL), A.NR_CNTR, B.NM_TIPO_CONTAINER, B.VL_PESO_MAX, B.VL_VOLUME_M3 FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER B ON A.ID_TIPO_CNTR = B.ID_TIPO_CONTAINER ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_BL D ON C.ID_BL = D.ID_BL ";
+            SQL += "LEFT JOIN TB_WEEK E ON D.ID_WEEK = E.ID_WEEK ";
+            SQL += "WHERE A.ID_BL_MASTER = 0 ";
+            SQL += "AND(C.ID_BL IS NULL OR D.ID_WEEK = '"+week+"') ";
+            DataTable container = new DataTable();
+            container = DBS.List(SQL);
+            return JsonConvert.SerializeObject(container);
+        }
+
+        [WebMethod]
+        public string ListarWeekInside(string week)
         {
             string SQL;
-            SQL = "SELECT ID_BL, NM_STATUS_BL, format(DT_FLWP_LCL,'yyyy/MM/dd') AS DT_FLWP_LCL, NR_PROCESSO,P1.NM_RAZAO AS VENDEDOR,P2.NM_RAZAO AS AGENTE,P3.NM_RAZAO AS CLIENTE,P4.NM_RAZAO AS EXPORTADOR, ";
-            SQL += "VL_PESO_BRUTO, VL_M3, QT_MERCADORIA, VL_PESO_BRUTO_AGENTE, VL_M3_AGENTE, QT_MERCADORIA_AGENTE, NM_MERCADORIA, CD_INCOTERM, ";
-            SQL += "format(DT_READY_DATE,'yyyy/MM/dd') AS DT_READY_DATE, format(DT_FORECAST_WH,'yyyy/MM/dd') AS DT_FORECAST_WH, ";
-            SQL += "format(DT_ARRIVE_WH,'yyyy/MM/dd') AS DT_ARRIVE_WH, format(DT_DRAFT_CUTOFF,'yyyy/MM/dd') AS DT_DRAFT_CUTOFF, "; 
-            SQL += "format(TB_WEEK.DT_CUTOFF,'yyyy/MM/dd') AS DT_CUTOFF, NR_BL FROM TB_BL B ";
+            SQL = "SELECT B.ID_BL, ";
+            SQL += "ISNULL(NM_STATUS_BL,'') AS NM_STATUS_BL, ";
+            SQL += "ISNULL(format(DT_FLWP_LCL,'yyyy/MM/dd'),'') AS DT_FLWP_LCL, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,NR_PROCESSO),'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(P1.NM_RAZAO,'') AS VENDEDOR, ";
+            SQL += "ISNULL(P2.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS IMPORTADOR, ";
+            SQL += "ISNULL(P4.NM_RAZAO,'') AS EXPORTADOR, ";
+            SQL += "ISNULL(B.VL_PESO_BRUTO,0) AS VL_PESO_BRUTO, ";
+            SQL += "ISNULL(B.VL_M3,0) AS VL_M3, ";
+            SQL += "ISNULL(B.QT_MERCADORIA,0) AS QT_MERCADORIA, ";
+            SQL += "ISNULL(B.OB_REFERENCIA_AUXILIAR,'') AS REF_AUX, ";
+            SQL += "ISNULL(B.OB_REFERENCIA_COMERCIAL,'') AS REF_COM, ";
+            SQL += "ISNULL(VL_PESO_BRUTO_AGENTE,0) AS VL_PESO_BRUTO_AGENTE, ";
+            SQL += "ISNULL(VL_M3_AGENTE,0) AS VL_M3_AGENTE, ";
+            SQL += "ISNULL(QT_MERCADORIA_AGENTE,0) AS QT_MERCADORIA_AGENTE, ";
+            SQL += "ISNULL(NM_MERCADORIA,'') AS NM_MERCADORIA, ";
+            SQL += "ISNULL(CD_INCOTERM,'') AS CD_INCOTERM, ";
+            SQL += "ISNULL(format(DT_READY_DATE,'yyyy/MM/dd'),'') AS DT_READY_DATE, ";
+            SQL += "ISNULL(format(DT_FORECAST_WH,'yyyy/MM/dd'),'') AS DT_FORECAST_WH, ";
+            SQL += "ISNULL(format(DT_ARRIVE_WH,'yyyy/MM/dd'),'') AS DT_ARRIVE_WH, ";
+            SQL += "ISNULL(format(DT_DRAFT_CUTOFF,'yyyy/MM/dd'),'') AS DT_DRAFT_CUTOFF, ";
+            SQL += "ISNULL(format(TB_WEEK.DT_CUTOFF,'yyyy/MM/dd'),'') AS DT_CUTOFF, ";
+            SQL += "ISNULL(CONVERT(VARCHAR(30),NR_BL),'') AS NR_BL,";
+            SQL += "ISNULL(E.VL_FRETE_VENDA,0) AS VL_FRETE_VENDA, ";
+            SQL += "ISNULL(REPLACE(CONVERT(varchar,FORMAT(VL_FRETE_VENDA_MIN,'C','PT-BR')),'R$',''),'') AS VL_FRETE_VENDA_MIN, ";
+            SQL += "(SELECT ISNULL(REPLACE(CONVERT(varchar,FORMAT(Sum(H.VL_TAXA_VENDA),'C','PT-BR')),'R$',''),'') as VL_TAXA_VENDA FROM TB_BL J ";
+            SQL += "LEFT JOIN TB_COTACAO G ON J.ID_COTACAO = G.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_COTACAO_TAXA H ON G.ID_COTACAO = H.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_MOEDA K ON G.ID_MOEDA_FRETE = K.ID_MOEDA ";
+            SQL += "WHERE J.GRAU = 'C' ";
+            SQL += "AND H.FL_DECLARADO = 1 ";
+            SQL += "AND J.ID_BL = B.ID_BL )AS VL_TAXA_VENDA ";
+            SQL += "FROM TB_BL B ";
             SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_VENDEDOR = P1.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_CLIENTE = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P4 ON B.ID_PARCEIRO_EXPORTADOR = P4.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
             SQL += "LEFT JOIN TB_MERCADORIA ON B.ID_MERCADORIA = TB_MERCADORIA.ID_MERCADORIA ";
             SQL += "LEFT JOIN TB_INCOTERM ON B.ID_INCOTERM = TB_INCOTERM.ID_INCOTERM ";
             SQL += "LEFT JOIN TB_WEEK ON B.ID_WEEK = TB_WEEK.ID_WEEK ";
-            SQL += "WHERE B.ID_WEEK = '" + Id + "' ";
-            SQL += "AND B.ID_WEEK_CONTAINER = '" + IdCont + "' ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL D ON D.ID_BL = B.ID_BL ";
+            SQL += "LEFT JOIN TB_COTACAO C ON B.ID_COTACAO = C.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_COTACAO_MERCADORIA E ON C.ID_COTACAO = E.ID_COTACAO ";
+            SQL += "WHERE B.ID_WEEK = '"+week+"' ";
+            SQL += "AND D.ID_CNTR_BL IS NULL ";
 
             DataTable processoBl = new DataTable();
             processoBl = DBS.List(SQL);
             return JsonConvert.SerializeObject(processoBl);
 
+        }
+
+        [WebMethod]
+        public string ListarProcessoContainer(string cntr, string week)
+        {
+            string SQL;
+            SQL = "SELECT B.ID_BL, ";
+            SQL += "ISNULL(NM_STATUS_BL,'') AS NM_STATUS_BL, ";
+            SQL += "ISNULL(format(DT_FLWP_LCL,'yyyy/MM/dd'),'') AS DT_FLWP_LCL, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,NR_PROCESSO),'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(P1.NM_RAZAO,'') AS VENDEDOR, ";
+            SQL += "ISNULL(P2.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(P3.NM_RAZAO,'') AS IMPORTADOR, ";
+            SQL += "ISNULL(P4.NM_RAZAO,'') AS EXPORTADOR, ";
+            SQL += "ISNULL(B.VL_PESO_BRUTO,0) AS VL_PESO_BRUTO, ";
+            SQL += "ISNULL(B.VL_M3,0) AS VL_M3, ";
+            SQL += "ISNULL(B.QT_MERCADORIA,0) AS QT_MERCADORIA, ";
+            SQL += "ISNULL(B.OB_REFERENCIA_AUXILIAR,'') AS REF_AUX, ";
+            SQL += "ISNULL(B.OB_REFERENCIA_COMERCIAL,'') AS REF_COM, ";
+            SQL += "ISNULL(VL_PESO_BRUTO_AGENTE,0) AS VL_PESO_BRUTO_AGENTE, ";
+            SQL += "ISNULL(VL_M3_AGENTE,0) AS VL_M3_AGENTE, ";
+            SQL += "ISNULL(QT_MERCADORIA_AGENTE,0) AS QT_MERCADORIA_AGENTE, ";
+            SQL += "ISNULL(NM_MERCADORIA,'') AS NM_MERCADORIA, ";
+            SQL += "ISNULL(CD_INCOTERM,'') AS CD_INCOTERM, ";
+            SQL += "ISNULL(format(DT_READY_DATE,'yyyy/MM/dd'),'') AS DT_READY_DATE, ";
+            SQL += "ISNULL(format(DT_FORECAST_WH,'yyyy/MM/dd'),'') AS DT_FORECAST_WH, ";
+            SQL += "ISNULL(format(DT_ARRIVE_WH,'yyyy/MM/dd'),'') AS DT_ARRIVE_WH, ";
+            SQL += "ISNULL(format(DT_DRAFT_CUTOFF,'yyyy/MM/dd'),'') AS DT_DRAFT_CUTOFF, ";
+            SQL += "ISNULL(format(TB_WEEK.DT_CUTOFF,'yyyy/MM/dd'),'') AS DT_CUTOFF, ";
+            SQL += "ISNULL(CONVERT(VARCHAR(30),NR_BL),'') AS NR_BL,";
+            SQL += "ISNULL(E.VL_FRETE_VENDA,0) AS VL_FRETE_VENDA, ";
+            SQL += "ISNULL(REPLACE(CONVERT(varchar,FORMAT(VL_FRETE_VENDA_MIN,'C','PT-BR')),'R$',''),'') AS VL_FRETE_VENDA_MIN, ";
+            SQL += "(SELECT ISNULL(REPLACE(CONVERT(varchar,FORMAT(Sum(H.VL_TAXA_VENDA),'C','PT-BR')),'R$',''),'') as VL_TAXA_VENDA FROM TB_BL J ";
+            SQL += "LEFT JOIN TB_COTACAO G ON J.ID_COTACAO = G.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_COTACAO_TAXA H ON G.ID_COTACAO = H.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_MOEDA K ON G.ID_MOEDA_FRETE = K.ID_MOEDA ";
+            SQL += "WHERE J.GRAU = 'C' ";
+            SQL += "AND H.FL_DECLARADO = 1 ";
+            SQL += "AND J.ID_BL = B.ID_BL )AS VL_TAXA_VENDA ";
+            SQL += "FROM TB_BL B ";
+            SQL += "LEFT JOIN TB_PARCEIRO P1 ON B.ID_PARCEIRO_VENDEDOR = P1.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON B.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P3 ON B.ID_PARCEIRO_IMPORTADOR = P3.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P4 ON B.ID_PARCEIRO_EXPORTADOR = P4.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_STATUS_BL ON B.ID_STATUS_BL = TB_STATUS_BL.ID_STATUS_BL ";
+            SQL += "LEFT JOIN TB_MERCADORIA ON B.ID_MERCADORIA = TB_MERCADORIA.ID_MERCADORIA ";
+            SQL += "LEFT JOIN TB_INCOTERM ON B.ID_INCOTERM = TB_INCOTERM.ID_INCOTERM ";
+            SQL += "LEFT JOIN TB_WEEK ON B.ID_WEEK = TB_WEEK.ID_WEEK ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL D ON D.ID_BL = B.ID_BL ";
+            SQL += "LEFT JOIN TB_COTACAO C ON B.ID_COTACAO = C.ID_COTACAO ";
+            SQL += "LEFT JOIN TB_COTACAO_MERCADORIA E ON C.ID_COTACAO = E.ID_COTACAO ";
+            SQL += "WHERE B.ID_WEEK = '" + week + "' ";
+            SQL += "AND D.ID_CNTR_BL = '" + cntr + "' ";
+
+            DataTable processoBl = new DataTable();
+            processoBl = DBS.List(SQL);
+            return JsonConvert.SerializeObject(processoBl);
+
+        }
+
+        [WebMethod]
+        public string limitesContainer(string cntr)
+        {
+            string SQL;
+            SQL = "SELECT VL_PESO_MAX, VL_VOLUME_M3 FROM TB_CNTR_BL A ";
+            SQL += "LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR ";
+            SQL += "WHERE ID_CNTR_BL = '"+cntr+"' ";
+
+            DataTable limites = new DataTable();
+            limites = DBS.List(SQL);
+            return JsonConvert.SerializeObject(limites);
+
+        }
+
+        [WebMethod]
+        public string RemoverProcessoContainer(string processo, string cntr)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_AMR_CNTR_BL WHERE ID_BL = '" + processo + "' AND ID_CNTR_BL = '"+cntr+"' ";
+
+            string vincularProcesso = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject("ok");
+
+        }
+
+
+        [WebMethod]
+        public string VincularProcessoWeek(string processo, string week)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ID_WEEK = '"+week+"' WHERE ID_BL = '"+processo+"' ";
+
+            string vincularProcesso = DBS.ExecuteScalar(SQL);
+            if(vincularProcesso != null)
+            {
+                return JsonConvert.SerializeObject("1");
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("2");
+            }
+            
+        }
+
+        [WebMethod]
+        public string listarProcessos(int week)
+        {
+            string SQL;
+            SQL = "SELECT ID_PARCEIRO FROM TB_WEEK WHERE ID_WEEK = '" + week + "'";
+            DataTable agente = new DataTable();
+            agente = DBS.List(SQL);
+            string agentei = agente.Rows[0]["ID_PARCEIRO"].ToString();
+
+            SQL = "SELECT A.ID_BL, A.NR_PROCESSO FROM TB_BL A ";
+            SQL += "LEFT JOIN TB_SERVICO B ON A.ID_SERVICO = B.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_VIATRANSPORTE C ON B.ID_VIATRANSPORTE = C.ID_VIATRANSPORTE ";
+            SQL += "LEFT JOIN TB_AMR_CNTR_BL D ON A.ID_BL = D.ID_BL ";
+            SQL += "LEFT JOIN TB_WEEK E ON A.ID_WEEK = E.ID_WEEK ";
+            SQL += "WHERE GRAU = 'C' AND C.ID_VIATRANSPORTE = 1";
+            SQL += "AND A.ID_BL_MASTER IS NULL ";
+            SQL += "AND A.ID_PARCEIRO_AGENTE_INTERNACIONAL = '" + agentei + "' ";
+            SQL += "AND D.ID_CNTR_BL IS NULL ";
+            SQL += "AND A.ID_WEEK IS NULL "; 
+            DataTable processo = new DataTable();
+            processo = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(processo);
+        }
+        
+        [WebMethod]
+        public string BuscarBLFCA(int processo)
+        {
+            string SQL;
+            SQL = "SELECT ISNULL(ID_PARCEIRO_VENDEDOR,'') AS ID_PARCEIRO_VENDEDOR, ISNULL(ID_PARCEIRO_AGENTE,'') AS ID_PARCEIRO_AGENTE, ";
+            SQL += "ISNULL(ID_PARCEIRO_IMPORTADOR,'') AS ID_PARCEIRO_IMPORTADOR, ISNULL(ID_PARCEIRO_EXPORTADOR,'') AS ID_PARCEIRO_EXPORTADOR, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,VL_PESO_BRUTO),'') AS VL_PESO_BRUTO, ISNULL(CONVERT(VARCHAR,VL_M3),'') AS VL_M3,  ISNULL(CONVERT(VARCHAR,QT_MERCADORIA),'') AS QT_MERCADORIA ";
+            SQL += "FROM TB_BL ";
+            SQL += "WHERE ID_BL = '"+processo+"' ";
+
+            DataTable blfca = new DataTable();
+            blfca = DBS.List(SQL);
+            return JsonConvert.SerializeObject(blfca);
+        }
+
+        [WebMethod]
+        public string RemoverProcessoWeek(int processo)
+        {
+            string SQL;
+            SQL = "UPDATE TB_BL SET ID_WEEK = NULL ";
+            SQL += "WHERE ID_BL = '" + processo + "' ";
+
+            string removerweek = DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("ok");
+        }
+
+        [WebMethod]
+        public string EditarBLFCA(string vendedor, string agente, string importador, string exportador, string pesobruto, string m3, string qtmercadoria, string processo)
+        {
+            if(vendedor == "" || vendedor == "0")
+            {
+                vendedor = "ID_PARCEIRO_VENDEDOR = null, ";
+            }
+            else
+            {
+                vendedor = "ID_PARCEIRO_VENDEDOR = " + vendedor + ", ";
+            }
+
+            if(agente == "" || agente == "0")
+            {
+                agente = "ID_PARCEIRO_AGENTE = null, ";
+            }
+            else
+            {
+                agente = "ID_PARCEIRO_AGENTE = "+agente+", ";
+            }
+
+            if(importador == "" || importador == "0")
+            {
+                importador = "ID_PARCEIRO_IMPORTADOR = null, ";
+            }
+            else
+            {
+                importador = "ID_PARCEIRO_IMPORTADOR = " + importador + ", ";
+            }
+
+            if(exportador == "" || exportador == "0")
+            {
+                exportador = "ID_PARCEIRO_EXPORTADOR = null, ";
+            }
+            else
+            {
+                exportador = "ID_PARCEIRO_EXPORTADOR = " + exportador + ", ";
+            }
+
+            if(pesobruto == "")
+            {
+                pesobruto = "VL_PESO_BRUTO = NULL, ";
+            }
+            else
+            {
+                pesobruto = "VL_PESO_BRUTO = " + pesobruto.Replace(",", ".") + ", ";
+            }
+
+            if(m3 == "")
+            {
+                m3 = "VL_M3 = NULL, ";
+            }
+            else
+            {
+                m3 = "VL_M3 = " + m3.Replace(",", ".") + ", ";
+            }
+
+            if(qtmercadoria == "")
+            {
+                qtmercadoria = "QT_MERCADORIA = NULL ";
+            }
+            else
+            {
+                qtmercadoria = "QT_MERCADORIA = "+qtmercadoria.Replace(",",".") + " ";
+            }
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            SQL += "" + vendedor + ""+agente+""+importador+""+exportador+""+pesobruto+""+m3+""+qtmercadoria+"";
+            SQL += "WHERE ID_BL = '" + processo + "'";
+
+            string editProcessos = DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("ok"); 
+        }
+
+        [WebMethod]
+        public string vincularContainer(string cntr, string bl)
+        {
+            string SQL;
+            SQL = "INSERT INTO TB_AMR_CNTR_BL (ID_BL, ID_CNTR_BL) VALUES ('" + bl + "','" + cntr + "')";            
+            string bindblcntr = DBS.ExecuteScalar(SQL);
+            return JsonConvert.SerializeObject("ok");
+        }
+
+        [WebMethod]
+        public string BuscarBLParceiro(int processo)
+        {
+            string SQL;
+            SQL = "SELECT ISNULL(CONVERT(VARCHAR,A.VL_PESO_BRUTO_AGENTE),'') AS VL_PESO_BRUTO_AGENTE, ISNULL(CONVERT(VARCHAR,A.VL_M3_AGENTE),'') AS VL_M3_AGENTE, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,A.QT_MERCADORIA_AGENTE),'') AS QT_MERCADORIA_AGENTE, ISNULL(B.ID_MERCADORIA,'') AS ID_MERCADORIA, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,A.ID_INCOTERM),'') AS ID_INCOTERM, ISNULL(CONVERT(VARCHAR,A.DT_READY_DATE),'') AS DT_READY_DATE,  ISNULL(CONVERT(VARCHAR,A.DT_FORECAST_WH),'') AS DT_FORECAST_WH, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,A.DT_ARRIVE_WH),'') AS DT_ARRIVE_WH, ISNULL(CONVERT(VARCHAR,A.DT_DRAFT_CUTOFF),'') AS DT_DRAFT_CUTOFF, ISNULL(CONVERT(VARCHAR,C.DT_CUTOFF),'') AS DT_CUTOFF, ";
+            SQL += "ISNULL(A.NR_BL,'') AS NR_BL ";
+            SQL += "FROM TB_BL A ";
+            SQL += "LEFT JOIN TB_MERCADORIA B ON A.ID_MERCADORIA = B.ID_MERCADORIA ";
+            SQL += "LEFT JOIN TB_WEEK C ON A.ID_WEEK = C.ID_WEEK ";
+            SQL += "WHERE ID_BL = '" + processo + "' ";
+
+            DataTable blfca = new DataTable();
+            blfca = DBS.List(SQL);
+            return JsonConvert.SerializeObject(blfca);
+        }
+
+        [WebMethod]
+        public string EditarBLPartner(string pesobrutoagente, string m3agente, string pcsagente, string packaging, string incoterm, string cargoreadydate, string deliveryforecastwh, string datearrivewh, string draftcutoff, string processo)
+        {
+            if (pesobrutoagente == "")
+            {
+                pesobrutoagente = "VL_PESO_BRUTO_AGENTE = null, ";
+            }
+            else
+            {
+                pesobrutoagente = "VL_PESO_BRUTO_AGENTE = " + pesobrutoagente.Replace(",", ".") + ", ";
+            }
+
+            if (m3agente == "")
+            {
+                m3agente = "VL_M3_AGENTE = null, ";
+            }
+            else
+            {
+                m3agente = "VL_M3_AGENTE = " + m3agente.Replace(",", ".") + ", ";
+            }
+
+            if (pcsagente == "")
+            {
+                pcsagente = "QT_MERCADORIA_AGENTE = null, ";
+            }
+            else
+            {
+                pcsagente = "QT_MERCADORIA_AGENTE = " + pcsagente.Replace(",", ".") + ", ";
+            }
+
+            if (packaging == "" || packaging == "0")
+            {
+                packaging = "ID_MERCADORIA = null, ";
+            }
+            else
+            {
+                packaging = "ID_MERCADORIA = " + packaging + ", ";
+            }
+
+            if (incoterm == "" || incoterm == "0")
+            {
+                incoterm = "ID_INCOTERM = NULL, ";
+            }
+            else
+            {
+                incoterm = "ID_INCOTERM = " + incoterm + ", ";
+            }
+
+            if (cargoreadydate == "")
+            {
+                cargoreadydate = "DT_READY_DATE = NULL, ";
+            }
+            else
+            {
+                cargoreadydate = "DT_READY_DATE = '" + cargoreadydate + "', ";
+            }
+
+            if (deliveryforecastwh == "")
+            {
+                deliveryforecastwh = "DT_FORECAST_WH = NULL, ";
+            }
+            else
+            {
+                deliveryforecastwh = "DT_FORECAST_WH = '" + deliveryforecastwh + "', ";
+            }
+
+            if (datearrivewh == "")
+            {
+                datearrivewh = "DT_ARRIVE_WH = NULL, ";
+            }
+            else
+            {
+                datearrivewh = "DT_ARRIVE_WH = '" + datearrivewh + "', ";
+            }
+
+            if (draftcutoff == "")
+            {
+                draftcutoff = "DT_DRAFT_CUTOFF = NULL ";
+            }
+            else
+            {
+                draftcutoff = "DT_DRAFT_CUTOFF = '" + draftcutoff + "' ";
+            }
+            string SQL;
+            SQL = "UPDATE TB_BL SET ";
+            SQL += "" + pesobrutoagente + "" + m3agente + "" + pcsagente + "" + packaging + "" + incoterm + "" + cargoreadydate + "" + deliveryforecastwh + ""+ datearrivewh + ""+ draftcutoff + "";
+            SQL += "WHERE ID_BL = '" + processo + "'";
+
+            string editProcessos = DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("ok");
         }
 
         [WebMethod]

@@ -104,6 +104,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtAbertura As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlEstufagem.
     '''</summary>
     '''<remarks>
@@ -113,13 +122,31 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlEstufagem As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ckbFreeHand.
+    '''Controle ddlAnalista.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ckbFreeHand As Global.System.Web.UI.WebControls.CheckBox
+    Protected WithEvents ddlAnalista As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtValidade.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtEnvio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEnvio As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlUsuarioStatus.
@@ -158,22 +185,13 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlStatusFreteAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtValidade.
+    '''Controle ddlIncoterm.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtEnvio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtEnvio As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlDestinatarioComercial.
@@ -185,6 +203,69 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlDestinatarioComercial As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ckbFreeHand.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbFreeHand As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ddlTipoBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoBL As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtCodIndicador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodIndicador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeIndicador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeIndicador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlIndicador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlIndicador As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtCodAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodAgente As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeAgente As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlAgente.
     '''</summary>
     '''<remarks>
@@ -192,24 +273,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlIncoterm.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlAnalista.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlAnalista As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtCodCliente.
@@ -248,33 +311,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlContato As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlServico.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlServico As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle ddlTipoBL.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoBL As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtProcessoCotacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtProcessoCotacao As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle divClienteFinal.
     '''</summary>
     '''<remarks>
@@ -300,6 +336,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlVendedor As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtProcessoCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtProcessoCotacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtDataCalculo.
@@ -1283,6 +1328,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlDestinatarioCobrancaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlFornecedor As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlBaseCalculoTaxa.
     '''</summary>
     '''<remarks>
@@ -1292,15 +1346,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlBaseCalculoTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlItemDespesaTaxa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ddlTipoPagamentoTaxa.
     '''</summary>
     '''<remarks>
@@ -1308,6 +1353,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoPagamentoTaxa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlItemDespesaTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlOrigemPagamentoTaxa.
@@ -1616,6 +1670,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
+    '''Controle dsIndicador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsIndicador As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
     '''Controle dsFrequencia.
     '''</summary>
     '''<remarks>
@@ -1821,6 +1884,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsHistoricoCotacao As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsFornecedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsBaseCalculo.

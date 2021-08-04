@@ -74,7 +74,7 @@ WHERE B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
 
                 Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,NM_ACCOUNT_TIPO_FATURA
 FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE NM_ITEM_DESPESA IS NOT NULL AND ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
 
                 For Each linhaTaxas As DataRow In dsTaxas.Tables(0).Rows
                     tabela &= "<tr><td></td>"

@@ -123,7 +123,7 @@
                                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
-                                                        <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Fornecedor" SortExpression="NM_PARCEIRO_EMPRESA" />
+                                                        <asp:BoundField DataField="NM_PARCEIRO_EMPRESA" HeaderText="Cliente" SortExpression="NM_PARCEIRO_EMPRESA" />
                                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
                                                         <asp:TemplateField HeaderText="ItemDespesa" Visible="False">
                                                             <ItemTemplate>

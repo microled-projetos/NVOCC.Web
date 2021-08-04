@@ -1193,6 +1193,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel9 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle txtCotacao_BasicoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCotacao_BasicoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divSuccess_Vinculo.
     '''</summary>
     '''<remarks>
@@ -1274,6 +1283,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel14 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle txtCotacao_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCotacao_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divSuccess_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1335,6 +1353,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtProcesso_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlEstufagem_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlEstufagem_BasicoAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtNumeroVoo_BasicoAereo.

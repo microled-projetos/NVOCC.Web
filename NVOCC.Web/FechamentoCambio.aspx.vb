@@ -198,8 +198,8 @@
         txtDataCambioNovo.Text = ""
         txtValorBRNovo.Text = ""
 
-        divErro.Visible = False
-        divSuccess.Visible = False
+        'divErro.Visible = False
+        'divSuccess.Visible = False
     End Sub
 
     Private Sub btnFechaCancel_Click(sender As Object, e As EventArgs) Handles btnFechaCancel.Click
@@ -268,7 +268,7 @@
 
 
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (ID_CONTA_BANCARIA,
-DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT ID_PARCEIRO_CORRETOR , GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
+DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT ID_PARCEIRO_CORRETOR, GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
 
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
             ds = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE FROM TB_ACCOUNT_FECHAMENTO_ITENS WHERE ID_ACCOUNT_FECHAMENTO =  " & txtID.Text)
@@ -278,7 +278,7 @@ DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRAN
 SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
 (SELECT ID_MOEDA FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & linha.Item("ID_ACCOUNT_INVOICE") & "),
 (SELECT DT_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),
-(SELECT VL_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),VL_TAXA_BR,VL_TAXA_BR,'ACCOUNT – FECHAMENTO DE CÂMBIO ' + (SELECT NR_CONTRATO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),ID_ITEM_DESPESA,(SELECT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE =  " & linha.Item("ID_ACCOUNT_INVOICE") & "),VL_TAXA,CD_TIPO_DEVOLUCAO,1,ID_ACCOUNT_INVOICE,'INVOICE' FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACCOUNT_INVOICE"))
+(SELECT VL_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),VL_TAXA_BR,VL_TAXA_BR,'ACCOUNT – FECHAMENTO DE CÂMBIO ' + (SELECT NR_CONTRATO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),ID_ITEM_DESPESA,(SELECT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE =  " & linha.Item("ID_ACCOUNT_INVOICE") & "),VL_TAXA,CD_TIPO_DEVOLUCAO,1,(SELECT NR_INVOICE FROM TB_ACCOUNT_INVOICE B WHERE B.ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE),'INVOICE' FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACCOUNT_INVOICE"))
 
             Next
 
@@ -298,6 +298,25 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
         divErroNovoFechamento.Visible = False
         divErro.Visible = False
         divSuccess.Visible = False
+
+
+        If txtValorNovo.Text = "" Then
+            divErroNovoFechamento.Visible = True
+            lblErroNovoFechamento.Text = "Preencha os campos obrigatórios!"
+            ModalPopupExtender3.Show()
+            Exit Sub
+        End If
+
+        If lblValorTotalInvoices.Text = "" Then
+            divErroNovoFechamento.Visible = True
+            lblErroNovoFechamento.Text = "Preencha os campos obrigatórios!"
+            ModalPopupExtender3.Show()
+            Exit Sub
+        End If
+
+        Dim ValorNovo As Decimal = txtValorNovo.Text
+        Dim ValorTotalInvoices As Decimal = lblValorTotalInvoices.Text
+
         If ddlAgenteNovo.SelectedValue = 0 Or ddlMoedaNovo.SelectedValue = 0 Or ddlCorretorNovo.SelectedValue = 0 Or txtContratoNovo.Text = "" Or
             txtDataFechamentoNovo.Text = "" Or txtTarifaNovo.Text = "" Or txtIOFNovo.Text = "" Or txtValorNovo.Text = "" Or
             txtCambioNovo.Text = "" Or txtDataCambioNovo.Text = "" Or txtValorBRNovo.Text = "" Then
@@ -305,7 +324,7 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
             lblErroNovoFechamento.Text = "Preencha os campos obrigatórios!"
             ModalPopupExtender3.Show()
             Exit Sub
-        ElseIf txtValorNovo.Text <> lblValorTotalInvoices.Text Then
+        ElseIf ValorNovo <> ValorTotalInvoices Then
             divErroNovoFechamento.Visible = True
             lblErroNovoFechamento.Text = "O valor do contrato informado não corresponde ao valor total de invoices selecionadas!"
             ModalPopupExtender3.Show()
@@ -390,7 +409,7 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
 FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "') A
 LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE
 LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR
-WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL)  AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue & " group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
+WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL)  AND ID_MOEDA = " & ddlMoedaNovo.SelectedValue & " AND ID_PARCEIRO_AGENTE = " & ddlAgenteNovo.SelectedValue & " AND VL_TAXA <> 0 group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 
  G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE,DT_CANCELAMENTO_FECHAMENTO,DT_FECHAMENTO"
         dsInvoice.DataBind()
         dgvInvoice.DataBind()
@@ -481,8 +500,9 @@ WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAM
 
                     Else
                         'delete
-                        Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
                         Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO_ITENS WHERE ID_ACCOUNT_FECHAMENTO =" & txtID.Text)
+                        Con.ExecutarQuery("DELETE FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text)
+
 
                         lblSuccess.Text = "Fechamento deletado com sucesso!"
                         divSuccess.Visible = True
@@ -517,5 +537,11 @@ WHERE (A.DT_FECHAMENTO IS NULL) OR ( A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAM
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ContratosFirmados()", True)
         End If
 
+    End Sub
+
+    Private Sub btnFecharNovoFechamento_Click(sender As Object, e As EventArgs) Handles btnFecharNovoFechamento.Click
+        limpaFormulario()
+        ModalPopupExtender3.Hide()
+        divErroNovoFechamento.Visible = False
     End Sub
 End Class

@@ -116,7 +116,7 @@
                                            </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                                                                <h5>COMISSÕES</h5>
+                                                                                <h5>DEVOLUÇÃO AGENTE</h5>
 
 <asp:GridView ID="dgvComissoesMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
@@ -315,7 +315,7 @@
                                            </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                                                                <h5>COMISSÕES</h5>
+                                                                                <h5>DEVOLUÇÃO AGENTE</h5>
 
 <asp:GridView ID="dgvComissoesHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
@@ -449,7 +449,17 @@
     </asp:SqlDataSource>
     
      <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_ACCOUNT_INVOICE,NR_INVOICE,(SELECT NM_ACCOUNT_TIPO_INVOICE FROM TB_ACCOUNT_TIPO_INVOICE WHERE ID_ACCOUNT_TIPO_INVOICE = A.ID_ACCOUNT_TIPO_INVOICE )NM_ACCOUNT_TIPO_INVOICE,(SELECT NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR WHERE ID_ACCOUNT_TIPO_EMISSOR = A.ID_ACCOUNT_TIPO_EMISSOR)NM_ACCOUNT_TIPO_EMISSOR,(SELECT NM_ACCOUNT_TIPO_FATURA FROM TB_ACCOUNT_TIPO_FATURA WHERE ID_ACCOUNT_TIPO_FATURA = A.ID_ACCOUNT_TIPO_FATURA)NM_ACCOUNT_TIPO_FATURA,(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)SIGLA_MOEDA,(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE B.CD_TIPO_DEVOLUCAO = 'DF')VALOR_FRETE,(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE B.CD_TIPO_DEVOLUCAO = 'TE')VALOR_TAXA_EXTERIOR,(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE B.CD_TIPO_DEVOLUCAO = 'TD')VALOR_TAXA_DECLADADA,(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE B.CD_TIPO_DEVOLUCAO = 'OT')VALOR_OUTRAS_TAXAS,(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE B.CD_TIPO_DEVOLUCAO = 'CO')VALOR_COMISSAO FROM TB_ACCOUNT_INVOICE A WHERE ID_BL = @ID_BL">
+        SelectCommand="SELECT ID_ACCOUNT_INVOICE,
+NR_INVOICE,
+(SELECT NM_ACCOUNT_TIPO_INVOICE FROM TB_ACCOUNT_TIPO_INVOICE WHERE ID_ACCOUNT_TIPO_INVOICE = A.ID_ACCOUNT_TIPO_INVOICE )NM_ACCOUNT_TIPO_INVOICE,
+(SELECT NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR WHERE ID_ACCOUNT_TIPO_EMISSOR = A.ID_ACCOUNT_TIPO_EMISSOR)NM_ACCOUNT_TIPO_EMISSOR,
+(SELECT NM_ACCOUNT_TIPO_FATURA FROM TB_ACCOUNT_TIPO_FATURA WHERE ID_ACCOUNT_TIPO_FATURA = A.ID_ACCOUNT_TIPO_FATURA)NM_ACCOUNT_TIPO_FATURA,
+(SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA)SIGLA_MOEDA,
+(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE AND B.CD_TIPO_DEVOLUCAO = 'DF')VALOR_FRETE,
+(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE AND  B.CD_TIPO_DEVOLUCAO = 'TE')VALOR_TAXA_EXTERIOR,
+(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE AND  B.CD_TIPO_DEVOLUCAO = 'TD')VALOR_TAXA_DECLADADA,
+(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE AND  B.CD_TIPO_DEVOLUCAO = 'OT')VALOR_OUTRAS_TAXAS,
+(SELECT SUM(ISNULL(B.VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE = B.ID_ACCOUNT_INVOICE AND B.CD_TIPO_DEVOLUCAO = 'CO')VALOR_COMISSAO FROM TB_ACCOUNT_INVOICE A WHERE  ID_BL = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
         </SelectParameters>

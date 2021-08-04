@@ -1,5 +1,7 @@
-﻿Imports System.Net
+﻿Imports System.IO
+Imports System.Net
 Imports System.Runtime.Serialization
+Imports Boleto2Net
 Imports Newtonsoft.Json
 
 Public Class Faturamento
@@ -665,8 +667,199 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             divErro.Visible = True
             lblmsgErro.Text = "É necessario selecionar um banco!"
         Else
-            Call jsonBoleto(IDs)
+            Dim objBoletos As New Boletos
+            Dim strImpressora As String = Nothing
+            Dim blnImprimir As Boolean = False
+            Dim intCopias As Short = 1
 
+            Try
+                ''CRIAÇÃO DA PARTE DO CEDENTE
+                'Cabeçalho do Banco
+                objBoletos.Banco = Banco.Instancia(Int(ddlBanco.SelectedValue))
+                objBoletos.Banco.Cedente = New Cedente
+                objBoletos.Banco.Cedente.CPFCNPJ = "00.639.367/0001-50"
+                objBoletos.Banco.Cedente.Nome = "FCA COMERCIO EXTERIOR E LOGISTICA LTDA"
+                objBoletos.Banco.Cedente.Observacoes = "Observações do cedente - o que coloca aqui?"
+
+                Dim conta As New ContaBancaria
+                conta.Agencia = "3297"
+                conta.DigitoAgencia = "2"
+                conta.OperacaoConta = String.Empty
+                conta.Conta = "13001071"
+                conta.DigitoConta = "2"
+                conta.CarteiraPadrao = "101"
+
+                conta.VariacaoCarteiraPadrao = ""
+                conta.TipoCarteiraPadrao = TipoCarteira.CarteiraCobrancaSimples
+                conta.TipoFormaCadastramento = TipoFormaCadastramento.ComRegistro
+                conta.TipoImpressaoBoleto = TipoImpressaoBoleto.Empresa
+                conta.TipoDocumento = TipoDocumento.Tradicional
+
+                Dim ender As New Endereco
+                ender.LogradouroEndereco = "RUA QUINZE DE NOVEMBRO, 46/48 ANDAR 01 SALA 01"
+                ender.LogradouroNumero = "46/48"
+                ender.LogradouroComplemento = "RUA QUINZE DE NOVEMBRO"
+                ender.Bairro = "SANTOS"
+                ender.Cidade = "SÃO PAULO"
+                ender.UF = "SP"
+                ender.CEP = "000000000"
+
+                objBoletos.Banco.Cedente.Codigo = "033"
+                objBoletos.Banco.Cedente.CodigoDV = "6"
+                objBoletos.Banco.Cedente.CodigoTransmissao = "000000"
+                objBoletos.Banco.Cedente.ContaBancaria = conta
+                objBoletos.Banco.Cedente.Endereco = ender
+
+                objBoletos.Banco.FormataCedente()
+
+                For I As Integer = 1 To 1
+                    ''CRIAÇÃO DO TITULO
+                    Dim Titulo As New Boleto(objBoletos.Banco)
+                    Titulo.Sacado = New Sacado With {
+                    .CPFCNPJ = "03861018250",
+                    .Endereco = New Boleto2Net.Endereco With {
+                    .Bairro = "Bairro",
+                    .CEP = "14154710",
+                    .Cidade = "Cidade",
+                    .LogradouroComplemento = "",
+                    .LogradouroEndereco = "Rua Da Esquina Perdida Logo Ali",
+                    .LogradouroNumero = "569",
+                    .UF = "SP"},
+                    .Nome = "Nome do Pagador",
+                    .Observacoes = "Pagar com urgência para não ser protestado."
+                }
+                    Titulo.CodigoOcorrencia = "01"
+                    Titulo.DescricaoOcorrencia = "Remessa Registrar"
+                    Titulo.NumeroDocumento = I
+                    Titulo.NumeroControleParticipante = "12"
+                    Titulo.NossoNumero = "123456" & I
+                    Titulo.DataEmissao = Now.Date
+                    Titulo.DataVencimento = Now.Date.AddDays(15)
+                    Titulo.ValorTitulo = 200.0
+                    Titulo.Aceite = "N"
+                    Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                    Titulo.DataDesconto = Now.Date.AddDays(15)
+                    Titulo.ValorDesconto = 45
+
+                    '
+                    'PARTE DA MULTA
+                    Titulo.DataMulta = Now.Date.AddDays(15)
+                    Titulo.PercentualMulta = 2
+                    Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
+                    Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
+                    '
+                    'PARTE JUROS DE MORA
+                    Titulo.DataJuros = Now.Date.AddDays(15)
+                    Titulo.PercentualJurosDia = 10 / 30
+                    Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
+                    Dim instrucoes As String = $"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
+                    If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
+                        Titulo.MensagemInstrucoesCaixa = instrucoes
+                    Else
+                        Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
+                    End If
+                    '
+                    'Titulo.CodigoInstrucao1 = String.Empty
+                    'Titulo.ComplementoInstrucao1 = String.Empty
+
+                    'Titulo.CodigoInstrucao2 = String.Empty
+                    'Titulo.ComplementoInstrucao2 = String.Empty
+
+                    'Titulo.CodigoInstrucao3 = String.Empty
+                    'Titulo.ComplementoInstrucao3 = String.Empty
+                    Titulo.CodigoProtesto = TipoCodigoProtesto.NaoProtestar
+                    Titulo.DiasProtesto = 0
+                    Titulo.CodigoBaixaDevolucao = TipoCodigoBaixaDevolucao.NaoBaixarNaoDevolver
+                    Titulo.DiasBaixaDevolucao = 0
+                    Titulo.ValidarDados()
+                    objBoletos.Add(Titulo)
+                Next
+
+
+                '
+                'If File.Exists(Application.StartupPath & "\remessa.txt") Then
+                '    File.Delete(Application.StartupPath & "\remessa.txt")
+                'End If
+                ''GERA ARQUIVO DE REMESSA
+                'Dim st As New MemoryStream
+                'Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
+                'remessa.GerarArquivoRemessa(objBoletos, st)
+                'Dim arquivo As New FileStream(Application.StartupPath & "\remessa.txt", FileMode.Create, FileAccess.ReadWrite)
+
+                'st.WriteTo(arquivo)
+                'arquivo.Close()
+                'st.Close()
+
+
+                'Dim LerArquivo As New StreamReader(Application.StartupPath & "\remessa.txt")
+
+                'Dim RefazArquivo As New StreamWriter(Application.StartupPath & "\remessa2.txt") 'Arquivo verificado para ser enviado ao banco
+                'Dim strTexto As String = Nothing
+                'Dim conta1 As Integer = 0
+                'Do While LerArquivo.Peek <> -1
+                '    strTexto = LerArquivo.ReadLine
+                '    conta1 = strTexto.Length
+                '    If conta1 < 240 Then
+                '        conta1 = 240 - conta1
+                '        Dim strEspaco As String = Nothing
+                '        For I As Integer = 1 To conta1
+                '            strEspaco = strEspaco & " "
+                '        Next
+                '        RefazArquivo.WriteLine(strTexto & strEspaco)
+                '    Else
+                '        RefazArquivo.WriteLine(strTexto)
+                '    End If
+
+                'Loop
+                'RefazArquivo.Close()
+                'LerArquivo.Close()
+
+                ''Solicita se vai imprimir os boletos
+                'If MessageBox.Show("Deseja imprimir os boletos agora?", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
+                '    Dim imp As New PrintDialog
+                '    If imp.ShowDialog = DialogResult.OK Then
+                '        strImpressora = imp.PrinterSettings.PrinterName
+                '        intCopias = imp.PrinterSettings.Copies
+                '        blnImprimir = True
+                '    End If
+                'End If
+
+                'Gera boletos
+                Dim numBoletos As Integer = 0
+                For Each linha In objBoletos
+                    numBoletos += 1
+                    Dim NovoBoleto = New BoletoBancario
+                    NovoBoleto.Boleto = linha
+                    Dim pdf = NovoBoleto.MontaBytesPDF(False)
+                    File.WriteAllBytes(Server.MapPath("/Content/") & "/boletos" & numBoletos & ".pdf", pdf)
+
+                    ''Parte da impressão do boleto
+                    'If blnImprimir = True Then
+                    '    Dim MyProcess As New Process
+                    '    MyProcess.StartInfo.CreateNoWindow = False
+                    '    MyProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+                    '    MyProcess.StartInfo.Verb = "print"
+                    '    MyProcess.StartInfo.Arguments = strImpressora
+
+                    '    MyProcess.StartInfo.FileName = Application.StartupPath & "\boleto" & numBoletos & ".pdf"
+                    '    MyProcess.Start()
+                    '    'MyProcess.WaitForExit(10000)
+                    '    MyProcess.WaitForInputIdle()
+
+                    '    If MyProcess.Responding Then
+                    '        MyProcess.CloseMainWindow()
+                    '    Else
+                    '        MyProcess.Kill()
+                    '    End If
+
+                    '    'MyProcess.Close()
+                    'End If
+                Next
+
+            Catch ex As Exception
+
+            End Try
+            'Call jsonBoleto(IDs)
         End If
 
     End Sub
@@ -731,25 +924,25 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
     End Function
 
-    Sub jsonBoleto(IDs As String)
-        Dim Con As New Conexao_sql
-        Con.Conectar()
+    '    Sub jsonBoleto(IDs As String)
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_RPS FROM TB_FATURAMENTO 
-WHERE ID_FATURAMENTO IN (" & IDs & ")")
-        If ds.Tables(0).Rows.Count > 0 Then
-            Dim boleto As New Boleto()
-            boleto.Banco = ddlBanco.SelectedValue
-            boleto.Nr_rps = New List(Of String)
+    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_RPS FROM TB_FATURAMENTO 
+    'WHERE ID_FATURAMENTO IN (" & IDs & ")")
+    '        If ds.Tables(0).Rows.Count > 0 Then
+    '            Dim boleto As New Boleto()
+    '            boleto.Banco = ddlBanco.SelectedValue
+    '            boleto.Nr_rps = New List(Of String)
 
-            For Each linhads As DataRow In ds.Tables(0).Rows
-                'boleto.Nr_rps = New List(Of String) From {"000001","000002"}
-                boleto.Nr_rps.Add(linhads.Item("NR_RPS").ToString())
-            Next
-            JsonConvert.SerializeObject(boleto)
+    '            For Each linhads As DataRow In ds.Tables(0).Rows
+    '                'boleto.Nr_rps = New List(Of String) From {"000001","000002"}
+    '                boleto.Nr_rps.Add(linhads.Item("NR_RPS").ToString())
+    '            Next
+    '            JsonConvert.SerializeObject(boleto)
 
-        End If
-    End Sub
+    '        End If
+    '    End Sub
 
     Private Sub btnConsultaNotas_Click(sender As Object, e As EventArgs) Handles btnConsultaNotas.Click
         Dim filtro As String = ""
