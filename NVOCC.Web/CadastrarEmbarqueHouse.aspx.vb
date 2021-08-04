@@ -23,6 +23,10 @@
                 lkAnterior.Visible = False
                 btnVisualizarMBL_Aereo.Text = "Gerar Master"
                 btnVisualizarMBL_Maritimo.Text = "Gerar Master"
+                ddlTransportador_BasicoAereo.Enabled = True
+                txtNomeTransportador_Aereo.Enabled = True
+                ddlTransportador_BasicoMaritimo.Enabled = True
+                txtNomeTransportador_Maritimo.Enabled = True
             ElseIf Request.QueryString("tipo") = "h" Then
                 lblTipoModulo.Text = " HOUSE"
                 btnVisualizarMBL_Aereo.Text = "Visualizar MBL"

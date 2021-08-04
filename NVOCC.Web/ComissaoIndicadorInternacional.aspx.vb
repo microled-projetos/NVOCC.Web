@@ -17,17 +17,17 @@
 
             Response.Redirect("Default.aspx")
         Else
-            If Not Page.IsPostBack Then
-                If Month(Now.AddMonths(-1)) <= 9 Then
-                    txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-                    txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-                Else
-                    txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-                    txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-                End If
-            End If
+            'If Not Page.IsPostBack Then
+            '    'If Month(Now.AddMonths(-1)) <= 9 Then
+            '    '    txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
+            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+            '    '    txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
+            '    'Else
+            '    '    txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
+            '    '    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+            '    '    txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
+            '    'End If
+            'End If
 
         End If
         Con.Fechar()
