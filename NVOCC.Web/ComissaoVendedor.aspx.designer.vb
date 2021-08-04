@@ -167,13 +167,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lkCSV As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkGravarCCProcesso.
+    '''Controle lkCCProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkGravarCCProcesso As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkCCProcesso As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle divAuxiliar.
@@ -1220,13 +1220,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents txtLiquidacaoCCProcesso As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle Button1.
+    '''Controle lkGravarCCProcesso.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lkGravarCCProcesso As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharCCProcesso.

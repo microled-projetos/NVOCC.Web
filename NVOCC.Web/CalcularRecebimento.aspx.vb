@@ -17,7 +17,7 @@
         Else
             If Request.QueryString("id") <> "" Then
                 txtID_BL.Text = Request.QueryString("id")
-                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_PROCESSO FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT isnull(NR_PROCESSO,'')NR_PROCESSO FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then
                     lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If

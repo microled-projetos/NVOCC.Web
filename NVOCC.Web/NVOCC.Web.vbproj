@@ -85,6 +85,10 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.12.0.4518.1014\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Outlook.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Outlook.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="OfficeOpenXml.Core.ExcelPackage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\OfficeOpenXml.Core.ExcelPackage.1.0.0\lib\net46\OfficeOpenXml.Core.ExcelPackage.dll</HintPath>
     </Reference>
@@ -459,6 +463,7 @@
     <Content Include="ModuloOperacional.aspx.designer.cs" />
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
+    <Content Include="OUTLOOK.aspx" />
     <Content Include="Processos.cs" />
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
@@ -832,6 +837,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EMAIL.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />
     <Compile Include="Helpers\CalculaBL.vb" />
@@ -913,6 +919,13 @@
     <Compile Include="CadastrarFreteTransportador.aspx.vb">
       <DependentUpon>CadastrarFreteTransportador.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OUTLOOK.aspx.designer.vb">
+      <DependentUpon>OUTLOOK.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OUTLOOK.aspx.vb">
+      <DependentUpon>OUTLOOK.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RastreioBL.aspx.designer.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>
@@ -1114,7 +1127,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BoletoNet\BoletoNet\Boleto2.Net\Boleto2.Net.csproj">
+    <ProjectReference Include="..\Boleto2.Net\Boleto2.Net.csproj">
       <Project>{f173e80b-e36b-48ad-b483-a27f8ca86f3c}</Project>
       <Name>Boleto2.Net</Name>
     </ProjectReference>

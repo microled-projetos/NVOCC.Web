@@ -14,14 +14,6 @@ body {
 
 }
 
-/*.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #424558;*/
-/*    border-top: 10px solid #e77817;*/
-/*}*/
 
 .navbar-inverse {
     background-color: #222;
@@ -148,8 +140,7 @@ input[type=submit] {
 }
 
 .navbar-default .navbar-nav > li > a {
-/*    background-color: #e77817;
-*/    color: white;
+   color: white;
 }
 
     .navbar-default .navbar-nav > li > a:hover {
@@ -250,9 +241,7 @@ input[type=submit] {
     padding-top: 10px;
     color: gray;
 }
-/*.panel-body {
-    height: 700px;
-}*/
+
 .sw-btn-prev {
     margin-right: 6px;
 }
@@ -566,8 +555,7 @@ legend.scheduler-border {
         position: sticky !important;
         top: 0;
         background-color: beige;
-/*        text-align: justify
-*/    }
+ }
 
 /* Just common table stuff. Really. */
 table {
@@ -575,25 +563,19 @@ table {
     height: 100%;
 }
 
-/*th, td {
-    padding: 8px 16px;
-}*/
 
 
 th {
     padding: 0px 
 }
 
-thead {
-/*    text-align: center;
-*/}
+
 
 th {
     position: sticky !important;
     top: 0;
     background-color: #e6eefa;
-/*    text-align: center;
-*/}
+}
 
 .table > tbody > tr > td {
     font-size: 12px !important;
@@ -671,27 +653,39 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 #modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
-#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
-#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
-#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
-#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
-#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
-#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle, #modalListarContainerWeekTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle, #modalListarProcessosContainerWeekTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle, #modalDeleteDocumentoArquivadoTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalCadastrarConteinerTitle,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalDeleteProcessoWeekFCATitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalInsideWeekTitle, #modalDeleteProcessoContainerFCATitle, #modalProcessosContainerTitle, #modalAdicionarProcessoTitle, #modalEditarProcessoFCATitle, #modalEditarProcessoPartnerTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
     font-size: 20px;
     font-weight: bold;
     width: 100%;
 }
 
-#msgErrDadoCalc, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
+.bindBL, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL, #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
+#msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
 #msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
-#msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
-#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
     display: none;
 }
 
+#tblModuloOperacionalBody td:first-child {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
 
+#tblModuloOperacionalHead th:first-child {
+    left: 0;
+    z-index: 1;
+}
 
 #btnCancelEdit, #btnSalvarEditContainer, #btnEditarContainer {
     display: none;
@@ -825,30 +819,7 @@ input[type=file] {
     background-color: white;
     cursor: default;
 }
-/*#boxescala2,
-#boxdtDemurrage2,
-#boxvlDemurrage2,
-#boxescala3,
-#boxdtDemurrage3,
-#boxvlDemurrage3,
-#boxescala4,
-#boxdtDemurrage4,
-#boxvlDemurrage4,
-#boxescala5,
-#boxdtDemurrage5,
-#boxvlDemurrage5,
-#boxescala6,
-#boxdtDemurrage6,
-#boxvlDemurrage6,
-#boxescala7,
-#boxdtDemurrage7,
-#boxvlDemurrage7,
-#boxescala8,
-#boxdtDemurrage8,
-#boxvlDemurrage8{
-display: none;
-}
-*/
+
 
 
 .nobox {
@@ -934,13 +905,7 @@ display: none;
 #btnProximo {
     display: none;
 }
-/*th {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-    margin: 0px !important;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-}*/
+
 
 .table tbody tr td {
     padding-left: 8px !important;
@@ -1215,6 +1180,18 @@ input[type=file] {
     display: none;
 }
 
+#tblModuloOperacionalBody td:first-child {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
+
+#tblModuloOperacionalHead th:first-child {
+    left: 0;
+    z-index: 1;
+}
 
 .flex {
     display: flex;

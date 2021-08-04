@@ -773,7 +773,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                     <h4>Are you sure you want to remove the process from the container ?</h4>
+                                     <h4>Are you sure you want to remove the process from the container?</h4>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" onclick="RemoverProcessoContainer()" data-dismiss="modal">Yes</button>
@@ -1185,7 +1185,9 @@
             var mercadoriaS = 0;
             var pesobrutoSA = 0;
             var cubagemSA = 0;
-            var mercadoriaSA = 0;            
+            var mercadoriaSA = 0;   
+            var oftm3S = 0;
+            var exwratesS = 0;
             checkboxHide();
             listarProcessos(idweek);
             week = idweek;
@@ -1237,12 +1239,12 @@
                                 "<div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDeleteProcessoWeekFCA' onclick='setRemoverProcessoWeek(" + dado[i]["ID_BL"] + ")' ><i class='fas fa-trash'></i></div>" +
                                 "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                "<td class='text-center'> " + dado[i]["VENDEDOR"] + "</td> " +
+                                "<td class='text-center' style='max-width: 14ch;' title = '" + dado[i]["VENDEDOR"] + "'> " + dado[i]["VENDEDOR"] + "</td> " +
                                 "<td class='text-center' style='max-width: 14ch;' title = '" + dado[i]["AGENTE"] + "'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center' style='max-width: 14ch;' title = '" + dado[i]["IMPORTADOR"] + "'> " + dado[i]["IMPORTADOR"] + "</td>" +
                                 "<td class='text-center' style='max-width: 14ch;' title = '" + dado[i]["EXPORTADOR"] + "'>" + dado[i]["EXPORTADOR"] + "</td>" +
-                                "<td class='text-center'>" + OFTM3 +"</td>" +
-                                "<td class='text-center'>" + dado[i]["VL_TAXA_VENDA"]+"</td>" +
+                                "<td class='text-center oftm3'>" + OFTM3 +"</td>" +
+                                "<td class='text-center exwrates'>" + dado[i]["VL_TAXA_VENDA"]+"</td>" +
                                 "<td class='text-center pesobruto'>" + dado[i]["VL_PESO_BRUTO"] + "</td>" +
                                 "<td class='text-center cubagem'>" + dado[i]["VL_M3"] + "</td>" +
                                 "<td class='text-center mercadoria'>" + dado[i]["QT_MERCADORIA"] + "</td>" +
@@ -1272,21 +1274,26 @@
                         var pesobrutoQA = document.querySelectorAll(".pesobrutoagente");
                         var cubagemQA = document.querySelectorAll(".cubagemagente");
                         var mercadoriaQA = document.querySelectorAll(".mercadoriaagente");
+                        var oftm3Q = document.querySelectorAll(".oftm3");
+                        var exwratesQ = document.querySelectorAll(".exwrates");
 
                         for (let i = 0; i < pesobrutoQ.length; i++) {
+
                             pesobrutoS = pesobrutoS + parseFloat(pesobrutoQ[i].textContent);
                             cubagemS = cubagemS + parseFloat(cubagemQ[i].textContent);
                             mercadoriaS = mercadoriaS + parseFloat(mercadoriaQ[i].textContent);
                             pesobrutoSA = pesobrutoSA + parseFloat(pesobrutoQA[i].textContent);
                             cubagemSA = cubagemSA + parseFloat(cubagemQA[i].textContent);
                             mercadoriaSA = mercadoriaSA + parseFloat(mercadoriaQA[i].textContent);
+                            oftm3S = oftm3S + parseFloat(oftm3Q[i].textContent);
+                            exwratesS = exwratesS + parseFloat(exwratesQ[i].textContent)
                         }
 
-                        document.getElementById("pesoTotal").textContent = pesobrutoS;
-                        document.getElementById("cubTotal").textContent = cubagemS;
+                        document.getElementById("pesoTotal").textContent = pesobrutoS.toString().replace(".", ",");
+                        document.getElementById("cubTotal").textContent = cubagemS.toString().replace(".",",");
                         document.getElementById("mercadoriaTotal").textContent = mercadoriaS;
-                        document.getElementById("pesoTotalPartner").textContent = pesobrutoSA;
-                        document.getElementById("cubTotalPartner").textContent = cubagemSA;
+                        document.getElementById("pesoTotalPartner").textContent = pesobrutoSA.toString().replace(".", ",");
+                        document.getElementById("cubTotalPartner").textContent = cubagemSA.toString().replace(".", ",");
                         document.getElementById("mercadoriaTotalPartner").textContent = mercadoriaSA
                         $("#selectionBL").show();
                     } else {

@@ -15,22 +15,31 @@
             background-color: #e6c3a5;
         }
 
+       /* .Normal {
+            color: black;
+            font-family: verdana;
+            font-size: 8pt;
+            background-color: RED;
+        }*/
         .none {
             display: none
         }
 
-       /*  th {
-            position: sticky !important;
-            top: 0;
-            background-color: #e6eefa;
-            text-align: center;
-        }
+      .tableFixHead {
+    overflow-y: auto;
+    max-height: 400px;
+    overflow-x: auto;
+    max-width: 100%;
+}
 
-       td, th {
-            padding: 0;
-            padding-top: 5px;
-            margin: 0;
-        }*/
+
+    th {
+    position: sticky !important;
+    top: 0;
+    background-color: #e6eefa;
+    text-align:left;
+    padding-left: 18px;
+}
     </style>
 
     <div class="row principal">
@@ -510,7 +519,7 @@
                    
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />
+                                                           <%-- <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />--%>
 
                                                         </div>
                                                     
@@ -790,7 +799,7 @@
                                                 </asp:TemplateField>
                                                                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
@@ -966,7 +975,7 @@
                                                                 </div>
                                    
  <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 10px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
+<asp:GridView ID="dgvProcessoPeriodo" DataKeyNames="ID_BL" DataSourceID="dsProcessoPeriodo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
@@ -1019,8 +1028,8 @@
                                             <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                             <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                         </div>
-                                        <div class="table-responsive tableFixHead DivGrid" id="DivGrid" >
-                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
+                                        <div class="table-responsive tableFixHead DivGrid" id="DivGrid" Style="max-height:600px !important;">
+                                            <asp:GridView ID="dgvInvoice" DataKeyNames="ID_ACCOUNT_INVOICE" DataSourceID="dsInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height:600px !important; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false" OnSorting="dgvInvoice_Sorting">
                                                 <Columns>
                                                     <asp:BoundField DataField="NR_INVOICE" HeaderText="Nº INVOICE" SortExpression="NR_INVOICE" />
                                                     <asp:BoundField DataField="NM_ACCOUNT_TIPO_INVOICE" HeaderText="TIPO" SortExpression="NM_ACCOUNT_TIPO_INVOICE" />
@@ -1069,6 +1078,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="lkAlterarInvoice" />
                                 <asp:PostBackTrigger ControlID="lkGeraCSV" />
                                            <asp:AsyncPostBackTrigger ControlID="lkExcluirInvoice" />
+                                       <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvInvoice" />
 
                             </Triggers>
                         </asp:UpdatePanel>
@@ -1084,12 +1094,12 @@
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
-        CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL')) AS A 
+        CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE(CONVERT(varchar,@DATAINICIAL,103),CONVERT(varchar,@DATAFINAL,103))) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
-        group by A.ID_ACCOUNT_INVOICE,A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO">
+        group by A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO">
         <SelectParameters>
-            <asp:ControlParameter Name="DATAINICIAL" Type="string" ControlID="txtVencimentoInicial" />
-            <asp:ControlParameter Name="DATAFINAL" Type="string" ControlID="txtVencimentoFinal" />
+            <asp:ControlParameter Name="DATAINICIAL" Type="datetime" ControlID="txtVencimentoInicial" />
+            <asp:ControlParameter Name="DATAFINAL" Type="datetime" ControlID="txtVencimentoFinal"  />
         </SelectParameters>
     </asp:SqlDataSource>
 
@@ -1112,7 +1122,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissoes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
@@ -1147,7 +1157,7 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS
 union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 AND ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE)
 union SELECT 0, 'Todos os Agentes' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoEmissor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

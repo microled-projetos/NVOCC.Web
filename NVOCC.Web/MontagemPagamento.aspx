@@ -70,9 +70,14 @@
                                     </div>
                                         
                                     </div>
+                                </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="txtVencimentoBusca" /> 
+                            </Triggers>
+                        </asp:UpdatePanel>
 
-
-
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                            <ContentTemplate>
 
                                 <br />
                                 <br />
@@ -148,7 +153,7 @@
                                     <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="text-align: left">VALOR:</label>
-                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control moeda"></asp:TextBox>
                                             </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -172,7 +177,7 @@
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" /> 
-                                                                <asp:AsyncPostBackTrigger ControlID="btnMontar" />     
+                                <asp:AsyncPostBackTrigger ControlID="btnMontar" />     
 
                             </Triggers>
                         </asp:UpdatePanel>

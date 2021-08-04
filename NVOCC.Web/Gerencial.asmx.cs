@@ -896,19 +896,19 @@ namespace ABAINFRA.Web
             switch (dtgerado)
             {
                 case "1":
-                    dtgerado = "AND A.DT_GERACAO = CONVERT (date, GETDATE()) ";
+                    dtgerado = "AND CONVERT (date,A.DT_GERACAO) = CONVERT (date, GETDATE()) ";
                     break;
                 case "2":
-                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_GERACAO) >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
                     break;
                 case "3":
-                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_GERACAO) >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
                     break;
                 case "4":
-                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_GERACAO) >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
                     break;
                 case "5":
-                    dtgerado = "AND A.DT_GERACAO >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_GERACAO) >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
                     break;
             }
             string SQL;
@@ -982,19 +982,19 @@ namespace ABAINFRA.Web
             switch (dtgerado)
             {
                 case "1":
-                    dtgerado = "AND A.DT_SOLICITACAO = CONVERT (date, GETDATE()) ";
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) = CONVERT (date, GETDATE()) ";
                     break;
                 case "2":
-                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
                     break;
                 case "3":
-                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
                     break;
                 case "4":
-                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
                     break;
                 case "5":
-                    dtgerado = "AND A.DT_SOLICITACAO >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
                     break;
             }
             string SQL;
@@ -1042,10 +1042,21 @@ namespace ABAINFRA.Web
             string SQL;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
-            SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_CANCELAMENTO = '"+ sqlFormattedDate + "', OB_CANCELAMENTO = 'CANCELADO PELO USUÁRIO' WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "' ";
-            string cancelar = DBS.ExecuteScalar(SQL);
+            SQL = "SELECT DT_GERACAO_EMAIL FROM TB_solicitacao_email A WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "'";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string dtenvio = listTable.Rows[0]["DT_GERACAO_EMAIL"].ToString();
+            if (dtenvio == "")
+            {
+                SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', OB_CANCELAMENTO = 'CANCELADO PELO USUÁRIO' WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "' ";
+                string cancelar = DBS.ExecuteScalar(SQL);
 
-            return "ok";
+                return "ok";
+            }
+            else
+            {
+                return "erro";
+            }
         }
 
         [WebMethod]
@@ -1066,7 +1077,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT PATHDOCUMENTOS FROM TB_AVISOPARAM WHERE IDTIPOAVISOPARAM=1 ";
             string PathDocumentos = DBS.ExecuteScalar(SQL);
-            string path = "C:\\FCA\\DOCUMENTOS";
+            string path = PathDocumentos;
             if (Directory.Exists(path) == false)
             {
                 return "0";
@@ -1279,6 +1290,11 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string deleterDocumentoArquivado(string documentoArquivado)
         {
+            string path = DBS.ExecuteScalar("SELECT DCPATHARQUIVO FROM TB_GER_ANEXO WHERE AUTONUM = '" + documentoArquivado + "' ");
+            string arquivo = DBS.ExecuteScalar("SELECT NMARQUIVO FROM TB_GER_ANEXO WHERE AUTONUM = '" + documentoArquivado + "' ");
+            string concat = path + arquivo;
+            File.Delete(concat);
+
             string SQL;
             SQL = "DELETE FROM TB_GER_ANEXO WHERE AUTONUM = '" + documentoArquivado + "' ";
             string deleteAnexo = DBS.ExecuteScalar(SQL);
@@ -1292,6 +1308,7 @@ namespace ABAINFRA.Web
             string SQL;
             string destinatario = "";
             string origem = "";
+            string refCliente = "";
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
             SQL = "SELECT A.NR_BL, A.NR_PROCESSO, ORIGEM.NM_PORTO AS ORIGEM, DESTINO.NM_PORTO AS DESTINO,ID_PARCEIRO_CLIENTE, CLIENTE.NM_RAZAO AS CLIENTE, ";
@@ -1335,8 +1352,9 @@ namespace ABAINFRA.Web
                 }
             }
 
+            refCliente = DBS.ExecuteScalar("SELECT dbo.FN_REFERENCIA_CLIENTE(" + house + ")");
             SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
-            SQL += "VALUES ('"+nrProcesso+" - AVISO DE EMBARQUE - "+origemP+" X "+destinoP+" - HBL: "+nrHouse+"<br>"+nmCliente+" - "+cnpj+"', ";
+            SQL += "VALUES ('"+nrProcesso+" - COMUNICADO - "+origemP+" X "+destinoP+" - HBL: "+nrHouse+"<br>"+nmCliente+" - "+cnpj+"<br>"+ refCliente +"<br>', ";
             SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
             string gerarEmail = DBS.ExecuteScalar(SQL);
 
@@ -1380,7 +1398,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-           SQL = "SELECT AUTONUM, ASSUNTO, REPLACE(CORPO,'''','') as CORPO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+            SQL = "SELECT AUTONUM, ASSUNTO, REPLACE(REPLACE(CORPO,'''',''),Char(10) ,'<br>') as CORPO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);

@@ -689,15 +689,6 @@ Partial Public Class Account
     Protected WithEvents btnFecharNovaInvoice As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnSalvarNovaInvoice.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnSalvarNovaInvoice As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle AuxDevolucao.
     '''</summary>
     '''<remarks>

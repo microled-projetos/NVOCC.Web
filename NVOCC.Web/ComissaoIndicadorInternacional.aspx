@@ -260,7 +260,7 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                              <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="INDICADOR" SortExpression="PARCEIRO_VENDEDOR" />
-                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="DATA DE VALIDADE" SortExpression="DT_VALIDADE_INICIAL" />
+                                            <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" />
                                             <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
                                             <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />
                                      <asp:TemplateField HeaderText="">
@@ -567,7 +567,7 @@
 
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="
-SELECT ID_TAXA_COMISSAO_INDICADOR,DT_VALIDADE_INICIAL,ID_PARCEIRO_VENDEDOR,(SELECT  NM_RAZAO
+SELECT ID_TAXA_COMISSAO_INDICADOR,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,ID_PARCEIRO_VENDEDOR,(SELECT  NM_RAZAO
                                FROM            dbo.TB_PARCEIRO
                                WHERE        (ID_PARCEIRO = B.ID_PARCEIRO_VENDEDOR)) AS PARCEIRO_VENDEDOR,VL_TAXA,ID_MOEDA,  (SELECT  NM_MOEDA
                                FROM            dbo.TB_MOEDA

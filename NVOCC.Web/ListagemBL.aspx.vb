@@ -900,27 +900,10 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
     End Sub
 
     Private Sub lkTracking_Click(sender As Object, e As EventArgs) Handles lkTracking.Click
-        'divSuccessHouse.Visible = False
-        'divErroHouse.Visible = False
-        'Dim SiteApiTracking As String = ConfigurationSettings.AppSettings("SiteApiTracking")
-        'Dim Con As New Conexao_sql
-        'Con.Conectar()
-        'Dim ds As DataSet = Con.ExecutarQuery("SELECT BL_TOKEN FROM [TB_BL] WHERE BL_TOKEN IS NOT NULL AND ID_BL = " & txtID_Master.Text)
-
-        'If ds.Tables(0).Rows.Count > 0 Then
-        '    ' Response.Redirect("https://localhost:8081/" & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
-        '    Response.Redirect(SiteApiTracking & ds.Tables(0).Rows(0).Item("BL_TOKEN"))
-
-        'Else
-        '    Response.Redirect(SiteApiTracking & 0)
-
-        '    'divErroHouse.Visible = True
-        '    'lblErroHouse.Text = "BL não cadastrada no Logcomex."
-        '    'Exit Sub
-        'End If
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
+        Session("ID_BL") = 0
         Session("NR_BL") = 0
         Session("TRAKING_BL") = 0
         If txtID_Master.Text = "" Then
@@ -930,17 +913,19 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
-            'Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND GRAU = 'M'")
-            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+                    Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+                    Session("ID_BL") = txtID_Master.Text
+                    Response.Redirect("RastreioBL.aspx")
 
-                Response.Redirect("RastreioBL.aspx")
-
-            Else
-                divErroMaster.Visible = True
-                lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                Else
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                End If
             End If
+
         End If
 
     End Sub

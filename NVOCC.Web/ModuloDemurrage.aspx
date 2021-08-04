@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableModalFix">
-                                        <table id="grdDevolucaoContainer" class="table table-striped tablecont">
+                                        <table id="grdDevolucaoContainer" class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -268,7 +268,7 @@
                                     </div>
                                     
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdCalculoContainer" class="table table-striped tablecont">
+                                        <table id="grdCalculoContainer" class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -399,7 +399,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableFixHead">
-                                        <table class="table table-striped tablecont">
+                                        <table class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">Tipo Container</th>
@@ -816,7 +816,7 @@
                                         </div>
                                         <div class="col-sm-1">
                                             <div class="form-group">
-                                                <button type="button" id="btnConsultaFatura" onclick="listarFatura()" class="btn btn-primary">Consultar</button>
+                                                <button type="button" id="btnConsultaFatura" onclick="consultaFatura()" class="btn btn-primary">Consultar</button>
                                             </div>
                                         </div>
                                         <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
@@ -829,7 +829,7 @@
                                         </div>
                                     </div> 
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdFatura" class="table table-striped tablecont">
+                                        <table id="grdFatura" class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -879,7 +879,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableModalFix">
-                                        <table id="grdProcessosFatura" class="table table-striped tablecont">
+                                        <table id="grdProcessosFatura" class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -1034,7 +1034,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive tableFixHead">
-                                        <table id="grdAtualizacaoCambial" class="table table-striped tablecont">
+                                        <table id="grdAtualizacaoCambial" class="table tablecont">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" scope="col">#</th>
@@ -2835,8 +2835,70 @@
             }
         }
 
+        
         function listarFatura() {
             $("#modalFaturas").modal('show');
+            idFatura = 0;
+            var filtroFatura = document.getElementById("MainContent_ddlFaturaFiltro").value;
+            var txtFiltro = document.getElementById("txtConsultaFatura").value;
+            var chkA = document.getElementById("MainContent_chkFaturaA");
+            var chkF = document.getElementById("MainContent_chkFaturaF");
+            chkA.checked = true;
+            chkF.checked = false;
+            var chkAvalue;
+            var chkFvalue;
+            if (chkA.checked) {
+                chkAvalue = "1";
+            }
+            else {
+                chkAvalue = "0";
+            }
+
+            if (chkF.checked) {
+                chkFvalue = "1";
+            }
+            else {
+                chkFvalue = "0";
+            }
+            if (checkV.checked) {
+                vlCheck = checkV.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Venda";
+            }
+            else {
+                vlCheck = checkC.value;
+                document.getElementById("modalFaturaTitle").textContent = "Fatura Compra";
+            }
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/listarFaturas",
+                data: '{check:"' + vlCheck + '", filtroFatura: "' + filtroFatura + '", txtFiltro: "' + txtFiltro + '", Ativo: "' + chkAvalue + '",Finalizado: "' + chkFvalue + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdFaturaBody").empty();
+                    $("#grdFaturaBody").append("<tr><td colspan='8'><div class='loader'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        $("#grdFaturaBody").empty();
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + "," + dado[i]["FALTA_ATUALIZACAO_CAMBIAL"] + ")'>Selecionar</div></td>" +
+                                "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' style='max-width: 14ch;' title='" + dado[i]["NM_CLIENTE"] + "'>" + dado[i]["NM_CLIENTE"] + "</td>" +
+                                "<td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_TRANSPORTADOR"] + "'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
+                        }
+                    }
+                    else {
+                        $("#grdFaturaBody").empty();
+                        $("#grdFaturaBody").append("<tr id='msgEmptyWeek'><td colspan='8' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                    }
+                }
+            })
+        }
+
+        function consultaFatura() {
             idFatura = 0;
             var filtroFatura = document.getElementById("MainContent_ddlFaturaFiltro").value;
             var txtFiltro = document.getElementById("txtConsultaFatura").value;
@@ -2882,8 +2944,8 @@
                         $("#grdFaturaBody").empty();
                         for (let i = 0; i < dado.length; i++) {
                             $("#grdFaturaBody").append("<tr data-id='" + dado[i]["ID_DEMURRAGE_FATURA"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFatura(" + dado[i]["ID_DEMURRAGE_FATURA"] + "," + dado[i]["FALTA_ATUALIZACAO_CAMBIAL"] + ")'>Selecionar</div></td>" +
-                                "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_FATURA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' style='max-width: 14ch;' title='" + dado[i]["NM_CLIENTE"] + "'>" + dado[i]["NM_CLIENTE"] + "</td>" +
+                                "<td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_TRANSPORTADOR"] + "'>" + dado[i]["NM_TRANSPORTADOR"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_DEMURRAGE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center'>" + dado[i]["DT_CANCELAMENTO"] + "</td></tr> ");
                         }
                     }
@@ -3532,7 +3594,7 @@
         }
 
         function atualizacaoCambial() {
-            if (idFaturaItens != 0) {
+            if (idFatura != 0) {
                 var idFaturaAtualizacaoCambial = document.getElementById("idFaturaAtualizacaoCambial").value;
                 var dtVencimento = document.getElementById("dtVencimentoAtualizacaoCambial").value;
                 var dtCambio = document.getElementById("dtCambioAtualizacao").value;

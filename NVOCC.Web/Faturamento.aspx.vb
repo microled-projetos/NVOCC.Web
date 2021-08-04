@@ -146,7 +146,7 @@ Public Class Faturamento
                 Dim NumeracaoDoc As New NumeracaoDoc
                 Dim numero As String = NumeracaoDoc.Numerar(2)
 
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT A.DT_CANCELAMENTO,(SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)DT_LIQUIDACAO FROM TB_FATURAMENTO A WHERE A.ID_FATURAMENTO = " & txtID.Text)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT A.DT_CANCELAMENTO,(SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)DT_LIQUIDACAO,(SELECT ISNULL(ID_TIPO_FATURAMENTO,0) FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =  A.ID_CONTA_PAGAR_RECEBER)ID_TIPO_FATURAMENTO FROM TB_FATURAMENTO A WHERE A.ID_FATURAMENTO = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura cancelada!"
@@ -157,6 +157,12 @@ Public Class Faturamento
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura já liquidada!"
                         divErro.Visible = True
                         Exit Sub
+
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 2 Then
+                        lblmsgErro.Text = "Não foi possivel completar a ação: O tipo de faturamento do registro nao permite baixas pelo modulo atual!"
+                        divErro.Visible = True
+                        Exit Sub
+
 
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -245,71 +251,6 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
         End If
 
     End Sub
-
-    'Private Sub dgvFaturamento_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFaturamento.RowCommand
-    '    divSuccess.Visible = False
-    '    divErro.Visible = False
-    '    divErroSubstituir.Visible = False
-    '    divInfo.Visible = False
-
-    '    If e.CommandName = "Selecionar" Then
-    '        If txtlinha.Text <> "" Then
-    '            dgvFaturamento.Rows(txtlinha.Text).CssClass = "Normal"
-
-    '        End If
-    '        Dim ID As String = e.CommandArgument
-
-
-    '        txtID.Text = ID.Substring(0, ID.IndexOf("|"))
-
-    '        txtlinha.Text = ID.Substring(ID.IndexOf("|"))
-    '        txtlinha.Text = txtlinha.Text.Replace("|", "")
-
-
-    '        For i As Integer = 0 To dgvFaturamento.Rows.Count - 1
-    '            dgvFaturamento.Rows(txtlinha.Text).CssClass = "Normal"
-
-    '        Next
-
-    '        dgvFaturamento.Rows(txtlinha.Text).CssClass = "selected1"
-
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
-    '        If ds.Tables(0).Rows.Count > 0 Then
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
-    '                lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                lblProcessoBaixa.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                lblProcessoSubs.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '                Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-    '            End If
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
-    '                lblClienteCancelamento.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '                lblClienteBaixa.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '                lblClienteSubs.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
-    '            End If
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-    '                lblNumeroNota.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")) Then
-    '                lblDataEmissao.Text = ds.Tables(0).Rows(0).Item("DT_NOTA_FISCAL")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")) Then
-    '                Session("ID_CONTA_PAGAR_RECEBER") = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
-    '            End If
-
-    '            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_RPS")) Then
-    '                txtOBSRPS.Text = ds.Tables(0).Rows(0).Item("OB_RPS")
-    '            End If
-
-
-    '        End If
-    '        Con.Fechar()
-
-    '    End If
-    'End Sub
 
     Private Sub lkNotaDebito_Click(sender As Object, e As EventArgs) Handles lkNotaDebito.Click
         divErro.Visible = False
@@ -644,8 +585,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
     Private Sub btnImprimirBoleto_Click(sender As Object, e As EventArgs) Handles btnImprimirBoleto.Click
         divErro.Visible = False
         Dim Con As New Conexao_sql
+        Con.Conectar()
         Dim contador As Integer = 0
         Dim IDs As String = ""
+
         For Each linha As GridViewRow In dgvFaturamento.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
 
@@ -673,107 +616,117 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Dim intCopias As Short = 1
 
             Try
-                ''CRIAÇÃO DA PARTE DO CEDENTE
-                'Cabeçalho do Banco
-                objBoletos.Banco = Banco.Instancia(Int(ddlBanco.SelectedValue))
-                objBoletos.Banco.Cedente = New Cedente
-                objBoletos.Banco.Cedente.CPFCNPJ = "00.639.367/0001-50"
-                objBoletos.Banco.Cedente.Nome = "FCA COMERCIO EXTERIOR E LOGISTICA LTDA"
-                objBoletos.Banco.Cedente.Observacoes = "Observações do cedente - o que coloca aqui?"
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
+                If ds.Tables(0).Rows.Count > 0 Then
 
-                Dim conta As New ContaBancaria
-                conta.Agencia = "3297"
-                conta.DigitoAgencia = "2"
-                conta.OperacaoConta = String.Empty
-                conta.Conta = "13001071"
-                conta.DigitoConta = "2"
-                conta.CarteiraPadrao = "101"
+                    ''CRIAÇÃO DA PARTE DO CEDENTE
+                    'Cabeçalho do Banco
+                    objBoletos.Banco = Banco.Instancia(ds.Tables(0).Rows(0).Item("NR_BANCO"))
+                    objBoletos.Banco.Cedente = New Cedente
+                    objBoletos.Banco.Cedente.CPFCNPJ = "00.639.367/0001-50" 'ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
+                    objBoletos.Banco.Cedente.Nome = "FCA COMERCIO EXTERIOR E LOGISTICA LTDA"  'ds.Tables(0).Rows(0).Item("NM_CEDENTE")
+                    objBoletos.Banco.Cedente.Observacoes = "Observações do cedente - o que coloca aqui?"
 
-                conta.VariacaoCarteiraPadrao = ""
-                conta.TipoCarteiraPadrao = TipoCarteira.CarteiraCobrancaSimples
-                conta.TipoFormaCadastramento = TipoFormaCadastramento.ComRegistro
-                conta.TipoImpressaoBoleto = TipoImpressaoBoleto.Empresa
-                conta.TipoDocumento = TipoDocumento.Tradicional
+                    Dim conta As New ContaBancaria
+                    conta.Agencia = "3297" 'ds.Tables(0).Rows(0).Item("NR_AGENCIA")
+                    conta.DigitoAgencia = "2" 'ds.Tables(0).Rows(0).Item("DG_AGENCIA")
+                    conta.OperacaoConta = String.Empty
+                    conta.Conta = "13001071" 'ds.Tables(0).Rows(0).Item("NR_CONTA")
+                    conta.DigitoConta = "2" 'ds.Tables(0).Rows(0).Item("DG_CONTA")
+                    conta.CarteiraPadrao = "101" 'ds.Tables(0).Rows(0).Item("CARTEIRA")
 
-                Dim ender As New Endereco
-                ender.LogradouroEndereco = "RUA QUINZE DE NOVEMBRO, 46/48 ANDAR 01 SALA 01"
-                ender.LogradouroNumero = "46/48"
-                ender.LogradouroComplemento = "RUA QUINZE DE NOVEMBRO"
-                ender.Bairro = "SANTOS"
-                ender.Cidade = "SÃO PAULO"
-                ender.UF = "SP"
-                ender.CEP = "000000000"
+                    conta.VariacaoCarteiraPadrao = ""
+                    conta.TipoCarteiraPadrao = TipoCarteira.CarteiraCobrancaSimples
+                    conta.TipoFormaCadastramento = TipoFormaCadastramento.ComRegistro
+                    conta.TipoImpressaoBoleto = TipoImpressaoBoleto.Empresa
+                    conta.TipoDocumento = TipoDocumento.Tradicional
 
-                objBoletos.Banco.Cedente.Codigo = "033"
-                objBoletos.Banco.Cedente.CodigoDV = "6"
-                objBoletos.Banco.Cedente.CodigoTransmissao = "000000"
-                objBoletos.Banco.Cedente.ContaBancaria = conta
-                objBoletos.Banco.Cedente.Endereco = ender
+                    Dim ender As New Endereco
+                    ender.LogradouroEndereco = "RUA QUINZE DE NOVEMBRO, 46/48 ANDAR 01 SALA 01"
+                    ender.LogradouroNumero = "46/48"
+                    ender.LogradouroComplemento = "RUA QUINZE DE NOVEMBRO"
+                    ender.Bairro = "SANTOS"
+                    ender.Cidade = "SÃO PAULO"
+                    ender.UF = "SP"
+                    ender.CEP = "000000000"
 
-                objBoletos.Banco.FormataCedente()
+                    objBoletos.Banco.Cedente.Codigo = "033" 'ds.Tables(0).Rows(0).Item("CD_CEDENTE")
+                    objBoletos.Banco.Cedente.CodigoDV = "6"
+                    objBoletos.Banco.Cedente.CodigoTransmissao = "000000" 'ds.Tables(0).Rows(0).Item("CD_TRASMISSAO")
+                    objBoletos.Banco.Cedente.ContaBancaria = conta
+                    objBoletos.Banco.Cedente.Endereco = ender
 
-                For I As Integer = 1 To 1
-                    ''CRIAÇÃO DO TITULO
-                    Dim Titulo As New Boleto(objBoletos.Banco)
-                    Titulo.Sacado = New Sacado With {
-                    .CPFCNPJ = "03861018250",
+                    objBoletos.Banco.FormataCedente()
+                End If
+
+                Dim i As Integer = 0
+                ds = Con.ExecutarQuery("SELECT NOSSONUMERO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & IDs & ")")
+                If ds.Tables(0).Rows.Count > 0 Then
+
+                    For Each linhads As DataRow In ds.Tables(0).Rows
+                        i = i + 1
+                        ''CRIAÇÃO DO TITULO
+                        Dim Titulo As New Boleto(objBoletos.Banco)
+                        Titulo.Sacado = New Sacado With {
+                    .CPFCNPJ = "03861018250", 'linhads.Item("CNPJ").ToString()
                     .Endereco = New Boleto2Net.Endereco With {
-                    .Bairro = "Bairro",
-                    .CEP = "14154710",
-                    .Cidade = "Cidade",
-                    .LogradouroComplemento = "",
-                    .LogradouroEndereco = "Rua Da Esquina Perdida Logo Ali",
-                    .LogradouroNumero = "569",
+                    .Bairro = "Bairro", 'linhads.Item("BAIRRO").ToString()
+                    .CEP = "14154710", 'linhads.Item("CEP").ToString()
+                    .Cidade = "Cidade",'linhads.Item("CIDADE").ToString()
+                    .LogradouroComplemento = "",'linhads.Item("COMPL_ENDERECO").ToString()
+                    .LogradouroEndereco = "Rua Da Esquina Perdida Logo Ali", 'linhads.Item("ENDERECO").ToString()
+                    .LogradouroNumero = "569",'linhads.Item("NR_ENDERECO").ToString()
                     .UF = "SP"},
-                    .Nome = "Nome do Pagador",
+                    .Nome = "Nome do Pagador",'linhads.Item("NM_CLIENTE").ToString()
                     .Observacoes = "Pagar com urgência para não ser protestado."
                 }
-                    Titulo.CodigoOcorrencia = "01"
-                    Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                    Titulo.NumeroDocumento = I
-                    Titulo.NumeroControleParticipante = "12"
-                    Titulo.NossoNumero = "123456" & I
-                    Titulo.DataEmissao = Now.Date
-                    Titulo.DataVencimento = Now.Date.AddDays(15)
-                    Titulo.ValorTitulo = 200.0
-                    Titulo.Aceite = "N"
-                    Titulo.EspecieDocumento = TipoEspecieDocumento.DM
-                    Titulo.DataDesconto = Now.Date.AddDays(15)
-                    Titulo.ValorDesconto = 45
+                        Titulo.CodigoOcorrencia = "01"
+                        Titulo.DescricaoOcorrencia = "Remessa Registrar"
+                        Titulo.NumeroDocumento = i
+                        Titulo.NumeroControleParticipante = "12"
+                        Titulo.NossoNumero = "123456" & i
+                        Titulo.DataEmissao = Now.Date
+                        Titulo.DataVencimento = Now.Date.AddDays(15)
+                        Titulo.ValorTitulo = 200.0
+                        Titulo.Aceite = "N"
+                        Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                        Titulo.DataDesconto = Now.Date.AddDays(15)
+                        Titulo.ValorDesconto = 45
 
-                    '
-                    'PARTE DA MULTA
-                    Titulo.DataMulta = Now.Date.AddDays(15)
-                    Titulo.PercentualMulta = 2
-                    Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
-                    Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
-                    '
-                    'PARTE JUROS DE MORA
-                    Titulo.DataJuros = Now.Date.AddDays(15)
-                    Titulo.PercentualJurosDia = 10 / 30
-                    Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
-                    Dim instrucoes As String = $"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
-                    If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
-                        Titulo.MensagemInstrucoesCaixa = instrucoes
-                    Else
-                        Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
-                    End If
-                    '
-                    'Titulo.CodigoInstrucao1 = String.Empty
-                    'Titulo.ComplementoInstrucao1 = String.Empty
+                        '
+                        'PARTE DA MULTA
+                        Titulo.DataMulta = Now.Date.AddDays(15)
+                        Titulo.PercentualMulta = 2
+                        Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
+                        Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
+                        '
+                        'PARTE JUROS DE MORA
+                        Titulo.DataJuros = Now.Date.AddDays(15)
+                        Titulo.PercentualJurosDia = 10 / 30
+                        Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
+                        Dim instrucoes As String = $"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
+                        If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
+                            Titulo.MensagemInstrucoesCaixa = instrucoes
+                        Else
+                            Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
+                        End If
+                        '
+                        'Titulo.CodigoInstrucao1 = String.Empty
+                        'Titulo.ComplementoInstrucao1 = String.Empty
 
-                    'Titulo.CodigoInstrucao2 = String.Empty
-                    'Titulo.ComplementoInstrucao2 = String.Empty
+                        'Titulo.CodigoInstrucao2 = String.Empty
+                        'Titulo.ComplementoInstrucao2 = String.Empty
 
-                    'Titulo.CodigoInstrucao3 = String.Empty
-                    'Titulo.ComplementoInstrucao3 = String.Empty
-                    Titulo.CodigoProtesto = TipoCodigoProtesto.NaoProtestar
-                    Titulo.DiasProtesto = 0
-                    Titulo.CodigoBaixaDevolucao = TipoCodigoBaixaDevolucao.NaoBaixarNaoDevolver
-                    Titulo.DiasBaixaDevolucao = 0
-                    Titulo.ValidarDados()
-                    objBoletos.Add(Titulo)
-                Next
+                        'Titulo.CodigoInstrucao3 = String.Empty
+                        'Titulo.ComplementoInstrucao3 = String.Empty
+                        Titulo.CodigoProtesto = TipoCodigoProtesto.NaoProtestar
+                        Titulo.DiasProtesto = 0
+                        Titulo.CodigoBaixaDevolucao = TipoCodigoBaixaDevolucao.NaoBaixarNaoDevolver
+                        Titulo.DiasBaixaDevolucao = 0
+                        Titulo.ValidarDados()
+                        objBoletos.Add(Titulo)
+                    Next
+                End If
 
 
                 '
@@ -831,7 +784,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     Dim NovoBoleto = New BoletoBancario
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
-                    File.WriteAllBytes(Server.MapPath("/Content/") & "/boletos" & numBoletos & ".pdf", pdf)
+                    File.WriteAllBytes(Server.MapPath("/Content/boletos" & numBoletos & ".pdf"), pdf)
 
                     ''Parte da impressão do boleto
                     'If blnImprimir = True Then
@@ -863,6 +816,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
         End If
 
     End Sub
+
 
     Public Function FinalSemana(ByVal data As Date)
         If data.DayOfWeek = DayOfWeek.Saturday Then

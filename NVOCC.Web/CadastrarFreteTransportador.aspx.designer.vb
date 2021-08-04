@@ -176,6 +176,24 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents ddlEscala3 As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodTransportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeTransportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlTransportador.
     '''</summary>
     '''<remarks>
@@ -183,6 +201,24 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTransportador As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtCodAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodAgente As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeAgente As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlAgente.

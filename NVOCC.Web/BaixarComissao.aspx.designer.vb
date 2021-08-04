@@ -104,6 +104,15 @@ Partial Public Class BaixarComissao
     Protected WithEvents txtCompetencia As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtQuinzena.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQuinzena As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ckStatus.
     '''</summary>
     '''<remarks>
@@ -122,15 +131,6 @@ Partial Public Class BaixarComissao
     Protected WithEvents btnPesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnBaixar.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnBaixar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''Controle gridPagar.
     '''</summary>
     '''<remarks>
@@ -147,6 +147,15 @@ Partial Public Class BaixarComissao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvTaxasPagar As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle TextBox1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ModalPopupExtender1.
@@ -230,13 +239,13 @@ Partial Public Class BaixarComissao
     Protected WithEvents lblCompetencia As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblIndicador.
+    '''Controle lblQuinzena.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblIndicador As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblQuinzena As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtIDBaixa.
