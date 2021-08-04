@@ -17,17 +17,17 @@
 
             Response.Redirect("Default.aspx")
         Else
-            If Not Page.IsPostBack Then
-                If Month(Now.AddMonths(-1)) <= 9 Then
-                    txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-                    txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-                Else
-                    txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-                    lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-                    txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-                End If
-            End If
+            'If Not Page.IsPostBack Then
+            '    If Month(Now.AddMonths(-1)) <= 9 Then
+            '        txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
+            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+            '        txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
+            '    Else
+            '        txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
+            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+            '        txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
+            '    End If
+            'End If
 
         End If
         Con.Fechar()
@@ -84,8 +84,12 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
                     lkGravarCCProcessoModal.Visible = False
+                    lkAjustarComissao.Visible = False
+
                 Else
                     lkGravarCCProcessoModal.Visible = True
+                    lkAjustarComissao.Visible = True
+
                 End If
 
             End If
@@ -97,6 +101,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
         lblCompetenciaCCProcesso.Text = txtCompetencia.Text
         lkGravarCCProcessoModal.Visible = True
+        lkAjustarComissao.Visible = True
 
         txtID.Text = ""
         txtlinha.Text = ""
@@ -363,8 +368,8 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 		VALUES('P','" & txtCompetencia.Text & "','" & txtQuinzena.Text & "',GETDATE(),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoCCProcesso.Text & "',103)," & ddlContaBancaria.SelectedValue & ",7, " & Session("ID_USUARIO") & "," & Session("ID_USUARIO") & ", 'CNAC')  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER")
             Dim ID_CONTAS_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
 
-            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_BL_TAXA,ID_CONTA_PAGAR_RECEBER,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO ,VL_LIQUIDO)
-                SELECT ID_PARCEIRO_INDICADOR,'COMISSÃO INDICADOR NACIONAL – " & txtCompetencia.Text & "-" & txtQuinzena.Text & "',ID_BL_TAXA," & ID_CONTAS_PAGAR_RECEBER & ",DT_CAMBIO,VL_CAMBIO,VL_COMISSAO, VL_COMISSAO FROM TB_DETALHE_COMISSAO_NACIONAL  WHERE ID_CABECALHO_COMISSAO_NACIONAL IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM View_Comissao_Nacional WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "') ")
+            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_PARCEIRO_EMPRESA,DS_HISTORICO_LANCAMENTO,ID_BL_TAXA,ID_CONTA_PAGAR_RECEBER,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO ,VL_LIQUIDO,ID_MOEDA,VL_TAXA_CALCULADO)
+                SELECT ID_PARCEIRO_INDICADOR,'COMISSÃO INDICADOR NACIONAL – " & txtCompetencia.Text & "-" & txtQuinzena.Text & "',ID_BL_TAXA," & ID_CONTAS_PAGAR_RECEBER & ",DT_CAMBIO,VL_CAMBIO,VL_COMISSAO, VL_COMISSAO,ID_MOEDA,VL_TAXA FROM TB_DETALHE_COMISSAO_NACIONAL  WHERE ID_CABECALHO_COMISSAO_NACIONAL IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM View_Comissao_Nacional WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "') ")
 
             Con.ExecutarQuery("UPDATE TB_CABECALHO_COMISSAO_NACIONAL SET DT_EXPORTACAO = GETDATE(),ID_USUARIO_EXPORTACAO = " & Session("ID_USUARIO") & " WHERE DT_COMPETENCIA = '" & txtCompetencia.Text.Substring(0, 2) & txtCompetencia.Text.Substring(3, 4) & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "'")
 

@@ -63,7 +63,7 @@
                            <div class="form-group">                           
                                <asp:Label ID="Label1" runat="server">Competencia</asp:Label><br />
 
-                                            <asp:TextBox ID="txtCompetencia" placeholder="AAAA/MM"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                            <asp:TextBox ID="txtCompetencia" placeholder="MM/AAAA"  runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                            </div>
                        </div>
                        <div class="col-sm-1" >
@@ -111,7 +111,7 @@
                                             <asp:BoundField DataField="HBL" HeaderText="HBL" SortExpression="HBL" />                                                
                                             <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CNEE" SortExpression="PARCEIRO_CLIENTE" />                       
                                             <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
-                                            <asp:BoundField DataField="VL_TAXA" HeaderText="VL_TAXA" SortExpression="VL_TAXA" />
+                                            <asp:BoundField DataField="VL_TAXA" HeaderText="TAXA" SortExpression="VL_TAXA" />
                                             <asp:BoundField DataField="MOEDA" HeaderText="MOEDA" SortExpression="MOEDA" />    
                                             <asp:BoundField DataField="VL_CAMBIO" HeaderText="TAXA CONVERSÃO" SortExpression="VL_CAMBIO" />    
                                             <asp:BoundField DataField="VL_COMISSAO" HeaderText="PREMIACAO" SortExpression="VL_COMISSAO" />
@@ -194,7 +194,7 @@
 
                                                <asp:Label ID="Label11" runat="server">Competência</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="AAAA/MM" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                               <asp:TextBox ID="txtNovaCompetencia" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
                                         </div>
                                          </div>
                                      <div class="col-sm-2">

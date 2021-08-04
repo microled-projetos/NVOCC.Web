@@ -141,7 +141,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             If ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL") = 0 Then
                 divClienteFinal.Attributes.CssStyle.Add("display", "none")
             Else
+                dsClienteFinal.SelectCommand = "SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = " & ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL") & "
+union SELECT  0, 'Selecione' ORDER BY NM_CLIENTE_FINAL"
+                ddlClienteFinal.DataBind()
+                divClienteFinal.Attributes.CssStyle.Add("display", "block")
                 ddlClienteFinal.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL").ToString()
+
             End If
 
             ddlTipoBL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_BL").ToString()
@@ -1296,6 +1301,14 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
             If txtFreteVendaMercadoriaUnitario.Text = "" Then
                 txtFreteVendaMercadoriaUnitario.Text = "0"
             End If
+            If txtFreteVendaMercadoriaCalc.Text = "" Then
+                txtFreteVendaMercadoriaCalc.Text = "0"
+            End If
+
+            If txtFreteCompraMercadoriaUnitario.Text = "" Then
+                txtFreteCompraMercadoriaUnitario.Text = "0"
+            End If
+
 
             If Session("estufagem") = 1 Then
                 If txtFreteCompraMercadoriaUnitario.Text = "" And txtQtdContainerMercadoria.Text = 0 Then
@@ -1846,6 +1859,12 @@ union SELECT  0, 'Selecione' ORDER BY NM_CLIENTE_FINAL"
                 dsClienteFinal.SelectCommand = sql
                 ddlClienteFinal.DataBind()
                 divClienteFinal.Attributes.CssStyle.Add("display", "none")
+
+            ElseIf ds.Tables(0).Rows.Count > 1 Then
+                dsClienteFinal.SelectCommand = sql
+                ddlClienteFinal.DataBind()
+                divClienteFinal.Attributes.CssStyle.Add("display", "block")
+
             Else
 
                 divClienteFinal.Attributes.CssStyle.Add("display", "block")
