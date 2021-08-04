@@ -167,13 +167,36 @@
                                 <br />
                                 <div class="col-sm-4">
                                     <div class="form-group">
+                                         <label class="control-label">Tipo Usuario:</label>
                                         <asp:DropDownList ID="cbTipoUsuario" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="Id" DataTextField="Descricao" DataSourceID="dsGruposUsuario">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
+                                 <div style="display:none" runat="server" id="divEmpresa"  >
+                                 <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Empresa:</label>
+                                                <asp:TextBox ID="txtCodEmpresa" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Empresa:</label>
+                                                <asp:TextBox ID="txtNomeEmpresa" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:ImageButton ID="ImageButton1" src="Content/imagens/plus.png" runat="server" />
+                                        <label class="control-label">Empresa:</label></label><label runat="server" style="color:red" >*</label>
+                                       <asp:DropDownList ID="ddlEmpresa" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsEmpresa" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                     </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                         <label class="control-label" style="color:white">Empresa:</label>
+                                        <asp:ImageButton ID="ImageButton1" src="Content/imagens/plus.png" runat="server" Width="50%" />
                                     </div>
                                 </div>
                             </div>
@@ -183,10 +206,11 @@
                                     <div class="form-group">
                                         <asp:GridView ID="gdvTipoUsuario" DataKeyNames="ID_VINCULO,ID_TIPO_USUARIO" DataSourceID="dsTipoUsuario" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" Style="max-height: 400px; overflow: auto;"
                                             AutoGenerateColumns="false">
-                                            <Columns>             <asp:BoundField DataField="ID_VINCULO" Visible="False" HeaderText="ID_VINCULO" SortExpression="ID_VINCULO" />
+                                            <Columns>
+                                                <asp:BoundField DataField="ID_VINCULO" Visible="False" HeaderText="ID_VINCULO" SortExpression="ID_VINCULO" />
                                                 <asp:BoundField DataField="ID_TIPO_USUARIO" HeaderText="#" SortExpression="ID_TIPO_USUARIO" />
                                                 <asp:BoundField DataField="NM_TIPO_USUARIO" HeaderText="TIPO USUARIO" SortExpression="NM_TIPO_USUARIO" />
-                                                <asp:BoundField DataField="Empresa" HeaderText="Empresa" SortExpression="Empresa" Visible="false" />
+                                                <asp:BoundField DataField="EMPRESA" HeaderText="EMPRESA" SortExpression="EMPRESA"  />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                                  <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
@@ -283,6 +307,15 @@
 case when FL_Ativo = 1 then 'Sim' else 'Não' end as Ativo,FL_Ativo FROM [dbo].[TB_USUARIO] USU LEFT JOIN TB_TIPO_USUARIO TIPO ON TIPO.ID_TIPO_USUARIO = USU.ID_TIPO_USUARIO"
         >
 </asp:SqlDataSource>--%>
+     <asp:SqlDataSource ID="dsEmpresa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+              <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeEmpresa"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodEmpresa" DefaultValue ="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
     <asp:SqlDataSource ID="dsUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT USU.ID_USUARIO as Id, USU.LOGIN, USU.NOME, USU.EMAIL,USU.CPF,
 case when FL_Ativo = 1 then 'Sim' else 'Não' end as Ativo,FL_Ativo,
@@ -294,10 +327,9 @@ FROM [dbo].[TB_USUARIO] USU"></asp:SqlDataSource>
         SelectCommand="SELECT ID_TIPO_USUARIO as Id, NM_TIPO_USUARIO as Descricao FROM [dbo].[TB_TIPO_USUARIO] union SELECT 0 as Id, 'Selecione' as Descricao FROM [dbo].[TB_TIPO_USUARIO]
 order by ID"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTipoUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" SelectCommand="SELECT ID_VINCULO,C.NM_TIPO_USUARIO,A.ID_TIPO_USUARIO FROM TB_VINCULO_USUARIO A 
+    <asp:SqlDataSource ID="dsTipoUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" SelectCommand="SELECT ID_VINCULO,C.NM_TIPO_USUARIO,A.ID_TIPO_USUARIO,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO)EMPRESA FROM TB_VINCULO_USUARIO A 
 LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
 WHERE A.ID_USUARIO = @ID_USUARIO">
-
         <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO" Type="Int32" ControlID="txtID" />
         </SelectParameters>

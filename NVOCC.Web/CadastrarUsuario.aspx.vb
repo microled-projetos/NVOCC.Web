@@ -25,6 +25,7 @@
             Response.Redirect("Default.aspx")
 
         End If
+
         Con.Fechar()
     End Sub
 
@@ -54,6 +55,11 @@
 
                 divTipoUsuario.Attributes.CssStyle.Add("display", "block")
 
+                If ds.Tables(0).Rows(0).Item("FL_EXTERNO") = True Then
+                    divEmpresa.Attributes.CssStyle.Add("display", "block")
+                Else
+                    divEmpresa.Attributes.CssStyle.Add("display", "none")
+                End If
             End If
             Con.Fechar()
         Else
@@ -156,6 +162,11 @@
                     End If
                 End If
 
+                If ckbExterno.Checked = True Then
+                    divEmpresa.Attributes.CssStyle.Add("display", "block")
+                Else
+                    divEmpresa.Attributes.CssStyle.Add("display", "none")
+                End If
             Else
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -218,6 +229,11 @@
 
                 End If
 
+                If ckbExterno.Checked = True Then
+                    divEmpresa.Attributes.CssStyle.Add("display", "block")
+                Else
+                    divEmpresa.Attributes.CssStyle.Add("display", "none")
+                End If
             End If
 
         End If
@@ -323,13 +339,25 @@
         If cbTipoUsuario.SelectedValue = 0 Then
             diverro.Visible = True
             lblerro.Text = "Selecione um tipo de usuário"
+        ElseIf ckbExterno.Checked = True And ddlEmpresa.SelectedValue = 0 Then
+            diverro.Visible = True
+            lblerro.Text = "É necessário preencher a empresa do usuário"
         Else
-            ds = Con.ExecutarQuery("SELECT ID_VINCULO FROM TB_VINCULO_USUARIO WHERE ID_USUARIO = " & txtID.Text & " AND ID_TIPO_USUARIO = " & cbTipoUsuario.SelectedValue)
+
+            Dim empresa As Integer
+
+            If ddlEmpresa.SelectedValue = 0 Then
+                empresa = 1
+            Else
+                empresa = ddlEmpresa.SelectedValue
+            End If
+
+            ds = Con.ExecutarQuery("SELECT ID_VINCULO FROM TB_VINCULO_USUARIO WHERE ID_USUARIO = " & txtID.Text & " AND ID_PARCEIRO = " & empresa & "  AND ID_TIPO_USUARIO = " & cbTipoUsuario.SelectedValue)
             If ds.Tables(0).Rows.Count > 0 Then
                 diverro.Visible = True
                 lblerro.Text = "Tipo de usuário já cadastrado"
             Else
-                Con.ExecutarQuery("INSERT INTO TB_VINCULO_USUARIO (ID_USUARIO,ID_TIPO_USUARIO) VALUES (" & txtID.Text & "," & cbTipoUsuario.SelectedValue & ")")
+                Con.ExecutarQuery("INSERT INTO TB_VINCULO_USUARIO (ID_USUARIO,ID_TIPO_USUARIO,ID_PARCEIRO) VALUES (" & txtID.Text & "," & cbTipoUsuario.SelectedValue & "," & empresa & ")")
                 divmsg.Visible = True
                 gdvTipoUsuario.DataBind()
 

@@ -52,7 +52,9 @@
                                        <asp:LinkButton ID="lkAlterar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                        <asp:LinkButton ID="lkDuplicar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-duplicate"></i>&nbsp;Duplicar</asp:LinkButton>
                                        <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
-                                       <asp:LinkButton ID="lkImprimir"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-print"></i>&nbsp;Imprimir</asp:LinkButton>  
+                                       <asp:LinkButton ID="lkImprimir"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-file-alt"></i>&nbsp;Imprimir/Enviar</asp:LinkButton> 
+                                    <%--  <asp:LinkButton ID="lkEnviar"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Enviar</asp:LinkButton> --%>
+                                     
                                      <asp:LinkButton ID="lkFiltrar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                        <asp:LinkButton ID="lkCalcular" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                       <asp:LinkButton ID="lkAprovar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
@@ -120,6 +122,8 @@
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" />
                                                             <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimir" text="Imprimir" />
+                                                            <asp:Button runat="server" CssClass="btn btn-info" ID="btnEnviar" text="Enviar" />
+                                                                                               
                                                         </div>
                                                     
                                                 </div>
@@ -131,6 +135,7 @@
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
              <asp:PostBackTrigger ControlID="lkImprimir" />
                    <asp:PostBackTrigger ControlID="btnImprimir" />
+            <asp:PostBackTrigger ControlID="btnEnviar" />
     </Triggers>
    </asp:UpdatePanel> 
                             <br />

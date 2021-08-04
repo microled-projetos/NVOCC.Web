@@ -129,7 +129,7 @@ namespace ABAINFRA.Web
 
         protected void CarregarParceiro()
         {
-            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO";
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL = 1 ORDER BY NM_RAZAO";
 
             DataTable parceiroWeek = new DataTable();
             parceiroWeek = DBS.List(SQL);

@@ -9,12 +9,15 @@
             Dim Con As New Conexao_sql
 
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("select Login from TB_USUARIO where ID_USUARIO = " & Session("ID_USUARIO") & "")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = C.ID_PARCEIRO)EMPRESA,(SELECT LOGIN FROM TB_USUARIO WHERE ID_USUARIO = C.ID_USUARIO)LOGIN FROM  TB_VINCULO_USUARIO C 
+WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Session("ID_EMPRESA"))
 
             If ds.Tables(0).Rows.Count > 0 Then
-                Dim Nome As String = ds.Tables(0).Rows(0).Item("Login").ToString()
+                Dim Nome As String = ds.Tables(0).Rows(0).Item("LOGIN").ToString()
                 lbllogin.Text = Nome
-
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMPRESA")) Then
+                    lblEmpresa.Text = ds.Tables(0).Rows(0).Item("EMPRESA").ToString()
+                End If
             End If
 
             Con.Fechar()

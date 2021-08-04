@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                    <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control" AutoPostBack="FALSE" Style="text-transform: none !important" MaxLength="50" placeholder="Nome de usuário" ></asp:TextBox>
+                                    <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control" AutoPostBack="True" Style="text-transform: none !important" MaxLength="50" placeholder="Nome de usuário" ></asp:TextBox>
                                 </div>
                             </div>
                         </div>
@@ -57,10 +57,9 @@
                     <div class="row" id="DivEmpresa" runat="server" style="display:none">
                         <div class="col-md-12">
                             <div class="form-group">
-
                                 <div class="input-group">
-                                     <label class="control-label">Empresa:</label>
-                                    <asp:DropDownList ID="ddlVinculo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO" DataTextField="Razao" DataSourceID="dsVinculo"></asp:DropDownList>
+                                    <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                    <asp:DropDownList ID="ddlEmpresa" runat="server" CssClass="form-control" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" DataSourceID="dsEmpresa"></asp:DropDownList>
                                 </div>
                             </div>
                         </div>
@@ -89,9 +88,9 @@
     
     <script src="Content/js/jquery.min.js"></script>
     <script src="Content/js/bootstrap.min.js"></script>
-    <asp:SqlDataSource ID="dsVinculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select ID_PARCEIRO,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO)Razao FROM TB_VINCULO_USUARIO A WHERE A.ID_USUARIO = @ID_USUARIO union
- SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+    <asp:SqlDataSource ID="dsEmpresa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="select ID_PARCEIRO,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO)NM_RAZAO FROM TB_VINCULO_USUARIO A WHERE A.ID_USUARIO = @ID_USUARIO AND ID_PARCEIRO IS NOT NULL union
+ SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
                 <asp:Parameter Name="ID_USUARIO" Type="Int32"  />
             </SelectParameters>

@@ -93,7 +93,7 @@
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkRelatorios" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Relatorios</asp:LinkButton>
                                         <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-                                        <asp:LinkButton ID="lkGravarCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
+                                        <asp:LinkButton ID="lkCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
 
 
                                     </div>
@@ -616,7 +616,7 @@
                                 </asp:UpdatePanel>
 
 
-                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -647,7 +647,7 @@
  
                                 </div>  
                                <div class="modal-footer">
-                                         <asp:Button runat="server" CssClass="btn btn-success" ID="Button1" text="Gravar" />
+                                         <asp:LinkButton runat="server" CssClass="btn btn-success" ID="lkGravarCCProcesso" text="Gravar" />
                                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCCProcesso" text="Close" />
 
                                                         </div>                                                    

@@ -68,9 +68,8 @@
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
                                 <table id="tblModuloOperacional" class="table tablecont">
-                                    <thead>
+                                    <thead id="tblModuloOperacionalHead">
                                         <tr>
-                                            <th class="text-center" scope="col"></th>
                                             <th class="text-center" scope="col">PROCESSO</th>
                                             <th class="text-center" scope="col">CLIENTE</th>
                                             <th class="text-center" scope="col">ORIGEM</th>
@@ -872,7 +871,7 @@
                     if (dado != null) {
                         $("#tblModuloOperacionalBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
+                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</div>"+ dado[i]["PROCESSO"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"]+"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PEMBARQUE"] + "</td><td class='text-center'>" + dado[i]["EMBARQUE"] + "</td><td class='text-center'>" + dado[i]["PCHEGADA"] + "</td>" +
@@ -1194,7 +1193,7 @@
                                     var dado = dado.d;
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
-                                        document.getElementById("corpoEmail").value = "ARMADOR: " + dado[0]["NR_BL"] + "\r\nMBL Nº: " + dado[0]["TRANSPORTADOR"] + "\r\nTERMINAL ATRACAÇÃO: " + dado[0]["ARMAZEM_ATRACACAO"] + "\r\n\r\n";
+                                        document.getElementById("corpoEmail").value = "ARMADOR: " + dado[0]["TRANSPORTADOR"] + "\r\nMBL Nº: " + dado[0]["NR_BL"] + "\r\nTERMINAL ATRACAÇÃO: " + dado[0]["ARMAZEM_ATRACACAO"] + "\r\n\r\n";
                                     }
                                     $.ajax({
                                         type: "POST",
@@ -1255,6 +1254,10 @@
                     if (dado.d == "ok") {
                         $("#modalCancelamentoEmail").modal("hide");
                         $("#msgSuccessCancelEmail").fadeIn(500).delay(1000).fadeOut(500);
+                        listarAgendamento();
+                    } else {
+                        $("#modalCancelamentoEmail").modal("hide");
+                        $("#msgErrorCancelEmail").fadeIn(500).delay(1000).fadeOut(500);
                         listarAgendamento();
                     }
                 }
@@ -1412,7 +1415,7 @@
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             console.log(dado[0]["ASSUNTO"]);
-                            document.getElementById("visualizarEmail").insertAdjacentHTML('afterbegin',dado[0]["ASSUNTO"] + dado[0]["CORPO"]);
+                            document.getElementById("visualizarEmail").insertAdjacentHTML('afterbegin',dado[0]["ASSUNTO"] +"<br>"+ dado[0]["CORPO"]);
                         }
                     }
                 })

@@ -482,6 +482,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents lblErroFrete As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtCodTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodTransportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeTransportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeTransportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlTransportadorFrete.
     '''</summary>
     '''<remarks>
@@ -516,6 +534,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlFreteTransportador_Frete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlTipoPagamento_Frete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoPagamento_Frete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlTipoCargaFrete.
@@ -705,15 +732,6 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtVendaMinimaFCL As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ddlTipoPagamento_Frete.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoPagamento_Frete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtIncludedFrete.
@@ -995,13 +1013,13 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtFreteCompraMercadoriaUnitario As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtFreteCompraMercadoria.
+    '''Controle txtFreteCompraMercadoriaCalc.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFreteCompraMercadoria As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFreteCompraMercadoriaCalc As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divCompraMinimaLCL.
@@ -1022,13 +1040,22 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtFreteCompraMinima As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtFreteVendaMercadoria.
+    '''Controle txtFreteVendaMercadoriaUnitario.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtFreteVendaMercadoria As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtFreteVendaMercadoriaUnitario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtFreteVendaMercadoriaCalc.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtFreteVendaMercadoriaCalc As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divVendaMinimaLCL.

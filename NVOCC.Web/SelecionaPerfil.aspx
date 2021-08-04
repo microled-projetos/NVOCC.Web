@@ -23,10 +23,11 @@
          </div>
     <asp:SqlDataSource ID="dsTipoUsuario" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>" SelectCommand="SELECT C.NM_TIPO_USUARIO,A.ID_TIPO_USUARIO FROM TB_VINCULO_USUARIO A 
 LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
-WHERE A.ID_USUARIO = @ID_USUARIO">
+WHERE A.ID_USUARIO = @ID_USUARIO AND ID_PARCEIRO =  @ID_EMPRESA">
 
          <SelectParameters>
             <asp:SessionParameter Name="ID_USUARIO" SessionField="ID_USUARIO" Type="Int32" />
+            <asp:SessionParameter Name="ID_EMPRESA" SessionField="ID_EMPRESA" Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
 

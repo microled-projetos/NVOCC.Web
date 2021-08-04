@@ -356,5 +356,71 @@ LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
             'Response.Redirect(url)
         End If
     End Sub
+    Private Sub lkAnterior_Click(sender As Object, e As EventArgs) Handles lkAnterior.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim LinhaAtual As Integer = 0
+        Dim ProximaLinha As Integer = 0
+        Dim PrimeiraTaxa As String = 0
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY ID_TAXA_LOCAL_TRANSPORTADOR desc) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id"))
+        If ds.Tables(0).Rows.Count > 0 Then
+            PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR") = txtIDTaxa.Text Then
+                    LinhaAtual = linha.Item("num")
+                    ProximaLinha = linha.Item("num") + 1
+                End If
+
+                If ProximaLinha = linha.Item("num") Then
+
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
+                    If dsTaxa.Tables(0).Rows.Count > 0 Then
+
+                        txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
+                        ddlTransportadorTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_TRANSPORTADOR")
+                        ddlPortoTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_PORTO")
+                        ddlComexTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_TIPO_COMEX")
+                        ddlViaTransporte.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
+                        ddlDespesaTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                        Dim data As Date = dsTaxa.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")
+                        data = data.ToString("dd-MM-yyyy")
+                        txtValidadeInicialTaxa.Text = data
+                        txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
+                        ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
+                    End If
+
+                ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
+
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR, ID_ORIGEM_PAGAMENTO,ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & PrimeiraTaxa)
+                    If dsTaxa.Tables(0).Rows.Count > 0 Then
+
+                        txtIDTaxa.Text = dsTaxa.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR").ToString()
+                        ddlTransportadorTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_TRANSPORTADOR")
+                        ddlPortoTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_PORTO")
+                        ddlComexTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_TIPO_COMEX")
+                        ddlViaTransporte.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_VIATRANSPORTE")
+                        ddlDespesaTaxa.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                        Dim data As Date = dsTaxa.Tables(0).Rows(0).Item("DT_VALIDADE_INICIAL")
+                        data = data.ToString("dd-MM-yyyy")
+                        txtValidadeInicialTaxa.Text = data
+                        txtValorTaxaLocal.Text = dsTaxa.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA").ToString()
+                        ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
+                        ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
+                        ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
+
+                    End If
+                End If
+
+            Next
+
+            'Dim url As String = "CadastrarEmbarqueHouse.aspx?tipo=h&id={0}"
+            'url = String.Format(url, ds.Tables(0).Rows(0).Item("ID_BL"))
+            'Response.Redirect(url)
+        End If
+    End Sub
 
 End Class

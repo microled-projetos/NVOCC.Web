@@ -16,7 +16,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS ARMADOR</h5><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
+                                                            <h5 class="modal-title" id="modalFCLimpoTitle">TAXAS LOCAIS ARMADOR</h5><asp:Linkbutton ID="lkAnterior" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-backward"></i></asp:Linkbutton><asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
                                                         </div>
                                                         <div class="modal-body">                                                           
                                     <div class="alert alert-success" ID="divSuccess" runat="server" visible="false">
@@ -122,6 +122,8 @@
       </ContentTemplate>
  <Triggers>
      <asp:AsyncPostBackTrigger  ControlID="lkProximo" />
+          <asp:AsyncPostBackTrigger  ControlID="lkAnterior" />
+
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
             <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
      </Triggers>   

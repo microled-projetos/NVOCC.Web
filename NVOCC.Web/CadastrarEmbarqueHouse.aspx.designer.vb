@@ -32,6 +32,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents lkProximo As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkAnterior.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkAnterior As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle btnCapaMaritimo.
     '''</summary>
     '''<remarks>

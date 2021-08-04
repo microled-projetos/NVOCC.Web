@@ -215,7 +215,7 @@
                                         <div class="col-sm-offset-5 col-sm-2 col-sm-offset-5">
                                             <div class="form-group">
                                                 <label class="control-label" style="text-align: left">VALOR:</label>
-                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control moeda"></asp:TextBox>
                                             </div>
                                             </div>
                                     </div>

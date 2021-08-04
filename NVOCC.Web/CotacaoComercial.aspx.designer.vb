@@ -266,6 +266,15 @@ Partial Public Class CotacaoComercial
     Protected WithEvents btnImprimir As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnEnviar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnEnviar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>

@@ -68,13 +68,13 @@ Partial Public Class Login
     Protected WithEvents DivEmpresa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle ddlVinculo.
+    '''Controle ddlEmpresa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlVinculo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlEmpresa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle btnLogin.
@@ -95,11 +95,11 @@ Partial Public Class Login
     Protected WithEvents lnkCadastre_se As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle dsVinculo.
+    '''Controle dsEmpresa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsVinculo As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsEmpresa As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

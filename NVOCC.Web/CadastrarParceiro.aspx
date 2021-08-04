@@ -110,7 +110,7 @@
                                 </div>
                                  <div class="col-sm-6">
                                     <div class="form-group"> 
-                                        <label class="control-label"></label>
+                                        <label class="control-label" style="color:white">x</label>
                                         <asp:Button ID="btnConsultaCNPJ" runat="server" Style="margin-top: 20px;" CssClass="btn btn-success" Text="Consultar CNPJ"  />
                                     </div>
                                 </div>

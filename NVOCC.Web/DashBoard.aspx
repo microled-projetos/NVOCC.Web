@@ -41,19 +41,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1" id="ddlMesFinalBox">
                                     <div class="form-group">
                                         <label class="control-label">Mês - Final<span class="required">&nbsp</span></label>
                                         <asp:DropDownList ID="ddlMesFinal" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-1" id="ddlAnoFinalBox">
                                     <div class="form-group">
                                         <label class="control-label">Ano - Final<span class="required">&nbsp</span></label>
                                         <select id="ddlAnoFinal" class="form-control">
                                             <option value="">Selecione</option>
                                         </select>
-                                    </div>q
+                                    </div>
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
@@ -69,7 +69,7 @@
                                 <div class="col-md-1">
                                     <div class="form-group">
                                         <label class="control-label">Estilo<span class="required">&nbsp</span></label>
-                                        <select id="ddlEstilo" class="form-control">
+                                        <select id="ddlEstilo" class="form-control" onchange="dataChange()">
                                             <option value="bar">Barra</option>
                                             <option value="line">Linha</option>
                                             <option value="pie">Pizza</option>
@@ -174,6 +174,307 @@
             $("#ddlAnoFinal").append("<option value='" + value + "'>" + i + "</option>")
         }
 
+        function dataChange() {
+            var estilo = document.getElementById("ddlEstilo").value;
+            if (estilo == "pie") {
+                $("#ddlMesFinalBox").hide();
+                $("#ddlAnoFinalBox").hide();
+            } else if (estilo == "bar") {
+                $("#ddlMesFinalBox").show();
+                $("#ddlAnoFinalBox").show();
+            }
+        }
+
+        function graficoGeral(processo,cntr,teus,data) {
+            var ctx = document.getElementById('mainGraph').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data,
+                    datasets: [
+                        {
+                            barThickness: 30,
+                            label: 'TEUS',
+                            data: teus,
+                            backgroundColor: ['rgba(255, 206, 86, 1)'],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'Processos',
+                            data: processo,
+                            backgroundColor: ['rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'Containers',
+                            data: cntr,
+                            backgroundColor: ['rgba(54, 162, 235,1)'],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    layout: {
+                        padding: 10
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });            
+        }
+
+        function graficoProcessos(processoIMP, processoEXP, processoAR, data) {
+            var ctx2 = document.getElementById('pgraph').getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: data,
+                    datasets: [
+                        {
+                            barThickness: 30,
+                            label: 'IMP',
+                            data: processoIMP,
+                            backgroundColor: ['rgba(255, 206, 86, 1)'],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'EXP',
+                            data: processoEXP,
+                            backgroundColor: ['rgba(255, 99, 132, 1)'],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'AEREO',
+                            data: processoAR,
+                            backgroundColor: ['rgba(54, 162, 235,1)'],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    layout: {
+                        padding: 10
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Qtde. de Processos',
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function graficoCntr(cntrIMP, cntrEXP, data) {
+                var ctx2 = document.getElementById('cgraph').getContext('2d');
+                var myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: data,
+                        datasets: [
+                            {
+                                barThickness: 30,
+                                label: 'IMP',
+                                data: cntrIMP,
+                                backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                borderWidth: 1
+                            },
+                            {
+                                barThickness: 30,
+                                label: 'EXP',
+                                data: cntrEXP,
+                                backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        layout: {
+                            padding: 10
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Qtde. de CNTR',
+                                font: { size: 20 }
+                            }
+                        }
+                    }
+                });            
+        }
+
+        function graficoTeus(processo,cntr,data) {
+                var ctx2 = document.getElementById('tGraph').getContext('2d');
+                var myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: data,
+                        datasets: [
+                            {
+                                barThickness: 30,
+                                label: 'IMP',
+                                data: processo,
+                                backgroundColor: ['rgba(255, 206, 86, 1)'],
+                                borderWidth: 1
+                            },
+                            {
+                                barThickness: 30,
+                                label: 'EXP',
+                                data: cntr,
+                                backgroundColor: ['rgba(255, 99, 132, 1)'],
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        layout: {
+                            padding: 10
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Teus',
+                                font: { size: 20 }
+                            }
+                        }
+                    }
+                });
+        }
+
+        function graficoGeralPizza(processo, cntr, teus, data) {
+            var ctx = document.getElementById('mainGraph').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['PROCESSO', 'CNTR', 'TEUS'],
+                    datasets: [
+                        {
+                            label: 'IMP',
+                            data: [processo[0], cntr[0], teus[0]],
+                            backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        position: 'top',
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Teus, Processos e Qtde. de CNTR por Vendedor em ' + data ,
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function graficoProcessosPizza(processoIMP, processoEXP, processoAR, data) {              
+            var ctx2 = document.getElementById('pgraph').getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['IMP', 'EXP', 'AEREO'],
+                    datasets: [
+                        {
+                            label: 'IMP',
+                            data: [processoIMP[0], processoAR[0], processoEXP[0]],
+                            backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        position: 'top',
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Qtde. de Processos em '+data,
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function graficoCntrPizza(cntrIMP, cntrEXP, data) {
+            var ctx2 = document.getElementById('cgraph').getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['IMP', 'EXP'],
+                    datasets: [
+                        {
+                            label: 'IMP',
+                            data: [cntrIMP[0], cntrEXP[0]],
+                            backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        position: 'top',
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Qtde. de CNTR em ' +data,
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function graficoTeusPizza(processo, cntr, data) {
+            var ctx2 = document.getElementById('tGraph').getContext('2d');
+            var myChart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: ['IMP', 'EXP'],
+                    datasets: [
+                        {
+                            label: 'IMP',
+                            data: [processo[0], cntr[0]],
+                            backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        position: 'top',
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Teus em '+data,
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
         function gerarGrafico() {
             var anoInicial = document.getElementById("ddlAnoInicial");
             var anoFinal = document.getElementById("ddlAnoFinal");
@@ -182,405 +483,277 @@
             var vendedor = document.getElementById("ddlVendedor");
             var tipoEstufagem = document.getElementById("MainContent_ddlTipoOperacao");
             var type = document.getElementById("ddlEstilo").value;
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CarregarEstatistica",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value+'" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var data = data.d;
-                    data = $.parseJSON(data);
-                    lineChartProcesso = [];
-                    lineChartCntr = [];
-                    lineChartTeus= [];
-                    label = [];
-                    if (data != null) {
-                        for (var i = 0; i < data.length; i++) {
-                            lineChartProcesso[i] = data[i]["PROCESSO"];
-                            lineChartCntr[i] = data[i]["CONTAINER"];
-                            lineChartTeus[i] = data[i]["TEUS"];
-                            label[i] = data[i]["PERIODO"];
-                            console.log(lineChartProcesso[i]);
+            if (type == "bar") {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarEstatistica",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartProcesso = [];
+                        var lineChartCntr = [];
+                        var lineChartTeus = [];
+                        var label = [];
+                        $("#graph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartProcesso.push(data[i]["PROCESSO"]);
+                                lineChartCntr.push(data[i]["CONTAINER"]);
+                                lineChartTeus.push(data[i]["TEUS"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeral(lineChartProcesso, lineChartCntr, lineChartTeus, label);
+                        }
+                        else {
+                            lineChartProcesso.push(0);
+                            lineChartCntr.push(0);
+                            lineChartTeus.push(0);
+                            label.push(0);
+                            
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeral(lineChartProcesso, lineChartCntr, lineChartTeus, label);
                         }
                     }
-                    else {
-                        $("#graph").append("<canvas id='mainGraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
-                    }
-                    $("#graph").empty();
-                    $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
-                    if (ddlEstilo.value == "bar") {
-                        var ctx = document.getElementById('mainGraph').getContext('2d');
-                        myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: label,
-                                datasets: [
-                                    {
-                                        barThickness: 30,
-                                        label: 'TEUS',
-                                        data: [lineChartTeus],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'Processos',
-                                        data: [lineChartProcesso],
-                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'Containers',
-                                        data: [lineChartCntr],
-                                        backgroundColor: ['rgba(54, 162, 235,1)'],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                layout: {
-                                    padding: 10
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
-                                        font: { size: 20 }
-                                    }
-                                }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarProcessos",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartIMP = [];
+                        var lineChartAR = [];
+                        var lineChartEXP = [];
+                        var label = [];
+                        $("#processGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartIMP.push(data[i]["IMP"]);
+                                lineChartAR.push(data[i]["AR"]);
+                                lineChartEXP.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
                             }
-                        });
-                    }
-                    else if (ddlEstilo.value == "pie") {
-                        var ctx = document.getElementById('mainGraph').getContext('2d');
-                        myChart = new Chart(ctx, {
-                            type: 'pie',
-                            data: {
-                                labels: ['TEUS','Processos','Containers'],
-                                datasets: [
-                                    {
-                                        label: 'TEUS',
-                                        data: [lineChartTeus[0], lineChartProcesso[0], lineChartCntr[0]],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                plugins: {
-                                    legend: {
-                                        position: 'top',
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                error: function (data) {
-
-                },
-            });
-
-
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CarregarProcessos",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var data = data.d;
-                    data = $.parseJSON(data);
-                    lineChartIMP = [];
-                    lineChartAR = [];
-                    lineChartEXP = [];
-                    label = [];
-                    if (data != null) {
-                        for (var i = 0; i < data.length; i++) {
-                            lineChartIMP[i] = data[i]["IMP"];
-                            lineChartAR[i] = data[i]["AR"];
-                            lineChartEXP[i] = data[i]["EXP"];
-                            label[i] = data[i]["PERIODO"];
+                            $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
+                            graficoProcessos(lineChartIMP, lineChartEXP, lineChartAR, label);
+                        }
+                        else {
+                            lineChartIMP.push(0);
+                            lineChartAR.push(0);
+                            lineChartEXP.push(0);
+                            label.push(0);
+                            $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
+                            graficoProcessos(lineChartIMP, lineChartEXP, lineChartAR, label);
                         }
                     }
-                    else {
-                        $("#processGraph").append("<canvas id='pgraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
-                    }
-                    $("#processGraph").empty();
-                    $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
-                    if (ddlEstilo.value == "bar") {
-                        var ctx2 = document.getElementById('pgraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'bar',
-                            data: {
-                                labels: label,
-                                datasets: [
-                                    {
-                                        barThickness: 30,
-                                        label: 'IMP',
-                                        data: [lineChartIMP],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'EXP',
-                                        data: [lineChartAR],
-                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'AEREO',
-                                        data: [lineChartEXP],
-                                        backgroundColor: ['rgba(54, 162, 235,1)'],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                layout: {
-                                    padding: 10
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Qtde. de Processos',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else if (ddlEstilo.value == "pie") {
-                        var ctx2 = document.getElementById('pgraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'pie',
-                            data: {
-                                labels: ['IMP','EXP','AEREO'],
-                                datasets: [
-                                    {
-                                        label: 'IMP',
-                                        data: [lineChartIMP, lineChartAR, lineChartEXP],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235,1)'],
-                                    }
-                                ]
-                            },
-                            options: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Qtde. de Processos',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                error: function (data) {
+                });
 
-                },
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CarregarQtdCntr",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var data = data.d;
-                    data = $.parseJSON(data);
-                    lineChartIMP = [];
-                    lineChartEXP = [];
-                    label = [];
-                    if (data != null) {
-                        for (var i = 0; i < data.length; i++) {
-                            lineChartIMP[i] = data[i]["IMP"];
-                            lineChartEXP[i] = data[i]["EXP"];
-                            label[i] = data[i]["PERIODO"];
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarQtdCntr",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartIMP = [];
+                        var lineChartEXP = [];
+                        var label = [];
+                        $("#cntrGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartIMP.push(data[i]["IMP"]);
+                                lineChartEXP.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
+                            graficoCntr(lineChartIMP, lineChartEXP, label);
+                        }
+                        else {
+                            lineChartIMP.push(0);
+                            lineChartEXP.push(0);
+                            label.push(0);
+                            $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
+                            graficoCntr(lineChartIMP, lineChartEXP, label);
                         }
                     }
-                    else {
-                        $("#cntrGraph").append("<canvas id='cgraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
-                    }
-                    $("#cntrGraph").empty();
-                    $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
-                    if (ddlEstilo.value == 'bar') {
-                        var ctx2 = document.getElementById('cgraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'bar',
-                            data: {
-                                labels: label,
-                                datasets: [
-                                    {
-                                        barThickness: 30,
-                                        label: 'IMP',
-                                        data: [lineChartIMP],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'EXP',
-                                        data: [lineChartEXP],
-                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                layout: {
-                                    padding: 10
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Qtde. de CNTR',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
-                    } else if (ddlEstilo.value == 'pie') {
-                        var ctx2 = document.getElementById('cgraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'pie',
-                            data: {
-                                labels: ['IMP','EXP'],
-                                datasets: [
-                                    {
-                                        label: 'IMP',
-                                        data: [lineChartIMP, lineChartEXP],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
-                                    }
-                                ]
-                            },
-                            options: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Qtde. de CNTR',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                },
-                error: function (data) {
+                });
 
-                },
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CarregarTeus",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    var data = data.d;
-                    data = $.parseJSON(data);
-                    lineChartProcesso = [];
-                    lineChartCntr = [];
-                    label = [];
-                    if (data != null) {
-                        for (var i = 0; i < data.length; i++) {
-                            lineChartProcesso[i] = data[i]["IMP"];
-                            lineChartCntr[i] = data[i]["EXP"];
-                            label[i] = data[i]["PERIODO"];
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarTeus",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartProcesso = [];
+                        var lineChartCntr = [];
+                        var label = [];
+                        $("#teusGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartProcesso.push(data[i]["IMP"]);
+                                lineChartCntr.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
+                            graficoTeus(lineChartProcesso, lineChartCntr, label)
+                        }
+                        else {
+                            lineChartProcesso.push(0);
+                            lineChartCntr.push(0);
+                            label.push(0);
+                        
+                            $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
+                            graficoTeus(lineChartProcesso, lineChartCntr, label)
                         }
                     }
-                    else {
-                        $("#teusGraph").append("<canvas id='tGraph' style='width:'100%;'><div class='row'><p class='text-center'>Resultados não encontrados.</p></div></canvas>");
-                    }
-                    $("#teusGraph").empty();
-                    $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
-                    if (ddlEstilo.value == 'bar') {
-                        var ctx2 = document.getElementById('tGraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'bar',
-                            data: {
-                                labels: label,
-                                datasets: [
-                                    {
-                                        barThickness: 30,
-                                        label: 'IMP',
-                                        data: [lineChartProcesso],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)'],
-                                        borderWidth: 1
-                                    },
-                                    {
-                                        barThickness: 30,
-                                        label: 'EXP',
-                                        data: [lineChartCntr],
-                                        backgroundColor: ['rgba(255, 99, 132, 1)'],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                layout: {
-                                    padding: 10
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Teus',
-                                        font: { size: 20 }
-                                    }
-                                }
+                });
+            } else if (type == "pie") {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarEstatisticaPizza",
+                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartProcesso = [];
+                        var lineChartCntr = [];
+                        var lineChartTeus = [];
+                        var label = [];
+                        $("#graph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartProcesso.push(data[i]["PROCESSO"]);
+                                lineChartCntr.push(data[i]["CONTAINER"]);
+                                lineChartTeus.push(data[i]["TEUS"]);
+                                label.push(data[i]["PERIODO"]);
                             }
-                        });
-                    } else if (ddlEstilo.value == 'pie') {
-                        var ctx2 = document.getElementById('tGraph').getContext('2d');
-                        var myChart2 = new Chart(ctx2, {
-                            type: 'pie',
-                            data: {
-                                labels: ['IMP', 'EXP'],
-                                datasets: [
-                                    {
-                                        label: 'IMP',
-                                        data: [lineChartProcesso, lineChartCntr],
-                                        backgroundColor: ['rgba(255, 206, 86, 1)', 'rgba(255, 99, 132, 1)'],
-                                    }
-                                ]
-                            },
-                            options: {
-                                legend: {
-                                    position: 'top',
-                                },
-                                plugins: {
-                                    title: {
-                                        display: true,
-                                        text: 'Teus',
-                                        font: { size: 20 }
-                                    }
-                                }
-                            }
-                        });
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeralPizza(lineChartProcesso, lineChartCntr, lineChartTeus, label);
+                        }
+                        else {
+                            lineChartProcesso.push(0);
+                            lineChartCntr.push(0);
+                            lineChartTeus.push(0);
+                            label.push(mesInicial.value + "/" + anoInicial.value);
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeralPizza(lineChartProcesso, lineChartCntr, lineChartTeus, label);
+                        }
                     }
-                },
-                error: function (data) {
+                });
 
-                },
-            });
-            
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarProcessosPizza",
+                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartIMP = [];
+                        var lineChartAR = [];
+                        var lineChartEXP = [];
+                        var label = [];
+                        $("#processGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartIMP.push(data[i]["IMP"]);
+                                lineChartAR.push(data[i]["AR"]);
+                                lineChartEXP.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#processGraph").append("<canvas id='pgraph' style='width:100%;height:300px;max-height: 300px''></canvas>");
+                            graficoProcessosPizza(lineChartIMP, lineChartEXP, lineChartAR, label);
+                        }
+                        else {
+                            lineChartIMP.push(0);
+                            lineChartAR.push(0);
+                            lineChartEXP.push(0);
+                            label.push(mesInicial.value + "/" + anoInicial.value);
+                            $("#processGraph").append("<canvas id='pgraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoProcessosPizza(lineChartIMP, lineChartEXP, lineChartAR, label);
+                        }
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarQtdCntrPizza",
+                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartIMP = [];
+                        var lineChartEXP = [];
+                        var label = [];
+                        $("#cntrGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartIMP.push(data[i]["IMP"]);
+                                lineChartEXP.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#cntrGraph").append("<canvas id='cgraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
+                            graficoCntrPizza(lineChartIMP, lineChartEXP, label);
+                        }
+                        else {
+                            lineChartIMP.push(0);
+                            lineChartEXP.push(0);
+                            label.push(mesInicial.value + "/" + anoInicial.value);
+                            $("#cntrGraph").append("<canvas id='cgraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoCntrPizza(lineChartIMP, lineChartEXP, label);
+                        }
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarTeusPizza",
+                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartProcesso = [];
+                        var lineChartCntr = [];
+                        var label = [];
+                        $("#teusGraph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartProcesso.push(data[i]["IMP"]);
+                                lineChartCntr.push(data[i]["EXP"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px'></canvas>");
+                            graficoTeusPizza(lineChartProcesso, lineChartCntr, label)
+                        }
+                        else {
+                            lineChartProcesso.push(0);
+                            lineChartCntr.push(0);
+                            label.push(mesInicial.value + "/" + anoInicial.value);
+                            $("#teusGraph").append("<canvas id='tGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoTeusPizza(lineChartProcesso, lineChartCntr, label)
+                        }
+                    }
+                });
+            }
         }
     </script>
 </asp:Content>

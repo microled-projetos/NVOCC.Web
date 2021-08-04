@@ -44,9 +44,11 @@
             'Informaçoes basicas
             txtID_FreteTransportador.Text = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
             ddlTransportador.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+            txtCodTransportador.Text = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlOrigem_Pagamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString()
             ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
+            txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
             ddlOrigem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
             ddlDestino.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
             ddlEscala1.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ESCALA").ToString()
