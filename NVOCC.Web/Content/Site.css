@@ -1249,3 +1249,25 @@ input[type=file] {
         overflow-y: scroll !important;
     }
 }
+/*Mudanças CSS*/
+
+#tblModuloGerencialBody tr td {
+    padding: 10px 2px !important;
+}
+
+#tblListaProcessoHouseBody tr td {
+    padding: 10px 2px !important;
+}
+
+.tablecont > tbody > tr > td {
+    vertical-align: middle;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.table > tbody > tr > td {
+    font-size: 11px !important;
+    padding: 5px;
+    white-space: nowrap;
+}

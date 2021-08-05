@@ -64,6 +64,7 @@
                                 <div class="form-group">
                                     <button type="button" id="btnConsulta" onclick="listarProcessosOperacional()" class="btn btn-primary">Consultar</button>
                                     <button type="button" id="btnFiltroAvancado" class="btn btn-primary" data-toggle="modal" data-target="#modalFiltroAvancado">Filtro Avançado</button>
+                                    <button type="button" id="btnRemoverFiltros" class="btn btn-primary" onclick="limparFiltros()">Limpar Filtros</button>
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
@@ -821,6 +822,48 @@
         var dadoUploadX = document.querySelector("#dadoUpload");
         var btnUpload = document.querySelector("#btnUpload");
         var btnUploadx = document.querySelector("#btnUploadx");
+
+        function limparFiltros() {
+            var dadosFiltro = [
+                document.getElementById("MainContent_ddlVia"),
+                document.getElementById("MainContent_ddlEtapa"),
+                document.getElementById("MainContent_ddlServico"),
+                document.getElementById("MainContent_ddlStatus"),
+                document.getElementById("nrProcessoFilter"),
+                document.getElementById("MainContent_ddlClienteFilter"),
+                document.getElementById("MainContent_ddlPortoOrigemFilter"),
+                document.getElementById("MainContent_ddlPortoDestinoFilter"),
+                document.getElementById("MainContent_ddlTipoFrete"),
+                document.getElementById("MainContent_ddlTipoEstufagem"),
+                document.getElementById("MainContent_ddlAgenteFilter"),
+                document.getElementById("dtPrevisaoEmbarqueInicioFilter"),
+                document.getElementById("dtPrevisaoEmbarqueFimFilter"),
+                document.getElementById("dtEmbarqueInicioFilter"),
+                document.getElementById("dtEmbarqueFimFilter"),
+                document.getElementById("dtPrevisaoChegadaInicioFilter"),
+                document.getElementById("dtPrevisaoChegadaFimFilter"),
+                document.getElementById("dtPrevisaoChegadaInicioFilter"),
+                document.getElementById("dtPrevisaoChegadaFimFilter"),
+                document.getElementById("dtFreetimeFilter"),
+                document.getElementById("MainContent_ddlTransportadorFilter"),
+                document.getElementById("nrMasterFilter"),
+                document.getElementById("nrHouseFilter"),
+                document.getElementById("nrCeMasterFilter"),
+                document.getElementById("nrCeHouseFilter"),
+                document.getElementById("dtRedestinacaoInicioFilter"),
+                document.getElementById("dtRedestinacaoFimFilter"),
+                document.getElementById("dtDesconsolidacaoInicioFilter"),
+                document.getElementById("dtDesconsolidacaoFimFilter"),
+                document.getElementById("MainContent_ddlWeekFilter"),
+                document.getElementById("MainContent_ddlNavioFilter"),
+            ]
+
+            for (let i = 0; i < dadosFiltro.length; i++) {
+                dadosFiltro[i].value = "";
+            }
+            listarProcessosOperacional();
+        }
+
         function listarProcessosOperacional() {
             var dadosFiltro = {
                 "via": document.getElementById("MainContent_ddlVia").value,
@@ -853,7 +896,7 @@
                 "dtdesconsolidacaoinicio": document.getElementById("dtDesconsolidacaoInicioFilter").value,
                 "dtdesconsolidacaofim": document.getElementById("dtDesconsolidacaoFimFilter").value,
                 "week": document.getElementById("MainContent_ddlWeekFilter").value,
-                "navio": document.getElementById("MainContent_ddlNavioFilter").value,
+                "navio": document.getElementById("MainContent_ddlNavioFilter").value
             }
             $.ajax({
                 type: "POST",

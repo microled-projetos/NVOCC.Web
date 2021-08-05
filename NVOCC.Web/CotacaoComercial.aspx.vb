@@ -85,7 +85,6 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
     End Sub
 
-
     Private Sub dgvCotacao_SelectedIndexChanged(sender As Object, e As EventArgs) Handles dgvCotacao.SelectedIndexChanged
         txtID.Text = dgvCotacao.SelectedValue
         Dim index As Integer = dgvCotacao.SelectedIndex
@@ -1676,8 +1675,13 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
             Else
                 'APROVADA
                 Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-
+                ds = Con.ExecutarQuery("SELECT NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
                 NumeroProcesso()
+
+
+
+
+
 
                 ds = Con.ExecutarQuery("SELECT EMAIL_FECHAMENTO_COTACAO FROM TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
                 If ds.Tables(0).Rows.Count > 0 Then
@@ -1916,5 +1920,45 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
 
             Dim retorno As String = EmailService.EnviarEmail(palavras(i), "COTAÇÃO APROVADA - NVOCC", Mensagem)
         Next
+    End Sub
+
+
+    Private Sub lkUpdate_Click(sender As Object, e As EventArgs) Handles lkUpdate.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+
+            divErro.Visible = True
+            lblmsgErro.Text = "Usuário não possui permissão."
+            dgvCotacao.Columns(11).Visible = False
+
+            Exit Sub
+        Else
+            If txtID.Text = "" Then
+                divErro.Visible = True
+                lblmsgErro.Text = "Selecione um registro!"
+            Else
+                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT ID_BL_MASTER FROM [TB_BL] WHERE ID_COTACAO = " & txtID.Text)
+                If dsVerifica.Tables(0).Rows.Count > 0 Then
+                    If Not IsDBNull(dsVerifica.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "IndisponÍvel para cotações com Houses "
+                    Else
+                        '  Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        'dgvCotacao.DataBind()
+                    End If
+
+                Else
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Instrução de embarque não encontrada para cotação selecionada!"
+                End If
+
+            End If
+        End If
+
     End Sub
 End Class
