@@ -76,6 +76,7 @@
                                                 <asp:ListItem Value="2">Número do Processo</asp:ListItem>
                                                 <asp:ListItem Value="3">Número do BL</asp:ListItem>
                                                 <asp:ListItem Value="4">Agente</asp:ListItem>
+                                                <asp:ListItem Value="5">Emissor</asp:ListItem>
                                             </asp:DropDownList>
                                         </div>
 

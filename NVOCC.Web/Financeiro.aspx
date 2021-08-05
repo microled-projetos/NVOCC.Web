@@ -51,7 +51,31 @@
                                 <div class="alert alert-danger" id="divErro" runat="server" visible="false">
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
+<div class="row linhabotao" >           
+                       <div class="col-sm-offset-2 col-sm-4">
+                           <asp:Label ID="Label6" runat="server">CONTAS A PAGAR:</asp:Label><br />
+                           <div style="border: ridge 1px;">
+                          <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Solicitar Pagamento</asp:LinkButton>
+                            <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Montar Pagamento</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton></div>
 
+                       </div> 
+                                
+                      
+                       <div class="col-sm-4">
+                                      <asp:Label ID="Label1" runat="server">CONTAS A RECEBER:</asp:Label><br />
+                                        <div style="border: ridge 1px;">
+
+                          <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm">Calcular Recebimento</asp:LinkButton>
+                           <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm">Emitir ND</asp:LinkButton>
+                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton>
+                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm">Faturar Recebimento</asp:LinkButton></div>
+                                        </div>
+                       
+                 
+
+                                
+</div><br /><br /><br />
                    <div class="row linhabotao" >
    
                        <div class="col-sm-2">
@@ -59,8 +83,10 @@
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" Font-Size="15px">
                                    <asp:ListItem Value="1">Número do Master</asp:ListItem>
+                                   <asp:ListItem Value="4">Número do House</asp:ListItem>
                                    <asp:ListItem Value="2">Número do processo</asp:ListItem>
                                    <asp:ListItem Value="3" Selected="True">Todos em aberto</asp:ListItem>
+
                                </asp:DropDownList>
                            </div>
 
@@ -71,7 +97,7 @@
 
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                       </div>                      
+                       </div>  
                        <div class="col-sm-1" >
                            <div class="form-group">
                                                            <asp:Label ID="Label4" Style="color:white" runat="server">X</asp:Label><br />
@@ -80,29 +106,30 @@
 
                            </div>
                        </div>
-                   
-                       <div class="col-sm-3">
-                           <asp:Label ID="Label6" runat="server">CONTAS A PAGAR:</asp:Label><br />
-                           <div style="border: ridge 1px;">
-                          <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Solicitar Pagamento</asp:LinkButton>
-                            <asp:LinkButton ID="lkMontagemPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Montar Pagamento</asp:LinkButton>
-                           <asp:LinkButton ID="lkBaixaCancel_Pagar" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton></div>
+                       <div class="col-sm-2" style="border: ridge 1px;">
+                                                <div class="form-group">
+                                                    <label class="control-label">Via Transporte:</label>
+                                                    <asp:RadioButtonList ID="rdTransporte" runat="server" RepeatDirection="Horizontal" AutoPostBack="true">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Marítimo</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Aéreo</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                       <div class="col-sm-2" style="border: ridge 1px; margin-left: 10px">
+                                                <div class="form-group">
+                                                    <label class="control-label">Serviço:</label>
+                                                    <asp:RadioButtonList ID="rdServico" runat="server" RepeatDirection="Horizontal" AutoPostBack="true">
+                                                        <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
+                                                        <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
+                                                    </asp:RadioButtonList>
+                                                </div>
+                                            </div>
+                                          
 
-                       </div>
-                       <div class="col-sm-4">
-                                      <asp:Label ID="Label1" runat="server">CONTAS A RECEBER:</asp:Label><br />
-                                        <div style="border: ridge 1px;">
-
-                          <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm">Calcular Recebimento</asp:LinkButton>
-                           <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm">Emitir ND</asp:LinkButton>
-                            <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton>
-                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm">Faturar Recebimento</asp:LinkButton></div>
-                                        </div>
-                       </div>
-                   </div>
-                                <br />
-
-                                <asp:Button runat="server" Text="Pesquisar" Style="display: none" ID="Button1" CssClass="btn btn-success" />
+                        
+                   </div> 
+                    
+          
 
                                
 
@@ -150,9 +177,7 @@
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
-                                <asp:Label ID="lblAprovadas" runat="server"></asp:Label><br />
-                                <asp:Label ID="lblRejeitadas" runat="server"></asp:Label>
-
+                            
                             </ContentTemplate>
                             <Triggers>
                                 <%--       <asp:AsyncPostBackTrigger ControlID="bntPesquisar" />

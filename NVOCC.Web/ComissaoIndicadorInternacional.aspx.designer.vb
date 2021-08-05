@@ -176,15 +176,6 @@ Partial Public Class ComissaoIndicadorInternacional
     Protected WithEvents lkCSV As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkGravarCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkGravarCCProcesso As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkBaixarPagamento.
     '''</summary>
     '''<remarks>
@@ -930,105 +921,6 @@ Partial Public Class ComissaoIndicadorInternacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharAlteraComisaao As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle ModalPopupExtender6.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ModalPopupExtender6 As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle UpdatePanel4.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel4 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle pnlCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlCCProcesso As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle divInfoCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divInfoCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblInfoCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle Label28.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label28 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblCompetenciaCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblCompetenciaCCProcesso As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle Label19.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label19 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle ddlContaBancaria.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlContaBancaria As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle btnGravarCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnGravarCCProcesso As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnFecharCCProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharCCProcesso As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle TextBox1.

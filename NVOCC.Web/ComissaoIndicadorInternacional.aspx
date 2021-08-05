@@ -88,7 +88,7 @@
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-                                        <asp:LinkButton ID="lkGravarCCProcesso" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
+<%--                                        <asp:LinkButton ID="lkGravarCCProcesso" Visible="False" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>--%>
                                         <asp:LinkButton ID="lkBaixarPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Pagamento</asp:LinkButton>
 
                                     </div>
@@ -490,7 +490,7 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                             <%--   <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
                                  <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                     <ContentTemplate>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -536,7 +536,7 @@
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="ddlContaBancaria" />
                                     </Triggers>
-                                </asp:UpdatePanel>
+                                </asp:UpdatePanel>--%>
 
 
 
