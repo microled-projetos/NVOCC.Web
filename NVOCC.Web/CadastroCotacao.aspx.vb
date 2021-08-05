@@ -53,7 +53,7 @@
         Dim ds As DataSet
 
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ORIGEM,ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,
-CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,
+CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,
 A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
 CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
@@ -82,6 +82,7 @@ FROM  TB_COTACAO A
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO")) Then
                 txtValidade.Text = ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO").ToString()
             End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_ENVIO_COTACAO")) Then
                 txtEnvio.Text = ds.Tables(0).Rows(0).Item("DT_ENVIO_COTACAO").ToString()
             End If
@@ -99,6 +100,8 @@ FROM  TB_COTACAO A
             ddlIncoterm.SelectedValue = ds.Tables(0).Rows(0).Item("ID_INCOTERM").ToString()
             txtCodCliente.Text = ds.Tables(0).Rows(0).Item("ID_CLIENTE").ToString()
             ddlCliente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CLIENTE").ToString()
+            txtCodExportador.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString()
+            ddlExportador.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR").ToString()
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CLIENTE")) And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTATO")) Then
 
@@ -878,7 +881,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     'INSERE              
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & txtObsCliente.Text & "," & txtObsCancelamento.Text & "," & txtObsOperacional.Text & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & txtObsCliente.Text & "," & txtObsCancelamento.Text & "," & txtObsOperacional.Text & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 
@@ -938,7 +941,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
 
                     'REALIZA UPDATE  
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & txtObsCliente.Text & ", OB_MOTIVO_CANCELAMENTO = " & txtObsCancelamento.Text & ", OB_OPERACIONAL = " & txtObsOperacional.Text & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & txtObsCliente.Text & ", OB_MOTIVO_CANCELAMENTO = " & txtObsCancelamento.Text & ", OB_OPERACIONAL = " & txtObsOperacional.Text & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
 
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
@@ -2249,8 +2252,8 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR ) 
-SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR ) 
+SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS
@@ -2319,7 +2322,7 @@ From TB_COTACAO A Where ID_COTACAO = " & txtID.Text)
             Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
             txtProcessoCotacao.Text = PROCESSO_FINAL
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR ) SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
             ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
             'TAXAS COMPRAS

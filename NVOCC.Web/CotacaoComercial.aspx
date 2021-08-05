@@ -60,6 +60,7 @@
                                       <asp:LinkButton ID="lkAprovar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
                                       <asp:LinkButton ID="lkCancelar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
                                       <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
+                                     <asp:LinkButton ID="lkUpdate" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Em Update</asp:LinkButton>
                             </div>
                <br />
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 

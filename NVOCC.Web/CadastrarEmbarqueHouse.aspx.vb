@@ -291,6 +291,11 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
                         ddlExportador_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")) Then
+                        txtCodIndicador_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
+                        ddlIndicador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")) Then
                         txtCodComissaria_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
                         ddlComissaria_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
