@@ -88,8 +88,7 @@
                                         <asp:Label ID="Label6" Style="padding-left: 35px" runat="server">Ações</asp:Label><br />
                                         <asp:LinkButton ID="lkComissoes" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Comissões</asp:LinkButton>
                                         <asp:LinkButton ID="lkCSV" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Exportar CSV</asp:LinkButton>
-<%--                                        <asp:LinkButton ID="lkGravarCCProcesso" Visible="False" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>--%>
-                                        <asp:LinkButton ID="lkBaixarPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Baixar Pagamento</asp:LinkButton>
+                                        <asp:LinkButton ID="lkBaixarPagamento" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Gravar no CC do Processo</asp:LinkButton>
 
                                     </div>
                                 </div>
@@ -100,6 +99,8 @@
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblCompetenciaSobrepor" runat="server"></asp:Label>
                                     <asp:Label ID="lblContasReceber" runat="server"></asp:Label>
+                                    <asp:Label ID="lblContador" Style="display:none" runat="server"></asp:Label>
+
                                 </div>
                                <div runat="server" visible="false" id="DivGrid2">
 
@@ -490,53 +491,86 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                             <%--   <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
-                                 <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
-                                <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
-                                                    <div class="modal-content">
+                          <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control"  style="display: none;"></asp:TextBox>
+                  
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlBaixa" TargetControlID="lkBaixarPagamento" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlBaixa" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
+                                                            <h5 class="modal-title">BAIXA</h5>
                                                         </div>
-                                                        <div class="modal-body" > 
-                                                            <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
-                                    <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
+                                                        <div class="modal-body">  
+                                                            
+                                                            <div class="alert alert-success" id="divSuccessBaixa" runat="server" visible="false">
+                                    <asp:Label ID="lblSuccessBaixa" runat="server"></asp:Label>
                                 </div>
-                            <div class="row">
-                                                                            
-                                     <div class="col-sm-12">
-                                    <div class="form-group">                                          
-                                   
-                                         <asp:Label ID="Label28" runat="server">Competência</asp:Label><br />
-
- <asp:Label ID="lblCompetenciaCCProcesso" runat="server"/>                                        </div>
-                                         </div>
-
-                                         </div>
- <div class="row">
-     <div class="col-sm-12">
-                                    <div class="form-group">                                          
-                                             <asp:Label ID="Label19" runat="server">Conta Bancária:</asp:Label><label runat="server" style="color: red">*</label><br />
-                               <asp:DropDownList ID="ddlContaBancaria" runat="server" CssClass="form-control" AutoPostBack="true" Font-Size="15px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsContaBancaria" DataValueField="ID_CONTA_BANCARIA"/>
+                                <div class="alert alert-danger" id="divErroBaixa" runat="server" visible="false">
+                                    <asp:Label ID="lblErroBaixa" runat="server"></asp:Label>
+                                </div>
+                                 <div class="alert alert-warning" id="divInfoBaixa" runat="server" visible="false">
+                                    <asp:Label ID="lblInfoBaixa" runat="server"></asp:Label>
+                                </div>
+                                            <h5>
+                                                <asp:label runat="server" ID="lblCompetencia"  />
+                                                <asp:label runat="server" ID="lblQuinzena"  /></h5>                                        
+                                      
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">ID</label>
+                                            <asp:TextBox ID="txtIDBaixa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
-                                         </div>
- </div>
-                                </div>  
-                               <div class="modal-footer">
-                                         <asp:Button runat="server" CssClass="btn btn-success" ID="btnGravarCCProcesso" text="Gravar" />
-                                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCCProcesso" text="Close" />
-
-                                                        </div>                                                    
+                                    </div>
+                                                            <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Liquidação:</label>
+                                            <asp:TextBox ID="txtLiquidacao" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                                            <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Contrato:</label>
+                                            <asp:TextBox ID="txtContrato" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                                            <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Conta Bancária:</label> 
+                               <asp:DropDownList ID="ddlContaBancaria" runat="server" CssClass="form-control" DataTextField="NM_CONTA_BANCARIA" AutoPostBack="true" DataSourceID="dsContaBancaria" DataValueField="ID_CONTA_BANCARIA"/>
+                                        </div>
+                                    </div>
+                                             </div>
+                                                        <div class="row">    
+                                                            <div class="col-sm-12">
+                                                                <asp:GridView ID="dgvMoedas" DataKeyNames="ID_MOEDA" DataSourceID="dsMoedaGrid" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado com data de câmbio atual.">
+                                            <Columns>                                               
+                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" ReadOnly="true" />
+                                                 <asp:TemplateField HeaderText="Valor Câmbio" SortExpression="" >
+                                                    <ItemTemplate>
+                                                        <asp:Textbox ID="txtValorCambio" runat="server"  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>                                                
+                                            </Columns>
+                                            <HeaderStyle CssClass="headerStyle" />
+                                        </asp:GridView>
+</div>
+                                                                        </div>               
+                                                          </div>                
+                                                        <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBaixa" text="Fechar" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarBaixa" text="Baixar" />
+                                                        </div>
+                                                    
                                                 </div>
+      
                                        </div>     </center>
                                 </asp:Panel>
-
-                                 </ContentTemplate>
-                                    <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="ddlContaBancaria" />
-                                    </Triggers>
-                                </asp:UpdatePanel>--%>
 
 
 
@@ -546,7 +580,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                                                 <asp:PostBackTrigger ControlID="lkCSV" />
-
+                                <asp:PostBackTrigger ControlID="ddlContaBancaria" />
                                 
                             </Triggers>
                         </asp:UpdatePanel>
@@ -578,6 +612,10 @@ SELECT ID_TAXA_COMISSAO_INDICADOR,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VAL
      <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione'  ORDER BY ID_MOEDA">
 </asp:SqlDataSource>
+
+    <asp:SqlDataSource ID="dsMoedaGrid" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_MOEDA,NM_MOEDA FROM TB_MOEDA ">
+    </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsContaBancaria" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA WHERE FL_ATIVO = 1

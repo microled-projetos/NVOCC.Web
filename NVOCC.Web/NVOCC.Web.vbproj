@@ -285,6 +285,8 @@
     <Content Include="ConsultarWeek.aspx" />
     <Content Include="ConsultarWeek.aspx.cs" />
     <Content Include="ConsultarWeek.aspx.designer.cs" />
+    <Content Include="Content\boletos\arquivo_remessa.txt" />
+    <Content Include="Content\boletos\arquivo_remessa_validado.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -489,6 +491,7 @@
     <Content Include="Content\chart.js-3.2.0\package\LICENSE.md" />
     <Content Include="Content\chart.js-3.2.0\package\package.json" />
     <Content Include="Content\chart.js-3.2.0\package\README.md" />
+    <Content Include="Content\boletos\boleto1.pdf" />
     <None Include="Web References\NotaFiscal\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
