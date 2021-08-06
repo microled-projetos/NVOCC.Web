@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
-                                <table id="courrierExport" class="table tablecont">
+                                <table id="tblModuloGerencial" class="table tablecont">
                                     <thead>
                                         <tr>
                                             <th class="text-center" scope="col">PROCESSO</th>
@@ -105,7 +105,7 @@
                                             <th class="text-center" scope="col">&nbsp;</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="containerCourrier">
+                                    <tbody id="tblModuloGerencialBody">
                                        
                                     </tbody>
                                 </table>
@@ -141,32 +141,51 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
-                    $("#containerCourrier").empty();
-                    $("#containerCourrier").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
+                    $("#tblModuloGerencialBody").empty();
+                    $("#tblModuloGerencialBody").append("<tr><td colspan='20'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        $("#containerCourrier").empty();
+                        $("#tblModuloGerencialBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#containerCourrier").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;>" + dado[i]["CLIENTE"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 10ch;'>" + dado[i]["CARRIER"] + "</td><td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["QTDE20"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["QTDE40"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center' title='" + dado[i]["ORIGEM"] + "' style='max-width: 10ch;'>" + dado[i]["ORIGEM"] + "</td>" +
-                                "<td class='text-center'  title='" + dado[i]["DESTINO"] + "' style='max-width: 10ch;'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["DTABERTURA"] + "</td><td class='text-center'>" + dado[i]["ETD"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ETA"] + "</td><td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DATARECEBIMENTO"] + "</td>" +
-                                "<td class='text-center'  title='" + dado[i]["VENDEDOR"] + "' style='max-width: 10ch;'>" + dado[i]["VENDEDOR"] + "</td > <td class='text-center'  title='" + dado[i]["AGENTECARGA"] + "' style='max-width: 10ch;'>" + dado[i]["AGENTECARGA"] + "</td><td class='text-center'  title='" + dado[i]["NMCOMISSARIA"] + "' style='max-width: 10ch;'>" + dado[i]["NMCOMISSARIA"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
-                                "<td class='text-center'></td><td class='text-center'></td><td class='text-center'>" + dado[i]["DT_PAGO"] + "</td>" +
-                                "<td class='text-center'></td>" + dado[i]["VL_PAGO"] + "<td class='text-center'></td><td class='text-center'>" + dado[i]["DT_RECEBIDO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VL_RECEBIDO"] + "</td><td class='text-center'></td><td class='text-center'></td>" +
-                                "<td class='text-center'></td><td class='text-center'></td></tr>");
+                            $("#tblModuloGerencialBody").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["CARRIER"] + "' style='max-width: 10ch;'>" + dado[i]["CARRIER"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TIPOESTUFAGEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTDE20"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTDE40"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["ORIGEM"] + "' style='max-width: 10ch;'>" + dado[i]["ORIGEM"] + "</td>" +
+                                "<td class='text-center'  title='" + dado[i]["DESTINO"] + "' style='max-width: 10ch;'>" + dado[i]["DESTINO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DTABERTURA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ETD"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ETA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CHEGADA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DATARECEBIMENTO"] + "</td>" +
+                                "<td class='text-center'  title='" + dado[i]["VENDEDOR"] + "' style='max-width: 10ch;'>" + dado[i]["VENDEDOR"] + "</td>" +
+                                "<td class='text-center'  title='" + dado[i]["AGENTECARGA"] + "' style='max-width: 10ch;'>" + dado[i]["AGENTECARGA"] + "</td>" +
+                                "<td class='text-center'  title='" + dado[i]["NMCOMISSARIA"] + "' style='max-width: 10ch;'>" + dado[i]["NMCOMISSARIA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'>" + dado[i]["DT_PAGO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_PAGO"] + "</td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'>" + dado[i]["DT_RECEBIDO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_RECEBIDO"] + "</td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'></td>" +
+                                "<td class='text-center'></td></tr > ");
 
                         }
                     }
 
                     else {
-                        $("#containerCourrier").empty();
-                        $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                        $("#tblModuloGerencialBody").empty();
+                        $("#tblModuloGerencialBody").append("<tr id='msgEmptyWeek'><td colspan='19' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })
@@ -201,10 +220,10 @@
 
         function exportTableToCSVAtual(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#containerCourrier tr");
+            var rows = document.querySelectorAll("#tblModuloGerencialBody tr");
 
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#containerCourrier td, #containerCourrier th");
+                var row = [], cols = rows[i].querySelectorAll("#tblModuloGerencialBody td, #tblModuloGerencialBody th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);

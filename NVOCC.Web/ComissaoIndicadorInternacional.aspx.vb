@@ -263,6 +263,15 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
         Con.Conectar()
         Dim CONTADOR As Integer = 0
 
+        If lblContasReceber.Text = "" Then
+            lblContasReceber.Text = 0
+        End If
+
+        If lblCompetenciaSobrepor.Text = "" Then
+            lblCompetenciaSobrepor.Text = 0
+        End If
+
+
         If txtNovaCompetencia.Text = "" Or txtLiquidacaoInicial.Text = "" Or txtLiquidacaoFinal.Text = "" And txtNovaQuinzena.Text = "" Then
             lblErroGerarComissao.Text = "Preencha os campos obrigatórios."
             divErroGerarComissao.Visible = True
@@ -277,19 +286,19 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 If dsQtd.Tables(0).Rows.Count = 0 Then
                     lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
                     divErroGerarComissao.Visible = True
-                ElseIf Not IsDBNull(dsQtd.Tables(0).Rows(0).Item("DT_PAGAMENTO_EXP")) Then
-                    lblErroGerarComissao.Text = "Reprocessamento não permitido: Competencia já exportada!"
-                    divErroGerarComissao.Visible = True
+                    'ElseIf Not IsDBNull(dsQtd.Tables(0).Rows(0).Item("DT_PAGAMENTO_EXP")) Then
+                    '    lblErroGerarComissao.Text = "Reprocessamento não permitido: Competencia já exportada!"
+                    '    divErroGerarComissao.Visible = True
                 Else
 
                     dsQtd = Con.ExecutarQuery("SELECT ID_PARCEIRO_VENDEDOR,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_VENDEDOR)NM_RAZAO,
 CASE WHEN (SELECT ID_TAXA_COMISSAO_INDICADOR FROM TB_TAXA_COMISSAO_INDICADOR WHERE ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR AND DT_VALIDADE_INICIAL <= GETDATE()) IS NULL THEN '0' ELSE 1 END TAXA
-FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
-WHERE DT_PAGAMENTO_EXP IS NULL")
+FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A ")
                     If dsQtd.Tables(0).Rows.Count = 0 Then
                         lblErroGerarComissao.Text = "Não há taxa cadastrada para os indicadores!"
                         divErroGerarComissao.Visible = True
-
+                        ModalPopupExtender3.Show()
+                        Exit Sub
                     Else
 
                         lblErroGerarComissao.Text = ""
@@ -325,6 +334,11 @@ WHERE DT_PAGAMENTO_EXP IS NULL")
                         Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL = " & lblCompetenciaSobrepor.Text)
                     End If
 
+                    If lblContasReceber.Text <> 0 Then
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+                    End If
+
                     dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_INTERNACIONAL  (DT_COMPETENCIA,NR_QUINZENA,DT_LIQUIDACAO_INICIAL,DT_LIQUIDACAO_FINAL,ID_USUARIO_GERACAO,DT_GERACAO,DS_OBSERVACAO) VALUES('" & NOVA_COMPETECIA & "','" & txtNovaQuinzena.Text & "',CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)," & Session("ID_USUARIO") & ", getdate()," & txtObs.Text & " ) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_INTERNACIONAL  ")
                     cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
@@ -339,6 +353,7 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
                     txtObs.Text = txtObs.Text.Replace("NULL", "")
                     txtObs.Text = txtObs.Text.Replace("'", "")
+                    CarregaGrid()
                 End If
 
             End If
@@ -359,11 +374,19 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
         Con.Conectar()
 
         'Verifica se a competencia já existe
-        Dim ds As DataSet = Con.ExecutarQuery("Select ID_CABECALHO_COMISSAO_INTERNACIONAL FROM View_Comissao_Internacional WHERE COMPETENCIA = '" & txtNovaCompetencia.Text & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL,DT_EXPORTACAO FROM View_Comissao_Internacional WHERE COMPETENCIA = '" & txtNovaCompetencia.Text & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             divAtencaoGerarComissao.Visible = True
             lblAtencaoGerarComissao.Text = "COMPETENCIA JÁ EXISTE!<br/> Prosseguir com esta ação ocasionará a sobreposição dos dados."
             lblCompetenciaSobrepor.Text = ds.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EXPORTACAO")) Then
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER FROM TB_CONTA_PAGAR_RECEBER WHERE TP_EXPORTACAO = 'CINT' AND DT_COMPETENCIA = '" & txtNovaCompetencia.Text & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
+                If dsAuxiliar.Tables(0).Rows.Count > 0 Then
+                    lblContasReceber.Text = dsAuxiliar.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
+                Else
+                    lblContasReceber.Text = 0
+                End If
+            End If
         Else
             lblCompetenciaSobrepor.Text = 0
             divAtencaoGerarComissao.Visible = False
@@ -521,7 +544,6 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
         divSuccessBaixa.Visible = False
         divSuccess.Visible = False
 
-
         Dim Con As New Conexao_sql
         Con.Conectar()
 
@@ -593,7 +615,7 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
 
 
                 Con.Fechar()
-                lblmsgSuccess.Text = "Baixa realizada com sucesso!"
+                lblmsgSuccess.Text = "Gravação realizada com sucesso!"
                 divSuccess.Visible = True
                 lblCompetencia.Text = ""
                 lblQuinzena.Text = ""
@@ -609,13 +631,16 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
     End Sub
 
     Sub GravaCCProcesso()
+        If lblContasReceber.Text = "" Then
+            lblContasReceber.Text = 0
+        End If
 
         Dim Con As New Conexao_sql
         Con.Conectar()
 
         If lblContasReceber.Text <> 0 Then
-            Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
             Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+            Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
         End If
 
         Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (CD_PR, DT_COMPETENCIA,NR_QUINZENA, DT_LANCAMENTO ,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_TIPO_LANCAMENTO_CAIXA  ,
@@ -650,5 +675,9 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
 
     Private Sub ddlContaBancaria_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlContaBancaria.SelectedIndexChanged
         VerificaCCPRocesso()
+    End Sub
+
+    Private Sub txtLiquidacaoFinal_TextChanged(sender As Object, e As EventArgs) Handles txtLiquidacaoFinal.TextChanged
+        VerificaCompetencia()
     End Sub
 End Class

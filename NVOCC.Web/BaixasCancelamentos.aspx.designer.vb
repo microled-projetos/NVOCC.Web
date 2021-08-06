@@ -86,13 +86,22 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents lblErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtVencimento.
+    '''Controle txtVencimentoInicial.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtVencimento As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtVencimentoInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtVencimentoFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtVencimentoFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle rdStatus.

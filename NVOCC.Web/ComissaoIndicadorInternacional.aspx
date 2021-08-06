@@ -356,7 +356,7 @@
                                     <div class="form-group">                                             
                                 <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtLiquidacaoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtLiquidacaoFinal" runat="server" AutoPostBack="true" CssClass="form-control data"></asp:TextBox>
                                          
                                    </div>          
                                 </div>  
@@ -381,7 +381,8 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
+                                            <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoFinal" />
+                                                                                <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
@@ -494,11 +495,13 @@
                           <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control"  style="display: none;"></asp:TextBox>
                   
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="pnlBaixa" TargetControlID="lkBaixarPagamento" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                 <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
                                 <asp:Panel ID="pnlBaixa" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">BAIXA</h5>
+                                                            <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
                                                         </div>
                                                         <div class="modal-body">  
                                                             
@@ -571,7 +574,13 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
+                                 </ContentTemplate>
+                            <Triggers>
+                                
+                                <asp:AsyncPostBackTrigger ControlID="ddlContaBancaria" />
+                                
+                            </Triggers>
+                        </asp:UpdatePanel>
 
 
                             </ContentTemplate>
@@ -580,7 +589,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                                                 <asp:PostBackTrigger ControlID="lkCSV" />
-                                <asp:PostBackTrigger ControlID="ddlContaBancaria" />
+                               
                                 
                             </Triggers>
                         </asp:UpdatePanel>

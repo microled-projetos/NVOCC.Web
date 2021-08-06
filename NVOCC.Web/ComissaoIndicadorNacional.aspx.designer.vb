@@ -734,6 +734,24 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divErroCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle Label28.
     '''</summary>
     '''<remarks>
@@ -750,6 +768,24 @@ Partial Public Class ComissaoIndicadorNacional
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblCompetenciaCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle Label5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblQuinzena.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblQuinzena As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle Label34.

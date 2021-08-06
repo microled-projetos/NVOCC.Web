@@ -2768,12 +2768,11 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT NRSEQUENCIALPROCESSO, AnoSequencialProcesso FROM TB_PARAMETROS")
+        ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
 
         Dim PROCESSO_FINAL As String
 
         Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
-        Dim AnoSequencialProcesso = ds.Tables(0).Rows(0).Item("AnoSequencialProcesso")
         Dim ano_atual = Now.Year.ToString.Substring(2)
         Dim SIGLA_PROCESSO As String
         Dim mes_atual As String
@@ -2790,29 +2789,14 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If AnoSequencialProcesso = ano_atual Then
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
-                    PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
-                    txtProcesso_BasicoMaritimo.Text = PROCESSO_FINAL
-
-                Else
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
-
-                    NRSEQUENCIALPROCESSO = 1
-
-                    PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                End If
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
 
                 Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+                txtProcesso_BasicoMaritimo.Text = PROCESSO_FINAL
+
+
             End If
 
 
@@ -2823,29 +2807,14 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
                 SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
-                If AnoSequencialProcesso = ano_atual Then
+                PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
-                    NRSEQUENCIALPROCESSO = NRSEQUENCIALPROCESSO + 1
-                    PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                    Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtID_BasicoAereo.Text)
-                    txtProcesso_BasicoAereo.Text = PROCESSO_FINAL
-                Else
-
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET AnoSequencialProcesso = '" & ano_atual & "'")
-
-                    NRSEQUENCIALPROCESSO = 1
-
-                    PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
-
-                End If
+                Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
 
                 Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & txtID_BasicoAereo.Text)
-            End If
+                txtProcesso_BasicoAereo.Text = PROCESSO_FINAL
 
+            End If
 
 
         End If

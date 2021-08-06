@@ -1249,6 +1249,7 @@ input[type=file] {
         overflow-y: scroll !important;
     }
 }
+
 /*Mudanças CSS*/
 
 #tblModuloGerencialBody tr td {
@@ -1270,4 +1271,36 @@ input[type=file] {
     font-size: 11px !important;
     padding: 5px;
     white-space: nowrap;
+}
+
+
+.boxImpo, .boxExpo, boxAereo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boxProcImpo, .boxTeusImpo, .boxCntrImpo, .boxProcExpo, .boxTeusExpo, .boxCntrExpo {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7d7d7d;
+    border-radius: 15px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #525252;
+    }
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 0px;
+    box-shadow: inset 7px -1px 12px #f0f0f0;
 }
