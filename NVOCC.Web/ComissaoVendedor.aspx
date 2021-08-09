@@ -615,8 +615,9 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
+                                                               <asp:TextBox ID="TextBox2" runat="server" Style="display: none;"></asp:TextBox>
 
-                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -627,6 +628,9 @@
                                                             <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
                                     <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
                                 </div>
+                                                             <div class="alert alert-danger" id="divErroCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblErroCCProcesso" runat="server"></asp:Label>
+                                </div> 
                             <div class="row">
                                                                             
                                      <div class="col-sm-6">
@@ -640,7 +644,7 @@
                                     <div class="form-group">                                          
 <asp:Label ID="Label34" runat="server">Data Liquidação</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtLiquidacaoCCProcesso" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtLiquidacaoCCProcesso" runat="server" CssClass="form-control data" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                          </div>
                                          </div>
@@ -659,8 +663,8 @@
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                     <asp:AsyncPostBackTrigger ControlID="btnFecharAlteraComisaao" />
-
+                                <asp:AsyncPostBackTrigger ControlID="btnFecharAlteraComisaao" />
+                                <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoCCProcesso" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                 <asp:PostBackTrigger ControlID="lkCSV" />
                             </Triggers>

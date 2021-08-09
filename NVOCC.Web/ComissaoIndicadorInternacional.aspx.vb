@@ -139,7 +139,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
             ddlFiltro.SelectedValue = 0
             txtPesquisa.Text = ""
             DivGrid2.Visible = True
-            'lblCompetenciaCCProcesso.Text = txtCompetencia.Text
+            lblCompetencia.Text = txtCompetencia.Text
+            lblQuinzena.Text = txtQuinzena.Text
+
         End If
     End Sub
 
@@ -347,7 +349,7 @@ SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,QT_CNTR,C.
 QT_CNTR* C.VL_TAXA AS VL_COMISSAO, DT_LIQUIDACAO 
 FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
 LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR 
-WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
+WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
 
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
@@ -419,6 +421,8 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
         txtLiquidacaoInicial.Text = ""
         txtLiquidacaoFinal.Text = ""
         ModalPopupExtender3.Hide()
+        txtNovaCompetencia.Text = ""
+        txtNovaQuinzena.Text = ""
     End Sub
 
     Private Sub btnAlteraComisaao_Click(sender As Object, e As EventArgs) Handles btnAlteraComisaao.Click
@@ -527,8 +531,8 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE()")
 
     Private Sub btnFecharBaixa_Click(sender As Object, e As EventArgs) Handles btnFecharBaixa.Click
         CarregaGrid()
-        lblCompetencia.Text = ""
-        lblQuinzena.Text = ""
+        'lblCompetencia.Text = ""
+        'lblQuinzena.Text = ""
         txtIDBaixa.Text = ""
         txtContrato.Text = ""
         txtLiquidacao.Text = ""

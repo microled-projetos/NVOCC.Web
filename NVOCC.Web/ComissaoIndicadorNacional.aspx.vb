@@ -271,6 +271,8 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         divInfoGerarComissao.Visible = False
         txtLiquidacaoInicial.Text = ""
         txtLiquidacaoFinal.Text = ""
+        txtNovaCompetencia.Text = ""
+        txtNovaQuinzena.Text = ""
         ModalPopupExtender3.Hide()
     End Sub
 
@@ -443,5 +445,12 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
     Private Sub txtLiquidacaoFinal_TextChanged(sender As Object, e As EventArgs) Handles txtLiquidacaoFinal.TextChanged
         VerificaCompetencia()
+    End Sub
+
+    Private Sub btnFecharCCProcesso_Click(sender As Object, e As EventArgs) Handles btnFecharCCProcesso.Click
+        txtLiquidacaoCCProcesso.Text = ""
+        ddlContaBancaria.SelectedValue = 0
+        divInfoCCProcesso.Visible = False
+        divErroCCProcesso.Visible = False
     End Sub
 End Class

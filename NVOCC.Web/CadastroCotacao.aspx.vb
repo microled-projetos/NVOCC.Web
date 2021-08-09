@@ -802,7 +802,7 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
 
         txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
-        If txtNumeroCotacao.Text = "" Or txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
+        If txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 
@@ -867,34 +867,41 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     'INSERE              
                     txtNumeroCotacao.Text = NumeroCotacao()
 
+                    If txtNumeroCotacao.Text = "" Then
+                        lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
+                        diverro.Visible = True
+                        Exit Sub
+
+                    End If
+
                     ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & txtObsCliente.Text & "," & txtObsCancelamento.Text & "," & txtObsOperacional.Text & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
 
-                    Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
+                        Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 
 
-                    'PREENCHE SESSÃO E CAMPO DE ID
-                    Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
-                    txtID.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
-                    Session("ID_CLIENTE") = ddlCliente.SelectedValue
+                        'PREENCHE SESSÃO E CAMPO DE ID
+                        Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                        txtID.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                        Session("ID_CLIENTE") = ddlCliente.SelectedValue
 
-                    txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                    txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                    txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                        txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                        txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                        txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
 
-                    txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                    txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                    txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                        txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                        txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                        txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
 
-                    Con.Fechar()
-                    divsuccess.Visible = True
-                    dgvFrete.DataBind()
-                    dgvHistoricoFrete.DataBind()
-                    dgvHistoricoCotacao.DataBind()
-                End If
+                        Con.Fechar()
+                        divsuccess.Visible = True
+                        dgvFrete.DataBind()
+                        dgvHistoricoFrete.DataBind()
+                        dgvHistoricoCotacao.DataBind()
+                    End If
 
 
 
-            Else
+                    Else
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
@@ -2247,7 +2254,7 @@ SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGE
 SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_CALCULADO,VL_TAXA_VENDA_MIN,OB_TAXAS," & ID_BL & ",FL_TAXA_TRANSPORTADOR,'R', (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & "),1 FROM TB_COTACAO_TAXA
  WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND  ID_COTACAO = " & txtID.Text)
 
-        Dim FL_PROFIT_FRETE As Integer = 0 
+        Dim FL_PROFIT_FRETE As Integer = 0
         If ddlDivisaoProfit.SelectedValue <> 0 Then
             Dim dsProfit As DataSet = Con.ExecutarQuery("SELECT isnull(FL_PROFIT_FRETE,0)FL_PROFIT_FRETE FROM [dbo].TB_TIPO_DIVISAO_PROFIT WHERE ID_TIPO_DIVISAO_PROFIT = " & ddlDivisaoProfit.SelectedValue)
             FL_PROFIT_FRETE = dsProfit.Tables(0).Rows(0).Item("FL_PROFIT_FRETE")
@@ -2403,4 +2410,38 @@ SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGE
 
         End If
     End Sub
+
+
+
+    Private Sub txtNomeExportador_TextChanged(sender As Object, e As EventArgs) Handles txtNomeExportador.TextChanged
+        diverro.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If txtCodExportador.Text = "" Then
+            txtCodExportador.Text = 0
+        End If
+        If txtNomeExportador.Text = "" Then
+            txtNomeExportador.Text = "NULL"
+        End If
+
+        Dim Sql As String = ""
+        If ddlServico.SelectedValue = 1 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_SHIPPER = 1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        ElseIf ddlServico.SelectedValue = 4 Then
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_EXPORTADOR =1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
+        End If
+
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
+        If ds.Tables(0).Rows.Count > 0 Then
+            dsExportador.SelectCommand = Sql
+            dsExportador.DataBind()
+            ddlExportador.DataBind()
+        Else
+            diverro.Visible = True
+            lblmsgErro.Text = "Parceiro não encontrado!"
+        End If
+        txtNomeExportador.Text = txtNomeExportador.Text.Replace("NULL", "")
+
+    End Sub
+
 End Class

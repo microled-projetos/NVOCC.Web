@@ -381,8 +381,8 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoFinal" />
-                                                                                <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoFinal" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
@@ -515,8 +515,8 @@
                                     <asp:Label ID="lblInfoBaixa" runat="server"></asp:Label>
                                 </div>
                                             <h5>
-                                                <asp:label runat="server" ID="lblCompetencia"  />
-                                                <asp:label runat="server" ID="lblQuinzena"  /></h5>                                        
+                                                Competência: <asp:label runat="server" ID="lblCompetencia"  /><br />
+                                                Quinzena: <asp:label runat="server" ID="lblQuinzena"  /></h5>                                        
                                       
                                                         <div class="row">
                                                             <div class="col-sm-2">

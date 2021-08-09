@@ -185,7 +185,9 @@
                                     </div>
                                 </div>
 
-                                <ajaxToolkit:ModalPopupExtender id="mpeMontagem" runat="server" PopupControlID="Panel1" TargetControlID="txtID_BL"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+                                                                                <asp:TextBox ID="TextBox2" runat="server" style="display:none;"></asp:TextBox>
+
+                                <ajaxToolkit:ModalPopupExtender id="mpeMontagem" runat="server" PopupControlID="Panel1" TargetControlID="txtID_BL"  CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
    <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none;" >            
                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -219,6 +221,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxas" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFornecedor" />
                                 <asp:PostBackTrigger ControlID="btnAtualizaValor" />
+                                 <asp:PostBackTrigger ControlID="btnNao" />
                             </Triggers>
                         </asp:UpdatePanel>
 

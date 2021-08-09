@@ -698,6 +698,15 @@ Partial Public Class ComissaoIndicadorNacional
     Protected WithEvents btnFecharAlteraComisaao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender6.
     '''</summary>
     '''<remarks>

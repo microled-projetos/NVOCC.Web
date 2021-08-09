@@ -353,7 +353,9 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcessoModal" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control data" style="display: none;"></asp:TextBox>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcessoModal" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">

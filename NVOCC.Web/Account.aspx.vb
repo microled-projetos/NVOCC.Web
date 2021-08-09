@@ -857,6 +857,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
                 filtro = " AND B.NR_BL LIKE '%" & txtPesquisa.Text & " %'"
             ElseIf ddlFiltro.SelectedValue = 4 Then
                 filtro = " AND A.NM_AGENTE LIKE '%" & txtPesquisa.Text & " %'"
+            ElseIf ddlFiltro.SelectedValue = 5 Then
+                filtro = " AND A.NM_ACCOUNT_TIPO_EMISSOR LIKE '%" & txtPesquisa.Text & "%'"
             End If
 
 
