@@ -1072,7 +1072,7 @@ VENDAS:
 
                                                         <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
                                                         <asp:BoundField DataField="ID_BL" ReadOnly="true" HeaderText="ID_BL" SortExpression="ID_BL" />
-                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="NR_REFERENCIA_CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
+                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
                                                         <asp:TemplateField ShowHeader="False">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="visualizar" CssClass="btn btn-info" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>'><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>

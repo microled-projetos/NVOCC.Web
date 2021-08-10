@@ -914,7 +914,16 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                         'SEPARA E ENVIA EMAIL CASO COTAÇÃO ESTEJA APROVADA
                         If ddlStatusCotacao.SelectedValue = 9 Then
-                            NumeroProcesso()
+                            Dim reaprovamento As Boolean = False
+
+                            If Session("ID_STATUS") = 10 Then
+                                reaprovamento = True
+                            Else
+                                reaprovamento = False
+                            End If
+
+
+                            NumeroProcesso(reaprovamento)
 
                             Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = getdate() where ID_COTACAO = " & txtID.Text)
 
@@ -2206,38 +2215,51 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
         End If
     End Sub
 
-    Sub NumeroProcesso()
+    Sub NumeroProcesso(Optional reaprovamento As Boolean = False)
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
-        ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
-
-        Dim PROCESSO_FINAL As String
+        Dim PROCESSO_FINAL As String = ""
         Dim ID_BL As String
-        Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
-        Dim ano_atual = Now.Year.ToString.Substring(2)
-        Dim SIGLA_PROCESSO As String
-        Dim mes_atual As String
-        If Now.Month < 10 Then
-            mes_atual = "0" & Now.Month.ToString
-        Else
-            mes_atual = Now.Month.ToString
-        End If
+        Dim ID_BL_OLD As String = 0
 
-        ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+        If reaprovamento = True Then
+
+            ds = Con.ExecutarQuery("SELECT NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+            PROCESSO_FINAL = ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")
+            ds = Con.ExecutarQuery("SELECT ID_BL FROM TB_BL WHERE ID_COTACAO = " & txtID.Text)
+            ID_BL_OLD = ds.Tables(0).Rows(0).Item("ID_BL")
+
+        ElseIf reaprovamento = False Then
+
+            ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
+            Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
+            Dim ano_atual = Now.Year.ToString.Substring(2)
+            Dim SIGLA_PROCESSO As String
+            Dim mes_atual As String
+            If Now.Month < 10 Then
+                mes_atual = "0" & Now.Month.ToString
+            Else
+                mes_atual = Now.Month.ToString
+            End If
+
+            ds = Con.ExecutarQuery("Select A.ID_SERVICO,isnull(B.VL_M3,0)VL_M3, isnull(B.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
                             (SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
                             from TB_COTACAO A 
                             left JOIN TB_COTACAO_MERCADORIA B ON B.ID_COTACAO = A.ID_COTACAO
                             Where A.ID_COTACAO = " & txtID.Text)
 
-        SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
+            SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
 
-        PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+            PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
-        Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
+            Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
+            Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
+
+        End If
+
         txtProcessoCotacao.Text = PROCESSO_FINAL
 
         Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR ) 
@@ -2298,6 +2320,39 @@ SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGE
  WHERE ID_COTACAO =  " & txtID.Text)
         End If
 
+
+        If reaprovamento = True Then
+
+            'DELETA TAXAS ANTIGAS QUE VIERAM DA COTAÇÃO
+            Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL_OLD & " AND ID_BL_TAXA in (SELECT OLD.ID_BL_TAXA FROM TB_BL_TAXA OLD
+INNER JOIN TB_BL_TAXA NEW ON NEW.ID_ITEM_DESPESA = OLD.ID_ITEM_DESPESA AND NEW.CD_PR = OLD.CD_PR
+WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
+
+            'ALTERA ID_BL DAS TAXAS ANTIGAS QUE NAO VIERAM DA COTACAO PARA O NOVO O  ID_BL
+            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD)
+
+            'PASSA OBS DO CLIENTE, DO AGENTE, DO COMERCIAL E DO OPERACIONAL CADASTRADO NA BL ANTIGA PARA O NOVO BL
+            Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = (SELECT OB_CLIENTE FROM TB_BL WHERE ID_BL = " & ID_BL_OLD & " ) WHERE  ID_BL = " & ID_BL)
+            Con.ExecutarQuery("UPDATE TB_BL SET OB_AGENTE_INTERNACIONAL = (SELECT OB_AGENTE_INTERNACIONAL FROM TB_BL WHERE ID_BL = " & ID_BL_OLD & " ) WHERE  ID_BL = " & ID_BL)
+            Con.ExecutarQuery("UPDATE TB_BL SET OB_COMERCIAL = (SELECT OB_COMERCIAL FROM TB_BL WHERE ID_BL = " & ID_BL_OLD & " ) WHERE  ID_BL = " & ID_BL)
+            Con.ExecutarQuery("UPDATE TB_BL SET OB_OPERACIONAL_INTERNA = (SELECT OB_OPERACIONAL_INTERNA FROM TB_BL WHERE ID_BL = " & ID_BL_OLD & " ) WHERE  ID_BL = " & ID_BL)
+
+            'ALTERA ID_BL DA REFERENCIA DO CLIENTE PARA O NOVO BL
+            Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD)
+
+
+            'DELETA CARGAS ANTIGAS QUE VIERAM DA COTAÇÃO
+            Con.ExecutarQuery("DELETE FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL_OLD & " AND ID_MERCADORIA in (SELECT OLD.ID_MERCADORIA FROM TB_CARGA_BL OLD
+INNER JOIN TB_CARGA_BL NEW ON NEW.ID_MERCADORIA = OLD.ID_MERCADORIA 
+WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
+
+            'ALTERA CARGAS ANTIGAS QUE NAO VIERAM DA COTACAO PARA O NOVO O ID_BL
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD)
+
+            'DELETA BL ANTIGO
+            Con.ExecutarQuery("DELETE FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
+
+        End If
 
 
     End Sub

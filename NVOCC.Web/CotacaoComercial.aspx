@@ -156,9 +156,9 @@
                                         <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO"/>
                                         <asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA"/>                            
                                        <asp:TemplateField HeaderText="Status" SortExpression="Status" ItemStyle-CssClass="teste">
-                    <ItemTemplate>
-                                            
-                        <asp:Image ID="Image1" runat="server" /> - <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status") %>'/>
+                    <ItemTemplate>                
+                         <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status") %>' style="width:100px; padding:8px; text-align:center" />
+                         <asp:Label ID="lblCor" runat="server" Text='<%# Eval("COR") %>' Visible="false"/>
                     </ItemTemplate>
                 </asp:TemplateField>
                                         <asp:BoundField DataField="Cliente" HeaderText="Cliente" SortExpression="Cliente" />
