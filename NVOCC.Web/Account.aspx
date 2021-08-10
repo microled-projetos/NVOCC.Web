@@ -550,7 +550,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            <label class="control-label">TIPO DE DEVOLUÇÃO:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlTipoDevolucao" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_FRETE_AGENTE" DataSourceID="dsDevolucaoFrete" DataValueField="ID_STATUS_FRETE_AGENTE" AutoPostBack="True" ></asp:DropDownList>
 
                                     </div>
                                         </div>
@@ -786,7 +786,17 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Comissões</h5>
                                                         </div>
-                                                        <div class="modal-body">                                       
+                                                        <div class="modal-body">     
+                                                            <div class="row">
+                                     <div class="col-sm-12">
+                                    <div class="form-group">
+                                           <label class="control-label">TIPO DIVISÃO PROFIT:</label>
+                                                 <asp:DropDownList ID="ddlDivisaoProfit" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit" Enabled="false">
+                                        </asp:DropDownList>
+
+                                    </div>
+                                        </div>
+                                         </div>
                                     <div class="row">
                                        <div class="col-sm-12">
                                     <div class="form-group">
@@ -807,10 +817,14 @@
              
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                          <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
+                                                        <asp:Label ID="lblValorTaxa" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>         
-                                                                                           
+                                              <asp:TemplateField HeaderText="VALOR CALCULADO" SortExpression="VL_TAXA_CALCULADO">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_CALCULADO") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>                                               
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -1148,6 +1162,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
             <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
         </SelectParameters>
     </asp:SqlDataSource>
+         
+    <asp:SqlDataSource ID="dsDivisaoProfit" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_TIPO_DIVISAO_PROFIT,NM_TIPO_DIVISAO_PROFIT FROM [dbo].TB_TIPO_DIVISAO_PROFIT
+union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
+</asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsDevolucaoFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 

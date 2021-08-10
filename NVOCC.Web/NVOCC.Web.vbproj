@@ -386,6 +386,7 @@
     <Content Include="FaturarRecebimento.aspx" />
     <Content Include="FechamentoCambio.aspx" />
     <Content Include="Filtro.cs" />
+    <Content Include="FiltroModuloOperacional.cs" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
     <Content Include="Courrier.aspx" />
@@ -693,6 +694,7 @@
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
     <Compile Include="Class\Consignee.vb" />
+    <Compile Include="Class\DadosBoleto.vb" />
     <Compile Include="Class\Dates.vb" />
     <Compile Include="Class\Documentos.vb" />
     <Compile Include="Class\FollowUps.vb" />
