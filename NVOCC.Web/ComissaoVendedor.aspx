@@ -115,7 +115,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTAS FISCAL" SortExpression="NR_NOTAS_FISCAL" />
+                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
                                                 <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" />
                                                 <asp:BoundField DataField="TP_SERVICO" HeaderText="IMP/EXP" SortExpression="TP_SERVICO" />
                                                 <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
@@ -123,10 +123,11 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
-                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="COMISSAO BASE" SortExpression="VL_COMISSAO_BASE" />
+                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="BASE" SortExpression="VL_COMISSAO_BASE" />
                                                 <asp:BoundField DataField="VL_PERCENTUAL" HeaderText="PERCENTUAL" SortExpression="VL_PERCENTUAL" />
-                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO TOTAL" SortExpression="VL_COMISSAO_TOTAL" />
-                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO" SortExpression="VL_COMISSAO_TOTAL" />
+                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

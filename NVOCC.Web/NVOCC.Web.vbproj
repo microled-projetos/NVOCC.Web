@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(06082021)\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web(10082021)\publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -453,6 +453,24 @@
     <Content Include="Content\css\bootstrap.min.css.map" />
     <Content Include="CadastrarFreteTransportador.aspx" />
     <Content Include="CotacaoPDF_PT.aspx" />
+    <Content Include="integracaoTotus.aspx" />
+    <Content Include="integracaoTotus.aspx.cs" />
+    <Content Include="integracaoTotus.aspx.designer.cs" />
+    <Content Include="integracaoTOTVSCredit.aspx" />
+    <Content Include="integracaoTOTVSCredit.aspx.cs" />
+    <Content Include="integracaoTOTVSCredit.aspx.designer.cs" />
+    <Content Include="integracaoTOTVSDebit.aspx" />
+    <Content Include="integracaoTOTVSDebit.aspx.cs" />
+    <Content Include="integracaoTOTVSDebit.aspx.designer.cs" />
+    <Content Include="integracaoTOTVSDespesa.aspx" />
+    <Content Include="integracaoTOTVSDespesa.aspx.cs" />
+    <Content Include="integracaoTOTVSDespesa.aspx.designer.cs" />
+    <Content Include="integracaoTOTVSPA.aspx" />
+    <Content Include="integracaoTOTVSPA.aspx.cs" />
+    <Content Include="integracaoTOTVSPA.aspx.designer.cs" />
+    <Content Include="integracaoTOTVSServico.aspx" />
+    <Content Include="integracaoTOTVSServico.aspx.cs" />
+    <Content Include="integracaoTOTVSServico.aspx.designer.cs" />
     <Content Include="ListagemBL.aspx" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />

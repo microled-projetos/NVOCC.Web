@@ -1170,8 +1170,11 @@ input[type=file] {
     width: 100%;
 }
 
-.bindBL, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL, #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
-#msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
+.bindBL, #msgErrDespCli, #msgErrDespRec, #msgErrServCli, #msgErrServNota, #msgErrServNotite, #msgErrServRec, #msgErrExportPARec, #msgErrExportPACli, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL,
+#msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
+#msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail,
+#msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail, #msgSuccessDespCli, #msgSuccessDespRec, #msgSuccessServCli, #msgSuccessServNota, #msgSuccessServNotite, #msgSuccessServREC, #msgSuccessCreditCli, #msgSuccessCreditRec,
+#msgSuccessDebitCli, #msgSuccessDebitRec, #msgSuccessPAFornec, #msgSuccessPARec,
 #msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
 #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
@@ -1303,4 +1306,21 @@ input[type=file] {
     background: #ffffff;
     border-radius: 0px;
     box-shadow: inset 7px -1px 12px #f0f0f0;
+}
+
+.fixedDoubleHead {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .fixedDoubleHead thead {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+#grdPagamentoRecebimento thead {
+    border: 1px solid #ccc;
+    position: sticky !important;
+    background-color: #e6eefa;
 }

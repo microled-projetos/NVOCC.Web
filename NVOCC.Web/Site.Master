@@ -174,6 +174,15 @@
                                      <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
                                 </ul>
                             </li>
+                             <li>
+                                <a href="#" id="A1" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 75%!important">                                  
+                                     <li><a id="A4" style="font-size: 13px;" runat="server" href="integracaoTOTVSDespesa.aspx">Nota de Despesa</a></li>
+                                       <li><a id="A6" style="font-size: 13px;" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
+                                       <li><a id="A7" style="font-size: 13px;" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
+                                       <li><a id="A8" style="font-size: 13px;" runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -189,7 +198,10 @@
                                 <a href="#"  runat="server" id="A14">Notas Fiscais</a>
                             </li>
                              <li>
-                                <a href="#" runat="server" id="A16">TOTVS</a>
+                                <a href="#" id="A9" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 65%!important">                                  
+                                    <li><a id="A10" style="font-size: 13px;" runat="server" href="integracaoTOTVSServico">Nota de Serviço</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

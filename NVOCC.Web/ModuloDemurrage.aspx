@@ -3106,7 +3106,7 @@
                                 doc.text("Razão Social: ", 4, 40);
                                 doc.text("Endereço: ", 4, 45);
                                 doc.text("Município: ", 4, 50);
-                                doc.text("Bairro: ", 62, 50);
+                                doc.text("Bairro: ", 60, 50);
                                 doc.text("UF: ", 113, 50);
                                 doc.text("CEP: ", 158, 50);
                                 doc.text("CNPJ: ", 4, 55);
@@ -3119,8 +3119,8 @@
                                 doc.text(dado[0]["ENDERECO"] + "-" + dado[0]["NR_ENDERECO"], 25, 45);
                                 doc.addImage(bg, 'png', 24, 47, 35, 4);
                                 doc.text(dado[0]["NM_CIDADE"], 25, 50);
-                                doc.addImage(bg, 'png', 73, 47, 37, 4);
-                                doc.text(dado[0]["BAIRRO"], 74, 50);
+                                doc.addImage(bg, 'png', 71, 47, 41, 4);
+                                doc.text(dado[0]["BAIRRO"], 73, 50);
                                 doc.addImage(bg, 'png', 119, 47, 35, 4);
                                 doc.text(dado[0]["NM_ESTADO"], 120, 50);
                                 doc.addImage(bg, 'png', 167, 47, 39, 4);
@@ -3130,11 +3130,6 @@
                                 doc.addImage(bg, 'png', 110, 52, 96, 4);
                                 doc.text(dado[0]["INSCR_ESTADUAL"], 111, 55);
                                 
-
-
-
-
-
                                 doc.setFontStyle("bold");
                                 doc.text("Processo: ", 4, 70);
                                 doc.text("Ref. Cliente: ", 4, 75);
