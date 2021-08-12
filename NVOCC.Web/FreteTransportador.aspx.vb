@@ -319,4 +319,13 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
     Private Sub btnBusca_Click(sender As Object, e As EventArgs) Handles btnBusca.Click
         BUSCA()
     End Sub
+
+    Private Sub ddlViaTransporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlViaTransporte.SelectedIndexChanged
+        If ddlViaTransporte.SelectedValue = 4 Then
+            txtViaTransporte.Text = 4
+        Else
+            txtViaTransporte.Text = 1
+
+        End If
+    End Sub
 End Class

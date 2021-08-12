@@ -12,7 +12,7 @@
                     <br />
     <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" >                        
                                <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Tipo Consulta:</label>
                                         <asp:DropDownList ID="ddlConsultas" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px" >
@@ -24,15 +24,23 @@
                                                                                           
                                     <div id="ocean" runat="server" visible="false">
                                         <div class="row">
-                                             <div class="col-sm-3">
+                                            <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Via Transporte:</label>
+                                           <asp:TextBox ID="txtViaTransporteOcean" runat="server" style="display:none" CssClass="form-control" />
+                                        <asp:DropDownList ID="ddlViaTransporteOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                             <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto de Origem:</label>
-                                        <asp:DropDownList ID="ddlOrigemOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlOrigemOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoOcean" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto de Destino:</label>
-                                        <asp:DropDownList ID="ddlDestinoOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlDestinoOcean" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoOcean" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                 
 
@@ -67,11 +75,19 @@
    <asp:Button runat="server" Text="Pesquisar" id="bntPesquisarOcean" CssClass="btn btn-success" />
                                     </div>
                                     <div id="locais" runat="server" visible="false">
-                                         <div class="row">                                         
+                                         <div class="row"> 
+                                             <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Via Transporte:</label>
+                                           <asp:TextBox ID="txtViaTransporteLocais" runat="server" style="display:none" CssClass="form-control" />
+                                        <asp:DropDownList ID="ddlViaTransporteLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                                             <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Porto:</label>
-                                        <asp:DropDownList ID="ddlDestinoLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
+                                        <asp:DropDownList ID="ddlDestinoLocais" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoLocais" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                              <div class="col-sm-4">
                                     <div class="form-group">
@@ -151,14 +167,33 @@
        <asp:AsyncPostBackTrigger ControlID="bntPesquisarOcean" />
              <asp:AsyncPostBackTrigger ControlID="bntPesquisarLocais" />
              <asp:AsyncPostBackTrigger EventName="Sorting" ControlID="dgvTaxas" />
+      <asp:AsyncPostBackTrigger ControlID="ddlViaTransporteLocais" />
+      <asp:AsyncPostBackTrigger ControlID="ddlViaTransporteOcean" />
+      
     </Triggers>
    </asp:UpdatePanel>
 
       <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
-      <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_PORTO"></asp:SqlDataSource>
+  <asp:SqlDataSource ID="dsPortoOcean" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+              <SelectParameters>
+                <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporteOcean" DefaultValue="1" />
+            </SelectParameters>
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsPortoLocais" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+              <SelectParameters>
+                <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporteLocais" DefaultValue="1" />
+            </SelectParameters>
+</asp:SqlDataSource>
+        <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
+</asp:SqlDataSource>
+
      <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
 union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">

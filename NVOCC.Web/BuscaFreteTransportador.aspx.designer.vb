@@ -50,6 +50,24 @@ Partial Public Class BuscaFreteTransportador
     Protected WithEvents ocean As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle txtViaTransporteOcean.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtViaTransporteOcean As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlViaTransporteOcean.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlViaTransporteOcean As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlOrigemOcean.
     '''</summary>
     '''<remarks>
@@ -111,6 +129,24 @@ Partial Public Class BuscaFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents locais As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtViaTransporteLocais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtViaTransporteLocais As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlViaTransporteLocais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlViaTransporteLocais As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlDestinoLocais.
@@ -221,13 +257,31 @@ Partial Public Class BuscaFreteTransportador
     Protected WithEvents dsParceiros As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsPorto.
+    '''Controle dsPortoOcean.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsPortoOcean As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsPortoLocais.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPortoLocais As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsViaTransporte As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsTransportador.

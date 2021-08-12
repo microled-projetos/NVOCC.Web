@@ -326,7 +326,7 @@ namespace ABAINFRA.Web
                 SQL += "ID_MOEDA, FL_ESCALONADA ,QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
                 SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "','" + dados.ID_TIPO_CONTAINER + "', ";
-                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', ";
+                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '"+dados.FL_INICIO_CHEGADA+"', ";
                 SQL += "'" + qtdias01 + "','" + vlVenda01 + "', '" + qtdias02 + "','" + vlVenda02 + "', ";
                 SQL += "'" + qtdias03 + "','" + vlVenda03 + "', '" + qtdias04 + "','" + vlVenda04 + "', ";
                 SQL += "'" + qtdias05 + "','" + vlVenda05 + "', '" + qtdias06 + "','" + vlVenda06 + "', ";
@@ -5357,6 +5357,49 @@ namespace ABAINFRA.Web
             SQL = "SELECT NR_PROCESSO, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO_REC,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ";
             SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_REC),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_LIQUIDACAO_PAG,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
             SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_RECEBIDAS_PAGAS('" + dataI+"','"+dataF+"') ";
+            SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
+            SQL += "" + nota + "";
+            SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarEstimativaContasRecebidasPagas(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    break;
+                case "2":
+                    nota = "AND NM_CLIENTE_REC LIKE '" + nota + "%' ";
+                    break;
+                case "3":
+                    nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_CAMBIO_REC,'dd/MM/yyyy'),'') AS DT_CAMBIO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ISNULL(TP_SERVICO,'') AS TP_SERVICO, ";
+            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_REC),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_CAMBIO_PAG,'dd/MM/yyyy'),'') AS DT_CAMBIO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
+            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";

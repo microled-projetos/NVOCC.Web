@@ -167,13 +167,22 @@ Partial Public Class FreteTransportador
     Protected WithEvents divPesquisa As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
-    '''Controle txtValidadeFinal.
+    '''Controle txtViaTransporte.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtViaTransporte As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlViaTransporte As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlOrigem.
@@ -192,6 +201,24 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlDestino As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle div1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents div1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtValidadeFinal.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlTransportador.
@@ -300,6 +327,15 @@ Partial Public Class FreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsViaTransporte As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsTransportador.

@@ -1931,13 +1931,22 @@ Partial Public Class CadastrarMaster
     Protected WithEvents dsAgente As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsPorto.
+    '''Controle dsPortoMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsPorto As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsPortoMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsPortoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsPortoAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsBaseCalculo.

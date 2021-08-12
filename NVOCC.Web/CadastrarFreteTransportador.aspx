@@ -52,7 +52,7 @@
                                         <asp:checkbox ID="ckbAtivo" Style="margin-top:20px" CssClass="form-control" text="&nbsp;&nbsp;Ativo" runat="server"  />
                                     </div>
                                 </div>
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-3">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
                                                                                 <asp:DropDownList ID="ddlOrigem_Pagamento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
@@ -61,6 +61,14 @@
 
                                                                             </div>
                                                                         </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        
+                                        <asp:TextBox ID="txtViaTransporte" runat="server" style="display:none" CssClass="form-control" />
+                                        <label class="control-label">Via Transporte:</label><label runat="server" style="color:red" >*</label>
+                                        <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE" >
+                                        </asp:DropDownList>                                    </div>
+                                </div>
                             </div>
                             
 
@@ -196,23 +204,19 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="control-label">Taxas Included:</label>
-                                        <asp:TextBox ID="txtTaxas" runat="server" CssClass="form-control" ></asp:TextBox>
-                                    </div>
-                                </div>         </div><div class="row">                      
                                  <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Validade Final:</label>
                                         <asp:TextBox ID="txtValidadeFinal" runat="server" Enabled="false" CssClass="form-control data" ></asp:TextBox>
                                     </div>
-                                </div>    <div class="col-sm-6">
+                                </div>    
+                                       </div><div class="row">                      
+                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <label class="control-label">Via Transporte:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" >
-                                        </asp:DropDownList>                                    </div>
-                                </div>
+                                        <label class="control-label">Taxas Included:</label>
+                                        <asp:TextBox ID="txtTaxas" runat="server" CssClass="form-control" ></asp:TextBox>
+                                    </div>
+                                </div>  
                             </div>            
         
                            <div class="row">
@@ -236,6 +240,8 @@
     <Triggers>
        <asp:AsyncPostBackTrigger ControlID="ddlRota" />
         <ASP:PostBackTrigger ControlID="btnGravar" />
+                <ASP:PostBackTrigger ControlID="ddlViaTransporte" />
+
                <asp:AsyncPostBackTrigger ControlID="btnSalvarTarifario" />
         <asp:AsyncPostBackTrigger ControlID="txtNomeAgente" />
         <asp:AsyncPostBackTrigger ControlID="txtNomeTransportador" />
@@ -765,7 +771,10 @@ union SELECT  0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESP
 union SELECT  0, 'Selecione' ORDER BY ID_BASE_CALCULO_TAXA">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL  union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+              <SelectParameters>
+                <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte"  />
+            </SelectParameters>
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

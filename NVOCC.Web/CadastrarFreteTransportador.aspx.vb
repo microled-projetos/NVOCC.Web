@@ -72,7 +72,12 @@
                 divEscala.Attributes.CssStyle.Add("display", "none")
             End If
 
+            If ds.Tables(0).Rows(0).Item("ID_VIATRANSPORTE") = 4 Then
+                txtViaTransporte.Text = 4
+            Else
+                txtViaTransporte.Text = 1
 
+            End If
 
 
             'tarifario
@@ -800,5 +805,14 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
         ImportaTaxas()
         dgvTaxas.DataBind()
 
+    End Sub
+
+    Private Sub ddlViaTransporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlViaTransporte.SelectedIndexChanged
+        If ddlViaTransporte.SelectedValue = 4 Then
+            txtViaTransporte.Text = 4
+        Else
+            txtViaTransporte.Text = 1
+
+        End If
     End Sub
 End Class

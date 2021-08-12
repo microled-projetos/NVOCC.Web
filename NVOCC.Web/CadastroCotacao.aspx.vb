@@ -118,6 +118,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             End If
 
             ddlServico.SelectedValue = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
+                txtViaTransporte.Text = 4
+            Else
+                txtViaTransporte.Text = 1
+
+            End If
 
             ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
 
@@ -2499,4 +2505,12 @@ WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
 
     End Sub
 
+    Private Sub ddlServico_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlServico.SelectedIndexChanged
+        If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
+            txtViaTransporte.Text = 4
+        Else
+            txtViaTransporte.Text = 1
+
+        End If
+    End Sub
 End Class

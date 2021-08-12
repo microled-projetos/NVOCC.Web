@@ -52,7 +52,7 @@
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
 <div class="row linhabotao" >           
-                       <div class="col-sm-offset-2 col-sm-4">
+                       <div class="col-sm-4">
                            <asp:Label ID="Label6" runat="server">CONTAS A PAGAR:</asp:Label><br />
                            <div style="border: ridge 1px;">
                           <asp:LinkButton ID="lkSolicitacaoPagamento" runat="server" CssClass="btn btnn btn-default btn-sm">Solicitar Pagamento</asp:LinkButton>
@@ -73,9 +73,17 @@
                                         </div>
                        
                  
+                       <div class="col-sm-4">
+                                      <asp:Label ID="Label5" runat="server">TOTVS:</asp:Label><br />
+                                        <div style="border: ridge 1px;">
 
+                      <button type="button" id="btnPagamentosRecebimentos" class="btn btnn"  data-toggle="modal" onclick="PagamentosRecebimentos()">Pagamentos e Recebimentos</button> 
+                            <button type="button" id="btnEstimativaPagamentosRecebimentos" class="btn btnn" data-toggle="modal" onclick="EstimativaPagamentosRecebimentos()">Estimativa Pagamentos e Recebimentos</button>             </div>
                                 
-</div><br /><br /><br />
+</div>
+    </div>
+    
+    <br /><br /><br />
                    <div class="row linhabotao" >
    
                        <div class="col-sm-2">

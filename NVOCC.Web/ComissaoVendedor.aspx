@@ -47,7 +47,8 @@
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                                <asp:ListItem Value="3" Selected="True">Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="0" Selected="True">Todos os registros</asp:ListItem>
+                                                <asp:ListItem Value="3">Vendedores</asp:ListItem>
                                                 <asp:ListItem Value="4">Sub Vendedores</asp:ListItem>
                                                 <asp:ListItem Value="5">Equipe Inside</asp:ListItem>
                                                 <asp:ListItem Value="1">Nome</asp:ListItem>
