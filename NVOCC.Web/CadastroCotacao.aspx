@@ -1249,7 +1249,7 @@
                                               <ItemTemplate>
                                                  <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
                                 CommandArgument='<%# Eval("ID_COTACAO") %>' Visible="false" CommandName="Selecionar" Text="Visualizar Cotação"></asp:linkButton> 
-                                                  <a href="GeraPDF.aspx?l=p&c=<%# Eval("ID_COTACAO") %>" class="btn btn-primary btn-sm" data-toggle="tooltip" target="_blank" data-placement="top" title="Editar">Visualizar Cotação</a>
+                                                  <a href="GeraPDF.aspx?l=p&f=i&c=<%# Eval("ID_COTACAO") %>" class="btn btn-primary btn-sm" data-toggle="tooltip" target="_blank" data-placement="top" title="Editar">Visualizar Cotação</a>
                                               </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>   

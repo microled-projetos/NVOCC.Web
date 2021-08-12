@@ -21,6 +21,7 @@ A.ID_INCOTERM,
 (SELECT NM_INCOTERM FROM TB_INCOTERM WHERE ID_INCOTERM = A.ID_INCOTERM )NOME_INCOTERM,
 A.ID_TIPO_ESTUFAGEM,
 (SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM )NOME_ESTUFAGEM,
+(SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO )TIPO_PAGAMENTO,
 A.ID_DESTINATARIO_COMERCIAL,
 A.ID_CLIENTE,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )NOME_CLIENTE,
@@ -150,13 +151,13 @@ FROM  TB_COTACAO A
                 tabela &= "<th style='padding-right:10px'>Taxa</th>"
                 tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th>"
                 If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
                     tabela &= "<th style='padding-right:10px'>Base de Calc.</th>"
                     tabela &= "<th style='padding-right:10px'>Valor Min.</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
+
                 End If
                 tabela &= "<th style='padding-right:10px'>Valor</th>"
-
-
+                tabela &= "<th style='padding-right:10px'>Tipo Pag.</th>"
 
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -164,11 +165,12 @@ FROM  TB_COTACAO A
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                         tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
                         tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_MIN") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                     End If
                     tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
+                    tabela &= "<td style='padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                     tabela &= "</tr>"
 
                 Next

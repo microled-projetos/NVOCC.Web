@@ -1834,7 +1834,7 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
             Dim ID As String = e.CommandArgument
             Dim url As String = ""
             ' Response.Redirect("CotacaoPDF_PT.aspx?c=" & txtID.Text)
-            url = "GeraPDF.aspx?c=" & ID & "&l=p"
+            url = "GeraPDF.aspx?c=" & ID & "&l=p&f=i"
             Response.Write("<script>")
             Response.Write("window.open('" & url & "','_blank')")
             Response.Write("</script>")

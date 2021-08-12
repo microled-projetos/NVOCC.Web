@@ -1170,7 +1170,7 @@ input[type=file] {
     width: 100%;
 }
 
-.bindBL, #msgErrDespCli, #msgErrDespRec, #msgErrServCli, #msgErrServNota, #msgErrServNotite, #msgErrServRec, #msgErrExportPARec, #msgErrExportPACli, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL,
+.bindBL, #msgErrDespCli, #msgErrTabelaDemurrage, #msgSuccessTabelaDemurrage, #msgExistsTabelaDemurrage, #msgErrDeleteDemurrage, #msgSuccesDeleteDemurrage, #msgErrDespRec, #msgErrServCli, #msgErrServNota, #msgErrServNotite, #msgErrServRec, #msgErrExportPARec, #msgErrExportPACli, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL,
 #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
 #msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail,
 #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail, #msgSuccessDespCli, #msgSuccessDespRec, #msgSuccessServCli, #msgSuccessServNota, #msgSuccessServNotite, #msgSuccessServREC, #msgSuccessCreditCli, #msgSuccessCreditRec,

@@ -1523,65 +1523,19 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
     Private Sub dgvCotacao_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvCotacao.RowDataBound
         If e.Row.RowType = DataControlRowType.DataRow Then
 
-            ' Dim img As Image = CType(e.Row.FindControl("image1"), Image)
             Dim Status As Label = CType(e.Row.FindControl("lblStatus"), Label)
 
             Dim Cor As Label = CType(e.Row.FindControl("lblCor"), Label)
 
             Status.Style("background-color") = Cor.Text
+
             If Cor.Text = "#000000" Then
+
                 Status.Style("color") = "white"
 
             End If
 
-            'Select Case e.Row.Cells(11).Text
-            '    Case "#000000"
 
-            '        img.ImageUrl = "Content/imagens/000000.png"
-            '        img.Visible = True
-
-
-            '    Case "#0672d6"
-
-            '        img.ImageUrl = "Content/imagens/0672d6.png"
-            '        img.Visible = True
-
-
-            '    Case "#159e1b"
-            '        img.ImageUrl = "Content/imagens/159e1b.png"
-            '        img.Visible = True
-
-            '    Case "#7517c2"
-
-            '        img.ImageUrl = "Content/imagens/7517c2.png"
-            '        img.Visible = True
-
-            '    Case "#b2b4eb"
-
-            '        img.ImageUrl = "Content/imagens/b2b4eb.png"
-            '        img.Visible = True
-
-            '    Case "#e72c17"
-
-            '        img.ImageUrl = "Content/imagens/e72c17.png"
-            '        img.Visible = True
-
-            '    Case "#e77817"
-
-            '        img.ImageUrl = "Content/imagens/e77817.png"
-            '        img.Visible = True
-
-            '    Case "#e7d617"
-
-            '        img.ImageUrl = "Content/imagens/e7d617.png"
-            '        img.Visible = True
-
-            '    Case "#f5d4cb"
-
-            '        img.ImageUrl = "Content/imagens/f5d4cb.png"
-            '        img.Visible = True
-
-            'End Select
 
         End If
     End Sub

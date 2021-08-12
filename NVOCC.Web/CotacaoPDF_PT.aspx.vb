@@ -153,9 +153,10 @@ FROM  TB_COTACAO A
                 tabela &= "<th style='padding-right:10px'>Taxa</th>"
                 tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Moeda</th>"
                 If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
                     tabela &= "<th style='padding-right:10px'>Base de Calc.</th>"
                     tabela &= "<th style='padding-right:10px'>Valor Min.</th>"
-                    tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Tarifa</th>"
+
                 End If
                 tabela &= "<th style='padding-right:10px'>Valor</th>"
                 tabela &= "<th style='padding-right:10px'>Tipo Pag.</th>"
@@ -166,9 +167,9 @@ FROM  TB_COTACAO A
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                         tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
                         tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_MIN") & "</td>"
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
                     End If
                     tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"

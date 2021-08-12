@@ -24,8 +24,8 @@ namespace ABAINFRA.Web
                 CarregarStatus();
                 CarregarContaBancaria();
                 CarregarFiltroFatura();
-                CarregarArmador();
-            }
+/*                CarregarArmador();
+*/            }
         }
 
         private void CarregarListaFiltros()
@@ -66,7 +66,7 @@ namespace ABAINFRA.Web
             ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", ""));
         }
 
-        protected void CarregarArmador()
+        /*protected void CarregarArmador()
         {
             SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
             DataTable parceiroTransportador = new DataTable();
@@ -75,7 +75,7 @@ namespace ABAINFRA.Web
             ddlfiltroTabelaDemu.DataSource = Session["TaskTableMoedaDemurrage"];
             ddlfiltroTabelaDemu.DataBind();
             ddlfiltroTabelaDemu.Items.Insert(0, new ListItem("Selecione", ""));
-        }
+        }*/
 
         protected void CarregarMoeda()
         {

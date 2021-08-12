@@ -15,7 +15,7 @@
 
             Response.Redirect("Default.aspx")
         Else
-            If Request.QueryString("id") <> "" Then
+            If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 txtID_BL.Text = Request.QueryString("id")
                 Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,GRAU,ID_BL_MASTER, (SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)NR_BL_MASTER FROM TB_BL A WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then

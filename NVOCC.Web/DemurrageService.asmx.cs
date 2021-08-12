@@ -51,7 +51,7 @@ namespace ABAINFRA.Web
         public string carregarArmador()
         {
             string SQL;
-            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1";
+            SQL = "SELECT ID_PARCEIRO, NM_RAZAO FROM tb_parceiro where FL_TRANSPORTADOR = 1 ORDER BY NM_RAZAO";
             DataTable parceiroTransportador = new DataTable();
             parceiroTransportador = DBS.List(SQL);
             return JsonConvert.SerializeObject(parceiroTransportador);
@@ -1031,7 +1031,11 @@ namespace ABAINFRA.Web
             {
                 SQL = "SELECT FORMAT(DFCL.DT_INICIAL_FREETIME,'yyyy-MM-dd') AS DT_INICIAL_FREETIME, FORMAT(DFCL.DT_FINAL_FREETIME,'yyyy-MM-dd') AS DT_FINAL_FREETIME, ";
                 SQL += "FORMAT(DFCL.DT_INICIAL_DEMURRAGE,'yyyy-MM-dd') AS DT_INICIAL_DEMURRAGE, PFCL.QT_DIAS_FREETIME, ";
-                SQL += "FORMAT(DFCL.DT_FINAL_DEMURRAGE,'yyyy-MM-dd') AS DT_FINAL_DEMURRAGE, DFCL.QT_DIAS_DEMURRAGE, DFCL.ID_MOEDA_DEMURRAGE_VENDA, TBD.FL_ESCALONADA, TBD.ID_MOEDA ";
+                SQL += "FORMAT(DFCL.DT_FINAL_DEMURRAGE,'yyyy-MM-dd') AS DT_FINAL_DEMURRAGE, DFCL.QT_DIAS_DEMURRAGE, DFCL.ID_MOEDA_DEMURRAGE_VENDA, TBD.FL_ESCALONADA, TBD.ID_MOEDA, ";
+                SQL += "TBD.QT_DIAS_FREETIME as FreeTimeTab, TBD.QT_DIAS_01, TBD.QT_DIAS_02,TBD.QT_DIAS_03, TBD.QT_DIAS_04, ";
+                SQL += "TBD.QT_DIAS_05, TBD.QT_DIAS_06, TBD.QT_DIAS_07, TBD.QT_DIAS_08, ";
+                SQL += "TBD.VL_VENDA_01, TBD.VL_VENDA_02,TBD.VL_VENDA_03, TBD.VL_VENDA_04, ";
+                SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
                 SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
                 SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
                 SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
@@ -1083,7 +1087,7 @@ namespace ABAINFRA.Web
                     demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
                     vlDemurr = 0;
 
-                    if (somaDias <= ft)
+                    if (demurrage <= ft)
                     {
                         vlDemurr = 0;
                     }
@@ -1209,7 +1213,11 @@ namespace ABAINFRA.Web
             {
                 SQL = "SELECT FORMAT(DFCL.DT_INICIAL_FREETIME,'yyyy-MM-dd') AS DT_INICIAL_FREETIME, FORMAT(DFCL.DT_FINAL_FREETIME,'yyyy-MM-dd') AS DT_FINAL_FREETIME, ";
                 SQL += "FORMAT(DFCL.DT_INICIAL_DEMURRAGE,'yyyy-MM-dd') AS DT_INICIAL_DEMURRAGE, PFCL.QT_DIAS_FREETIME, ";
-                SQL += "FORMAT(DFCL.DT_FINAL_DEMURRAGE,'yyyy-MM-dd') AS DT_FINAL_DEMURRAGE, DFCL.QT_DIAS_DEMURRAGE, DFCL.ID_MOEDA_DEMURRAGE_VENDA, TBD.FL_ESCALONADA, TBD.ID_MOEDA ";
+                SQL += "FORMAT(DFCL.DT_FINAL_DEMURRAGE,'yyyy-MM-dd') AS DT_FINAL_DEMURRAGE, DFCL.QT_DIAS_DEMURRAGE, DFCL.ID_MOEDA_DEMURRAGE_VENDA, TBD.FL_ESCALONADA, TBD.ID_MOEDA, ";
+                SQL += "TBD.QT_DIAS_FREETIME as FreeTimeTab, TBD.QT_DIAS_01, TBD.QT_DIAS_02,TBD.QT_DIAS_03, TBD.QT_DIAS_04, ";
+                SQL += "TBD.QT_DIAS_05, TBD.QT_DIAS_06, TBD.QT_DIAS_07, TBD.QT_DIAS_08, ";
+                SQL += "TBD.VL_VENDA_01, TBD.VL_VENDA_02,TBD.VL_VENDA_03, TBD.VL_VENDA_04, ";
+                SQL += "TBD.VL_VENDA_05, TBD.VL_VENDA_06, TBD.VL_VENDA_07, TBD.VL_VENDA_08 ";
                 SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
                 SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
                 SQL += "LEFT JOIN TB_TABELA_DEMURRAGE TBD ON PFCL.ID_TIPO_CNTR = TBD.ID_TIPO_CONTAINER ";
@@ -1260,7 +1268,7 @@ namespace ABAINFRA.Web
                     demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
                     vlDemurr = 0;
 
-                    if (somaDias <= ft)
+                    if (demurrage <= ft)
                     {
                         vlDemurr = 0;
                     }
@@ -1455,7 +1463,7 @@ namespace ABAINFRA.Web
                     demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
                     vlDemurr = 0;
 
-                    if (somaDias <= ft)
+                    if (demurrage <= ft)
                     {
                         vlDemurr = 0;
                     }
@@ -1635,7 +1643,7 @@ namespace ABAINFRA.Web
                     demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
                     vlDemurr = 0;
 
-                    if (somaDias <= ft)
+                    if (demurrage <= ft)
                     {
                         vlDemurr = 0;
                     }
