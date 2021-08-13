@@ -142,7 +142,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField>                    
                                    <ItemTemplate>                          
-                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                            <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Excluir" CommandArgument='<%# Eval("Id") %>'
                                 Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                    </ItemTemplate>        
                                                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />

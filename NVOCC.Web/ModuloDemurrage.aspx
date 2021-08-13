@@ -2630,6 +2630,7 @@
                 var position = 95;
                 var positionbg = 92;
                 var lineH = 91.5;
+                var lineV = 96.5;
                 var total = 0;
                 var totalv = 0;
                 $.ajax({
@@ -2738,21 +2739,9 @@
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
                                         for (let i = 0; i < dado.length; i++) {
+                                            lineH = lineH + 5;
                                             doc.line(11.7, lineH, 200.5, lineH);
-                                            doc.line(11.7, 91.5, 11.7, 101.5);
-                                            doc.line(34.5, 91.5, 34.5, 101.5);
-                                            doc.line(53.5, 91.5, 53.5, 101.5);
-                                            doc.line(67.5, 91.5, 67.5, 101.5);
-                                            doc.line(81.5, 91.5, 81.5, 101.5);
-                                            doc.line(89.5, 91.5, 89.5, 101.5);
-                                            doc.line(103.5, 91.5, 103.5, 101.5);
-                                            doc.line(117.5, 91.5, 117.5, 101.5);
-                                            doc.line(125.5, 91.5, 125.5, 101.5);
-                                            doc.line(138.5, 91.5, 138.5, 101.5);
-                                            doc.line(153.5, 91.5, 153.5, 101.5);
-                                            doc.line(170.5, 91.5, 170.5, 101.5);
-                                            doc.line(183.5, 91.5, 183.5, 101.5);
-                                            doc.line(200.5, 91.5, 200.5, 101.5);
+                                            
                                             doc.addImage(bg, 'png', 12, positionbg, 22, 4);
                                             doc.text(dado[i]["NR_CNTR"], 13, position);
                                             doc.addImage(bg, 'png', 35, positionbg, 18, 4);
@@ -2781,10 +2770,24 @@
                                             doc.text(dado[i]["VL_DEMURRAGE_VENDA"], 184, position);
                                             position = position + 5;
                                             positionbg = positionbg + 5;
-                                            lineH = lineH + 5;
+                                            lineV = lineV + 5;
                                             total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
                                             totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
                                         }
+                                        doc.line(11.7, 91.5, 11.7, lineV - 5);
+                                        doc.line(34.5, 91.5, 34.5, lineV - 5);
+                                        doc.line(53.5, 91.5, 53.5, lineV - 5);
+                                        doc.line(67.5, 91.5, 67.5, lineV - 5);
+                                        doc.line(81.5, 91.5, 81.5, lineV - 5);
+                                        doc.line(89.5, 91.5, 89.5, lineV - 5);
+                                        doc.line(103.5, 91.5, 103.5, lineV - 5);
+                                        doc.line(117.5, 91.5, 117.5, lineV - 5);
+                                        doc.line(125.5, 91.5, 125.5, lineV - 5);
+                                        doc.line(138.5, 91.5, 138.5, lineV - 5);
+                                        doc.line(153.5, 91.5, 153.5, lineV - 5);
+                                        doc.line(170.5, 91.5, 170.5, lineV - 5);
+                                        doc.line(183.5, 91.5, 183.5, lineV - 5);
+                                        doc.line(200.5, 91.5, 200.5, lineV - 5);
                                         doc.setFontStyle("bold");
                                         doc.text("TOTAL COMPRA: ", 162, position+10);
                                         doc.setFontStyle("normal");
@@ -3029,7 +3032,8 @@
         function imprimirFatura() {
             if (idFatura != 0) {
                 var tipoCalculo;
-                
+                var lineH = 111.5;
+                var lineV = 116.5;
                 var positionV = 115;
                 var positionbgV = 112;
                 var positionC = 95;
@@ -3163,7 +3167,8 @@
                                 doc.text("TOTAL BR", 173, 110);
                                 doc.setFontStyle("normal");
 
-
+                                doc.setLineWidth(0.2);
+                                doc.line(11.7, 91.5, 200.5, 91.5);
 
                                 $.ajax({
                                     type: "POST",
@@ -3176,6 +3181,7 @@
                                         dado = $.parseJSON(dado);
                                         if (dado != null) {
                                             for (let i = 0; i < dado.length; i++) {
+                                                doc.line(11.7, lineH, 200.5, lineH);
                                                 doc.addImage(bg, 'png', 12, positionbgV, 22, 4);
                                                 doc.text(dado[i]["NR_CNTR"], 13, positionV);
                                                 doc.addImage(bg, 'png', 35, positionbgV, 18, 4);
@@ -3202,6 +3208,8 @@
                                                 doc.text(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString(), 173, positionV);
                                                 positionV = positionV + 5;
                                                 positionbgV = positionbgV + 5;
+                                                lineV = lineV + 5;
+                                                lineH = lineH + 5;
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
                                                     totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(".", ""));
                                                 }
@@ -3212,6 +3220,15 @@
                                                     totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(".", ""));
                                                 }
                                             }
+                                            doc.line(11.7, 111.5, 11.7, lineV - 5);
+                                            doc.line(34.5, 111.5, 34.5, lineV - 5);
+                                            doc.line(53.5, 111.5, 53.5, lineV - 5);
+                                            doc.line(67.5, 111.5, 67.5, lineV - 5);
+                                            doc.line(81.5, 111.5, 81.5, lineV - 5);
+                                            doc.line(89.5, 111.5, 89.5, lineV - 5);
+                                            doc.line(103.5, 111.5, 103.5, lineV - 5);
+                                            doc.line(117.5, 111.5, 117.5, lineV - 5);
+                                            doc.line(125.5, 111.5, 125.5, lineV - 5);
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DAS DESPESAS: ", 145, positionV + 15);
                                             doc.setFontStyle("normal");

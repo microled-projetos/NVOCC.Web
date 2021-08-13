@@ -26,7 +26,7 @@
                         </li>
                     </ul>
 
-                    <div class="tab-content">
+                     <div class="tab-content">
                         <br />
                         <div class="tab-pane fade active in" id="Maritimo">
                             <ul class="nav nav-tabs" role="tablist">
@@ -1699,8 +1699,8 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
     <asp:SqlDataSource ID="dsVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
 left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
+left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
@@ -1708,10 +1708,11 @@ left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_B
 
     <asp:SqlDataSource ID="dsNaoVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND ID_PORTO_ORIGEM = @ORIGEM AND ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL">
+left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
+left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
+left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
+left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
+WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL AND E.ID_STATUS_COTACAO = 9">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoMaritimo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoMaritimo" />

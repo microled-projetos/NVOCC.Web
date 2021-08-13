@@ -1045,55 +1045,62 @@
             var btnUploadx = document.querySelector("#btnUploadx");
             var dadoUpload = document.getElementById("dadoUpload").files[0].name;
             var tipoaviso = document.getElementById("ddlTipoAviso").value;
-            var documento = document.getElementById("ddlDocumento").value;
+            
             var path = dadoUpload;
-            console.log(path)
+            var dataForm = new FormData();
+            var fileUpload = $('#dadoUpload').get(0);
+            var files = fileUpload.files;
+            dataForm.append(files[0].name, files[0]);
+            dataForm.append('id', id);
+            dataForm.append('tipoaviso', tipoaviso);
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/criarDiretorio",
-                data: '{idProcesso: "' + id + '", path: "' + path + '", tipoaviso: "' + tipoaviso +'"}',
+                data: dataForm,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    upload();
+                },
+                error: function () {
+                    $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                    dadoUploadX.style.display = "none";
+                    btnUpload.style.display = "block";
+                    btnUploadx.style.display = "none";
+                }
+            })
+        }
+
+        function upload() {
+            var documento = document.getElementById("ddlDocumento").value;
+            var dadoUpload = document.getElementById("dadoUpload").files[0].name;
+            var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            var path = dadoUpload;
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/uploadArquivo",
+                data: '{idprocesso: "' + id + '", iddocumento: "' + documento + '", arquivo: "' + path + '", idtipoaviso: "' + tipoaviso + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado == "0") {
-                        $.ajax({
-                            type: "POST",
-                            url: "Gerencial.asmx/uploadArquivo",
-                            data: '{idprocesso: "' + id + '", iddocumento: "' + documento + '", arquivo: "' + path + '", idtipoaviso: "' + tipoaviso + '"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (dado) {
-                                var dados = dado.d;
-                                dados = $.parseJSON(dados);
-                                if (dados == "ok") {
-                                    $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
-                                    listarDocumentosArquivados();
-                                    dadoUploadX.files == "";
-                                    btnUpload.style.display = "block";
-                                    btnUploadx.style.display = "none";
-                                    dadoUploadX.style.display = "none";
-                                } else if (dados == "1") {
-                                    $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
-                                    btnUpload.style.display = "block";
-                                    btnUploadx.style.display = "none";
-                                    dadoUploadX.style.display = "none";
-                                    listarDocumentosArquivados();
-                                }
-                            }
-                        })
-                       
-                    } else if (dado == "1") {
-                        $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
-                        dadoUploadX.style.display = "none";
+                    var dados = dado.d;
+                    dados = $.parseJSON(dados);
+                    if (dados == "ok") {
+                        $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                        listarDocumentosArquivados();
+                        dadoUploadX.files == "";
                         btnUpload.style.display = "block";
                         btnUploadx.style.display = "none";
+                        dadoUploadX.style.display = "none";
+                    } else if (dados == "1") {
+                        $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                        btnUpload.style.display = "block";
+                        btnUploadx.style.display = "none";
+                        dadoUploadX.style.display = "none";
+                        listarDocumentosArquivados();
                     }
                 }
             })
-
-            
         }
 
         function deletarDocumentoArquivado() {

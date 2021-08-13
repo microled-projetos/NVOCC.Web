@@ -74,7 +74,7 @@
                        
                  
                        <div class="col-sm-4">
-                                      <asp:Label ID="Label5" runat="server">TOTVS:</asp:Label><br />
+                                      <asp:Label ID="Label5" runat="server">DEMONSTRATIVOS:</asp:Label><br />
                                         <div style="border: ridge 1px;">
 
                       <button type="button" id="btnPagamentosRecebimentos" class="btn btnn"  data-toggle="modal" onclick="PagamentosRecebimentos()">Pagamentos e Recebimentos</button> 

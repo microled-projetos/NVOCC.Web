@@ -274,7 +274,7 @@ FROM [dbo].[TB_ITEM_DESPESA] A
 
             Else
 
-                FILTRO = " WHERE NM_ITEM_DESPESA = '" & txtConsulta.Text & "'"
+                FILTRO = " WHERE NM_ITEM_DESPESA LIKE'%" & txtConsulta.Text & "%'"
                 dsItemDespesa.SelectCommand = dsItemDespesa.SelectCommand.Replace("/*FILTRO*/ ", FILTRO)
                 dgvItemDespesa.DataBind()
 

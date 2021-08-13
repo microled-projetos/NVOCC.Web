@@ -409,7 +409,16 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
     Sub SubVendedor(cabecalho As Integer)
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO_SUB_VENDEDOR,ID_PARCEIRO_VENDEDOR,VL_TAXA_FIXA,VL_PERCENTUAL,ID_BASE_CALCULO FROM TB_SUB_VENDEDOR WHERE CONVERT(DATE,DT_VALIDADE_INICIAL,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103) ")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_PARCEIRO_SUB_VENDEDOR,A.ID_PARCEIRO_VENDEDOR,A.VL_TAXA_FIXA,A.VL_PERCENTUAL,A.ID_BASE_CALCULO
+FROM TB_SUB_VENDEDOR A
+INNER JOIN (
+SELECT ID_PARCEIRO_VENDEDOR, ID_PARCEIRO_SUB_VENDEDOR, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
+FROM TB_SUB_VENDEDOR
+WHERE CONVERT(DATE,DT_VALIDADE_INICIAL,103) <= CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103)
+GROUP BY ID_PARCEIRO_VENDEDOR, ID_PARCEIRO_SUB_VENDEDOR) B
+ON A.ID_PARCEIRO_VENDEDOR = B.ID_PARCEIRO_VENDEDOR 
+AND A.ID_PARCEIRO_SUB_VENDEDOR = B.ID_PARCEIRO_SUB_VENDEDOR
+AND A.DT_VALIDADE_INICIAL = B.DT_VALIDADE_INICIAL")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -563,6 +572,7 @@ ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO_VENDEDOR FROM TB_SUB_VENDEDOR WHERE 
             End If
         Else
             lblCompetenciaSobrepor.Text = 0
+            lblContasReceber.Text = 0
             divAtencaoGerarComissao.Visible = False
         End If
 

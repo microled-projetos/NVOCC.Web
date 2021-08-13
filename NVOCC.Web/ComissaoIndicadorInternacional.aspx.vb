@@ -391,6 +391,7 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_T
             End If
         Else
             lblCompetenciaSobrepor.Text = 0
+            lblContasReceber.Text = 0
             divAtencaoGerarComissao.Visible = False
         End If
 

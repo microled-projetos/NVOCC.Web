@@ -323,7 +323,7 @@ namespace ABAINFRA.Web
             if (consulta == null)
             {
                 SQL = "insert into TB_TABELA_DEMURRAGE (ID_PARCEIRO_TRANSPORTADOR,ID_TIPO_CONTAINER,DT_VALIDADE_INICIAL,QT_DIAS_FREETIME, ";
-                SQL += "ID_MOEDA, FL_ESCALONADA ,QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
+                SQL += "ID_MOEDA, FL_ESCALONADA,FL_INICIO_CHEGADA ,QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
                 SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "','" + dados.ID_TIPO_CONTAINER + "', ";
                 SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '"+dados.FL_INICIO_CHEGADA+"', ";
@@ -4575,7 +4575,7 @@ namespace ABAINFRA.Web
 
             string SQL;
             SQL = "SELECT NR_CONTRATO, TP_CONTRATO, FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, VL_LIQUIDO, ";
-            SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO, ";
+            SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy HH:mm:ss'),'') AS DT_EXPORTACAO, ";
             SQL += "NR_PROCESSO, NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_INV_CREDIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
@@ -5107,7 +5107,7 @@ namespace ABAINFRA.Web
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
             SQL += "WHERE NR_PROCESSO IS NOT NULL ";
-            SQL += "" + nota + "%' ";
+            SQL += "" + nota + "";
             SQL += "" + situacao + "";
             SQL += "ORDER BY DT_PAGAMENTO, NR_PROCESSO ";
 
@@ -5207,9 +5207,9 @@ namespace ABAINFRA.Web
 
             string SQL;
 
-            SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
-            SQL += "FROM dbo.FN_INV_DEBIT_REC(";
+            SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "FROM dbo.FN_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
 
@@ -5221,26 +5221,21 @@ namespace ABAINFRA.Web
                 string[] rec = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FORNECE"].ToString(), 7);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
-                    rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    rec[i] += fmtTotvs("01", 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
-                    rec[i] += fmtTotvs("", 10);
-                    rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCREA"].ToString(), 10);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 16, 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvs("I", 1);
-                    rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
 
                 }

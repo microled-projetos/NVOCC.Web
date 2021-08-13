@@ -158,13 +158,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnCotacaoComercial As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A15.
+    '''Controle MenuComissoes2.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A15 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuComissoes2 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnComissaoVendedor.
@@ -185,13 +185,13 @@ Partial Public Class SiteMaster
     Protected WithEvents MenuOperacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle mnModuloOperacional.
+    '''Controle mnOperacionalListagemBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents mnModuloOperacional As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnOperacionalListagemBL As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnConsultarWeek.
@@ -239,13 +239,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnModuloDemurrage As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A3.
+    '''Controle MenuAccount.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A3 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuAccount As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnAccount.
@@ -266,13 +266,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnFechamentoCambio As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A11.
+    '''Controle MenuComissoes.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A11 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuComissoes As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnComissaoIndicadorNacional.
@@ -293,49 +293,58 @@ Partial Public Class SiteMaster
     Protected WithEvents mnComissaoIndicadorInternacional As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A1.
+    '''Controle MenuTotvs.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuTotvs As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A4.
+    '''Controle mnTOTVSDespesa.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A4 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnTOTVSDespesa As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A6.
+    '''Controle mnTOTVSPA.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A6 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnTOTVSPA As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A7.
+    '''Controle mnTOTVSDebit.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A7 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnTOTVSDebit As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A8.
+    '''Controle mnTOTVSCredit.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A8 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnTOTVSCredit As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle MenuFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents MenuFaturamento As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnFaturamento.
@@ -347,40 +356,31 @@ Partial Public Class SiteMaster
     Protected WithEvents mnFaturamento As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A12.
+    '''Controle MenuTotvs2.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A12 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuTotvs2 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A14.
+    '''Controle mnTOTVSServico.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A14 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnTOTVSServico As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A9.
+    '''Controle MenuGerencial.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A9 As Global.System.Web.UI.HtmlControls.HtmlAnchor
-
-    '''<summary>
-    '''Controle A10.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents A10 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuGerencial As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnModuloGerencial.
@@ -392,40 +392,31 @@ Partial Public Class SiteMaster
     Protected WithEvents mnModuloGerencial As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A22.
+    '''Controle mnModuloOperacional.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A22 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnModuloOperacional As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A5.
+    '''Controle mnGerencialMaster.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A5 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnGerencialMaster As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle A23.
+    '''Controle mnDashBoard.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents A23 As Global.System.Web.UI.HtmlControls.HtmlAnchor
-
-    '''<summary>
-    '''Controle A24.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents A24 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnDashBoard As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle lbllogin.

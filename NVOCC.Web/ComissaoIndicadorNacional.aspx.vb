@@ -201,12 +201,13 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                     Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_NACIONAL (ID_CABECALHO_COMISSAO_NACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_INDICADOR,ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_CAMBIO,DT_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO)
 SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MOEDA,VL_TAXA_CALCULADO,VL_CAMBIO,DT_CAMBIO,VL_TAXA_CALCULADO * VL_CAMBIO AS COMISSAO,DT_LIQUIDACAO FROM FN_INDICADOR_NACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL")
 
+
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
                     txtObs.Text = txtObs.Text.Replace("NULL", "")
                     txtObs.Text = txtObs.Text.Replace("'", "")
                     CarregaGrid()
-
+                    divErro.Visible = False
                 End If
             End If
 
@@ -243,6 +244,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             End If
         Else
             lblCompetenciaSobrepor.Text = 0
+            lblContasReceber.Text = 0
             divAtencaoGerarComissao.Visible = False
         End If
 
@@ -372,6 +374,12 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
 
         Dim Con As New Conexao_sql
         Con.Conectar()
+
+
+        If lblContasReceber.Text = "" Then
+            lblContasReceber.Text = 0
+        End If
+
 
         If lblQuinzena.Text = "" Then
             lblErroCCProcesso.Text = "É necessario informar a quinzena."
