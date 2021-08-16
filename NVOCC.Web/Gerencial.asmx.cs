@@ -1171,14 +1171,23 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT PATHDOCUMENTOS FROM TB_AVISOPARAM WHERE IDTIPOAVISOPARAM=1 ";
             string PathDocumentos = DBS.ExecuteScalar(SQL);
-            string path = PathDocumentos;
+           // string path = PathDocumentos;
+            //if (Directory.Exists(path) == false)
+            //{
+            //    return "0";
+            //}
+            //else
+            //{
+            //    return "1";
+            //}
+            string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
             if (Directory.Exists(path) == false)
             {
-                return "0";
+                return path;
             }
             else
             {
-                return "1";
+                return path;
             }
         }
 

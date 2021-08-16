@@ -1027,6 +1027,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
+                    console.log(dado);
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado == "0") {
