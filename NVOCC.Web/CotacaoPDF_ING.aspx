@@ -109,8 +109,9 @@ Tel No.-+55 13 3213-6670<br/>
 <asp:label runat="server" ID="Label1" Text="www.fcalog.com.br" class="control-label" /><br/>
 </div>
              
-            </div>
-        
+          
+                    <br/><br/>
+    <asp:label runat="server" ID="lblTexto" class="control-label" />     </div> 
     </form>
     
 </body>

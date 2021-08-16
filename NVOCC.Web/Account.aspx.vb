@@ -113,14 +113,14 @@
                 Dim numeroFinal As String = ""
                 Dim Invoice As String = ""
                 If ddlEmissor.SelectedValue = 2 Then
-                    ds = Con.ExecutarQuery("SELECT isnull(NR_INVOICE,0)NR_INVOICE FROM TB_NUMERACAO")
+                    '  ds = Con.ExecutarQuery("SELECT isnull(NR_INVOICE,0)NR_INVOICE FROM TB_NUMERACAO")
+                    ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Invoice NR_INVOICE")
                     If ds.Tables(0).Rows.Count > 0 Then
 
                         numero = ds.Tables(0).Rows(0).Item("NR_INVOICE")
-                        numero = numero + 1
                         numeroFinal = numero.ToString.PadLeft(6, "0")
                         Invoice = numeroFinal
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & numero & "' ")
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_INVOICE = '" & Invoice & "' ")
                     End If
                     txtNumeroInvoice.Text = Invoice
 

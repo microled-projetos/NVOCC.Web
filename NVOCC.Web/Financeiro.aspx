@@ -205,7 +205,7 @@
     </div>
 
 
-
+<%--
      <div class="modal fade bd-example-modal-xl" id="modalPagamentoRecebimento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
@@ -366,7 +366,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
 
 
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -375,8 +375,10 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+
     <script type="text/javascript">
-     function SalvaPosicao() {
+
+        function SalvaPosicao() {
           var posicao = document.getElementById('DivGrid').scrollTop;
             if (posicao) {
                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
@@ -408,7 +410,7 @@
 
        
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+      <%--  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="Content/js/papaparse.min.js"></script>    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
@@ -821,5 +823,5 @@
 
             }
         }
-    </script>
+    </script>--%>
 </asp:Content>

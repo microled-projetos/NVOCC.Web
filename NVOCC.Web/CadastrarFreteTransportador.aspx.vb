@@ -482,51 +482,61 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
         ElseIf txtValidadeInicial.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf txtValidadeFinal_Tarifario.Text = "" Then
             divErroTarifario.Visible = True
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf v.ValidaData(txtValidadeInicial.Text) = False Then
             divErroTarifario.Visible = True
             lblmsgErroTarifario.Text = "A data de validade inicial é inválida."
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf v.ValidaData(txtValidadeFinal_Tarifario.Text) = False Then
             divErroTarifario.Visible = True
             lblmsgErroTarifario.Text = "A data de validade final é inválida."
+            txtEstufagem.Text = estufagem
             Exit Sub
+
         ElseIf txtValorCompra.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf estufagem = 1 And ddlContainer.SelectedValue = 0 Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios"
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf estufagem = 1 And txtFreetime.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf estufagem = 2 And txtM3Final.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf estufagem = 2 And txtM3Inicial.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
+            txtEstufagem.Text = estufagem
             Exit Sub
 
         ElseIf estufagem = 2 And txtValorMinimo.Text = "" Then
             lblmsgErroTarifario.Text = "Preencha todos os campos obrigatórios."
             divErroTarifario.Visible = True
-
+            txtEstufagem.Text = estufagem
             Exit Sub
 
 

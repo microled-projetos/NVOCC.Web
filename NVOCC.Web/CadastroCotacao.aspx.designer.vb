@@ -311,6 +311,33 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodImportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodImportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeImportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeImportador As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlImportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlImportador As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtCodCliente.
     '''</summary>
     '''<remarks>
@@ -1848,6 +1875,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsCliente As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsImportador.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsImportador As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsContato.

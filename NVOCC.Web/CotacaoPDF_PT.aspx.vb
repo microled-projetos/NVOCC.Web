@@ -26,9 +26,23 @@ A.ID_TIPO_ESTUFAGEM,
 (SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO )TIPO_PAGAMENTO,
 A.ID_DESTINATARIO_COMERCIAL,
 A.ID_CLIENTE,
-(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )NOME_CLIENTE,
-(SELECT CNPJ FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )CNPJ_CLIENTE,
-(SELECT CPF FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )CPF_CLIENTE,
+CASE WHEN ID_DESTINATARIO_COMERCIAL = 6 
+THEN(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_PARCEIRO = A.ID_CLIENTE )
+ELSE
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )
+END NOME_CLIENTE,
+
+CASE WHEN ID_DESTINATARIO_COMERCIAL = 6 
+THEN(SELECT NR_CNPJ FROM TB_CLIENTE_FINAL WHERE ID_PARCEIRO = A.ID_CLIENTE )
+ELSE
+(SELECT CNPJ FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )
+END CNPJ_CLIENTE,
+
+CASE WHEN ID_DESTINATARIO_COMERCIAL = 6 
+THEN NULL
+ELSE
+(SELECT CPF FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )
+END CPF_CLIENTE,
 (SELECT NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = A.ID_CONTATO )CONTATO,
 A.ID_CONTATO,
 A.ID_SERVICO,
@@ -180,6 +194,8 @@ FROM  TB_COTACAO A
                 tabela = tabela.Replace("³", "<sup>3</sup>")
                 tabela = tabela.Replace("ã", "&atilde;")
                 tabela = tabela.Replace("Á", "&Aacute;")
+                tabela = tabela.Replace("é", "&eacute;")
+                tabela = tabela.Replace("É", "&Eacute;")
                 tabela &= "</table>"
                 divConteudofrete.InnerHtml = tabela
                 lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
@@ -187,13 +203,26 @@ FROM  TB_COTACAO A
             End If
 
 
-
+            lblCliente.Text = SubstituiCaracteresEspeciais(lblCliente.Text)
+            lblNome.Text = SubstituiCaracteresEspeciais(lblNome.Text)
+            lblAnalista.Text = SubstituiCaracteresEspeciais(lblAnalista.Text)
+            lblEscalas.Text = SubstituiCaracteresEspeciais(lblEscalas.Text)
+            lblVia.Text = SubstituiCaracteresEspeciais(lblVia.Text)
+            lblDestino.Text = SubstituiCaracteresEspeciais(lblDestino.Text)
+            lblOrigem.Text = SubstituiCaracteresEspeciais(lblOrigem.Text)
+            lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
+            lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
 
             TAXAS()
-            End If
+        End If
+
+        ds = Con.ExecutarQuery("select ISNULL(TEXTO_COTACAO_PORTUGUES,'')TEXTO_COTACAO from TB_PARAMETROS")
+        If ds.Tables(0).Rows.Count > 0 Then
+            lblTexto.Text = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
+        End If
 
 
-            Con.Fechar()
+        Con.Fechar()
 
     End Sub
 
@@ -464,4 +493,40 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
 
 
     End Sub
+
+    Public Shared Function SubstituiCaracteresEspeciais(ByVal strline As String) As String
+
+        strline = strline.Replace("ã", "a")
+            strline = strline.Replace("Ã"c, "A"c)
+            strline = strline.Replace("â"c, "a"c)
+            strline = strline.Replace("Â"c, "A"c)
+            strline = strline.Replace("á"c, "a"c)
+            strline = strline.Replace("Á"c, "A"c)
+            strline = strline.Replace("à"c, "a"c)
+            strline = strline.Replace("À"c, "A"c)
+            strline = strline.Replace("ç"c, "c"c)
+            strline = strline.Replace("Ç"c, "C"c)
+            strline = strline.Replace("é"c, "e"c)
+            strline = strline.Replace("É"c, "E"c)
+            strline = strline.Replace("Ê"c, "E"c)
+            strline = strline.Replace("ê"c, "e"c)
+            strline = strline.Replace("õ"c, "o"c)
+            strline = strline.Replace("Õ"c, "O"c)
+            strline = strline.Replace("ó"c, "o"c)
+            strline = strline.Replace("Ó"c, "O"c)
+            strline = strline.Replace("ô"c, "o"c)
+            strline = strline.Replace("Ô"c, "O"c)
+            strline = strline.Replace("ú"c, "u"c)
+            strline = strline.Replace("Ú"c, "U"c)
+            strline = strline.Replace("ü"c, "u"c)
+            strline = strline.Replace("Ü"c, "U"c)
+            strline = strline.Replace("í"c, "i"c)
+            strline = strline.Replace("Í"c, "I"c)
+            strline = strline.Replace("ª"c, "a"c)
+            strline = strline.Replace("º"c, "o"c)
+            strline = strline.Replace("°"c, "o"c)
+            strline = strline.Replace("&"c, "e"c)
+            Return strline
+
+    End Function
 End Class

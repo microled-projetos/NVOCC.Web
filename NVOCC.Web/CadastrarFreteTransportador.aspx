@@ -335,11 +335,11 @@
                             <ul class="nav nav-tabs" role="tablist">
                
                                  <li class="active">
-                            <a href="#FCL" role="tab" data-toggle="tab" id="fcl" ><i class="fa fa-angle-double-right"></i> FCL
+                            <a href="#FCL" role="tab" data-toggle="tab" id="fcl"  OnClick="FuncFCL()" ><i class="fa fa-angle-double-right"></i> FCL
                             </a>
                         </li>
                         <li>
-                            <a href="#LCL" role="tab" data-toggle="tab"  id="lcl"><i class="fa fa-angle-double-right"></i> LCL
+                            <a href="#LCL" role="tab" data-toggle="tab"  id="lcl" OnClick="FuncLCL()"><i class="fa fa-angle-double-right"></i> LCL
                             </a>
                         </li>
                        
@@ -390,13 +390,13 @@
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3 (Inicial):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtM3Inicial" runat="server" CssClass="form-control moeda" maxlength="13"></asp:TextBox>
+                                        <asp:TextBox ID="txtM3Inicial" runat="server" CssClass="form-control" maxlength="13"></asp:TextBox>
                                       </div>
                                  </div>
                                      <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor M3 (Final):</label><label runat="server" style="color:red" >*</label>
-                                        <asp:TextBox ID="txtM3Final" runat="server" CssClass="form-control moeda" maxlength="13"></asp:TextBox>
+                                        <asp:TextBox ID="txtM3Final" runat="server" CssClass="form-control" maxlength="13"></asp:TextBox>
                                   </div>
                               
                              </div>                               
@@ -831,21 +831,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>
-        $(document).ready(function () {
-            $("#fcl").click(function (event) {
-                event.preventDefault();
-                $('.txtEstufagem').val("1"); // Para definir
+        function FuncFCL() {
+            event.preventDefault();
+            $('.txtEstufagem').val("1");
+        }
 
-            });
-        });
+        function FuncLCL () {
+            event.preventDefault();
+            $('.txtEstufagem').val("2");
+        }
 
-
-        $(document).ready(function () {
-            $("#lcl").click(function (event) {
-                event.preventDefault();
-                $('.txtEstufagem').val("2"); // Para definir
-
-            });
-        });
     </script>
 </asp:Content>

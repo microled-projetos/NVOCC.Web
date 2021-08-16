@@ -239,11 +239,30 @@
                                       <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="Descricao" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>              </div>
                                     </div>
                               
-                                  
+                                  <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Importador:</label>
+                                                <asp:TextBox ID="txtCodImportador" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Importador:</label>
+                                                <asp:TextBox ID="txtNomeImportador" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Importador:</label></label><label runat="server" style="color:red" >*</label>
+                                       <asp:DropDownList ID="ddlImportador" runat="server" CssClass="form-control" autopostback="true" Font-Size="11px"  DataValueField="ID_PARCEIRO" DataTextField="Descricao" DataSourceID="dsImportador" >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
                        
                                   
                               
-                                
+                                            </div>                     
+                            <div class="row">
                         
                                  <div class="col-sm-1" style="display:none" >
                                             <div class="form-group">
@@ -264,23 +283,22 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                        </div>                     
-                            <div class="row">
-                                <div class="col-sm-4">
+                            
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Contato:</label></label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlContato" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTATO" DataSourceID="dsContato" DataValueField="ID_CONTATO">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                  <div class="col-sm-4" id="divClienteFinal" runat="server">
+                                  <div class="col-sm-2" id="divClienteFinal" runat="server">
                                     <div class="form-group">
                                         <label class="control-label">Cliente Final:</label></label>
                                          <asp:DropDownList ID="ddlClienteFinal" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CLIENTE_FINAL" DataSourceID="dsClienteFinal" DataValueField="ID_CLIENTE_FINAL">
                                         </asp:DropDownList>
                                     </div>
                             </div>
-                                <div class="col-sm-4"  >
+                                <div class="col-sm-2"  >
                                     <div class="form-group">
                                         <label class="control-label">Vendedor:</label></label><label runat="server" style="color:red" >*</label>
                                        <asp:DropDownList ID="ddlVendedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
@@ -366,6 +384,7 @@
         <asp:AsyncPostBackTrigger  ControlID="txtNomeIndicador" />
                 <asp:AsyncPostBackTrigger  ControlID="txtNomeExportador" />
                 <asp:AsyncPostBackTrigger  ControlID="ddlCliente" />
+                        <asp:AsyncPostBackTrigger  ControlID="txtNomeImportador" />
     </Triggers>
 </asp:UpdatePanel>
 
@@ -1476,15 +1495,17 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
             <asp:ControlParameter Name="ID_PARCEIRO_CLIENTE" Type="Int32" ControlID="txtCodCliente" DefaultValue ="0" />
         </SelectParameters>
 </asp:SqlDataSource>
-
+     <asp:SqlDataSource ID="dsImportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+              <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeImportador"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO_IMPORTADOR" Type="Int32" ControlID="txtCodImportador" DefaultValue ="0" />
+        </SelectParameters>
+</asp:SqlDataSource>
       <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_CONTATO = 0
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
-           <%--<SelectParameters>
-                <asp:ControlParameter Name="CLIENTE" Type="Int32" ControlID="ddlCliente"  />
-                               <asp:Parameter Name="CONTATO" Type="Int32"/>
-
-            </SelectParameters>--%>
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
