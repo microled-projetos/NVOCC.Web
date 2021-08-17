@@ -502,6 +502,7 @@
                                         <label class="control-label">Vendedor:</label><label ID="lblRed2" runat="server" visible="false" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlVendedor" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
                                             </asp:DropDownList>
+                                         <asp:TextBox ID="txtID_Vendedor" runat="server" style="display:none"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -676,8 +677,11 @@
         selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
           <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 OR ID_PARCEIRO = @ID_PARCEIRO
 union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+               <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>  
       <asp:SqlDataSource ID="dsEmailvento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT A.ID as Id, A.ENDERECOS,A.ID_EVENTO,C.NMTIPOAVISO, A.ID_TERMINAL,B.NM_PORTO, A.ID_PESSOA, D.NM_RAZAO FROM 

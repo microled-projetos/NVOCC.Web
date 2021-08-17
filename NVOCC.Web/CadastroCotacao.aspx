@@ -1133,7 +1133,7 @@
                                  <div class="col-sm-12" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Taxas:</label>
-                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsTaxa" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="500"></asp:TextBox>
                                     </div>
                                 </div>
                                  
