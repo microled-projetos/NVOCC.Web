@@ -169,7 +169,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Número:</label><asp:label ID="RedNum"  runat="server" style="color:red" >*</asp:label>
-                                        <asp:TextBox ID="txtNumero" runat="server" CssClass="form-control inteiro" MaxLength="4"></asp:TextBox>
+                                        <asp:TextBox ID="txtNumero" runat="server" CssClass="form-control inteiro" MaxLength="10"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -191,7 +191,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control"  Rows="8" TextMode="Multiline" MaxLength="1000"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>

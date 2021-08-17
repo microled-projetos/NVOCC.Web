@@ -106,6 +106,9 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <div style="color:red">"Com rela&ccedil;&atilde;o ao Imposto sobre Opera&ccedil;&otilde;es Financeiras, informamos que o mesmo ser&aacute; atualizado de acordo com a taxa de convers&atilde;o do dia
 do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia da proposta."</div>
 <br/><br/>
+                             
+    <asp:label runat="server" ID="lblObsCliente" class="control-label" /> 
+                 <br/><br/>   
 <asp:label runat="server" ID="lblAnalista" class="control-label" /><br/>
 FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA<br/>
 Tel No.-+55 13 3213-6670<br/>

@@ -12,7 +12,7 @@ Public Class CotacaoPDF_PT
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_TIPO_ESTUFAGEM,
+        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_TIPO_ESTUFAGEM,OB_CLIENTE,
 A.NR_COTACAO,
 CONVERT(VARCHAR,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 (SELECT NM_TIPO_FREQUENCIA FROM TB_TIPO_FREQUENCIA WHERE ID_TIPO_FREQUENCIA = A.ID_TIPO_FREQUENCIA)NM_TIPO_FREQUENCIA,
@@ -115,6 +115,10 @@ FROM  TB_COTACAO A
                 lblM3.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_M3").ToString
             End If
 
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
+                lblObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString
+            End If
+
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO")) Then
                 lblPesoTaxado.Text = ds.Tables(0).Rows(0).Item("VL_PESO_TAXADO").ToString
             End If
@@ -212,6 +216,7 @@ FROM  TB_COTACAO A
             lblOrigem.Text = SubstituiCaracteresEspeciais(lblOrigem.Text)
             lblTitulo.Text = SubstituiCaracteresEspeciais(lblTitulo.Text)
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
+            lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
 
             TAXAS()
         End If

@@ -67,7 +67,7 @@ WHERE GRAU = 'C' AND ID_CONTA_PAGAR_RECEBER =  (SELECT ID_CONTA_PAGAR_RECEBER FR
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,
 
-VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES
+VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES,VL_ISS
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & ID & " )")
 
@@ -76,12 +76,13 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
 
                         Dim tabela As String = " <br/><table style='font-family:Arial;font-size:10px;'><tr>"
                         tabela &= "<th style='padding-right:10px'>Taxa</th>"
-                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valores R$</th></tr>"
+                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valores R$</th>"
+                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>ISS</th></tr>"
 
                         For Each linha As DataRow In dsTaxas.Tables(0).Rows
                             tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
-                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
-
+                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td>"
+                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_ISS") & "</td></tr>"
                             valores = valores + linha("VALORES")
 
 

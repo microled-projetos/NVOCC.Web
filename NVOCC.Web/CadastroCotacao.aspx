@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" Inherits="NVOCC.Web.CadastroCotacao" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastroCotacao.aspx.vb" EnableEventValidation="true" Inherits="NVOCC.Web.CadastroCotacao" %> 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
        <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -338,20 +338,20 @@
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Cliente:</label>
-                                        <asp:TextBox ID="txtObsCliente" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCliente" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Operacional:</label>
-                                        <asp:TextBox ID="txtObsOperacional" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsOperacional" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
                                 
                                 <div class="col-sm-4" >
                                     <div class="form-group">
                                         <label class="control-label">Obs Motivo Cancelamento:</label>
-                                        <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>                                          
@@ -427,14 +427,14 @@
                                    <div class="col-sm-8">
                                     <div class="form-group">
                                         <label class="control-label">Transportador:</label>
-                                        <asp:DropDownList ID="ddlTransportadorFrete" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlTransportadorFrete" runat="server"  CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="Descricao" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                     </div>
                                 </div></div>
                                             <div class="row">
                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Porto de Origem:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlOrigemFrete" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                         <asp:DropDownList ID="ddlOrigemFrete" runat="server"  CssClass="form-control" AutoPostBack="true" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -636,6 +636,8 @@
             <asp:AsyncPostBackTrigger  ControlID="ddlFreteTransportador_Frete" />
             <asp:AsyncPostBackTrigger  ControlID="ddlRotaFrete" />
        <asp:AsyncPostBackTrigger  ControlID="txtTTimeFreteFinal" />
+          <asp:AsyncPostBackTrigger  ControlID="ddlOrigemFrete" />      
+    <asp:AsyncPostBackTrigger  ControlID="ddlTransportadorFrete" />
      </Triggers>  
      </asp:UpdatePanel>
              </asp:Panel>
@@ -746,7 +748,7 @@
                                      <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Tipo de Container:</label><asp:label Visible="false" runat="server" ID="RedContainer" style="color:red" >*</asp:label>
-                                         <asp:DropDownList ID="ddlTipoContainerMercadoria" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
+                                         <asp:DropDownList ID="ddlTipoContainerMercadoria" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CONTAINER" DataSourceID="dsContainer" DataValueField="ID_TIPO_CONTAINER">
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -891,6 +893,7 @@
                 <asp:AsyncPostBackTrigger  ControlID="ddlEstufagem" />
 <asp:AsyncPostBackTrigger  ControlID="txtFreteVendaMercadoriaUnitario" />    
     <asp:AsyncPostBackTrigger  ControlID="txtQtdContainerMercadoria" />
+        <asp:AsyncPostBackTrigger  ControlID="ddlTipoContainerMercadoria" />
     <asp:AsyncPostBackTrigger  ControlID="txtFreteCompraMercadoriaUnitario" /> 
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarMercadoria" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharMercadoria" />

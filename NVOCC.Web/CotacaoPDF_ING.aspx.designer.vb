@@ -302,6 +302,15 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblTotalFinal As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblObsCliente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblObsCliente As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblAnalista.
     '''</summary>
     '''<remarks>
