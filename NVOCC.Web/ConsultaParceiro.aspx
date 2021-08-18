@@ -39,7 +39,7 @@
                                             <asp:ListItem Value="1">CNPJ</asp:ListItem>
                                             <asp:ListItem Value="3">CPF</asp:ListItem>
                                             <asp:ListItem Value="2">Razão Social</asp:ListItem>
-
+                                            <asp:ListItem Value="4">Apelido</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>

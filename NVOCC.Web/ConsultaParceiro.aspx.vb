@@ -110,7 +110,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
             txtConsulta.Text = ""
             divPesquisa.Visible = True
             txtConsulta.CssClass = "form-control cnpj"
-        ElseIf ddlConsulta.SelectedValue = 2 Then
+        ElseIf ddlConsulta.SelectedValue = 2 Or ddlConsulta.SelectedValue = 4 Then
             txtConsulta.Text = ""
             divPesquisa.Visible = True
             txtConsulta.CssClass = "form-control"
@@ -149,44 +149,22 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
                 Else
                     msgerro.Text = "CPF é composto de 11 caracteres."
                 End If
-            Else
+            ElseIf ddlConsulta.SelectedValue = 2 Then
                 FILTRO = " WHERE NM_RAZAO LIKE '%" & txtConsulta.Text & "%' "
+                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                dgvParceiros.DataBind()
+
+            ElseIf ddlConsulta.SelectedValue = 4 Then
+                FILTRO = " WHERE NM_FANTASIA LIKE '%" & txtConsulta.Text & "%' "
                 dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
                 dgvParceiros.DataBind()
             End If
         End If
     End Sub
     Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
-        msgerro.Text = ""
-        Dim FILTRO As String = ""
 
-        If txtConsulta.Text = "" Then
-            dsParceiros.SelectCommand = "Select ID_PARCEIRO As Id, CNPJ, NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
-            dgvParceiros.DataBind()
-        Else
-            If ddlConsulta.SelectedValue = 1 Then
-                If Len(txtConsulta.Text) = 18 Then
-                    FILTRO = " WHERE CNPJ = '" & txtConsulta.Text & "'"
-                    dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
-                    dgvParceiros.DataBind()
-                Else
-                    msgerro.Text = "CNPJ é composto de 14 caracteres."
-                End If
+        AtualizaGrid()
 
-            ElseIf ddlConsulta.SelectedValue = 3 Then
-                If Len(txtConsulta.Text) = 14 Then
-                    FILTRO = " WHERE CPF = '" & txtConsulta.Text & "'"
-                    dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
-                    dgvParceiros.DataBind()
-                Else
-                    msgerro.Text = "CPF é composto de 11 caracteres."
-                End If
-            Else
-                FILTRO = " WHERE NM_RAZAO LIKE '%" & txtConsulta.Text & "%' "
-                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
-                dgvParceiros.DataBind()
-            End If
-        End If
 
     End Sub
 
