@@ -14,6 +14,7 @@
                         <div class="oFunc">
                             <button type="button" id="btnPagamentosRecebimentos" class="btn" data-toggle="modal" onclick="PagamentosRecebimentos()">Pagamentos e Recebimentos</button> 
                             <button type="button" id="btnEstimativaPagamentosRecebimentos" class="btn" data-toggle="modal" onclick="EstimativaPagamentosRecebimentos()">Estimativa Pagamentos e Recebimentos</button> 
+                            <button type="button" id="btnRelacaoCotacao" class="btn" data-toggle="modal" onclick="RelacaoCotacao()">Relação Cotações</button> 
                         </div>
                     </div>                    
                     <div class="modal fade bd-example-modal-xl" id="modalPagamentoRecebimento" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -170,6 +171,83 @@
                                             </tr>
                                         </thead>
                                         <tbody id="grdEstimativaPagamentoRecebimentoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade bd-example-modal-xl" id="modalRelacaoCotacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalRelacaoCotacaoTitle">Relação Cotação</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" style="display: flex; margin:auto; margin-top:10px;">
+                                        <div style="margin: auto">
+                                            <button type="button" id="btnExportRelacaoCotacao" class="btn btn-primary" onclick="exportRelacaoCotacaoCSV('Relacao_Cotacao.csv')">Exportar Grid - CSV</button>
+                                            <button type="button" id="btnPrintRelacaoCotacao" class="btn btn-primary" onclick="PrintRelacaoCotacao()">Imprimir</button>
+                                        </div>
+                                    </div>
+                                    <div class="row flexdiv topMarg">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Inicial:</label>
+                                                <input id="txtDtInicialRelacaoCotacao" class="form-control" type="date" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Data Final:</label>
+                                                <input id="txtDtFinalRelacaoCotacao" class="form-control" type="date" required="required"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Filtro</label>
+                                                <select id="ddlFilterRelacaoCotacao" class="form-control">
+                                                    <option value="">Selecione</option>
+                                                    <option value="1">Vendedor</option>
+                                                    <option value="2">Inside</option>
+                                                    <option value="3">Cliente</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">*</label>
+                                                <input id="txtRelacaoCotacao" class="form-control" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btnConsultarRelacaoCotacao" onclick="RelacaoCotacao()" class="btn btn-primary">Consultar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive fixedDoubleHead topMarg">
+                                    <table id="grdRelacaoCotacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">SOLICITAÇÃO</th>
+                                                <th class="text-center" scope="col">INSIDE</th>
+                                                <th class="text-center" scope="col">NR COTAÇÃO</th>
+                                                <th class="text-center" scope="col">MODAL</th>
+                                                <th class="text-center" scope="col">INCOTERM</th>
+                                                <th class="text-center" scope="col">CLIENTE</th>
+                                                <th class="text-center" scope="col">SUB CLIENTE</th>
+                                                <th class="text-center" scope="col">ORIGEM</th>
+                                                <th class="text-center" scope="col">DESTINO</th>
+                                                <th class="text-center" scope="col">VENDEDOR</th>
+                                                <th class="text-center" scope="col">STATUS DA COTAÇÃO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdRelacaoCotacaoBody">
 
                                         </tbody>
                                     </table>
@@ -593,6 +671,175 @@
                         }
                         else {
                             
+                        }
+                    }
+                })
+            } else {
+
+            }
+        }
+
+        function RelacaoCotacao() {
+            $("#modalRelacaoCotacao").modal('show');
+            var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
+            var dtFinal = document.getElementById("txtDtFinalRelacaoCotacao").value;
+            var nota = document.getElementById("txtRelacaoCotacao").value;
+            var filter = document.getElementById("ddlFilterRelacaoCotacao").value;
+            if (dtInicial != "" && dtFinal != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarRelacaoCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdRelacaoCotacaoBody").empty();
+                        $("#grdRelacaoCotacaoBody").append("<tr><td colspan='11'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        $("#grdRelacaoCotacaoBody").empty();
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                $("#grdRelacaoCotacaoBody").append("<tr><td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td><td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td><td class='text-center'>" + dado[i]["MODAL"] + "</td><td class='text-center'>" + dado[i]["INCOTERM"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["SUB_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td></tr>");
+                            }
+                        }
+                        else {
+                            $("#grdRelacaoCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='11' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
+                    }
+                })
+            } else {
+
+            }
+        }
+
+        function exportRelacaoCotacaoCSV(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("#grdRelacaoCotacao tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#grdRelacaoCotacao td, #grdRelacaoCotacao th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            // Download CSV file
+            exportTableToCSVRelacaoCotacao(csv.join("\n"), filename);
+        }
+
+        function exportTableToCSVRelacaoCotacao(csv, filename) {
+            var csvFile;
+
+            var downloadLink;
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            // Download link
+            downloadLink = document.createElement("a");
+            // File name
+            downloadLink.download = filename;
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            // Hide download link
+            downloadLink.style.display = "none";
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+            // Click download link
+            downloadLink.click();
+        }
+
+        function PrintRelacaoCotacao() {
+            $("#modalRelacaoCotacao").modal('show');
+            var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
+            var dtFinal = document.getElementById("txtDtFinalRelacaoCotacao").value;
+            var nota = document.getElementById("txtRelacaoCotacao").value;
+            var filter = document.getElementById("ddlFilterRelacaoCotacao").value;
+            var position = 5;
+            var positionLineF = 6;
+            if (dtInicial != "" && dtFinal != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarRelacaoCotacao",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            var doc = new jsPDF('l');
+                            doc.setFontSize(7);
+                            doc.setFontStyle("bold");
+                            doc.text("SOLICITAÇÃO", 5, 5);
+                            doc.setLineWidth(0.2);
+                            doc.line(4, 2, 295, 2);
+                            doc.line(4, 2, 4, 6);
+                            doc.line(4, 6, 295, 6);
+                            doc.line(295, 2, 295, 6);
+
+                            doc.line(25, 2, 25, 6);
+                            doc.line(48, 2, 48, 6);
+                            doc.line(68, 2, 68, 6);
+                            doc.line(81, 2, 81, 6);
+                            doc.line(98, 2, 98, 6);
+                            doc.line(183, 2, 183, 6);
+                            doc.line(213, 2, 213, 6);
+                            doc.line(229, 2, 229, 6);
+                            doc.line(243, 2, 243, 6);
+                            doc.line(268, 2, 268, 6);
+
+                            doc.text("INSIDE", 27, 5);
+                            doc.text("NR COTAÇÃO", 50, 5);
+                            doc.text("MODAL", 70, 5);
+                            doc.text("INCOTERM", 83, 5);
+                            doc.text("CLIENTE", 100, 5);
+                            doc.text("SUB CLIENTE", 185, 5);
+                            doc.text("ORIGEM", 215, 5);
+                            doc.text("DESTINO", 231, 5);
+                            doc.text("VENDEDOR", 245, 5);
+                            doc.text("STATUS COTAÇÃO", 270, 5);
+                            for (let i = 0; i < dado.length; i++) {
+                                positionLineF = positionLineF + 5;
+                                position = position + 5;
+                                doc.line(4, positionLineF, 295, positionLineF);
+                                doc.setFontStyle("normal");
+                                doc.text(dado[i]["SOLICITACAO"], 5, position);
+                                doc.text(dado[i]["INSIDE"], 27, position);
+                                doc.text(dado[i]["NR_COTACAO"], 50, position);
+                                doc.text(dado[i]["MODAL"].substring(0, 15), 70, position);
+                                doc.text(dado[i]["INCOTERM"].substring(0, 15), 83, position);
+                                doc.text(dado[i]["CLIENTE"], 100, position);
+                                doc.text(dado[i]["SUB_CLIENTE"], 185, position);
+                                doc.text(dado[i]["ORIGEM"], 215, position);
+                                doc.text(dado[i]["DESTINO"], 231, position);
+                                doc.text(dado[i]["VENDEDOR"].substring(0, 15), 245, position);
+                                doc.text(dado[i]["STATUS_COTACAO"].substring(0, 15), 270, position);
+                            }
+                            doc.line(4, 6, 4, positionLineF);
+                            doc.line(25, 6, 25, positionLineF);
+                            doc.line(48, 6, 48, positionLineF);
+                            doc.line(68, 6, 68, positionLineF);
+                            doc.line(81, 6, 81, positionLineF);
+                            doc.line(98, 6, 98, positionLineF);
+                            doc.line(183, 6, 183, positionLineF);
+                            doc.line(213, 6, 213, positionLineF);
+                            doc.line(229, 6, 229, positionLineF);
+                            doc.line(243, 6, 243, positionLineF);
+                            doc.line(268, 6, 268, positionLineF);
+                            doc.line(295, 6, 295, positionLineF);
+                            doc.line(4, positionLineF, 295, positionLineF);
+                            doc.output("dataurlnewwindow");
+                        }
+                        else {
+
                         }
                     }
                 })

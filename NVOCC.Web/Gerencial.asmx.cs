@@ -1171,180 +1171,21 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT PATHDOCUMENTOS FROM TB_AVISOPARAM WHERE IDTIPOAVISOPARAM=1 ";
             string PathDocumentos = DBS.ExecuteScalar(SQL);
-           // string path = PathDocumentos;
-            //if (Directory.Exists(path) == false)
-            //{
-            //    return "0";
-            //}
-            //else
-            //{
-            //    return "1";
-            //}
             string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
             if (Directory.Exists(path) == false)
             {
-                return path;
-            }
-            else
-            {
-                return path;
-            }
-        }
-
-        [HttpPost]
-        [WebMethod]
-        public string criarDiretorio()
-        {
-            string SQL;
-            HttpFileCollection Files = HttpContext.Current.Request.Files;
-            string idprocesso = HttpContext.Current.Request.Form["id"];
-            string tipoaviso = HttpContext.Current.Request.Form["tipoaviso"];
-            string path = System.Web.Hosting.HostingEnvironment.MapPath("~/UPLOADS/");
-            HttpPostedFile File = Files[0];
-            string fileName = File.FileName;
-
-
-            SQL = "SELECT IDTIPOAVISO, TPPROCESSO FROM TB_TIPOAVISO WHERE IDTIPOAVISO = '" + tipoaviso + "' ";
-            DataTable listTable = new DataTable();
-            listTable = DBS.List(SQL);
-            string tipoprocesso = listTable.Rows[0]["TPPROCESSO"].ToString();
-            string idtipoaviso = listTable.Rows[0]["IDTIPOAVISO"].ToString();
-
-            SQL = "SELECT B.NM_TIPO_ESTUFAGEM, D.NM_VIATRANSPORTE, ";
-            SQL += "A.DT_PREVISAO_EMBARQUE, A.DT_PREVISAO_CHEGADA ";
-            SQL += "from TB_BL A ";
-            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM B ON A.ID_TIPO_ESTUFAGEM = B.ID_TIPO_ESTUFAGEM ";
-            SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
-            SQL += "LEFT JOIN TB_VIATRANSPORTE D ON C.ID_VIATRANSPORTE = D.ID_VIATRANSPORTE ";
-            SQL += "WHERE A.ID_BL = '" + idprocesso + "' ";
-            DataTable verifica = new DataTable();
-            verifica = DBS.List(SQL);
-            string tipoEstufagem = verifica.Rows[0]["NM_TIPO_ESTUFAGEM"].ToString();
-            string viatransporte = verifica.Rows[0]["NM_VIATRANSPORTE"].ToString();
-            string previsaoEmbarque = verifica.Rows[0]["DT_PREVISAO_EMBARQUE"].ToString();
-            string previsaoChegada = verifica.Rows[0]["DT_PREVISAO_CHEGADA"].ToString();
-
-            if (listTable.Rows[0]["TPPROCESSO"].ToString() == "P")
-            {
-
-                SQL = "SELECT M.NR_BL as NRMASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idprocesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string diretorio = path+"20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
-
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-
-                File.SaveAs(Path.Combine(diretorio, fileName));
-                
                 return JsonConvert.SerializeObject("0");
             }
             else
             {
-                SQL = "SELECT M.NR_BL as BL_MASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idprocesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string blmaster = listTable2.Rows[0]["BL_MASTER"].ToString();
-                string diretorio = path+"20" + anoH + "\\" + mesH + "\\MASTER-" + blmaster + "\\";
-
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-
-                File.SaveAs(Path.Combine(diretorio, fileName));
-
-                return JsonConvert.SerializeObject("0");
+                return JsonConvert.SerializeObject("1");
             }
         }
-            /*string SQL;
-            string result;
-            SQL = "SELECT IDTIPOAVISO, TPPROCESSO FROM TB_TIPOAVISO WHERE IDTIPOAVISO = '" + tipoaviso + "' ";
-            DataTable listTable = new DataTable();
-            listTable = DBS.List(SQL);
-            string tipoprocesso = listTable.Rows[0]["TPPROCESSO"].ToString();
-            string idtipoaviso = listTable.Rows[0]["IDTIPOAVISO"].ToString();
 
-            SQL = "SELECT B.NM_TIPO_ESTUFAGEM, D.NM_VIATRANSPORTE, ";
-            SQL += "A.DT_PREVISAO_EMBARQUE, A.DT_PREVISAO_CHEGADA ";
-            SQL += "from TB_BL A ";
-            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM B ON A.ID_TIPO_ESTUFAGEM = B.ID_TIPO_ESTUFAGEM ";
-            SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
-            SQL += "LEFT JOIN TB_VIATRANSPORTE D ON C.ID_VIATRANSPORTE = D.ID_VIATRANSPORTE ";
-            SQL += "WHERE A.ID_BL = '" + idProcesso + "' ";
-            DataTable verifica = new DataTable();
-            verifica = DBS.List(SQL);
-            string tipoEstufagem = verifica.Rows[0]["NM_TIPO_ESTUFAGEM"].ToString();
-            string viatransporte = verifica.Rows[0]["NM_VIATRANSPORTE"].ToString();
-            string previsaoEmbarque = verifica.Rows[0]["DT_PREVISAO_EMBARQUE"].ToString();
-            string previsaoChegada = verifica.Rows[0]["DT_PREVISAO_CHEGADA"].ToString();
-
-            *//*if(idtipoaviso == "2" && tipoEstufagem != "LCL"){
-                result = "1";
-                return JsonConvert.SerializeObject(result);
-            } else if (idtipoaviso == "3" && viatransporte != "Aérea" || previsaoChegada == "" || previsaoEmbarque == "" ) {
-                result = "1";
-                return JsonConvert.SerializeObject(result);
-            }*//*
-
-
-
-            if (listTable.Rows[0]["TPPROCESSO"].ToString() == "P")
-            {
-
-                SQL = "SELECT M.NR_BL as NRMASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
-                string documentos = "C:\\UPLOADS\\" + path + "";
-                string docup = "C:\\UPLOADS\\";
-                if (Directory.Exists(docup) == false)
-                {
-                    return JsonConvert.SerializeObject("1");
-                }
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-                
-                File.Copy(documentos, diretorio + path, true);
-            }
-            else
-            {
-                SQL = "SELECT M.NR_BL as BL_MASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string blmaster = listTable2.Rows[0]["BL_MASTER"].ToString();
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\MASTER-"+blmaster+"\\";
-                string documentos = "C:\\UPLOADS\\" + path+"";
-                string docup = "C:\\UPLOADS\\";
-                if (Directory.Exists(docup) == false)
-                {
-                    return JsonConvert.SerializeObject("1");
-                }
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-                
-                File.Copy(documentos, diretorio + path, true);
-            }
-            result = "0";*/
-            
         [WebMethod]
         public string uploadArquivo(string idprocesso, string iddocumento, string arquivo, string idtipoaviso)
         {
-            string path = System.Web.Hosting.HostingEnvironment.MapPath("~/UPLOADS/"); /* HttpContext.Current.Server.MapPath("~/UPLOADS/");*/
+            string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
             string SQL;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");

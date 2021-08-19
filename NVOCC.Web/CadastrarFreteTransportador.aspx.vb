@@ -791,15 +791,26 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
     End Sub
     Sub ImportaTaxas()
+        divDeleteTaxas.Visible = False
+        divDeleteErro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Dim ID_PORTO As String
+        If ddlComex.SelectedValue = 1 Then
+            'COMEX = 1 (IMPORTAÇÃO)
+            ID_PORTO = ddlDestino.SelectedValue
+        ElseIf ddlComex.SelectedValue = 2 Then
+            'COMEX = 2 (EXPORTAÇÃO)
+            ID_PORTO = ddlOrigem.SelectedValue
+        End If
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR,ID_ITEM_DESPESA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ddlDestino.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & " AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text & "  )")
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR,ID_ITEM_DESPESA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & " AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text & "  )")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
                 Con.ExecutarQuery("INSERT INTO TB_TABELA_FRETE_TAXA (ID_FRETE_TRANSPORTADOR,ID_ITEM_DESPESA,VL_TAXA_COMPRA,ID_MOEDA_COMPRA,ID_BASE_CALCULO_TAXA,ID_ORIGEM_PAGAMENTO)   
-SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ddlDestino.SelectedValue & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & " AND ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
+SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & " AND ID_TAXA_LOCAL_TRANSPORTADOR = " & linha.Item("ID_TAXA_LOCAL_TRANSPORTADOR"))
 
             Next
             divDeleteTaxas.Visible = True

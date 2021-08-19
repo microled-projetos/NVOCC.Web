@@ -35,11 +35,39 @@ WHERE A.ID_STATUS_COTACAO = 8")
         divSuccess.Visible = False
         divErro.Visible = False
         If e.CommandName = "Selecionar" Then
-            If txtlinha.Text <> "" Then
-                'dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Black
-                dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
+            'If txtlinha.Text <> "" Then
+            '    'dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Black
+            '    dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
 
-            End If
+            'End If
+            'Dim ID As String = e.CommandArgument
+
+
+            'txtID.Text = ID.Substring(0, ID.IndexOf("|"))
+
+            'txtlinha.Text = ID.Substring(ID.IndexOf("|"))
+            'txtlinha.Text = txtlinha.Text.Replace("|", "")
+
+
+            'For i As Integer = 0 To dgvCotacao.Rows.Count - 1
+            '    'dgvCotacao.ForeColor = System.Drawing.Color.Black
+            '    dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
+
+            'Next
+
+            ''dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Red
+            'dgvCotacao.Rows(txtlinha.Text).CssClass = "selected1"
+
+
+
+
+
+
+
+            For i As Integer = 0 To dgvCotacao.Rows.Count - 1
+                dgvCotacao.Rows(i).CssClass = "Normal"
+
+            Next
             Dim ID As String = e.CommandArgument
 
 
@@ -48,15 +76,13 @@ WHERE A.ID_STATUS_COTACAO = 8")
             txtlinha.Text = ID.Substring(ID.IndexOf("|"))
             txtlinha.Text = txtlinha.Text.Replace("|", "")
 
-
-            For i As Integer = 0 To dgvCotacao.Rows.Count - 1
-                'dgvCotacao.ForeColor = System.Drawing.Color.Black
-                dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
-
-            Next
-
-            'dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Red
+            If txtlinha.Text > 100 Then
+                txtlinha.Text = txtlinha.Text.Substring(1)
+            End If
             dgvCotacao.Rows(txtlinha.Text).CssClass = "selected1"
+
+
+
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -1770,13 +1796,17 @@ SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGE
  THEN (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & ") 
  WHEN ID_DESTINATARIO_COBRANCA = 0 
  THEN (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & ") 
+ WHEN ID_DESTINATARIO_COBRANCA = 1
+ THEN (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & ") 
  ELSE (SELECT ID_PARCEIRO_IMPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & ") 
  END ID_PARCEIRO_EMPRESA,
  
 CASE 
 WHEN ID_DESTINATARIO_COBRANCA IS NULL 
-THEN 1 WHEN ID_DESTINATARIO_COBRANCA = 0 
-THEN 1 ELSE ID_DESTINATARIO_COBRANCA 
+THEN 1 
+WHEN ID_DESTINATARIO_COBRANCA = 0 
+THEN 1 
+ELSE ID_DESTINATARIO_COBRANCA 
 END ID_DESTINATARIO_COBRANCA 
 
 from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND  ID_COTACAO = " & txtID.Text)

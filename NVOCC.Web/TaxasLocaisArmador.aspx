@@ -44,7 +44,7 @@
 
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Porto de Destino:</label><label runat="server" style="color:red" >*</label>
+                                        <label class="control-label">Porto:</label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlPortoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
                                 <div class="col-sm-4">

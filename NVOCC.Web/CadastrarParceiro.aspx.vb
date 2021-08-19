@@ -139,8 +139,7 @@ WHERE ID_PARCEIRO =" & ID)
                 txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP").ToString()
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR")) Then
-                    txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
-                    ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+
                     If ds.Tables(0).Rows(0).Item("ID_VENDEDOR") <> 0 Then
 
 
@@ -148,10 +147,16 @@ WHERE ID_PARCEIRO =" & ID)
                         If dsVendedor.Tables(0).Rows(0).Item("QTD") = 0 Then
                             msgErro.Text = "Atualização Cadastral Pendente: Necessário cadastrar um vendedor valido para este parceiro!"
                             divmsg1.Visible = True
+                            txtID_Vendedor.Text = 0
+                            ddlVendedor.SelectedValue = 0
                         Else
+                            txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                            ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
                             divmsg1.Visible = False
                         End If
                     Else
+                        txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                        ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
                         divmsg1.Visible = False
                     End If
                 End If
@@ -293,7 +298,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbShipper.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True

@@ -114,12 +114,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
-        var data = new Date();
-        var dia = String(data.getDate()).padStart(2, '0');
-        var mes = String(data.getMonth() + 1).padStart(2, '0');
-        var ano = data.getFullYear();
-        document.getElementById("txtDtEmissaoInicialDebit").value = '2021-07-12';
-        document.getElementById("txtDtEmissaoFinalDebit").value = dataAtual = ano + '-' + mes + '-' + dia;
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        var currentDate = new Date();
+        var yesterday = new Date();
+
+        yesterday.setDate(yesterday.getDate() - 1);
+        currentDate.setDate(currentDate.getDate());
+
+        var diaSemana = yesterday.getDay();
+
+        switch (diaSemana) {
+            case "0":
+                yesterday.setDate(yesterday.getDate() - 2);
+                document.getElementById("txtDtEmissaoInicialDebit").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalDebit").value = formatDate(currentDate);
+                break;
+            case "6":
+                yesterday.setDate(yesterday.getDate() - 1);
+                document.getElementById("txtDtEmissaoInicialDebit").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalDebit").value = formatDate(currentDate);
+            default:
+                document.getElementById("txtDtEmissaoInicialDebit").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalDebit").value = formatDate(currentDate);
+                break;
+        }
+
 
         function TOTVSInvDebit() {
             $("#modalInvDebit").modal("show");

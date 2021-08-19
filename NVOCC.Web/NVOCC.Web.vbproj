@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web(13082021)2\PUBLICACAO3\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web\PUBLICACAO 2\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -385,6 +385,7 @@
     <Content Include="Faturamento.aspx" />
     <Content Include="FaturarRecebimento.aspx" />
     <Content Include="FechamentoCambio.aspx" />
+    <Content Include="FileUpload.ashx.cs" />
     <Content Include="Filtro.cs" />
     <Content Include="FiltroModuloOperacional.cs" />
     <Content Include="Financeiro.aspx" />
@@ -511,6 +512,7 @@
     <Content Include="Content\chart.js-3.2.0\package\package.json" />
     <Content Include="Content\chart.js-3.2.0\package\README.md" />
     <Content Include="Content\boletos\boleto1.pdf" />
+    <Content Include="FileUpload.ashx" />
     <None Include="Web References\NotaFiscal\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
@@ -861,6 +863,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EMAIL.vb" />
+    <Compile Include="Helpers\TrataTextbox.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />
     <Compile Include="Helpers\CalculaBL.vb" />

@@ -21,13 +21,13 @@
                             <div class="row topMarg">
                                 <div class="row">
                                     <div class="alert alert-danger text-center" id="msgErrExportPACli">
-                                        Não há dados para exportar CLI.
+                                        Não há dados para exportar FORNEC.
                                     </div>
                                     <div class="alert alert-danger text-center" id="msgErrExportPARec">
                                         Não há dados para exportar REC.
                                     </div>
-                                        <div class="alert alert-success text-center" id="msgSuccessPAFornec">
-                                        Tabela Despesa CLI exportada com sucesso.
+                                    <div class="alert alert-success text-center" id="msgSuccessPAFornec">
+                                        Tabela Despesa FORNEC exportada com sucesso.
                                     </div>
                                     <div class="alert alert-success text-center" id="msgSuccessPARec">
                                         Tabela Despesa REC exportada com sucesso.
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('CLI_FCA.csv','NOTA_FCA.csv','NOTITE_FCA.csv','REC_FCA.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('FORNEC_FCA.csv','REC_FCA.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -114,12 +114,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
-        var data = new Date();
-        var dia = String(data.getDate()).padStart(2, '0');
-        var mes = String(data.getMonth() + 1).padStart(2, '0');
-        var ano = data.getFullYear();
-        document.getElementById("txtDtEmissaoInicialPA").value = '2021-07-12';
-        document.getElementById("txtDtEmissaoFinalPA").value = dataAtual = ano + '-' + mes + '-' + dia;
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        }
+
+        var currentDate = new Date();
+        var yesterday = new Date();
+
+        yesterday.setDate(yesterday.getDate() - 1);
+        currentDate.setDate(currentDate.getDate());
+
+        var diaSemana = yesterday.getDay();
+
+        switch (diaSemana) {
+            case "0":
+                yesterday.setDate(yesterday.getDate() - 2);
+                document.getElementById("txtDtEmissaoInicialPA").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalPA").value = formatDate(currentDate);
+                break;
+            case "6":
+                yesterday.setDate(yesterday.getDate() - 1);
+                document.getElementById("txtDtEmissaoInicialPA").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalPA").value = formatDate(currentDate);
+            default:
+                document.getElementById("txtDtEmissaoInicialPA").value = formatDate(yesterday);
+                document.getElementById("txtDtEmissaoFinalPA").value = formatDate(currentDate);
+                break;
+        }
 
         function TOTVSPA() {
             $("#modalPA").modal("show");
@@ -142,7 +173,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#grdPABody").empty();
-                    $("#grdPABody").append("<tr><td colspan='9'><div class='loader'></div></td></tr>");
+                    $("#grdPABody").append("<tr><td colspan='10'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -157,13 +188,13 @@
                         }
                     }
                     else {
-                        $("#grdPABody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='9' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        $("#grdPABody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='10' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                     }
                 }
             })
         }
 
-        function exportTableToCSVPA(fornec, recf) {
+        function exportTableToCSVPA(fornecf, recf) {
             var exporta = document.getElementById("todosPA");
             var dataI = document.getElementById("txtDtEmissaoInicialPA").value;
             var dataF = document.getElementById("txtDtEmissaoFinalPA").value;
@@ -195,7 +226,7 @@
             })
         }
 
-        function PAFornec() {
+        function PAFornec(dataI, dataF, situacao, nota, filter, fornecf, recf) {
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPAFORNEC",
@@ -219,10 +250,10 @@
             })
         }
 
-        function PAREC(dataI, dataF) {
+        function PAREC(dataI, dataF, situacao, nota, filter, fornec, fornecf, recf) {
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSInvCreditREC",
+                url: "DemurrageService.asmx/listarTOTVSPAREC",
                 data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -230,7 +261,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var rec = [["E1_PREFIXO;E1_NUM;E1_PARCELA;E1_TIPO;E1_NATUREZ;E1_CLIENTE;E1_LOJA;E1_EMISSAO;E1_VENCTO;E1_VENCREA;E1_VALOR;E1_IRRF;E1_ISS;E1_HIST;E1_INSS;E1_COFINS;E1_CSLL;E1_PIS;E1_CONTROL;E1_ITEMCTA;E1_XPROD"]];
+                        var rec = [["E2_FILIAL;E2_PREFIXO;E2_NUM;E2_PARCELA;E2_TIPO;E2_FORNECE;E2_LOJA;E2_NATUREZ;E2_EMISSAO;E2_VENCTO;E2_VENCREA;E2_VALOR;E2_HIST;E2_ITEMCTA;E2_USERS;E2_XPROD"]];
                         for (let i = 0; i < dado.length; i++) {
                             rec.push([dado[i]]);
                         }
@@ -243,7 +274,7 @@
             })
         }
 
-        function updateContaPagarReceberPA() {
+        function updateContaPagarReceberPA(dataI, dataF, situacao, nota, filter, fornec, rec, fornecf, recf) {
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/integrarTOTVSPA",
@@ -255,9 +286,9 @@
                     dado = $.parseJSON(dado);
                     if (dado == "ok") {
                         downloadCSVPA(fornec.join("\n"), rec.join("\n"), fornecf, recf)
-                        alert("sucesso");
+                        $("#msgSuccessPAFornec").fadeIn(500).delay(1000).fadeOut(500);
                     } else {
-                        alert("erro");
+                        msgSuccessPAFornec
                     }
                 }
             });
