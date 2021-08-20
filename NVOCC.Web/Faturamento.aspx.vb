@@ -158,7 +158,7 @@ Public Class Faturamento
                         divErro.Visible = True
                         Exit Sub
 
-                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 2 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 1 Then
                         lblmsgErro.Text = "Não foi possivel completar a ação: O tipo de faturamento do registro nao permite baixas pelo modulo atual!"
                         divErro.Visible = True
                         Exit Sub

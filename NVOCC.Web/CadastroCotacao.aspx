@@ -889,7 +889,8 @@
       
                                        </div>            
    </ContentTemplate>
-<Triggers>
+<Triggers>            <asp:AsyncPostBackTrigger  ControlID="btnSalvarFrete" />
+
                 <asp:AsyncPostBackTrigger  ControlID="ddlEstufagem" />
 <asp:AsyncPostBackTrigger  ControlID="txtFreteVendaMercadoriaUnitario" />    
     <asp:AsyncPostBackTrigger  ControlID="txtQtdContainerMercadoria" />
@@ -1622,9 +1623,9 @@ SELECT ID_AGENTE_INTERNACIONAL FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO
 UNION 
 SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO = @ID_COTACAO 
 UNION
-SELECT DISTINCT ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL))
-union SELECT 0, 'Selecione'  
-ORDER BY ID_PARCEIRO">
+SELECT DISTINCT ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_COTACAO = @ID_COTACAO AND ID_FORNECEDOR IS NOT NULL)) OR FL_PRESTADOR = 1 
+union SELECT 0, ' Selecione'  
+ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
         </SelectParameters>

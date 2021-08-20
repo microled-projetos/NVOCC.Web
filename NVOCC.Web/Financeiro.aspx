@@ -69,11 +69,11 @@
                           <asp:LinkButton ID="lkCalcularRecebimento" runat="server" CssClass="btn btnn btn-default btn-sm">Calcular Recebimento</asp:LinkButton>
                            <asp:LinkButton ID="lkEmissaoND" runat="server" CssClass="btn btnn btn-default btn-sm">Emitir ND</asp:LinkButton>
                             <asp:LinkButton ID="lkBaixaCancel_Receber" runat="server" CssClass="btn btnn btn-default btn-sm">Baixar/Cancelar</asp:LinkButton>
-                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm">Faturar Recebimento</asp:LinkButton></div>
+                           <asp:LinkButton ID="lkFaturar" runat="server" CssClass="btn btnn btn-default btn-sm">Enviar para faturamento</asp:LinkButton></div>
                                         </div>
                        
                  
-                       <div class="col-sm-4">
+                       <div class="col-sm-4" runat="server" visible="false">
                                       <asp:Label ID="Label5" runat="server">DEMONSTRATIVOS:</asp:Label><br />
                                         <div style="border: ridge 1px;">
 

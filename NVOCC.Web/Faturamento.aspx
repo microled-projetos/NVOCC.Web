@@ -187,7 +187,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixarFatura" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
 
                                     </div>
                                         </div>

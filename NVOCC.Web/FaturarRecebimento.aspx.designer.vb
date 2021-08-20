@@ -77,6 +77,15 @@ Partial Public Class FaturarRecebimento
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle rdStatus.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents rdStatus As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
     '''Controle btnPesquisa.
     '''</summary>
     '''<remarks>

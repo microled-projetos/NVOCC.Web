@@ -363,7 +363,7 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
                 If check.Checked Then
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                     Dim ItemDespesa As String = CType(linha.FindControl("lblItemDespesa"), Label).Text
-                    Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+                    Dim valor As Decimal = CType(linha.FindControl("lblValorBR"), Label).Text
 
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] A
 INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER

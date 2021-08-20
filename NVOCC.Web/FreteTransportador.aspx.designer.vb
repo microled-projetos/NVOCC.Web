@@ -203,15 +203,6 @@ Partial Public Class FreteTransportador
     Protected WithEvents ddlDestino As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle div1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle txtValidadeFinal.
     '''</summary>
     '''<remarks>

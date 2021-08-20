@@ -51,7 +51,7 @@
                             <div class="row" runat="server" id="divPesquisa" Visible="True" >                        
                                
                                 
-                                 <div class="col-sm-3">
+                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Via Transporte:</label>
                                            <asp:TextBox ID="txtViaTransporte" runat="server" style="display:none" CssClass="form-control" />
@@ -59,30 +59,30 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto Origem:</label>
                                         <asp:DropDownList ID="ddlOrigem" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Porto Destino:</label>
                                         <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                </div>
-                                 <div class="row" runat="server" id="div1" Visible="True" >       
-                                     <div class="col-sm-3">
+<%--                                </div>
+                                 <div class="row" runat="server" id="div1" Visible="True" >  --%>     
+                                     <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label">Validade Final:</label>
                                         <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
                                     </div>
                                 </div>
-                                             <div class="col-sm-4">
+                                             <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Transportador:</label>
                                         <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
                                     </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Agente:</label>
                                          <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>         </div>

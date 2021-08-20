@@ -169,6 +169,7 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
             txtID.Text = e.CommandArgument
             Page.MaintainScrollPositionOnPostBack = True
         End If
+        BUSCA()
 
     End Sub
 
