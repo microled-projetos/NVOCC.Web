@@ -31,7 +31,7 @@ Public Class GeraPDF
             Dim ms As New MemoryStream()
 
 
-            Dim Documento As New Document(PageSize.A4, 10, 10, 180, 90)
+            Dim Documento As New Document(PageSize.A4, 10, 10, 160, 90)
             Dim writer As PdfWriter = PdfWriter.GetInstance(Documento, fs)
             Dim writer1 As PdfWriter = PdfWriter.GetInstance(Documento, ms)
 
@@ -91,6 +91,16 @@ Public Class GeraPDF
             fs_.Close()
 
         Catch ex As Exception
+            'stamper.Close()
+
+            'reader.Close()
+
+            'Documento.Close()
+
+            'fs.Close()
+            'fs_.Close()
+
+
             Response.Write("erro: " & ex.Message)
         End Try
 

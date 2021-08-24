@@ -218,7 +218,10 @@ FROM  TB_COTACAO A
 
         ds = Con.ExecutarQuery("select ISNULL(TEXTO_COTACAO_PORTUGUES,'')TEXTO_COTACAO from TB_PARAMETROS")
         If ds.Tables(0).Rows.Count > 0 Then
-            lblTexto.Text = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
+            Dim texto As String = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
+            texto = SubstituiCaracteresEspeciais(texto)
+            divTexto.InnerHtml = "<div style='page-break-after: always;'></div>" & texto
+            'lblTexto.Text = texto
         End If
 
 
@@ -494,39 +497,75 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
 
     End Sub
 
-    Public Shared Function SubstituiCaracteresEspeciais(ByVal strline As String) As String
-
+    Public Shared Function SubstituiCaracteresEspeciais2(ByVal strline As String) As String
+        strline = strline.Replace("&"c, "e"c)
         strline = strline.Replace("ã", "a")
-            strline = strline.Replace("Ã"c, "A"c)
-            strline = strline.Replace("â"c, "a"c)
-            strline = strline.Replace("Â"c, "A"c)
-            strline = strline.Replace("á"c, "a"c)
-            strline = strline.Replace("Á"c, "A"c)
-            strline = strline.Replace("à"c, "a"c)
-            strline = strline.Replace("À"c, "A"c)
-            strline = strline.Replace("ç"c, "c"c)
-            strline = strline.Replace("Ç"c, "C"c)
-            strline = strline.Replace("é"c, "e"c)
-            strline = strline.Replace("É"c, "E"c)
-            strline = strline.Replace("Ê"c, "E"c)
-            strline = strline.Replace("ê"c, "e"c)
-            strline = strline.Replace("õ"c, "o"c)
-            strline = strline.Replace("Õ"c, "O"c)
-            strline = strline.Replace("ó"c, "o"c)
-            strline = strline.Replace("Ó"c, "O"c)
-            strline = strline.Replace("ô"c, "o"c)
-            strline = strline.Replace("Ô"c, "O"c)
-            strline = strline.Replace("ú"c, "u"c)
-            strline = strline.Replace("Ú"c, "U"c)
-            strline = strline.Replace("ü"c, "u"c)
-            strline = strline.Replace("Ü"c, "U"c)
-            strline = strline.Replace("í"c, "i"c)
-            strline = strline.Replace("Í"c, "I"c)
-            strline = strline.Replace("ª"c, "a"c)
-            strline = strline.Replace("º"c, "o"c)
-            strline = strline.Replace("°"c, "o"c)
-            strline = strline.Replace("&"c, "e"c)
-            Return strline
+        strline = strline.Replace("Ã"c, "A"c)
+        strline = strline.Replace("â"c, "a"c)
+        strline = strline.Replace("Â"c, "A"c)
+        strline = strline.Replace("á"c, "a"c)
+        strline = strline.Replace("Á"c, "A"c)
+        strline = strline.Replace("à"c, "a"c)
+        strline = strline.Replace("À"c, "A"c)
+        strline = strline.Replace("ç"c, "c"c)
+        strline = strline.Replace("Ç"c, "C"c)
+        strline = strline.Replace("é"c, "e"c)
+        strline = strline.Replace("É"c, "E"c)
+        strline = strline.Replace("Ê"c, "E"c)
+        strline = strline.Replace("ê"c, "e"c)
+        strline = strline.Replace("õ"c, "o"c)
+        strline = strline.Replace("Õ"c, "O"c)
+        strline = strline.Replace("ó"c, "o"c)
+        strline = strline.Replace("Ó"c, "O"c)
+        strline = strline.Replace("ô"c, "o"c)
+        strline = strline.Replace("Ô"c, "O"c)
+        strline = strline.Replace("ú"c, "u"c)
+        strline = strline.Replace("Ú"c, "U"c)
+        strline = strline.Replace("ü"c, "u"c)
+        strline = strline.Replace("Ü"c, "U"c)
+        strline = strline.Replace("í"c, "i"c)
+        strline = strline.Replace("Í"c, "I"c)
+        strline = strline.Replace("ª"c, "a"c)
+        strline = strline.Replace("º"c, "o"c)
+        strline = strline.Replace("°"c, "o"c)
+        Return strline
 
     End Function
+
+    Public Shared Function SubstituiCaracteresEspeciais(ByVal strline As String) As String
+        strline = strline.Replace("&", "e")
+        strline = strline.Replace("ã", "&atilde;")
+        strline = strline.Replace("Ã", "&Atilde;")
+        strline = strline.Replace("â", "&acirc;")
+        strline = strline.Replace("Â", "&Acirc;")
+        strline = strline.Replace("á", "&aacute;")
+        strline = strline.Replace("Á", "&Aacute;")
+        strline = strline.Replace("à", "&agrave;")
+        strline = strline.Replace("À", "&Agrave;")
+        strline = strline.Replace("ç", "&ccedil;")
+        strline = strline.Replace("Ç", "&Ccedil;")
+        strline = strline.Replace("é", "&eacute;")
+        strline = strline.Replace("É", "&Eacute;")
+        strline = strline.Replace("Ê", "&Ecirc;")
+        strline = strline.Replace("ê", "&ecirc;")
+        strline = strline.Replace("õ", "&otilde;")
+        strline = strline.Replace("Õ", "&Otilde;")
+        strline = strline.Replace("ó", "&oacute;")
+        strline = strline.Replace("Ó", "&Oacute;")
+        strline = strline.Replace("ô", "&ocirc;")
+        strline = strline.Replace("Ô", "&Ocirc;")
+        strline = strline.Replace("ú", "&uacute;")
+        strline = strline.Replace("Ú", "&Uacute;")
+        strline = strline.Replace("ü", "&uuml;")
+        strline = strline.Replace("Ü", "&Uuml;")
+        strline = strline.Replace("í", "&iacute;")
+        strline = strline.Replace("Í", "&Iacute;")
+        strline = strline.Replace("ª", "a")
+        strline = strline.Replace("º", "o")
+        strline = strline.Replace("°", "o")
+        strline = strline.Replace("•", "&bull;")
+        Return strline
+
+    End Function
+
 End Class

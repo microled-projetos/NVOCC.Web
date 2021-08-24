@@ -155,22 +155,22 @@
                                     <Columns>
                                         <asp:TemplateField>
 	                                        <ItemTemplate>                                                                
-		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select"
-                                Style="display: none;"></asp:LinkButton>
+		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select" CommandArgument='<%# Eval("id") %>'  Style="display: none;"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" ReadOnly="true" />
-                                        <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="false" />
+                                        <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="False" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_INICIAL"/>
                                         <asp:BoundField DataField="DT_VALIDADE_FINAL" HeaderText="Validade Final" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_FINAL" />
                                         <asp:BoundField DataField="PORTO_ORIGEM" HeaderText="Origem" ReadOnly="true" SortExpression="PORTO_ORIGEM" />
                                         <asp:BoundField DataField="PORTO_DESTINO" HeaderText="Destino" ReadOnly="true" SortExpression="PORTO_DESTINO" />
                                          <asp:BoundField DataField="Transportador" HeaderText="Transportador" ReadOnly="true" SortExpression="Transportador" />
                                         <asp:BoundField DataField="AGENTE" HeaderText="Agente" ReadOnly="true" SortExpression="AGENTE" />
-                                        <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />
+                                        <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />              
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME" Visible="False" HeaderText="FreeTime" ReadOnly="true" SortExpression="QT_DIAS_FREETIME" />      
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME_OUTROS" HeaderText="FreeTime(DRY/HC)" ReadOnly="true" SortExpression="QT_DIAS_FREETIME_OUTROS" />
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME_NOR" HeaderText="FreeTime(NOR)" ReadOnly="true" SortExpression="QT_DIAS_FREETIME_NOR" />
                                         <asp:BoundField DataField="QT_DIAS_TRANSITTIME_MEDIA" HeaderText="TTime(Média)" SortExpression="QT_DIAS_TRANSITTIME_MEDIA" />
-                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                         <asp:BoundField DataField="Ativo" HeaderText="Ativo" SortExpression="Ativo" ReadOnly="true"/>
                                         <asp:TemplateField ShowHeader="False" >
                                     <EditItemTemplate>
@@ -205,9 +205,7 @@
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT * FROM [View_FreteTransportador] order by ID DESC "
-        	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_INICIAL = @QT_DIAS_TRANSITTIME_INICIAL , QT_DIAS_TRANSITTIME_FINAL = @QT_DIAS_TRANSITTIME_FINAL , QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; 
-            
-            UPDATE [dbo].[TB_TARIFARIO_FRETE_TRANSPORTADOR] SET QT_DIAS_FREETIME = @QT_DIAS_FREETIME WHERE ID_FRETE_TRANSPORTADOR =  @Id AND ID_TARIFARIO_FRETE_TRANSPORTADOR = @ID_TARIFARIO_FRETE_TRANSPORTADOR "  >
+        	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; "  >
             <UpdateParameters>
             <asp:Parameter Name="Id" Type="Int32" />
             <asp:Parameter Name="ID_TARIFARIO_FRETE_TRANSPORTADOR" Type="Int32" />

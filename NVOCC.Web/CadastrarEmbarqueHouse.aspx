@@ -426,8 +426,9 @@
                                                         <asp:GridView ID="dgvCargaMaritimo" DataKeyNames="ID_CARGA_BL" DataSourceID="dsCargaMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
 
-                                                                <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
+                                                                <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" /> 
                                                                 <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
+                                                                <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                                 <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                                 <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                                 <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -1514,6 +1515,7 @@ VENDAS:
                                                     <Columns>
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
                                                         <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
+                                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                         <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -2471,6 +2473,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
+(SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
 ID_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
@@ -2485,7 +2488,9 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
     <asp:SqlDataSource ID="dsCargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
-(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,ID_MERCADORIA,
+(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
+(SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
+ID_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,

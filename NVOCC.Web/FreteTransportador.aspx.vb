@@ -42,6 +42,23 @@ Public Class FreteTransportador
 
         End If
 
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lkInserir.Visible = False
+            lkDuplicar.Visible = False
+        Else
+            lkInserir.Visible = True
+            lkDuplicar.Visible = True
+        End If
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lkInativar.Visible = False
+            lkRemover.Visible = False
+        Else
+            lkInativar.Visible = True
+            lkRemover.Visible = True
+        End If
         Con.Fechar()
     End Sub
 
