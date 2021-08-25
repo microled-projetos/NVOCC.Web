@@ -391,10 +391,27 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
+                                        <div class="alert alert-danger text-center" id="msgErrTabelaDemurrage">
+                                            Erro ao cadastrar/atualizar.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessTabelaDemurrage">
+                                            Registro cadastrado/atualizado com sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgExistsTabelaDemurrage">
+                                            Registro já existente.
+                                        </div>
+                                        <div class="alert alert-success text-center" id="msgSuccesDeleteDemurrage">
+                                            Tabela deletada com sucesso.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrDeleteDemurrage">
+                                            Erro ao deletar tabela.
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">ARMADOR</label>
-                                                <asp:DropDownList ID="ddlfiltroTabelaDemu" runat="server" CssClass="form-control" DataTextField="NM_RAZAO" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                <select id="ddlfiltroTabelaDemu" class="form-control" ></select>
                                             </div>
                                         </div>
                                     </div>
@@ -1272,6 +1289,8 @@
     <script> 
     </script>
     <script>
+        var armadortabela;
+        var armadorT = 0;
         var id = 0;
         var idFatura = 0;
         var atualizaCambio = 0;
@@ -1299,7 +1318,13 @@
 
         $(document).ready(function () {
             consultaFiltrada();
+            insertListaArmador()
         });
+
+        $("#ddlfiltroTabelaDemu").change(function () {
+            armadorT = document.getElementById("ddlfiltroTabelaDemu").value;
+            listarTabelaDemurrage();
+        })
 
         function cbClick() {
             var input = document.querySelector('input[data-id="' + this.getAttribute('data-id') + '"]:not([type="checkbox"])');
@@ -1314,7 +1339,7 @@
                 input.parentNode.parentNode.style.background = '';
             }
         }
-        /*function insertListaArmador() {
+        function insertListaArmador() {
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/carregarArmador",
@@ -1332,18 +1357,13 @@
                     }
                 }
             })
-        }*/
-
-        $("#MainContent_ddlfiltroTabelaDemu").change(function () {
-            listarTabelaDemurrage();
-        })
+        }
 
         function listarTabelaDemurrage() {
-            var armadortabela = document.getElementById("MainContent_ddlfiltroTabelaDemu").value;
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/ListarDemurrageContainer",
-                data: '{armador: "' + armadortabela +'" }',
+                data: '{armador: "' + armadorT + '" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -1654,56 +1674,15 @@
                 },
                 success: function (dado) {
                     $("#modalDemurrage").modal('hide');
+                    listarTabelaDemurrage();
                     if (dado.d == "1") {
-                        $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/ListarDemurrageContainer",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#grdDemurrageContainer").empty();
-                                $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#grdDemurrageContainer").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
-                                            "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
-                                            "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
-                                    }
-                                }
-                                else {
-                                    $("#grdDemurrageContainer").empty();
-                                    $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                                }
-                            }
-                        })
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/DemurrageList",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#ddlDemurrage").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#ddlDemurrage").append("<option value='" + dado[i]["ID_TABELA_DEMURRAGE"] + "'>" + dado[i]["NM_TIPO_CONTAINER"] + "</option>");
-                                    }
-                                }
-                            }
-                        })
+                        $("#msgSuccessTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                     if (dado.d == "0") {
-                        $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgErrTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                     if (dado.d == "2") {
-                        $("#msgErrExistDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgExistsTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 }
             })
@@ -1718,38 +1697,13 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
+                    listarTabelaDemurrage();
                     if (data.d == "1") {
-                        $("#msgSuccessDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgSuccesDeleteDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                     else {
-                        $("#msgErrDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgErrDeleteDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/ListarDemurrageContainer",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#grdDemurrageContainer").empty();
-                            $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
-                        },
-                        success: function (dado) {
-                            var dado = dado.d;
-                            dado = $.parseJSON(dado);
-                            if (dado != null) {
-                                $("#grdDemurrageContainer").empty();
-                                for (let i = 0; i < dado.length; i++) {
-                                    $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_INICIAL_FORMAT"] + "</td>" +
-                                        "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
-                                        "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetIdDelete(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
-                                }
-                            }
-                            else {
-                                $("#grdDemurrageContainer").empty();
-                                $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                            }
-                        }
-                    })
                 }
             })
         }
@@ -2675,6 +2629,8 @@
                 var vlc
                 var position = 95;
                 var positionbg = 92;
+                var lineH = 91.5;
+                var lineV = 96.5;
                 var total = 0;
                 var totalv = 0;
                 $.ajax({
@@ -2768,7 +2724,9 @@
                             doc.text("VENDA", 185, 90);
                             doc.setFontStyle("normal");
 
-
+                            doc.setLineWidth(0.2);
+                            doc.line(11.7, 91.5, 200.5, 91.5);
+                            
 
                             $.ajax({
                                 type: "POST",
@@ -2781,6 +2739,9 @@
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
                                         for (let i = 0; i < dado.length; i++) {
+                                            lineH = lineH + 5;
+                                            doc.line(11.7, lineH, 200.5, lineH);
+                                            
                                             doc.addImage(bg, 'png', 12, positionbg, 22, 4);
                                             doc.text(dado[i]["NR_CNTR"], 13, position);
                                             doc.addImage(bg, 'png', 35, positionbg, 18, 4);
@@ -2805,13 +2766,28 @@
                                             doc.text(dado[i]["VL_DEMURRAGE_COMPRA"], 156, position);
                                             doc.addImage(bg, 'png', 171, positionbg, 12, 4);
                                             doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"], 172, position);
-                                            doc.addImage(bg, 'png', 184, positionbg, 13, 4);
+                                            doc.addImage(bg, 'png', 184, positionbg, 16, 4);
                                             doc.text(dado[i]["VL_DEMURRAGE_VENDA"], 184, position);
                                             position = position + 5;
                                             positionbg = positionbg + 5;
+                                            lineV = lineV + 5;
                                             total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
                                             totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
                                         }
+                                        doc.line(11.7, 91.5, 11.7, lineV - 5);
+                                        doc.line(34.5, 91.5, 34.5, lineV - 5);
+                                        doc.line(53.5, 91.5, 53.5, lineV - 5);
+                                        doc.line(67.5, 91.5, 67.5, lineV - 5);
+                                        doc.line(81.5, 91.5, 81.5, lineV - 5);
+                                        doc.line(89.5, 91.5, 89.5, lineV - 5);
+                                        doc.line(103.5, 91.5, 103.5, lineV - 5);
+                                        doc.line(117.5, 91.5, 117.5, lineV - 5);
+                                        doc.line(125.5, 91.5, 125.5, lineV - 5);
+                                        doc.line(138.5, 91.5, 138.5, lineV - 5);
+                                        doc.line(153.5, 91.5, 153.5, lineV - 5);
+                                        doc.line(170.5, 91.5, 170.5, lineV - 5);
+                                        doc.line(183.5, 91.5, 183.5, lineV - 5);
+                                        doc.line(200.5, 91.5, 200.5, lineV - 5);
                                         doc.setFontStyle("bold");
                                         doc.text("TOTAL COMPRA: ", 162, position+10);
                                         doc.setFontStyle("normal");
@@ -3056,7 +3032,8 @@
         function imprimirFatura() {
             if (idFatura != 0) {
                 var tipoCalculo;
-                
+                var lineH = 111.5;
+                var lineV = 116.5;
                 var positionV = 115;
                 var positionbgV = 112;
                 var positionC = 95;
@@ -3106,7 +3083,7 @@
                                 doc.text("Razão Social: ", 4, 40);
                                 doc.text("Endereço: ", 4, 45);
                                 doc.text("Município: ", 4, 50);
-                                doc.text("Bairro: ", 62, 50);
+                                doc.text("Bairro: ", 60, 50);
                                 doc.text("UF: ", 113, 50);
                                 doc.text("CEP: ", 158, 50);
                                 doc.text("CNPJ: ", 4, 55);
@@ -3119,8 +3096,8 @@
                                 doc.text(dado[0]["ENDERECO"] + "-" + dado[0]["NR_ENDERECO"], 25, 45);
                                 doc.addImage(bg, 'png', 24, 47, 35, 4);
                                 doc.text(dado[0]["NM_CIDADE"], 25, 50);
-                                doc.addImage(bg, 'png', 73, 47, 37, 4);
-                                doc.text(dado[0]["BAIRRO"], 74, 50);
+                                doc.addImage(bg, 'png', 71, 47, 41, 4);
+                                doc.text(dado[0]["BAIRRO"], 73, 50);
                                 doc.addImage(bg, 'png', 119, 47, 35, 4);
                                 doc.text(dado[0]["NM_ESTADO"], 120, 50);
                                 doc.addImage(bg, 'png', 167, 47, 39, 4);
@@ -3130,11 +3107,6 @@
                                 doc.addImage(bg, 'png', 110, 52, 96, 4);
                                 doc.text(dado[0]["INSCR_ESTADUAL"], 111, 55);
                                 
-
-
-
-
-
                                 doc.setFontStyle("bold");
                                 doc.text("Processo: ", 4, 70);
                                 doc.text("Ref. Cliente: ", 4, 75);
@@ -3195,7 +3167,8 @@
                                 doc.text("TOTAL BR", 173, 110);
                                 doc.setFontStyle("normal");
 
-
+                                doc.setLineWidth(0.2);
+                                doc.line(11.7, 91.5, 200.5, 91.5);
 
                                 $.ajax({
                                     type: "POST",
@@ -3208,6 +3181,7 @@
                                         dado = $.parseJSON(dado);
                                         if (dado != null) {
                                             for (let i = 0; i < dado.length; i++) {
+                                                doc.line(11.7, lineH, 200.5, lineH);
                                                 doc.addImage(bg, 'png', 12, positionbgV, 22, 4);
                                                 doc.text(dado[i]["NR_CNTR"], 13, positionV);
                                                 doc.addImage(bg, 'png', 35, positionbgV, 18, 4);
@@ -3234,6 +3208,8 @@
                                                 doc.text(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString(), 173, positionV);
                                                 positionV = positionV + 5;
                                                 positionbgV = positionbgV + 5;
+                                                lineV = lineV + 5;
+                                                lineH = lineH + 5;
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
                                                     totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(".", ""));
                                                 }
@@ -3244,6 +3220,15 @@
                                                     totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(".", ""));
                                                 }
                                             }
+                                            doc.line(11.7, 111.5, 11.7, lineV - 5);
+                                            doc.line(34.5, 111.5, 34.5, lineV - 5);
+                                            doc.line(53.5, 111.5, 53.5, lineV - 5);
+                                            doc.line(67.5, 111.5, 67.5, lineV - 5);
+                                            doc.line(81.5, 111.5, 81.5, lineV - 5);
+                                            doc.line(89.5, 111.5, 89.5, lineV - 5);
+                                            doc.line(103.5, 111.5, 103.5, lineV - 5);
+                                            doc.line(117.5, 111.5, 117.5, lineV - 5);
+                                            doc.line(125.5, 111.5, 125.5, lineV - 5);
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DAS DESPESAS: ", 145, positionV + 15);
                                             doc.setFontStyle("normal");
@@ -3940,20 +3925,20 @@
                 },
                 success: function (dado) {
                     $("#modalDemurrage").modal('hide');
-                    console.log(dado.d);
+                    listarTabelaDemurrage();
                     if (dado.d == "1") {
-                        $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgSuccessTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                     if (dado.d == "0") {
-                        $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgErrTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                     if (dado.d == "2") {
-                        $("#msgErrExistDemu").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#msgExistsTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 },
                 error: function () {
                     $("#modalDemurrage").modal('hide');
-                    $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
+                    $("#msgErrTabelaDemurrage").fadeIn(500).delay(1000).fadeOut(500);
                 }
             })
         }
@@ -4022,159 +4007,9 @@
             }
         })
 
-        function EditarDemurrage() {
-            var checkbox = document.getElementById("MainContent_checkEsc");
-            var checkboxvalue;
-            var checkboxfreetime = document.getElementById("MainContent_checkInicioFreetime");
-            var checkboxfreetimevalue;
-            if (checkbox.checked) {
-                checkboxvalue = "1";
-            }
-            else {
-                checkboxvalue = "0";
-            }
-            if (checkboxfreetime.checked) {
-                checkboxfreetimevalue = "1";
-            }
-            else {
-                checkboxfreetimevalue = "0";
-            }
-            var dadosEdit = {
-                "ID_TABELA_DEMURRAGE": document.getElementById("ddlDemurrage").value,
-                "ID_PARCEIRO_TRANSPORTADOR": document.getElementById("MainContent_ddlParceiroTransportador").value,
-                "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value,
-                "DT_VALIDADE_INICIAL": document.getElementById("dtValidade").value,
-                "QT_DIAS_FREETIME": document.getElementById("qtFreetime").value,
-                "ID_MOEDA": document.getElementById("MainContent_ddlMoeda").value,
-                "FL_ESCALONADA": checkboxvalue,
-                "FL_INICIO_CHEGADA": checkboxfreetimevalue,
-                "QT_DIAS_01": document.getElementById("dtDemurrage1").value,
-                "VL_VENDA_01": document.getElementById("vlDemurrage1").value,
-                "QT_DIAS_02": document.getElementById("dtDemurrage2").value,
-                "VL_VENDA_02": document.getElementById("vlDemurrage2").value,
-                "QT_DIAS_03": document.getElementById("dtDemurrage3").value,
-                "VL_VENDA_03": document.getElementById("vlDemurrage3").value,
-                "QT_DIAS_04": document.getElementById("dtDemurrage4").value,
-                "VL_VENDA_04": document.getElementById("vlDemurrage4").value,
-                "QT_DIAS_05": document.getElementById("dtDemurrage5").value,
-                "VL_VENDA_05": document.getElementById("vlDemurrage5").value,
-                "QT_DIAS_06": document.getElementById("dtDemurrage6").value,
-                "VL_VENDA_06": document.getElementById("vlDemurrage6").value,
-                "QT_DIAS_07": document.getElementById("dtDemurrage7").value,
-                "VL_VENDA_07": document.getElementById("vlDemurrage7").value,
-                "QT_DIAS_08": document.getElementById("dtDemurrage8").value,
-                "VL_VENDA_08": document.getElementById("vlDemurrage8").value
-            }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/EditarDemurrageContainer",
-                data: JSON.stringify({ dadosEdit: (dadosEdit) }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#btnSalvarEditDemurrage").prop("disabled", "disabled");
-                },
-                success: function (dado) {
-                    $("#modalDemurrage").modal('hide');
-                    if (dado.d == "1") {
-                        $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/ListarDemurrageContainer",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#grdDemurrageContainer").empty();
-                                $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
-                            },
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#grdDemurrageContainer").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_FINAL_FORMAT"] + "</td>" +
-                                            "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
-                                            "<div class='deleteDemurrage btn btn-primary pad' onclick='DeletarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
-                                    }
-                                }
-                                else {
-                                    $("#grdDemurrageContainer").empty();
-                                    $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                                }
-                            }
-                        })
-                        $.ajax({
-                            type: "POST",
-                            url: "DemurrageService.asmx/DemurrageList",
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (dado) {
-                                var dado = dado.d;
-                                dado = $.parseJSON(dado);
-                                if (dado != null) {
-                                    $("#ddlDemurrage").empty();
-                                    for (let i = 0; i < dado.length; i++) {
-                                        $("#ddlDemurrage").append("<option value='" + dado[i]["ID_TABELA_DEMURRAGE"] + "'>" + dado[i]["NM_TIPO_CONTAINER"] + "</option>");
-                                    }
-                                }
-                            }
-                        })
-                    }
-                    if (dado.d == "0") {
-                        $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                    if (dado.d == "2") {
-                        $("#msgErrExistDemu").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                }
-            })
-        }
+        
 
-        function DeletarDemurrage() {
-            var Id = document.getElementById("deletar-id").value;
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/DeletarDemurrage",
-                data: '{Id:"' + Id + '" }',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    if (data.d == "1") {
-                        $("#msgSuccessDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                    else {
-                        $("#msgErrDeletDemu").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                    $.ajax({
-                        type: "POST",
-                        url: "DemurrageService.asmx/ListarDemurrageContainer",
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#grdDemurrageContainer").empty();
-                            $("#grdDemurrageContainer").append("<tr><td colspan='3'><div class='loader'></div></td></tr>");
-                        },
-                        success: function (dado) {
-                            var dado = dado.d;
-                            dado = $.parseJSON(dado);
-                            if (dado != null) {
-                                $("#grdDemurrageContainer").empty();
-                                for (let i = 0; i < dado.length; i++) {
-                                    $("#grdDemurrageContainer").append("<tr><td class='text-center'> " + dado[i]["NM_TIPO_CONTAINER"] + "</td > <td class='text-center'>" + dado[i]["DT_VALIDADE_FINAL_FORMAT"] + "</td>" +
-                                        "<td class='text-center'><div class='btn btn-primary pad' data-toggle='modal' data-target='#modalDemurrage' onclick='BuscarDemurrage(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-eye'></i></div>" +
-                                        "<div class='deleteDemurrage btn btn-primary pad' data-id='" + dado[i]["ID_TABELA_DEMURRAGE"] + "' onclick='SetId(" + dado[i]["ID_TABELA_DEMURRAGE"] + ")'><i class='fas fa-trash'></i></div></td ></tr > ");
-                                }
-                            }
-                            else {
-                                $("#grdDemurrageContainer").empty();
-                                $("#grdDemurrageContainer").append("<tr id='msgEmptyDemurrageContainer'><td colspan='3' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                            }
-                        }
-                    })
-                }
-            })
-        }
+        
 
         
         function data_valida(date) {

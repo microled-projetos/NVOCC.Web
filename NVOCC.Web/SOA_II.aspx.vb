@@ -20,7 +20,7 @@
         End If
 
         If Request.QueryString("ag") <> "" And Request.QueryString("ag") <> 0 Then
-            FILTRO = "WHERE ID_PARCEIRO_AGENTE = " & Request.QueryString("ag")
+            FILTRO = " AND ID_PARCEIRO_AGENTE = " & Request.QueryString("ag")
         Else
             FILTRO = ""
         End If
@@ -29,7 +29,7 @@
 
 
         Dim titulo As String = ""
-        Dim dsAgente As DataSet = Con.ExecutarQuery("SELECT DISTINCT NM_AGENTE,ID_PARCEIRO_AGENTE,(SELECT TELEFONE FROM TB_PARCEIRO A WHERE ID_PARCEIRO_AGENTE = A.ID_PARCEIRO)TELEFONE,(SELECT EMAIL FROM TB_PARCEIRO A WHERE ID_PARCEIRO_AGENTE = A.ID_PARCEIRO)EMAIL FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "') " & FILTRO)
+        Dim dsAgente As DataSet = Con.ExecutarQuery("SELECT DISTINCT NM_AGENTE,ID_PARCEIRO_AGENTE,(SELECT TELEFONE FROM TB_PARCEIRO A WHERE ID_PARCEIRO_AGENTE = A.ID_PARCEIRO)TELEFONE,(SELECT EMAIL FROM TB_PARCEIRO A WHERE ID_PARCEIRO_AGENTE = A.ID_PARCEIRO)EMAIL FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')  WHERE FL_CONFERIDO = 1 " & FILTRO)
         For Each linhaAgente As DataRow In dsAgente.Tables(0).Rows
             tabela &= "<center><p><strong><h5>" & linhaAgente("NM_AGENTE") & "</h5>"
             If Not IsDBNull(linhaAgente("TELEFONE")) Then
@@ -56,7 +56,7 @@
             Dim dsBL As DataSet = Con.ExecutarQuery("SELECT distinct ORIGEM,DESTINO,ID_BL,NR_BL,GRAU,DT_EMBARQUE,DT_CHEGADA,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER
 FROM [dbo].[View_BL]  A  
 INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL 
-WHERE B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
+ WHERE FL_CONFERIDO = 1 AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
 
 
             For Each linhaBL As DataRow In dsBL.Tables(0).Rows
@@ -74,7 +74,7 @@ WHERE B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
 
                 Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_INVOICE,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,NM_ACCOUNT_TIPO_FATURA
 FROM [dbo].[View_BL]  A 
-INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL WHERE NM_ITEM_DESPESA IS NOT NULL AND ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
+INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL  WHERE FL_CONFERIDO = 1 AND NM_ITEM_DESPESA IS NOT NULL AND ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE"))
 
                 For Each linhaTaxas As DataRow In dsTaxas.Tables(0).Rows
                     tabela &= "<tr><td></td>"
@@ -93,7 +93,7 @@ INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','"
                 Next
                 Dim dsTotal As DataSet = Con.ExecutarQuery("SELECT SIGLA_MOEDA, ISNULL(SUM(VL_TAXA),0)VL_TAXA FROM [dbo].[View_BL]  A 
 INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL 
-WHERE ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE") & " 
+ WHERE FL_CONFERIDO = 1 AND ID_BL = " & linhaBL("ID_BL") & " AND B.ID_PARCEIRO_AGENTE = " & linhaAgente("ID_PARCEIRO_AGENTE") & " 
 GROUP BY SIGLA_MOEDA")
                 For Each linhaTotal As DataRow In dsTotal.Tables(0).Rows
                     tabela &= "<tr><td></td>"

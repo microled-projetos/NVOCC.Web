@@ -122,6 +122,15 @@ Partial Public Class Conferencia
     Protected WithEvents dgvDevolucaoMBL As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle lblStatusComissoesMBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblStatusComissoesMBL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle dgvComissoesMBL.
     '''</summary>
     '''<remarks>
@@ -282,6 +291,15 @@ Partial Public Class Conferencia
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvDevolucaoHBL As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle lblStatusComissoesHBL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblStatusComissoesHBL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle dgvComissoesHBL.

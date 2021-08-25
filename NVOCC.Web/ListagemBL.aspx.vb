@@ -95,29 +95,6 @@ Public Class ListagemBL
 
         GridHouse()
 
-        '        If rdServicoHouse.SelectedValue = 2 Then
-        '            dsHouse.SelectCommand = "SELECT ID_BL,NR_PROCESSO,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,
-        'ID_TIPO_PAGAMENTO,
-        '(SELECT NM_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,
-        'ID_TIPO_ESTUFAGEM,
-        '(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM)TIPO_ESTUFAGEM,
-        'ID_PARCEIRO_AGENTE,
-        '(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_AGENTE)PARCEIRO_AGENTE,
-        '(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE)PARCEIRO_CLIENTE,
-        'DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,
-        'ID_NAVIO,
-        '(SELECT NM_NAVIO FROM TB_NAVIO WHERE ID_NAVIO = A.ID_NAVIO)NAVIO,
-        'ID_PARCEIRO_TRANSPORTADOR,
-        '(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_TRANSPORTADOR)PARCEIRO_TRANSPORTADOR,
-        'ID_BL_MASTER,
-        'DT_REDESTINACAO,DT_DESCONSOLIDACAO,ID_WEEK
-        'from TB_BL A
-        'WHERE ID_SERVICO IN (4,5)"
-        '            dgvHouse.DataBind()
-        '        Else
-        '            dgvHouse.DataBind()
-
-        'End If
     End Sub
     Sub DUPLICAR(ID As String, TIPO As String)
         Dim Con As New Conexao_sql
@@ -127,7 +104,7 @@ Public Class ListagemBL
         NumeroProcesso(NOVA_BL)
 
         If TIPO = "HOUSE" Or TIPO = "EMBARQUE" Then
-            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA )  select " & NOVA_BL & ",ID_MERCADORIA,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA from TB_CARGA_BL WHERE ID_BL = " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA)  select " & NOVA_BL & ",ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA from TB_BL_TAXA WHERE ID_BL = " & ID & " ; INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE)  select " & NOVA_BL & ",NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE WHERE ID_BL = " & ID)
+            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_MERCADORIA,ID_CARGA_BL,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA )  select " & NOVA_BL & ",ID_MERCADORIA,ID_CARGA_BL,ID_NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,QT_MERCADORIA,DS_MERCADORIA,VL_COMPRIMENTO,VL_ALTURA,VL_LARGURA from TB_CARGA_BL WHERE ID_BL = " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA)  select " & NOVA_BL & ",ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN, ID_STATUS_PAGAMENTO,OB_TAXAS,ID_PARCEIRO_EMPRESA from TB_BL_TAXA WHERE ID_BL = " & ID & " ; INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE)  select " & NOVA_BL & ",NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE WHERE ID_BL = " & ID)
 
         ElseIf TIPO = "MASTER" Then
 
@@ -418,13 +395,15 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](2131) 
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(DT_CAMBIO)QTD FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ") 
 WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErroHouse.Visible = True
                 lblErroHouse.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
                 Exit Sub
             Else
+                CalculoProfit()
+
                 Dim i As Integer = 0
 
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
@@ -458,6 +437,111 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
     End Sub
 
+    Sub CalculoProfit()
+        Dim Profit As String = ""
+        Dim x As Double
+        Dim y As Double
+        Dim z As Double
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim dsProfit As DataSet = Con.ExecutarQuery("Select ISNULL(ID_PROFIT_DIVISAO,0)ID_PROFIT_DIVISAO,ISNULL(VL_PROFIT_DIVISAO,0)VL_PROFIT_DIVISAO FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+        If dsProfit.Tables(0).Rows.Count > 0 Then
+            If dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 1 Then
+                'VALOR FIXO A RECEBER
+                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 2 Then
+                'VALOR FIXO A PAGAR
+                z = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Then
+                'PERCENTUAL A RECEBER
+
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
+                y = y / 100
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
+                'PERCENTUAL A PAGAR
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
+                y = y / 100
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 5 Then
+                'POR TEU A RECEBER
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 6 Then
+                'POR TEU A PAGAR
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT SUM(TEU)QTD FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER IN (Select ID_TIPO_CNTR FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & txtIDHouse.Text & ")")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 7 Then
+                'POR CONTEINER A RECEBER
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text & ")")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 8 Then
+                'POR CONTEINER A PAGAR
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_AMR_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL = " & txtIDHouse.Text & ")")
+
+                x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("QTD")
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+            End If
+        End If
+    End Sub
     Private Sub dgvMaster_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMaster.RowCommand
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False

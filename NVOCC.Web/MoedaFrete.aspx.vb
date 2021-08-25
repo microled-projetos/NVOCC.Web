@@ -267,4 +267,24 @@ Left Join TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA"
 
     End Sub
 
+    Private Sub dgvMoedaFrete_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMoedaFrete.RowCommand
+        If e.CommandName = "Excluir" Then
+            Dim ID As String = e.CommandArgument
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 9 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErro.Text = "Usuário não tem permissão para realizar exclusões"
+                divErro.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE FROM [dbo].[TB_MOEDA_FRETE] WHERE ID_MOEDA_FRETE = " & ID)
+                dgvMoedaFrete.DataBind()
+                divInfo.Visible = True
+                lblInfo.Text = "Registro excluído com sucesso"
+            End If
+
+
+        End If
+    End Sub
 End Class

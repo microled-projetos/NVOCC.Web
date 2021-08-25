@@ -142,7 +142,7 @@
                             Dim numero As String = NumeracaoDoc.Numerar(2)
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO"))
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RECIBO = '" & numero & "' WHERE ID_NUMERACAO = 5")
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RECIBO = '" & numero & "'")
                         End If
                     End If
                 Next
@@ -222,12 +222,12 @@
         Dim FILTRO As String = ""
         If rdStatus.SelectedValue = 2 Then
 
-            If txtVencimento.Text = "" Then
-                lblErro.Text = "É necessário informar a data de vencimento para busca de faturas fechadas!"
+            If txtVencimentoInicial.Text = "" Or txtVencimentoFinal.Text = "" Then
+                lblErro.Text = "É necessário informar a data de vencimento inicial e final para busca de faturas fechadas!"
                 divErro.Visible = True
                 Exit Sub
             Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and CONVERT(DATE,DT_VENCIMENTO,103) = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
+                FILTRO &= " AND DT_LIQUIDACAO IS NOT NULL and CONVERT(DATE,DT_VENCIMENTO,103) Between CONVERT(DATE,'" & txtVencimentoInicial.Text & "',103) and CONVERT(DATE,'" & txtVencimentoFinal.Text & "',103)"
 
             End If
 
@@ -235,11 +235,11 @@
         ElseIf rdStatus.SelectedValue = 1 Then
 
 
-            If txtVencimento.Text = "" Then
+            If txtVencimentoInicial.Text = "" Or txtVencimentoFinal.Text = "" Then
                 FILTRO &= " AND DT_LIQUIDACAO IS NULL"
 
             Else
-                FILTRO &= " AND DT_LIQUIDACAO IS NULL and CONVERT(DATE,DT_VENCIMENTO,103) = CONVERT(DATE,'" & txtVencimento.Text & "',103)"
+                FILTRO &= " AND DT_LIQUIDACAO IS NULL and CONVERT(DATE,DT_VENCIMENTO,103) Between CONVERT(DATE,'" & txtVencimentoInicial.Text & "',103) and CONVERT(DATE,'" & txtVencimentoFinal.Text & "',103)"
 
             End If
 

@@ -48,7 +48,7 @@ NM_RAZAO,
 NM_FANTASIA,
 CNPJ,
 CPF,
-TP_PESSOA,
+ISNULL(TP_PESSOA,0)TP_PESSOA,
 INSCR_ESTADUAL,
 INSCR_MUNICIPAL,
 EMAIL,
@@ -56,10 +56,10 @@ ENDERECO,
 NR_ENDERECO,
 BAIRRO,
 COMPL_ENDERECO,
-ID_CIDADE,
+ISNULL(ID_CIDADE,0)ID_CIDADE,
 TELEFONE,
 CEP,
-ID_VENDEDOR,
+ISNULL(ID_VENDEDOR,0)ID_VENDEDOR,
 FL_ISENTO_ISS,
 FL_ISENTO_PIS,
 FL_ISENTO_COFINS,
@@ -78,14 +78,13 @@ SPREAD_MARITIMO_EXPO_FCL,
 SPREAD_MARITIMO_EXPO_LCL,
 SPREAD_AEREO_IMPO,
 SPREAD_AEREO_EXPO,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
-ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
-ID_ACORDO_CAMBIO_AEREO,
-QT_DIAS_FATURAMENTO,
-QT_DIAS_FATURAMENTO,
-ID_TIPO_FATURAMENTO,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
+ISNULL(ID_ACORDO_CAMBIO_AEREO,0)ID_ACORDO_CAMBIO_AEREO,
+ISNULL(QT_DIAS_FATURAMENTO,0)QT_DIAS_FATURAMENTO,
+ISNULL(ID_TIPO_FATURAMENTO,0)ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES,
 FL_SHIPPER
@@ -138,7 +137,31 @@ WHERE ID_PARCEIRO =" & ID)
 
                 txtTelefone.Text = ds.Tables(0).Rows(0).Item("TELEFONE").ToString()
                 txtCEP.Text = ds.Tables(0).Rows(0).Item("CEP").ToString()
-                ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_VENDEDOR")) Then
+
+                    If ds.Tables(0).Rows(0).Item("ID_VENDEDOR") <> 0 Then
+
+
+                        Dim dsVendedor As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_PARCEIRO WHERE FL_VENDEDOR =1 AND ID_PARCEIRO =" & ds.Tables(0).Rows(0).Item("ID_VENDEDOR"))
+                        If dsVendedor.Tables(0).Rows(0).Item("QTD") = 0 Then
+                            msgErro.Text = "Atualização Cadastral Pendente: Necessário cadastrar um vendedor valido para este parceiro!"
+                            divmsg1.Visible = True
+                            txtID_Vendedor.Text = 0
+                            ddlVendedor.SelectedValue = 0
+                        Else
+                            txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                            ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                            divmsg1.Visible = False
+                        End If
+                    Else
+                        txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                        ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                        divmsg1.Visible = False
+                    End If
+                End If
+
+
                 ckbISS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_ISS")
                 ckbPIS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_PIS")
                 ckbCOFINS.Checked = ds.Tables(0).Rows(0).Item("FL_ISENTO_COFINS")
@@ -275,7 +298,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbShipper.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True

@@ -141,13 +141,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto de Origem:</label>
-                                                <asp:DropDownList ID="ddlOrigem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlOrigem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto de Destino:</label>
-                                                <asp:DropDownList ID="ddlDestino_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlDestino_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -426,8 +426,9 @@
                                                         <asp:GridView ID="dgvCargaMaritimo" DataKeyNames="ID_CARGA_BL" DataSourceID="dsCargaMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                             <Columns>
 
-                                                                <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
+                                                                <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" /> 
                                                                 <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
+                                                                <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                                 <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                                 <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                                 <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -1072,7 +1073,7 @@ VENDAS:
 
                                                         <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
                                                         <asp:BoundField DataField="ID_BL" ReadOnly="true" HeaderText="ID_BL" SortExpression="ID_BL" />
-                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="NR_REFERENCIA_CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
+                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
                                                         <asp:TemplateField ShowHeader="False">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="visualizar" CssClass="btn btn-info" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>'><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
@@ -1226,13 +1227,13 @@ VENDAS:
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto de Origem:</label>
-                                                        <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto de Destino:</label>
-                                                        <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1514,6 +1515,7 @@ VENDAS:
                                                     <Columns>
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
                                                         <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
+                                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                         <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
@@ -2194,15 +2196,19 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPE
         SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
 union SELECT 0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_PORTO"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+</asp:SqlDataSource>
 
+     <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+</asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]
 union SELECT 0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_TIPO_COMEX"></asp:SqlDataSource>
      
     <asp:SqlDataSource ID="dsTransportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador_Maritimo" DefaultValue="0"/>
@@ -2212,7 +2218,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsTransportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador_Aereo" DefaultValue="0"/>
@@ -2245,9 +2251,9 @@ SELECT ID_PARCEIRO_COMISSARIA FROM TB_BL WHERE ID_BL = @ID_BL
 UNION 
 SELECT ID_PARCEIRO_AGENTE_INTERNACIONAL FROM TB_BL WHERE ID_BL = @ID_BL 
 UNION
-SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL))
-union SELECT 0, 'Selecione'  
-ORDER BY ID_PARCEIRO">
+SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL)) OR FL_PRESTADOR = 1 
+union SELECT 0, ' Selecione'  
+ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
@@ -2272,9 +2278,9 @@ SELECT ID_PARCEIRO_INDICADOR FROM TB_BL WHERE ID_BL = @ID_BL
 UNION
 SELECT ID_PARCEIRO_AGENTE_INTERNACIONAL FROM TB_BL WHERE ID_BL = @ID_BL
 UNION
-SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL))
-union SELECT 0, 'Selecione'  
-ORDER BY ID_PARCEIRO">
+SELECT DISTINCT ID_PARCEIRO_EMPRESA FROM TB_BL_TAXA WHERE ID_BL = @ID_BL AND ID_PARCEIRO_EMPRESA IS NOT NULL)) OR FL_PRESTADOR = 1 
+union SELECT 0, ' Selecione'  
+ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
@@ -2285,7 +2291,7 @@ ORDER BY ID_PARCEIRO">
 union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissaria_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_COMISSARIA = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_COMISSARIA" Type="Int32" ControlID="txtCodComissaria_Maritimo" DefaultValue="0"/>
@@ -2295,7 +2301,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsComissaria_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_COMISSARIA = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_COMISSARIA)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
            <asp:ControlParameter Name="ID_PARCEIRO_COMISSARIA" Type="Int32" ControlID="txtCodComissaria_Aereo" DefaultValue="0"/>
@@ -2304,7 +2310,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsExportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (FL_EXPORTADOR= 1 OR FL_SHIPPER =1 ) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_EXPORTADOR" Type="Int32" ControlID="txtCodExportador_Aereo" DefaultValue ="0" />
@@ -2313,7 +2319,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsExportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (FL_EXPORTADOR= 1 OR FL_SHIPPER =1 ) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_EXPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_EXPORTADOR" Type="Int32" ControlID="txtCodExportador_Maritimo" DefaultValue ="0"/>
@@ -2323,7 +2329,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
 
     <asp:SqlDataSource ID="dsAgente_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
 
-    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL= 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_AGENTE" Type="Int32" ControlID="txtCodAgente_Maritimo" DefaultValue ="0"/>
@@ -2332,7 +2338,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
       <asp:SqlDataSource ID="dsAgente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL= 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE   (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_AGENTE" Type="Int32" ControlID="txtCodAgente_Aereo" DefaultValue ="0"/>
@@ -2390,7 +2396,7 @@ union SELECT 0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM"></asp:SqlDataSource>
 union SELECT  0, 'Selecione' ORDER BY ID_TIPO_PAGAMENTO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsCliente_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
           <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente_Maritimo"  DefaultValue ="NULL"  />
@@ -2399,7 +2405,7 @@ union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsImportador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
           <SelectParameters>
                 <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeImportador_Maritimo"  DefaultValue ="NULL"  />
@@ -2409,7 +2415,7 @@ union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
 
     
         <asp:SqlDataSource ID="dsCliente_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1)  and  (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_CLIENTE)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
           <SelectParameters>
            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeCliente_Aereo"  DefaultValue ="NULL"  />
@@ -2418,7 +2424,7 @@ union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsImportador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_IMPORTADOR =1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_IMPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_IMPORTADOR" Type="Int32" ControlID="txtCodImportador_Aereo" DefaultValue ="0" />
@@ -2428,7 +2434,7 @@ union SELECT  0,'', ' Selecione' ORDER BY ID_PARCEIRO">
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsIndicador_Maritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
             <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador_Maritimo"  DefaultValue ="NULL"  />
@@ -2437,7 +2443,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsIndicador_Aereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_INDICADOR)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
             <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeIndicador_Aereo"  DefaultValue ="NULL"  />
@@ -2467,6 +2473,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
+(SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
 ID_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
@@ -2481,7 +2488,9 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
     <asp:SqlDataSource ID="dsCargaAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_CARGA_BL,
 ID_CNTR_BL,
-(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,ID_MERCADORIA,
+(SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
+(SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
+ID_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,

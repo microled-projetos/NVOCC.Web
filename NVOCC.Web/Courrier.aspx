@@ -35,6 +35,8 @@
                                     <div class="form-group">
                                         <button type="button" id="btnConsulta" onclick="listarCourrier()" class="btn btn-primary">Consultar</button>
                                         <button type="button" id="btnGerarCSV" onclick="GerarCSV('Courrier.csv')" class="btn btn-primary">Gerar Arquivo CSV</button>
+                                        <button type="button" id="btnConsultaAvancada" data-toggle="modal" data-target="#modalFiltroAvancado" class="btn btn-primary">Filtro Avançado</button>
+                                        <button type="button" id="btnRemoverFiltros" onclick="limparFiltros()" class="btn btn-primary">Limpar Filtros</button>
                                     </div>
                                 </div>
                             </div>
@@ -86,6 +88,133 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <div class="modal fade bd-example-modal-xl" id="modalFiltroAvancado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalFiltroAvancadoTitle">Filtro Avançado</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">HBL</label>
+                                                        <input type="text" id="txtHBL" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RECEBIMENTO MBL (INICIO)</label>
+                                                        <input type="date" id="txtDtRecebMBLinicio" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RECEBIMENTO MBL (FIM)</label>
+                                                        <input type="date" id="txtDtRecebMBLfim" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">CÓD RASTREAMENTO MBL</label>
+                                                        <input type="date" id="txtCdRastreioMBL" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RECEBIMENTO HBL (INICIO)</label>
+                                                        <input type="date" id="dtRecebHBLinicio" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                 <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RECEBIMENTO HBL (FIM)</label>
+                                                        <input type="date" id="dtRecebHBLfim" class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">CÓD RASTREAMENTO HBL</label>
+                                                        <input type="date" id="txtCdRastreioHBL" class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RETIRADA (INICIO)</label>
+                                                        <input id="dtRetiradaCourrierinicio" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RETIRADA (FIM)</label>
+                                                        <input id="dtRetiradaCourrierfim" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">RETIRADO POR</label>
+                                                        <input id="txtRetiradoPor" class="form-control" type="text"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">AGENTE</label>
+                                                        <input id="txtAgente" class="form-control" type="text"/>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="row">
+                                                 <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">PREVISÃO CHEGADA (INICIO)</label>
+                                                        <input id="dtPrevisaoChegadainicio" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">PREVISÃO CHEGADA (FIM)</label>
+                                                        <input id="dtPrevisaoChegadafim" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA CHEGADA (INICIO)</label>
+                                                        <input id="dtChegadainicio" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA CHEGADA (FIM)</label>
+                                                        <input id="dtChegadafim" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">FATURA</label>
+                                                        <input id="txtFatura" class="form-control" type="text"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" id="btnConsultarFilter" onclick="listarCourrier()" data-dismiss="modal" class="btn btn-primary btn-ok">Consultar</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="modal fade bd-example-modal-lg" id="modalEditCourrier" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
@@ -265,6 +394,35 @@
             }
         }
 
+        function limparFiltros() {
+            var dados = [
+                document.getElementById("txtHBL"),
+                document.getElementById("txtDtRecebMBLinicio"),
+                document.getElementById("txtDtRecebMBLfim"),
+                document.getElementById("txtCdRastreioMBL"),
+                document.getElementById("dtRecebHBLinicio"),
+                document.getElementById("dtRecebHBLfim"),
+                document.getElementById("txtCdRastreioHBL"),
+                document.getElementById("dtRetiradaCourrierinicio"),
+                document.getElementById("dtRetiradaCourrierfim"),
+                document.getElementById("txtRetiradoPor"),
+                document.getElementById("txtAgente"),
+                document.getElementById("dtPrevisaoChegadainicio"),
+                document.getElementById("dtPrevisaoChegadafim"),
+                document.getElementById("dtChegadainicio"),
+                document.getElementById("dtChegadafim"),
+                document.getElementById("txtFatura"),
+                document.getElementById("MainContent_ddlFiltro"),
+                document.getElementById("txtConsulta")
+                ]
+            for (let i = 0; i < dados.length; i++) {
+                dados[i].value = "";
+            }
+            listarCourrier();
+            
+        }
+
+
         function listarCourrier() {
             idFiltro = document.getElementById("MainContent_ddlFiltro").value;
             stringConsulta = document.getElementById("txtConsulta").value;
@@ -277,11 +435,30 @@
                 tipoValue = "0";
             }
 
+            var dados = {
+                "BLHOUSE": document.getElementById("txtHBL").value,
+                "DTRECEBIMENTOMBLINICIO": document.getElementById("txtDtRecebMBLinicio").value,
+                "DTRECEBIMENTOMBLFIM": document.getElementById("txtDtRecebMBLfim").value,
+                "CDRASTREAMENTOMBL": document.getElementById("txtCdRastreioMBL").value,
+                "DTRECEBIMENTOHBLINICIO": document.getElementById("dtRecebHBLinicio").value,
+                "DTRECEBIMENTOHBLFIM": document.getElementById("dtRecebHBLfim").value,
+                "CDRASTREAMENTOHBL": document.getElementById("txtCdRastreioHBL").value,
+                "DTRETIRADAINICIO": document.getElementById("dtRetiradaCourrierinicio").value,
+                "DTRETIRADAFIM": document.getElementById("dtRetiradaCourrierfim").value,
+                "RETIRADOPOR": document.getElementById("txtRetiradoPor").value,
+                "AGENTE": document.getElementById("txtAgente").value,
+                "PREVISAOCHEGADAINICIO": document.getElementById("dtPrevisaoChegadainicio").value,
+                "PREVISAOCHEGADAFIM": document.getElementById("dtPrevisaoChegadafim").value,
+                "DTCHEGADAINICIO": document.getElementById("dtChegadainicio").value,
+                "DTCHEGADAFIM": document.getElementById("dtChegadafim").value,
+                "FATURA": document.getElementById("txtFatura").value
+            }
+
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarCourrier",
                 contentType: "application/json; charset=utf-8",
-                data: '{idFilter:"' + idFiltro + '", Filter:"' + stringConsulta + '", tipo: "' + tipoValue + '"}',
+                data: JSON.stringify({idFilter: (idFiltro), Filter:(stringConsulta), tipo: (tipoValue), dados:(dados)}),
                 dataType: "json",
                 beforeSend: function () {
                     $("#containerCourrier").empty();

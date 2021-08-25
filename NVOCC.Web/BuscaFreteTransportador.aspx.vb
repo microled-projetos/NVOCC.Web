@@ -106,4 +106,21 @@ WHERE ID_TRANSPORTADOR = " & ddlTransportadorOcean.SelectedValue & " AND ID_PORT
 
     End Sub
 
+    Private Sub dddlViaTransporteOcean_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlViaTransporteOcean.SelectedIndexChanged
+        If ddlViaTransporteOcean.SelectedValue = 4 Then
+            txtViaTransporteOcean.Text = 4
+        Else
+            txtViaTransporteOcean.Text = 1
+
+        End If
+    End Sub
+
+    Private Sub ddlViaTransporteLocais_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlViaTransporteLocais.SelectedIndexChanged
+        If ddlViaTransporteLocais.SelectedValue = 4 Then
+            txtViaTransporteLocais.Text = 4
+        Else
+            txtViaTransporteLocais.Text = 1
+
+        End If
+    End Sub
 End Class

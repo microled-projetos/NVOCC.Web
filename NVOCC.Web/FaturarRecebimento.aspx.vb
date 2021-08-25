@@ -49,17 +49,17 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
 
                 divSuccess.Visible = True
-                lblmsgSuccess.Text = "Faturamento realizado com sucesso"
+                lblmsgSuccess.Text = "Enviado com sucesso!"
 
             End If
 
             dgvContasReceber.DataBind()
 
         End If
-
+        CarregaGrid()
     End Sub
 
-    Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+    Sub CarregaGrid()
         Dim filtro As String = ""
 
         If ddlFiltro.SelectedValue = 1 Then
@@ -78,10 +78,21 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
         End If
 
-        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R') AND DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL) " & filtro
+
+        If rdStatus.SelectedValue = 0 Then
+            filtro &= " AND DT_CANCELAMENTO IS NULL"
+        ElseIf rdStatus.SelectedValue = 1 Then
+            filtro &= " AND DT_CANCELAMENTO IS NOT NULL"
+        End If
+
+        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE DT_ENVIO_FATURAMENTO IS NULL AND (CD_PR = 'R') AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL) AND ISNULL(TP_EXPORTACAO,'') = '' " & filtro
         dgvContasReceber.DataBind()
 
         ddlFiltro.SelectedValue = 0
         txtPesquisa.Text = ""
+    End Sub
+
+    Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+        CarregaGrid()
     End Sub
 End Class

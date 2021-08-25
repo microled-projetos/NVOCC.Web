@@ -26,7 +26,7 @@
                         </li>
                     </ul>
 
-                    <div class="tab-content">
+                     <div class="tab-content">
                         <br />
                         <div class="tab-pane fade active in" id="Maritimo">
                             <ul class="nav nav-tabs" role="tablist">
@@ -99,13 +99,13 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto de Origem:</label>
-                                                <asp:DropDownList ID="ddlOrigem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlOrigem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto de Destino:</label>
-                                                <asp:DropDownList ID="ddlDestino_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                <asp:DropDownList ID="ddlDestino_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="true" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO"></asp:DropDownList>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -259,7 +259,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto:</label>
-                                                <asp:DropDownList ID="ddlPorto1_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                                <asp:DropDownList ID="ddlPorto1_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -290,7 +290,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto:</label>
-                                                <asp:DropDownList ID="ddlPorto2_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                                <asp:DropDownList ID="ddlPorto2_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -320,7 +320,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Porto:</label>
-                                                <asp:DropDownList ID="ddlPorto3_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                                <asp:DropDownList ID="ddlPorto3_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoMaritimo" DataValueField="ID_PORTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -1182,13 +1182,13 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto de Origem:</label>
-                                                        <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Porto de Destino:</label>
-                                                        <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1263,7 +1263,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Aeroporto:</label>
-                                                        <asp:DropDownList ID="ddlAeroporto1_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlAeroporto1_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1285,7 +1285,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Aeroporto:</label>
-                                                        <asp:DropDownList ID="ddlAeroporto2_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlAeroporto2_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1306,7 +1306,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Aeroporto:</label>
-                                                        <asp:DropDownList ID="ddlAeroporto3_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlAeroporto3_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
@@ -1619,8 +1619,13 @@ union SELECT 0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO"><
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')'  AS NM_RAZAO  FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
 union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO,  NM_PORTO + ' - ' + CONVERT(VARCHAR,ID_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO] WHERE NM_PORTO IS NOT NULL  union SELECT  0, ' Selecione' ORDER BY NM_PORTO"></asp:SqlDataSource>
+   <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+</asp:SqlDataSource>
+
+     <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+</asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BASE_CALCULO_TAXA,NM_BASE_CALCULO_TAXA FROM [dbo].[TB_BASE_CALCULO_TAXA]
@@ -1694,8 +1699,8 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
     <asp:SqlDataSource ID="dsVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
 left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
+left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
+left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
@@ -1703,10 +1708,11 @@ left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO WHERE ID_BL_MASTER = @ID_B
 
     <asp:SqlDataSource ID="dsNaoVinculadas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID_BL,NR_BL,NR_PROCESSO,P.NM_RAZAO, O.NM_PORTO +' - ' + D.NM_PORTO PORTOS from TB_BL A
-left join TB_PARCEIRO P on P.ID_PARCEIRO = ID_PARCEIRO_CLIENTE
-left join TB_PORTO O on O.ID_PORTO = ID_PORTO_ORIGEM
-left join TB_PORTO D on D.ID_PORTO = ID_PORTO_DESTINO 
-WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND ID_PORTO_ORIGEM = @ORIGEM AND ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL">
+left join TB_PARCEIRO P on P.ID_PARCEIRO = A.ID_PARCEIRO_CLIENTE
+left join TB_PORTO O on O.ID_PORTO = A.ID_PORTO_ORIGEM
+left join TB_PORTO D on D.ID_PORTO = A.ID_PORTO_DESTINO 
+left join TB_COTACAO E on E.ID_COTACAO = A.ID_COTACAO 
+WHERE ID_BL_MASTER IS NULL AND GRAU='C' AND A.ID_PORTO_ORIGEM = @ORIGEM AND A.ID_PORTO_DESTINO = @DESTINO AND NR_PROCESSO IS NOT NULL AND E.ID_STATUS_COTACAO = 9">
         <SelectParameters>
             <asp:ControlParameter Name="ORIGEM" Type="Int32" ControlID="ddlOrigem_BasicoMaritimo" />
             <asp:ControlParameter Name="DESTINO" Type="Int32" ControlID="ddlDestino_BasicoMaritimo" />

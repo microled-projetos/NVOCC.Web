@@ -64,6 +64,7 @@
                                 <div class="form-group">
                                     <button type="button" id="btnConsulta" onclick="listarProcessosOperacional()" class="btn btn-primary">Consultar</button>
                                     <button type="button" id="btnFiltroAvancado" class="btn btn-primary" data-toggle="modal" data-target="#modalFiltroAvancado">Filtro Avançado</button>
+                                    <button type="button" id="btnRemoverFiltros" class="btn btn-primary" onclick="limparFiltros()">Limpar Filtros</button>
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
@@ -306,7 +307,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="alert alert-success text-center" id="msgSuccessUploadArquivo">
-                                            Upload finalizado com sucesso.
+                                            Upload feito com sucesso.
                                         </div>
                                         <div class="alert alert-danger text-center" id="msgErrUploadArquivo">
                                             Erro ao realizar Upload arquivo.
@@ -356,7 +357,7 @@
                                         </div>
 
                                         <label class="topMarg">DOCUMENTO ARQUIVADOS</label>
-                                        <div class="table-responsive tableFixHead topMarg">
+                                        <div class="table-responsive tablefixheadupload topMarg">
                                             <table id="tblUploadArquivo" class="table tablecont">
                                                 <thead>
                                                     <tr>
@@ -797,7 +798,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>                                                                                                        
             </div>
@@ -812,7 +812,7 @@
 
         $(document).ready(function () {
             listarProcessosOperacional();
-        });        
+        });
 
         var id = 0;
         var idEmailCaixa = 0;
@@ -821,6 +821,48 @@
         var dadoUploadX = document.querySelector("#dadoUpload");
         var btnUpload = document.querySelector("#btnUpload");
         var btnUploadx = document.querySelector("#btnUploadx");
+
+        function limparFiltros() {
+            var dadosFiltro = [
+                document.getElementById("MainContent_ddlVia"),
+                document.getElementById("MainContent_ddlEtapa"),
+                document.getElementById("MainContent_ddlServico"),
+                document.getElementById("MainContent_ddlStatus"),
+                document.getElementById("nrProcessoFilter"),
+                document.getElementById("MainContent_ddlClienteFilter"),
+                document.getElementById("MainContent_ddlPortoOrigemFilter"),
+                document.getElementById("MainContent_ddlPortoDestinoFilter"),
+                document.getElementById("MainContent_ddlTipoFrete"),
+                document.getElementById("MainContent_ddlTipoEstufagem"),
+                document.getElementById("MainContent_ddlAgenteFilter"),
+                document.getElementById("dtPrevisaoEmbarqueInicioFilter"),
+                document.getElementById("dtPrevisaoEmbarqueFimFilter"),
+                document.getElementById("dtEmbarqueInicioFilter"),
+                document.getElementById("dtEmbarqueFimFilter"),
+                document.getElementById("dtPrevisaoChegadaInicioFilter"),
+                document.getElementById("dtPrevisaoChegadaFimFilter"),
+                document.getElementById("dtPrevisaoChegadaInicioFilter"),
+                document.getElementById("dtPrevisaoChegadaFimFilter"),
+                document.getElementById("dtFreetimeFilter"),
+                document.getElementById("MainContent_ddlTransportadorFilter"),
+                document.getElementById("nrMasterFilter"),
+                document.getElementById("nrHouseFilter"),
+                document.getElementById("nrCeMasterFilter"),
+                document.getElementById("nrCeHouseFilter"),
+                document.getElementById("dtRedestinacaoInicioFilter"),
+                document.getElementById("dtRedestinacaoFimFilter"),
+                document.getElementById("dtDesconsolidacaoInicioFilter"),
+                document.getElementById("dtDesconsolidacaoFimFilter"),
+                document.getElementById("MainContent_ddlWeekFilter"),
+                document.getElementById("MainContent_ddlNavioFilter"),
+            ]
+
+            for (let i = 0; i < dadosFiltro.length; i++) {
+                dadosFiltro[i].value = "";
+            }
+            listarProcessosOperacional();
+        }
+
         function listarProcessosOperacional() {
             var dadosFiltro = {
                 "via": document.getElementById("MainContent_ddlVia").value,
@@ -853,7 +895,7 @@
                 "dtdesconsolidacaoinicio": document.getElementById("dtDesconsolidacaoInicioFilter").value,
                 "dtdesconsolidacaofim": document.getElementById("dtDesconsolidacaoFimFilter").value,
                 "week": document.getElementById("MainContent_ddlWeekFilter").value,
-                "navio": document.getElementById("MainContent_ddlNavioFilter").value,
+                "navio": document.getElementById("MainContent_ddlNavioFilter").value
             }
             $.ajax({
                 type: "POST",
@@ -871,14 +913,14 @@
                     if (dado != null) {
                         $("#tblModuloOperacionalBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</div>"+ dado[i]["PROCESSO"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["CLIENTE"]+"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
+                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</div>" + dado[i]["PROCESSO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PEMBARQUE"] + "</td><td class='text-center'>" + dado[i]["EMBARQUE"] + "</td><td class='text-center'>" + dado[i]["PCHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["BLMASTER"] + "</td > <td class='text-center'>" + dado[i]["BLHOUSE"] + "</td><td class='text-center'>" + dado[i]["CEMASTER"] + "</td><td class='text-center'>" + dado[i]["CEHOUSE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["REDESTINACAO"] + "</td><td class='text-center'>" + dado[i]["DESCONSOLIDACAO"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["NAVIO"] +"' style='max-width: 10ch;'>" + dado[i]["NAVIO"] + "</td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'>" + dado[i]["TERMO"] + "</td></tr> ");
+                                "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'>" + dado[i]["NAVIO"] + "</td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'>" + dado[i]["TERMO"] + "</td></tr> ");
 
                         }
                     }
@@ -926,7 +968,7 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/inserirDados",
-                data: '{idProcesso:"' + id + '",week:"' + week + '",dtRedestinacao: "' + redestinacao + '", dtDesconsolidacao: "' + desconsolidacao + '",termo: "' + termo +'"}',
+                data: '{idProcesso:"' + id + '",week:"' + week + '",dtRedestinacao: "' + redestinacao + '", dtDesconsolidacao: "' + desconsolidacao + '",termo: "' + termo + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -936,7 +978,7 @@
                         $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
                         listarProcessosOperacional();
                         id = 0;
-                    } else{
+                    } else {
                         $("#msgErrDemu").fadeIn(500).delay(1000).fadeOut(500);
                         listarProcessosOperacional();
                         id = 0;
@@ -1004,54 +1046,66 @@
             var tipoaviso = document.getElementById("ddlTipoAviso").value;
             var documento = document.getElementById("ddlDocumento").value;
             var path = dadoUpload;
-            console.log(path)
+            var dataForm = new FormData();
+            var fileUpload = $('#dadoUpload').get(0);
+            var files = fileUpload.files;
+            dataForm.append(files[0].name, files[0]);
+            dataForm.append('id', id);
+            dataForm.append('tipoaviso', tipoaviso);
+            dataForm.append('documento', documento);
             $.ajax({
                 type: "POST",
-                url: "Gerencial.asmx/criarDiretorio",
-                data: '{idProcesso: "' + id + '", path: "' + path + '", tipoaviso: "' + tipoaviso +'"}',
+                url: "FileUpload.ashx/ProcessRequest",
+                data: dataForm,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    console.log("sucesso");
+                    $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                    listarDocumentosArquivados();
+                },
+                error: function () {
+                    console.log("erro");
+                    $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                    listarDocumentosArquivados();
+                    dadoUploadX.style.display = "none";
+                    btnUpload.style.display = "block";
+                    btnUploadx.style.display = "none";
+                }
+            })
+        }
+
+        /*function upload() {
+            var documento = document.getElementById("ddlDocumento").value;
+            var dadoUpload = document.getElementById("dadoUpload").files[0].name;
+            var tipoaviso = document.getElementById("ddlTipoAviso").value;
+            var path = dadoUpload;
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/uploadArquivo",
+                data: '{idprocesso: "' + id + '", iddocumento: "' + documento + '", arquivo: "' + path + '", idtipoaviso: "' + tipoaviso + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado == "0") {
-                        $.ajax({
-                            type: "POST",
-                            url: "Gerencial.asmx/uploadArquivo",
-                            data: '{idprocesso: "' + id + '", iddocumento: "' + documento + '", arquivo: "' + path + '", idtipoaviso: "' + tipoaviso + '"}',
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (dado) {
-                                var dados = dado.d;
-                                dados = $.parseJSON(dados);
-                                if (dados == "ok") {
-                                    $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
-                                    listarDocumentosArquivados();
-                                    dadoUploadX.files == "";
-                                    btnUpload.style.display = "block";
-                                    btnUploadx.style.display = "none";
-                                    dadoUploadX.style.display = "none";
-                                } else if (dados == "1") {
-                                    $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
-                                    btnUpload.style.display = "block";
-                                    btnUploadx.style.display = "none";
-                                    dadoUploadX.style.display = "none";
-                                    listarDocumentosArquivados();
-                                }
-                            }
-                        })
-                       
-                    } else if (dado == "1") {
-                        $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
-                        dadoUploadX.style.display = "none";
+                    var dados = dado.d;
+                    dados = $.parseJSON(dados);
+                    if (dados == "ok") {
+                        $("#msgSuccessUploadArquivo").fadeIn(500).delay(1000).fadeOut(500);
+                        listarDocumentosArquivados();
+                        dadoUploadX.files == "";
                         btnUpload.style.display = "block";
                         btnUploadx.style.display = "none";
+                        dadoUploadX.style.display = "none";
+                    } else if (dados == "1") {
+                        $("#msgErrAnexo").fadeIn(500).delay(1000).fadeOut(500);
+                        btnUpload.style.display = "block";
+                        btnUploadx.style.display = "none";
+                        dadoUploadX.style.display = "none";
+                        listarDocumentosArquivados();
                     }
                 }
             })
-
-            
-        }
+        }*/
 
         function deletarDocumentoArquivado() {
             $.ajax({
@@ -1117,7 +1171,7 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarEmail",
-                data: '{filtro: "' + filtro + '", consulta: "' + consulta + '", enviado: "' + enviadov + '", nenviado: "' + enviadon +'", dtgerado: "'+ dtgerado +'"}',
+                data: '{filtro: "' + filtro + '", consulta: "' + consulta + '", enviado: "' + enviadov + '", nenviado: "' + enviadon + '", dtgerado: "' + dtgerado + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
@@ -1142,7 +1196,7 @@
                                 "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
                         }
-                    } else{
+                    } else {
                         $("#tblCaixaSaidaBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='11' class='alert alert-light text-center'>Email não encontrado</td></tr>");
                     }
                 }
@@ -1178,7 +1232,7 @@
                                         for (let i = 0; i < dado.length; i++) {
                                             $("#tblListaProcessoHouseBody").append("<tr><td class='text-center'><div><input type='checkbox' class='teste' value='" + dado[i]["HOUSE"] + "' name='checks' checked/></div></td>" +
                                                 "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
-                                                "<td class='text-center' title='" + dado[i]["CLIENTE"]+ "' style='max-width: 25ch;'>" + dado[i]["CLIENTE"] + "</td></tr>");
+                                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 25ch;'>" + dado[i]["CLIENTE"] + "</td></tr>");
                                         }
                                     }
                                 }
@@ -1210,8 +1264,8 @@
                                     })
                                 }
                             })
-                            
-                            
+
+
                         }
                     }
                 })
@@ -1232,7 +1286,7 @@
                         console.log(dado);
                         if (dado.d == "cancelado") {
                             $("#modalReativarEmail").modal("show");
-                                                        
+
                         } else {
                             $("#modalCancelamentoEmail").modal("show");
                         }
@@ -1294,10 +1348,11 @@
                     $.ajax({
                         type: "POST",
                         url: "Gerencial.asmx/enviarEmail",
-                        data: '{house:"' + values[i] + '",corpo:"' + corpo +'"}',
+                        data: '{house:"' + values[i] + '",corpo:"' + corpo + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        success: function (dado) {;
+                        success: function (dado) {
+                            ;
                             if (dado.d == "ok") {
                                 $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
                             }
@@ -1329,7 +1384,7 @@
 
                     }
                 }
-            }) 
+            })
         }
 
         function listarTipoDocumento() {
@@ -1365,7 +1420,7 @@
                     dado = $.parseJSON(dado);
                     $("#ddlDocumento").empty();
                     if (dado != null) {
-                        for (let i = 0; i<dado.length; i++) {
+                        for (let i = 0; i < dado.length; i++) {
                             $("#ddlDocumento").append("<option value='" + dado[i]["IDDOCUMENTO"] + "'>" + dado[i]["NMDOCUMENTO"] + "</option>");
                         }
                     } else {
@@ -1380,7 +1435,7 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarDcoumentosArquivados",
-                data: '{idprocesso: "' + id +'", idtipoaviso: "' + tipoaviso + '"}',
+                data: '{idprocesso: "' + id + '", idtipoaviso: "' + tipoaviso + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -1415,7 +1470,7 @@
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             console.log(dado[0]["ASSUNTO"]);
-                            document.getElementById("visualizarEmail").insertAdjacentHTML('afterbegin',dado[0]["ASSUNTO"] +"<br>"+ dado[0]["CORPO"]);
+                            document.getElementById("visualizarEmail").insertAdjacentHTML('afterbegin', dado[0]["ASSUNTO"] + "<br>" + dado[0]["CORPO"]);
                         }
                     }
                 })
@@ -1551,7 +1606,7 @@
                                 "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
                         }
-                    } else{
+                    } else {
                         $("#tblCaixaAgendamentoBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='12' class='alert alert-light text-center'>Email não encontrado</td></tr>");
                     }
                 }

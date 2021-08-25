@@ -39,7 +39,7 @@
                                             <asp:ListItem Value="1">CNPJ</asp:ListItem>
                                             <asp:ListItem Value="3">CPF</asp:ListItem>
                                             <asp:ListItem Value="2">Razão Social</asp:ListItem>
-
+                                            <asp:ListItem Value="4">Apelido</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
                                 </div>
@@ -72,7 +72,6 @@
                                             <ItemTemplate>
                                                  <asp:linkButton ID="btnTaxas" title="Taxa Parceiro" runat="server" style="background-color:#e3d810;border-color:#e3d810" CssClass="btn btn-info btn-sm" CommandName="Taxas"
                                   CommandArgument='<%# Eval("Id") %>'><i class="fas fa-plus" ></i></asp:linkButton>
-                                                <%--a href="TaxaParceiro.aspx?id=<%# Eval("ID") %>" class="btn btn-info btn-sm" style="background-color:#ffc107;border-color: #ffc107" data-toggle="tooltip" data-placement="top" title="Taxa Parceiro"><i class="fas fa-plus" ></i></a>--%>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
@@ -123,7 +122,7 @@
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ">
 </asp:SqlDataSource>
 
 

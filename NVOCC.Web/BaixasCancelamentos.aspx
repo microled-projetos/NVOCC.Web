@@ -36,8 +36,14 @@
                                     
                                     <div class="col-sm-1">
                                         <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Data Vencimento:</label>
-                                            <asp:TextBox ID="txtVencimento" runat="server" CssClass="form-control data"></asp:TextBox>
+                                            <label class="control-label" style="text-align: left">Vencimento Inicial:</label>
+                                            <asp:TextBox ID="txtVencimentoInicial" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <label class="control-label" style="text-align: left">Vencimento Final:</label>
+                                            <asp:TextBox ID="txtVencimentoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
                                     <div class="col-sm-1">
@@ -57,7 +63,7 @@
                                         </div>
                                     </div>
                                     
-                                                                            <div class="col-sm-offset-6 col-sm-2">
+                                                                            <div class="col-sm-offset-4 col-sm-2">
 
                                         <div class="form-group">
                                             <br />

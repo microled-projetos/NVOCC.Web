@@ -218,7 +218,7 @@
                                     <div class="form-group">                                             
                                 <asp:Label ID="Label14" runat="server">Data Liquidação(Final)</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtLiquidacaoFinal" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtLiquidacaoFinal" runat="server" AutoPostBack="true" CssClass="form-control data"></asp:TextBox>
                                          
                                    </div>          
                                 </div>  
@@ -243,6 +243,7 @@
                                         </asp:Panel>
                                     </ContentTemplate>
                                     <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoFinal" />
                                         <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
                                         <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaQuinzena" />
@@ -352,9 +353,11 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcessoModal" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control data" style="display: none;"></asp:TextBox>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkGravarCCProcessoModal" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">CONTA CORRENTE DO PROCESSO</h5>
@@ -363,25 +366,35 @@
                                                             <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
                                     <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
                                 </div>
+                                                             <div class="alert alert-danger" id="divErroCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblErroCCProcesso" runat="server"></asp:Label>
+                                </div> 
                             <div class="row">
                                                                             
-                                     <div class="col-sm-6">
+                                     <div class="col-sm-2">
                                     <div class="form-group">                                          
                                    
                                          <asp:Label ID="Label28" runat="server">Competência</asp:Label><br />
 
  <asp:Label ID="lblCompetenciaCCProcesso" runat="server"/>                                        </div>
                                          </div>
-                                     <div class="col-sm-6">
+                                 <div class="col-sm-2">
+                                    <div class="form-group">                                          
+                                   
+                                         <asp:Label ID="Label5" runat="server">Quinzena</asp:Label><br />
+
+ <asp:Label ID="lblQuinzena" runat="server"/>                                        </div>
+                                         </div>
+                                     <div class="col-sm-3">
                                     <div class="form-group">                                          
 <asp:Label ID="Label34" runat="server">Data Liquidação</asp:Label><label runat="server" style="color: red">*</label><br />
 
                                <asp:TextBox ID="txtLiquidacaoCCProcesso" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                          </div>
-                                         </div>
- <div class="row">
-     <div class="col-sm-12">
+                                         
+
+     <div class="col-sm-5">
                                     <div class="form-group">                                          
                                              <asp:Label ID="Label19" runat="server">Conta Bancária:</asp:Label><label runat="server" style="color: red">*</label><br />
                                <asp:DropDownList ID="ddlContaBancaria" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsContaBancaria" DataValueField="ID_CONTA_BANCARIA"/>

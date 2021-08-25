@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
+using System.Drawing;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Net.Mail;
 
 namespace ABAINFRA.Web
 {
@@ -25,8 +28,11 @@ namespace ABAINFRA.Web
             ddlFiltro.Items.Insert(2, new ListItem("BL Master", "2"));
             ddlFiltro.Items.Insert(3, new ListItem("Cliente", "3"));
             ddlFiltro.Items.Insert(4, new ListItem("Navio", "4"));
+        }
 
-
+        private void CarregarTipo()
+		{
+            
         }
     }
 }

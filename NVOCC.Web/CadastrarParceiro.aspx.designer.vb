@@ -734,6 +734,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlVendedor As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtID_Vendedor.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtID_Vendedor As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtNomeContato.
     '''</summary>
     '''<remarks>

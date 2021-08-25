@@ -141,8 +141,7 @@
     </div>
 
 
-    <asp:SqlDataSource ID="dsNotas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R')"></asp:SqlDataSource>
+ 
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

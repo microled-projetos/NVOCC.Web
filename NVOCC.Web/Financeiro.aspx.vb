@@ -91,6 +91,11 @@
     End Sub
 
     Private Sub btnPesquisa_Click(sender As Object, e As EventArgs) Handles btnPesquisa.Click
+        AtualizaGrid()
+    End Sub
+
+
+    Sub AtualizaGrid()
         divErro.Visible = False
 
         Dim filtro As String = ""
@@ -109,20 +114,45 @@
             ElseIf ddlFiltro.SelectedValue = 3 Then
                 filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA > 0 Or QT_TAXAS_RECEBER_ABERTA > 0)"
 
+            ElseIf ddlFiltro.SelectedValue = 4 Then
+                filtro &= " WHERE NR_BL LIKE '%" & txtPesquisa.Text & "%'"
+
             End If
 
+            'AGENCIAMENTO DE IMPORTACAO AEREO
+            If rdTransporte.SelectedValue = 2 And rdServico.SelectedValue = 1 Then
+                filtro &= " AND ID_SERVICO = 2"
+
+
+                'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            ElseIf rdTransporte.SelectedValue = 1 And rdServico.SelectedValue = 1 Then
+                filtro &= " AND ID_SERVICO = 1"
+
+
+                'AGENCIAMENTO DE EXPORTACAO MARITIMA
+            ElseIf rdTransporte.SelectedValue = 1 And rdServico.SelectedValue = 2 Then
+                filtro &= " AND ID_SERVICO = 4"
+
+
+                'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+            ElseIf rdTransporte.SelectedValue = 2 And rdServico.SelectedValue = 2 Then
+                filtro &= " AND ID_SERVICO = 5"
+            End If
 
 
 
 
             dsFinanceiro.SelectCommand = "SELECT * FROM [View_Financeiro]  " & filtro & " ORDER BY NR_PROCESSO"
             dgvFinanceiro.DataBind()
-
-            ddlFiltro.SelectedValue = 0
-            txtPesquisa.Text = ""
             dgvFinanceiro.Visible = True
         End If
+    End Sub
 
+    Private Sub rdTransporte_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTransporte.SelectedIndexChanged
+        AtualizaGrid()
+    End Sub
 
+    Private Sub rdServico_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServico.SelectedIndexChanged
+        AtualizaGrid()
     End Sub
 End Class

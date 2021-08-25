@@ -45,7 +45,7 @@ namespace ABAINFRA.Web
         public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
         {
             string SQL;
-            SQL = "and B.DT_CANCELAMENTO IS NULL ";
+            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
             if (vendedor != 0)
             {
                 SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
@@ -104,8 +104,7 @@ namespace ABAINFRA.Web
             }
             return SQL;
         }
-
-        [WebMethod]
+        /*[WebMethod]
         public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor,string tipo)
         {
             string SQL;
@@ -128,9 +127,9 @@ namespace ABAINFRA.Web
             total = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(total);
-        }
+        }*/
 
-        [WebMethod]
+        /*[WebMethod]
         public string CarregarProcessos(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
         {
             string SQL;
@@ -155,26 +154,38 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(total);
         }
-
+*/
 
         [WebMethod]
-        public string CarregarQtdCntr(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
         {
             string SQL;
 
-            SQL = "SELECT  A.MES+'/'+A.ANO as PERIODO, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'M' THEN isnull(E.QTDE20, 0) + isnull(E.QTDE40, 0) else 0 end) IMP, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'E' THEN isnull(E.QTDE20, 0)  + isnull(E.QTDE40, 0) else 0 end) EXP ";
-            SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
-            SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
-            SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS E ON A.ID_BL = E.ID_BL ";
-            SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + " ";
-            SQL += "and B.DT_CANCELAMENTO IS NULL ";
-            SQL += "GROUP BY A.MES, A.ANO ";
-            SQL += "ORDER BY A.ANO, A.MES ";
+            SQL = "SELECT MES+'/'+ANO as PERIODO, ";
+            SQL += "COUNT(NR_PROCESSO) PROC_TOTAL, ";
+            SQL += "(SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ") AS TOTAL, ";
+            SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
+            SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
+            SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
+            SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
+            SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
+            SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
+            SQL += "FROM( ";
+            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + "";
+            SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
+            SQL += ") X ";
+            SQL += "GROUP BY MES, ANO ";
 
             DataTable total = new DataTable();
 
@@ -183,7 +194,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        [WebMethod]
+        /*[WebMethod]
         public string CarregarTeus(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
         {
             string SQL;
@@ -207,13 +218,13 @@ namespace ABAINFRA.Web
             total = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(total);
-        }
+        }*/
 
         [WebMethod]
         public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo)
         {
             string SQL;
-            SQL = "and B.DT_CANCELAMENTO IS NULL ";
+            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
             if (vendedor != 0)
             {
                 SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
@@ -256,18 +267,28 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT  ISNULL(A.MES,'')+'/'+ISNULL(A.ANO,'') as PERIODO, ";
-            SQL += "ISNULL(COUNT(C.NR_CNTR),0) AS CONTAINER, ";
-            SQL += "ISNULL(COUNT (D.TEU),0) AS TEUS, ";
-            SQL += "COUNT(DISTINCT(A.NR_PROCESSO)) AS PROCESSO ";
-            SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
-            SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL  ";
-            SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
-            SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo) + " ";
-            SQL += "GROUP BY A.MES, A.ANO ";
-            SQL += "ORDER BY A.ANO, A.MES ";
+            SQL = "SELECT MES+'/'+ANO as PERIODO, ";
+            SQL += "COUNT(NR_PROCESSO) PROC_TOTAL, ";
+            SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
+            SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
+            SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
+            SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
+            SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
+            SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
+            SQL += "FROM( ";
+            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "" + CarregaFiltroPizza(anoI,mesI,vendedor, tipo) + "";
+            SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
+            SQL += ") X ";
+            SQL += "GROUP BY MES, ANO ";
 
             DataTable total = new DataTable();
 
@@ -353,6 +374,79 @@ namespace ABAINFRA.Web
             total = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(total);
+        }
+
+
+        [WebMethod]
+        public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+		{
+            string SQL;
+
+            SQL = "SELECT NM_RAZAO AS VENDEDOR, ";
+            SQL += "COUNT(NR_PROCESSO) AS PROC_TOTAL, ";
+            SQL += "SUM(ISNULL(CNTR_IMP, 0)) +SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_TOTAL, ";
+            SQL += "SUM(ISNULL(TEUS_IMP, 0)) +SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_TOTAL, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
+            SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
+            SQL += "SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_EXP, ";
+            SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
+            SQL += "SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_EXP ";
+            SQL += "FROM( ";
+            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + " ";
+            SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
+            SQL += ") X ";
+            SQL += "GROUP BY MES, ANO, NM_RAZAO ";
+
+            DataTable processosIndicador = new DataTable();
+
+            processosIndicador = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(processosIndicador);
+        }
+
+        [WebMethod]
+        public string ProcessosIndicadorPizza(string anoI, string mesI, int vendedor, string tipo)
+        {
+            string SQL;
+
+            SQL = "SELECT NM_RAZAO AS VENDEDOR, ";
+            SQL += "COUNT(NR_PROCESSO) AS PROC_TOTAL, ";
+            SQL += "SUM(ISNULL(CNTR_IMP, 0)) +SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_TOTAL, ";
+            SQL += "SUM(ISNULL(TEUS_IMP, 0)) +SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_TOTAL, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
+            SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
+            SQL += "SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_EXP, ";
+            SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
+            SQL += "SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_EXP ";
+            SQL += "FROM( ";
+            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "" + CarregaFiltroPizza(anoI,mesI, vendedor, tipo) + " ";
+            SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
+            SQL += ") X ";
+            SQL += "GROUP BY MES, ANO, NM_RAZAO ";
+
+            DataTable processosIndicador = new DataTable();
+
+            processosIndicador = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(processosIndicador);
         }
 
         [WebMethod]
@@ -569,7 +663,7 @@ namespace ABAINFRA.Web
             }
             if (dados.AGENTE != "")
             {
-                SQL += "AND C.ID_PARCEIR_AGENTE = '" + dados.AGENTE + "' ";
+                SQL += "AND C.ID_PARCEIRO_AGENTE = '" + dados.AGENTE + "' ";
             }
             if (dados.PEMBARQUEINICIO != "")
             {
@@ -1077,103 +1171,21 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT PATHDOCUMENTOS FROM TB_AVISOPARAM WHERE IDTIPOAVISOPARAM=1 ";
             string PathDocumentos = DBS.ExecuteScalar(SQL);
-            string path = PathDocumentos;
+            string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
             if (Directory.Exists(path) == false)
             {
-                return "0";
+                return JsonConvert.SerializeObject("0");
             }
             else
             {
-                return "1";
+                return JsonConvert.SerializeObject("1");
             }
-        }
-
-        [WebMethod]
-        public string criarDiretorio(string idProcesso, string path, string tipoaviso)
-        {
-            string SQL;
-            string result;
-            SQL = "SELECT IDTIPOAVISO, TPPROCESSO FROM TB_TIPOAVISO WHERE IDTIPOAVISO = '" + tipoaviso + "' ";
-            DataTable listTable = new DataTable();
-            listTable = DBS.List(SQL);
-            string tipoprocesso = listTable.Rows[0]["TPPROCESSO"].ToString();
-            string idtipoaviso = listTable.Rows[0]["IDTIPOAVISO"].ToString();
-
-            SQL = "SELECT B.NM_TIPO_ESTUFAGEM, D.NM_VIATRANSPORTE, ";
-            SQL += "A.DT_PREVISAO_EMBARQUE, A.DT_PREVISAO_CHEGADA ";
-            SQL += "from TB_BL A ";
-            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM B ON A.ID_TIPO_ESTUFAGEM = B.ID_TIPO_ESTUFAGEM ";
-            SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
-            SQL += "LEFT JOIN TB_VIATRANSPORTE D ON C.ID_VIATRANSPORTE = D.ID_VIATRANSPORTE ";
-            SQL += "WHERE A.ID_BL = '" + idProcesso + "' ";
-            DataTable verifica = new DataTable();
-            verifica = DBS.List(SQL);
-            string tipoEstufagem = verifica.Rows[0]["NM_TIPO_ESTUFAGEM"].ToString();
-            string viatransporte = verifica.Rows[0]["NM_VIATRANSPORTE"].ToString();
-            string previsaoEmbarque = verifica.Rows[0]["DT_PREVISAO_EMBARQUE"].ToString();
-            string previsaoChegada = verifica.Rows[0]["DT_PREVISAO_CHEGADA"].ToString();
-
-            /*if(idtipoaviso == "2" && tipoEstufagem != "LCL"){
-                result = "1";
-                return JsonConvert.SerializeObject(result);
-            } else if (idtipoaviso == "3" && viatransporte != "Aérea" || previsaoChegada == "" || previsaoEmbarque == "" ) {
-                result = "1";
-                return JsonConvert.SerializeObject(result);
-            }*/
-
-
-
-            if (listTable.Rows[0]["TPPROCESSO"].ToString() == "P")
-            {
-
-                SQL = "SELECT M.NR_BL as NRMASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
-                string documentos = "C:\\UPLOADS\\" + path + "";
-                string docup = "C:\\UPLOADS\\";
-                if (Directory.Exists(docup) == false)
-                {
-                    return JsonConvert.SerializeObject("1");
-                }
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-                
-                File.Copy(documentos, diretorio + path, true);
-            }
-            else
-            {
-                SQL = "SELECT M.NR_BL as BL_MASTER, C.NR_PROCESSO AS NRHOUSE FROM TB_BL C LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL WHERE C.ID_BL = '" + idProcesso + "' ";
-                DataTable listTable2 = new DataTable();
-                listTable2 = DBS.List(SQL);
-                string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
-                string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string blmaster = listTable2.Rows[0]["BL_MASTER"].ToString();
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\MASTER-"+blmaster+"\\";
-                string documentos = "C:\\UPLOADS\\" + path+"";
-                string docup = "C:\\UPLOADS\\";
-                if (Directory.Exists(docup) == false)
-                {
-                    return JsonConvert.SerializeObject("1");
-                }
-                if (Directory.Exists(diretorio) == false)
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(diretorio);
-                }
-                
-                File.Copy(documentos, diretorio + path, true);
-            }
-            result = "0";
-            return JsonConvert.SerializeObject(result);
         }
 
         [WebMethod]
         public string uploadArquivo(string idprocesso, string iddocumento, string arquivo, string idtipoaviso)
         {
+            string path = HttpContext.Current.Server.MapPath("~/UPLOADS/");
             string SQL;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
@@ -1206,17 +1218,17 @@ namespace ABAINFRA.Web
                 listTable2 = DBS.List(SQL);
                 string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
                 string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
+                string diretorio = path+"20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
                 SQL += "VALUES ('" + idprocesso + "',NULL,'" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','"+ pathrobo + "') ";
 
-                string upload = DBS.ExecuteScalar(SQL);
+                DBS.ExecuteScalar(SQL);
 
                 SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
                 SQL += "VALUES ('"+ sqlFormattedDate + "','"+ sqlFormattedDate + "','"+ idtipoaviso + "', '"+ idprocesso + "',NULL,'"+idprocesso+"',NULL,NULL) ";
 
-                string uploadSolicitacao = DBS.ExecuteScalar(SQL);
+                DBS.ExecuteScalar(SQL);
             }
             else
             {
@@ -1230,23 +1242,23 @@ namespace ABAINFRA.Web
                 DataTable listTable4 = new DataTable();
                 listTable4 = DBS.List(SQL);
                 string nrblmaster = listTable4.Rows[0]["NRMASTER"].ToString();
-                string diretorio = "C:\\FCA\\DOCUMENTOS\\20" + anoH + "\\" + mesH + "\\MASTER-" + nrblmaster + "\\";
+                string diretorio = path+"20" + anoH + "\\" + mesH + "\\MASTER-" + nrblmaster + "\\";
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
                 SQL += "VALUES (NULL,'" + blmaster + "','" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','" + pathrobo + "') ";
-                string upload2 = DBS.ExecuteScalar(SQL);
+                DBS.ExecuteScalar(SQL);
 
                 if (idtipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
                     SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','"+parceiroRD+"',NULL) ";
-                    string solicitacao = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);
                 }
                 else if(idtipoaviso == "2")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
                     SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "',NULL,'"+parceiroD+"') ";
-                    string solicitacao2 = DBS.ExecuteScalar(SQL);
+                    DBS.ExecuteScalar(SQL);
                 }
             }
 

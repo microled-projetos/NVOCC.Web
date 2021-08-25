@@ -15,7 +15,7 @@
 
             Response.Redirect("Default.aspx")
         Else
-            If Request.QueryString("id") <> "" Then
+            If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 txtID_BL.Text = Request.QueryString("id")
                 Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,GRAU,ID_BL_MASTER, (SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)NR_BL_MASTER FROM TB_BL A WHERE ID_BL = " & txtID_BL.Text)
                 If ds1.Tables(0).Rows.Count > 0 Then
@@ -46,7 +46,7 @@
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
             dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
             dgvTaxas.DataBind()
 
 

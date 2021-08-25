@@ -17,6 +17,12 @@
             #DivImpressao {
                 display: block;
             }
+             td,th,tr{
+                padding-left:10px;
+                padding-right:10px;
+
+            }
+
         }
     </style>
     <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">

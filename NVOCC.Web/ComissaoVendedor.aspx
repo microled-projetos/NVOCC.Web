@@ -47,7 +47,8 @@
                                             <asp:Label ID="Label2" runat="server">Filtro</asp:Label><br />
 
                                             <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
-                                                <asp:ListItem Value="3" Selected="True">Vendedores</asp:ListItem>
+                                                <asp:ListItem Value="0" Selected="True">Todos os registros</asp:ListItem>
+                                                <asp:ListItem Value="3">Vendedores</asp:ListItem>
                                                 <asp:ListItem Value="4">Sub Vendedores</asp:ListItem>
                                                 <asp:ListItem Value="5">Equipe Inside</asp:ListItem>
                                                 <asp:ListItem Value="1">Nome</asp:ListItem>
@@ -115,7 +116,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTAS FISCAL" SortExpression="NR_NOTAS_FISCAL" />
+                                                <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
                                                 <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" />
                                                 <asp:BoundField DataField="TP_SERVICO" HeaderText="IMP/EXP" SortExpression="TP_SERVICO" />
                                                 <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
@@ -123,10 +124,11 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
-                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="COMISSAO BASE" SortExpression="VL_COMISSAO_BASE" />
+                                                <asp:BoundField DataField="VL_COMISSAO_BASE" HeaderText="BASE" SortExpression="VL_COMISSAO_BASE" />
                                                 <asp:BoundField DataField="VL_PERCENTUAL" HeaderText="PERCENTUAL" SortExpression="VL_PERCENTUAL" />
-                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO TOTAL" SortExpression="VL_COMISSAO_TOTAL" />
-                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="VL_COMISSAO_TOTAL" HeaderText="COMISSAO" SortExpression="VL_COMISSAO_TOTAL" />
+                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="LIQUIDAÇÃO" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="DT_EXPORTACAO" HeaderText="EXPORTAÇÃO" SortExpression="DT_EXPORTACAO" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -615,8 +617,9 @@
                                     </Triggers>
                                 </asp:UpdatePanel>
 
+                                                               <asp:TextBox ID="TextBox2" runat="server" Style="display: none;"></asp:TextBox>
 
-                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="btnFecharCCProcesso"></ajaxToolkit:ModalPopupExtender>
+                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlCCProcesso" TargetControlID="lkCCProcesso" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlCCProcesso" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -627,6 +630,9 @@
                                                             <div class="alert alert-warning" id="divInfoCCProcesso" runat="server" visible="false">
                                     <asp:Label ID="lblInfoCCProcesso" runat="server"></asp:Label>
                                 </div>
+                                                             <div class="alert alert-danger" id="divErroCCProcesso" runat="server" visible="false">
+                                    <asp:Label ID="lblErroCCProcesso" runat="server"></asp:Label>
+                                </div> 
                             <div class="row">
                                                                             
                                      <div class="col-sm-6">
@@ -640,7 +646,7 @@
                                     <div class="form-group">                                          
 <asp:Label ID="Label34" runat="server">Data Liquidação</asp:Label><label runat="server" style="color: red">*</label><br />
 
-                               <asp:TextBox ID="txtLiquidacaoCCProcesso" runat="server" CssClass="form-control data"></asp:TextBox>
+                               <asp:TextBox ID="txtLiquidacaoCCProcesso" runat="server" CssClass="form-control data" AutoPostBack="true"></asp:TextBox>
                                         </div>
                                          </div>
                                          </div>
@@ -659,8 +665,8 @@
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvComissoes" />
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                     <asp:AsyncPostBackTrigger ControlID="btnFecharAlteraComisaao" />
-
+                                <asp:AsyncPostBackTrigger ControlID="btnFecharAlteraComisaao" />
+                                <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoCCProcesso" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                 <asp:PostBackTrigger ControlID="lkCSV" />
                             </Triggers>

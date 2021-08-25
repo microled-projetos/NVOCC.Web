@@ -959,6 +959,15 @@ Partial Public Class Account
     Protected WithEvents pnlComissoes As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle ddlDivisaoProfit.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlDivisaoProfit As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle dgvComissoes.
     '''</summary>
     '''<remarks>
@@ -1236,6 +1245,15 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsOutrasTaxas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsDivisaoProfit.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsDivisaoProfit As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsDevolucaoFrete.

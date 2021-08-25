@@ -116,7 +116,7 @@
                                            </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                                                                <h5>DEVOLUÇÃO AGENTE</h5>
+                                                                                <h5>DEVOLUÇÃO AGENTE - <asp:Label ID="lblStatusComissoesMBL"  runat="server"/></h5>
 
 <asp:GridView ID="dgvComissoesMBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>
@@ -315,7 +315,7 @@
                                            </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                                                                <h5>DEVOLUÇÃO AGENTE</h5>
+                                                                                <h5>DEVOLUÇÃO AGENTE - <asp:Label ID="lblStatusComissoesHBL"  runat="server"/></h5>
 
 <asp:GridView ID="dgvComissoesHBL" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." AllowPaging="true" PageSize="10">
                                             <Columns>

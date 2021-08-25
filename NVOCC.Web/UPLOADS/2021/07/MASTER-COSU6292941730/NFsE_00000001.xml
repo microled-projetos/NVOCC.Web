@@ -1,0 +1,49 @@
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+  <LoteRps Id="_10000001">
+    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10000001</NumeroLote>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00693367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+      <Rps>
+        <InfRps Id="_20000001">
+          <IdentificacaoRps>
+            <Numero>000007</Numero>
+            <Serie>1</Serie>
+            <Tipo>1</Tipo>
+          </IdentificacaoRps>
+          <DataEmissao>2021-05-24T10:52:13</DataEmissao>
+          <NaturezaOperacao>1</NaturezaOperacao>
+          <OptanteSimplesNacional>1</OptanteSimplesNacional>
+          <IncentivadorCultural>2</IncentivadorCultural>
+          <Status>1</Status>
+          <Servico>
+            <Discriminacao>ITEM 535 - AD FUEL  - R$ 7,70 * ITEM 535 - AD FUEL  - R$ 7,70 Valor aproximado dos tributos R$ 0,00 (12,25%) conforme LEI 12741/2012</Discriminacao>
+            <CodigoMunicipio>3548500</CodigoMunicipio>
+          </Servico>
+          <Prestador>
+            <Cnpj>00693367000311</Cnpj>
+            <InscricaoMunicipal>1831854</InscricaoMunicipal>
+          </Prestador>
+          <Tomador>
+            <IdentificacaoTomador>
+              <CpfCnpj>
+                <Cnpj>11446781000169</Cnpj>
+              </CpfCnpj>
+            </IdentificacaoTomador>
+            <RazaoSocial>STY COMERCIO DE COSMETICOS LTDA</RazaoSocial>
+            <Endereco>
+              <Endereco>RUA SALDANHA MARINHO</Endereco>
+              <Numero>123</Numero>
+              <Complemento>sala 01</Complemento>
+              <Bairro>Belenzinho</Bairro>
+              <CodigoMunicipio>0000011</CodigoMunicipio>
+              <Cep>03055020</Cep>
+            </Endereco>
+            <Contato />
+          </Tomador>
+        </InfRps>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+</EnviarLoteRpsEnvio>

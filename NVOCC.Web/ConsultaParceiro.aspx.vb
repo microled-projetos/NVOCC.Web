@@ -40,7 +40,7 @@
                 lblInfo.Text = "Parceiro excluído com sucesso"
             End If
 
-
+            AtualizaGrid()
         ElseIf e.CommandName = "Taxas" Then
 
             Dim ds As DataSet = Con.ExecutarQuery("Select FL_TRANSPORTADOR FROM [TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID)
@@ -110,7 +110,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
             txtConsulta.Text = ""
             divPesquisa.Visible = True
             txtConsulta.CssClass = "form-control cnpj"
-        ElseIf ddlConsulta.SelectedValue = 2 Then
+        ElseIf ddlConsulta.SelectedValue = 2 Or ddlConsulta.SelectedValue = 4 Then
             txtConsulta.Text = ""
             divPesquisa.Visible = True
             txtConsulta.CssClass = "form-control"
@@ -123,7 +123,8 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         End If
     End Sub
 
-    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
+
+    Sub AtualizaGrid()
         msgerro.Text = ""
         Dim FILTRO As String = ""
 
@@ -134,7 +135,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
             If ddlConsulta.SelectedValue = 1 Then
                 If Len(txtConsulta.Text) = 18 Then
                     FILTRO = " WHERE CNPJ = '" & txtConsulta.Text & "'"
-                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                    dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
                     dgvParceiros.DataBind()
                 Else
                     msgerro.Text = "CNPJ é composto de 14 caracteres."
@@ -148,25 +149,35 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
                 Else
                     msgerro.Text = "CPF é composto de 11 caracteres."
                 End If
-            Else
+            ElseIf ddlConsulta.SelectedValue = 2 Then
                 FILTRO = " WHERE NM_RAZAO LIKE '%" & txtConsulta.Text & "%' "
+                dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
+                dgvParceiros.DataBind()
+
+            ElseIf ddlConsulta.SelectedValue = 4 Then
+                FILTRO = " WHERE NM_FANTASIA LIKE '%" & txtConsulta.Text & "%' "
                 dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
                 dgvParceiros.DataBind()
             End If
         End If
+    End Sub
+    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
+
+        AtualizaGrid()
+
 
     End Sub
 
-
-
     Protected Sub dgvParceiros_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
         Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+        AtualizaGrid()
 
         If dt IsNot Nothing Then
             dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
             Session("TaskTable") = dt
             dgvParceiros.DataSource = Session("TaskTable")
             dgvParceiros.DataBind()
+
             dgvParceiros.HeaderRow.TableSection = TableRowSection.TableHeader
         End If
     End Sub

@@ -1148,6 +1148,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents btnFecharAlteraComisaao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender6.
     '''</summary>
     '''<remarks>
@@ -1182,6 +1191,24 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblInfoCCProcesso As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErroCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroCCProcesso As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroCCProcesso.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroCCProcesso As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle Label28.

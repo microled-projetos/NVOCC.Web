@@ -113,15 +113,6 @@ Partial Public Class BaixarComissao
     Protected WithEvents txtQuinzena As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ckStatus.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
-
-    '''<summary>
     '''Controle btnPesquisar.
     '''</summary>
     '''<remarks>
@@ -275,6 +266,15 @@ Partial Public Class BaixarComissao
     Protected WithEvents txtContrato As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlContaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlContaBancaria As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle dgvMoedas.
     '''</summary>
     '''<remarks>
@@ -318,4 +318,13 @@ Partial Public Class BaixarComissao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsMoeda As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsContaBancaria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsContaBancaria As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

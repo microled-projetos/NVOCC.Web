@@ -158,7 +158,7 @@ Public Class Faturamento
                         divErro.Visible = True
                         Exit Sub
 
-                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 2 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") <> 1 Then
                         lblmsgErro.Text = "Não foi possivel completar a ação: O tipo de faturamento do registro nao permite baixas pelo modulo atual!"
                         divErro.Visible = True
                         Exit Sub
@@ -584,6 +584,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
     Private Sub btnImprimirBoleto_Click(sender As Object, e As EventArgs) Handles btnImprimirBoleto.Click
         divErro.Visible = False
+        divSuccess.Visible = False
+
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim contador As Integer = 0
@@ -789,27 +791,32 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     ''Parte da impressão do boleto
 
                     Dim myprocess As New Process
-                        myprocess.StartInfo.CreateNoWindow = False
-                        myprocess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-                        myprocess.StartInfo.Verb = "print"
-                        myprocess.StartInfo.Arguments = strImpressora
+                    myprocess.StartInfo.CreateNoWindow = False
+                    myprocess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+                    myprocess.StartInfo.Verb = "print"
+                    myprocess.StartInfo.Arguments = strImpressora
 
-                        myprocess.StartInfo.FileName = Server.MapPath("/Content/boletos\boleto" & numBoletos & ".pdf")
-                        myprocess.Start()
-                        'myprocess.waitforexit(10000)
-                        myprocess.WaitForInputIdle()
+                    myprocess.StartInfo.FileName = Server.MapPath("/Content/boletos\boleto" & numBoletos & ".pdf")
+                    myprocess.Start()
+                    'myprocess.waitforexit(10000)
+                    myprocess.WaitForInputIdle()
 
-                        If myprocess.Responding Then
-                            myprocess.CloseMainWindow()
-                        Else
-                            myprocess.Kill()
-                        End If
+                    If myprocess.Responding Then
+                        myprocess.CloseMainWindow()
+                    Else
+                        myprocess.Kill()
+                    End If
 
                     'myprocess.close()
 
                 Next
 
+                divSuccess.Visible = True
+                lblmsgSuccess.Text = "Boleto gerado com sucesso!"
+
             Catch ex As Exception
+                divErro.Visible = True
+                lblmsgErro.Text = "ERRO: " & ex.Message
 
             End Try
             'Call jsonBoleto(IDs)

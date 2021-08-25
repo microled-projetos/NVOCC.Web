@@ -13,9 +13,7 @@
         .none{
             display:none
         }
-       .teste{
-           text-align:left;
-       }
+     
        th {
     position: sticky !important;
     top: 0;
@@ -57,9 +55,10 @@
                                      
                                      <asp:LinkButton ID="lkFiltrar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                        <asp:LinkButton ID="lkCalcular" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
-                                      <asp:LinkButton ID="lkAprovar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
+                                      <asp:LinkButton ID="lkAprovar" runat="server" UseSubmitBehavior="false" OnClientClick="desabilitaButtonOnClick()" CssClass="lkAprovar btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
                                       <asp:LinkButton ID="lkCancelar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
                                       <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
+                                     <asp:LinkButton ID="lkUpdate" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Em Update</asp:LinkButton>
                             </div>
                <br />
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 
@@ -149,15 +148,15 @@
               <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control"></asp:TextBox>
           </div>
                             <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align:center" >
-                                <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" HeaderStyle-CssClass="teste" allowpaging="true" PageSize="100">
+                                <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" allowpaging="true" PageSize="100">
                                     <Columns >
                                        <asp:BoundField DataField="ID_COTACAO" HeaderText="#" visible="false" />
                                         <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO"/>
                                         <asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA"/>                            
-                                       <asp:TemplateField HeaderText="Status" SortExpression="Status" ItemStyle-CssClass="teste">
-                    <ItemTemplate>
-                                            
-                        <asp:Image ID="Image1" runat="server" /> - <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("Status") %>'/>
+                                       <asp:TemplateField HeaderText="Status" SortExpression="Status" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblStatus"  runat="server" Text='<%# Eval("Status") %>' style="width:100px; padding:8px; text-align:center" />
+                         <asp:Label ID="lblCor" runat="server" Text='<%# Eval("COR") %>' Visible="false"/>
                     </ItemTemplate>
                 </asp:TemplateField>
                                         <asp:BoundField DataField="Cliente" HeaderText="Cliente" SortExpression="Cliente" />
@@ -167,7 +166,7 @@
                                         <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO"/>
                                         <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico"/>
                                         <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente"/>
-                                        <asp:BoundField DataField="COR"  SortExpression="COR" ItemStyle-CssClass="none" />
+<%--                                        <asp:BoundField DataField="COR"  SortExpression="COR" ItemStyle-CssClass="none" />--%>
                                           <asp:TemplateField HeaderText="">
                                               <ItemTemplate>
                                                  <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
@@ -263,5 +262,10 @@ FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
             var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
         };
-        </script>
+
+
+        function desabilitaButtonOnClick() {
+            document.getElementById('<%= lkAprovar.ClientID %>').style.display = 'none';
+        }
+    </script>
 </asp:Content>

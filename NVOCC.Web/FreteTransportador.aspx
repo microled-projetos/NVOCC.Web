@@ -48,12 +48,15 @@
                        
                             </div>
                <br />
-                            <div class="row" style="padding-left:20px" runat="server" id="divPesquisa" Visible="True" >                        
+                            <div class="row" runat="server" id="divPesquisa" Visible="True" >                        
                                
-                                <div class="col-sm-1">
+                                
+                                 <div class="col-sm-2">
                                     <div class="form-group">
-                                        <label class="control-label">Validade Final:</label>
-                                        <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                        <label class="control-label">Via Transporte:</label>
+                                           <asp:TextBox ID="txtViaTransporte" runat="server" style="display:none" CssClass="form-control" />
+                                        <asp:DropDownList ID="ddlViaTransporte" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_VIATRANSPORTE" DataSourceID="dsViaTransporte" DataValueField="ID_VIATRANSPORTE" AutoPostBack="TRUE" >
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
                                             <div class="col-sm-2">
@@ -66,12 +69,20 @@
                                         <label class="control-label">Porto Destino:</label>
                                         <asp:DropDownList ID="ddlDestino" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO"></asp:DropDownList>              </div>
                                 </div>
-                                             <div class="col-sm-3">
+<%--                                </div>
+                                 <div class="row" runat="server" id="div1" Visible="True" >  --%>     
+                                     <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Validade Final:</label>
+                                        <asp:TextBox ID="txtValidadeFinal" runat="server" CssClass="form-control data" ></asp:TextBox>
+                                    </div>
+                                </div>
+                                             <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Transportador:</label>
                                         <asp:DropDownList ID="ddlTransportador" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>            </div>
                                     </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Agente:</label>
                                          <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>         </div>
@@ -129,6 +140,8 @@
   <Triggers>
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
             <asp:PostBackTrigger ControlID="lkExportar" />
+                  <asp:PostBackTrigger ControlID="ddlViaTransporte" />
+
                   <asp:PostBackTrigger ControlID="lkExportaTarifario" />
     </Triggers>
    </asp:UpdatePanel>
@@ -142,22 +155,22 @@
                                     <Columns>
                                         <asp:TemplateField>
 	                                        <ItemTemplate>                                                                
-		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select"
-                                Style="display: none;"></asp:LinkButton>
+		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select" CommandArgument='<%# Eval("id") %>'  Style="display: none;"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" ReadOnly="true" />
-                                        <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="false" />
+                                        <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="False" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_INICIAL"/>
                                         <asp:BoundField DataField="DT_VALIDADE_FINAL" HeaderText="Validade Final" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_FINAL" />
                                         <asp:BoundField DataField="PORTO_ORIGEM" HeaderText="Origem" ReadOnly="true" SortExpression="PORTO_ORIGEM" />
                                         <asp:BoundField DataField="PORTO_DESTINO" HeaderText="Destino" ReadOnly="true" SortExpression="PORTO_DESTINO" />
                                          <asp:BoundField DataField="Transportador" HeaderText="Transportador" ReadOnly="true" SortExpression="Transportador" />
                                         <asp:BoundField DataField="AGENTE" HeaderText="Agente" ReadOnly="true" SortExpression="AGENTE" />
-                                        <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />
+                                        <asp:BoundField DataField="Tarifario" HeaderText="Tarifário" SortExpression="Tarifario" ReadOnly="true" />              
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME" Visible="False" HeaderText="FreeTime" ReadOnly="true" SortExpression="QT_DIAS_FREETIME" />      
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME_OUTROS" HeaderText="FreeTime(DRY/HC)" ReadOnly="true" SortExpression="QT_DIAS_FREETIME_OUTROS" />
+                                        <asp:BoundField DataField="QT_DIAS_FREETIME_NOR" HeaderText="FreeTime(NOR)" ReadOnly="true" SortExpression="QT_DIAS_FREETIME_NOR" />
                                         <asp:BoundField DataField="QT_DIAS_TRANSITTIME_MEDIA" HeaderText="TTime(Média)" SortExpression="QT_DIAS_TRANSITTIME_MEDIA" />
-                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                         <asp:BoundField DataField="Ativo" HeaderText="Ativo" SortExpression="Ativo" ReadOnly="true"/>
                                         <asp:TemplateField ShowHeader="False" >
                                     <EditItemTemplate>
@@ -192,9 +205,7 @@
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT * FROM [View_FreteTransportador] order by ID DESC "
-        	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_INICIAL = @QT_DIAS_TRANSITTIME_INICIAL , QT_DIAS_TRANSITTIME_FINAL = @QT_DIAS_TRANSITTIME_FINAL , QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; 
-            
-            UPDATE [dbo].[TB_TARIFARIO_FRETE_TRANSPORTADOR] SET QT_DIAS_FREETIME = @QT_DIAS_FREETIME WHERE ID_FRETE_TRANSPORTADOR =  @Id AND ID_TARIFARIO_FRETE_TRANSPORTADOR = @ID_TARIFARIO_FRETE_TRANSPORTADOR "  >
+        	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; "  >
             <UpdateParameters>
             <asp:Parameter Name="Id" Type="Int32" />
             <asp:Parameter Name="ID_TARIFARIO_FRETE_TRANSPORTADOR" Type="Int32" />
@@ -209,9 +220,19 @@
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO">
 </asp:SqlDataSource>
-        <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
+
+    <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+              <SelectParameters>
+                <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
+            </SelectParameters>
 </asp:SqlDataSource>
+
+        <asp:SqlDataSource ID="dsViaTransporte" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_VIATRANSPORTE,NM_VIATRANSPORTE FROM [dbo].[TB_VIATRANSPORTE]
+union SELECT  0, 'Selecione' ORDER BY ID_VIATRANSPORTE">
+</asp:SqlDataSource>
+
      <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR  = 1
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">

@@ -39,7 +39,16 @@
                            <div class="form-group">
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                       </div>                       
+                       </div>  
+                       <div class="col-sm-1">
+
+                                        <div class="form-group">
+                                            <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
+                                                <asp:ListItem Value="0"  Selected="True">&nbsp;Abertos</asp:ListItem>
+                                                <asp:ListItem Value="1">&nbsp;Cancelados</asp:ListItem>
+                                            </asp:RadioButtonList>
+                                        </div>
+                                    </div>
                        <div class="col-sm-1" style="padding-top: 20px;">
                            <div class="form-group">
                                <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisa" CssClass="btn btn-success" />
@@ -79,7 +88,7 @@
                                     <asp:TemplateField HeaderText="">
                                         <ItemTemplate>
                                             <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Faturar"></asp:LinkButton>
+                                                CommandArgument='<%# Eval("ID_CONTA_PAGAR_RECEBER") %>' CommandName="Selecionar" Text="Enviar"></asp:LinkButton>
                                         </ItemTemplate>
                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                     </asp:TemplateField>
@@ -105,7 +114,7 @@
 </div>
 
    <asp:SqlDataSource ID="dsContasReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE  (CD_PR = 'R') AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL)"></asp:SqlDataSource>
+        SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE DT_ENVIO_FATURAMENTO IS NULL AND (CD_PR = 'R') AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL) AND ISNULL(TP_EXPORTACAO,'') = '' AND DT_CANCELAMENTO IS NULL"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>

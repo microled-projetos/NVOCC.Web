@@ -86,6 +86,24 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents ddlOrigem_Pagamento As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtViaTransporte As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlViaTransporte.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlViaTransporte As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ddlOrigem.
     '''</summary>
     '''<remarks>
@@ -257,15 +275,6 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents ddlFrequencia As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtTaxas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtTaxas As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle txtValidadeFinal.
     '''</summary>
     '''<remarks>
@@ -275,13 +284,13 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents txtValidadeFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlViaTransporte.
+    '''Controle txtTaxas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlViaTransporte As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtTaxas As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnLimpar.

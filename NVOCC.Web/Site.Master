@@ -14,7 +14,10 @@
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv='cache-control' content='no-cache'/>
+    <meta http-equiv='expires' content='0' />
+    <meta http-equiv='pragma' content='no-cache'/>
     <title>NVOCC - Agenciamento</title>
 
     <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
@@ -123,7 +126,7 @@
                                 <a href="CotacaoComercial.aspx" runat="server" id="mnCotacaoComercial">Cotação Comercial</a>
                             </li>
                              <li>
-                                <a href="#" id="A15" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <a href="#" id="MenuComissoes2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
                                 <ul class="dropdown-sub" style="top: 50%!important">                                  
                                     <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="mnComissaoVendedor">Vendedor</a></li>
                                     
@@ -137,7 +140,7 @@
                         <a href="#" id="MenuOperacao" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cogs"></i>&nbsp;Operação<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="ListagemBL.aspx" runat="server" id="mnModuloOperacional">Módulo Operacional</a>
+                                <a href="ListagemBL.aspx" runat="server" id="mnOperacionalListagemBL">Módulo Operacional</a>
                             </li>                            
                             <li>
                                 <a href="ConsultarWeek.aspx" runat="server" id="mnConsultarWeek">Consultar Week</a>
@@ -161,17 +164,26 @@
                                 <a href="ModuloDemurrage.aspx" runat="server" id="mnModuloDemurrage">Demurrage</a>
                             </li>                       
                             <li>
-                                <a href="#" id="A3" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 40%!important;">                                  
+                                <a href="#" id="MenuAccount" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 35%!important;">                                  
                                     <li><a id="mnAccount" style="font-size: 13px;" runat="server" href="Account.aspx">Invoices</a></li>
                                      <li><a id="mnFechamentoCambio" style="font-size: 13px;" runat="server" href="FechamentoCambio.aspx">Fechamento de Câmbio</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#" id="A11" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 65%!important">                                  
+                                <a href="#" id="MenuComissoes" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 55%!important">                                  
                                     <li><a id="mnComissaoIndicadorNacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
                                      <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
+                                </ul>
+                            </li>
+                             <li>
+                                <a href="#" id="MenuTotvs" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 75%!important">                                  
+                                     <li><a id="mnTOTVSDespesa" style="font-size: 13px;" runat="server" href="integracaoTOTVSDespesa.aspx">Nota de Despesa</a></li>
+                                       <li><a id="mnTOTVSPA" style="font-size: 13px;" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
+                                       <li><a id="mnTOTVSDebit" style="font-size: 13px;" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
+                                       <li><a id="mnTOTVSCredit" style="font-size: 13px;" runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -179,36 +191,39 @@
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" id="mnFaturamento" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-usd"></i>&nbsp;Faturamento<span class="caret"></span></a>
+                        <a href="#" id="MenuFaturamento" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-usd"></i>&nbsp;Faturamento<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="Faturamento.aspx" runat="server" id="A12">Faturamento</a>
+                                <a href="Faturamento.aspx" runat="server" id="mnFaturamento">Faturamento</a>
                             </li>
                            
-                            <li>
+                            <%--<li>
                                 <a href="#"  runat="server" id="A14">Notas Fiscais</a>
-                            </li>
+                            </li>--%>
                              <li>
-                                <a href="#" runat="server" id="A16">TOTVS</a>
+                                <a href="#" id="MenuTotvs2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <ul class="dropdown-sub" style="top: 55%!important">                                  
+                                    <li><a id="mnTOTVSServico" style="font-size: 13px;" runat="server" href="integracaoTOTVSServico.aspx">Nota de Serviço</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
                  <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" id="mnModuloGerencial" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-chart-bar"></i>&nbsp;Gerencial<span class="caret"></span></a>
+                        <a href="#" id="MenuGerencial" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-chart-bar"></i>&nbsp;Gerencial<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="ModuloGerencial.aspx" runat="server" id="A22">Modulo Gerencial</a>
+                                <a href="ModuloGerencial.aspx" runat="server" id="mnModuloGerencial">Modulo Gerencial</a>
                             </li>
                             <li>
-                                <a href="ModuloOperacional.aspx" runat="server" id="A5">Modulo Operacional</a>
+                                <a href="ModuloOperacional.aspx" runat="server" id="mnModuloOperacional">Modulo Operacional</a>
                             </li>
                             <li>
-                                <a href="GerencialMaster.aspx" runat="server" id="A23">Gerencial Master</a>
+                                <a href="GerencialMaster.aspx" runat="server" id="mnGerencialMaster">Gerencial Master</a>
                             </li>
                              <li>
-                                <a href="DashBoard.aspx" runat="server" id="A24">DashBoard</a>
+                                <a href="DashBoard.aspx" runat="server" id="mnDashBoard">DashBoard</a>
                             </li>
                            
                         </ul>
