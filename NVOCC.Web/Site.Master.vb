@@ -193,6 +193,14 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnGerencialMaster.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2045 And linha.Item("Acessar").ToString() = 0 Then
                         mnModuloOperacional.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2046 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelacaoCotacao.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2047 And linha.Item("Acessar").ToString() = 0 Then
+                        mnContaPagarReceber.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2048 And linha.Item("Acessar").ToString() = 0 Then
+                        mnEstimativaContaPagarReceber1.Visible = False
+                        mnEstimativaContaPagarReceber2.Visible = False
+
                     End If
 
 
@@ -245,6 +253,14 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
 
             If mnDashBoard.Visible = False And mnGerencialMaster.Visible = False And mnModuloGerencial.Visible = False And mnModuloOperacional.Visible = False Then
                 MenuGerencial.Visible = False
+            End If
+
+            If mnRelacaoCotacao.Visible = False Then
+                MnRelatorioCotacao.Visible = False
+            End If
+
+            If mnEstimativaContaPagarReceber1.Visible = False And mnEstimativaContaPagarReceber2.Visible = False And mnContaPagarReceber.Visible = False Then
+                MnRelatoriosFinanceiros.Visible = False
             End If
         End If
 

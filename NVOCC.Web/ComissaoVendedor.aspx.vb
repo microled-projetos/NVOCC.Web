@@ -345,13 +345,13 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
         Else
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2029 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-                lblErroExcluir.Text = "Usuário não tem permissão!"
-                DivExcluir.Visible = True
+                lblErroGerarComissao.Text = "Usuário não tem permissão!"
+                divErroGerarComissao.Visible = True
             Else
                 Dim dsQtd As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND FL_VENDEDOR_DIRETO =1 ")
                 If dsQtd.Tables(0).Rows(0).Item("QTD") = 0 Then
-                    lblErroExcluir.Text = "Não há processos liquidados nesse período!"
-                    DivExcluir.Visible = True
+                    lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
+                    divErroGerarComissao.Visible = True
                 Else
 
                     Dim NOVA_COMPETECIA As String = txtNovaCompetencia.Text
@@ -765,6 +765,12 @@ ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO_VENDEDOR FROM TB_SUB_VENDEDOR WHERE 
             divErroCCProcesso.Visible = True
             lblErroCCProcesso.Text = "É necessario informar a data de liquidação!"
             ModalPopupExtender6.Show()
+        ElseIf lblCompetenciaCCProcesso.Text = "" Then
+
+            divErroCCProcesso.Visible = True
+            lblErroCCProcesso.Text = "É necessario pesquisar uma competência!"
+            ModalPopupExtender6.Show()
+
         Else
 
             If lblContasReceber.Text <> 0 Then
@@ -805,6 +811,8 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
     Private Sub btnFecharCCProcesso_Click(sender As Object, e As EventArgs) Handles btnFecharCCProcesso.Click
         txtLiquidacaoCCProcesso.Text = ""
         divInfoCCProcesso.Visible = False
+        divErroCCProcesso.Visible = False
+
     End Sub
 
 

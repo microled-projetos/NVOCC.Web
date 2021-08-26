@@ -53,7 +53,7 @@
                   <div class="col-sm-9">
                     <div class="form-group">
                          <label class="control-label">Empresa:</label>
-                                <asp:DropDownList ID="ddlEmpresa" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NM_FANTASIA" DataSourceID="dsEmpresas" DataValueField="ID_PARCEIRO">
+                                <asp:DropDownList ID="ddlEmpresa" runat="server" CssClass="form-control" Font-Size="11px" AutoPostBack="True" DataTextField="NM_RAZAO" DataSourceID="dsEmpresas" DataValueField="ID_PARCEIRO">
                                 </asp:DropDownList>
                         </div>
                     </div></div>
@@ -208,8 +208,8 @@
     </div>
 </div>
      <asp:SqlDataSource ID="dsEmpresas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_FANTASIA FROM [dbo].[TB_PARCEIRO] WHERE FL_ATIVO = 1 /*FILTRO*/  union SELECT 0 , 'Selecione'  FROM [dbo].[TB_PARCEIRO]
-Order by ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_ATIVO = 1 /*FILTRO*/  union SELECT 0 , '   Selecione'  FROM [dbo].[TB_PARCEIRO]
+Order by NM_RAZAO">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsEventos" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT [IDTIPOAVISO],[NMTIPOAVISO] FROM [dbo].[TB_TIPOAVISO] union SELECT 0 , 'Selecione'  FROM [dbo].[TB_TIPOAVISO]

@@ -86,6 +86,15 @@ Partial Public Class Faturamento
     Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
 
     '''<summary>
+    '''Controle txtDataCheckLiquidados.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataCheckLiquidados As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnPesquisar.
     '''</summary>
     '''<remarks>

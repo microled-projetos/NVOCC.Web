@@ -29,7 +29,7 @@ Public Class EmailService
         Try
             Con.ExecutarQuery(Comando)
             Con.Fechar()
-            msg = "Email de senha temporaria enviado com sucesso!"
+            msg = "Email enviado com sucesso!"
             Return (msg)
         Catch ex As Exception
             '  Throw ex

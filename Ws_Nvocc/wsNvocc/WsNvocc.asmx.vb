@@ -625,7 +625,7 @@ Public Class WsNvocc
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
         Dim objXML As New XmlDocument
-        Dim client As New NFSe_Homologa.ServiceGinfesImplClient 'NFsE_Santos.ServiceGinfesImplClient
+        Dim client As New NFSe_Homologa.ServiceGinfesImplClient
         'Dim client As New NFsE_Santos.ServiceGinfesImplClient
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
         Dim docCab As New XmlDocument

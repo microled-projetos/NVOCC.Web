@@ -430,6 +430,7 @@
                                                                 <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
                                                                 <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                                 <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
+                                                                <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volume" SortExpression="QT_MERCADORIA" />
                                                                 <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                                 <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
                                                                 <asp:BoundField DataField="NCM" HeaderText="NCM" SortExpression="NCM" />
@@ -1517,6 +1518,7 @@ VENDAS:
                                                         <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
                                                         <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                         <asp:BoundField DataField="MERCADORIA" HeaderText="Tipo Carga" SortExpression="MERCADORIA" />
+                                                        <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volume" SortExpression="QT_MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
                                                         <asp:BoundField DataField="VL_M3" HeaderText="M3" SortExpression="VL_M3" />
                                                         <asp:BoundField DataField="NCM" HeaderText="NCM" SortExpression="NCM" />
@@ -2474,7 +2476,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
 (SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
-ID_MERCADORIA,
+ID_MERCADORIA,QT_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,
@@ -2490,7 +2492,7 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
 ID_CNTR_BL,
 (SELECT NR_CNTR FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)CONTAINER,
 (SELECT QT_DIAS_FREETIME FROM TB_CNTR_BL WHERE ID_CNTR_BL = A.ID_CNTR_BL)QT_DIAS_FREETIME,
-ID_MERCADORIA,
+ID_MERCADORIA,QT_MERCADORIA,
 (SELECT NM_TIPO_CARGA FROM [dbo].[TB_TIPO_CARGA] WHERE ID_TIPO_CARGA = A.ID_MERCADORIA)MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,

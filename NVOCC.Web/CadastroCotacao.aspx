@@ -788,7 +788,7 @@
                                  <div class="col-sm-4" runat="server" id="divCompraMinimaLCL">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Compra Mínina):</label>
-                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteCompraMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>   
                                  </div>
@@ -796,19 +796,19 @@
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda Unit.):</label>
-                                        <asp:TextBox ID="txtFreteVendaMercadoriaUnitario"   runat="server" AutoPostBack="true" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVendaMercadoriaUnitario"   runat="server" AutoPostBack="true" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                       <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete(Venda Calc.):</label>
-                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc"   runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVendaMercadoriaCalc"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                   <div class="col-sm-4" runat="server" id="divVendaMinimaLCL">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Venda Mínina):</label>
-                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control moeda" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtFreteVendaMinima" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                           </div> 

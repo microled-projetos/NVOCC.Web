@@ -451,10 +451,12 @@ B.ID_BASE_CALCULO_TAXA,isnull(A.VL_TOTAL_M3,0)VL_M3,
 isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO, 
 (select CONVERT(varchar,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = A.ID_MOEDA_FRETE)DT_CAMBIO,
 isnull(B.VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN,
-isnull(B.VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN
+isnull(B.VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN,
+B.ID_MOEDA_COMPRA,
+B.ID_MOEDA_VENDA
 From TB_COTACAO A 
 Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
-WHERE A.ID_COTACAO =" & txtID.Text)
+WHERE isnull(B.VL_TAXA_COMPRA,0) <> 0 AND isnull(B.VL_TAXA_VENDA,0) <> 0 AND A.ID_COTACAO =" & txtID.Text)
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
@@ -473,6 +475,14 @@ WHERE A.ID_COTACAO =" & txtID.Text)
                 ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Base de Calculo não informada."
+                    divSuccess.Visible = False
+                ElseIf IsDBNull(linha.Item("ID_MOEDA_COMPRA")) Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda não informada."
+                    divSuccess.Visible = False
+                ElseIf IsDBNull(linha.Item("ID_MOEDA_VENDA")) Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda não informada."
                     divSuccess.Visible = False
 
                 ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
@@ -1867,21 +1877,22 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
 
-        Dim dsCarga As DataSet = Con.ExecutarQuery("SELECT QT_CONTAINER FROM TB_COTACAO_MERCADORIA
- WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0  and ID_COTACAO =  " & txtID.Text)
+        Dim dsCarga As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
+ WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
         If dsCarga.Tables(0).Rows.Count > 0 Then
-            Dim QT_CONTAINER = dsCarga.Tables(0).Rows(0).Item("QT_CONTAINER")
+            Dim QT_CONTAINER As Integer
+            For Each linha As DataRow In dsCarga.Tables(0).Rows
+                QT_CONTAINER = linha.Item("QT_CONTAINER")
 
-            For i As Integer = 1 To QT_CONTAINER Step 1
-                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & "  FROM TB_COTACAO_MERCADORIA
- WHERE ID_COTACAO =  " & txtID.Text)
+                For i As Integer = 1 To QT_CONTAINER Step 1
+                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER  FROM TB_COTACAO_MERCADORIA
+        WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+                Next
             Next
-
         Else
             Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3," & ID_BL & " FROM TB_COTACAO_MERCADORIA
  WHERE ID_COTACAO =  " & txtID.Text)
         End If
-
 
         If reaprovamento = True Then
 
