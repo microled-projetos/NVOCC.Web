@@ -452,11 +452,11 @@ isnull(A.VL_TOTAL_PESO_BRUTO,0)VL_PESO_BRUTO,
 (select CONVERT(varchar,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = A.ID_MOEDA_FRETE)DT_CAMBIO,
 isnull(B.VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN,
 isnull(B.VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN,
-B.ID_MOEDA_COMPRA,
-B.ID_MOEDA_VENDA
+isnull(B.ID_MOEDA_COMPRA,0)ID_MOEDA_COMPRA,
+isnull(B.ID_MOEDA_VENDA,0)ID_MOEDA_VENDA
 From TB_COTACAO A 
 Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
-WHERE isnull(B.VL_TAXA_COMPRA,0) <> 0 AND isnull(B.VL_TAXA_VENDA,0) <> 0 AND A.ID_COTACAO =" & txtID.Text)
+WHERE A.ID_COTACAO =" & txtID.Text)
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
@@ -476,15 +476,17 @@ WHERE isnull(B.VL_TAXA_COMPRA,0) <> 0 AND isnull(B.VL_TAXA_VENDA,0) <> 0 AND A.I
                     divErro.Visible = True
                     lblmsgErro.Text = "Base de Calculo não informada."
                     divSuccess.Visible = False
-                ElseIf IsDBNull(linha.Item("ID_MOEDA_COMPRA")) Then
+                    Exit Sub
+                ElseIf linha.Item("ID_MOEDA_COMPRA") = 0 And linha.Item("VL_TAXA_COMPRA") <> 0 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Moeda não informada."
                     divSuccess.Visible = False
-                ElseIf IsDBNull(linha.Item("ID_MOEDA_VENDA")) Then
+                    Exit Sub
+                ElseIf linha.Item("ID_MOEDA_VENDA") = 0 And linha.Item("VL_TAXA_VENDA") <> 0 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Moeda não informada."
                     divSuccess.Visible = False
-
+                    Exit Sub
                 ElseIf IsDBNull(linha.Item("DT_CAMBIO")) Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
@@ -510,7 +512,7 @@ WHERE isnull(B.VL_TAXA_COMPRA,0) <> 0 AND isnull(B.VL_TAXA_VENDA,0) <> 0 AND A.I
                         divErro.Visible = True
                         lblmsgErro.Text = "Base de Calculo não informada."
                         divSuccess.Visible = False
-
+                        Exit Sub
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
                         'VR DO FRETE
@@ -1841,7 +1843,7 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
             Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA)
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & ",  
  
-  CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN ID_PARCEIRO_IMPORTADOR
  ELSE ID_CLIENTE
  END ID_PARCEIRO_EMPRESA, 
@@ -1864,7 +1866,7 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
         Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA)
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_VENDA_MIN," & ID_BL & ",'R',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & " ,
  
-  CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN ID_PARCEIRO_IMPORTADOR
  ELSE ID_CLIENTE
  END ID_PARCEIRO_EMPRESA, 
