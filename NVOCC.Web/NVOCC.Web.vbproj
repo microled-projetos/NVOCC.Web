@@ -254,6 +254,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account.aspx" />
+    <Content Include="AtendimentoNegado.aspx" />
+    <Content Include="AtendimentoNegado.aspx.cs" />
+    <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />

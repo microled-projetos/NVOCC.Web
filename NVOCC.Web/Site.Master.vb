@@ -200,7 +200,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2048 And linha.Item("Acessar").ToString() = 0 Then
                         mnEstimativaContaPagarReceber1.Visible = False
                         mnEstimativaContaPagarReceber2.Visible = False
-
+                    ElseIf linha.Item("ID").ToString() = 2049 And linha.Item("Acessar").ToString() = 0 Then
+                        mnAtendimentoNegado.Visible = False
                     End If
 
 
@@ -227,11 +228,13 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuComissoes2.Visible = False
             End If
 
-            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False Then
-                MenuComercial.Visible = False
+            If mnRelacaoCotacao.Visible = False Then
+                MnRelatorioCotacao.Visible = False
             End If
 
-
+            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MnRelatorioCotacao.Visible = False And mnAtendimentoNegado.Visible = False Then
+                MenuComercial.Visible = False
+            End If
 
             If mnModuloOperacional.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False Then
                 MenuOperacao.Visible = False
@@ -255,9 +258,6 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuGerencial.Visible = False
             End If
 
-            If mnRelacaoCotacao.Visible = False Then
-                MnRelatorioCotacao.Visible = False
-            End If
 
             If mnEstimativaContaPagarReceber1.Visible = False And mnEstimativaContaPagarReceber2.Visible = False And mnContaPagarReceber.Visible = False Then
                 MnRelatoriosFinanceiros.Visible = False

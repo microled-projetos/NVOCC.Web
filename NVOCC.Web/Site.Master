@@ -138,6 +138,9 @@
                                     <li><a style="font-size: 13px;" href="RelacaoCotacao.aspx" runat="server" id="mnRelacaoCotacao">Relação das Cotações</a></li>                              
                                 </ul>
                             </li>
+                             <li>
+                                <a href="AtendimentoNegado.aspx" runat="server" id="mnAtendimentoNegado">Atendimentos Rejeitados</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
