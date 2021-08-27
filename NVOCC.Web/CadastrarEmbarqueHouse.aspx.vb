@@ -194,6 +194,7 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
                         txtObsCliente_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
+                        txtObsCliente_ObsMaritimo.Enabled = False
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")) Then
@@ -206,6 +207,7 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")) Then
                         txtObsoperacional_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")
+                        txtObsoperacional_ObsMaritimo.Enabled = False
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
