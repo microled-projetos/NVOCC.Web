@@ -613,7 +613,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Taxas Included:</label>
-                                        <asp:TextBox ID="txtIncludedFrete" runat="server"  CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtIncludedFrete" runat="server"  CssClass="form-control" MaxLength="200"></asp:TextBox>
                                     </div>
                                 </div>
                    
