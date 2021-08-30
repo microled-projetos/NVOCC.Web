@@ -91,7 +91,7 @@
                             <div class="row topMarg">
                                 <div class="form-group" style="display:flex;align-items:center; margin-bottom: 0px; margin-left: 10px;">
                                     <div>
-                                        <asp:CheckBox ID="chk3D" runat="server" CssClass="form-control noborder" Text="&nbsp;Visualizar em 3D"></asp:CheckBox>
+                                        <asp:CheckBox ID="chkInstrEmbarque" runat="server" CssClass="form-control noborder" Text="&nbsp;Incluir instruções de embarque" Checked="true"></asp:CheckBox>
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +358,7 @@
                         for (var i = 0; i < data.length; i++) {
                             $("#tblIndicadorProcImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_IMP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["PROC_IMP"] + " %</td></tr>");
+                                "<td class='text-center'>" + parseFloat(data[0]["TOTAL"]) * parseFloat(data[i]["PROC_IMP"]) / 100.00 + " %</td></tr>");
                             $("#tblIndicadorCNTRImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_IMP"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_IMP"] + " %</td></tr>");
@@ -412,7 +412,7 @@
                         for (var i = 0; i < data.length; i++) {
                             $("#tblIndicadorProcImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] + "' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_IMP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["PROC_IMP"] + " %</td></tr>");
+                                "<td class='text-center'>" + data[0]["TOTAL"] * data[i]["PROC_IMP"] / 100 +" %</td></tr>");
                             $("#tblIndicadorCNTRImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] + "' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_IMP"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_IMP"] + " %</td></tr>");
@@ -738,12 +738,17 @@
 
         function gerarGrafico() {
             colorChange();
-            console.log(type);
+            var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
+            if (instrEmbarque.checked) {
+                instrEmbarque = "1";
+            } else {
+                instrEmbarque = "0";
+            }
             if (type == "bar") {
                 $.ajax({
                     type: "POST",
                     url: "Gerencial.asmx/CarregarEstatistica",
-                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque:"' + instrEmbarque + '" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
@@ -816,7 +821,7 @@
                 $.ajax({
                     type: "POST",
                     url: "Gerencial.asmx/CarregarEstatisticaPizza",
-                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                    data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque: "' + instrEmbarque + '" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {

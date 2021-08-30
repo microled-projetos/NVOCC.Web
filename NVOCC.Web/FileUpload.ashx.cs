@@ -111,13 +111,13 @@ namespace ABAINFRA.Web
                 if (tipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL, '" + parceiroD + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
                 else
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL,'" + parceiroD + "') ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "', NULL) ";
                     DBS.ExecuteScalar(SQL);
                 }
 

@@ -133,14 +133,14 @@
   <Triggers>
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
              <asp:PostBackTrigger ControlID="lkImprimir" />
-                   <asp:PostBackTrigger ControlID="btnImprimir" />
+                   <asp:AsyncPostBackTrigger ControlID="btnImprimir" />
             <asp:PostBackTrigger ControlID="btnEnviar" />
     </Triggers>
    </asp:UpdatePanel> 
                             <br />
                              <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
     <ContentTemplate>
-        <div runat="server" id="divAuxiliar" visible="false" >
+        <div runat="server" id="divAuxiliar"  Style="display:none" >
               <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
               <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
               <asp:TextBox ID="txtServico" runat="server" CssClass="form-control"></asp:TextBox>
@@ -266,6 +266,17 @@ FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
 
         function desabilitaButtonOnClick() {
             document.getElementById('<%= lkAprovar.ClientID %>').style.display = 'none';
+        }
+
+        function ImprimirCotacao() {
+
+          var ID = document.getElementById('<%= txtID.ClientID %>').value;
+          var Linguagem = document.getElementById('<%= ddlLinguagem.ClientID %>').value;
+
+            console.log(Linguagem);
+            console.log(ID);
+            window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=i', '_blank');
+           
         }
     </script>
 </asp:Content>

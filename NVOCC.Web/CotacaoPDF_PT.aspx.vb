@@ -197,7 +197,7 @@ FROM  TB_COTACAO A
                 tabela = tabela.Replace("É", "&Eacute;")
                 tabela &= "</table>"
                 divConteudofrete.InnerHtml = tabela
-                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString & " " & ds.Tables(0).Rows(0).Item("MOEDA").ToString
+                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("MOEDA").ToString & " " & ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString
 
             End If
 
@@ -288,7 +288,7 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             'total origem
             Dim DescTotalOrigem As String = ""
 
-            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 AND A.ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 AND A.ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -376,7 +376,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
             'total destino
-            ds = Con.ExecutarQuery("SELECT CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0  AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0  AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
 
@@ -417,7 +417,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
         Dim TotalFinalTaxas As String = ""
         Dim TotalFinalFrete As String = ""
 
-        ds = Con.ExecutarQuery("SELECT CAST(SUM(ISNULL(A.VL_TAXA_VENDA_CALCULADO,0))AS varchar) + ' ' + (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+        ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
         If ds.Tables(0).Rows.Count > 0 Then
 
 
@@ -454,7 +454,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
         'total final geral
-        ds = Con.ExecutarQuery("select cast(sum(valor)as varchar) + ' '+MOEDA as TOTAL  from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
+        ds = Con.ExecutarQuery("select MOEDA +' ' + cast(sum(valor)as varchar) as TOTAL  from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 If TotalFinal = "" Then

@@ -42,7 +42,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
             SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
@@ -102,6 +102,11 @@ namespace ABAINFRA.Web
             {
                 SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
             }
+
+            if(embarque == "0")
+			{
+                SQL += " AND ID_BL_MASTER IS NOT NULL ";
+			}
             return SQL;
         }
         /*[WebMethod]
@@ -157,7 +162,7 @@ namespace ABAINFRA.Web
 */
 
         [WebMethod]
-        public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -182,7 +187,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + "";
+            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO ";
@@ -221,7 +226,7 @@ namespace ABAINFRA.Web
         }*/
 
         [WebMethod]
-        public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
             SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
@@ -259,11 +264,16 @@ namespace ABAINFRA.Web
             {
                 SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
             }
+
+            if (embarque == "0")
+            {
+                SQL += " AND ID_BL_MASTER IS NOT NULL ";
+            }
             return SQL;
         }
 
         [WebMethod]
-        public string CarregarEstatisticaPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string CarregarEstatisticaPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -285,7 +295,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "" + CarregaFiltroPizza(anoI,mesI,vendedor, tipo) + "";
+            SQL += "" + CarregaFiltroPizza(anoI,mesI,vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO ";
@@ -298,7 +308,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string CarregarProcessosPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string CarregarProcessosPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -311,7 +321,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo) + " ";
+            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + " ";
             SQL += "and B.DT_CANCELAMENTO IS NULL ";
             SQL += "GROUP BY A.MES, ";
             SQL += "A.ANO ORDER BY A.ANO, A.MES ";
@@ -325,7 +335,7 @@ namespace ABAINFRA.Web
 
 
         [WebMethod]
-        public string CarregarQtdCntrPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string CarregarQtdCntrPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -338,7 +348,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS E ON A.ID_BL = E.ID_BL ";
             SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo) + " ";
+            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + " ";
             SQL += "and B.DT_CANCELAMENTO IS NULL ";
             SQL += "GROUP BY A.MES, A.ANO ";
             SQL += "ORDER BY A.ANO, A.MES ";
@@ -351,7 +361,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string CarregarTeusPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string CarregarTeusPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -364,7 +374,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS E ON A.ID_BL = E.ID_BL ";
             SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo) + " ";
+            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + " ";
             SQL += "and B.DT_CANCELAMENTO IS NULL ";
             SQL += "GROUP BY A.MES, A.ANO ";
             SQL += "ORDER BY A.ANO, A.MES ";
@@ -378,7 +388,7 @@ namespace ABAINFRA.Web
 
 
         [WebMethod]
-        public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
 		{
             string SQL;
 
@@ -401,7 +411,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + " ";
+            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO, NM_RAZAO ";
@@ -414,7 +424,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string ProcessosIndicadorPizza(string anoI, string mesI, int vendedor, string tipo)
+        public string ProcessosIndicadorPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
@@ -437,7 +447,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
-            SQL += "" + CarregaFiltroPizza(anoI,mesI, vendedor, tipo) + " ";
+            SQL += "" + CarregaFiltroPizza(anoI,mesI, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO, NM_RAZAO ";
@@ -1251,13 +1261,13 @@ namespace ABAINFRA.Web
                 if (idtipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','"+parceiroRD+"',NULL) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "',NULL, '"+ parceiroD +"') ";
                     DBS.ExecuteScalar(SQL);
                 }
                 else if(idtipoaviso == "2")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "',NULL,'"+parceiroD+"') ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','"+ parceiroRD +"', NULL) ";
                     DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1507,6 +1517,128 @@ namespace ABAINFRA.Web
             {
                 return "fail";
             }
+        }
+
+        [WebMethod]
+        public string CarregarCliente(string idvendedor)
+		{
+            string SQL;
+            SQL = "SELECT id_parceiro, NM_RAZAO FROM tb_parceiro where id_vendedor = '"+idvendedor+"' order by NM_RAZAO ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
+        [WebMethod]
+        public string deletarAtendimento(string id)
+        {
+            string SQL;
+            SQL = "DELETE FROM TB_ATENDIMENTO_NEGADO WHERE ID_ATENDIMENTO_NEGADO = '"+id+"' ";
+
+            DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("0");
+        }
+
+        [WebMethod]
+        public string CarregarClienteFinal(string idcliente)
+        {
+            string SQL;
+            SQL = "select ID_CLIENTE_FINAL, NM_CLIENTE_FINAL from tb_cliente_final where ID_PARCEIRO = '"+idcliente+"' order by NM_CLIENTE_FINAL ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
+        [WebMethod]
+        public string listarAtendimento()
+        {
+            string SQL;
+            SQL = "SELECT ID_ATENDIMENTO_NEGADO, ISNULL(FORMAT(A.DT_ATENDIMENTO_NEGADO,'dd/MM/yyyy'),'') AS ATENDIMENTO, ";
+            SQL += "ISNULL(B.NM_RAZAO, '') AS INSIDE, ISNULL(C.NM_SERVICO, '') AS SERVICO, ";
+            SQL += "ISNULL(D.NM_TIPO_ESTUFAGEM, '') AS ESTUFAGEM, ISNULL(E.NM_INCOTERM, '') AS INCOTERM, ";
+            SQL += "ISNULL(F.NM_RAZAO, '') AS CLIENTE, ";
+            SQL += "ISNULL(G.NM_RAZAO, '') AS CLIENTEF, ISNULL(H.NM_PORTO, '') AS ORIGEM, ";
+            SQL += "ISNULL(I.NM_PORTO, '') AS DESTINO, ";
+            SQL += "ISNULL(J.NM_RAZAO, '') AS VENDEDOR, ISNULL(K.NM_STATUS_COTACAO, '') AS STATUS ";
+            SQL += "FROM TB_ATENDIMENTO_NEGADO A ";
+            SQL += "LEFT JOIN TB_PARCEIRO B ON A.ID_PARCEIRO_INSIDE = B.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM D ON A.ID_TIPO_ESTUFAGEM = D.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_INCOTERM E ON A.ID_INCOTERM = E.ID_INCOTERM ";
+            SQL += "LEFT JOIN TB_PARCEIRO F ON A.ID_PARCEIRO_CLIENTE = F.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO G ON A.ID_PARCEIRO_CLIENTE_FINAL = G.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PORTO H ON A.ID_PORTO_ORIGEM = H.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PORTO I ON A.ID_PORTO_DESTINO = I.ID_PORTO ";
+            SQL += "LEFT JOIN TB_PARCEIRO J ON A.ID_VENDEDOR = J.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_STATUS_COTACAO K ON A.ID_STATUS = K.ID_STATUS_COTACAO";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string buscarAtendimento(string id)
+        {
+            string SQL;
+            SQL = "SELECT FORMAT(DT_ATENDIMENTO_NEGADO,'dd/MM/yyyy') AS ATENDIMENTO, ";
+            SQL += "ID_PARCEIRO_INSIDE AS INSIDE,ID_SERVICO AS SERVICO, ID_TIPO_ESTUFAGEM AS ESTUFAGEM, ";
+            SQL += "ID_INCOTERM AS INCOTERM, ";
+            SQL += "ID_PARCEIRO_CLIENTE AS CLIENTE, ";
+            SQL += "ID_PARCEIRO_CLIENTE_FINAL AS CLIENTEF, ID_PORTO_ORIGEM AS ORIGEM, ";
+            SQL += "ID_PORTO_DESTINO AS DESTINO, ";
+            SQL += "ID_VENDEDOR AS VENDEDOR, ID_STATUS AS STATUS ";
+            SQL += "FROM TB_ATENDIMENTO_NEGADO ";
+            SQL += "WHERE ID_ATENDIMENTO_NEGADO = '" + id + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+
+        [WebMethod]
+        public string CadastrarAtendimento(Atendimento dados)
+        {
+			if (dados.DT_ATENDIMENTO_NEGADO == "")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
+
+			if (dados.ID_PARCEIRO_INSIDE == "")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
+
+            if(dados.ID_VENDEDOR == "")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
+
+            if(dados.ID_PARCEIRO_CLIENTE == "")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
+
+            if(dados.ID_STATUS == "")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
+            string SQL;
+
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_PARCEIRO_CLIENTE_FINAL, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS) VALUES("+dados.DT_ATENDIMENTO_NEGADO+",'"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_PARCEIRO_CLIENTE_FINAL+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"')";
+            DBS.ExecuteScalar(SQL);
+
+            return JsonConvert.SerializeObject("1");
         }
     }
 }

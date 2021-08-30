@@ -15,7 +15,6 @@ using System.Configuration;
 using Newtonsoft.Json;
 using System.Net.Mail;
 using ABAINFRA.Web.Classes;
-//using Outlook = Microsoft.Office.Interop.Outlook;
 using System.Net;
 using Microsoft.Exchange.WebServices.Data;
 
@@ -4115,7 +4114,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
             SQL += "INNER JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
@@ -5598,11 +5597,11 @@ namespace ABAINFRA.Web
             }
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public string listarRelacaoCotacao(string dataI, string dataF, string filter, string nota)
 		{
             string SQL;
-
+            
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5613,20 +5612,41 @@ namespace ABAINFRA.Web
             dataI = diaI + '/' + mesI + '/' + anoI;
             dataF = diaF + '/' + mesF + '/' + anoF;
 
-            switch (filter)
+            SQL = "SELECT FL_REL_COTACOES_COMPLETO FROM TB_USUARIO WHERE ID_USUARIO = '" + Session["ID_USUARIO"] + "' ";
+            string flagCompleto = DBS.ExecuteScalar(SQL);
+
+            if (flagCompleto == "1")
             {
-                case "1":
-                    nota = "AND NM_VENDEDOR LIKE '" + nota + "%' ";
-                    break;
-                case "2":
-                    nota = "AND INSIDE LIKE '" + nota + "%' ";
-                    break;
-                case "3":
-                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
-                    break;
-                default:
-                    nota = "";
-                    break;
+                switch (filter)
+                {
+                    case "1":
+                        nota = "AND NM_VENDEDOR LIKE '" + nota + "%' ";
+                        break;
+                    case "2":
+                        nota = "AND INSIDE LIKE '" + nota + "%' ";
+                        break;
+                    case "3":
+                        nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                        break;
+                    default:
+                        nota = "";
+                        break;
+                }
+			}
+			else
+			{
+                switch (filter)
+                {
+                    case "2":
+                        nota = "AND INSIDE LIKE '" + nota + "%' ";
+                        break;
+                    case "3":
+                        nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                        break;
+                    default:
+                        nota = "";
+                        break;
+                }
             }
 
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
@@ -5635,6 +5655,10 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += "" + nota + "";
+            if (flagCompleto == "0")
+            {
+                SQL += "AND ID_VENDEDOR = '" + Session["ID_USUARIO"] + "' ";
+            }
             SQL += "ORDER BY DT_SOLICITACAO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);

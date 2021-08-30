@@ -176,6 +176,33 @@ Partial Public Class SiteMaster
     Protected WithEvents mnComissaoVendedor As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle MnRelatorioCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents MnRelatorioCotacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnRelacaoCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnRelacaoCotacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnAtendimentoNegado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnAtendimentoNegado As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle MenuOperacao.
     '''</summary>
     '''<remarks>
@@ -336,6 +363,42 @@ Partial Public Class SiteMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents mnTOTVSCredit As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle MnRelatoriosFinanceiros.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents MnRelatoriosFinanceiros As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnContaPagarReceber.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnContaPagarReceber As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnEstimativaContaPagarReceber1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnEstimativaContaPagarReceber1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
+    '''Controle mnEstimativaContaPagarReceber2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnEstimativaContaPagarReceber2 As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle MenuFaturamento.

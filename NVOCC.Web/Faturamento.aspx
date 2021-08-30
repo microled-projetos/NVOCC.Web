@@ -72,11 +72,17 @@
 
                            <div class="form-group">
 
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 11px; text-align: justify" runat="server" RepeatDirection="vertical">
+                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
                                    <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
-                                   <asp:ListItem Value="2">&nbsp;Liquidados</asp:ListItem>
+                                   <asp:ListItem Value="2" Selected="True">&nbsp;Liquidados desde:</asp:ListItem>
                                    <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
                                </asp:CheckBoxList>
+                           </div>
+                       </div>
+                        <div class="col-sm-1" style="padding-top: 27px;">
+                           <div class="form-group">
+                               <asp:TextBox ID="txtDataCheckLiquidados" Style="font-size: 12px;" runat="server" CssClass="data"></asp:TextBox>
+
                            </div>
                        </div>
                        <div class="col-sm-1" style="padding-top: 20px;">
@@ -86,7 +92,7 @@
                            </div>
                        </div>
 
-                       <div class="col-sm-6">
+                       <div class="col-sm-5">
                            <asp:LinkButton ID="lkFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
                            <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              

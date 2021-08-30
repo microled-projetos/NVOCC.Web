@@ -159,7 +159,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="control-label">Endereço:</label><asp:label ID="RedEnd" runat="server" style="color:red" >*</asp:label>
-                                        <asp:TextBox ID="txtEndereco" runat="server" CssClass="form-control" MaxLength="150"></asp:TextBox>
+                                        <asp:TextBox ID="txtEndereco" runat="server" CssClass="form-control" MaxLength="255"></asp:TextBox>
                                     </div>
                                 </div>
                                 
@@ -660,7 +660,7 @@
         </div>
 
 <asp:SqlDataSource ID="dsCidades" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand=" SELECT ID_CIDADE,upper( NM_CIDADE)NM_CIDADE FROM [dbo].[TB_CIDADE] #FILTRO union SELECT  0 as Id, 'Selecione' as Descricao FROM [dbo].[TB_CIDADE] Order by ID_CIDADE">
+        selectcommand=" SELECT ID_CIDADE,upper( NM_CIDADE)NM_CIDADE FROM [dbo].[TB_CIDADE] #FILTRO union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] Order by NM_CIDADE">
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
