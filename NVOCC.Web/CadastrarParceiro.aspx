@@ -76,9 +76,14 @@
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
-                               
+                                 <div class="col-sm-3" id="divIATA" runat="server">
+                             
+                                    <div class="form-group">
+                                        <label class="control-label">Código IATA:</label>
+                                        <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="15" ></asp:TextBox>
+                    
                                 </div>
+                                     </div>
                                 <div class="col-sm-3" visible="false" runat="server">
                                     <div class="form-group"> 
                                         <asp:linkButton ID="btnClienteFinal" href="ClienteFinal.aspx" targat="_blank" runat="server" Style="margin-top: 20px;" CssClass="btn btn-success" >
@@ -362,12 +367,7 @@
                                     </div>
                                 </div>
              
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Código IATA:</label>
-                                        <asp:TextBox ID="txtCDIATA" runat="server" CssClass="form-control inteiro" MaxLength="50" ></asp:TextBox>
-                                    </div>
-                                </div>
+                                
                                  <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Qtd. Dias de Faturamento:</label>

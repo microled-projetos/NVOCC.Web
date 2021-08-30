@@ -49,6 +49,7 @@
                                                     <option value="1">Vendedor</option>
                                                     <option value="2">Inside</option>
                                                     <option value="3">Cliente</option>
+                                                    <option value="4">Status</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -91,7 +92,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
@@ -124,8 +124,8 @@
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdRelacaoCotacaoBody").append("<tr><td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td><td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td><td class='text-center'>" + dado[i]["MODAL"] + "</td><td class='text-center'>" + dado[i]["INCOTERM"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["SUB_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td><td class='text-center'>" + dado[i]["MODAL"] + "</td><td class='text-center'>" + dado[i]["INCOTERM"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["SUB_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td></tr>");
                             }
                         }

@@ -609,6 +609,7 @@ WHERE A.ID_BL_TAXA = " & ID)
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")) Then
                         ddlDestinatarioCob_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+                        ddlDestinatarioCob_TaxaMaritimo.Enabled = False
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")) Then
                         ddlBaseCalculo_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
@@ -770,6 +771,7 @@ WHERE A.ID_BL_TAXA = " & ID)
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")) Then
                         ddlDestinatarioCob_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+                        ddlDestinatarioCob_TaxaMaritimo.Enabled = True
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")) Then
                         ddlBaseCalculo_TaxaMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
@@ -930,6 +932,7 @@ WHERE A.ID_BL_TAXA =" & ID)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")) Then
                     ddlDestinatarioCob_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+                    ddlDestinatarioCob_TaxaAereo.Enabled = True
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")) Then
                     ddlBaseCalculo_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
@@ -1076,6 +1079,7 @@ WHERE A.ID_BL_TAXA =" & ID)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")) Then
                     ddlDestinatarioCob_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+                    ddlDestinatarioCob_TaxaAereo.Enabled = False
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")) Then
                     ddlBaseCalculo_TaxaAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
@@ -1294,7 +1298,7 @@ WHERE ID_CARGA_BL = " & ID)
         divVendaAereo.Visible = True
         divCompraAereo.Visible = True
         lblTipoEmpresa_Aereo.Text = "Fornecedor:"
-
+        ddlDestinatarioCob_TaxaAereo.Enabled = True
         mpeTaxaAereo.Hide()
     End Sub
 
@@ -1321,6 +1325,7 @@ WHERE ID_CARGA_BL = " & ID)
         divVendaMaritimo.Visible = True
         divCompraMaritimo.Visible = True
         lblTipoEmpresa_Maritimo.Text = "Fornecedor:"
+        ddlDestinatarioCob_TaxaMaritimo.Enabled = True
         mpeTaxaMaritimo.Hide()
     End Sub
 
@@ -2309,8 +2314,6 @@ WHERE ID_CARGA_BL = " & ID)
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                         retorno = Calcula.Calcular(ID_BL_TAXA)
                     End If
-
-
 
                     ddlDespesa_TaxaAereo.SelectedValue = 0
                     'ddlTipoPagamento_TaxaAereo.SelectedValue = 0

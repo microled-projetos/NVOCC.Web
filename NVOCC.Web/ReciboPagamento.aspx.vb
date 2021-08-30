@@ -67,10 +67,12 @@ WHERE GRAU = 'C' AND ID_CONTA_PAGAR_RECEBER =  (SELECT ID_CONTA_PAGAR_RECEBER FR
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = (SELECT ID_ITEM_DESPESA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))ITEM_DESPESA,
 (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = (SELECT ID_MOEDA FROM TB_BL_TAXA WHERE ID_BL_TAXA = A.ID_BL_TAXA))MOEDA,
 
-VL_LANCAMENTO,VL_CAMBIO,CAST((ISNULL(VL_LANCAMENTO,0) * ISNULL(VL_CAMBIO,1)) AS decimal(13,2))VALORES,VL_ISS
+VL_LANCAMENTO,VL_CAMBIO,ISNULL(VL_LANCAMENTO,0)VALORES,CASE WHEN ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1) THEN
+VL_ISS
+ELSE 0 END VL_ISS
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & ID & " )")
-
+                    Dim Total As String
                     Dim valores As Decimal = 0
                     If dsTaxas.Tables(0).Rows.Count > 0 Then
 
@@ -83,18 +85,19 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                             tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_ISS") & "</td></tr>"
-                            valores = valores + linha("VALORES")
+                            valores = valores + linha("VALORES") - linha("VL_ISS")
 
 
                         Next
-                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px;float: right;'></td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
+                        Total = FormatCurrency(valores)
+                        tabela &= "<tr><td style='padding-left:10px;padding-right:10px;float: right;'></td><td style='padding-left:10px;padding-right:10px'>Total: " & Total & "</td></tr>"
                         tabela &= "</table>"
                         divConteudoDinamico.InnerHtml = tabela
 
                     End If
                     Dim ValorExtenso As New ValorExtenso
                     lblValorExtenso.Text = ValorExtenso.NumeroToExtenso(valores)
-                    lblValor.Text = valores.ToString
+                    lblValor.Text = Total.ToString
 
                     Con.Fechar()
                 End If

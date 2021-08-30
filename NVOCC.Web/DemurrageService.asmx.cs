@@ -4114,7 +4114,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
+            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
             SQL += "INNER JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
@@ -5628,6 +5628,9 @@ namespace ABAINFRA.Web
                     case "3":
                         nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
                         break;
+                    case "4":
+                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
+                        break;
                     default:
                         nota = "";
                         break;
@@ -5642,6 +5645,9 @@ namespace ABAINFRA.Web
                         break;
                     case "3":
                         nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                        break;
+                    case "4":
+                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
                         break;
                     default:
                         nota = "";
@@ -5781,7 +5787,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarEstimativaContasRecebidasPagas(string dataI, string dataF, string nota, string filter)
+        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
 

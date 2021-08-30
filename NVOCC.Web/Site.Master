@@ -199,7 +199,8 @@
                                 <a href="#" id="MnRelatoriosFinanceiros" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
                                 <ul class="dropdown-sub" style="top: 75%!important"> 
                                     <li><a style="font-size: 12px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
-                                    <li><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber1">Estimativa Contas a Pagar</a></li><li><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                         
+                                    <li runat="server"  visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber1">Estimativa Contas a Pagar</a></li>
+                                    <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                         
                                 </ul>
                             </li>
                         </ul>
