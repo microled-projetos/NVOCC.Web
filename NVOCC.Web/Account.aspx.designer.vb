@@ -1094,6 +1094,24 @@ Partial Public Class Account
     Protected WithEvents pnlProcessoPeriodo As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
+    '''Controle divErroRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErroRelatorio As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErroRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErroRelatorio As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtEmbarqueInicial.
     '''</summary>
     '''<remarks>
@@ -1112,6 +1130,42 @@ Partial Public Class Account
     Protected WithEvents txtEmbarqueFinal As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlAgenteRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAgenteRelatorio As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtProcessoRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtProcessoRelatorio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle btnBuscarRelatorio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnBuscarRelatorio As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle dgvProcessoPeriodo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvProcessoPeriodo As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle btnRelacaoAgentes.
     '''</summary>
     '''<remarks>
@@ -1128,15 +1182,6 @@ Partial Public Class Account
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCSVProcessoPeriodo As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle dgvProcessoPeriodo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvProcessoPeriodo As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''Controle btnFecharProcessoPeriodo.

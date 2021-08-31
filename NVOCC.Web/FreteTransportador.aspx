@@ -204,7 +204,7 @@
         </div>
         </div> 
         <asp:SqlDataSource ID="dsFreteTranportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT * FROM [View_FreteTransportador] order by ID,VL_COMPRA,QT_DIAS_FREETIME DESC  "
+        selectcommand="SELECT * FROM [View_FreteTransportador] order by ID DESC"
         	updatecommand="UPDATE [dbo].[TB_FRETE_TRANSPORTADOR] SET QT_DIAS_TRANSITTIME_MEDIA = @QT_DIAS_TRANSITTIME_MEDIA WHERE ID_FRETE_TRANSPORTADOR =  @Id ; "  >
             <UpdateParameters>
             <asp:Parameter Name="Id" Type="Int32" />

@@ -5,7 +5,7 @@
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Atendimento Negado
+                    <h3 class="panel-title">Atendimento Declinado
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -74,13 +74,13 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">   
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">DATA SOLICITAÇÃO</label>
                                                         <input type="date" id="dtSolicitacao" class="form-control" />
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">INSIDE</label>
                                                         <asp:DropDownList ID="ddlInside" CssClass="form-control" runat="server" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO">
@@ -90,31 +90,16 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">REF. INSIDE</label>
-                                                        <input type="text" id="ddlRefInside" class="form-control" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
                                                         <label class="control-label">VENDEDOR</label>
                                                         <asp:DropDownList ID="ddlVendedor" CssClass="form-control" runat="server" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" >
 
                                                         </asp:DropDownList> 
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">CLIENTE PRINCIPAL</label>
                                                         <select id="ddlClientePrincipal" class="form-control" onchange="ClienteFinal()" >
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label class="control-label">SUB CLIENTE</label>
-                                                        <select id="ddlSubCliente" class="form-control">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -218,7 +203,7 @@
         var id = 0;
         $(document).ready(function () {
             document.getElementById("dtSolicitacao").value = formatDate(currentDate);
-            document.getElementById("MainContent_ddlStatus").value = "8";
+            document.getElementById("MainContent_ddlStatus").value = "11";
             listarAtendimentos();
         });
 
@@ -260,30 +245,6 @@
                     }
                     else {
                         $("#ddlClientePrincipal").empty();
-                    }
-                }
-            })
-        }
-
-        function ClienteFinal() {
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CarregarClienteFinal",
-                data: '{idcliente:"' + document.getElementById("ddlClientePrincipal").value + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    $("#ddlSubCliente").empty();
-                    $("#ddlSubCliente").append("<option value=''>Selecione</option>");
-                    if (dado != null) {
-                        for (let i = 0; i < dado.length; i++) {
-                            $("#ddlSubCliente").append("<option value='" + dado[i]["ID_CLIENTE_FINAL"] + "'>" + dado[i]["NM_CLIENTE_FINAL"] + "</option>");
-                        }
-                    }
-                    else {
-                        $("#ddlSubCliente").empty();
                     }
                 }
             })
@@ -336,7 +297,6 @@
                 "ID_PARCEIRO_INSIDE": document.getElementById("MainContent_ddlInside").value,
                 "ID_VENDEDOR": document.getElementById("MainContent_ddlVendedor").value,
                 "ID_PARCEIRO_CLIENTE": document.getElementById("ddlClientePrincipal").value,
-                "ID_PARCEIRO_CLIENTE_FINAL": document.getElementById("ddlSubCliente").value,
                 "ID_SERVICO": document.getElementById("MainContent_ddlTipoServico").value,
                 "ID_TIPO_ESTUFAGEM": document.getElementById("MainContent_ddlTipoEstufagem").value,
                 "ID_PORTO_ORIGEM": document.getElementById("MainContent_ddlOrigem").value,

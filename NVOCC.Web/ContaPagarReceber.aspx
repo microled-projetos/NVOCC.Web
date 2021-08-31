@@ -102,11 +102,21 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="exportEstimativaCSV('Pagamento_Recebimento_Estimativa.csv')">Exportar Grid - CSV</button>
                                             <button type="button" id="btnPrintEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="PrintEstimativaPagamentosRecebimentos()">Imprimir</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Filtrar por:</label>
+                                            <select id="ddlDataFilter" class="form-control" required="required">
+                                                <option value="1">Data Embarque</option>
+                                                <option value="2">Data Previsão Chegada</option>
+                                                <option value="3">Data Chegada</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">Data Inicial:</label>
@@ -249,9 +259,9 @@
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_REC"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_REC"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] +"'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_PAG"] + "</td><td class='text-center'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_PAG"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] +"'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
                             }
                         }
@@ -305,7 +315,13 @@
 
         function printPagamentosRecebimentos() {
             var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
+            var diaI = dtInicial.substring(8, 10);
+            var mesI = dtInicial.substring(5, 7);
+            var anoI = dtInicial.substring(0, 4);
             var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            var diaF = dtFinal.substring(8, 10);
+            var mesF = dtFinal.substring(5, 7);
+            var anoF = dtFinal.substring(0, 4);
             var nota = document.getElementById("txtPagamentoRecebimento").value;
             var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
             var position = 27;
@@ -322,8 +338,10 @@
                     if (dado != null) {
                         var doc = new jsPDF('l');
                         var pageHeight = doc.internal.pageSize.height;
-                        doc.setFontSize(7);
                         doc.setFontStyle("bold");
+                        doc.setFontSize(15);
+                        doc.text("CONTAS PAGAS E RECEBIDAS ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 68, 13);
+                        doc.setFontSize(7);
                         doc.text("NR PROCESSO", 4, 27);
                         doc.setLineWidth(0.2);
                         doc.line(3, 20, 295, 20);
@@ -363,13 +381,71 @@
                         doc.text("CAMBIO", 260, 27);
                         doc.text("LIQUIDADO", 275, 27);
                         for (let i = 0; i < dado.length; i++) {
-                            if (position >= pageHeight) {
-                                position = 2;
+                            if (position >= pageHeight -10 ) {
+                                doc.line(3, positionv, 295, positionv);
+                                doc.line(3, 28, 3, positionv);
+                                doc.line(26, 28, 26, positionv);
+                                doc.line(69, 28, 69, positionv);
+                                doc.line(89, 28, 89, positionv);
+                                doc.line(119, 28, 119, positionv);
+                                doc.line(134, 28, 134, positionv);
+                                doc.line(146, 28, 146, positionv);
+                                doc.line(161, 28, 161, positionv);
+                                doc.line(184, 28, 184, positionv);
+                                doc.line(199, 28, 199, positionv);
+                                doc.line(229, 28, 229, positionv);
+                                doc.line(244, 28, 244, positionv);
+                                doc.line(259, 28, 259, positionv);
+                                doc.line(274, 28, 274, positionv);
+                                doc.line(295, 28, 295, positionv);
+                                doc.line(3, 28, 3, positionv);
                                 doc.addPage();
+                                doc.setFontStyle("bold");
+                                doc.setFontSize(15);
+                                doc.text("CONTAS PAGAS E RECEBIDAS ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 68, 13);
+                                doc.setFontSize(7);
+                                doc.text("NR PROCESSO", 4, 27);
+                                doc.setLineWidth(0.2);
+                                doc.line(3, 20, 295, 20);
+                                doc.line(3, 24, 295, 24);
+                                doc.line(3, 28, 295, 28);
+                                doc.line(3, 20, 3, 28);
+                                doc.line(26, 24, 26, 28);
+                                doc.line(69, 20, 69, 28);
+                                doc.line(89, 24, 89, 28);
+                                doc.line(119, 24, 119, 28);
+                                doc.line(134, 24, 134, 28);
+                                doc.line(146, 24, 146, 28);
+                                doc.line(161, 24, 161, 28);
+                                doc.line(184, 20, 184, 28);
+                                doc.line(199, 24, 199, 28);
+                                doc.line(229, 24, 229, 28);
+                                doc.line(244, 24, 244, 28);
+                                doc.line(259, 24, 259, 28);
+                                doc.line(274, 24, 274, 28);
+                                doc.line(295, 20, 295, 28);
+                                doc.text("ITEM DESPESA", 27, 27);
+                                doc.text("RECEBIMENTO", 110, 23);
+                                doc.text("DATA", 70, 27);
+                                doc.text("CLIENTE", 90, 27);
+                                doc.text("DEVIDO", 120, 27);
+                                doc.text("MOEDA", 135, 27);
+                                doc.text("CAMBIO", 147, 27);
+                                doc.text("LIQUIDADO", 162, 27);
+                                doc.text("PAGAMENTO", 230, 23);
+                                doc.text("DATA", 185, 27);
+                                doc.text("FORNECEDOR", 200, 27);
+                                doc.text("DEVIDO", 230, 27);
+                                doc.text("MOEDA", 245, 27);
+                                doc.text("CAMBIO", 260, 27);
+                                doc.text("LIQUIDADO", 275, 27);
+                                position = 27;
+                                positionv = 28;
                             } else {
                                 position = position + 5;
                                 positionv = positionv + 5;
                                 doc.setFontStyle("normal");
+                                doc.line(3, positionv, 295, positionv);
                                 doc.text(dado[i]["NR_PROCESSO"], 4, position);
                                 doc.text(dado[i]["NM_ITEM_DESPESA"], 27, position);
                                 doc.text(dado[i]["DT_LIQUIDACAO_REC"], 70, position);
@@ -378,7 +454,7 @@
                                 doc.text(dado[i]["MOEDA_REC"], 135, position);
                                 doc.text(dado[i]["VL_CAMBIO_REC"], 147, position);
                                 doc.text(dado[i]["VL_LIQUIDO_REC"], 162, position);
-                                doc.text(dado[i]["DT_CAMBIO_PAG"], 185, position);
+                                doc.text(dado[i]["DT_LIQUIDACAO_PAG"], 185, position);
                                 doc.text(dado[i]["NM_FORNECEDOR_PAG"].substring(0, 15), 200, position);
                                 doc.text(dado[i]["VL_DEVIDO_PAG"], 230, position);
                                 doc.text(dado[i]["MOEDA_PAG"], 245, position);
@@ -386,7 +462,23 @@
                                 doc.text(dado[i]["VL_LIQUIDO_PAG"], 275, position);
                             }
                         }
-
+                        doc.line(3, positionv, 295, positionv);
+                        doc.line(3, 28, 3, positionv);
+                        doc.line(26, 28, 26, positionv);
+                        doc.line(69, 28, 69, positionv);
+                        doc.line(89, 28, 89, positionv);
+                        doc.line(119, 28, 119, positionv);
+                        doc.line(134, 28, 134, positionv);
+                        doc.line(146, 28, 146, positionv);
+                        doc.line(161, 28, 161, positionv);
+                        doc.line(184, 28, 184, positionv);
+                        doc.line(199, 28, 199, positionv);
+                        doc.line(229, 28, 229, positionv);
+                        doc.line(244, 28, 244, positionv);
+                        doc.line(259, 28, 259, positionv);
+                        doc.line(274, 28, 274, positionv);
+                        doc.line(295, 28, 295, positionv);
+                        doc.line(3, 28, 3, positionv);
                         doc.output("dataurlnewwindow");
                     }
                     else {
@@ -407,7 +499,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    data: '{filterby: "' + ddlDataFilter.value +'", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     beforeSend: function () {
@@ -421,9 +513,9 @@
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] + "'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
                             }
                         }
@@ -486,7 +578,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    data: '{filterby: "' + ddlDataFilter.value +'", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {

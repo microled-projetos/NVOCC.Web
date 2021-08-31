@@ -542,8 +542,6 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
         Else
 
-
-
             txtValorCompra.Text = txtValorCompra.Text.Replace(".", "")
             txtValorCompra.Text = txtValorCompra.Text.Replace(",", ".")
 

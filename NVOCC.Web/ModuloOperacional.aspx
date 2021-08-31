@@ -1501,7 +1501,7 @@
         function reenviarEmail() {
             $.ajax({
                 type: "POST",
-                url: "Gerencial.asmx/verificarReenvio",
+                url: "Gerencial.asmx/reenviarEmail",
                 data: '{idProcesso: "' + idEmailCaixa + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

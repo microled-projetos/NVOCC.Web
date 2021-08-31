@@ -956,7 +956,10 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Processos do Periodo</h5>
                                                         </div>
-                                                        <div class="modal-body">      
+                                                        <div class="modal-body">   
+                                                            <div class="alert alert-danger" id="divErroRelatorio" runat="server" visible="false">
+                                    <asp:Label ID="lblErroRelatorio" runat="server"></asp:Label>
+                                </div>
                                                             
  <div class="row">
                                      
@@ -969,20 +972,28 @@
                                            </div><div class="col-sm-2">
                                         <div class="form-group">
                                              <label class="control-label">Embarque Final:</label>
-                                            <asp:TextBox ID="txtEmbarqueFinal" runat="server" CssClass="form-control data" AutoPostBack="true"></asp:TextBox>
+                                            <asp:TextBox ID="txtEmbarqueFinal" runat="server" CssClass="form-control data"></asp:TextBox>
                                         </div>
                                     </div>
-      <div class="col-sm-offset-4 col-sm-2">
+      <div class="col-sm-4">
+                                    <div class="form-group">
+                                           <label class="control-label">Agente:</label>
+                                                  <asp:DropDownList ID="ddlAgenteRelatorio" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO">
+                                        </asp:DropDownList>
+
+                                    </div>
+                                        </div>
+      <div class=" col-sm-3">
 <div class="form-group">
-     <label class="control-label"></label>
-                                                                <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnRelacaoAgentes" text="Relação de Agentes" />
+     <label class="control-label">Nº Processo:</label>
+                                         <asp:TextBox ID="txtProcessoRelatorio" runat="server" CssClass="form-control"></asp:TextBox>                        
 
                                         </div>
                                            </div>
-      <div class="col-sm-2">
+     <div class=" col-sm-1">
 <div class="form-group">
      <label class="control-label"></label>
-                                                                <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnCSVProcessoPeriodo" text="Exportar para CSV" />
+                                        <asp:Button runat="server" CssClass="btn btn-success" ID="btnBuscarRelatorio" text="Buscar" />                 
 
                                         </div>
                                            </div>
@@ -1003,6 +1014,10 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE"  HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />           
                                                 <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
                                                 <asp:BoundField DataField="DESTINO" HeaderText="DESTINO" SortExpression="DESTINO" />
+                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="PREV. EMBARQUE" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" />
+                                                <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="EMBARQUE" SortExpression="DT_EMBARQUE_MASTER" />
+                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="PREV. CHEGADA" SortExpression="DT_PREVISAO_CHEGADA_MASTER" />
+                                                <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="CHEGADA" SortExpression="DT_CHEGADA_MASTER" />
                                                 <%--<asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="TIPO ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />--%>
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="AGENTE INTERNACIONAL" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
@@ -1019,9 +1034,11 @@
                       
                                                        
                    
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharProcessoPeriodo" text="Close" />
-
+                               <div class="modal-footer">                   <div style="float:left"> 
+                                   <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnRelacaoAgentes" text="Relação de Agentes" />
+                                   <asp:Button runat="server" CssClass="btn btn-default btnn" ID="btnCSVProcessoPeriodo" text="Exportar para CSV" /></div>
+                                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharProcessoPeriodo" text="Close" />
+                  
                                                         </div>
                                                     
                                                 </div>
@@ -1030,7 +1047,7 @@
                                 </asp:Panel>                                    
                                         </ContentTemplate>
                                      <Triggers>                    
-                                         <asp:AsyncPostBackTrigger ControlID="txtEmbarqueFinal" />
+                                         <asp:AsyncPostBackTrigger ControlID="btnBuscarRelatorio" />
                                          <asp:PostBackTrigger ControlID="btnCSVProcessoPeriodo" />
                                          <asp:PostBackTrigger ControlID="btnRelacaoAgentes" />
                                          </Triggers>
@@ -1174,7 +1191,7 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 AND ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE)
@@ -1197,7 +1214,7 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
 
      <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT NR_PROCESSO,BL_MASTER,NR_BL,PARCEIRO_CLIENTE,ORIGEM,DESTINO,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,PARCEIRO_AGENTE_INTERNACIONAL
-,PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_PREVISAO_CHEGADA_MASTER FROM [dbo].[View_House] WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'@EmbarqueInicial',103) AND CONVERT(VARCHAR,'@EmbarqueFinal',103)">
+,PARCEIRO_TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_CHEGADA_MASTER FROM [dbo].[View_House] WHERE CONVERT(VARCHAR,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(VARCHAR,'@EmbarqueInicial',103) AND CONVERT(VARCHAR,'@EmbarqueFinal',103)">
           <SelectParameters>
             <asp:ControlParameter Name="EmbarqueInicial" Type="string" ControlID="txtEmbarqueInicial" />      
                           <asp:ControlParameter Name="EmbarqueFinal" Type="string" ControlID="txtEmbarqueFinal" />        

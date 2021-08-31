@@ -166,11 +166,9 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT MES+'/'+ANO as PERIODO, ";
-            SQL += "COUNT(NR_PROCESSO) PROC_TOTAL, ";
-            SQL += "(SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
-            SQL += ") AS TOTAL, ";
+            SQL = "SELECT MES+'/'+ANO as PERIODO, COUNT(NR_PROCESSO) PROC_TOTAL, (SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ) AS TOTAL, ";
             SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
             SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
@@ -180,12 +178,11 @@ namespace ABAINFRA.Web
             SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
             SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
-            SQL += "FROM( ";
-            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS CNTR_EXP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
@@ -277,8 +274,9 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT MES+'/'+ANO as PERIODO, ";
-            SQL += "COUNT(NR_PROCESSO) PROC_TOTAL, ";
+            SQL = "SELECT MES+'/'+ANO as PERIODO, COUNT(NR_PROCESSO) PROC_TOTAL, (SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ) AS TOTAL, ";
             SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
             SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
@@ -288,12 +286,11 @@ namespace ABAINFRA.Web
             SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
             SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
-            SQL += "FROM( ";
-            SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS CNTR_EXP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "" + CarregaFiltroPizza(anoI,mesI,vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
@@ -1261,13 +1258,13 @@ namespace ABAINFRA.Web
                 if (idtipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "',NULL, '"+ parceiroD +"') ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "',NULL,NULL,'"+ parceiroD + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
                 else if(idtipoaviso == "2")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','"+ parceiroRD +"', NULL) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
                     DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1635,7 +1632,7 @@ namespace ABAINFRA.Web
             }
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_PARCEIRO_CLIENTE_FINAL, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS) VALUES("+dados.DT_ATENDIMENTO_NEGADO+",'"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_PARCEIRO_CLIENTE_FINAL+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"')";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS) VALUES("+dados.DT_ATENDIMENTO_NEGADO+",'"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"')";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");

@@ -225,6 +225,8 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
                     Con.ExecutarQuery("DELETE FROM TB_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                    Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
+                    Con.ExecutarQuery("DELETE FROM TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = " & txtID.Text)
                     lblmsgSuccess.Text = "Registro deletado!"
                     divSuccess.Visible = True
                     dgvFreteTranportador.DataBind()
@@ -328,7 +330,7 @@ INSERT INTO TB_TARIFARIO_FRETE_TRANSPORTADOR ( ID_FRETE_TRANSPORTADOR, ID_TIPO_C
             End If
         End If
 
-        Dim sql As String = "SELECT * FROM [View_FreteTransportador]  " & filtro & " order by ID,VL_COMPRA,QT_DIAS_FREETIME DESC "
+        Dim sql As String = "SELECT * FROM [View_FreteTransportador]  " & filtro & " order by ID DESC"
         dsFreteTranportador.SelectCommand = sql
 
         dgvFreteTranportador.DataBind()

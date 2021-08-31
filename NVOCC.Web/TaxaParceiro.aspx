@@ -168,6 +168,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div>
+                                                                            <asp:CheckBox ID="chkTaxaTransportadorFCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
@@ -385,6 +394,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div>
+                                                                            <asp:CheckBox ID="chkTaxaTransportadorLCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
@@ -550,7 +568,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalFCLexpoTitle">Cadastrar Taxa FCL - Importação</h5>
+                                                            <h5 class="modal-title" id="modalFCLexpoTitle">Cadastrar Taxa FCL - Exportação</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -614,6 +632,15 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraFCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div>
+                                                                            <asp:CheckBox ID="chkTaxaTransportadorFCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -767,7 +794,7 @@
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalLCLexpoTitle">Cadastrar Taxa LCL - Importação</h5>
+                                                            <h5 class="modal-title" id="modalLCLexpoTitle">Cadastrar Taxa LCL - Exportação</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -831,6 +858,15 @@
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraLCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <div>
+                                                                            <asp:CheckBox ID="chkTaxaTransportadorLCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1070,6 +1106,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group">
+                                                                <div>
+                                                                    <asp:CheckBox ID="chkTaxaTransportadorAereoImpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
@@ -1217,7 +1262,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                        <div class="modal fade bd-example-modal-lg" id="modalAereoExpo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal fade bd-example-modal-lg" id="modalAereoExpo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -1289,6 +1334,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <div>
+                                                                        <asp:CheckBox ID="chkTaxaTransportadorAereoExpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
                                                             <div class="col-sm-3">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Moeda Venda</label><label runat="server" style="color: red">*</label>
@@ -1332,7 +1386,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-4">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Cobrar do:</label><label runat="server" style="color: red">*</label>
                                                                     <asp:DropDownList ID="ddlCobrancaAereoExpo" runat="server" CssClass="form-control" DataTextField="NM_DESTINATARIO_COBRANCA" DataValueField="ID_DESTINATARIO_COBRANCA">
@@ -1613,6 +1667,7 @@
                     document.getElementById('MainContent_txtObsTaxaFCLimpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorFCLimpo').value = data.FL_TAXA_TRANSPORTADOR;
                    
                     var forms = ['MainContent_txtCodigoTipoItemFCLimpo',
                         'MainContent_ddlTipoItemFCLimpo',
@@ -1628,7 +1683,8 @@
                         'MainContent_ddlCobrancaFCLimpo',
                         'MainContent_txtObsTaxaFCLimpo',
                         'MainContent_ddlTipoPagamentoFCLimpo',
-                        'MainContent_ddlOrigemServicoFCLimpo'];
+                        'MainContent_ddlOrigemServicoFCLimpo',
+                        'MainContent_chkTaxaTransportadorFCLimpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1668,6 +1724,7 @@
                     document.getElementById('MainContent_txtObsTaxaLCLimpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorLCLimpo').value = data.FL_TAXA_TRANSPORTADOR;
 
                     var forms = ['MainContent_txtCodigoTipoItemLCLimpo',
                         'MainContent_ddlTipoItemLCLimpo',
@@ -1683,7 +1740,8 @@
                         'MainContent_ddlCobrancaLCLimpo',
                         'MainContent_txtObsTaxaLCLimpo',
                         'MainContent_ddlOrigemServicoLCLimpo',
-                        'MainContent_ddlTipoPagamentoLCLimpo'];
+                        'MainContent_ddlTipoPagamentoLCLimpo',
+                        'MainContent_chkTaxaTransportadorLCLimpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1723,6 +1781,7 @@
                     document.getElementById('MainContent_txtObsTaxaFCLexpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorFCLexpo').value = data.FL_TAXA_TRANSPORTADOR;
 
                     var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                         'MainContent_ddlTipoItemFCLexpo',
@@ -1738,7 +1797,8 @@
                         'MainContent_ddlCobrancaFCLexpo',
                         'MainContent_txtObsTaxaFCLexpo',
                         'MainContent_ddlOrigemServicoFCLexpo',
-                        'MainContent_ddlTipoPagamentoFCLexpo'];
+                        'MainContent_ddlTipoPagamentoFCLexpo',
+                        'MainContent_chkTaxaTransportadorFCLexpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1778,6 +1838,7 @@
                     document.getElementById('MainContent_txtObsTaxaLCLexpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorLCLexpo').value = data.FL_TAXA_TRANSPORTADOR;
 
                     var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                         'MainContent_ddlTipoItemLCLexpo',
@@ -1793,7 +1854,8 @@
                         'MainContent_ddlCobrancaLCLexpo',
                         'MainContent_txtObsTaxaLCLexpo',
                         'MainContent_ddlOrigemServicoLCLexpo',
-                        'MainContent_ddlTipoPagamentoLCLexpo'];
+                        'MainContent_ddlTipoPagamentoLCLexpo',
+                        'MainContent_chkTaxaTransportadorLCLexpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1833,6 +1895,7 @@
                     document.getElementById('MainContent_txtObsTaxaAereoImpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorAereoImpo').value = data.FL_TAXA_TRANSPORTADOR;
 
                     var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                         'MainContent_ddlTipoItemAereoImpo',
@@ -1848,7 +1911,8 @@
                         'MainContent_ddlCobrancaAereoImpo',
                         'MainContent_txtObsTaxaAereoImpo',
                         'MainContent_ddlOrigemServicoAereoImpo',
-                        'MainContent_ddlTipoPagamentoAereoImpo'];
+                        'MainContent_ddlTipoPagamentoAereoImpo',
+                        'MainContent_chkTaxaTransportadorAereoImpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1888,6 +1952,7 @@
                     document.getElementById('MainContent_txtObsTaxaAereoExpo').value = data.OB_TAXAS;
                     document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value = data.ID_ORIGEM_PAGAMENTO;
                     document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value = data.ID_TIPO_PAGAMENTO;
+                    document.getElementById('MainContent_chkTaxaTransportadorAereoExpo').value = data.FL_TAXA_TRANSPORTADOR;
 
                     var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                         'MainContent_ddlTipoItemAereoExpo',
@@ -1903,7 +1968,8 @@
                         'MainContent_ddlCobrancaAereoExpo',
                         'MainContent_txtObsTaxaAereoExpo',
                         'MainContent_ddlOrigemServicoAereoExpo',
-                        'MainContent_ddlTipoPagamentoAereoExpo'];
+                        'MainContent_ddlTipoPagamentoAereoExpo',
+                        'MainContent_chkTaxaTransportadorAereoExpo'];
                     for (let i = 0; i < forms.length; i++) {
                         var aux = document.getElementById(forms[i]);
                         $(aux).attr("disabled", "true");
@@ -1917,6 +1983,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorFCLimpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarFCLimpo").click(function () {
             if (document.getElementById("MainContent_baseCompraFCLimpo").value == "") {
                 document.getElementById("MainContent_baseCompraFCLimpo").value = 0;
@@ -1934,6 +2006,7 @@
         "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLimpo").value,
         "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value,
         "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value,
+        "FL_TAXA_TRANSPORTADOR": flagTaxa,
         "ID_PARCEIRO": id
         }
         $.ajax({
@@ -2004,6 +2077,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorFCLimpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditFCLimpo").click(function () {
             if (document.getElementById("MainContent_baseCompraFCLimpo").value == "") {
                 document.getElementById("MainContent_baseCompraFCLimpo").value = 0;
@@ -2022,6 +2101,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteFCLimpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLimpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLimpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2092,6 +2172,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorLCLimpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarLCLimpo").click(function () {
             if (document.getElementById("MainContent_baseCompraLCLimpo").value == "") {
                 document.getElementById("MainContent_baseCompraLCLimpo").value = 0;
@@ -2109,6 +2195,7 @@
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLimpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2179,6 +2266,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorLCLimpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditLCLimpo").click(function () {
             if (document.getElementById("MainContent_baseCompraLCLimpo").value == "") {
                 document.getElementById("MainContent_baseCompraLCLimpo").value = 0;
@@ -2197,6 +2290,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteLCLimpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLimpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLimpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2267,6 +2361,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorFCLexpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarFCLexpo").click(function () {
             if (document.getElementById("MainContent_baseCompraFCLexpo").value == "") {
                 document.getElementById("MainContent_baseCompraFCLexpo").value = 0;
@@ -2284,6 +2384,7 @@
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaFCLexpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2354,6 +2455,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorFCLexpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditFCLexpo").click(function () {
             if (document.getElementById("MainContent_baseCompraFCLexpo").value == "") {
                 document.getElementById("MainContent_baseCompraFCLexpo").value = 0;
@@ -2372,6 +2479,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteFCLexpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoFCLexpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoFCLexpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2442,6 +2550,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorLCLexpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarLCLexpo").click(function () {
             if (document.getElementById("MainContent_baseCompraLCLexpo").value == "") {
                 document.getElementById("MainContent_baseCompraLCLexpo").value = 0;
@@ -2459,6 +2573,7 @@
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaLCLexpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2529,6 +2644,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorLCLexpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditLCLexpo").click(function () {
             if (document.getElementById("MainContent_baseCompraLCLexpo").value == "") {
                 document.getElementById("MainContent_baseCompraLCLexpo").value = 0;
@@ -2547,6 +2668,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteLCLexpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoLCLexpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoLCLexpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2617,6 +2739,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorAereoImpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarAereoImpo").click(function () {
             if (document.getElementById("MainContent_baseCompraAereoImpo").value == "") {
                 document.getElementById("MainContent_baseCompraAereoImpo").value = 0;
@@ -2634,6 +2762,7 @@
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoImpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2704,6 +2833,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorAereoImpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditAereoImpo").click(function () {
             if (document.getElementById("MainContent_baseCompraAereoImpo").value == "") {
                 document.getElementById("MainContent_baseCompraAereoImpo").value = 0;
@@ -2722,6 +2857,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteAereoImpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoImpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoImpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2792,6 +2928,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorAereoExpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarAereoExpo").click(function () {
             if (document.getElementById("MainContent_baseCompraAereoExpo").value == "") {
                 document.getElementById("MainContent_baseCompraAereoExpo").value = 0;
@@ -2809,6 +2951,7 @@
                 "OB_TAXAS": document.getElementById("MainContent_txtObsTaxaAereoExpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2879,6 +3022,12 @@
         var itens = url.split("&");
         var id_parceiro = itens.toString().replace("id=", "");
         var id = parseInt(id_parceiro);
+        var flagTaxa = document.getElementById("MainContent_chkTaxaTransportadorAereoExpo");
+        if (flagTaxa.checked) {
+            flagTaxa = 1;
+        } else {
+            flagTaxa = 0;
+        }
         $("#btnSalvarEditAereoExpo").click(function () {
             if (document.getElementById("MainContent_baseCompraAereoExpo").value == "") {
                 document.getElementById("MainContent_baseCompraAereoExpo").value = 0;
@@ -2897,6 +3046,7 @@
                 "ID_TAXA_CLIENTE": document.getElementById("ddlTaxaClienteAereoExpo").value,
                 "ID_ORIGEM_PAGAMENTO": document.getElementById('MainContent_ddlOrigemServicoAereoExpo').value,
                 "ID_TIPO_PAGAMENTO": document.getElementById('MainContent_ddlTipoPagamentoAereoExpo').value,
+                "FL_TAXA_TRANSPORTADOR": flagTaxa,
                 "ID_PARCEIRO": id
             }
             $.ajax({
@@ -2981,7 +3131,8 @@
                 'MainContent_ddlCobrancaFCLimpo',
                 'MainContent_txtObsTaxaFCLimpo',
                 'MainContent_ddlOrigemServicoFCLimpo',
-                'MainContent_ddlTipoPagamentoFCLimpo'];
+                'MainContent_ddlTipoPagamentoFCLimpo',
+                'MainContent_chkTaxaTransportadorFCLimpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3005,7 +3156,8 @@
                 'MainContent_ddlCobrancaLCLimpo',
                 'MainContent_txtObsTaxaLCLimpo',
                 'MainContent_ddlOrigemServicoLCLimpo',
-                'MainContent_ddlTipoPagamentoLCLimpo'];
+                'MainContent_ddlTipoPagamentoLCLimpo',
+                'MainContent_chkTaxaTransportadorLCLimpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3031,7 +3183,8 @@
                 'MainContent_ddlCobrancaFCLexpo',
                 'MainContent_txtObsTaxaFCLexpo',
                 'MainContent_ddlOrigemServicoFCLexpo',
-                'MainContent_ddlTipoPagamentoFCLexpo'];
+                'MainContent_ddlTipoPagamentoFCLexpo',
+                'MainContent_chkTaxaTransportadorFCLexpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3057,7 +3210,8 @@
                 'MainContent_ddlCobrancaLCLexpo',
                 'MainContent_txtObsTaxaLCLexpo',
                 'MainContent_ddlOrigemServicoLCLexpo',
-                'MainContent_ddlTipoPagamentoLCLexpo'];
+                'MainContent_ddlTipoPagamentoLCLexpo',
+                'MainContent_chkTaxaTransportadorLCLexpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3083,7 +3237,8 @@
                 'MainContent_ddlCobrancaAereoImpo',
                 'MainContent_txtObsTaxaAereoImpo',
                 'MainContent_ddlOrigemServicoAereoImpo',
-                'MainContent_ddlTipoPagamentoAereoImpo'];
+                'MainContent_ddlTipoPagamentoAereoImpo',
+                'MainContent_chkTaxaTransportadorAereoImpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3109,7 +3264,8 @@
                 'MainContent_ddlCobrancaAereoExpo',
                 'MainContent_txtObsTaxaAereoExpo',
                 'MainContent_ddlOrigemServicoAereoExpo',
-                'MainContent_ddlTipoPagamentoAereoExpo'];
+                'MainContent_ddlTipoPagamentoAereoExpo',
+                'MainContent_chkTaxaTransportadorAereoExpo'];
             for (let i = 0; i < forms.length; i++) {
                 var aux = document.getElementById(forms[i]);
                 aux.removeAttribute("disabled");
@@ -3142,7 +3298,8 @@
                     'MainContent_ddlCobrancaFCLimpo',
                     'MainContent_txtObsTaxaFCLimpo',
                     'MainContent_ddlOrigemServicoFCLimpo',
-                    'MainContent_ddlTipoPagamentoFCLimpo'];
+                    'MainContent_ddlTipoPagamentoFCLimpo',
+                    'MainContent_chkTaxaTransportadorFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3169,7 +3326,8 @@
                     'MainContent_ddlCobrancaFCLimpo',
                     'MainContent_txtObsTaxaFCLimpo',
                     'MainContent_ddlOrigemServicoFCLimpo',
-                    'MainContent_ddlTipoPagamentoFCLimpo'];
+                    'MainContent_ddlTipoPagamentoFCLimpo',
+                    'MainContent_chkTaxaTransportadorFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3197,7 +3355,8 @@
                     'MainContent_ddlCobrancaFCLimpo',
                     'MainContent_txtObsTaxaFCLimpo',
                     'MainContent_ddlOrigemServicoFCLimpo',
-                    'MainContent_ddlTipoPagamentoFCLimpo'];
+                    'MainContent_ddlTipoPagamentoFCLimpo',
+                    'MainContent_chkTaxaTransportadorFCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3227,7 +3386,8 @@
                     'MainContent_ddlCobrancaLCLimpo',
                     'MainContent_txtObsTaxaLCLimpo',
                     'MainContent_ddlOrigemServicoLCLimpo',
-                    'MainContent_ddlTipoPagamentoLCLimpo'];
+                    'MainContent_ddlTipoPagamentoLCLimpo',
+                    'MainContent_chkTaxaTransportadorLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3254,7 +3414,8 @@
                     'MainContent_ddlCobrancaLCLimpo',
                     'MainContent_txtObsTaxaLCLimpo',
                     'MainContent_ddlOrigemServicoLCLimpo',
-                    'MainContent_ddlTipoPagamentoLCLimpo'];
+                    'MainContent_ddlTipoPagamentoLCLimpo',
+                    'MainContent_chkTaxaTransportadorLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3282,7 +3443,8 @@
                     'MainContent_ddlCobrancaLCLimpo',
                     'MainContent_txtObsTaxaLCLimpo',
                     'MainContent_ddlOrigemServicoLCLimpo',
-                    'MainContent_ddlTipoPagamentoLCLimpo'];
+                    'MainContent_ddlTipoPagamentoLCLimpo',
+                    'MainContent_chkTaxaTransportadorLCLimpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3312,7 +3474,8 @@
                     'MainContent_ddlCobrancaFCLexpo',
                     'MainContent_txtObsTaxaFCLexpo',
                     'MainContent_ddlOrigemServicoFCLexpo',
-                    'MainContent_ddlTipoPagamentoFCLexpo'];
+                    'MainContent_ddlTipoPagamentoFCLexpo',
+                    'MainContent_chkTaxaTransportadorFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3339,7 +3502,8 @@
                     'MainContent_ddlCobrancaFCLexpo',
                     'MainContent_txtObsTaxaFCLexpo',
                     'MainContent_ddlOrigemServicoFCLexpo',
-                    'MainContent_ddlTipoPagamentoFCLexpo'];
+                    'MainContent_ddlTipoPagamentoFCLexpo',
+                    'MainContent_chkTaxaTransportadorFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3367,7 +3531,8 @@
                     'MainContent_ddlCobrancaFCLexpo',
                     'MainContent_txtObsTaxaFCLexpo',
                     'MainContent_ddlOrigemServicoFCLexpo',
-                    'MainContent_ddlTipoPagamentoFCLexpo'];
+                    'MainContent_ddlTipoPagamentoFCLexpo',
+                    'MainContent_chkTaxaTransportadorFCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3397,7 +3562,8 @@
                     'MainContent_ddlCobrancaLCLexpo',
                     'MainContent_txtObsTaxaLCLexpo',
                     'MainContent_ddlOrigemServicoLCLexpo',
-                    'MainContent_ddlTipoPagamentoLCLexpo'];
+                    'MainContent_ddlTipoPagamentoLCLexpo',
+                    'MainContent_chkTaxaTransportadorLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3424,7 +3590,8 @@
                     'MainContent_ddlCobrancaLCLexpo',
                     'MainContent_txtObsTaxaLCLexpo',
                     'MainContent_ddlOrigemServicoLCLexpo',
-                    'MainContent_ddlTipoPagamentoLCLexpo'];
+                    'MainContent_ddlTipoPagamentoLCLexpo',
+                    'MainContent_chkTaxaTransportadorLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3452,7 +3619,8 @@
                     'MainContent_ddlCobrancaLCLexpo',
                     'MainContent_txtObsTaxaLCLexpo',
                     'MainContent_ddlOrigemServicoLCLexpo',
-                    'MainContent_ddlTipoPagamentoLCLexpo'];
+                    'MainContent_ddlTipoPagamentoLCLexpo',
+                    'MainContent_chkTaxaTransportadorLCLexpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3482,7 +3650,8 @@
                     'MainContent_ddlCobrancaAereoImpo',
                     'MainContent_txtObsTaxaAereoImpo',
                     'MainContent_ddlOrigemServicoAereoImpo',
-                    'MainContent_ddlTipoPagamentoAereoImpo'];
+                    'MainContent_ddlTipoPagamentoAereoImpo',
+                    'MainContent_chkTaxaTransportadorAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3509,7 +3678,8 @@
                     'MainContent_ddlCobrancaAereoImpo',
                     'MainContent_txtObsTaxaAereoImpo',
                     'MainContent_ddlOrigemServicoAereoImpo',
-                    'MainContent_ddlTipoPagamentoAereoImpo'];
+                    'MainContent_ddlTipoPagamentoAereoImpo',
+                    'MainContent_chkTaxaTransportadorAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3537,7 +3707,8 @@
                     'MainContent_ddlCobrancaAereoImpo',
                     'MainContent_txtObsTaxaAereoImpo',
                     'MainContent_ddlOrigemServicoAereoImpo',
-                    'MainContent_ddlTipoPagamentoAereoImpo'];
+                    'MainContent_ddlTipoPagamentoAereoImpo',
+                    'MainContent_chkTaxaTransportadorAereoImpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3567,7 +3738,8 @@
                     'MainContent_ddlCobrancaAereoExpo',
                     'MainContent_txtObsTaxaAereoExpo',
                     'MainContent_ddlOrigemServicoAereoExpo',
-                    'MainContent_ddlTipoPagamentoAereoExpo'];
+                    'MainContent_ddlTipoPagamentoAereoExpo',
+                    'MainContent_chkTaxaTransportadorAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -3594,7 +3766,8 @@
                     'MainContent_ddlCobrancaAereoExpo',
                     'MainContent_txtObsTaxaAereoExpo',
                     'MainContent_ddlOrigemServicoAereoExpo',
-                    'MainContent_ddlTipoPagamentoAereoExpo'];
+                    'MainContent_ddlTipoPagamentoAereoExpo',
+                    'MainContent_chkTaxaTransportadorAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     $(aux).attr("disabled", "true");
@@ -3622,7 +3795,8 @@
                     'MainContent_ddlCobrancaAereoExpo',
                     'MainContent_txtObsTaxaAereoExpo',
                     'MainContent_ddlOrigemServicoAereoExpo',
-                    'MainContent_ddlTipoPagamentoAereoExpo'];
+                    'MainContent_ddlTipoPagamentoAereoExpo',
+                    'MainContent_chkTaxaTransportadorAereoExpo'];
                 for (let i = 0; i < forms.length; i++) {
                     var aux = document.getElementById(forms[i]);
                     aux.removeAttribute("disabled");
@@ -4359,8 +4533,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
-                    $("#grdFCLimpo").empty();
-                    $("#grdFCLimpo").append("<tr><td class='text-center' colspan='6'><div class='loader text-center'></div></td></tr>");
+                    $("#grdAereoExpo").empty();
+                    $("#grdAereoExpo").append("<tr><td class='text-center' colspan='6'><div class='loader text-center'></div></td></tr>");
                 },
                 success: function () {
                     $("#msgSuccessexpoaereo").fadeIn(500).delay(3500).fadeOut(500);
