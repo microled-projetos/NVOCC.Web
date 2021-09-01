@@ -21,6 +21,7 @@ namespace ABAINFRA.Web
         private string id_moeda_venda;
         private int fl_declarado;
         private int fl_divisao_profit;
+        private int fl_taxa_transportador;
         private int id_destinatario_cobranca;
         private string id_tipo_pagamento;
         private string id_origem_pagamento;
@@ -39,6 +40,7 @@ namespace ABAINFRA.Web
         public string ID_MOEDA_VENDA { get => id_moeda_venda; set => id_moeda_venda = value; }
         public int FL_DECLARADO { get => fl_declarado; set => fl_declarado = value; }
         public int FL_DIVISAO_PROFIT { get => fl_divisao_profit; set => fl_divisao_profit = value; }
+        public int FL_TAXA_TRANSPORTADOR { get => fl_taxa_transportador; set => fl_taxa_transportador = value; }
         public int ID_DESTINATARIO_COBRANCA { get => id_destinatario_cobranca; set => id_destinatario_cobranca = value; }
         public string ID_TIPO_PAGAMENTO { get => id_tipo_pagamento; set => id_tipo_pagamento = value; }
         public string ID_ORIGEM_PAGAMENTO { get => id_origem_pagamento; set => id_origem_pagamento = value; }

@@ -23,6 +23,15 @@ Partial Public Class MontagemPagamento
     Protected WithEvents UpdatePanel5 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle lbl_ISS.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbl_ISS As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtID_BL.
     '''</summary>
     '''<remarks>

@@ -114,8 +114,8 @@ VL_LANCAMENTO,VL_CAMBIO,ISNULL(VL_LIQUIDO,0)VALORES
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & ID & " ) AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA IN (SELECT ID_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA WHERE CD_TIPO_ITEM_DESPESA= 'R'))")
 
-                    Dim valores As Double = 0
-                                        If dsTaxas.Tables(0).Rows.Count > 0 Then
+                    Dim valores As Decimal = 0
+                    If dsTaxas.Tables(0).Rows.Count > 0 Then
 
                         Dim tabela As String = " <table style='font-family:Arial;font-size:10px;'><tr>"
                         tabela &= "<th style='padding-left:10px;padding-right:10px'>Taxa</th>"
@@ -125,20 +125,19 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                             tabela &= "<tr><td style='padding-left:10px;padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td></tr>"
 
-                        valores = valores + linha("VALORES")
+                            valores = valores + linha("VALORES")
 
-
-                    Next
+                        Next
                         tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'></td></tr><tr><td style='padding-left:10px;padding-right:10px;float: right;'><br/>ISS: " & FormatNumber(ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS").ToString, 2) & " % " & ds.Tables(0).Rows(0).Item("VL_ISS").ToString & "</td><td style='padding-left:10px;padding-right:10px'>Total: " & valores & "</td></tr>"
                         tabela &= "</table>"
-                    divConteudoDinamico.InnerHtml = tabela
-                    'lbltotal.Text = "Total: " & valores
-                End If
+                        divConteudoDinamico.InnerHtml = tabela
+                        'lbltotal.Text = "Total: " & valores
+                    End If
 
 
 
-                Con.Fechar()
+                    Con.Fechar()
             End If
             End If
 

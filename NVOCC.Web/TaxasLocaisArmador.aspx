@@ -349,6 +349,7 @@
                                         <asp:BoundField DataField="NM_VIATRANSPORTE" HeaderText="Transporte" SortExpression="NM_VIATRANSPORTE" />
                                         <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Item Despesa" SortExpression="NM_ITEM_DESPESA" />
                                         <asp:BoundField DataField="NM_BASE_CALCULO_TAXA" HeaderText="Base de Cálculo" SortExpression="NM_BASE_CALCULO_TAXA" />
+                                        <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="Moeda" SortExpression="SIGLA_MOEDA" />
                                         <asp:BoundField DataField="VL_TAXA_LOCAL_COMPRA" HeaderText="Valor Taxa Local(Compra)" SortExpression="VL_TAXA_LOCAL_COMPRA" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Data de Validade (Inicial)" SortExpression="DT_VALIDADE_INICIAL" DataFormatString="{0:dd/MM/yyyy}" />                                
                                     </Columns>
@@ -391,7 +392,7 @@ A.ID_TIPO_COMEX,D.NM_TIPO_COMEX,
 A.ID_VIATRANSPORTE,C.NM_VIATRANSPORTE,
 A.ID_ITEM_DESPESA,F.NM_ITEM_DESPESA,
 A.VL_TAXA_LOCAL_COMPRA,
-A.DT_VALIDADE_INICIAL,E.NM_BASE_CALCULO_TAXA
+A.DT_VALIDADE_INICIAL,E.NM_BASE_CALCULO_TAXA,G.SIGLA_MOEDA
 FROM 
 TB_TAXA_LOCAL_TRANSPORTADOR A 
 LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
@@ -399,6 +400,7 @@ LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
 LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 LEFT JOIN TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
+LEFT JOIN TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA         
         WHERE ID_TRANSPORTADOR = @ID">
            <SelectParameters>
                 <asp:Parameter Name="ID" Type="Int32"  />

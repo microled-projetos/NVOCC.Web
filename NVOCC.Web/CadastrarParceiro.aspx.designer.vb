@@ -95,6 +95,24 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlTipoPessoa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divIATA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divIATA As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtCDIATA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCDIATA As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnClienteFinal.
     '''</summary>
     '''<remarks>
@@ -516,15 +534,6 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtEmailNF As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtCDIATA.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtCDIATA As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtQtdFaturamento.

@@ -1117,6 +1117,7 @@ WHERE ID_PARCEIRO =" & ID)
     End Sub
     Private Sub ddlTipoPessoa_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoPessoa.SelectedIndexChanged
         If ddlTipoPessoa.SelectedValue = 2 Then
+            divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = True
             divCNPJ.Visible = False
             txtCPF.Text = ""
@@ -1127,6 +1128,7 @@ WHERE ID_PARCEIRO =" & ID)
             RedEnd.Visible = True
             RedCEP.Visible = True
         ElseIf ddlTipoPessoa.SelectedValue = 1 Then
+            divIATA.Attributes.CssStyle.Add("display", "none")
             divCPF.Visible = False
             divCNPJ.Visible = True
             txtCNPJ.Text = ""
@@ -1137,7 +1139,7 @@ WHERE ID_PARCEIRO =" & ID)
             RedEnd.Visible = True
             RedCEP.Visible = True
         ElseIf ddlTipoPessoa.SelectedValue = 3 Then
-
+            divIATA.Attributes.CssStyle.Add("display", "block")
             divCPF.Visible = False
             divCNPJ.Visible = True
             txtCNPJ.Text = "00000000000000"

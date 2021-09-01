@@ -149,7 +149,13 @@
           </div>
                             <div class="table-responsive tableFixHead DivGrid" id="DivGrid" style="text-align:center" >
                                 <asp:GridView ID="dgvCotacao" DataKeyNames="ID_COTACAO" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsCotacao"  AutoGenerateColumns="False" style="max-height:600px; overflow:auto;" AllowSorting="True" OnSorting="dgvCotacao_Sorting"  EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" allowpaging="true" PageSize="100">
-                                    <Columns >
+                                    <Columns ><asp:TemplateField HeaderText="">
+                                              <ItemTemplate>
+                                                 <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
+                                CommandArgument='<%# Eval("ID_COTACAO") & "|" & Container.DataItemIndex %>'   CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicao()"></asp:linkButton>                     
+                                              </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField> 
                                        <asp:BoundField DataField="ID_COTACAO" HeaderText="#" visible="false" />
                                         <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO"/>
                                         <asp:BoundField DataField="DT_ABERTURA" HeaderText="Abertura" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_ABERTURA"/>                            
@@ -167,13 +173,7 @@
                                         <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico"/>
                                         <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente"/>
 <%--                                        <asp:BoundField DataField="COR"  SortExpression="COR" ItemStyle-CssClass="none" />--%>
-                                          <asp:TemplateField HeaderText="">
-                                              <ItemTemplate>
-                                                 <asp:linkButton ID="btnSelecionar" runat="server"  CssClass="btn btn-primary btn-sm" 
-                                CommandArgument='<%# Eval("ID_COTACAO") & "|" & Container.DataItemIndex %>'   CommandName="Selecionar" Text="Selecionar"  OnClientClick="SalvaPosicao()"></asp:linkButton>                     
-                                              </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                        </asp:TemplateField>               
+                                                        
                                     </Columns>
                                     <HeaderStyle  CssClass="headerStyle" />
                                 </asp:GridView>

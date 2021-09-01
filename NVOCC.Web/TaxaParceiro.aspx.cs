@@ -343,9 +343,9 @@ namespace ABAINFRA.Web
             ddlTipoPagamentoLCLimpo.DataBind();
             ddlTipoPagamentoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            ddlTipoPagamentoLCLimpo.DataSource = Session["TaskTableTipoPagamento"];
-            ddlTipoPagamentoLCLimpo.DataBind();
-            ddlTipoPagamentoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlTipoPagamentoLCLexpo.DataSource = Session["TaskTableTipoPagamento"];
+            ddlTipoPagamentoLCLexpo.DataBind();
+            ddlTipoPagamentoLCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
 
             ddlTipoPagamentoAereoImpo.DataSource = Session["TaskTableTipoPagamento"];
             ddlTipoPagamentoAereoImpo.DataBind();
@@ -375,9 +375,9 @@ namespace ABAINFRA.Web
             ddlOrigemServicoLCLimpo.DataBind();
             ddlOrigemServicoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            ddlOrigemServicoLCLimpo.DataSource = Session["TaskTableOrigem"];
-            ddlOrigemServicoLCLimpo.DataBind();
-            ddlOrigemServicoLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
+            ddlOrigemServicoLCLexpo.DataSource = Session["TaskTableOrigem"];
+            ddlOrigemServicoLCLexpo.DataBind();
+            ddlOrigemServicoLCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
 
             ddlOrigemServicoAereoImpo.DataSource = Session["TaskTableOrigem"];
             ddlOrigemServicoAereoImpo.DataBind();

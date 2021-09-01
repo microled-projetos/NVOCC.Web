@@ -77,7 +77,7 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
-                SQL += "VALUES ('" + idprocesso + "',NULL,'" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "') ";
+                SQL += "VALUES ('" + idprocesso + "',NULL,'" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\"+ filename +"') ";
 
                 DBS.ExecuteScalar(SQL);
 
@@ -105,19 +105,19 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
-                SQL += "VALUES (NULL,'" + idblmaster + "','" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "') ";
+                SQL += "VALUES (NULL,'" + idblmaster + "','" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\MASTER-" + blmaster + "\\" + filename+ "') ";
                 DBS.ExecuteScalar(SQL);
 
                 if (tipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL, '" + parceiroD + "') ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL,'" + parceiroD + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
                 else
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "', NULL) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
                     DBS.ExecuteScalar(SQL);
                 }
 

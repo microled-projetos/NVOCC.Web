@@ -138,7 +138,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -158,7 +158,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -206,7 +206,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -284,7 +284,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
         End If
 
@@ -302,7 +302,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1666,7 +1666,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1718,7 +1718,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1745,7 +1745,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1856,18 +1856,16 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
         If txtEstufagem.Text = 1 Then
             ID_BASE_CALCULO = 5
             'FRETE COMPRA
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA)
+            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR)
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & ",  
  
-CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
- THEN ID_PARCEIRO_IMPORTADOR
- ELSE ID_CLIENTE
- END ID_PARCEIRO_EMPRESA, 
+ ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
  
  CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
  THEN 4
  ELSE 1
- END ID_DESTINATARIO_COBRANCA 
+ END ID_DESTINATARIO_COBRANCA,
+ 1
 
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
         ElseIf txtEstufagem.Text = 2 Then
@@ -1974,7 +1972,7 @@ WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else

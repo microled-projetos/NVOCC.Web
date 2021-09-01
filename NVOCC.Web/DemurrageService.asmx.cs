@@ -4114,7 +4114,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE = P2.ID_PARCEIRO ";
+            SQL += "INNER JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
             SQL += "INNER JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
             SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
@@ -5601,7 +5601,7 @@ namespace ABAINFRA.Web
         public string listarRelacaoCotacao(string dataI, string dataF, string filter, string nota)
 		{
             string SQL;
-            
+            string SQL2;
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5612,10 +5612,13 @@ namespace ABAINFRA.Web
             dataI = diaI + '/' + mesI + '/' + anoI;
             dataF = diaF + '/' + mesF + '/' + anoF;
 
-            SQL = "SELECT FL_REL_COTACOES_COMPLETO FROM TB_USUARIO WHERE ID_USUARIO = '" + Session["ID_USUARIO"] + "' ";
-            string flagCompleto = DBS.ExecuteScalar(SQL);
+            SQL = "SELECT FL_REL_COTACOES_COMPLETO, CPF FROM TB_USUARIO WHERE ID_USUARIO = 3 ";
+            DataTable listTable2 = new DataTable();
+            listTable2 = DBS.List(SQL);
+            int flagCompleto = Convert.ToInt32(listTable2.Rows[0]["FL_REL_COTACOES_COMPLETO"]);
+            string cpf = listTable2.Rows[0]["CPF"].ToString();
 
-            if (flagCompleto == "1")
+            if (flagCompleto == 1)
             {
                 switch (filter)
                 {
@@ -5628,11 +5631,15 @@ namespace ABAINFRA.Web
                     case "3":
                         nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
                         break;
+                    case "4":
+                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
+                        break;
                     default:
                         nota = "";
                         break;
                 }
-			}
+                
+            }
 			else
 			{
                 switch (filter)
@@ -5642,6 +5649,9 @@ namespace ABAINFRA.Web
                         break;
                     case "3":
                         nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
+                        break;
+                    case "4":
+                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
                         break;
                     default:
                         nota = "";
@@ -5655,9 +5665,20 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += "" + nota + "";
-            if (flagCompleto == "0")
+            if (flagCompleto == 0)
             {
-                SQL += "AND ID_VENDEDOR = '" + Session["ID_USUARIO"] + "' ";
+                SQL2 = "SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" + cpf.Replace(".", "").Replace("-", "") + "' ";
+                DataTable listTable3 = new DataTable();
+                listTable3 = DBS.List(SQL2);
+                if (listTable3 != null)
+                {
+                    string vendedor = listTable3.Rows[0]["ID_PARCEIRO"].ToString();
+                    SQL += " AND ID_VENDEDOR = '" + vendedor + "' ";
+				}
+				else
+				{
+                    SQL += " AND ID_VENDEDOR IS NULL ";
+                }
             }
             SQL += "ORDER BY DT_SOLICITACAO ";
             DataTable listTable = new DataTable();
@@ -5781,7 +5802,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarEstimativaContasRecebidasPagas(string dataI, string dataF, string nota, string filter)
+        public string listarContasAReceberAPagar(string filterby, string dataI, string dataF, string nota, string filter)
         {
             string SQL;
 
@@ -5813,7 +5834,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_CAMBIO_REC,'dd/MM/yyyy'),'') AS DT_CAMBIO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ISNULL(TP_SERVICO,'') AS TP_SERVICO, ";
             SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_REC),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_CAMBIO_PAG,'dd/MM/yyyy'),'') AS DT_CAMBIO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "') ";
+            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "',"+filterby+") ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
