@@ -77,7 +77,7 @@
                                                 <div class="form-group">
                                                     <asp:DropDownList ID="ddlFiltroEmbarque" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px">
                                                         <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                        <asp:ListItem Value="1">Número do processo</asp:ListItem>
+                                                        <asp:ListItem Value="1" Selected="True">Número do processo</asp:ListItem>
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
                                                         <%--       <asp:ListItem Value="4">Nº BL Master</asp:ListItem>--%>
@@ -513,7 +513,7 @@
                                                 <div class="form-group">
                                                     <asp:DropDownList ID="ddlFiltroHouse" AutoPostBack="true" Width="230px" runat="server" CssClass="form-control" Font-Size="15px">
                                                         <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                        <asp:ListItem Value="1">Número do processo</asp:ListItem>
+                                                        <asp:ListItem Value="1" Selected="True">Número do processo</asp:ListItem>
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
                                                         <asp:ListItem Value="4">Nº BL Master</asp:ListItem>
@@ -582,7 +582,7 @@
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="Pagamento" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
-                                                <asp:BoundField DataField="PARCEIRO_AGENTE" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE" />
+                                                <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
                                                 <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="Previsão(Embarque)" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="Embarque" SortExpression="DT_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="Previsão(Chegada)" SortExpression="DT_PREVISAO_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}" />

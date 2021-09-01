@@ -138,7 +138,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -158,7 +158,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -206,7 +206,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -284,7 +284,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
         End If
 
@@ -302,7 +302,7 @@ FROM TB_COTACAO_MERCADORIA WHERE  ID_COTACAO = " & txtID.Text)
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1666,7 +1666,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1718,7 +1718,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1745,7 +1745,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
@@ -1972,7 +1972,7 @@ WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
 
             divErro.Visible = True
             lblmsgErro.Text = "Usuário não possui permissão."
-            dgvCotacao.Columns(11).Visible = False
+            dgvCotacao.Columns(0).Visible = False
 
             Exit Sub
         Else
