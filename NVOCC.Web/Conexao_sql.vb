@@ -5,6 +5,7 @@ Public Class Conexao_sql
     Public Sub Conectar()
         Try
 
+
             ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
 
         Catch ex As Exception
