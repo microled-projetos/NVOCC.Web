@@ -44,10 +44,19 @@ Public Class WsNvocc
     Public Function IntegraNFePrefeitura(ByVal RPS As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
         Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE STATUS_NFE = 0 AND NR_RPS = '" & RPS & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE NR_RPS = '" & RPS & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+
+                If Reprocessamento Then
+                    Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), 1, 1)
+
+                Else
+
+                    Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+                End If
+
+
             Next
 
         Else
@@ -124,7 +133,7 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            loteNumero = IDFatura
+            loteNumero = IDFatura 'chamar ws aqui
 
 
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
@@ -139,8 +148,11 @@ Public Class WsNvocc
             noLoteRPS.Attributes.Append(att)
 
 
-            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
-
+            ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
+CROSS JOIN View_Faturamento B 
+LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
+WHERE ID_FATURAMENTO = " & IDFatura)
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
             No = doc.CreateElement("NumeroLote", NFeNamespacte)

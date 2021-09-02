@@ -76,7 +76,7 @@
                                                 <asp:TextBox ID="txtNumeroBL_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-3" style="display: none">
                                             <div class="form-group">
                                                 <label class="control-label">Número do Processo:</label>
                                                 <asp:TextBox ID="txtProcesso_BasicoMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
@@ -1128,7 +1128,7 @@
                                                         <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-3" style="display: none">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do Processo:</label>
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
