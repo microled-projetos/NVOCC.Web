@@ -1310,6 +1310,24 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents txtObsCliente_ObsMaritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtObsCliente_CotacaoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsCliente_CotacaoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtObsOper_CotacaoMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsOper_CotacaoMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnLimpar_ObsMaritimo.
     '''</summary>
     '''<remarks>
@@ -2640,6 +2658,24 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtObsCliente_ObsAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtObsCliente_CotacaoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsCliente_CotacaoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtObsOper_CotacaoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtObsOper_CotacaoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnLimpar_ObsAereo.

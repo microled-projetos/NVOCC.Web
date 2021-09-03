@@ -1692,23 +1692,10 @@ VL_TAXA_VENDA_MIN = " & OPERADOR & txtValorTaxaVendaMin.Text & ",
 OB_TAXAS = " & txtObsTaxa.Text & " 
 WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
 
-                    'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 1 WHERE ID_FORNECEDOR = (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
-                    'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 0 WHERE ID_FORNECEDOR <> (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
-
-                    'txtIDTaxa.Text = ""
-                    'ddlItemDespesaTaxa.SelectedValue = 0
-                    'ddlOrigemPagamentoTaxa.SelectedValue = 0
-                    'ddlBaseCalculoTaxa.SelectedValue = 0
-                    'ddlMoedaCompraTaxa.SelectedValue = 0
-                    'ddlMoedaVendaTaxa.SelectedValue = 0
-                    'ddlTipoPagamentoTaxa.SelectedValue = 1
-                    'ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-                    'txtValorTaxaCompra.Text = ""
-                    'txtValorTaxaVenda.Text = ""
-                    'txtValorTaxaVendaMin.Text = ""
-                    'txtValorTaxaCompraMin.Text = ""
-                    'txtValorTaxaVendaCalc.Text = ""
-                    'txtValorTaxaCompraCalc.Text = ""
+                    txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", ",")
+                    txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(".", ",")
+                    txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(".", ",")
+                    txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", ",")
 
                     txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
                     txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
@@ -2058,7 +2045,7 @@ AND B.DT_VALIDADE_INICIAL <= (SELECT DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE I
 
                     For Each linha As DataRow In ds.Tables(0).Rows
 
-                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE FL_TAXA_TRANSPORTADOR = 0 AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO") & " AND ID_COTACAO = " & txtID.Text)
+                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE FL_TAXA_TRANSPORTADOR = 0 AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO") & " AND ISNULL(VL_TAXA_COMPRA,0) = 0 AND ID_COTACAO = " & txtID.Text)
 
                         If dsVerificaExistencia.Tables(0).Rows.Count > 0 Then
                             Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET 
@@ -2088,7 +2075,7 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In ds.Tables(0).Rows
-                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE FL_TAXA_TRANSPORTADOR = 0 AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO_TAXA") & " AND ID_COTACAO = " & txtID.Text)
+                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE FL_TAXA_TRANSPORTADOR = 0 AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO_TAXA") & " AND ISNULL(VL_TAXA_COMPRA,0) = 0 AND ID_COTACAO = " & txtID.Text)
 
                         If dsVerificaExistencia.Tables(0).Rows.Count > 0 Then
 
@@ -2194,7 +2181,7 @@ AND B.DT_VALIDADE_INICIAL <= (SELECT DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE I
 
                     For Each linha As DataRow In ds.Tables(0).Rows
 
-                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO") & " AND ID_COTACAO = " & txtID.Text)
+                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO") & " AND ISNULL(VL_TAXA_COMPRA,0) = 0 AND ID_COTACAO = " & txtID.Text)
 
                         If dsVerificaExistencia.Tables(0).Rows.Count > 0 Then
                             Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET 
@@ -2228,7 +2215,7 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In ds.Tables(0).Rows
-                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO_TAXA") & " AND ID_COTACAO = " & txtID.Text)
+                        Dim dsVerificaExistencia As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA") & " AND ID_ORIGEM_PAGAMENTO = " & linha.Item("ID_ORIGEM_PAGAMENTO") & " AND ID_BASE_CALCULO_TAXA = " & linha.Item("ID_BASE_CALCULO_TAXA") & " AND ISNULL(VL_TAXA_COMPRA,0) = 0 AND ID_COTACAO = " & txtID.Text)
 
                         If dsVerificaExistencia.Tables(0).Rows.Count > 0 Then
 
@@ -2415,8 +2402,8 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
 
         txtProcessoCotacao.Text = PROCESSO_FINAL
 
-        Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,OB_OPERACIONAL_INTERNA,OB_CLIENTE,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR ) 
-SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,OB_OPERACIONAL,OB_CLIENTE,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR, CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORTADOR = 0 THEN ID_CLIENTE ELSE ID_PARCEIRO_IMPORTADOR END ID_PARCEIRO_IMPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
+        Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR ) 
+SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR, CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORTADOR = 0 THEN ID_CLIENTE ELSE ID_PARCEIRO_IMPORTADOR END ID_PARCEIRO_IMPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
         ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
         'TAXAS COMPRAS

@@ -65,6 +65,7 @@ Public Class WsNvocc
         End If
 
     End Function
+
     <WebMethod()>
     Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
         Con.Conectar()
@@ -132,11 +133,11 @@ Public Class WsNvocc
             Dim loteNumero As Long
             '  loteNumero = IDFatura 'chamar ws aqui
 
-            Dim ConOracle As New Conexao_oracle
-            ConOracle.Conectar()
-            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            'Dim ConOracle As New Conexao_oracle
+            'ConOracle.Conectar()
+            'sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+            'Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+            loteNumero = 165606 'rsNumero.Rows(0)("NEXTVAL").ToString
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
@@ -230,7 +231,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             docAssinado.Save(nomeArquivo)
 
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
-
                 sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
                 sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
