@@ -913,14 +913,14 @@
                     if (dado != null) {
                         $("#tblModuloOperacionalBody").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</div>" + dado[i]["PROCESSO"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["TPAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["TESTUFAGEM"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PEMBARQUE"] + "</td><td class='text-center'>" + dado[i]["EMBARQUE"] + "</td><td class='text-center'>" + dado[i]["PCHEGADA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CHEGADA"] + "</td><td class='text-center'></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["BLMASTER"] + "</td > <td class='text-center'>" + dado[i]["BLHOUSE"] + "</td><td class='text-center'>" + dado[i]["CEMASTER"] + "</td><td class='text-center'>" + dado[i]["CEHOUSE"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["REDESTINACAO"] + "</td><td class='text-center'>" + dado[i]["DESCONSOLIDACAO"] + "</td><td class='text-center'>" + dado[i]["WEEK"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'>" + dado[i]["NAVIO"] + "</td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'>" + dado[i]["TERMO"] + "</td></tr> ");
+                            $("#tblModuloOperacionalBody").append("<tr data-id='" + dado[i]["HOUSE"] + "'><td class='text-center' style='display: flex; align-items: center'><span class='btn btn-primary select' onclick='setId(" + dado[i]["HOUSE"] + ")' style='margin-right: 10px'>Selecionar</span><div>" + dado[i]["PROCESSO"] + "</div></td>" +
+                                "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["CLIENTE"] + "</div></td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'><div>" + dado[i]["DESTINO"] + "</div></td>" +
+                                "<td class='text-center'><div>" + dado[i]["TPAGAMENTO"] + "</div></td><td class='text-center'><div>" + dado[i]["TESTUFAGEM"] + "</div></td><td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'><div>" + dado[i]["AGENTE"] + "</div></td>" +
+                                "<td class='text-center'><div>" + dado[i]["PEMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["EMBARQUE"] + "</div></td><td class='text-center'><div>" + dado[i]["PCHEGADA"] + "</div></td>" +
+                                "<td class='text-center'><div>" + dado[i]["CHEGADA"] + "</div></td><td class='text-center'><div></div></td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 8ch;'><div>" + dado[i]["TRANSPORTADOR"] + "</div></td>" +
+                                "<td class='text-center'><div>" + dado[i]["BLMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["BLHOUSE"] + "</div></td><td class='text-center'><div>" + dado[i]["CEMASTER"] + "</div></td><td class='text-center'><div>" + dado[i]["CEHOUSE"] + "</div></td>" +
+                                "<td class='text-center'><div>" + dado[i]["REDESTINACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["DESCONSOLIDACAO"] + "</div></td><td class='text-center'><div>" + dado[i]["WEEK"] + "</div></td>" +
+                                "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO"] + "</div></td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'><div>" + dado[i]["TERMO"] + "</div></td></tr> ");
 
                         }
                     }
@@ -1698,16 +1698,19 @@
         function exportTableToCSVAtual(filename) {
             var csv = [];
             var rows = document.querySelectorAll("#tblModuloOperacional tr");
-
+            var f;
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#tblModuloOperacional td, #tblModuloOperacional th");
-
+                var row = [];
+                if (i > 0) {
+                    var cols = rows[i].querySelectorAll("#tblModuloOperacional td div, #tblModuloOperacional th");
+                } else {
+                    var cols = rows[i].querySelectorAll("#tblModuloOperacional td, #tblModuloOperacional th");
+                }
                 for (var j = 0; j < cols.length; j++)
-                    row.push(cols[j].innerText);
-
-                csv.push(row.join(";"));
-            }
-
+                    row.push(cols[j].innerText);     
+                console.log(row);
+                    csv.push(row.join(";"));
+                }
             // Download CSV file
             downloadCSVAtual(csv.join("\n"), filename);
         }

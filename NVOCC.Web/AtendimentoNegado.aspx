@@ -18,8 +18,9 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
-                            <div class="row topMarg flexdiv" style="margin: auto;">
-                                <button type="button" id="btnCadastrarDeclinio" data-toggle="modal" data-target="#modalCadastroDeclinio" class="btn btn-primary" >Novo Cadastro</button>
+                            <div class="row topMarg flexdiv" style="margin: auto; justify-content: center;">
+                                <button type="button" id="btnCadastrarDeclinio" data-toggle="modal" data-target="#modalCadastroDeclinio" class="btn btn-primary">Novo Cadastro</button>
+                                <button type="button" id="btnGerarCSV" style="margin-left: 5px;" class="btn btn-primary" onclick="exportTableToCSVAtual('AtendimentosNegados.csv')">Gerar CSV</button>
                             </div>
                             <div class="row topMarg">
                                 <div class="alert alert-success text-center" id="msgSuccess">
@@ -35,8 +36,40 @@
                                         Erro ao deletar registro
                                 </div>
                             </div>
-                            <div class="row topMarg">
-                               
+                            <div class="row flexdiv topMarg" style="padding: 0 15px">
+                                <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Solicitação Inicial:</label>
+                                            <input id="txtDtInicial" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data Solicitação Final:</label>
+                                            <input id="txtDtFinal" class="form-control" type="date" required="required"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Filtro</label>
+                                            <select id="ddlFilter" class="form-control">
+                                                <option value="">Selecione</option>
+                                                <option value="1">Vendedor</option>
+                                                <option value="2">Inside</option>
+                                                <option value="3">Cliente</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">*</label>
+                                            <input id="txtConsulta" class="form-control" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnConsultar" onclick="listarAtendimentos()" class="btn btn-primary">Consultar</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
                                 <table id="atendimentoDeclinio" class="table tablecont">
@@ -45,12 +78,10 @@
                                             <th class="text-center" scope="col">&nbsp;</th>
                                             <th class="text-center" scope="col">DATA SOLICITAÇÃO</th>
                                             <th class="text-center" scope="col">INSIDE</th>
-                                            <th class="text-center" scope="col">REF. INSIDE</th>
                                             <th class="text-center" scope="col">SERVICO</th>
                                             <th class="text-center" scope="col">ESTUFAGEM</th>
                                             <th class="text-center" scope="col">INCOTERM</th>
                                             <th class="text-center" scope="col">CLIENTE PRINCIPAL</th>
-                                            <th class="text-center" scope="col">SUB CLIENTE</th>
                                             <th class="text-center" scope="col">ORIGEM</th>
                                             <th class="text-center" scope="col">DESTINO</th>
                                             <th class="text-center" scope="col">VENDEDOR</th>
@@ -76,13 +107,13 @@
                                             <div class="row">   
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">DATA SOLICITAÇÃO</label>
+                                                        <label class="control-label">DATA SOLICITAÇÃO<span style="color:red">*</span></label>
                                                         <input type="date" id="dtSolicitacao" class="form-control" />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">INSIDE</label>
+                                                        <label class="control-label">INSIDE<span style="color:red">*</span></label>
                                                         <asp:DropDownList ID="ddlInside" CssClass="form-control" runat="server" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO">
 
                                                         </asp:DropDownList> 
@@ -90,7 +121,7 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">VENDEDOR</label>
+                                                        <label class="control-label">VENDEDOR<span style="color:red">*</span></label>
                                                         <asp:DropDownList ID="ddlVendedor" CssClass="form-control" runat="server" DataValueField="ID_PARCEIRO" DataTextField="NM_RAZAO" >
 
                                                         </asp:DropDownList> 
@@ -98,7 +129,7 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">CLIENTE PRINCIPAL</label>
+                                                        <label class="control-label">CLIENTE PRINCIPAL<span style="color:red">*</span></label>
                                                         <select id="ddlClientePrincipal" class="form-control" onchange="ClienteFinal()" >
                                                         </select>
                                                     </div>
@@ -149,7 +180,7 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">STATUS</label>
+                                                        <label class="control-label">STATUS<span style="color:red">*</span></label>
                                                         <asp:DropDownList ID="ddlStatus" CssClass="form-control" runat="server" DataValueField="ID_STATUS_COTACAO" DataTextField="NM_STATUS_COTACAO">
                                                         </asp:DropDownList> 
                                                     </div>
@@ -204,6 +235,8 @@
         $(document).ready(function () {
             document.getElementById("dtSolicitacao").value = formatDate(currentDate);
             document.getElementById("MainContent_ddlStatus").value = "11";
+            document.getElementById("txtDtInicial").value = formatDate(currentDate);
+            document.getElementById("txtDtFinal").value = formatDate(currentDate);
             listarAtendimentos();
         });
 
@@ -254,11 +287,12 @@
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarAtendimento",
+                data: '{dataI: "' + document.getElementById("txtDtInicial").value + '", dataF: "' + document.getElementById("txtDtFinal").value + '", filter: "' + document.getElementById("ddlFilter").value + '", text: "' + document.getElementById("txtConsulta").value+'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {
                     $("#atendimentoDeclinioBody").empty();
-                    $("#atendimentoDeclinioBody").append("<tr><td colspan='12'><div class='loader text-center'></div></td></tr>");
+                    $("#atendimentoDeclinioBody").append("<tr><td colspan='10'><div class='loader text-center'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -271,12 +305,10 @@
                                 "</td>"+
                                 "<td class='text-center'>" + dado[i]["ATENDIMENTO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["INSIDE"] + "</td >" +
-                                "<td class='text-center'></td>" +
                                 "<td class='text-center'>" + dado[i]["SERVICO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
-                                "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["CLIENTEF"] + "'>" + dado[i]["CLIENTEF"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["VENDEDOR"] + "'>" + dado[i]["VENDEDOR"] + "</td>" +
@@ -285,7 +317,7 @@
                         }
                     }
                     else {
-                        $("#atendimentoDeclinioBody").append("<tr id='msgEmptyWeek'><td colspan='12' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
+                        $("#atendimentoDeclinioBody").append("<tr id='msgEmptyWeek'><td colspan='10' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
                     }
                 }
             })
@@ -349,6 +381,50 @@
                     }
                 }
             })
+        }
+
+        function downloadCSV(csv, filename) {
+            var csvFile;
+            var downloadLink;
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+
+            // Download link
+            downloadLink = document.createElement("a");
+
+            // File name
+            downloadLink.download = filename;
+
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+
+            // Hide download link
+            downloadLink.style.display = "none";
+
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+
+            // Click download link
+            downloadLink.click();
+
+        }
+
+        function exportTableToCSVAtual(filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("#atendimentoDeclinio tr");
+
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll("#atendimentoDeclinio td, #atendimentoDeclinio th");
+
+                for (var j = 0; j < cols.length; j++)
+                    row.push(cols[j].innerText);
+
+                csv.push(row.join(";"));
+            }
+
+            // Download CSV file
+            downloadCSV(csv.join("\n"), filename);
         }
 
         function setId(Id) {

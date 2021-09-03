@@ -446,7 +446,9 @@ ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORT
             Else
                 ds = Con.ExecutarQuery("SELECT ID_CNTR_BL FROM TB_CARGA_BL Where ID_CARGA_BL = " & ID)
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
-                Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
+                End If
 
                 lblSuccess_CargaMaritimo1.Text = "Registro deletado!"
                 divSuccess_CargaMaritimo1.Visible = True

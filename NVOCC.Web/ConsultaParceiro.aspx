@@ -67,11 +67,16 @@
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />
                                         <asp:BoundField DataField="RazaoSocial" HeaderText="Razão Social" SortExpression="RazaoSocial"/>
                                         <asp:BoundField DataField="CNPJ" HeaderText="CNPJ" SortExpression="CNPJ"/>
-                                         <asp:BoundField DataField="CPF" HeaderText="CPF" SortExpression="CPF" />
+                                        <asp:BoundField DataField="CPF" HeaderText="CPF" SortExpression="CPF" />
+                                        <asp:TemplateField HeaderText="Ativo" SortExpression="Ativo" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblAtivo"  runat="server" Text='<%# Eval("Ativo") %>'/>
+                    </ItemTemplate>
+                </asp:TemplateField>
                                         <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
                                                  <asp:linkButton ID="btnTaxas" title="Taxa Parceiro" runat="server" style="background-color:#e3d810;border-color:#e3d810" CssClass="btn btn-info btn-sm" CommandName="Taxas"
-                                  CommandArgument='<%# Eval("Id") %>'><i class="fas fa-plus" ></i></asp:linkButton>
+                                  CommandArgument='<%# Eval("Id") %>'><i class="fas fa-plus" style="font-size:medium"></i></asp:linkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
@@ -122,7 +127,7 @@
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ">
+        selectcommand="SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO #FILTRO ">
 </asp:SqlDataSource>
 
 

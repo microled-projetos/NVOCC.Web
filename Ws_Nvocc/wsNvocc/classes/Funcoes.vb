@@ -22,7 +22,7 @@ Public Class Funcoes
     Public diretorioConRPSRet As String = AppContext.BaseDirectory & "\RpsConsultaRet\"
     Public diretorioAnexoEmail As String = AppContext.BaseDirectory & "\AnexosEmail\"
     Public diretorioXSD As String = AppContext.BaseDirectory & "XSD_WS"
-    Public nomeCertificado As String = "eudmarco"
+    Public nomeCertificado As String = "FCA"
 
     Public Function NNull(ByVal Valor As String, ByVal Tipo As Integer) As String
         If Valor <> Nothing Then

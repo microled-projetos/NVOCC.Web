@@ -46,9 +46,6 @@
     </style>
 </head>
 
-
-
-
 <body>
     <div class="divFooter">
         <img class="fundo" id="imgFundo" src="Content/imagens/Fundo_FCA.png" />

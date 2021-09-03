@@ -129,7 +129,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         Dim FILTRO As String = ""
 
         If txtConsulta.Text = "" Then
-            dsParceiros.SelectCommand = "Select ID_PARCEIRO As Id, CNPJ, NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
+            dsParceiros.SelectCommand = "SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
             dgvParceiros.DataBind()
         Else
             If ddlConsulta.SelectedValue = 1 Then
@@ -201,4 +201,21 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         ViewState("SortExpression") = column
         Return sortDirection
     End Function
+
+    Private Sub dgvParceiros_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvParceiros.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Ativo As Label = CType(e.Row.FindControl("lblAtivo"), Label)
+
+            If Ativo.Text = "Não" Then
+
+                Ativo.Style("color") = "red"
+            ElseIf Ativo.Text = "Sim" Then
+
+                Ativo.Style("color") = "green"
+
+            End If
+
+        End If
+    End Sub
 End Class

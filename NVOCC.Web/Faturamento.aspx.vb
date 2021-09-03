@@ -356,7 +356,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             VL_ISS = VL_ISS.Replace(".", "")
                             VL_ISS = VL_ISS.Replace(",", ".")
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & "  WHERE ID_FATURAMENTO =" & txtID.Text)
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = (SELECT SERIE_RPS FROM TB_SERIE_RPS WHERE DT_INICIAL <= getdate() and DT_FINAL is null) WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
 

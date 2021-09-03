@@ -1169,7 +1169,6 @@ input[type=file] {
     font-weight: bold;
     width: 100%;
 }
-
 .bindBL, #msgErrDespCli, #msgErrTabelaDemurrage, #msgSuccessTabelaDemurrage, #msgExistsTabelaDemurrage, #msgErrDeleteDemurrage, #msgSuccesDeleteDemurrage, #msgErrDespRec, #msgErrServCli, #msgErrServNota, #msgErrServNotite, #msgErrServRec, #msgErrExportPARec, #msgErrExportPACli, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL,
 #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
 #msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail,
@@ -1179,9 +1178,10 @@ input[type=file] {
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
 #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
 #msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
-#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
+#listTaxaFCLexpo, #msgSuccess, #msgErr, msgSuccessDelete, msgErrDelete, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
     display: none;
 }
+
 
 #tblModuloOperacionalBody td:first-child {
     position: -webkit-sticky; /* for Safari */
