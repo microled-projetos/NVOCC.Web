@@ -23,6 +23,10 @@
             numero = ds.Tables(0).Rows(0).Item("NR_RPS")
             numeroFinal = numero.ToString.PadLeft(6, "0")
 
+            'Chamar ws ???
+
+
+
         End If
 
 

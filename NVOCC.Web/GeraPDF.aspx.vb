@@ -64,7 +64,7 @@ Public Class GeraPDF
 
                     cb.SetColorFill(BaseColor.BLACK)
                     cb.BeginText()
-                    Dim png As Image = Image.GetInstance(Server.MapPath("/Content/imagens/teste.png"))
+                    Dim png As Image = Image.GetInstance(Server.MapPath("/Content/imagens/Capa-proposta-FCA-Log.png"))
                     ' Dim png As Image = Image.GetInstance(AppContext.BaseDirectory & "/Content/imagens/teste.png")
                     png.SetAbsolutePosition(0, 0)
                     png.Alignment = Image.UNDERLYING
@@ -106,6 +106,5 @@ Public Class GeraPDF
 
 
     End Sub
-
 
 End Class

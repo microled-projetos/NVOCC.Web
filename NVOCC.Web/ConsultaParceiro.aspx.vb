@@ -74,28 +74,28 @@
 LEFT JOIN TB_TIPO_USUARIO C ON C.ID_TIPO_USUARIO = A.ID_TIPO_USUARIO
 WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(8).Visible = False
+            dgvParceiros.Columns(9).Visible = False
         End If
 
 
         'verifica se o usuario tem permissão de alterações de parceiro
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(5).Visible = False
+            dgvParceiros.Columns(6).Visible = False
         End If
 
 
         'verifica se o usuario tem permissão de acesso ao cadastro de Email x Eventos
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(6).Visible = False
+            dgvParceiros.Columns(7).Visible = False
         End If
 
 
         'verifica se o usuario tem permissão de acesso ao cadastro de Cliente Final
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 23 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(7).Visible = False
+            dgvParceiros.Columns(8).Visible = False
         End If
 
 
@@ -129,7 +129,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         Dim FILTRO As String = ""
 
         If txtConsulta.Text = "" Then
-            dsParceiros.SelectCommand = "Select ID_PARCEIRO As Id, CNPJ, NM_RAZAO RazaoSocial, CPF FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
+            dsParceiros.SelectCommand = "SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
             dgvParceiros.DataBind()
         Else
             If ddlConsulta.SelectedValue = 1 Then
@@ -201,4 +201,21 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         ViewState("SortExpression") = column
         Return sortDirection
     End Function
+
+    Private Sub dgvParceiros_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvParceiros.RowDataBound
+        If e.Row.RowType = DataControlRowType.DataRow Then
+
+            Dim Ativo As Label = CType(e.Row.FindControl("lblAtivo"), Label)
+
+            If Ativo.Text = "Não" Then
+
+                Ativo.Style("color") = "red"
+            ElseIf Ativo.Text = "Sim" Then
+
+                Ativo.Style("color") = "green"
+
+            End If
+
+        End If
+    End Sub
 End Class

@@ -998,6 +998,18 @@ VENDAS:
                                                         <asp:TextBox ID="txtObsCliente_ObsMaritimo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Obs. Cliente (COTAÇÃO):</label>
+                                                        <asp:TextBox ID="txtObsCliente_CotacaoMaritimo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000" Enabled="false"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Obs. Operacional (COTAÇÃO):</label>
+                                                        <asp:TextBox ID="txtObsOper_CotacaoMaritimo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000" Enabled="false"></asp:TextBox>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
 
@@ -2050,6 +2062,18 @@ VENDAS:
                                                     <div class="form-group">
                                                         <label class="control-label">Observação cliente:</label>
                                                         <asp:TextBox ID="txtObsCliente_ObsAereo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                  <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Obs. Cliente (COTAÇÃO):</label>
+                                                        <asp:TextBox ID="txtObsCliente_CotacaoAereo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000" Enabled="false"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Obs. Operacional (COTAÇÃO):</label>
+                                                        <asp:TextBox ID="txtObsOper_CotacaoAereo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000" Enabled="false"></asp:TextBox>
                                                     </div>
                                                 </div>
                                             </div>

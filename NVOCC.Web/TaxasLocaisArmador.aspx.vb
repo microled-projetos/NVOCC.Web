@@ -61,6 +61,9 @@ Public Class TaxasLocaisArmador
                 Else
                     Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = '" & txtValorTaxaLocal.Text & "', DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103), ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & " FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
                     lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
+
+                    txtValorTaxaLocal.Text = txtValorTaxaLocal.Text.Replace(".", ",")
+
                     divSuccess.Visible = True
                     dgvTaxas.DataBind()
                     'mpe.Show()
@@ -92,19 +95,21 @@ Public Class TaxasLocaisArmador
 
             End If
             dsTaxas.SelectCommand = "SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,
-A.ID_TRANSPORTADOR,
-A.ID_PORTO,B.NM_PORTO,
-A.ID_TIPO_COMEX,D.NM_TIPO_COMEX,
-A.ID_VIATRANSPORTE,C.NM_VIATRANSPORTE,
-A.ID_ITEM_DESPESA,F.NM_ITEM_DESPESA,
-A.VL_TAXA_LOCAL_COMPRA,
-A.DT_VALIDADE_INICIAL 
-FROM 
-TB_TAXA_LOCAL_TRANSPORTADOR A 
-LEFT JOIN TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
-LEFT JOIN TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
-LEFT JOIN TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
-LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
+a.ID_TRANSPORTADOR,
+a.ID_PORTO, b.NM_PORTO,
+a.ID_TIPO_COMEX, d.NM_TIPO_COMEX,
+a.ID_VIATRANSPORTE, c.NM_VIATRANSPORTE,
+a.ID_ITEM_DESPESA, f.NM_ITEM_DESPESA,
+a.VL_TAXA_LOCAL_COMPRA,
+a.DT_VALIDADE_INICIAL, e.NM_BASE_CALCULO_TAXA, g.SIGLA_MOEDA
+FROM
+            TB_TAXA_LOCAL_TRANSPORTADOR a 
+Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
+Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
+Left Join TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
+Left Join TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
+Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA     
         WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO
             dgvTaxas.DataBind()
         End If
@@ -146,6 +151,8 @@ LEFT JOIN TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
                     ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & ")")
                     lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccess.Visible = True
+                    txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", ",")
+
                     Call Limpar(Me)
                     dgvTaxas.DataBind()
                     ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")

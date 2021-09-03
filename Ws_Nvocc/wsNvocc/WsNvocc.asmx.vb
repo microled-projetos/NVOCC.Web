@@ -44,10 +44,19 @@ Public Class WsNvocc
     Public Function IntegraNFePrefeitura(ByVal RPS As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, ByVal Reprocessamento As Boolean) As String
         Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE STATUS_NFE = 0 AND NR_RPS = '" & RPS & "'")
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS FROM TB_FATURAMENTO WHERE NR_RPS = '" & RPS & "'")
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+
+                If Reprocessamento Then
+                    Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), 1, 1)
+
+                Else
+
+                    Call montaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, 0), , 1)
+                End If
+
+
             Next
 
         Else
@@ -56,7 +65,6 @@ Public Class WsNvocc
         End If
 
     End Function
-
 
     <WebMethod()>
     Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
@@ -72,7 +80,6 @@ Public Class WsNvocc
 
         End If
     End Function
-
 
     <WebMethod()>
     Public Function CancelaNFePrefeitura(ByVal Rps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
@@ -124,8 +131,16 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            loteNumero = IDFatura
+            '  loteNumero = IDFatura 'chamar ws aqui
 
+            'Dim ConOracle As New Conexao_oracle
+            'ConOracle.Conectar()
+            'sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+            'Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+            loteNumero = 165606 'rsNumero.Rows(0)("NEXTVAL").ToString
+
+            sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
+            Con.ExecutarQuery(sSql)
 
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE()," & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & ") "
@@ -139,8 +154,11 @@ Public Class WsNvocc
             noLoteRPS.Attributes.Append(att)
 
 
-            rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
-
+            ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
+CROSS JOIN View_Faturamento B 
+LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
+WHERE ID_FATURAMENTO = " & IDFatura)
 
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
             No = doc.CreateElement("NumeroLote", NFeNamespacte)
@@ -213,8 +231,6 @@ Public Class WsNvocc
             docAssinado.Save(nomeArquivo)
 
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
-
-
                 sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
                 sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
@@ -321,9 +337,10 @@ Public Class WsNvocc
             Dim sSql As String
 
 
-            sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VL_LIQUIDO, SUM(ISNULL(VL_LIQUIDO,0)) + SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VALOR, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS
- FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
-
+            'sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VL_LIQUIDO, SUM(ISNULL(VL_LIQUIDO,0)) + SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VALOR, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS  FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
+            sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
+SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(ISNULL(VL_COFINS,0)) - SUM(ISNULL(VL_IR,0)) AS VL_LIQUIDO, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
+ FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) AND ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
 
             rsServicos = Con.ExecutarQuery(sSql)
 
@@ -625,8 +642,8 @@ Public Class WsNvocc
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
         Dim objXML As New XmlDocument
-        Dim client As New NFSe_Homologa.ServiceGinfesImplClient
-        'Dim client As New NFsE_Santos.ServiceGinfesImplClient
+        'Dim client As New NFSe_Homologa.ServiceGinfesImplClient
+        Dim client As New NFsE_Santos.ServiceGinfesImplClient
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
         Dim docCab As New XmlDocument
         Dim Retorno
@@ -980,7 +997,6 @@ saida:
             Else
 
             End If
-
 
 
             Call EnviaXML(nomeArquivo, "CONSULTA-RPS", numeroLote, Cod_Empresa)
