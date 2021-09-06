@@ -1014,10 +1014,10 @@
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE"  HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />           
                                                 <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM" SortExpression="ORIGEM" />
                                                 <asp:BoundField DataField="DESTINO" HeaderText="DESTINO" SortExpression="DESTINO" />
-                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="PREV. EMBARQUE" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" />
-                                                <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="EMBARQUE" SortExpression="DT_EMBARQUE_MASTER" />
-                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="PREV. CHEGADA" SortExpression="DT_PREVISAO_CHEGADA_MASTER" />
-                                                <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="CHEGADA" SortExpression="DT_CHEGADA_MASTER" />
+                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="PREV. EMBARQUE" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
+                                                <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="EMBARQUE" SortExpression="DT_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
+                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="PREV. CHEGADA" SortExpression="DT_PREVISAO_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
+                                                <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="CHEGADA" SortExpression="DT_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}"/>
                                                 <%--<asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="TIPO ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />--%>
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="AGENTE INTERNACIONAL" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />

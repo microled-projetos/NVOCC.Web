@@ -926,11 +926,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 15 Then
                         '% VR DA MERCADORIA
-                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0) * 1/100 ) AS VALOR
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR
 FROM TB_COTACAO_MERCADORIA A
-WHERE A.ID_COTACAO " & txtID.Text & " ")
+WHERE A.ID_COTACAO = " & txtID.Text & " ")
 
-                        x = ds1.Tables(0).Rows(0).Item("VALOR")
+                        x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -944,7 +944,7 @@ WHERE A.ID_COTACAO " & txtID.Text & " ")
                         End If
                         CompraCalc = z.ToString
 
-                        x = ds1.Tables(0).Rows(0).Item("VALOR")
+                        x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -957,6 +957,7 @@ WHERE A.ID_COTACAO " & txtID.Text & " ")
                             End If
                         End If
                         VendaCalc = z.ToString
+
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 16 Then
                         '% HOUSE COLLECT
@@ -1687,9 +1688,9 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
                 Else
                     reaprovamento = False
                 End If
-                Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                 NumeroProcesso(reaprovamento)
 
+                Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
 
                 ds = Con.ExecutarQuery("SELECT EMAIL_FECHAMENTO_COTACAO FROM TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
                 If ds.Tables(0).Rows.Count > 0 Then
