@@ -369,12 +369,25 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             End Using
 
 
-                            divSuccess.Visible = True
-                            lblmsgSuccess.Text = "RPS gerada com sucesso!"
-                            dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                            dgvFaturamento.DataBind()
-                        End If
 
+                            ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 2 Then
+                                    divSuccess.Visible = True
+                                    lblmsgSuccess.Text = "RPS gerada com sucesso!"
+                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                    dgvFaturamento.DataBind()
+                                Else
+
+                                    lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                    divErro.Visible = True
+                                End If
+
+                            End If
+
+
+
+                        End If
                     Else
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura já possui RPS!"
                         divErro.Visible = True
@@ -415,10 +428,22 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                         End Using
 
-                        divSuccess.Visible = True
-                        lblmsgSuccess.Text = "RPS reenviada com sucesso!"
-                        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                        dgvFaturamento.DataBind()
+
+                        ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 2 Then
+                                divSuccess.Visible = True
+                                lblmsgSuccess.Text = "RPS reenviada com sucesso!"
+                                dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                dgvFaturamento.DataBind()
+                            Else
+
+                                lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                divErro.Visible = True
+                            End If
+
+                        End If
+
 
                     End If
 
@@ -472,9 +497,23 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         End Using
 
 
-                        lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
-                        divSuccess.Visible = True
-                        dgvFaturamento.DataBind()
+
+
+                        ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 3 Then
+                                divSuccess.Visible = True
+                                lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
+                                dgvFaturamento.DataBind()
+                            Else
+
+                                lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                divErro.Visible = True
+                            End If
+
+                        End If
+
+
                     End If
                 Else
                     divErro.Visible = True
