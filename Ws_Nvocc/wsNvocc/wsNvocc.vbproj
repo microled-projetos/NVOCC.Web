@@ -35,6 +35,7 @@
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>wsNvocc.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,10 +46,12 @@
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>wsNvocc.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -58,10 +61,12 @@
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -92,21 +97,16 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFSe_Homologa\ServiceGinfesImplService.wsdl" />
-    <None Include="Connected Services\NFsE_Santos\configuration91.svcinfo" />
-    <None Include="Connected Services\NFsE_Santos\configuration.svcinfo" />
-    <None Include="Connected Services\NFsE_Santos\Reference.svcmap">
+    <None Include="Connected Services\ginfes2\configuration91.svcinfo" />
+    <None Include="Connected Services\ginfes2\configuration.svcinfo" />
+    <None Include="Connected Services\ginfes2\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
-    <None Include="Connected Services\NFSe_Homologa\configuration91.svcinfo" />
-    <None Include="Connected Services\NFSe_Homologa\configuration.svcinfo" />
-    <None Include="Connected Services\NFSe_Homologa\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.vb</LastGenOutput>
-    </None>
+    <Content Include="Nfe.xml" />
     <Content Include="Web.config" />
     <Content Include="WsNvocc.asmx" />
+    <None Include="Connected Services\ginfes2\ServiceGinfesImplService.wsdl" />
     <None Include="XSD_WS\cabecalho_v03.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -206,12 +206,7 @@
     <Compile Include="classes\Conexao_oracle.vb" />
     <Compile Include="classes\Conexao_sql.vb" />
     <Compile Include="classes\Funcoes.vb" />
-    <Compile Include="Connected Services\NFSe_Homologa\Reference.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Connected Services\NFsE_Santos\Reference.vb">
+    <Compile Include="Connected Services\ginfes2\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -250,7 +245,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\NFsE_Santos\ServiceGinfesImplService.wsdl" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -279,8 +273,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\NFSe_Homologa\" />
-    <WCFMetadataStorage Include="Connected Services\NFsE_Santos\" />
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ginfes2\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

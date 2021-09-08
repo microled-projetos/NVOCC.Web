@@ -1,8 +1,12 @@
-﻿Imports System.ComponentModel
-Imports System.Web.Services
-Imports System.Xml
+﻿Imports System.Xml
+Imports System.Xml.Schema
+Imports System.Security.Cryptography.Xml
+Imports System.IO
+Imports System.Security.Cryptography
+Imports System.Security.Cryptography.X509Certificates
 Imports System.Net
-
+Imports System.Web.Services
+Imports System.ComponentModel
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -67,16 +71,28 @@ Public Class WsNvocc
     End Function
 
     <WebMethod()>
-    Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+    Public Function ConsultaNFePrefeitura(ByVal iD_Faturamento As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO,NR_RPS,SERIE_RPS FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = '" & LoteRps & "'")
+
+
+        Dim Sql As String
+
+        Sql = $"SELECT top 1 a.ID_FATURAMENTO,
+            b.PROTOCOLO,
+            a.nr_lote as LOTE_RPS 
+            FROM 
+            TB_FATURAMENTO a inner join tb_lote_nfse b
+            on a.id_faturamento=b.id_faturamento WHERE a.id_faturamento = '{iD_Faturamento}'"
+
+
+        Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
             For I = 0 To ds.Tables(0).Rows.Count - 1
-                Call montaConsultaRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("NR_RPS").ToString, 0), ds.Tables(0).Rows(I)("ID_FATURAMENTO").ToString, ds.Tables(0).Rows(I)("SERIE_RPS").ToString, 1)
+                Call montaConsultaLoteRPS(Funcoes.NNull(ds.Tables(0).Rows(I)("PROTOCOLO").ToString, 0), ds.Tables(0).Rows(I)("LOTE_RpS").ToString, CodEmpresa)
             Next
 
         Else
-            Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
+            Return "00000000ID Faturamento NAO ENCONTRADO NO BANCO DE DADOS"
 
         End If
     End Function
@@ -117,7 +133,7 @@ Public Class WsNvocc
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 1 AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
@@ -642,9 +658,13 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
         Dim retCodErro As String
         Dim ConteudoArquixoXML As String
         Dim objXML As New XmlDocument
-        'Dim client As New NFSe_Homologa.ServiceGinfesImplClient
-        Dim client As New NFsE_Santos.ServiceGinfesImplClient
+
+        Dim client As New ginfes2.ServiceGinfesImplClient
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
+
+
+
+
         Dim docCab As New XmlDocument
         Dim Retorno
         Dim seqGR As String = ""
@@ -653,10 +673,10 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
 
         Try
 
-            'ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications)
-            ServicePointManager.ServerCertificateValidationCallback = AddressOf AcceptAllCertifications
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
+
 
             ConteudoArquixoXML = ""
 
@@ -687,7 +707,8 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                     retProtocolo = uri(0).InnerText
 
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO in ( select id_faturamento from tb_log_nfse where lote_rps=" & loteNumero & ")"
+                    Con.ExecutarQuery(sSql)
 
                     'frmProcessamento.lstValida.Items.Add("Numero do Protocolo:" & retProtocolo)
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="gcuc6RhWHNKffeiW64ZrSoRXe6JmD1gquDdpLPPW8A0=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="SxdagYgbpjA+TbdXy9/leH2iqvwsmF4gACvFVR5QSnc=">
   <bindingConfigurations>
-    <bindingConfiguration bindingType="basicHttpBinding" name="ServiceGinfesImplBinding1">
+    <bindingConfiguration bindingType="basicHttpBinding" name="ServiceGinfesImplBinding">
       <properties>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ServiceGinfesImplBinding1</serializedValue>
+          <serializedValue>ServiceGinfesImplBinding</serializedValue>
         </property>
         <property path="/closeTimeout" isComplexType="false" isExplicitlyDefined="true" clrType="System.TimeSpan, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="ServiceGinfesImplPort1" contract="NFSe_Homologa.ServiceGinfesImpl" bindingType="basicHttpBinding" address="http://homologacao.ginfes.com.br//ServiceGinfesImpl" bindingConfiguration="ServiceGinfesImplBinding1">
+    <endpoint name="ServiceGinfesImplPort" contract="ginfes2.ServiceGinfesImpl" bindingType="basicHttpBinding" address="http://producao.ginfes.com.br//ServiceGinfesImpl" bindingConfiguration="ServiceGinfesImplBinding">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://homologacao.ginfes.com.br//ServiceGinfesImpl</serializedValue>
+          <serializedValue>http://producao.ginfes.com.br//ServiceGinfesImpl</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />
@@ -124,10 +124,10 @@
           <serializedValue>basicHttpBinding</serializedValue>
         </property>
         <property path="/bindingConfiguration" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ServiceGinfesImplBinding1</serializedValue>
+          <serializedValue>ServiceGinfesImplBinding</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>NFSe_Homologa.ServiceGinfesImpl</serializedValue>
+          <serializedValue>ginfes2.ServiceGinfesImpl</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>
@@ -187,7 +187,7 @@
           <serializedValue>False</serializedValue>
         </property>
         <property path="/name" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ServiceGinfesImplPort1</serializedValue>
+          <serializedValue>ServiceGinfesImplPort</serializedValue>
         </property>
         <property path="/kind" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

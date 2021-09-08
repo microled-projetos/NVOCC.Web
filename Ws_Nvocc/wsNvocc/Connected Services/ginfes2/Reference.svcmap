@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7cf757ca-76cf-4591-9730-623fea124f72" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2c79fa0c-e0be-473e-9a51-bbb649d951fb" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,7 +22,7 @@
     <MetadataSource Address="https://producao.ginfes.com.br/ServiceGinfesImpl?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ServiceGinfesImplService.wsdl" MetadataType="Wsdl" ID="deacf948-aad9-41aa-989a-909eec429dcc" SourceId="1" SourceUrl="https://producao.ginfes.com.br/ServiceGinfesImpl?wsdl" />
+    <MetadataFile FileName="ServiceGinfesImplService.wsdl" MetadataType="Wsdl" ID="b72788d9-3a15-47ea-9377-6ddcde199ea6" SourceId="1" SourceUrl="https://producao.ginfes.com.br/ServiceGinfesImpl?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
