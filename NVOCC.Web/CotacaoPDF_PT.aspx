@@ -56,7 +56,7 @@ Fone:(13) 3797-7850<br/>
 CNPJ:00.639.367/0003-11<br/><br/>
 Cliente: <asp:label runat="server" ID="lblCliente" class="control-label" /><br/>
 CNPJ:<asp:label runat="server" ID="lblCnpjCliente" class="control-label" /><br/><br/>
-Prezado,  <asp:label runat="server" ID="lblNome" class="control-label" />
+Prezado (a),  <asp:label runat="server" ID="lblNome" class="control-label" />
 Segue sua proposta visando uma oportunidade de embarque.<br /><br/>
 <asp:label runat="server" ID="lblTitulo" class="control-label" /><br />
 N&uacute;mero:<asp:label runat="server" ID="lblNumeroCotacao" class="control-label" /><br/>
@@ -107,7 +107,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia da proposta."</div>
 <br/>
                      
-    <asp:label runat="server" ID="lblObsCliente" class="control-label" />                     
+    <asp:label runat="server" ID="lblObsCliente" class="control-label"  />           
              <div id="divTexto" runat="server" style="font-family:Arial;font-size:9px;"></div>
         <asp:label runat="server" ID="lblTexto" class="control-label" />    
         <br/><br/>           

@@ -202,7 +202,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="classes\BD.vb" />
     <Compile Include="classes\Conexao_oracle.vb" />
     <Compile Include="classes\Conexao_sql.vb" />
     <Compile Include="classes\Funcoes.vb" />
