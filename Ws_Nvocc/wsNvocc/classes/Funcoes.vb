@@ -479,7 +479,7 @@ Public Class Funcoes
     Public Function ObtemCertificado(codEmpresa As Long) As X509Certificate2Collection
         Dim rsEmpresa As New DataSet
         Try
-
+            Con.Conectar()
             rsEmpresa = Con.ExecutarQuery("SELECT NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA =" & codEmpresa)
 
 
@@ -495,10 +495,9 @@ Public Class Funcoes
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
-            ' objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySerialNumber, nomeCertificado, False)
 
-            'objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find()
 
+            Con.Fechar()
             Return objColecaoCertificadosX509
         Catch ex As Exception
             Err.Clear()

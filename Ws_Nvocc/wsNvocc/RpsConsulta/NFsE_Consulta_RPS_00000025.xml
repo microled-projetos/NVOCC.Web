@@ -1,86 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
-  <LoteRps Id="_10165606">
-    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10165606</NumeroLote>
+<ConsultarNfseRpsEnvio xmlns="http://www.ginfes.com.br/servico_consultar_nfse_rps_envio_v03.xsd">
+  <IdentificacaoRps>
+    <Numero xmlns="http://www.ginfes.com.br/tipos_v03.xsd">000008</Numero>
+    <Serie xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</Serie>
+    <Tipo xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</Tipo>
+  </IdentificacaoRps>
+  <Prestador>
     <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
     <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
-    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
-    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
-      <Rps>
-        <InfRps Id="_20165606">
-          <IdentificacaoRps>
-            <Numero>000008</Numero>
-            <Serie>1</Serie>
-            <Tipo>1</Tipo>
-          </IdentificacaoRps>
-          <DataEmissao>2021-09-03T11:04:56</DataEmissao>
-          <NaturezaOperacao>1</NaturezaOperacao>
-          <OptanteSimplesNacional>2</OptanteSimplesNacional>
-          <IncentivadorCultural>2</IncentivadorCultural>
-          <Status>1</Status>
-          <Servico>
-            <Valores>
-              <ValorServicos>10.00</ValorServicos>
-              <ValorPis>0.76</ValorPis>
-              <ValorCofins>0.17</ValorCofins>
-              <ValorInss>0.00</ValorInss>
-              <ValorIr>0.00</ValorIr>
-              <ValorCsll>0.00</ValorCsll>
-              <IssRetido>2</IssRetido>
-              <ValorIss>0.30</ValorIss>
-              <ValorIssRetido>0.00</ValorIssRetido>
-              <BaseCalculo>10.00</BaseCalculo>
-              <Aliquota>3</Aliquota>
-              <ValorLiquidoNfse>8.77</ValorLiquidoNfse>
-            </Valores>
-            <ItemListaServico>1006</ItemListaServico>
-            <CodigoTributacaoMunicipio>523200001</CodigoTributacaoMunicipio>
-            <Discriminacao>ITEM 55 - DESCONSOLIDACAO - R$ 10,00 Valor aproximado dos tributos R$ 1,23 (12,25%) conforme LEI 12741/2012</Discriminacao>
-            <CodigoMunicipio>3548500</CodigoMunicipio>
-          </Servico>
-          <Prestador>
-            <Cnpj>00639367000311</Cnpj>
-            <InscricaoMunicipal>1831854</InscricaoMunicipal>
-          </Prestador>
-          <Tomador>
-            <IdentificacaoTomador>
-              <CpfCnpj>
-                <Cnpj>22491126000149</Cnpj>
-              </CpfCnpj>
-            </IdentificacaoTomador>
-            <RazaoSocial>CV LOG INTERNACIONAL LTDA</RazaoSocial>
-            <Endereco>
-              <Endereco>AVENIDA IPANEMA</Endereco>
-              <Numero>122</Numero>
-              <Complemento>SALA 04</Complemento>
-              <Bairro>VELEIROS</Bairro>
-              <CodigoMunicipio>3550308</CodigoMunicipio>
-              <Cep>04773010</Cep>
-            </Endereco>
-            <Contato />
-          </Tomador>
-        </InfRps>
-      </Rps>
-    </ListaRps>
-  </LoteRps>
+  </Prestador>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
       <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
-      <Reference URI="#_20165606">
+      <Reference URI="">
         <Transforms>
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
           <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <DigestValue>rdB6MNByn/YtMWzqy/c54eDP37A=</DigestValue>
+        <DigestValue>59jZ9fR2jDaYs6dy005uFxIFuRk=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>U6HDZeILhCsOvgIaN6lfJFHJoeFAFXPA0AAXI/LyMwqcR6R1nNtWy6YqRTPkROWvDzxLE9kTVQsnjCPkaKU1N7w+WmkwZBykuDeMWMrxEUJntatRFKO3K0Tis5nKvbBcp4nQ2DvOG0/jKKYA5sA2RDcP36jSaIpz3bK2nJeh/t/oq5VEOlheT7NFZmxbwuouqNB/ARwiBKlwLI+udF15gSb8JVLNaChj/+YTcOEhL2EKD6TQ2Rm22LvVhfxisnYuIo+eCAh2qIKTWlxXKPx0hySMGd1WatPbYD4Y6mdCD+hp+ke5JwAUveJ7WVVA5D2dNEFXvG+tLUEjD7dSXrt/Jg==</SignatureValue>
+    <SignatureValue>ZkHdlsk9e/+hlRNdWgq8NZZV0Y54ysOCrmloiTLAQfuX1bKFUQKPBEe9yv5Lo6Zg63yfskBP5fjnqjDcwdte67qqOI0VV0cJaFgJ1SYkeWZqWqZUDw4fkI1+FZZR1MjVmf5HXper+IR+7vF9gzWxxcKjzQHDcRAn6PUI6vKmz3vH3yxlhqBC22klKpTNnAE+rtGk2sjhEMETgVoUVEEJ0APRwDZNHuKga92Bfy6y71e89Etr0gwwkKHizCnKd7qJJlG2IcM9LQjTRRyQ1C1U8NZxLelGuZx+Y3oKS2p2XTUe2DtwUl/Dqv38hx8U17iQzLGbTWSjGEsX71KY93Tf0w==</SignatureValue>
     <KeyInfo>
       <X509Data>
         <X509Certificate>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</X509Certificate>
       </X509Data>
     </KeyInfo>
   </Signature>
-</EnviarLoteRpsEnvio>
+</ConsultarNfseRpsEnvio>
