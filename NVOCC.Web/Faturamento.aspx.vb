@@ -23,6 +23,7 @@ Public Class Faturamento
 
             Response.Redirect("Default.aspx")
         Else
+            txtCNPJFCA.TEXT = "00.639.367/0003-11"
             If Not Page.IsPostBack Then
                 txtDataCheckLiquidados.Text = Now.Date.AddDays(-1)
                 txtDataCheckLiquidados.Text = FinalSemanaSubtrai(txtDataCheckLiquidados.Text)
@@ -356,7 +357,20 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             VL_ISS = VL_ISS.Replace(".", "")
                             VL_ISS = VL_ISS.Replace(",", ".")
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = (SELECT SERIE_RPS FROM TB_SERIE_RPS WHERE DT_INICIAL <= getdate() and DT_FINAL is null) WHERE ID_FATURAMENTO =" & txtID.Text)
+
+
+                            Dim ConOracle As New Conexao_oracle
+                            ConOracle.Conectar()
+                            Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
+                            Dim SERIE_RPS As String = ""
+
+                            If dt.Rows.Count > 0 Then
+                                SERIE_RPS = dt.Rows(0)("SERIE").ToString
+                            End If
+
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
 
@@ -365,6 +379,12 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             Using GeraRps = New NotaFiscal.WsNvocc
 
                                 Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+
+                            End Using
+
+                            Using GeraRps = New NotaFiscal.WsNvocc
+
+                                Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
                             End Using
 
@@ -381,6 +401,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                                     lblmsgErro.Text = "Não foi possivel completar a ação!"
                                     divErro.Visible = True
+                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                    dgvFaturamento.DataBind()
                                 End If
 
                             End If
@@ -660,11 +682,27 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
     Private Sub lkVisualizarNota_Click(sender As Object, e As EventArgs) Handles lkVisualizarNota.Click
         If Not String.IsNullOrEmpty(txtID.Text) Then
 
-            Using GeraRps = New NotaFiscal.WsNvocc
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
 
-                Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                    txtNR_NOTA.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("COD_VER_NFSE")) Then
+                    txtCOD_VER_NFSE.Text = ds.Tables(0).Rows(0).Item("COD_VER_NFSE")
+                End If
 
-            End Using
+                If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
+                End If
+
+            Else
+                divErro.Visible = True
+                lblmsgErro.Text = "Fatura não encontrada!"
+            End If
+
         Else
             divErro.Visible = True
             lblmsgErro.Text = "Selecione um registro!"

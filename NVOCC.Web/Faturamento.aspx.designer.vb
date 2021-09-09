@@ -167,6 +167,33 @@ Partial Public Class Faturamento
     Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtCNPJFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCNPJFCA As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtCOD_VER_NFSE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCOD_VER_NFSE As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNR_NOTA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNR_NOTA As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtlinha.
     '''</summary>
     '''<remarks>
