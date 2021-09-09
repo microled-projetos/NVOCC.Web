@@ -274,9 +274,6 @@ Public Class Funcoes
         Return ret
     End Function
 
-
-
-
     Public Function aliquotaImpostos() As Double
         Dim sSql As String
         Dim rsAux As New DataSet
@@ -300,7 +297,7 @@ Public Class Funcoes
             Con.Conectar()
 
             aliquotaISS = 0.03
-            sSql = "SELECT VL_ALIQUOTA_ISS FROM TB_PARAMETROS "
+            sSql = "SELECT (VL_ALIQUOTA_ISS)/100 FROM TB_PARAMETROS "
             rsAux = Con.ExecutarQuery(sSql)
             If Not rsAux.Tables(0).Rows.Count <= 0 Then
                 aliquotaISS = NNull(rsAux.Tables(0).Rows(0)(0).ToString, 0)

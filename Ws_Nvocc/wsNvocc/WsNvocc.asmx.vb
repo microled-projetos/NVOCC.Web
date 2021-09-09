@@ -71,7 +71,7 @@ Public Class WsNvocc
     End Function
 
     <WebMethod()>
-    Public Function ConsultaNFePrefeitura(ByVal iD_Faturamento As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+    Public Function ConsultaNFePrefeitura(ByVal ID_Faturamento As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
         Con.Conectar()
 
 
@@ -82,7 +82,7 @@ Public Class WsNvocc
             a.nr_lote as LOTE_RPS 
             FROM 
             TB_FATURAMENTO a inner join tb_lote_nfse b
-            on a.id_faturamento=b.id_faturamento WHERE a.id_faturamento = '{iD_Faturamento}'"
+            on a.id_faturamento=b.id_faturamento and a.nr_rps = b.numero_rps WHERE a.id_faturamento = '{ID_Faturamento}'"
 
 
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
@@ -133,7 +133,7 @@ Public Class WsNvocc
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 1 AND IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
@@ -147,13 +147,13 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            '  loteNumero = IDFatura 'chamar ws aqui
+            'loteNumero = IDFatura 'chamar ws aqui
 
-            'Dim ConOracle As New Conexao_oracle
-            'ConOracle.Conectar()
-            'sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-            'Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = 165606 'rsNumero.Rows(0)("NEXTVAL").ToString
+            Dim ConOracle As New Conexao_oracle
+            ConOracle.Conectar()
+            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString '165791  '165606 
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
@@ -170,7 +170,6 @@ Public Class WsNvocc
             noLoteRPS.Attributes.Append(att)
 
 
-            ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS WHERE ID_EMPRESA =" & Cod_Empresa)
             rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
@@ -345,6 +344,27 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             noInfRps.AppendChild(No)
 
 
+            Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & rsRPS.Rows(0)("IDFATURA").ToString & ")"
+            Dim Fatura As String = rsRPS.Rows(0)("IDFATURA").ToString
+            Dim Processo As String = ""
+            Dim Ref As String = ""
+            Dim MASTER As String = ""
+            Dim HOUSE As String = ""
+            Dim dsInfo As DataSet
+            dsInfo = Con.ExecutarQuery(SqlInfo)
+
+            If dsInfo.Tables(0).Rows(0).Item("GRAU") = "C" Then
+                Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
+                HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+            Else
+                Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                HOUSE = ""
+            End If
+
+
+
             Dim noServicos As XmlElement
             Dim noValServ As XmlElement
             noServicos = doc.CreateElement("Servico", NFeNamespacte)
@@ -352,10 +372,13 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             Dim rsServicos As DataSet
             Dim sSql As String
 
+            '            sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
+            'SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0))  AS VL_LIQUIDO, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
+            ' FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) AND ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
 
-            'sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VL_LIQUIDO, SUM(ISNULL(VL_LIQUIDO,0)) + SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VALOR, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS  FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
             sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
-SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(ISNULL(VL_COFINS,0)) - SUM(ISNULL(VL_IR,0)) AS VL_LIQUIDO, SUM(ISNULL(VL_ISS,0))VL_ISS, SUM(ISNULL(VL_PIS,0))VL_PIS,SUM(ISNULL(VL_COFINS,0))VL_COFINS,SUM(ISNULL(VL_IR,0))VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
+SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0))  AS VL_LIQUIDO, 
+SUM(ISNULL(VL_ISS,0)) VL_ISS,  0 VL_PIS,0 VL_COFINS,0 VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
  FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) AND ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
 
             rsServicos = Con.ExecutarQuery(sSql)
@@ -448,9 +471,13 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
 
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
-
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
+                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
+                Else
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                End If
+
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
@@ -458,9 +485,11 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
 
                 Dim dfinal As String
 
-                Dim dDescr As String
-                dDescr = Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                dfinal = "Valor aproximado dos tributos R$ "
+                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & FATURA & " | Processo: " & PROCESSO & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+
+                dDescr &= "SENDO: "
+                dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                dfinal = " Valor aproximado dos tributos R$ "
                 dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
                 dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
                 dfinal = Funcoes.tiraCaracEspXML(dfinal)
@@ -587,7 +616,7 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
 
             If Funcoes.NNull(rsRPS.Rows(0)("IBGE_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("CodigoMunicipio", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Long.Parse(Funcoes.obtemCodIBGEUF(rsRPS.Rows(0)("UF_CLI").ToString) & Format(Long.Parse(Funcoes.NNull(rsRPS.Rows(0)("IBGE_CLI").ToString, 0)), "00000")), "0000000"))
+                noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Rows(0)("IBGE_CLI").ToString))
                 No.AppendChild(noText)
                 noEnderecoTom.AppendChild(No)
             End If
@@ -719,26 +748,26 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                         uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
                         retProtocolo = uri(0)("ns4:Mensagem").InnerText
 
-                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
+                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
                         'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
                     Catch ex2 As Exception
                         retProtocolo = "XML Recusado"
 
-                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =" & loteNumero
+                        sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = 'ERRO' , CRITICA ='" & retProtocolo & "' WHERE ISNULL(PROTOCOLO,' ') = ' ' AND ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  " & loteNumero
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
                         'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
@@ -773,13 +802,13 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                     sSql = sSql & " , DT_NOTA_FISCAL =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)
 
 
 
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
                     Con.ExecutarQuery(sSql)
 
@@ -797,19 +826,19 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                         End If
 
                         If retCodErro = "E4" Then
-                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =" & loteNumero
+                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
 
                             GoTo saida
                         End If
 
                         sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                        sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                        sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
                         sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
                         sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
-                        sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
+                        sSql = sSql & " WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
 
@@ -846,11 +875,11 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                     sSql = sSql & " , DT_NOTA_FISCAL = CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                     sSql = sSql & " , COMPETENCIA ='" & retCompetencia & "' "
                     sSql = sSql & " , COD_VER_NFSE ='" & codVerificacao & "' "
-                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     Con.ExecutarQuery(sSql)
 
 
-                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_LOTE = GETDATE(), CRITICA = NULL WHERE ID_FATURAMENTO = (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                     sSql = sSql & " AND DT_RETORNO_LOTE IS NULL "
                     Con.ExecutarQuery(sSql)
 
@@ -868,7 +897,7 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                         End If
 
                         If retCodErro = "E4" Then
-                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =" & loteNumero
+                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
 
                             GoTo saida
@@ -897,13 +926,12 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
                     If retNFSE.ToUpper = "TRUE" Then
 atualizaCancel:
                         sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 3 "
-                        sSql = sSql & " , DT_SOL_CANCELA =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103)  "
                         sSql = sSql & " , DT_CANCELAMENTO =CONVERT(DATETIME,'" & Format(CDate(retData), "dd/MM/yyyy hh:mm:ss") & "',103) "
                         sSql = sSql & " , CANCELA_NFE = 1 "
-                        sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                        sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
                         Con.ExecutarQuery(sSql)
 
-                        sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() WHERE ID_FATURAMENTO =" & loteNumero
+                        sSql = "UPDATE TB_LOTE_NFSE SET DT_RETORNO_CANCEL = GETDATE() WHERE ID_FATURAMENTO = " & loteNumero
                         sSql = sSql & " AND DT_RETORNO_CANCEL IS NULL "
                         Con.ExecutarQuery(sSql)
                     ElseIf retNFSE.ToUpper = "FALSE" Then
@@ -925,7 +953,7 @@ atualizaCancel:
                     Con.ExecutarQuery(sSql)
 
                     sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                    sSql = sSql & " WHERE ID_FATURAMENTO =" & loteNumero
+                    sSql = sSql & " WHERE ID_FATURAMENTO = " & loteNumero
                     Con.ExecutarQuery(sSql)
 
                 End Try
@@ -959,6 +987,7 @@ saida:
         seqGR = ""
         rsGR = Nothing
     End Sub
+
 
     Public Sub montaConsultaLoteRPS(ByVal numeroProtocolo As String, ByVal numeroLote As Long, Optional Cod_Empresa As Integer = 1)
 

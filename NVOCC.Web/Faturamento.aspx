@@ -103,6 +103,9 @@
                    </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtCNPJFCA" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtCOD_VER_NFSE" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtNR_NOTA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
@@ -713,6 +716,21 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
             window.open('ReciboProvisorioServico.aspx?id=' + ID, '_blank');
         }
+
+
+        function ImprimirNota() {
+            var COD_VER_NFSE = document.getElementById('<%= txtCOD_VER_NFSE.ClientID %>').value
+            var NR_NOTA = document.getElementById('<%= txtNR_NOTA.ClientID %>').value;
+            var CNPJFCA = document.getElementById('<%= txtCNPJFCA.ClientID %>').value;
+
+            var LINK = 'http://visualizar.ginfes.com.br/report/consultarNota?__report=nfs_ver4&cdVerificacao=' + COD_VER_NFSE + '&numNota=' + NR_NOTA + '&cnpjPrestador=' + CNPJFCA
+            console.log(LINK);
+            document.getElementById('<%= txtCOD_VER_NFSE.ClientID %>').value = ''
+            document.getElementById('<%= txtNR_NOTA.ClientID %>').value = ''
+            window.open(LINK, '_blank');
+
+        }
+
 
 
         function FuncRecibo() {

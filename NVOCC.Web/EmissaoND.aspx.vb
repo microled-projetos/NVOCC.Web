@@ -32,6 +32,7 @@
         If e.CommandName = "Selecionar" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
+            Dim ID_CIDADE As Integer = 0
             Dim ID As String = e.CommandArgument
             Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_VENCIMENTO,103)DT_VENCIMENTO,NR_FATURA_FORNECEDOR,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = D.ID_PORTO_ORIGEM)ORIGEM,
@@ -93,7 +94,11 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
                 End If
 
 
-                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,ENDERECO,NR_ENDERECO,CNPJ,CPF,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,BAIRRO,TELEFONE FROM TB_PARCEIRO A WHERE ID_PARCEIRO = " & ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA"))
+                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT NM_RAZAO,ENDERECO,NR_ENDERECO,CNPJ,CPF,CEP,ID_CIDADE,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,BAIRRO,TELEFONE FROM TB_PARCEIRO A WHERE ID_PARCEIRO = " & ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA"))
+
+                If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("ID_CIDADE")) Then
+                    ID_CIDADE = dsParceiro.Tables(0).Rows(0).Item("ID_CIDADE")
+                End If
 
                 If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO")) Then
                     lblEmpresa.Text = dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO")
@@ -155,7 +160,11 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_LANCAMENTO") & "</td>"
                         tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_ISS") & "</td></tr>"
 
-                        valores = valores + linha("VL_LANCAMENTO") - linha("VL_ISS")
+                        valores = valores + linha("VL_LANCAMENTO")
+
+                        If ID_CIDADE = 78 Then
+                            valores = valores - linha("VL_ISS")
+                        End If
 
 
                     Next
@@ -164,16 +173,12 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                     tabela &= "<tr><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'></td><td style='padding-left:10px;padding-right:10px'>Total: " & Total & "</td></tr>"
                     tabela &= "</table>"
                     divConteudoDinamico.InnerHtml = tabela
-                    'lbltotal.Text = "Total: " & valores
                 End If
 
                 ds = Con.ExecutarQuery("SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = " & Session("ID_USUARIO"))
                 If ds.Tables(0).Rows.Count > 0 Then
                     lblUsuario.Text = ds.Tables(0).Rows(0).Item("NOME")
                 End If
-
-                'Dim lblLogin As Label = TryCast(Page.Master.FindControl("lbllogin"), Label)
-                'lblUsuario.Text = lblLogin.Text
 
                 lblDataImpressao.Text = Now.Date.ToString("dd-MM-yyyy")
                 lblDataEmissao.Text = Now.Date.ToString("dd/MM/yyyy")

@@ -115,6 +115,8 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
                     If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("CIDADE")) Then
                         lblCidade.Text = dsParceiro.Tables(0).Rows(0).Item("CIDADE")
+                    Else
+                        lblCidade.Text = ""
                     End If
 
                     If Not IsDBNull(dsParceiro.Tables(0).Rows(0).Item("CNPJ")) Then
@@ -150,7 +152,11 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_ISS") & "</td></tr>"
 
-                            valores = valores + linha("VALORES") - linha("VL_ISS")
+                            valores = valores + linha("VALORES")
+
+                            If lblCidade.Text = "SANTOS" Then
+                                valores = valores - linha("VL_ISS")
+                            End If
 
 
                         Next
