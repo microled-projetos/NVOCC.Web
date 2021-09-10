@@ -1,14 +1,24 @@
-﻿Imports Oracle.ManagedDataAccess.Client
-Public Class Conexao_oracle
+﻿Imports System
+Imports System.Collections.Generic
+Imports System.Linq
+Imports System.Web
+Imports System.Data.OleDb
+Imports System.Data.SqlClient
+Imports System.Data
+Imports System.Text
+Imports System.Configuration
+Imports Oracle.ManagedDataAccess.Client
 
+Public Class Conexao_oracle1
     Public Property Server As String
     Public Property User As String
     Public Property Password As String
-    Private Con As OracleConnection
+    Private Con As OleDbConnection
     Public Sub Conectar()
 
         If Con Is Nothing Then
-            Con = New OracleConnection(ConnectionString())
+            Con = New OleDbConnection(ConnectionString())
+
         End If
 
         If Con IsNot Nothing Then
@@ -38,10 +48,30 @@ Public Class Conexao_oracle
         End If
     End Sub
 
+    Public Function BeginTransaction(ByVal SQL As String) As Integer
+        Conectar()
+
+        If Con.State = 0 Then
+            Con.Open()
+        End If
+
+        Using Cmd As OleDbCommand = New OleDbCommand(SQL, Con)
+
+            Try
+                Return Cmd.ExecuteNonQuery()
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            Finally
+                Desconectar()
+            End Try
+        End Using
+    End Function
+
     Public Function ExecuteScalar(ByVal SQL As String) As Object
         Conectar()
 
-        Using Cmd As OracleCommand = New OracleCommand(SQL, Con)
+        Using Cmd As OleDbCommand = New OleDbCommand(SQL, Con)
+
             Try
                 Return Cmd.ExecuteScalar()
             Catch ex As Exception
@@ -53,7 +83,9 @@ Public Class Conexao_oracle
     End Function
 
     Public Function ConnectionString() As String
-        Dim STR As String = ConfigurationManager.ConnectionStrings("StringConexaoOracle").ConnectionString
+
+        ' Return String.Format("Provider=OraOLEDB.Oracle;Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 177.11.210.55)(PORT = 1522)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = TCHRONOS)));User Id=SGIPA;Password=teste;")
+        Dim STR As String = "Provider=OraOLEDB.Oracle;" & ConfigurationManager.ConnectionStrings("StringConexaoOracle").ConnectionString
         Return STR
     End Function
 
@@ -62,9 +94,10 @@ Public Class Conexao_oracle
         Dim ds As DataTable = New DataTable()
         Conectar()
 
-        Using Cmd As OracleCommand = New OracleCommand(sSql, Con)
+        Using Cmd As OleDbCommand = New OleDbCommand(sSql, Con)
+
             Try
-                Dim dr As OracleDataReader
+                Dim dr As OleDbDataReader
                 dr = Cmd.ExecuteReader()
 
                 If dr.HasRows Then

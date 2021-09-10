@@ -359,7 +359,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
 
-                            Dim ConOracle As New Conexao_oracle
+                            Dim ConOracle As New Conexao_oracle1
                             ConOracle.Conectar()
                             Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
                             Dim SERIE_RPS As String = ""

@@ -1546,7 +1546,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
             ElseIf ddlConsultas.SelectedValue = 7 Then
                 FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 8 Then
-                FILTRO = " NR_PROCESSO_GERADO = '" & txtPesquisa.Text & "'"
+                FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
 
             End If
 
@@ -1814,7 +1814,7 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
 
 
                 'DELETA BL ANTIGO
-                Con.ExecutarQuery("DELETE FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
+                Con.ExecutarQuery("DELETE FROM TB_BL WHERE GRAU = 'C' AND ID_BL = " & ID_BL_OLD)
             End If
         ElseIf reaprovamento = False Then
 
@@ -1993,7 +1993,7 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
             End If
 
             'DELETA BL ANTIGO
-            Con.ExecutarQuery("DELETE FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
+            Con.ExecutarQuery("DELETE FROM TB_BL WHERE GRAU = 'C' AND ID_BL = " & ID_BL_OLD)
 
             'DELETA TAXAS ANTIGAS QUE VIERAM DA COTAÇÃO
             Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL_OLD & " AND CD_ORIGEM_INF = 'COTA' ")
