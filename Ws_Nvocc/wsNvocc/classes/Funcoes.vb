@@ -262,10 +262,14 @@ Public Class Funcoes
 
         Try
 
-            rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
+            ' rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
+
+            rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_LIQUIDO AS VALOR 
+FROM TB_CONTA_PAGAR_RECEBER_ITENS A 
+WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) ORDER BY ITEM ")
             For i = 0 To rsDescr.Tables(0).Rows.Count - 1
                 If ret <> "" Then ret = ret & " * "
-                ret = ret & "ITEM " & rsDescr.Tables(0).Rows(i)("ITEM").ToString & " - " & rsDescr.Tables(0).Rows(i)("DESCRICAO").ToString & " - R$ " & rsDescr.Tables(0).Rows(i)("VALOR").ToString
+                ret = ret & " " & rsDescr.Tables(0).Rows(i)("DESCRICAO").ToString & " - R$ " & rsDescr.Tables(0).Rows(i)("VALOR").ToString
             Next
         Catch ex As Exception
             Err.Clear()
@@ -338,7 +342,7 @@ Public Class Funcoes
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA = " & Cod_Empresa)
             nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
-
+            GRAVARLOG(Cod_Empresa, "PROCURA CERTIFICADO")
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
 
             '<clientCertificate storeLocation="CurrentUser" storeName="My" x509FindType="FindBySubjectName" findValue="eudmarco"/>
@@ -348,7 +352,7 @@ Public Class Funcoes
                 documento.PreserveWhitespace = False
                 'verificando elemento de referencia
                 documento.LoadXml(XML)
-
+                GRAVARLOG(Cod_Empresa, "ASSINANDO")
                 Dim qtdeRefUri As Integer = documento.GetElementsByTagName(pUri).Count
                 If qtdeRefUri = 0 Then
                     Resultado = ResultadoAssinatura.TagAssinaturaNaoExiste
@@ -406,7 +410,7 @@ Public Class Funcoes
         Catch ex As Exception
             Resultado = ResultadoAssinatura.ProblemaAcessoCertificadoDigital
             Mensagem = "Problema ao acessar o certificado digital - " + ex.Message
-
+            GRAVARLOG(Cod_Empresa, ex.Message)
         End Try
 
         Return XMLAssinado
@@ -472,7 +476,19 @@ Public Class Funcoes
         End Try
     End Sub
 
+    Sub GRAVARLOG(ID_FATURAMENTO As String, ACAO As String)
+        Con.Conectar()
 
+        Dim sSql As String = ""
+        If ACAO.Length > 200 Then
+            ACAO = ACAO.Substring(1, 200)
+        End If
+        sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,ACAO) "
+        sSql = sSql & " VALUES (" & ID_FATURAMENTO & ", '" & ACAO & "') "
+        Con.ExecutarQuery(sSql)
+
+        Con.Fechar()
+    End Sub
     Public Function ObtemCertificado(codEmpresa As Long) As X509Certificate2Collection
         Dim rsEmpresa As New DataSet
         Try

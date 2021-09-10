@@ -159,7 +159,7 @@ Public Class WsNvocc
             Con.ExecutarQuery(sSql)
 
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
-            sSql = sSql & " VALUES (" & IDFatura & ",GETDATE()," & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & ") "
+            sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)
 
 
@@ -174,8 +174,9 @@ Public Class WsNvocc
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
 WHERE ID_FATURAMENTO = " & IDFatura)
-
+            GRAVARLOG(IDFatura, "INICIA MONTAGEM DO XML")
             NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
+
             No = doc.CreateElement("NumeroLote", NFeNamespacte)
             noText = doc.CreateTextNode("10" & Format(loteNumero, "000000"))
             No.AppendChild(noText)
@@ -203,13 +204,14 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             DADOS = "LOTE :" & loteNumero & " | RPS Nº " & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString
 
 
+            GRAVARLOG(IDFatura, "CHAMA ROTINA QUE MONTA INFORMACOES DO XML")
 
             Call montaInfRps(loteNumero, NFeNamespacte, rsRPSs.Tables(0), Cod_Empresa)
 
 
             If erroValor Then
                 sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
-                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'ENCONTRADA DIVERGENCIA DE VALORES',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
+                sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'ENCONTRADA DIVERGENCIA DE VALORES',GETDATE(),'" & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "'," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
 
 
@@ -236,15 +238,16 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             doc.AppendChild(raiz)
 
             nomeArquivo = Funcoes.diretorioLoteRps & "NFsE_" & Format(loteNumero, "00000000") & ".xml"
+            GRAVARLOG(IDFatura, "GRAVAR XML ANTES DE ASSINAR")
             doc.Save(nomeArquivo)
-
             doc.Load(nomeArquivo)
 
 
             Dim docAssinado As New XmlDocument
             docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & Funcoes.AssinarXML(Funcoes.tiraCaracEspXML(doc.OuterXml), "InfRps", Cod_Empresa))
+            GRAVARLOG(IDFatura, "SALVAR XML ASSINADO")
             docAssinado.Save(nomeArquivo)
-
+            GRAVARLOG(IDFatura, "VALIDAR XML")
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
                 sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
                 sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
@@ -275,12 +278,23 @@ WHERE ID_FATURAMENTO = " & IDFatura)
 
 
         Catch ex As Exception
-            If Not Funcoes.modoAutomatico Then
-                MsgBox("Ocorreu um erro ao gerar o arquivo Lote\RPS, contate o suporte!", vbInformation, "Integração PMS")
-            End If
+            GRAVARLOG(IDFatura, ex.Message)
         End Try
     End Sub
 
+    Sub GRAVARLOG(ID_FATURAMENTO As String, ACAO As String)
+        Con.Conectar()
+
+        Dim sSql As String = ""
+        If ACAO.Length > 200 Then
+            ACAO = ACAO.Substring(1, 200)
+        End If
+        sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,ACAO) "
+        sSql = sSql & " VALUES (" & ID_FATURAMENTO & ", '" & ACAO & "') "
+        Con.ExecutarQuery(sSql)
+
+        Con.Fechar()
+    End Sub
 
     Public Sub montaInfRps(ByVal numeroLote As Long, Optional ByVal NFeNamespacte As String = "", Optional ByVal rsRPS As DataTable = Nothing, Optional Cod_Empresa As Integer = 1)
 
@@ -344,8 +358,11 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             noInfRps.AppendChild(No)
 
 
+            GRAVARLOG(rsRPS.Rows(0)("IDFATURA").ToString, "PEGA INFORMAÇOES DO PROCESSO PARA A DISCRIMINACAO")
+
+
             Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & rsRPS.Rows(0)("IDFATURA").ToString & ")"
-            Dim Fatura As String = rsRPS.Rows(0)("IDFATURA").ToString
+            Dim Fatura As String = rsRPS.Rows(0)("NUMERO_RPS").ToString
             Dim Processo As String = ""
             Dim Ref As String = ""
             Dim MASTER As String = ""
@@ -380,6 +397,8 @@ WHERE ID_FATURAMENTO = " & IDFatura)
 SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0))  AS VL_LIQUIDO, 
 SUM(ISNULL(VL_ISS,0)) VL_ISS,  0 VL_PIS,0 VL_COFINS,0 VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
  FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) AND ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
+
+            GRAVARLOG(rsRPS.Rows(0)("IDFATURA").ToString, "INFORMACOES DE VALORES DA NOTA")
 
             rsServicos = Con.ExecutarQuery(sSql)
 
@@ -719,6 +738,7 @@ SUM(ISNULL(VL_ISS,0)) VL_ISS,  0 VL_PIS,0 VL_COFINS,0 VL_IR, SUM(ISNULL(VL_ISS,0
 
             If tipo = "LOTE-RPS" Then
                 Retorno = client.RecepcionarLoteRpsV3(docCab.InnerXml, Funcoes.tiraCaracEspXML(objXML.InnerXml))
+                GRAVARLOG(loteNumero, "RETORNO XML")
                 nomeArq = Funcoes.diretorioLoteRpsRet & "NFsE_" & Format(loteNumero, "00000000") & "_ret.xml"
                 docRetorno.LoadXml(Retorno)
                 docRetorno.Save(nomeArq)
@@ -965,6 +985,8 @@ atualizaCancel:
 
         Catch ex As Exception
             Throw New Exception("Erro ao conectar ao NFSe: " & ex.Message())
+
+            GRAVARLOG(loteNumero, ex.Message)
         End Try
 
 saida:

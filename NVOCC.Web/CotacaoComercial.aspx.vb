@@ -1433,7 +1433,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         'POR CNTR 
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
 FROM TB_COTACAO_MERCADORIA A
-WHERE A.ID_COTACAO = " & txtID.Text & "")
+WHERE A.ID_COTACAO = " & txtID.Text)
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
@@ -1469,7 +1469,7 @@ WHERE A.ID_COTACAO = " & txtID.Text & "")
                         'Para cada conteiner de 20' corresponde 1 teu
                         Dim ds1 As DataSet = Con.ExecutarQuery(" Select ISNULL(SUM(QT_CONTAINER), 0)QTD
 From TB_COTACAO_MERCADORIA A
-Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (5,6,2,9,10,12,16,18)")
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (5,6,2,9,10,12,16,18)")
                         y = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -1477,7 +1477,7 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (5,6,2,9,10,12,16,18)")
 
                         ds1 = Con.ExecutarQuery("Select ISNULL(SUM(QT_CONTAINER), 0)QTD
 From TB_COTACAO_MERCADORIA A
-Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         x = x * 2
                         Dim total As Integer = x + y
@@ -1505,6 +1505,50 @@ Where a.ID_COTACAO = 14 And ID_TIPO_CONTAINER In (19,17,13,14,15,11,3,4,7,8,1)")
                             End If
                         End If
                         CompraCalc = z.ToString
+
+                    ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 36 Then
+                        ' POR TEU
+
+                        'Para cada conteiner de 20' corresponde 1 teu
+                        Dim ds1 As DataSet = Con.ExecutarQuery(" Select ISNULL(SUM(QT_CONTAINER), 0)QTD
+From TB_COTACAO_MERCADORIA A
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
+                        y = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                        'Para cada conteiner de 40' corresponde a 2 teus
+
+                        ds1 = Con.ExecutarQuery("Select ISNULL(SUM(QT_CONTAINER), 0)QTD
+From TB_COTACAO_MERCADORIA A
+Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        x = x * 2
+                        Dim total As Integer = x + y
+
+                        z = total * linha.Item("VL_TAXA_VENDA")
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
+
+                        z = total * linha.Item("VL_TAXA_COMPRA")
+                        If COMPRA_MIN < 0 Then
+                            If z > COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        ElseIf COMPRA_MIN > 0 Then
+                            If z < COMPRA_MIN Then
+                                z = COMPRA_MIN
+                            End If
+                        End If
+                        CompraCalc = z.ToString
+
 
                     End If
 

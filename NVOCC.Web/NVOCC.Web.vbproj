@@ -743,7 +743,6 @@
       <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Conexao_oracle1.vb" />
     <Compile Include="Conexao_sql.vb" />
     <Compile Include="Conferencia.aspx.designer.vb">
       <DependentUpon>Conferencia.aspx</DependentUpon>
