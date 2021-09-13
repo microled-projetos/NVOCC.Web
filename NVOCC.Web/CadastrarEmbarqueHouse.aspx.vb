@@ -213,10 +213,12 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")) Then
                         txtObsCliente_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")
+                        txtObsCliente_CotacaoMaritimo.Text = txtObsCliente_CotacaoMaritimo.Text.Replace("<br/>", vbNewLine)
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")) Then
                         txtObsOper_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")
+                        txtObsOper_CotacaoMaritimo.Text = txtObsOper_CotacaoMaritimo.Text.Replace("<br/>", vbNewLine)
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
@@ -406,10 +408,12 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")) Then
                         txtObsCliente_CotacaoAereo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")
+                        txtObsCliente_CotacaoAereo.Text = txtObsCliente_CotacaoAereo.Text.Replace("<br/>", vbNewLine)
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")) Then
                         txtObsOper_CotacaoAereo.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")
+                        txtObsOper_CotacaoAereo.Text = txtObsOper_CotacaoAereo.Text.Replace("<br/>", vbNewLine)
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then

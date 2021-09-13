@@ -18,6 +18,7 @@
         Else
             If Request.QueryString("id") <> "" Then
                 Con.Conectar()
+                Dim CIDADE As String = ""
                 Dim ID As String = Request.QueryString("id")
                 ds = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_RECIBO,A.DT_RECIBO,A.NM_CLIENTE,A.CNPJ,A.INSCR_ESTADUAL,A.INSCR_MUNICIPAL,A.ENDERECO,A.NR_ENDERECO,A.BAIRRO,A.CIDADE,A.ESTADO,A.CEP,ISNULL(VL_ISS,0)VL_ISS
 FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
@@ -33,7 +34,9 @@ FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
                         lblEmpresa.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE")
                     End If
 
-
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CIDADE")) Then
+                        CIDADE = ds.Tables(0).Rows(0).Item("CIDADE")
+                    End If
 
                     Dim dsProcesso As DataSet = Con.ExecutarQuery("SELECT A.ID_BL,A.NR_PROCESSO,A.NR_BL,DT_CHEGADA,(SELECT NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SERVICO,GRAU,ID_BL_MASTER,
  (SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)  NR_BL_MASTER,
@@ -85,8 +88,10 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
                             tabela &= "<tr><td style='padding-right:10px'>" & linha("ITEM_DESPESA") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALORES") & "</td>"
                             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_ISS") & "</td></tr>"
-                            valores = valores + linha("VALORES") - linha("VL_ISS")
-
+                            valores = valores + linha("VALORES")
+                            If CIDADE = "SANTOS" Then
+                                valores = valores - linha("VL_ISS")
+                            End If
 
                         Next
                         Total = FormatCurrency(valores)

@@ -41,7 +41,9 @@
                                 <div class="alert alert-danger" id="divErro" runat="server" visible="false">
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
-
+                                <div class="alert alert-info" id="divinf" runat="server" visible="false">
+                                    <asp:Label ID="lblmsginf" runat="server"></asp:Label>
+                                </div>
 
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
@@ -322,7 +324,7 @@
                                        </div>     </center>
                                 </asp:Panel>
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="btnFecharDesmosntrativos"></ajaxToolkit:ModalPopupExtender>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDesmosntrativos" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">

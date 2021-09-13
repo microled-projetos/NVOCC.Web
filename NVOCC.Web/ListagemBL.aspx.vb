@@ -217,6 +217,8 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
             dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE PARCEIRO_CLIENTE LIKE '%" & txtPesquisaHouse.Text & "%' "
         ElseIf ddlFiltroHouse.SelectedValue = 4 Then
             dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE BL_MASTER LIKE '%" & txtPesquisaHouse.Text & "%'"
+        ElseIf ddlFiltroHouse.SelectedValue = 5 Then
+            dsHouse.SelectCommand = "select * from [dbo].[View_House] WHERE NR_BL LIKE '%" & txtPesquisaHouse.Text & "%'"
         End If
         dgvHouse.DataBind()
 

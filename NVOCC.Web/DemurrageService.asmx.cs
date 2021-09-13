@@ -4223,7 +4223,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
                     break;
             }
 
@@ -4238,15 +4238,25 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_DESPESA,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_DESPESA, ";
             SQL += "NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_NOTA IS NOT NULL ";
-            SQL += "" + situacao + "";
-            SQL += "AND NR_NOTA LIKE '" + nota + "%' ";
+            if (nota != "")
+            {
+                SQL += "WHERE NR_NOTA LIKE '" + nota + "%' ";
+
+                if(situacao != "")
+				{
+                    SQL += "AND " + situacao + "";
+                }
+            }
+            else if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + "";
+            }
             SQL += "ORDER BY NR_NOTA ";
 
             DataTable listTable = new DataTable();
@@ -4267,7 +4277,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
                     break;
             }
 
@@ -4286,9 +4296,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_NOTA IS NOT NULL ";
-            SQL += "" + situacao + "";
-            SQL += "AND NR_NOTA LIKE '" + nota + "%' ";
+            if (nota != "")
+            {
+                SQL += "WHERE NR_NOTA LIKE '" + nota + "%' ";
+
+                if (situacao != "")
+                {
+                    SQL += "AND " + situacao + "";
+                }
+            }
+            else if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + "";
+            }
             SQL += "ORDER BY NR_NOTA ";
 
             DataTable listTable = new DataTable();
@@ -4306,7 +4326,7 @@ namespace ABAINFRA.Web
 
                     SQL = "SELECT DT_EXPORTACAO_TOTVS_DESPESA FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + idContaPagarReceber[i] + "'";
                     listDtExportCredit = DBS.List(SQL);
-                    dtExportDespesa = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_PA"].ToString();
+                    dtExportDespesa = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_DESPESA"].ToString();
 
 
 
@@ -4456,7 +4476,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
+                    situacao = "WHERE DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -4471,13 +4491,12 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_SERVICO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_SERVICO, ";
             SQL += "ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_SERVICO(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_NOTA IS NOT NULL ";
             SQL += "" + situacao + "";
             SQL += "ORDER BY NR_NOTA ";
 
@@ -4499,7 +4518,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
+                    situacao = "WHERE DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -4518,7 +4537,6 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_NOTA_SERVICO(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_NOTA IS NOT NULL ";
             SQL += "" + situacao + "";
             SQL += "ORDER BY NR_NOTA ";
 
@@ -4537,7 +4555,7 @@ namespace ABAINFRA.Web
 
                     SQL = "SELECT DT_EXPORTACAO_TOTVS_SERVICO FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + idContaPagarReceber[i] + "'";
                     listDtExportCredit = DBS.List(SQL);
-                    dtExportServico = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_PA"].ToString();
+                    dtExportServico = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_SERVICO"].ToString();
 
 
 
@@ -4869,7 +4887,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
@@ -4890,9 +4908,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_INV_CREDIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_CONTRATO IS NOT NULL ";
-            SQL += "" + situacao + "";
-            SQL += "AND NR_CONTRATO LIKE '" + nota + "%' ";
+            if (nota != "")
+            {
+                SQL += "WHERE NR_CONTRATO LIKE '" + nota + "%' ";
+
+                if(situacao != "")
+				{
+                    SQL += "AND " + situacao + "";
+                }
+            }
+            else if(situacao != "")
+			{
+                SQL += "WHERE " + situacao + "";
+            }
             SQL += "ORDER BY NR_CONTRATO ";
 
             DataTable listTable = new DataTable();
@@ -4914,7 +4942,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
@@ -4933,9 +4961,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_INV_CREDIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_CONTRATO IS NOT NULL ";
-            SQL += "" + situacao + "";
-            SQL += "AND NR_CONTRATO LIKE '" + nota + "%' ";
+            if (nota != "")
+            {
+                SQL += "WHERE NR_CONTRATO LIKE '" + nota + "%' ";
+
+                if (situacao != "")
+                {
+                    SQL += "AND " + situacao + "";
+                }
+            }
+            else if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + "";
+            }
             SQL += "ORDER BY NR_CONTRATO ";
 
             DataTable listTable = new DataTable();
@@ -4953,7 +4991,7 @@ namespace ABAINFRA.Web
 
                     SQL = "SELECT DT_EXPORTACAO_TOTVS_CREDIT FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + idContaPagarReceber[i] + "'";
                     listDtExportCredit = DBS.List(SQL);
-                    dtExportCredit = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_PA"].ToString();
+                    dtExportCredit = listDtExportCredit.Rows[0]["DT_EXPORTACAO_TOTVS_CREDIT"].ToString();
 
 
 
@@ -5100,18 +5138,18 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
             switch (filter)
             {
                 case "1":
-                    nota = "AND NR_PROCESSO LIKE '"+nota+"%' ";
+                    nota = "NR_PROCESSO LIKE '"+nota+"%' ";
                     break;
 
                 case "2":
-                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    nota = "ID_BL_MASTER LIKE '" + nota + "%' ";
                     break;
                 default:
                     nota = "";
@@ -5134,9 +5172,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_INV_DEBIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
-            SQL += "" + situacao + " ";
-            SQL += "" + nota + " ";
+            if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + " ";
+                if(nota != "")
+				{
+                    SQL += "AND " + nota + " ";
+
+                }
+            }
+            else if(nota != "")
+            {
+                SQL += "WHERE " + nota + " ";
+            }
             SQL += "ORDER BY FORMAT(DT_PAGAMENTO,'dd/MM/yyyy'), NR_PROCESSO";
 
             DataTable listTable = new DataTable();
@@ -5153,24 +5201,25 @@ namespace ABAINFRA.Web
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
             string dtExportDebit;
+
             switch (situacao)
             {
                 case "0":
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
             switch (filter)
             {
                 case "1":
-                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    nota = "NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
 
                 case "2":
-                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    nota = "ID_BL_MASTER LIKE '" + nota + "%' ";
                     break;
                 default:
                     nota = "";
@@ -5192,9 +5241,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_INV_DEBIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
-            SQL += "" + situacao + " ";
-            SQL += "" + nota + " ";
+            if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + " ";
+                if (nota != "")
+                {
+                    SQL += "AND " + nota + " ";
+
+                }
+            }
+            else if (nota != "")
+            {
+                SQL += "WHERE " + nota + " ";
+            }
             SQL += "ORDER BY FORMAT(DT_PAGAMENTO,'dd/MM/yyyy'), NR_PROCESSO";
 
             DataTable listTable = new DataTable();
@@ -5212,7 +5271,7 @@ namespace ABAINFRA.Web
 
                     SQL = "SELECT DT_EXPORTACAO_TOTVS_DEBIT FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = '" + idContaPagarReceber[i] + "'";
                     listDtExportDebit = DBS.List(SQL);
-                    dtExportDebit = listDtExportDebit.Rows[0]["DT_EXPORTACAO_TOTVS_PA"].ToString();
+                    dtExportDebit = listDtExportDebit.Rows[0]["DT_EXPORTACAO_TOTVS_DEBIT"].ToString();
 
 
 
@@ -5354,18 +5413,18 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
             switch (filter)
             {
                 case "1":
-                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    nota = "NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
 
                 case "2":
-                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    nota = "ID_BL_MASTER LIKE '" + nota + "%' ";
                     break;
                 default:
                     nota = "";
@@ -5388,9 +5447,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_PA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
-            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
-            SQL += "" + situacao + " ";
-            SQL += "" + nota + " ";
+            if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + " ";
+                if (nota != "")
+                {
+                    SQL += "AND " + nota + " ";
+
+                }
+            }
+            else if (nota != "")
+            {
+                SQL += "WHERE " + nota + " ";
+            }
             SQL += "ORDER BY DT_PAGAMENTO, NR_PROCESSO ";
 
             DataTable listTable = new DataTable();
@@ -5411,18 +5480,18 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "AND DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO IS NULL ";
                     break;
             }
 
             switch (filter)
             {
                 case "1":
-                    nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
+                    nota = "NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
 
                 case "2":
-                    nota = "AND ID_BL_MASTER LIKE '" + nota + "%' ";
+                    nota = "ID_BL_MASTER LIKE '" + nota + "%' ";
                     break;
                 default:
                     nota = "";
@@ -5444,9 +5513,19 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_PA(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
-            SQL += "WHERE NR_PROCESSO IS NOT NULL ";
-            SQL += "" + nota + "";
-            SQL += "" + situacao + "";
+            if (situacao != "")
+            {
+                SQL += "WHERE " + situacao + " ";
+                if (nota != "")
+                {
+                    SQL += "AND " + nota + " ";
+
+                }
+            }
+            else if (nota != "")
+            {
+                SQL += "WHERE " + nota + " ";
+            }
             SQL += "ORDER BY DT_PAGAMENTO, NR_PROCESSO ";
 
             DataTable listTable = new DataTable();
@@ -5891,14 +5970,7 @@ namespace ABAINFRA.Web
             smtp.Send(email);
 
 
-            /*Outlook.Application app = new Outlook.Application();
-            Outlook.MailItem mail = (Outlook.MailItem)app.CreateItem(Outlook.OlItemType.olMailItem);
-            mail.To = "thiago.amaro@abainfra.com.br";
-            mail.Subject = "Teste";
-            mail.Body = "teste";
-            mail.HTMLBody = "<!doctypehtml><link href='https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i'rel=stylesheet><meta charset=utf-8><title></title><body style=font-family:Roboto><table cellpadding=10 cellspacing=0 style=width:770px><tr><td align=middle valign=middle><h1>Follow Up - Importação Marítima</h1></table><br><table cellpadding=10 cellspacing=0 style=width:770px><tr><td align=center valign=middle><img src='https://drive.google.com/file/d/12MnS7MTOpxvtP63VQ_o9zEVOYCCt0h1a/view?usp=sharing'><td align=left style='font-size:12px;' valign=middle><p style='margin:3px'><b>REFERÊNCIA:</b> IM000563<p style='margin:3px'><b>CLIENTE:</b> HAIMO INTERNATIONAL LOGISTICS (SHANGHAI) CO.,LTD<p style='margin:3px'><b>DATA:</b> 22/07/2021<p style='margin:3px'><b>REF. CLIENTE:</b> ALT-2021-46BP-1B</table><br><table cellpadding=1 cellspacing=0 style='width:770px'><tr><td bgcolor=#4f4f4f></table><br><table cellpadding=10 cellspacing=0 style=width:770px><tr><td align=left style='font-size:12px;' valign=middle><p style='margin:3px'><b>EXPORTADOR:</b>	SINO-DG INTERNATIONAL LOGISTICS CO., LTD<p style='margin:3px'><b>HBL:</b>	SHHM2106052<p style='margin:3px'><b>ORIGEM:</b>	SHANGHAI<p style='margin:3px'><b>LOCAL DE RECEBIMENTO:</b><p style='margin:3px'><b>PREV. DE EMBARQUE:</b>	22/07/2021<p style='margin:3px'><b>DATA DE EMBARQUE:</b><p style='margin:3px'><b>MODALIDADE DE FRETE:</b>	PREPAID<p style='margin:3px'><b>MERCADORIA:</b>	QUIMICO NÃO PERIGOSO<p style='margin:3px'><b>QTDE DE VOLUMES:</b>	0,00<td align=left style='font-size:12px;' valign=middle><p style='margin:3px'><b>EXPORTADOR:</b>	SINO-DG INTERNATIONAL LOGISTICS CO., LTD<p style='margin:3px'><b>HBL:</b>	SHHM2106052<p style='margin:3px'><b>ORIGEM:</b>	SHANGHAI<p style='margin:3px'><b>LOCAL DE RECEBIMENTO:</b><p style='margin:3px'><b>PREV. DE EMBARQUE:</b>	22/07/2021<p style='margin:3px'><b>DATA DE EMBARQUE:</b><p style='margin:3px'><b>MODALIDADE DE FRETE:</b>	PREPAID<p style='margin:3px'><b>MERCADORIA:</b>	QUIMICO NÃO PERIGOSO<p style='margin:3px'><b>QTDE DE VOLUMES:</b>	0,00</table><br>";
-            mail.Importance = Outlook.OlImportance.olImportanceNormal;
-            mail.Display(true);*/
+            
         }
         
     }

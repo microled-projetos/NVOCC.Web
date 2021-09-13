@@ -148,6 +148,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             ddlMotivoCancelamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOTIVO_CANCELAMENTO").ToString()
             txtObsCancelamento.Text = ds.Tables(0).Rows(0).Item("OB_MOTIVO_CANCELAMENTO").ToString()
             txtObsCliente.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE").ToString()
+            txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
+
             txtObsOperacional.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL").ToString()
             ddlEstufagem.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM").ToString()
 
@@ -879,6 +881,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
             '    txtProcessoCotacao.Text = "'" & txtProcessoCotacao.Text & "'"
             'End If
 
+            txtObsCliente.Text = txtObsCliente.Text.Replace(vbNewLine, "<br/>")
+
             If txtID.Text = "" Then
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -1024,6 +1028,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 End If
 
             End If
+            txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
 
             dsFornecedor.DataBind()
             ddlFornecedor.DataBind()

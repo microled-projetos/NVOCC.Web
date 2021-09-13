@@ -1507,37 +1507,14 @@ Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (19,17,13,14,15
                         CompraCalc = z.ToString
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 36 Then
-                        ' POR TEU
+                        'POR REEFER
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(QT_CONTAINER),0)QTD
+FROM TB_COTACAO_MERCADORIA A
+WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
 
-                        'Para cada conteiner de 20' corresponde 1 teu
-                        Dim ds1 As DataSet = Con.ExecutarQuery(" Select ISNULL(SUM(QT_CONTAINER), 0)QTD
-From TB_COTACAO_MERCADORIA A
-Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
-                        y = ds1.Tables(0).Rows(0).Item("QTD")
-
-
-                        'Para cada conteiner de 40' corresponde a 2 teus
-
-                        ds1 = Con.ExecutarQuery("Select ISNULL(SUM(QT_CONTAINER), 0)QTD
-From TB_COTACAO_MERCADORIA A
-Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
-                        x = x * 2
-                        Dim total As Integer = x + y
-
-                        z = total * linha.Item("VL_TAXA_VENDA")
-                        If VENDA_MIN < 0 Then
-                            If z > VENDA_MIN Then
-                                z = VENDA_MIN
-                            End If
-                        ElseIf VENDA_MIN > 0 Then
-                            If z < VENDA_MIN Then
-                                z = VENDA_MIN
-                            End If
-                        End If
-                        VendaCalc = z.ToString
-
-                        z = total * linha.Item("VL_TAXA_COMPRA")
+                        y = linha.Item("VL_TAXA_COMPRA")
+                        z = y * x
                         If COMPRA_MIN < 0 Then
                             If z > COMPRA_MIN Then
                                 z = COMPRA_MIN
@@ -1548,6 +1525,20 @@ Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
                             End If
                         End If
                         CompraCalc = z.ToString
+
+                        x = ds1.Tables(0).Rows(0).Item("QTD")
+                        y = linha.Item("VL_TAXA_VENDA")
+                        z = y * x
+                        If VENDA_MIN < 0 Then
+                            If z > VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        ElseIf VENDA_MIN > 0 Then
+                            If z < VENDA_MIN Then
+                                z = VENDA_MIN
+                            End If
+                        End If
+                        VendaCalc = z.ToString
 
 
                     End If
@@ -1591,6 +1582,8 @@ Where a.ID_COTACAO = " & txtID.Text & " And ID_TIPO_CONTAINER In (4,5)")
                 FILTRO = " VENDEDOR LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 8 Then
                 FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
+            ElseIf ddlConsultas.SelectedValue = 9 Then
+                FILTRO = " ANALISTA_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
 
             End If
 
