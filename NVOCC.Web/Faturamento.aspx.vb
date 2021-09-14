@@ -37,6 +37,9 @@ Public Class Faturamento
     End Sub
 
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        divInfo.Visible = False
         AtualizaGrid()
     End Sub
     Sub AtualizaGrid()
@@ -373,21 +376,27 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
 
+                            Try
+                                Using GeraRps = New NotaFiscal.WsNvocc
+
+                                    Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+
+                                End Using
 
 
-                            Using GeraRps = New NotaFiscal.WsNvocc
+                            Catch ex As Exception
 
-                                Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+                                divErro.Visible = True
+                                lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                                Exit Sub
 
-                            End Using
-
+                            End Try
 
                             Using GeraRps = New NotaFiscal.WsNvocc
 
                                 Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
                             End Using
-
 
 
                             ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -448,6 +457,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) Then
 
+
                         Dim numero As String = ds.Tables(0).Rows(0).Item("NR_RPS")
 
                         Using GeraRps = New NotaFiscal.WsNvocc
@@ -507,39 +517,58 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     Else
 
-                        Dim RPSCancelada As String = ds.Tables(0).Rows(0).Item("NR_RPS")
-                        'Dim NumeracaoDoc As New NumeracaoDoc
-                        'Dim numero As String = NumeracaoDoc.Numerar(3)
 
 
-                        'Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,NR_RPS,NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,STATUS_NFE) SELECT ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,'" & numero & "',NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,3 FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text)
-                        'Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'CANCELAMENTO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
+                        Try
+
+                            Dim RPSCancelada As String = ds.Tables(0).Rows(0).Item("NR_RPS")
+                            'Dim NumeracaoDoc As New NumeracaoDoc
+                            'Dim numero As String = NumeracaoDoc.Numerar(3)
 
 
-
-                        Using GeraRps = New NotaFiscal.WsNvocc
-
-                            Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
-
-                        End Using
+                            'Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,NR_RPS,NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,STATUS_NFE) SELECT ID_CONTA_PAGAR_RECEBER,DT_CANCELAMENTO,ID_USUARIO_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,NR_NOTA_DEBITO,'" & numero & "',NR_NOTA_FISCAL,NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_NOTA_FISCAL,DT_RECIBO,FL_RPS,FL_NOTA_SUBSTITUTA,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,3 FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text)
+                            'Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'CANCELAMENTO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
 
+                            Using GeraRps = New NotaFiscal.WsNvocc
 
-                        ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
-                        If ds.Tables(0).Rows.Count > 0 Then
-                            If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 3 Then
-                                divSuccess.Visible = True
-                                lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
-                                dgvFaturamento.DataBind()
-                            Else
+                                Dim consulta = GeraRps.CancelaNFePrefeitura(RPSCancelada, 1, "SQL", "NVOCC")
 
-                                lblmsgErro.Text = "Não foi possivel completar a ação!"
-                                divErro.Visible = True
+                            End Using
+
+
+
+
+                            ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                            If ds.Tables(0).Rows.Count > 0 Then
+                                If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 3 Then
+                                    divSuccess.Visible = True
+                                    lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
+                                    dgvFaturamento.DataBind()
+                                Else
+
+                                    lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                    divErro.Visible = True
+                                End If
+
                             End If
+                        Catch ex As Exception
 
-                        End If
+                            divErro.Visible = True
+                            lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+
+                        End Try
+
+
+
+
+
+
+
+
+
 
 
                     End If
@@ -686,34 +715,56 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
     End Sub
 
     Private Sub lkVisualizarNota_Click(sender As Object, e As EventArgs) Handles lkVisualizarNota.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        divInfo.Visible = False
         If Not String.IsNullOrEmpty(txtID.Text) Then
             If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
             Else
-                Using GeraRps = New NotaFiscal.WsNvocc
 
-                    Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
 
-                End Using
 
-                Dim Con As New Conexao_sql
-                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
 
-                If ds2.Tables(0).Rows.Count > 0 Then
-                    If Not IsDBNull(ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                        txtNR_NOTA.Text = ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                Try
+                    Using GeraRps = New NotaFiscal.WsNvocc
+
+                        Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+
+                    End Using
+
+                    Dim Con As New Conexao_sql
+                    Con.Conectar()
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                    If ds2.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
+                            txtNR_NOTA.Text = ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                        End If
+                        If Not IsDBNull(ds2.Tables(0).Rows(0).Item("COD_VER_NFSE")) Then
+                            txtCOD_VER_NFSE.Text = ds2.Tables(0).Rows(0).Item("COD_VER_NFSE")
+                        End If
                     End If
-                    If Not IsDBNull(ds2.Tables(0).Rows(0).Item("COD_VER_NFSE")) Then
-                        txtCOD_VER_NFSE.Text = ds2.Tables(0).Rows(0).Item("COD_VER_NFSE")
-                    End If
-                End If
 
-                If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
-                Else
+                    If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
+                        divErro.Visible = False
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
+                    Else
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Numero da nota não encontrado!"
+                    End If
+                    Con.Fechar()
+                Catch ex As Exception
+
                     divErro.Visible = True
-                    lblmsgErro.Text = "Numero da nota não encontrado!"
-                End If
+                    lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+
+                End Try
+
+
+
+
+
 
             End If
         Else
