@@ -2,6 +2,7 @@
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
 
             Response.Redirect("Login.aspx")
@@ -28,16 +29,7 @@
 
                 End If
 
-                'ds1 = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
-                'WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
-                'If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
 
-                '    divErro.Visible = True
-                '    lblErro.Text = "Há taxas sem parceiro cliente informado."
-                '    ddlFornecedor.Enabled = False
-                'Else
-                '    divErro.Visible = False
-                'End If
 
             End If
         End If
@@ -56,7 +48,7 @@
 WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
         If ds0.Tables(0).Rows(0).Item("QTD") > 0 Then
             ddlFornecedor.Enabled = False
-            lblErro.Text = "Há taxas sem parceiro cliente informado."
+            lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
             divErro.Visible = True
         Else
             If ddlFornecedor.SelectedValue <> 0 Then
@@ -488,6 +480,20 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
 
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
         VerificaTaxas()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
+        If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+
+            divErro.Visible = True
+            lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
+            ddlFornecedor.Enabled = False
+        Else
+            divErro.Visible = False
+        End If
+        Con.Fechar()
+
     End Sub
     Sub VerificaTaxas()
         divErro.Visible = False

@@ -1229,6 +1229,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtOBS_Endereco As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtOutrasOBS_Mercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtOutrasOBS_Mercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnSalvarMercadoria.
     '''</summary>
     '''<remarks>

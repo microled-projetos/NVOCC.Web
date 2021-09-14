@@ -877,7 +877,14 @@
                                 </div>
                                  
                                 </div>
-                      
+                             <div class="row">
+                                 <div class="col-sm-12" >
+                                    <div class="form-group">
+                                        <label class="control-label">Outras Obs:</label>
+                                        <asp:TextBox ID="txtOutrasOBS_Mercadoria" runat="server" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                    </div>
+                                </div>                                
+                                </div>
                                                        
                                                         </div>                     
                                <div class="modal-footer">

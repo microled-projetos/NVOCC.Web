@@ -178,14 +178,14 @@
                             </li>
                             <li>
                                 <a href="#" id="MenuComissoes" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 45%!important">                                  
+                                <ul class="dropdown-sub" style="top: 35%!important">                                  
                                     <li><a id="mnComissaoIndicadorNacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
                                      <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
                                 </ul>
                             </li>
                              <li>
                                 <a href="#" id="MenuTotvs" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 60%!important">                                  
+                                <ul class="dropdown-sub" style="top: 50%!important">                                  
                                      <li><a id="mnTOTVSDespesa" style="font-size: 13px;" runat="server" href="integracaoTOTVSDespesa.aspx">Nota de Despesa</a></li>
                                        <li><a id="mnTOTVSPA" style="font-size: 13px;" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
                                        <li><a id="mnTOTVSDebit" style="font-size: 13px;" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
@@ -194,12 +194,15 @@
                             </li>
                             <li>
                                 <a href="#" id="MnRelatoriosFinanceiros" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" style="top: 75%!important"> 
+                                <ul class="dropdown-sub" style="top: 65%!important"> 
                                     <li><a style="font-size: 12px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
                                     <li runat="server"  visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber1">Estimativa Contas a Pagar</a></li>
                                     <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                         
                                 </ul>
                             </li>
+                            <li>
+                                <a href="CaixaSaida.aspx" runat="server" id="mnCaixaSaida">Caixa de Saida</a>
+                            </li>  
                         </ul>
                     </li>
                 </ul>

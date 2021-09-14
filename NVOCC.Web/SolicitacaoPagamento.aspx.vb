@@ -32,6 +32,17 @@
 
                     End If
                 End If
+
+                ds1 = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
+                If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+
+                    divErro.Visible = True
+                    lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
+                    ddlFornecedor.Enabled = False
+                Else
+                    divErro.Visible = False
+                End If
             End If
         End If
         Con.Fechar()

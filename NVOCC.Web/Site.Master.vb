@@ -202,6 +202,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnEstimativaContaPagarReceber2.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2049 And linha.Item("Acessar").ToString() = 0 Then
                         mnAtendimentoNegado.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2050 And linha.Item("Acessar").ToString() = 0 Then
+                        mnCaixaSaida.Visible = False
                     End If
 
 
@@ -241,7 +243,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False And mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False Then
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False And mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnCaixaSaida.Visible = False Then
                 MenuFinanceiro.Visible = False
             End If
 

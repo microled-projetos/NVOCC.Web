@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web 13092021\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web (14092021)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -275,6 +275,9 @@
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
     <Content Include="CadastroNavios.aspx" />
+    <Content Include="CaixaSaida.aspx" />
+    <Content Include="CaixaSaida.aspx.cs" />
+    <Content Include="CaixaSaida.aspx.designer.cs" />
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
     <Content Include="Classes\CourrierInfo.cs" />

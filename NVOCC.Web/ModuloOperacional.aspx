@@ -565,6 +565,7 @@
                                                         <th class="text-center" scope="col">NOME CLIENTE</th>
                                                         <th class="text-center" scope="col">TERMINAL</th>
                                                         <th class="text-center" scope="col">PARCEIRO</th>
+                                                        <th class="text-center" scope="col">OCORRÊNCIA</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tblCaixaSaidaBody">
@@ -1176,7 +1177,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#tblCaixaSaidaBody").empty();
-                    $("#tblCaixaSaidaBody").append("<tr><td colspan='11'><div class='loader'></div></td></tr>");
+                    $("#tblCaixaSaidaBody").append("<tr><td colspan='12'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -1194,10 +1195,12 @@
                                 "<td class='text-center'></td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 20ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
+                                "<td class='text-center' title='" + dado[i]["PARCEIRO"] + "' style='max-width: 20ch;'>" + dado[i]["PARCEIRO"] + "</td>" +
+                                "<td class='text-center' title='" + dado[i]["OCORRENCIA"] + "' style='max-width: 20ch;'>" + dado[i]["OCORRENCIA"] + "</td>" +
+                                "</tr > ");
                         }
                     } else {
-                        $("#tblCaixaSaidaBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='11' class='alert alert-light text-center'>Email não encontrado</td></tr>");
+                        $("#tblCaixaSaidaBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='12' class='alert alert-light text-center'>Email não encontrado</td></tr>");
                     }
                 }
             })
@@ -1584,7 +1587,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#tblCaixaAgendamentoBody").empty();
-                    $("#tblCaixaAgendamentoBody").append("<tr><td colspan='12'><div class='loader'></div></td></tr>");
+                    $("#tblCaixaAgendamentoBody").append("<tr><td colspan='13'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -1604,10 +1607,11 @@
                                 "<td class='text-center'>" + dado[i]["OB_CANCELAMENTO"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 15ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PARCEIRO"] + "</td></tr > ");
+                                "<td class='text-center' title='" + dado[i]["PARCEIRO"] + "' style='max-width: 20ch;'>" + dado[i]["PARCEIRO"] + "</td>" +
+                                "</tr > ");
                         }
                     } else {
-                        $("#tblCaixaAgendamentoBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='12' class='alert alert-light text-center'>Email não encontrado</td></tr>");
+                        $("#tblCaixaAgendamentoBody").append("<tr><td id='msgEmptyDemurrageContainer' colspan='13' class='alert alert-light text-center'>Email não encontrado</td></tr>");
                     }
                 }
             })

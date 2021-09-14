@@ -748,6 +748,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     If txtCOD_VER_NFSE.Text <> "" And txtNR_NOTA.Text <> "" Then
                         divErro.Visible = False
+                        AtualizaGrid()
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
                     Else
                         divErro.Visible = True
