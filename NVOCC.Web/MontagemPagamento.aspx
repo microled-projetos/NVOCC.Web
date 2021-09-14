@@ -105,16 +105,16 @@
                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="Despesa" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="NM_MOEDA" HeaderText="Moeda" SortExpression="NM_MOEDA" />
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor da compra(R$)" SortExpression="VL_TAXA_BR" />
+                                                
+                                                <asp:TemplateField HeaderText="Abater ISS" HeaderStyle-ForeColor="#4e81ad">
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="ckbISS" runat="server" />
+                                                    </ItemTemplate>                                                  
+                                                </asp:TemplateField>
                                                 <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_BR") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Abater ISS">
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbISS" runat="server" />
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />

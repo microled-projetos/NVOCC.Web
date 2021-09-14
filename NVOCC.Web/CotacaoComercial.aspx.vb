@@ -34,35 +34,9 @@ WHERE A.ID_STATUS_COTACAO = 8")
     Private Sub dgvCotacao_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvCotacao.RowCommand
         divSuccess.Visible = False
         divErro.Visible = False
+        lblmsgErro.Text = ""
+
         If e.CommandName = "Selecionar" Then
-            'If txtlinha.Text <> "" Then
-            '    'dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Black
-            '    dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
-
-            'End If
-            'Dim ID As String = e.CommandArgument
-
-
-            'txtID.Text = ID.Substring(0, ID.IndexOf("|"))
-
-            'txtlinha.Text = ID.Substring(ID.IndexOf("|"))
-            'txtlinha.Text = txtlinha.Text.Replace("|", "")
-
-
-            'For i As Integer = 0 To dgvCotacao.Rows.Count - 1
-            '    'dgvCotacao.ForeColor = System.Drawing.Color.Black
-            '    dgvCotacao.Rows(txtlinha.Text).CssClass = "Normal"
-
-            'Next
-
-            ''dgvCotacao.Rows(txtlinha.Text).ForeColor = System.Drawing.Color.Red
-            'dgvCotacao.Rows(txtlinha.Text).CssClass = "selected1"
-
-
-
-
-
-
 
             For i As Integer = 0 To dgvCotacao.Rows.Count - 1
                 dgvCotacao.Rows(i).CssClass = "Normal"
@@ -1561,6 +1535,9 @@ WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
     End Sub
 
     Sub GRID()
+        divSuccess.Visible = False
+        divErro.Visible = False
+        lblmsgErro.Text = ""
         If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
             dgvCotacao.DataBind()
         Else
@@ -1632,6 +1609,7 @@ WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
             lblmsgErro.Text = "Selecione o registro que deseja imprimir!"
 
         Else
+            lblmsgErro.Text = ""
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("Select count(*)QTD from TB_COTACAO where DT_CALCULO_COTACAO is not null and id_cotacao = " & txtID.Text)

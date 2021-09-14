@@ -894,7 +894,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Dim intCopias As Short = 1
 
             Try
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
 
                     ''CRIAÇÃO DA PARTE DO CEDENTE
@@ -920,13 +920,13 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     conta.TipoDocumento = TipoDocumento.Tradicional
 
                     Dim ender As New Endereco
-                    ender.LogradouroEndereco = "RUA QUINZE DE NOVEMBRO, 46/48 ANDAR 01 SALA 01"
-                    ender.LogradouroNumero = "46/48"
-                    ender.LogradouroComplemento = "RUA QUINZE DE NOVEMBRO"
-                    ender.Bairro = "SANTOS"
-                    ender.Cidade = "SÃO PAULO"
-                    ender.UF = "SP"
-                    ender.CEP = "000000000"
+                    ender.LogradouroEndereco = ds.Tables(0).Rows(0).Item("ENDERECO_CEDENTE") '"RUA QUINZE DE NOVEMBRO, 46/48 ANDAR 01 SALA 01"
+                    ender.LogradouroNumero = ds.Tables(0).Rows(0).Item("NUMERO_END_CEDENTE") '"46/48"
+                    ender.LogradouroComplemento = ds.Tables(0).Rows(0).Item("COMP_END_CEDENTE") '"RUA QUINZE DE NOVEMBRO"
+                    ender.Bairro = ds.Tables(0).Rows(0).Item("BAIRRO_END_CEDENTE") '"SANTOS"
+                    ender.Cidade = ds.Tables(0).Rows(0).Item("CIDADE_END_CEDENTE") '"SÃO PAULO"
+                    ender.UF = ds.Tables(0).Rows(0).Item("UF_END_CEDENTE") '"SP"
+                    ender.CEP = ds.Tables(0).Rows(0).Item("CEP_END_CEDENTE") '"000000000"
 
                     objBoletos.Banco.Cedente.Codigo = ds.Tables(0).Rows(0).Item("CD_CEDENTE")
                     objBoletos.Banco.Cedente.CodigoDV = "6"

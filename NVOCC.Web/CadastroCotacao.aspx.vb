@@ -849,6 +849,10 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             diverro.Visible = True
             lblmsgErro.Text = "A data de abertura é inválida."
 
+        ElseIf txtProcessoCotacao.Text = "" And ddlStatusCotacao.SelectedValue = 10 Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Apenas cotações com número de processo gerado podem ser colocadas em update"
+
         Else
 
             Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
@@ -2255,8 +2259,8 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
             Else
                 ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_ORIGEM_PAGAMENTO FROM TB_TABELA_FRETE_TAXA A WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & "
   AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)
-  
    AND ID_BASE_CALCULO_TAXA IN (SELECT ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA C WHERE C.ID_TIPO_CONTAINER IS NULL OR C.ID_TIPO_CONTAINER IN (SELECT ID_TIPO_CONTAINER FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text & "))")
+
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In ds.Tables(0).Rows
@@ -2414,7 +2418,7 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
 
         If reaprovamento = True Then
 
-            ds = Con.ExecutarQuery("SELECT NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+            ds = Con.ExecutarQuery("SELECT ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
             PROCESSO_FINAL = ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")
             ds = Con.ExecutarQuery("SELECT ID_BL FROM TB_BL WHERE GRAU='C' AND ID_COTACAO = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
