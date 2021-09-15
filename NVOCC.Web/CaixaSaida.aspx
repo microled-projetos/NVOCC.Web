@@ -81,7 +81,7 @@
                                     <button type="button" id="btnFiltrarCaixaSaida" onclick="caixaSaida()" class="btn btn-primary btn-ok">Filtrar</button>
                                 </div>
                             </div>
-                            <div class="table-responsive tableFixHead topMarg">
+                            <div class="table-responsive tableFixHead topMarg" style="max-height: 300px;">
                                 <table id="tblCaixaSaida" class="table tablecont">
                                     <thead>
                                         <tr>
@@ -312,7 +312,7 @@
                                                 <button type="button" id="btnFiltrarCaixaAgendamento" onclick="listarAgendamento()" class="btn btn-primary btn-ok">Filtrar</button>
                                             </div>
                                         </div>
-                                        <div class="table-responsive tableFixHead topMarg" style="height: 300px;">
+                                        <div class="table-responsive tableFixHead topMarg" style="max-height: 300px;">
                                             <table id="tblCaixaAgendamento" class="table tablecont">
                                                 <thead>
                                                     <tr>

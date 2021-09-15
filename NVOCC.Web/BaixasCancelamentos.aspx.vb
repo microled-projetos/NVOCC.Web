@@ -136,7 +136,7 @@
                         Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                         Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtData.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER =" & ID)
 
-                        Dim dsFaturamento As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                        Dim dsFaturamento As DataSet = Con.ExecutarQuery("SELECT ID_FATURAMENTO FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
                         If dsFaturamento.Tables(0).Rows.Count > 0 Then
                             Dim NumeracaoDoc As New NumeracaoDoc
                             Dim numero As String = NumeracaoDoc.Numerar(2)

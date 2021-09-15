@@ -20,15 +20,31 @@
                 Con.Conectar()
                 Dim CIDADE As String = ""
                 Dim ID As String = Request.QueryString("id")
-                ds = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_RECIBO,A.DT_RECIBO,A.NM_CLIENTE,A.CNPJ,A.INSCR_ESTADUAL,A.INSCR_MUNICIPAL,A.ENDERECO,A.NR_ENDERECO,A.BAIRRO,A.CIDADE,A.ESTADO,A.CEP,ISNULL(VL_ISS,0)VL_ISS
+                ds = Con.ExecutarQuery("SELECT A.ID_FATURAMENTO,A.NR_RECIBO,CONVERT(VARCHAR,A.DT_RECIBO,103)DT_RECIBO,A.NM_CLIENTE,A.CNPJ,A.INSCR_ESTADUAL,A.INSCR_MUNICIPAL,A.ENDERECO,A.NR_ENDERECO,A.BAIRRO,A.CIDADE,A.ESTADO,A.CEP,ISNULL(VL_ISS,0)VL_ISS
 FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_RECIBO")) Then
+
+                    If IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) And IsDBNull(ds.Tables(0).Rows(0).Item("DT_RECIBO")) Then
+                        Dim NumeracaoDoc As New NumeracaoDoc
+                        Dim numero As String = NumeracaoDoc.Numerar(2)
+
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & ID)
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RECIBO = '" & numero & "'")
+
+                        lblEmissao.Text = Now.Date.ToString("dd/MM/yyyy")
+                        lblNumeroRecibo.Text = numero
+                    Else
                         lblEmissao.Text = ds.Tables(0).Rows(0).Item("DT_RECIBO")
-                    End If
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
                         lblNumeroRecibo.Text = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+
                     End If
+
+                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_RECIBO")) Then
+                    '    lblEmissao.Text = ds.Tables(0).Rows(0).Item("DT_RECIBO")
+                    'End If
+                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
+                    '    lblNumeroRecibo.Text = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+                    'End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CLIENTE")) Then
                         lblEmpresa.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE")
