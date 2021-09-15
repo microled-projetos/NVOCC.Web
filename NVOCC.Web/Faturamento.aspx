@@ -323,8 +323,8 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                    <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDesmosntrativos" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -409,8 +409,8 @@
                                                 </div>      
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox2" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
+                                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox3" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlSubstituirNota" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">

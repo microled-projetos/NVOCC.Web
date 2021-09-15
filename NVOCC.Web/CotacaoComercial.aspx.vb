@@ -418,7 +418,7 @@ Where A.ID_COTACAO = " & txtID.Text)
         'Dim ds As DataSet = Con.ExecutarQuery("SELECT b.ID_COTACAO_TAXA, isnull(B.VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,isnull(B.VL_TAXA_VENDA,0)VL_TAXA_VENDA,B.ID_BASE_CALCULO_TAXA,isnull(C.VL_M3,0)VL_M3, isnull(C.VL_PESO_BRUTO,0)VL_PESO_BRUTO, (select CONVERT(varchar,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = A.ID_MOEDA_FRETE)DT_CAMBIO, isnull(B.VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN, isnull(B.VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN From TB_COTACAO A Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO Left Join TB_COTACAO_MERCADORIA C ON A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & txtID.Text)
 
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT a.ID_SERVICO,b.ID_COTACAO_TAXA,isnull(A.VL_PESO_TAXADO,0) VL_PESO_TAXADO,
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT a.ID_SERVICO,b.ID_COTACAO_TAXA,isnull(A.VL_PESO_TAXADO,0) VL_PESO_TAXADO,a.ID_MOEDA_FRETE,
 isnull(B.VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,
 isnull(B.VL_TAXA_VENDA,0)VL_TAXA_VENDA,
 B.ID_BASE_CALCULO_TAXA,isnull(A.VL_TOTAL_M3,0)VL_M3, 
@@ -446,11 +446,19 @@ WHERE A.ID_COTACAO =" & txtID.Text)
                     divSuccess.Visible = False
 
                     Exit Sub
+
                 ElseIf IsDBNull(linha.Item("ID_BASE_CALCULO_TAXA")) Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Base de Calculo não informada."
                     divSuccess.Visible = False
                     Exit Sub
+
+                ElseIf linha.Item("ID_MOEDA_FRETE") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Moeda de frete não informada."
+                    divSuccess.Visible = False
+                    Exit Sub
+
                 ElseIf linha.Item("ID_MOEDA_COMPRA") = 0 And linha.Item("VL_TAXA_COMPRA") <> 0 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Moeda não informada."
@@ -1535,9 +1543,9 @@ WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
     End Sub
 
     Sub GRID()
-        divSuccess.Visible = False
-        divErro.Visible = False
-        lblmsgErro.Text = ""
+        'divSuccess.Visible = False
+        'divErro.Visible = False
+        'lblmsgErro.Text = ""
         If ddlConsultas.SelectedValue = 0 Or txtPesquisa.Text = "" Then
             dgvCotacao.DataBind()
         Else

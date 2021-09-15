@@ -284,13 +284,25 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
             Dim Con As New Conexao_sql
             Con.Conectar()
 
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO FROM [TB_FATURAMENTO] A
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,A.NR_RECIBO FROM [TB_FATURAMENTO] A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
 WHERE DT_LIQUIDACAO IS NOT NULL AND ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                'Response.Redirect("ReciboPagamento.aspx?id=" & txtID.Text)
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncRecibo()", True)
 
+                If IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
+                    Dim NumeracaoDoc As New NumeracaoDoc
+                    Dim numero As String = NumeracaoDoc.Numerar(2)
+
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_RECIBO = getdate(), NR_RECIBO = '" & numero & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RECIBO = '" & numero & "'")
+
+
+                End If
+                Dim ID As String = txtID.Text
+                AtualizaGrid()
+
+                txtID.Text = ID
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncRecibo()", True)
             Else
                 divErro.Visible = True
                 lblmsgErro.Text = "Nota sem liquidação!"

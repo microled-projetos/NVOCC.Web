@@ -518,6 +518,15 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharCancelamento As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox4.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox4 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender4.
     '''</summary>
     '''<remarks>
@@ -633,6 +642,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnFecharNotas As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle TextBox3.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox3 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ModalPopupExtender5.

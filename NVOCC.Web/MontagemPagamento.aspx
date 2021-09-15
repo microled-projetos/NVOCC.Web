@@ -108,7 +108,7 @@
                                                 
                                                 <asp:TemplateField HeaderText="Abater ISS" HeaderStyle-ForeColor="#4e81ad">
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbISS" runat="server" />
+                                                        <asp:CheckBox ID="ckbISS" runat="server" autoPostBack="true" />
                                                     </ItemTemplate>                                                  
                                                 </asp:TemplateField>
                                                 <asp:TemplateField Visible="False">

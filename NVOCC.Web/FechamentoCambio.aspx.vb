@@ -453,7 +453,7 @@ WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENT
 
     Function VerificaValorReal() As Boolean
         Dim ValorCambio As Decimal = txtValorNovo.Text * txtCambioNovo.Text
-
+        Dim valorBrNovo As Decimal = txtValorBRNovo.Text
         If txtValorBRNovo.Text = ValorCambio Then
             Return True
         Else

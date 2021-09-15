@@ -221,7 +221,7 @@
                                         </div>
                                         <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">Tarifa Cobrada:</label><label runat="server" style="color: red">*</label>
+                                          <label class="control-label">Tarifa Cobrada:</label>
                                           <asp:TextBox ID="txtTarifaNovo" runat="server"  CssClass="form-control moeda"></asp:TextBox>
 
 
@@ -232,11 +232,12 @@
                                      
                                        <div class="col-sm-2">
                                     <div class="form-group">
-                                          <label class="control-label">IOF:</label><label runat="server" style="color: red">*</label>
+                                          <label class="control-label">IOF:</label>
                                           <asp:TextBox ID="txtIOFNovo" runat="server"  CssClass="form-control"></asp:TextBox>
 
                                     </div>
                                         </div>
+                                                                            </div><div class="row">
                                         <div class="col-sm-3">
                                     <div class="form-group">
                                            <label class="control-label">Valor:</label><label runat="server" style="color: red">*</label>

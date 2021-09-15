@@ -101,7 +101,8 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Else
                 lbl_ISS.Text = 3
             End If
-
+            lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
+            lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
         Else
             lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
             divErro.Visible = True
@@ -115,8 +116,14 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor2 As Decimal = txtValor.Text
-
+            Dim checkISS As CheckBox = linha.FindControl("ckbISS")
             If check.Checked Then
+                If checkISS.Checked Then
+                    Dim iss As Decimal = (valor / 100) * lbl_ISS.Text
+                    valor = valor - iss
+
+                End If
+
                 txtValor.Text = valor2 + valor
             End If
         Next
