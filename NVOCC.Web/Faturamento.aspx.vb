@@ -950,7 +950,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                ds = Con.ExecutarQuery("SELECT NOSSONUMERO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & IDs & ")")
+                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO FROM TB_FATURAMENTO A
+WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If ds.Tables(0).Rows.Count > 0 Then
 
                     For Each linhads As DataRow In ds.Tables(0).Rows
@@ -977,11 +978,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Titulo.NossoNumero = "123456" & i
                         Titulo.DataEmissao = Now.Date
                         Titulo.DataVencimento = Now.Date.AddDays(15)
-                        Titulo.ValorTitulo = 200.0
+                        Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
                         Titulo.Aceite = "N"
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DM
                         Titulo.DataDesconto = Now.Date.AddDays(15)
-                        Titulo.ValorDesconto = 45
+                        Titulo.ValorDesconto = 0 '45
 
                         '
                         'PARTE DA MULTA
@@ -1015,6 +1016,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Titulo.DiasBaixaDevolucao = 0
                         Titulo.ValidarDados()
                         objBoletos.Add(Titulo)
+
+
+                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & linhads.Item("VL_LIQUIDO").ToString() & "', NOSSONUMERO = '123456" & i & "' WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+
                     Next
                 End If
 
