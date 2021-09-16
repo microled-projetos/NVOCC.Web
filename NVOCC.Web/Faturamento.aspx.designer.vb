@@ -176,6 +176,15 @@ Partial Public Class Faturamento
     Protected WithEvents divAuxiliar As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle txtIDBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDBoleto As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtID.
     '''</summary>
     '''<remarks>

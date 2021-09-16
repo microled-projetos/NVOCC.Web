@@ -197,7 +197,7 @@
                                        <div class="col-sm-10">
                                     <div class="form-group">
                                           <label class="control-label">Instituição Financeira:</label><label runat="server" style="color: red">*</label>
-                                                <asp:DropDownList ID="ddlCorretorNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsCorretor" DataValueField="ID_PARCEIRO"></asp:DropDownList> 
+                                                <asp:DropDownList ID="ddlCorretorNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsCorretor" DataValueField="ID_CONTA_BANCARIA"></asp:DropDownList> 
 
 
                                     </div>
@@ -570,9 +570,8 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:S
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsCorretor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_CORRETORA = 1
-union SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA 
-union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_CONTA_BANCARIA,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA 
+union SELECT 0, ' Selecione' ORDER BY NM_CONTA_BANCARIA"></asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, G.NM_ACCOUNT_TIPO_EMISSOR, A.NR_INVOICE, A.DT_INVOICE, (SELECT SUM(ISNULL(VL_TAXA,0))FROM TB_ACCOUNT_INVOICE_ITENS B WHERE A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM FN_ACCOUNT_INVOICE('@DATAINICIAL','@DATAFINAL') A LEFT JOIN TB_ACCOUNT_TIPO_INVOICE F ON A.ID_ACCOUNT_TIPO_INVOICE=F.ID_ACCOUNT_TIPO_INVOICE LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR G ON A.ID_ACCOUNT_TIPO_EMISSOR=G.ID_ACCOUNT_TIPO_EMISSOR WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENTO_FECHAMENTO IS NOT NULL) AND ID_MOEDA = @ID_MOEDA AND ID_PARCEIRO_AGENTE = @ID_AGENTE AND VL_TAXA <> 0 group by A.ID_ACCOUNT_INVOICE, F.NM_ACCOUNT_TIPO_INVOICE, 

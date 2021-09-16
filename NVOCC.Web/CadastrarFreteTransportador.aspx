@@ -32,7 +32,9 @@
                         <div class="tab-pane fade active in" id="basico">
                             <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
     <ContentTemplate>
-         <br/>
+         <br/>                      <div class="alert alert-info" ID="divinfo" runat="server" visible="false">
+                                        <asp:label ID="lblmsginfo" runat="server" ></asp:label>
+                                    </div>
                                     <div class="alert alert-success" ID="divsuccess" runat="server" visible="false">
                                         <asp:label ID="lblmsgSuccess" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:label>
                                     </div>
@@ -633,6 +635,7 @@
                                   <div class="col-sm-4"">
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
+                                                        <asp:button runat="server" Text="Deletar Taxas" id="btnDeletarTaxas" OnClientClick="return confirm('Tem certeza que deseja excluir?')" CssClass="btn btn-danger" />
                                                         <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
 
                                                     </div>
@@ -687,7 +690,7 @@
             <asp:AsyncPostBackTrigger ControlID="btnFecharTaxa" />
                  <asp:AsyncPostBackTrigger ControlID="btnImportar" />
 
-     
+     <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxas" />
 
      </Triggers>   
      </asp:UpdatePanel>
@@ -786,11 +789,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_VIA_ROTA">
 </asp:SqlDataSource>
 
         <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+        SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1  and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
      UNION
-     SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 and (NM_FANTASIA  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+    SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1  and (NM_FANTASIA  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
      UNION
-     SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1 and (CNPJ  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+     SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_TRANSPORTADOR = 1  and (CNPJ  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
 union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
           <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador" DefaultValue="0"/>
@@ -800,7 +803,7 @@ union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO">
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL= 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
+    SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL= 1 and (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
                  UNION
         SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =1  and (NM_FANTASIA  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO_AGENTE)
         UNION

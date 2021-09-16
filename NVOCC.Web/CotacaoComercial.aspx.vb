@@ -1817,7 +1817,7 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
         Dim OB_AGENTE_INTERNACIONAL As String = ""
         Dim OB_COMERCIAL As String = ""
         Dim OB_OPERACIONAL_INTERNA As String = ""
-
+        Dim HBL As String = "0"
         If reaprovamento = True Then
 
             ds = Con.ExecutarQuery("SELECT NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
@@ -1827,12 +1827,13 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
                 ID_BL_OLD = ds.Tables(0).Rows(0).Item("ID_BL")
 
                 'SALVA OBS DO CLIENTE, DO AGENTE, DO COMERCIAL E DO OPERACIONAL CADASTRADO NA BL ANTIGA PARA O NOVO BL
-                ds = Con.ExecutarQuery("SELECT ISNULL(OB_CLIENTE,'')OB_CLIENTE, ISNULL(OB_AGENTE_INTERNACIONAL,'')OB_AGENTE_INTERNACIONAL, ISNULL(OB_COMERCIAL,'')OB_COMERCIAL, ISNULL(OB_OPERACIONAL_INTERNA,'')OB_OPERACIONAL_INTERNA  FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
+                ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,'0')HBL,ISNULL(OB_CLIENTE,'')OB_CLIENTE, ISNULL(OB_AGENTE_INTERNACIONAL,'')OB_AGENTE_INTERNACIONAL, ISNULL(OB_COMERCIAL,'')OB_COMERCIAL, ISNULL(OB_OPERACIONAL_INTERNA,'')OB_OPERACIONAL_INTERNA  FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
                 If ds.Tables(0).Rows.Count > 0 Then
                     OB_CLIENTE = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
                     OB_AGENTE_INTERNACIONAL = ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")
                     OB_COMERCIAL = ds.Tables(0).Rows(0).Item("OB_COMERCIAL")
                     OB_OPERACIONAL_INTERNA = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")
+                    HBL = ds.Tables(0).Rows(0).Item("HBL")
                 End If
 
 
@@ -2014,6 +2015,9 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
             If OB_OPERACIONAL_INTERNA <> "" Then
                 Con.ExecutarQuery("UPDATE TB_BL SET OB_OPERACIONAL_INTERNA = '" & OB_OPERACIONAL_INTERNA & "' WHERE ID_BL = " & ID_BL)
             End If
+
+            'INSERE NR_BL ANTIGO NO REGISTRO NOVO
+            Con.ExecutarQuery("UPDATE TB_BL SET NR_BL = '" & HBL & "' WHERE ID_BL = " & ID_BL)
 
             'DELETA BL ANTIGO
             Con.ExecutarQuery("DELETE FROM TB_BL WHERE GRAU = 'C' AND ID_BL = " & ID_BL_OLD)

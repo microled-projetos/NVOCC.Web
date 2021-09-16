@@ -23,6 +23,24 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents updPainel1 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle divinfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divinfo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblmsginfo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblmsginfo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divsuccess.
     '''</summary>
     '''<remarks>
@@ -840,6 +858,15 @@ Partial Public Class CadastrarFreteTransportador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnNovaTaxa As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDeletarTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDeletarTaxas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnImportar.

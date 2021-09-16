@@ -12,6 +12,7 @@
             Session("estufagem") = 0
             ddlTipoPagamentoTaxa.SelectedValue = 1
             ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+
             CarregaCampos()
             VerificaEstufagem()
             VerificaTransporte()
@@ -28,6 +29,7 @@
                 ddlStatusCotacao.SelectedValue = 1
                 'ddlStatusCotacao.Enabled = False
                 Session("ID_CLIENTE") = 0
+
             End If
         End If
 
@@ -102,6 +104,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlDestinoFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO").ToString()
             ddlOrigemFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
             txtCodTransportador.Text = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+            Session("ID_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+
             ddlTransportadorFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
@@ -200,6 +204,7 @@ union SELECT  0, 'Selecione' ORDER BY NM_CLIENTE_FINAL"
                 Con.Fechar()
 
                 ddlFreteTransportador_Frete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR")
+                Session("ID_FRETE_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
 
             End If
 
@@ -832,7 +837,7 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
     Private Sub btnGravar_Click(sender As Object, e As EventArgs) Handles btnGravar.Click
         diverro.Visible = False
         divsuccess.Visible = False
-
+        divinfo.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
@@ -1009,6 +1014,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & txtObsCliente.Text & ", OB_MOTIVO_CANCELAMENTO = " & txtObsCancelamento.Text & ", OB_OPERACIONAL = " & txtObsOperacional.Text & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & " WHERE ID_COTACAO = " & txtID.Text)
 
 
+
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("transporte") = ddlServico.SelectedValue
                     Session("ID_CLIENTE") = ddlCliente.SelectedValue
@@ -1032,6 +1038,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     dgvHistoricoFrete.DataBind()
                     dgvHistoricoCotacao.DataBind()
+
+
+
                 End If
 
             End If
@@ -1045,6 +1054,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
     Private Sub btnSalvarFrete_Click(sender As Object, e As EventArgs) Handles btnSalvarFrete.Click
         divErroFrete.Visible = False
         divSuccessFrete.Visible = False
+        divInfoFrete.Visible = False
 
 
         Dim Con As New Conexao_sql
@@ -1162,6 +1172,18 @@ ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ",
 ID_TIPO_ESTUFAGEM = " & ddlEstufagemFrete.SelectedValue & " ,
 ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " 
 WHERE ID_COTACAO = " & txtID.Text)
+
+                'If Session("ID_FRETE_TRANSPORTADOR") <> ddlFreteTransportador_Frete.SelectedValue Then
+                '    lblInfoFrete.Text = "É necessário excluir taxas da tabela de frete anterior e importar as da nova!"
+                '    divInfoFrete.Visible = True
+                '    Session("ID_FRETE_TRANSPORTADOR") = ddlFreteTransportador_Frete.SelectedValue
+                'End If
+
+                'If Session("ID_TRANSPORTADOR") <> ddlTransportadorFrete.SelectedValue Then
+                '    lblInfoFrete.Text = "É necessário excluir taxas do transportador anterior e importar as do novo!"
+                '    divInfoFrete.Visible = True
+                '    Session("ID_TRANSPORTADOR") = ddlTransportadorFrete.SelectedValue
+                'End If
 
                 divSuccessFrete.Visible = True
                 Con.Fechar()
@@ -2177,8 +2199,7 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
 
 
 
-
-
+            ''CASO A TABELA ESTEJA JA TENHA REGISTROS
 
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_CLIENTE,ID_ITEM_DESPESA FROM TB_TAXA_CLIENTE A WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_ITEM_DESPESA NOT IN(SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)")
             If ds.Tables(0).Rows.Count > 0 Then
@@ -2258,7 +2279,7 @@ SELECT " & txtID.Text & " , ID_ITEM_DESPESA, VL_TAXA_LOCAL_COMPRA, ID_MOEDA,ID_B
 
             Else
                 ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA,ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_ORIGEM_PAGAMENTO FROM TB_TABELA_FRETE_TAXA A WHERE ID_FRETE_TRANSPORTADOR =  " & ddlFreteTransportador_Frete.SelectedValue & "
-  AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = A.VL_TAXA_VENDA)
+  AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text & " AND VL_TAXA_COMPRA = A.VL_TAXA_COMPRA AND VL_TAXA_VENDA = ISNULL(A.VL_TAXA_VENDA,A.VL_TAXA_COMPRA))
    AND ID_BASE_CALCULO_TAXA IN (SELECT ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA C WHERE C.ID_TIPO_CONTAINER IS NULL OR C.ID_TIPO_CONTAINER IN (SELECT ID_TIPO_CONTAINER FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text & "))")
 
 
@@ -2415,6 +2436,7 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
         Dim OB_AGENTE_INTERNACIONAL As String = ""
         Dim OB_COMERCIAL As String = ""
         Dim OB_OPERACIONAL_INTERNA As String = ""
+        Dim HBL As String = "0"
 
         If reaprovamento = True Then
 
@@ -2426,12 +2448,13 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
 
 
                 'SALVA OBS DO CLIENTE, DO AGENTE, DO COMERCIAL E DO OPERACIONAL CADASTRADO NA BL ANTIGA PARA O NOVO BL
-                ds = Con.ExecutarQuery("SELECT ISNULL(OB_CLIENTE,'')OB_CLIENTE, ISNULL(OB_AGENTE_INTERNACIONAL,'')OB_AGENTE_INTERNACIONAL, ISNULL(OB_COMERCIAL,'')OB_COMERCIAL, ISNULL(OB_OPERACIONAL_INTERNA,'')OB_OPERACIONAL_INTERNA  FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
+                ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,'0')HBL,ISNULL(OB_CLIENTE,'')OB_CLIENTE, ISNULL(OB_AGENTE_INTERNACIONAL,'')OB_AGENTE_INTERNACIONAL, ISNULL(OB_COMERCIAL,'')OB_COMERCIAL, ISNULL(OB_OPERACIONAL_INTERNA,'')OB_OPERACIONAL_INTERNA  FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
                 If ds.Tables(0).Rows.Count > 0 Then
                     OB_CLIENTE = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
                     OB_AGENTE_INTERNACIONAL = ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")
                     OB_COMERCIAL = ds.Tables(0).Rows(0).Item("OB_COMERCIAL")
                     OB_OPERACIONAL_INTERNA = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")
+                    HBL = ds.Tables(0).Rows(0).Item("HBL")
                 End If
 
                 'DELETA BL ANTIGO
@@ -2613,6 +2636,9 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
                 Con.ExecutarQuery("UPDATE TB_BL SET OB_OPERACIONAL_INTERNA = '" & OB_OPERACIONAL_INTERNA & "' WHERE ID_BL = " & ID_BL)
             End If
 
+            'INSERE NR_BL ANTIGO NO REGISTRO NOVO
+            Con.ExecutarQuery("UPDATE TB_BL SET NR_BL = '" & HBL & "' WHERE ID_BL = " & ID_BL)
+
             'DELETA TAXAS ANTIGAS QUE VIERAM DA COTAÇÃO
             Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL_OLD & " AND CD_ORIGEM_INF = 'COTA' ")
 
@@ -2663,11 +2689,11 @@ WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
 
         'Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ")
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ")
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_FANTASIA like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_FANTASIA like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (CNPJ like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (CNPJ like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
 UNION 
 SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
@@ -2697,11 +2723,11 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
         ' Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and  (NM_RAZAO like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_INDICADOR =  1  and (NM_RAZAO like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ")
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE  FL_INDICADOR =  1  and (NM_RAZAO like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ")
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and (NM_FANTASIA like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and (NM_FANTASIA like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") 
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and (CNPJ like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and (CNPJ like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") 
 UNION 
 SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
@@ -2731,11 +2757,11 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
 
         ' Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL = 1 and (NM_RAZAO like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") union SELECT  0,'',' Selecione' ORDER BY NM_RAZAO"
-        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL =  1  and (NM_RAZAO like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ")
+        Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL =  1  and (NM_RAZAO like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ")
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =  1  and (NM_FANTASIA like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =  1  and (NM_FANTASIA like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") 
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =  1  and (CNPJ like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =  1  and (CNPJ like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") 
 UNION 
 SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
@@ -2796,27 +2822,27 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
 
         Dim Sql As String = ""
-        If ddlServico.SelectedValue = 1 Then
+        If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 2 Then
             'Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_SHIPPER = 1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
 
-            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_SHIPPER =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (NM_FANTASIA like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (NM_FANTASIA like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (CNPJ like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (CNPJ like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
 UNION 
 SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
 
-        ElseIf ddlServico.SelectedValue = 4 Then
+        ElseIf ddlServico.SelectedValue = 4 Or ddlServico.SelectedValue = 5 Then
             ' Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_EXPORTADOR =1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
-            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  FL_EXPORTADOR =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
+            Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (NM_FANTASIA like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (NM_FANTASIA like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
 UNION
-SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (CNPJ like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
+SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (CNPJ like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") 
 UNION 
 SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If

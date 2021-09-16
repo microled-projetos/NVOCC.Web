@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('FORNEC_FCA.csv','PAG_FCA.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('FORNEC_FCA.csv','REC_PA.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">

@@ -104,6 +104,7 @@
                        </div>
                    </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
+                                    <asp:TextBox ID="txtIDBoleto" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCNPJFCA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCOD_VER_NFSE" runat="server" CssClass="form-control"></asp:TextBox>
@@ -717,6 +718,13 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             console.log(ID);
 
             window.open('ReciboProvisorioServico.aspx?id=' + ID, '_blank');
+        }
+
+        function FuncImprimirBoleto() {
+            var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
+            console.log(ID);
+
+            window.open('CONtent/BOLETOS/BOLETO'+ ID +'.pdf', '_blank');
         }
 
 

@@ -3,7 +3,7 @@ Imports System.Net
 Imports System.Runtime.Serialization
 Imports Boleto2Net
 Imports Newtonsoft.Json
-
+Imports System.Diagnostics
 Public Class Faturamento
     Inherits System.Web.UI.Page
 
@@ -23,7 +23,7 @@ Public Class Faturamento
 
             Response.Redirect("Default.aspx")
         Else
-            txtCNPJFCA.TEXT = "00.639.367/0003-11"
+            txtCNPJFCA.Text = "00.639.367/0003-11"
             If Not Page.IsPostBack Then
                 txtDataCheckLiquidados.Text = Now.Date.AddDays(-1)
                 txtDataCheckLiquidados.Text = FinalSemanaSubtrai(txtDataCheckLiquidados.Text)
@@ -1017,8 +1017,10 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Titulo.ValidarDados()
                         objBoletos.Add(Titulo)
 
+                        Dim VL_BOLETO As String = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
+                        VL_BOLETO = VL_BOLETO.Replace(",", ".")
 
-                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & linhads.Item("VL_LIQUIDO").ToString() & "', NOSSONUMERO = '123456" & i & "' WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '123456" & i & "' WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
 
                     Next
                 End If
@@ -1101,6 +1103,8 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     End If
 
                     'myprocess.close()
+                    txtIDBoleto.Text = numBoletos
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirBoleto()", True)
 
                 Next
 
