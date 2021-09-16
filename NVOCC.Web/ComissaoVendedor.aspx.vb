@@ -821,4 +821,54 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
     '    Response.Write(Classes.debug.imprimeValoresParametros(e.Command, True))
     '    Response.End()
     'End Sub
+
+
+    Sub TabelaInside(cabecalho As Integer)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(A.ID_BL)qtd FROM VW_PROCESSO_RECEBIDO A 
+INNER JOIN tb_bl B ON B.ID_BL = A.ID_BL
+WHERE  id_parceiro_vendedor in (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1)
+AND  CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103) ")
+        If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+
+
+
+            Dim qtdVendedor As Integer = ds.Tables(0).Rows(0).Item("qtd")
+
+            Dim TaxaInside As Decimal = lblInside.Text
+
+            Dim valor As Decimal = TaxaInside * qtdVendedor
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_PARCEIRO)qtd FROM TB_PARCEIRO WHERE FL_EQUIPE_INSIDE_SALES =1 AND FL_ATIVO = 1")
+            Dim equipe As Integer = ds.Tables(0).Rows(0).Item("qtd")
+
+            valor = valor / equipe
+
+            'gravar premiacao
+            ds = Con.ExecutarQuery("SELECT A.ID_BL,ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,NR_PROCESSO,ID_SERVICO,ID_TIPO_ESTUFAGEM  FROM VW_PROCESSO_RECEBIDO A INNER JOIN tb_bl B ON B.ID_BL = A.ID_BL WHERE  id_parceiro_vendedor in (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1) AND  CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103) AND CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103) ")
+            If ds.Tables(0).Rows.Count > 0 Then
+                Dim valor_final As String = valor.ToString.Replace(".", "")
+                valor_final = valor_final.ToString.Replace(",", ".")
+
+                Dim TaxaInside_final As String = TaxaInside.ToString.Replace(".", "")
+                TaxaInside_final = TaxaInside_final.ToString.Replace(",", ".")
+
+                For Each linha As DataRow In ds.Tables(0).Rows
+
+                    Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_INSIDE ) VALUES(" & cabecalho & ",
+'" & linha.Item("NR_PROCESSO") & "',
+" & linha.Item("ID_BL") & ",
+" & linha.Item("ID_SERVICO") & ",
+" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
+" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
+" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
+" & TaxaInside_final & ",
+" & valor_final & ",
+1)")
+
+                Next
+
+            End If
+        End If
+    End Sub
 End Class

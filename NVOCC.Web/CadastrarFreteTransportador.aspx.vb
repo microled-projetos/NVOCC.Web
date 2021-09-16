@@ -45,6 +45,7 @@
             txtID_FreteTransportador.Text = ds.Tables(0).Rows(0).Item("ID_FRETE_TRANSPORTADOR").ToString()
             ddlTransportador.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             txtCodTransportador.Text = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
+            Session("ID_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlOrigem_Pagamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString()
             ckbAtivo.Checked = ds.Tables(0).Rows(0).Item("FL_ATIVO")
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE").ToString()
@@ -103,6 +104,7 @@
     Private Sub btnGravar_Click(sender As Object, e As EventArgs) Handles btnGravar.Click
         diverro.Visible = False
         divsuccess.Visible = False
+        divinfo.Visible = False
         Dim v As New VerificaData
 
         Dim ESCALA1 As Integer = ddlEscala1.SelectedValue
@@ -190,6 +192,11 @@
                     divsuccess.Visible = True
                     Con.Fechar()
 
+                    If Session("ID_TRANSPORTADOR") <> ddlTransportador.SelectedValue Then
+                        lblmsginfo.Text = "É necessário excluir taxas do transportador anterior e importar as do novo!"
+                        divinfo.Visible = True
+                        Session("ID_TRANSPORTADOR") = ddlTransportador.SelectedValue
+                    End If
 
                 End If
 
@@ -865,6 +872,28 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
         Else
             txtViaTransporte.Text = 1
 
+        End If
+    End Sub
+
+    Private Sub btnDeletarTaxas_Click(sender As Object, e As EventArgs) Handles btnDeletarTaxas.Click
+        divDeleteTaxas.Visible = False
+        divDeleteErro.Visible = False
+        divinfo.Visible = False
+
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 24 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblDeleteErro.Text = "Usuário não tem permissão para realizar exclusões"
+            divDeleteErro.Visible = True
+
+        Else
+            Con.ExecutarQuery("DELETE From TB_TABELA_FRETE_TAXA Where ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
+            lblDeleteTaxas.Text = "Registros deletados!"
+            divDeleteTaxas.Visible = True
+            dgvTaxas.DataBind()
         End If
     End Sub
 End Class

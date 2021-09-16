@@ -86,6 +86,7 @@
                                             <th class="text-center" scope="col">DESTINO</th>
                                             <th class="text-center" scope="col">VENDEDOR</th>
                                             <th class="text-center" scope="col">STATUS</th>
+                                            <th class="text-center" scope="col">OBSERVAÇÃO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="atendimentoDeclinioBody">
@@ -183,6 +184,14 @@
                                                         <label class="control-label">STATUS<span style="color:red">*</span></label>
                                                         <asp:DropDownList ID="ddlStatus" CssClass="form-control" runat="server" DataValueField="ID_STATUS_COTACAO" DataTextField="NM_STATUS_COTACAO">
                                                         </asp:DropDownList> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                 <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">OBSERVAÇÃO</label>
+                                                        <input type="text" id="dsObservacao" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,7 +301,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#atendimentoDeclinioBody").empty();
-                    $("#atendimentoDeclinioBody").append("<tr><td colspan='10'><div class='loader text-center'></div></td></tr>");
+                    $("#atendimentoDeclinioBody").append("<tr><td colspan='12'><div class='loader text-center'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -313,11 +322,12 @@
                                 "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["VENDEDOR"] + "'>" + dado[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["STATUS"] + "</td>" +
+                                "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["OBS"] + "'>" + dado[i]["OBS"] + "</td>" +
                                 "</tr>");
                         }
                     }
                     else {
-                        $("#atendimentoDeclinioBody").append("<tr id='msgEmptyWeek'><td colspan='10' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
+                        $("#atendimentoDeclinioBody").append("<tr id='msgEmptyWeek'><td colspan='12' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
                     }
                 }
             })
@@ -334,7 +344,8 @@
                 "ID_PORTO_ORIGEM": document.getElementById("MainContent_ddlOrigem").value,
                 "ID_PORTO_DESTINO": document.getElementById("MainContent_ddlDestino").value,
                 "ID_INCOTERM": document.getElementById("MainContent_ddlIncoterm").value,
-                "ID_STATUS": document.getElementById("MainContent_ddlStatus").value
+                "ID_STATUS": document.getElementById("MainContent_ddlStatus").value,
+                "DS_OBS": document.getElementById("dsObservacao").value
             }
             $.ajax({
                 type: "POST",
@@ -417,7 +428,7 @@
             for (var i = 0; i < rows.length; i++) {
                 var row = [], cols = rows[i].querySelectorAll("#atendimentoDeclinio td, #atendimentoDeclinio th");
 
-                for (var j = 0; j < cols.length; j++)
+                for (var j = 1; j < cols.length; j++)
                     row.push(cols[j].innerText);
 
                 csv.push(row.join(";"));

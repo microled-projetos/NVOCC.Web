@@ -118,22 +118,22 @@ Namespace NotaFiscal
         
         '''<remarks/>
         <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ConsultaNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function ConsultaNFePrefeitura(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
-            Dim results() As Object = Me.Invoke("ConsultaNFePrefeitura", New Object() {LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino})
+        Public Function ConsultaNFePrefeitura(ByVal ID_Faturamento As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
+            Dim results() As Object = Me.Invoke("ConsultaNFePrefeitura", New Object() {ID_Faturamento, CodEmpresa, BancoDestino, StringConexaoDestino})
             Return CType(results(0),String)
         End Function
         
         '''<remarks/>
-        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
-            Me.ConsultaNFePrefeituraAsync(LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
+        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal ID_Faturamento As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
+            Me.ConsultaNFePrefeituraAsync(ID_Faturamento, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal LoteRps As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
+        Public Overloads Sub ConsultaNFePrefeituraAsync(ByVal ID_Faturamento As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
             If (Me.ConsultaNFePrefeituraOperationCompleted Is Nothing) Then
                 Me.ConsultaNFePrefeituraOperationCompleted = AddressOf Me.OnConsultaNFePrefeituraOperationCompleted
             End If
-            Me.InvokeAsync("ConsultaNFePrefeitura", New Object() {LoteRps, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.ConsultaNFePrefeituraOperationCompleted, userState)
+            Me.InvokeAsync("ConsultaNFePrefeitura", New Object() {ID_Faturamento, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.ConsultaNFePrefeituraOperationCompleted, userState)
         End Sub
         
         Private Sub OnConsultaNFePrefeituraOperationCompleted(ByVal arg As Object)

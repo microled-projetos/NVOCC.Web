@@ -41,7 +41,9 @@
                                 <div class="alert alert-danger" id="divErro" runat="server" visible="false">
                                     <asp:Label ID="lblmsgErro" runat="server"></asp:Label>
                                 </div>
-
+                                <div class="alert alert-info" id="divinf" runat="server" visible="false">
+                                    <asp:Label ID="lblmsginf" runat="server"></asp:Label>
+                                </div>
 
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
@@ -102,6 +104,7 @@
                        </div>
                    </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
+                                    <asp:TextBox ID="txtIDBoleto" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCNPJFCA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCOD_VER_NFSE" runat="server" CssClass="form-control"></asp:TextBox>
@@ -196,7 +199,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                           <asp:LinkButton ID="lkBaixarFatura" runat="server" Visible="false" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Baixar Fatura</asp:LinkButton>
+                           <asp:LinkButton ID="lkBaixarFatura" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px;display: none;">Baixar Fatura</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -321,8 +324,8 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="btnFecharDesmosntrativos"></ajaxToolkit:ModalPopupExtender>
+                                    <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlDesmosntrativos" TargetControlID="lkDesmosntrativos" CancelControlID="TextBox4"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlDesmosntrativos" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
@@ -407,8 +410,8 @@
                                                 </div>      
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox2" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
+                                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox3" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlSubstituirNota" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
@@ -715,6 +718,13 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             console.log(ID);
 
             window.open('ReciboProvisorioServico.aspx?id=' + ID, '_blank');
+        }
+
+        function FuncImprimirBoleto() {
+            var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
+            console.log(ID);
+
+            window.open('CONtent/BOLETOS/BOLETO'+ ID +'.pdf', '_blank');
         }
 
 

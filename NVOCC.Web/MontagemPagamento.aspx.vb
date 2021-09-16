@@ -101,7 +101,8 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Else
                 lbl_ISS.Text = 3
             End If
-
+            lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
+            lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
         Else
             lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
             divErro.Visible = True
@@ -115,8 +116,14 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor2 As Decimal = txtValor.Text
-
+            Dim checkISS As CheckBox = linha.FindControl("ckbISS")
             If check.Checked Then
+                If checkISS.Checked Then
+                    Dim iss As Decimal = (valor / 100) * lbl_ISS.Text
+                    valor = valor - iss
+
+                End If
+
                 txtValor.Text = valor2 + valor
             End If
         Next
@@ -154,6 +161,7 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
 
             For Each linha As GridViewRow In dgvTaxas.Rows
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim checkISS As CheckBox = linha.FindControl("ckbISS")
                 If check.Checked Then
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] A
@@ -166,7 +174,13 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
                         Exit Sub
                     Else
-                        Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR ,VL_TAXA_BR ,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,(VL_TAXA_BR/100)* " & lbl_ISS.Text & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+
+                        If checkISS.Checked Then
+                            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS,FL_ABATER_ISS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR ,VL_TAXA_BR - ((VL_TAXA_BR/100)* " & lbl_ISS.Text & ") ,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,(VL_TAXA_BR/100)* " & lbl_ISS.Text & ",1 FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        Else
+                            Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER,ID_BL_TAXA,DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_LIQUIDO,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,VL_ISS )SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL_TAXA,DT_ATUALIZACAO_CAMBIO,VL_CAMBIO,VL_TAXA_BR ,VL_TAXA_BR ,ID_BL,ID_ITEM_DESPESA,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,ID_MOEDA,VL_TAXA_CALCULADO,FL_INTEGRA_PA,(VL_TAXA_BR/100)* " & lbl_ISS.Text & " FROM TB_BL_TAXA WHERE ID_BL_TAXA =" & ID)
+                        End If
+
                     End If
                 End If
             Next

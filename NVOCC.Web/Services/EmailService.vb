@@ -12,14 +12,14 @@ Public Class EmailService
             ccName = "'" & ccName & "'"
         End If
 
-        Dim Comando As String = "EXECUTE [NVOCC].[dbo].[PROC_EMAIL]"
+        Dim Comando As String = "EXECUTE [dbo].[PROC_EMAIL]"
         Comando &= " @from_name = 'FCA-Log' ,"
         Comando &= " @to_names  = '" & toName & "',"
         Comando &= " @subject  = '" & subject & "',"
         Comando &= " @cc_names  = " & ccName & ","
         Comando &= " @bcc_names  = NULL ,"
-        Comando &= " @message = NULL ,"
-        Comando &= " @html_message = '" & message & "' ,"
+        Comando &= " @message = '" & message & "' ,"
+        Comando &= " @html_message = NULL ,"
         Comando &= " @file_attachments  = NULL ,"
         Comando &= " @ERROCODE = NULL "
 

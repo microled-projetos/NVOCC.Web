@@ -76,7 +76,7 @@
                                              <asp:ListItem Value="6">Nome do agente</asp:ListItem>
                                              <asp:ListItem Value="7">Nome do vendedor</asp:ListItem>
                                              <asp:ListItem Value="8">Número processo</asp:ListItem>
-
+                                             <asp:ListItem Value="9">Nome Inside</asp:ListItem>
                                         </asp:DropDownList>      </div> </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">

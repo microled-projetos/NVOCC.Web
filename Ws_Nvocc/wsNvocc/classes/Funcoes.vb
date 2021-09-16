@@ -262,10 +262,14 @@ Public Class Funcoes
 
         Try
 
-            rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
+            ' rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_TAXA_CALCULADO AS VALOR FROM TB_CONTA_PAGAR_RECEBER_ITENS A WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") ORDER BY ITEM ")
+
+            rsDescr = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA AS ITEM,(SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA =  A.ID_ITEM_DESPESA)AS DESCRICAO, VL_LIQUIDO AS VALOR 
+FROM TB_CONTA_PAGAR_RECEBER_ITENS A 
+WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & idFatura & ") AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA = 1 ) ORDER BY ITEM ")
             For i = 0 To rsDescr.Tables(0).Rows.Count - 1
                 If ret <> "" Then ret = ret & " * "
-                ret = ret & "ITEM " & rsDescr.Tables(0).Rows(i)("ITEM").ToString & " - " & rsDescr.Tables(0).Rows(i)("DESCRICAO").ToString & " - R$ " & rsDescr.Tables(0).Rows(i)("VALOR").ToString
+                ret = ret & " " & rsDescr.Tables(0).Rows(i)("DESCRICAO").ToString & " - R$ " & rsDescr.Tables(0).Rows(i)("VALOR").ToString
             Next
         Catch ex As Exception
             Err.Clear()
@@ -331,14 +335,16 @@ Public Class Funcoes
             Dim subject As String = String.Empty
             Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
             Dim X509Certificate As New X509Certificate2
-            Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+            'Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+            Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine)
+
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
             Dim Con As New Conexao_sql
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA = " & Cod_Empresa)
             nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
-
+            GRAVARLOG(Cod_Empresa, "PROCURA CERTIFICADO")
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
 
             '<clientCertificate storeLocation="CurrentUser" storeName="My" x509FindType="FindBySubjectName" findValue="eudmarco"/>
@@ -348,31 +354,40 @@ Public Class Funcoes
                 documento.PreserveWhitespace = False
                 'verificando elemento de referencia
                 documento.LoadXml(XML)
-
+                GRAVARLOG(Cod_Empresa, "ASSINANDO")
                 Dim qtdeRefUri As Integer = documento.GetElementsByTagName(pUri).Count
                 If qtdeRefUri = 0 Then
+                    GRAVARLOG(Cod_Empresa, "ASSINANDO 1")
                     Resultado = ResultadoAssinatura.TagAssinaturaNaoExiste
                     Mensagem = "A tag de assinatura " + pUri.Trim() + " não existe."
+                    GRAVARLOG(Cod_Empresa, "ASSINANDO 2")
                 ElseIf qtdeRefUri > 1 Then
+                    GRAVARLOG(Cod_Empresa, "ASSINANDO 3")
                     Resultado = ResultadoAssinatura.TagAssinaturaNaoUnica
                     Mensagem = "A tag de assinatura " + pUri.Trim() + " não é unica."
+                    GRAVARLOG(Cod_Empresa, "ASSINANDO 4")
                 Else
                     Try
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 5")
                         'selecionando certificado digital baseado no subject
                         X509Certificate = objColecaoCertificadosX509.Item(0)
+                        GRAVARLOG(Cod_Empresa, documento.ToString)
                         Dim docXML As New SignedXml(documento)
+                        GRAVARLOG(Cod_Empresa, docXML.ToString)
+
                         'SignedXml docXML = new SignedXml(documento);
                         docXML.SigningKey = X509Certificate.PrivateKey
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO POS docXML 1")
                         Dim reference As New Reference()
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO POS docXML 2")
                         Dim uri As XmlAttributeCollection = documento.GetElementsByTagName(pUri).Item(0).Attributes
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 6 ")
                         For Each atributo As XmlAttribute In uri
                             If atributo.Name.ToUpper = "ID" Then
                                 reference.Uri = "#" + atributo.InnerText
                             End If
                         Next
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 7")
                         'adicionando EnvelopedSignatureTransform a referencia
                         Dim envelopedSigntature As New XmlDsigEnvelopedSignatureTransform
                         reference.AddTransform(envelopedSigntature)
@@ -381,22 +396,23 @@ Public Class Funcoes
                         reference.AddTransform(c14Transform)
 
                         docXML.AddReference(reference)
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 8")
                         'carrega o certificado em KeyInfoX509Data para adicionar a KeyInfo
                         Dim keyInfo = New KeyInfo()
                         keyInfo.AddClause(New KeyInfoX509Data(X509Certificate))
 
                         docXML.KeyInfo = keyInfo
                         docXML.ComputeSignature()
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 9")
                         'recuperando a representacao do XML assinado
                         Dim xmlDigitalSignature As XmlElement = docXML.GetXml()
 
                         documento.DocumentElement.AppendChild(documento.ImportNode(xmlDigitalSignature, True))
 
                         XMLAssinado = documento.OuterXml
-
+                        GRAVARLOG(Cod_Empresa, "ASSINANDO 10")
                     Catch ex As Exception
+                        GRAVARLOG(Cod_Empresa, ex.Message)
                         Resultado = ResultadoAssinatura.ErroAssinarDocumento
                         Mensagem = "Erro ao assinar o documento - " + ex.Message
                     End Try
@@ -406,7 +422,7 @@ Public Class Funcoes
         Catch ex As Exception
             Resultado = ResultadoAssinatura.ProblemaAcessoCertificadoDigital
             Mensagem = "Problema ao acessar o certificado digital - " + ex.Message
-
+            GRAVARLOG(Cod_Empresa, ex.Message)
         End Try
 
         Return XMLAssinado
@@ -418,6 +434,8 @@ Public Class Funcoes
         Dim sSql As String = ""
         ret = True
         Try
+            GRAVARLOG(1, "COMEÇA A VALIDAR")
+
             If Not meuXML = String.Empty And Not meuXSD = String.Empty Then
                 'resultado = True
                 Dim settings As New XmlReaderSettings()
@@ -434,6 +452,8 @@ Public Class Funcoes
                         End While
                     End Using
                 Catch ex As Exception
+                    GRAVARLOG(1, ex.Message)
+
                     ret = False
                     msgValidacao = msgValidacao & vbCrLf & ex.Message
                     'lstValida.Items.Add(ex.Message)
@@ -442,11 +462,13 @@ Public Class Funcoes
                 msgValidacao = msgValidacao & vbCrLf & "Validação concluída -> " & IIf(ret = True, "Arquivo validado com SUCESSO", "Validação FALHOU")
                 'lstValida.Items.Add("Validação concluída -> " & IIf(ret = True, "Arquivo validado com SUCESSO", "Validação FALHOU"))
             Else
+                GRAVARLOG(1, "Informe o arquivo XML e o arquivo XSD.")
                 MsgBox("Informe o arquivo XML e o arquivo XSD.")
             End If
 
             'MsgBox(msgValidacao)
         Catch ex As Exception
+            GRAVARLOG(1, ex.Message)
             ret = False
         End Try
 
@@ -472,31 +494,45 @@ Public Class Funcoes
         End Try
     End Sub
 
+    Sub GRAVARLOG(ID_FATURAMENTO As String, ACAO As String)
+        Con.Conectar()
 
+        Dim sSql As String = ""
+        If ACAO.Length > 200 Then
+            ACAO = ACAO.Substring(1, 200)
+        End If
+        sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,ACAO,DATA_ENVIO) "
+        sSql = sSql & " VALUES (" & ID_FATURAMENTO & ", '" & ACAO & "', GETDATE()) "
+        Con.ExecutarQuery(sSql)
+
+        Con.Fechar()
+    End Sub
     Public Function ObtemCertificado(codEmpresa As Long) As X509Certificate2Collection
         Dim rsEmpresa As New DataSet
         Try
             Con.Conectar()
             rsEmpresa = Con.ExecutarQuery("SELECT NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA =" & codEmpresa)
 
-
+            GRAVARLOG(codEmpresa, "ENTROU NA ROTINA ObtemCertificado")
 
             If rsEmpresa.Tables(0).Rows(0).Item("NOME_CERTIFICADO").ToString <> "" Then
                 nomeCertificado = rsEmpresa.Tables(0).Rows(0).Item("NOME_CERTIFICADO").ToString
             End If
+            GRAVARLOG(codEmpresa, "Achou o nome do Certificado no banco")
 
             Dim subject As String = String.Empty
             Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
             Dim X509Certificate As New X509Certificate2
-            Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+            'Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+            Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine)
             getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
             objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
 
-
             Con.Fechar()
             Return objColecaoCertificadosX509
         Catch ex As Exception
+            GRAVARLOG(codEmpresa, ex.Message)
             Err.Clear()
             Return Nothing
         End Try
@@ -505,7 +541,7 @@ Public Class Funcoes
 
 
     Public Sub AssinarDocumentoXML(ByVal ArqXMLAssinar As String, ByVal TagXML As String, Optional Cod_Empresa As Integer = 1)
-
+        GRAVARLOG(Cod_Empresa, "INICIA ROTINA DE ASSINATURA")
         'XML que sera assinado
         Dim srdDocXML As StreamReader
         Dim strXML As String
@@ -518,14 +554,15 @@ Public Class Funcoes
 
         Dim objColecaoCertificadosX509 As X509Certificate2Collection = Nothing
         Dim objCertificadoX509 As New X509Certificate2
-        Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+        'Dim getCertificadosX509 As New X509Store("MY", StoreLocation.CurrentUser)
+        Dim getCertificadosX509 As New X509Store("MY", StoreLocation.LocalMachine)
         getCertificadosX509.Open(OpenFlags.ReadOnly Or OpenFlags.OpenExistingOnly)
 
         Dim Con As New Conexao_sql
         Con.Conectar()
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(NOME_CERTIFICADO,'')NOME_CERTIFICADO FROM TB_EMPRESAS WHERE ID_EMPRESA=" & Cod_Empresa)
-        nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
+            nomeCertificado = ds.Tables(0).Rows(0).Item("NOME_CERTIFICADO")
 
         objColecaoCertificadosX509 = getCertificadosX509.Certificates.Find(X509FindType.FindBySubjectName, nomeCertificado, False)
 
