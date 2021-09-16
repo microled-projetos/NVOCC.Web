@@ -277,9 +277,9 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
             ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 15 Then
                 '% VR DA MERCADORIA
-                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0) * 1/100 ) AS VALOR
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0)) AS VALOR
         FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
-                x = ds1.Tables(0).Rows(0).Item("VALOR")
+                x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
                 y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 z = y * x
                 If VL_TAXA_MIN < 0 Then
@@ -579,6 +579,25 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 y = ds.Tables(0).Rows(0).Item("VL_TAXA")
 
                 z = x * y
+                If VL_TAXA_MIN < 0 Then
+                    If z > VL_TAXA_MIN Then
+                        z = VL_TAXA_MIN
+                    End If
+                ElseIf VL_TAXA_MIN > 0 Then
+                    If z < VL_TAXA_MIN Then
+                        z = VL_TAXA_MIN
+                    End If
+                End If
+                Taxa = z.ToString
+
+            ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 25 Then
+                'POR REEFER 20'
+                Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
+                x = ds1.Tables(0).Rows(0).Item("QTD")
+                y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                z = y * x
                 If VL_TAXA_MIN < 0 Then
                     If z > VL_TAXA_MIN Then
                         z = VL_TAXA_MIN

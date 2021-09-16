@@ -497,7 +497,7 @@ WHERE A.ID_COTACAO =" & txtID.Text)
                         Exit Sub
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
-                        'VR DO FRETE
+                        '% VR DO FRETE
                         Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 )QTD
 FROM TB_COTACAO A
 WHERE A.ID_COTACAO =  " & txtID.Text)
