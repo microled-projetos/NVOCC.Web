@@ -16,7 +16,20 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
+        Else
+            If Not Page.IsPostBack Then
+                Dim primeirodia As Date
+                If Month(Now.AddMonths(-1)) <= 9 Then
+                    primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+                Else
+                    primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+                End If
+                txtVencimentoInicial.Text = primeirodia
 
+                Dim ultimodia As Date = DateAdd("m", 1, DateSerial(Year(Now.Date), Month(Now.Date), 1))
+                ultimodia = DateAdd("d", -1, ultimodia)
+                txtVencimentoFinal.Text = ultimodia
+            End If
         End If
 
         Con.Fechar()
@@ -238,7 +251,7 @@
         ddlEmissor.Enabled = True
         ddlTipoInvoice.Enabled = True
         ddlTipoFatura.Enabled = True
-        ckbConferido.Checked = False
+        ckbConferido.Checked = True
         divErroInvoice.Visible = False
         divSuccessInvoice.Visible = False
     End Sub
@@ -457,7 +470,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        'dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS_NOVA(" & txtID_BL.Text & ", '" & txtGrau.Text & "'," & ddlEmissor.SelectedValue & ", " & ddlTipoFatura.SelectedValue & ")  WHERE ID_PARCEIRO_EMPRESA = " & ddlAgente.SelectedValue & " AND VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+
         dgvOutrasTaxas.Visible = True
         dgvOutrasTaxas.DataBind()
         dgvTaxasDeclaradas.Visible = False

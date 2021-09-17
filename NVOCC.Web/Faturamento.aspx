@@ -105,6 +105,7 @@
                    </div>
                                 <div runat="server" id="divAuxiliar" style="display: none">
                                     <asp:TextBox ID="txtIDBoleto" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtID_CLIENTE" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCNPJFCA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCOD_VER_NFSE" runat="server" CssClass="form-control"></asp:TextBox>

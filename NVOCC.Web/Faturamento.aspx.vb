@@ -364,6 +364,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             Dim ValorExtenso As New ValorExtenso
                             Dim Extenso As String = ValorExtenso.NumeroToExtenso(dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO"))
                             Dim Valor As String = dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO").ToString
+
+
                             Valor = Valor.Replace(".", "")
                             Valor = Valor.Replace(",", ".")
 
@@ -383,7 +385,28 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             End If
 
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                            Dim IR As String = 0
+
+                            'Dim dsIR As DataSet = Con.ExecutarQuery("select SUM(VL_NOTA)valor from tb_faturamento where year(DT_NOTA_FISCAL) = year(getdate()) and month(DT_NOTA_FISCAL) = month(getdate()) and ID_PARCEIRO_CLIENTE = " & txtID_CLIENTE.Text)
+                            'If dsIR.Tables(0).Rows.Count > 0 Then
+                            '    Dim TOTAL As Decimal = dsIR.Tables(0).Rows(0).Item("valor")
+                            '    If TOTAL > 666.66 Then
+                            '        TOTAL = TOTAL / 100
+                            '        TOTAL = TOTAL * 1.5
+                            '        IR = TOTAL
+                            '    End If
+
+                            'End If
+
+                            'IR = IR.Replace(".", "")
+                            'IR = IR.Replace(",", ".")
+
+                            'Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET VL_IR_NF= '" & IR & "' WHERE ID_FATURAMENTO =" & txtID.Text)
+
+
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "',VL_IR_NF= '" & IR & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
 
                             Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
@@ -813,7 +836,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
             txtID.Text = IDs
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS,STATUS_NFE,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER,NR_PROCESSO,PARCEIRO_EMPRESA,CONVERT(VARCHAR,DT_NOTA_FISCAL,103)DT_NOTA_FISCAL,NR_NOTA_FISCAL,VL_NOTA_DEBITO,OB_RPS,STATUS_NFE,COD_VER_NFSE,ID_PARCEIRO_CLIENTE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                     lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
@@ -822,6 +845,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
+                    txtID_CLIENTE.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                     lblClienteCancelamento.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
                     lblClienteBaixa.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
                     lblClienteSubs.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
