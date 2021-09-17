@@ -109,6 +109,7 @@
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCNPJFCA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtCOD_VER_NFSE" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtID_SERVICO" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtNR_NOTA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>

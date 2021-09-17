@@ -871,7 +871,9 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\EMAIL.vb" />
+    <Compile Include="Helpers\GeraRemessa.vb" />
     <Compile Include="Helpers\TrataTextbox.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />

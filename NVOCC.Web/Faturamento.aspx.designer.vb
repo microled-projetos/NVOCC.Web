@@ -221,6 +221,15 @@ Partial Public Class Faturamento
     Protected WithEvents txtCOD_VER_NFSE As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtID_SERVICO.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtID_SERVICO As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtNR_NOTA.
     '''</summary>
     '''<remarks>
