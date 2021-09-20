@@ -1256,7 +1256,7 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             var GRAU = document.getElementById('<%= txtGRAU.ClientID %>').value;
 
 
-            window.open('Conferencia.aspx?id=' + ID + '&T=' + GRAU, '_blank');
+            window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
         }
 
         function InvoiceFCA() {

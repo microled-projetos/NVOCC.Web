@@ -1134,4 +1134,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
         End If
     End Sub
+
+    Private Sub lkConferir_Click(sender As Object, e As EventArgs) Handles lkConferir.Click
+        If txtIDHouse.Text = "" Then
+            divErroHouse.Visible = True
+            lblErroHouse.Text = "Selecione o registro que deseja consultar!"
+        Else
+            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
+            Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
+        End If
+    End Sub
 End Class
