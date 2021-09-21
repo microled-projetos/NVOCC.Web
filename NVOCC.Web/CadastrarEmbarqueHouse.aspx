@@ -578,7 +578,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                     <div class="row"  id="divMercadoriaCNTR_Maritimo" runat="server" style="display:none">
+                                                                     <div class="row"  id="divMercadoriaCNTR_Maritimo" runat="server" style="display:block">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">Resumo Mercadoria:</label>
@@ -1664,7 +1664,7 @@ VENDAS:
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:none">
+                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:block">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Descrição da Mercadoria:</label>

@@ -5,7 +5,7 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">TAXA CÂMBIO FCA
+                    <h3 class="panel-title">TEXTO ADICIONAL - COTAÇÃO
                     </h3>
                 </div>
                 <div class="panel-body">

@@ -271,6 +271,7 @@
     <Content Include="CadastrarOrigemDestino.aspx" />
     <Content Include="CadastrarParceiro.aspx" />
     <Content Include="CadastrarPermissao.aspx" />
+    <Content Include="CadastrarSubVendedor.aspx" />
     <Content Include="CadastrarUsuario.aspx" />
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
@@ -660,6 +661,13 @@
     <Compile Include="CadastrarPermissao.aspx.vb">
       <DependentUpon>CadastrarPermissao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.designer.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="CadastrarUsuario.aspx.designer.vb">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>

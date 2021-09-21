@@ -165,6 +165,13 @@
                                     </div>
                                         </div>
                                          </div>
+                                <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+<asp:LinkButton ID="lkCadastrarSubVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Cadastrar SubVendedor</asp:LinkButton>
+                                    </div>
+                                        </div>
+                                         </div>
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
@@ -466,6 +473,119 @@
                                         <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
                                     </Triggers>
                                 </asp:UpdatePanel>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              <%--  <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender7" runat="server" PopupControlID="pnlGerarComissao" TargetControlID="lkGerarComissao" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>
+                                <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                    <ContentTemplate>
+                                        <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" Style="display: none;">
+                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">CADASTRAR SUB VENDEDOR</h5>
+                                                        </div>
+                                                        <div class="modal-body">                                       
+                                <div class="alert alert-success" id="div1" runat="server" visible="false">
+                                    <asp:Label ID="Label35" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-danger" id="div2" runat="server" visible="false">
+                                    <asp:Label ID="Label36" runat="server"></asp:Label>
+                                </div>
+                                <div class="alert alert-info" id="div3" runat="server" visible="false">
+                                    <asp:Label ID="Label37" runat="server"></asp:Label>
+                                </div>
+                                                            <div class="alert alert-warning" id="div4" runat="server" visible="false">
+                                    <asp:Label ID="Label38" runat="server"></asp:Label>
+                                </div>
+                                 <div class="row">
+                                    
+                                     <div class="col-sm-4">
+                                    <div class="form-group">                                          
+                               
+                                               <asp:Label ID="Label40" runat="server">Validade(Inicial)</asp:Label><br />
+
+                               <asp:TextBox ID="TextBox4" runat="server" AutoPostBack="true" CssClass="form-control data"></asp:TextBox>
+                                        </div>
+                                         </div>
+                                      <div class="col-sm-4">
+                                    <div class="form-group">                                          
+
+                                               <asp:Label ID="Label39" runat="server">Vendedor:</asp:Label><br />
+
+                               <asp:TextBox ID="TextBox3" AUTOPOSTBACK="true" placeholder="MM/AAAA" runat="server" CssClass="form-control" MaxLength="7"></asp:TextBox>
+                                        </div>
+                                         </div>
+                                     <div class="col-sm-4">
+                                    <div class="form-group">                                             
+                                <asp:Label ID="Label41" runat="server">Sub Vendedor:</asp:Label><br />
+
+                               <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control data"></asp:TextBox>
+                                         
+                                   </div>          
+                                </div>  
+      </div>
+                                 <div class="row">
+                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                    <div class="form-group">                                          
+                               
+                                               <asp:Label ID="Label42" runat="server"><strong>Taxa LCL</strong></asp:Label><br />
+
+<asp:Label ID="Label43" runat="server"/>                                         
+                                        </div>
+                                         </div>
+                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                    <div class="form-group">                                          
+ <asp:Label ID="Label44" runat="server"><strong>Taxa FCL</strong></asp:Label><br />
+
+<asp:Label ID="Label45" runat="server"/>                                         
+                                    
+                                        </div>
+                                         </div>
+                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                    <div class="form-group">                                             
+                                <asp:Label ID="Label46" runat="server"><strong>Taxa Inside Sales</strong></asp:Label><br />
+
+<asp:Label ID="Label47" runat="server"/>                                         
+                                   </div>          
+                                </div>  
+                                </div>
+                                <br />
+                               <div class="modal-footer"> 
+                                   <asp:Button runat="server" Text="Gerar" ID="Button1" CssClass="btn btn-success" /> 
+                                         <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button2" text="Close" />
+                                                                 
+
+                                                        </div>                                                    
+                                            
+                                       </div>     </center>
+                                        </asp:Panel>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoInicial" />
+                                        <asp:AsyncPostBackTrigger ControlID="btnGerarComissao" />
+                                        <asp:AsyncPostBackTrigger ControlID="txtNovaCompetencia" />
+                                    </Triggers>
+                                </asp:UpdatePanel>--%>
+
+
+
+
+
+
+
+
+
 
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlAjustarComissao" TargetControlID="lkAjustarComissao" CancelControlID="TextBox1"></ajaxToolkit:ModalPopupExtender>

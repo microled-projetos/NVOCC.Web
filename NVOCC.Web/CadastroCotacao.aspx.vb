@@ -405,8 +405,7 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
             Dim ID As String = e.CommandArgument
 
             ds = Con.ExecutarQuery("
-SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN
-FROM  TB_COTACAO WHERE ID_COTACAO = " & ID)
+SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO  FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 'Frete
@@ -456,6 +455,10 @@ FROM  TB_COTACAO WHERE ID_COTACAO = " & ID)
                     Dim MEDIA As Integer = INICIAL + FINAL
                     MEDIA = MEDIA / 2
                     txtTTimeFreteMedia.Text = MEDIA
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO")) Then
+                    txtTTimeFreteTruckingAereo.Text = ds.Tables(0).Rows(0).Item("TRANSITTIME_TRUCKING_AEREO")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_BL")) Then
@@ -1092,6 +1095,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 txtTTimeFreteMedia.Text = "0"
             End If
 
+            If txtTTimeFreteTruckingAereo.Text = "" Then
+                txtTTimeFreteTruckingAereo.Text = "0"
+            End If
+
             Dim TTInicial As Integer = txtTTimeFreteInicial.Text
             Dim TTFinal As Integer = txtTTimeFreteFinal.Text
             Dim TTMedia As Integer = (TTFinal + TTInicial)
@@ -1170,7 +1177,8 @@ ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & ",
 ID_TIPO_CARGA = " & ddlTipoCargaFrete.SelectedValue & ",
 ID_VIA_ROTA = " & ddlRotaFrete.SelectedValue & ", 
 ID_TIPO_ESTUFAGEM = " & ddlEstufagemFrete.SelectedValue & " ,
-ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " 
+ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
+TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " 
 WHERE ID_COTACAO = " & txtID.Text)
 
                 'If Session("ID_FRETE_TRANSPORTADOR") <> ddlFreteTransportador_Frete.SelectedValue Then
