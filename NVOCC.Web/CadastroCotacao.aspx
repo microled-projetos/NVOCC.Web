@@ -506,22 +506,28 @@
                                 </div>
                               </div>
                                         <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Inicial:</label>
                                         <asp:TextBox ID="txtTTimeFreteInicial"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Final:</label>
                                         <asp:TextBox ID="txtTTimeFreteFinal" autopostback="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Média:</label>
                                         <asp:TextBox ID="txtTTimeFreteMedia" enabled="false"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                            <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Transttime Trucking(Aéreo):</label>
+                                        <asp:TextBox ID="txtTTimeFreteTruckingAereo" enabled="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                             </div>

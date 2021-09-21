@@ -161,7 +161,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                             divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "none")
 
                         ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "none")
+                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
                             divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "block")
 
                         End If
@@ -355,7 +355,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                             divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "none")
 
                         ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "none")
+                            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "BLOCK")
                             divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "block")
 
                         End If
@@ -3141,7 +3141,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "none")
 
         ElseIf ddlEstufagem_BasicoMaritimo.SelectedValue = 2 Then
-            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "none")
+            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
             divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "block")
 
         End If
@@ -3153,7 +3153,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "none")
 
         ElseIf ddlEstufagem_BasicoAereo.SelectedValue = 2 Then
-            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "none")
+            divMercadoriaCNTR_Aereo.Attributes.CssStyle.Add("display", "BLOCK")
             divMercadoriaBL_Aereo.Attributes.CssStyle.Add("display", "block")
 
         End If

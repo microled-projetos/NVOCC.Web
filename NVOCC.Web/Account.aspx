@@ -103,8 +103,8 @@
 
                                         <div class="form-group">
                                             <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 12px; text-align: justify">
-                                                <asp:ListItem Value="1">&nbsp;Conferidos</asp:ListItem>
-                                                <asp:ListItem Value="0"  Selected="True">&nbsp;Não Conferidos</asp:ListItem>
+                                                <asp:ListItem Value="1" Selected="True">&nbsp;Conferidos</asp:ListItem>
+                                                <asp:ListItem Value="0">&nbsp;Não Conferidos</asp:ListItem>
                                             </asp:RadioButtonList>
                                         </div>
                                     </div>
@@ -409,7 +409,7 @@
                                     <div class="form-group">
                                             <label class="control-label"></label>
 
-                                                                        <asp:CheckBox ID="ckbConferido" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
+                                                                        <asp:CheckBox ID="ckbConferido" runat="server" Checked="true" CssClass="form-control" Text="&nbsp;&nbsp;Conferido"></asp:CheckBox>
 
                                     </div>
                                         </div>
@@ -1256,7 +1256,7 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             var GRAU = document.getElementById('<%= txtGRAU.ClientID %>').value;
 
 
-            window.open('Conferencia.aspx?id=' + ID + '&T=' + GRAU, '_blank');
+            window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
         }
 
         function InvoiceFCA() {

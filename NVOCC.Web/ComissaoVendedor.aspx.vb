@@ -871,4 +871,8 @@ AND  CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInic
             End If
         End If
     End Sub
+
+    Private Sub lkCadastrarSubVendedor_Click(sender As Object, e As EventArgs) Handles lkCadastrarSubVendedor.Click
+
+    End Sub
 End Class

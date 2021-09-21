@@ -500,6 +500,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtAereoImpo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ddlAcordoCambioAereoIMPO.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlAcordoCambioAereoIMPO As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle txtAereoExpo.
     '''</summary>
     '''<remarks>
@@ -509,13 +518,13 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtAereoExpo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlAcordoCambioAereo.
+    '''Controle ddlAcordoCambioAereoEXPO.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlAcordoCambioAereo As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlAcordoCambioAereoEXPO As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle lblRed.

@@ -271,6 +271,7 @@
     <Content Include="CadastrarOrigemDestino.aspx" />
     <Content Include="CadastrarParceiro.aspx" />
     <Content Include="CadastrarPermissao.aspx" />
+    <Content Include="CadastrarSubVendedor.aspx" />
     <Content Include="CadastrarUsuario.aspx" />
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
@@ -527,6 +528,7 @@
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
     <None Include="Web References\NotaFiscal\WsNvocc.disco" />
+    <Content Include="TextoCotacao.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
@@ -659,6 +661,13 @@
     <Compile Include="CadastrarPermissao.aspx.vb">
       <DependentUpon>CadastrarPermissao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.designer.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="CadastrarUsuario.aspx.designer.vb">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
@@ -871,7 +880,9 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\EMAIL.vb" />
+    <Compile Include="Helpers\GeraRemessa.vb" />
     <Compile Include="Helpers\TrataTextbox.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />
@@ -1075,6 +1086,13 @@
     <Compile Include="TaxasLocaisExpo_PDF.aspx.vb">
       <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TextoCotacao.aspx.designer.vb">
+      <DependentUpon>TextoCotacao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TextoCotacao.aspx.vb">
+      <DependentUpon>TextoCotacao.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TrocarSenha.aspx.designer.vb">
       <DependentUpon>TrocarSenha.aspx</DependentUpon>
