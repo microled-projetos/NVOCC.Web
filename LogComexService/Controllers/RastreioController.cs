@@ -29,7 +29,30 @@ namespace LogComexService.Controllers
         [HttpGet]
         public IActionResult Listar()
         {
-            return Ok(_repositorio_bl.ListarTodas().ToList());
+            var query = _repositorio_bl.ListarTodas().ToList();
+
+            foreach (var item in query)
+            {
+                try
+                {
+                    BlMaster bl = new BlMaster();
+
+                    bl.BL_TOKEN = item.BL_TOKEN;
+                    bl.ID_ARMADOR_LOGCOMEX = item.ID_ARMADOR_LOGCOMEX;
+                    bl.TRAKING_BL = item.TRAKING_BL;
+                    bl.NR_BL = item.NR_BL;
+
+                    IniciarRastreioBL(bl);
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+                
+            }
+            
+
+            return Ok(query);
         }
         [HttpPost]
         [Route("rastrear/iniciar")]
@@ -63,12 +86,19 @@ namespace LogComexService.Controllers
                 var token = _servico_logcomex.IniciarRastreioLogComex(bl);
                 if (token != "")
                 {
-                    bl.BL_TOKEN = token;
-                    _repositorio_bl.CadastrarTokenBl(bl);
+                    try
+                    {
+                        bl.BL_TOKEN = token;
+                        _servico_logcomex.AtualizarRastreamentoLogComex(bl.BL_TOKEN);
+                        _repositorio_bl.CadastrarTokenBl(bl);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                    }
 
                 }
             };
-
             
             return Ok();
         }

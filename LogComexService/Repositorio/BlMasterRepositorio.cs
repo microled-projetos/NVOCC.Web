@@ -29,7 +29,7 @@ namespace LogComexService.Repositorio
                 try
                 {
                     con.Open();
-                    var query = "SELECT b.NR_BL, BL_TOKEN, p.ID_ARMADOR_LOGCOMEX from TB_BL b " +
+                    var query = "SELECT b.NR_BL, BL_TOKEN, p.ID_ARMADOR_LOGCOMEX, b.TRAKING_BL from TB_BL b " +
                                 "LEFT JOIN TB_PARCEIRO p ON b.ID_PARCEIRO_TRANSPORTADOR = p.ID_PARCEIRO " +
                                 "WHERE b.GRAU = 'M' ";
                     _blmasters = con.Query<BlMaster>(query).ToList();
