@@ -107,7 +107,7 @@
                                                         <asp:Label ID="lblValorVenda" runat="server" Text='<%# Eval("VL_VENDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>    
-                                                                                               <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+                                                                                               <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" DataFormatString="{0:dd/MM/yyyy}" />
                                        
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
@@ -162,7 +162,7 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+                                                </asp:TemplateField>                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" DataFormatString="{0:dd/MM/yyyy}" />
 
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
@@ -306,7 +306,7 @@
                                                         <asp:Label ID="lblValorVenda" runat="server" Text='<%# Eval("VL_VENDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>    
-                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
                                        
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
@@ -361,7 +361,9 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
                                                     </ItemTemplate>
-                                                </asp:TemplateField>                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
+                                                </asp:TemplateField>
+                                                <asp:BoundField DataField="VL_CAMBIO" HeaderText="CAMBIO" SortExpression="VL_CAMBIO" />
+                                                <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" DataFormatString="{0:dd/MM/yyyy}" />
 
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
@@ -441,7 +443,7 @@
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsOutrasTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.NM_ITEM_DESPESA,A.SIGLA_MOEDA,A.VL_TAXA,A.CD_DECLARADO,A.DT_RECEBIMENTO  FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU') A">
+        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.NM_ITEM_DESPESA,A.SIGLA_MOEDA,A.VL_TAXA,A.CD_DECLARADO,A.DT_RECEBIMENTO,(SELECT VL_CAMBIO FROM FN_TAXA_CAMBIO_RECEBIMENTO (A.ID_BL_TAXA))VL_CAMBIO  FROM FN_ACCOUNT_OUTRAS_TAXAS  (@ID_BL , '@GRAU') A ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="lblGrau" />
