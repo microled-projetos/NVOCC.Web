@@ -96,7 +96,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <div class="linha-colorida1">Taxas de destino</div>
 <div id="divTaxaDestino" style="font-family:Arial;font-size:10px;" runat="server">
 </div> 
-<br /><br /><div style="text-align:right;font-weight:bold">Sub Total: <asp:label runat="server" ID="lblTotalTaxasDestino" class="control-label" /></div>
+<br /><br /><div style="text-align:right;font-weight:bold">Sub Total: <asp:label runat="server" ID="lblTotalTaxasDestino" class="control-label moeda" /></div>
 <div class="linha-colorida2">TOTAL CHARGES</div>
                  <br />
 <div><strong>TOTAL TAXAS:</strong> <asp:label runat="server" ID="lblTotalFinalTaxas" class="control-label" /></div>

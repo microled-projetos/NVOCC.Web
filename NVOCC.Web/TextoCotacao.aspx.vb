@@ -48,6 +48,18 @@
         End If
         Con.ExecutarQuery(SQL)
         Con.Fechar()
+        txtTexto.Text = txtTexto.Text.Replace("<br/>", vbNewLine)
+        txtTexto.Text = txtTexto.Text.Replace("<div style='text-align:center' >", "")
+        txtTexto.Text = txtTexto.Text.Replace("<div>", "")
+        txtTexto.Text = txtTexto.Text.Replace("</div>", "")
 
+    End Sub
+
+    Private Sub rdTipo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdTipo.SelectedIndexChanged
+        CarregaTexto()
+    End Sub
+
+    Private Sub btnLimpar_Click(sender As Object, e As EventArgs) Handles btnLimpar.Click
+        txtTexto.Text = ""
     End Sub
 End Class

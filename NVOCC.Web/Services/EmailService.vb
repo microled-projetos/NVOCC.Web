@@ -1,7 +1,7 @@
 ﻿Imports System.Data
 Imports System.Data.SqlClient
 Public Class EmailService
-    Public Function EnviarEmail(ByVal toName As String, ByVal subject As String, ByVal message As String, Optional ByVal ccName As String = "")
+    Public Function EnviarEmail(ByVal toName As String, ByVal subject As String, ByVal message As String, Optional ByVal ccName As String = "", Optional ByVal anexo As String = "")
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -12,6 +12,12 @@ Public Class EmailService
             ccName = "'" & ccName & "'"
         End If
 
+        If anexo = "" Then
+            anexo = "NULL"
+        Else
+            anexo = "'" & anexo & "'"
+        End If
+
         Dim Comando As String = "EXECUTE [dbo].[PROC_EMAIL]"
         Comando &= " @from_name = 'FCA-Log' ,"
         Comando &= " @to_names  = '" & toName & "',"
@@ -20,7 +26,7 @@ Public Class EmailService
         Comando &= " @bcc_names  = NULL ,"
         Comando &= " @message = '" & message & "' ,"
         Comando &= " @html_message = NULL ,"
-        Comando &= " @file_attachments  = NULL ,"
+        Comando &= " @file_attachments  = " & anexo & ","
         Comando &= " @ERROCODE = NULL "
 
 

@@ -288,6 +288,7 @@
     <Content Include="Classes\Processos.cs" />
     <Content Include="Classes\Taxas.cs" />
     <Content Include="Classes\Week.cs" />
+    <Content Include="ContatoParceiro.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />
     <Content Include="ComissaoIndicadorNacional.aspx" />
@@ -709,6 +710,13 @@
     </Compile>
     <Compile Include="CapaProcesso.aspx.vb">
       <DependentUpon>CapaProcesso.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContatoParceiro.aspx.designer.vb">
+      <DependentUpon>ContatoParceiro.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContatoParceiro.aspx.vb">
+      <DependentUpon>ContatoParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Conexao_oracle.vb" />

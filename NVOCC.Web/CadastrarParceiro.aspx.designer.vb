@@ -806,6 +806,51 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtDepartamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle divSuccesgrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccesgrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblSuccesgrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblSuccesgrid As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErrogrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErrogrid As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblErrogrid.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblErrogrid As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle dgvContato.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvContato As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle updPainel1.
     '''</summary>
     '''<remarks>
@@ -948,6 +993,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsEmailvento As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsContato.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsContato As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsAcordoCambio.

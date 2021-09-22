@@ -520,7 +520,21 @@
 
                     </div>    
                         <div class="tab-pane fade" id="contatos" >
+   <br />     <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#detalhesContato" role="tab" data-toggle="tab">
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Detalhes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#listaContato" role="tab" data-toggle="tab">
+                                <i class="fa fa-search" style="padding-right: 8px;"></i>Lista
+                            </a>
+                        </li>
+                    </ul>
    <br />
+                 <div class="tab-content">
+                        <div class="tab-pane fade active in" id="detalhesContato">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -559,6 +573,36 @@
                                  </div> 
 
                         </div>
+                    
+                           
+                       <div class="tab-pane fade" id="listaContato">
+                           <div class="alert alert-success" id="divSuccesgrid" runat="server" visible="false" >
+                                    <asp:Label runat="server"  ID="lblSuccesgrid" />
+                                    </div>
+                                    <div class="alert alert-danger" id="divErrogrid" runat="server" visible="false">
+                                    <asp:Label runat="server"  ID="lblErrogrid" />
+                                    </div>
+                               <asp:GridView ID="dgvContato" DataKeyNames="Id" DataSourceID="dsContato" EmptyDataText="Esse parceiro não possui contato cadastrado."  CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AllowSorting="true" AutoGenerateColumns="false">
+                                    <Columns>
+                                        <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" />   
+                                        <asp:BoundField DataField="NM_RAZAO" HeaderText="Parceiro" SortExpression="NM_RAZAO" Visible="false"/>
+                                        <asp:BoundField DataField="NM_CONTATO" HeaderText="Nome" SortExpression="NM_CONTATO" />
+                                        <asp:BoundField DataField="EMAIL_CONTATO" HeaderText="Email" SortExpression="EMAIL_CONTATO" />
+                                        <asp:BoundField DataField="CELULAR_CONTATO" HeaderText="Celular" SortExpression="CELULAR_CONTATO" />
+                         
+                                         <asp:TemplateField HeaderText="">
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="btnDelete" runat="server" CausesValidation="False" CommandName="Delete"
+                                Text="Excluir" OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  CssClass="btn btn-danger btn-sm" ><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <HeaderStyle CssClass="headerStyle" />
+                                </asp:GridView>
+                       </div>
+                     </div>
+                             </div>
                         <div class="tab-pane fade" id="email" >
                              <ul class="nav nav-tabs" role="tablist">
                         <li class="active">
@@ -701,6 +745,18 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
         </SelectParameters>
 </asp:SqlDataSource>
     
+
+     <asp:SqlDataSource ID="dsContato" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT  A.ID_CONTATO as Id,A.ID_PARCEIRO,B.NM_RAZAO, A.NM_CONTATO,A.TELEFONE_CONTATO,A.CELULAR_CONTATO,A.NM_DEPARTAMENTO,A.EMAIL_CONTATO FROM [dbo].[TB_CONTATO] A LEFT JOIN TB_PARCEIRO B ON B.ID_PARCEIRO = A.ID_PARCEIRO WHERE A.ID_PARCEIRO = @ID ORDER BY ID_CONTATO" 
+        DeleteCommand="DELETE FROM [dbo].[TB_CONTATO] WHERE ID_CONTATO = @ID">  
+        <DeleteParameters>
+                    <asp:Parameter Name="ID" Type="Int32" />
+                </DeleteParameters>
+        <SelectParameters>
+          <asp:QueryStringParameter Name="ID" QueryStringField="id" />
+        </SelectParameters>
+</asp:SqlDataSource>
+
         <asp:SqlDataSource ID="dsAcordoCambio" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_ACORDO_CAMBIO, NM_ACORDO_CAMBIO FROM [dbo].[TB_ACORDO_CAMBIO] union SELECT  0, 'Selecione' ORDER BY ID_ACORDO_CAMBIO">
 </asp:SqlDataSource>
