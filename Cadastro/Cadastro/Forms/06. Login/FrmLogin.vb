@@ -1,4 +1,8 @@
-﻿Public Class FrmLogin
+﻿Imports System.Runtime.CompilerServices
+Imports System.Security.Cryptography
+Imports System.Text
+Imports Microsoft.VisualBasic.CompilerServices
+Public Class FrmLogin
 
     Private Sub FrmAcordos_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
@@ -22,11 +26,11 @@
             Exit Sub
         End If
 
-        If cbEmpresa.Text = String.Empty Then
-            MessageBox.Show("Informe a Empresa.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            cbEmpresa.Focus()
-            Exit Sub
-        End If
+        'If cbEmpresa.Text = String.Empty Then
+        '    MessageBox.Show("Informe a Empresa.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        '    cbEmpresa.Focus()
+        '    Exit Sub
+        'End If
 
         If Not Logou() Then
             MessageBox.Show("Usuário ou senha inválidos!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -36,75 +40,60 @@
 
     Private Function Logou() As Boolean
 
-        Dim Ds As New DataTable
-
-        Ds = Banco.List("SELECT AUTONUM, ISNULL(FLAG_BLOQUEIO_NVOCC,0) FLAG_BLOQUEIO_NVOCC, ISNULL(FLAG_ISENTA_IMPOSTO,0) FLAG_ISENTA_IMPOSTO, ISNULL(FLAG_RETIRADA,0) FLAG_RETIRADA, ISNULL(COD_EMPRESA,0) COD_EMPRESA,ISNULL(GR_GR_DOC,0) GR_GR_DOC, ISNULL(FLAG_SOL_COM,0) FLAG_SOL_COM, USUARIO, ISNULL(FLAG_ALTERA_TABELA,0) FLAG_ALTERA_TABELA FROM " & Banco.BancoSGIPA & "TB_CAD_USUARIOS WHERE USUARIO = '" & txtUsuario.Text.ToUpper() & "' AND SENHA = '" & txtSenha.Text.Trim() & "' ")
-
+        Dim Ds As DataTable = New DataTable()
+        Dim senha As String = Conversions.ToString(CriptografarSenha(txtSenha.Text))
+        Ds = Banco.List("SELECT ID_USUARIO, ISNULL(FL_ATIVO,0), LOGIN,ID_TIPO_USUARIO FROM TB_USUARIO WHERE LOGIN = '" & txtUsuario.Text.ToUpper() & "' AND SENHA = '" & senha & "' ")
         If Ds.Rows.Count > 0 Then
 
-            Banco.UsuarioSistema = Convert.ToInt32(Ds.Rows(0)("AUTONUM").ToString())
-            Banco.IsentaImpostos = Convert.ToBoolean(Val(Ds.Rows(0)("FLAG_ISENTA_IMPOSTO").ToString()))
-            Banco.Retirada = Convert.ToBoolean(Val(Ds.Rows(0)("FLAG_RETIRADA").ToString()))
-            Banco.Empresa = Convert.ToInt32(Ds.Rows(0)("COD_EMPRESA").ToString())
-            Banco.GR_GR_DOC = Convert.ToBoolean(Val(Ds.Rows(0)("GR_GR_DOC").ToString()))
-            Banco.FLAG_SOL_COM = Convert.ToBoolean(Val(Ds.Rows(0)("FLAG_SOL_COM").ToString()))
-            Banco.FLAG_ALTERA_TABELA = Convert.ToBoolean(Val(Ds.Rows(0)("FLAG_ALTERA_TABELA").ToString()))
-            Banco.FLAG_BLOQUEIO_NVOCC = Convert.ToBoolean(Val(Ds.Rows(0)("FLAG_BLOQUEIO_NVOCC").ToString()))
 
-            If Ds.Rows.Count > 0 Then
-                Cod_Empresa = Banco.Empresa
-                Cod_Usuario = Banco.UsuarioSistema
-                Usuario_Sistema = Ds.Rows(0)("USUARIO").ToString
+            Banco.UsuarioSistema = Convert.ToInt32(Ds.Rows.Item("ID_USUARIO").ToString())
+            Banco.TipoUsuario = Convert.ToInt32(Ds.Rows.Item("ID_TIPO_USUARIO").ToString())
+
+
+
+            Geral.Cod_Usuario = Banco.UsuarioSistema
+            Geral.Usuario_Sistema = Ds.Rows.Item("LOGIN").ToString()
+            lblDadosIncorretos.Visible = False
+            FrmPrincipal.lblUsuario.Text = txtUsuario.Text
+            FrmPrincipal.mnPrincipal.Enabled = True
+            If (FrmPrincipal.IsHandleCreated) Then
+
+                Hide()
+
+            Else
+
+                FrmSplash.Show()
             End If
-
-            Ds = Banco.List("SELECT ISNULL(TABELA_PADRAO,0) TABELA_PADRAO FROM " & Banco.BancoSGIPA & "TB_EMPRESAS WHERE (AUTONUM = " & Banco.Empresa & " OR 0 = " & Banco.Empresa & ")")
-
-            If Ds.Rows.Count > 0 Then
-                Banco.TabelaPadrao = Convert.ToInt32(Ds.Rows(0)("TABELA_PADRAO").ToString())
-            End If
-
-        Else
-            Return False
+            Return True
         End If
-
-        Me.Hide()
-        lblDadosIncorretos.Visible = False
-        FrmPrincipal.lblUsuario.Text = Me.txtUsuario.Text
-
-        Dim PatiosArr As New List(Of String)
-        Dim Patios As String = String.Empty
-        Dim Linhas As Integer = 0
-        Dim Cont As Integer = 0
-
-        Banco.Empresa = Convert.ToInt32(cbEmpresa.SelectedValue)
-
-        Ds = Banco.List("SELECT AUTONUM FROM " & Banco.BancoOPERADOR & "TB_PATIOS WHERE (COD_EMPRESA = " & Banco.Empresa & " OR 0 = " & Banco.Empresa & ") ORDER BY AUTONUM")
-
-        For Each Linha As DataRow In Ds.Rows
-            PatiosArr.Add(Linha("AUTONUM").ToString())
-        Next
-
-        Banco.Patios = String.Join(",", PatiosArr)
-
-        FrmPrincipal.lblEmpresa.Text = cbEmpresa.Text
-        FrmPrincipal.mnPrincipal.Enabled = True
-
-        If FrmPrincipal.IsHandleCreated Then
-            Me.Hide()
-        Else
-            FrmSplash.Show()
-        End If
-
-        Return True
+        Return False
 
     End Function
+
+    Public Function CriptografarSenha(ByVal pass As Object) As Object
+        If pass = "" Then
+            Return ""
+        Else
+            Using hasher As MD5 = MD5.Create()
+                Dim dbytes As Byte() = hasher.ComputeHash(Encoding.UTF8.GetBytes(pass))
+
+                Dim sBuilder As New StringBuilder()
+
+                For n As Integer = 0 To dbytes.Length - 1
+                    sBuilder.Append(dbytes(n).ToString("X2"))
+                Next n
+                Return sBuilder.ToString()
+            End Using
+        End If
+    End Function
+
 
     Private Sub FrmLogin_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         Me.ActiveControl = txtUsuario
 
-        cbEmpresa.DataSource = Banco.List("SELECT AUTONUM,NOME_FANTASIA FROM " & Banco.BancoSGIPA & "TB_EMPRESAS ORDER BY NOME_FANTASIA")
-        cbEmpresa.SelectedIndex = 0
+        'cbEmpresa.DataSource = Banco.List("SELECT AUTONUM,NOME_FANTASIA FROM " & Banco.BancoSGIPA & "TB_EMPRESAS ORDER BY NOME_FANTASIA")
+        'cbEmpresa.SelectedIndex = 0
 
     End Sub
 
@@ -115,8 +104,8 @@
     Private Sub txtSenha_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSenha.Leave
 
         If Convert.ToInt32(Banco.ExecuteScalar("SELECT ISNULL(COD_EMPRESA,0) COD_EMPRESA FROM " & Banco.BancoSGIPA & "TB_CAD_USUARIOS WHERE USUARIO = '" & txtUsuario.Text & "'")) = 0 Then
-            cbEmpresa.Enabled = True
-            cbEmpresa.Focus()
+            'cbEmpresa.Enabled = True
+            'cbEmpresa.Focus()
         End If
 
     End Sub

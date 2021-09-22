@@ -102,8 +102,8 @@ Public Class FrmPrincipal
                             Finally
 
                                 If TypeOf enumerator3 Is IDisposable Then
-                                (TryCast(enumerator3, IDisposable)).Dispose()
-                            End If
+                                    TryCast(enumerator3, IDisposable).Dispose()
+                                End If
                             End Try
                         ElseIf Not UsuarioTemAcesso(ItemMenu.Name) Then
                             ItemMenu.Visible = False
@@ -115,16 +115,16 @@ Public Class FrmPrincipal
                 Finally
 
                     If TypeOf enumerator2 Is IDisposable Then
-                    (TryCast(enumerator2, IDisposable)).Dispose()
-                End If
+                        TryCast(enumerator2, IDisposable).Dispose()
+                    End If
                 End Try
             End While
 
         Finally
 
             If TypeOf enumerator Is IDisposable Then
-            (TryCast(enumerator, IDisposable)).Dispose()
-        End If
+                TryCast(enumerator, IDisposable).Dispose()
+            End If
         End Try
     End Sub
     Private Function UsuarioTemAcesso(ByVal NomeMenu As String) As Boolean

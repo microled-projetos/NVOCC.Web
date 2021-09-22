@@ -152,6 +152,18 @@
     <Compile Include="Forms\01. Cadastro\3. Usuários\FrmNovaPermissao.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmContaFinanceiro.Designer.vb">
+      <DependentUpon>FrmContaFinanceiro.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmContaFinanceiro.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmMoedas.Designer.vb">
+      <DependentUpon>FrmMoedas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmMoedas.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\01. Cadastro\FrmNCM.Designer.vb">
       <DependentUpon>FrmNCM.vb</DependentUpon>
     </Compile>
@@ -174,6 +186,12 @@
       <DependentUpon>FrmUsuarios.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\01. Cadastro\3. Usuários\FrmUsuarios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmServico.Designer.vb">
+      <DependentUpon>FrmServico.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmServico.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\06. Login\FrmLogin.Designer.vb">
