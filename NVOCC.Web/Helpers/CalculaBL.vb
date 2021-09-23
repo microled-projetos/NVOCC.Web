@@ -11,7 +11,7 @@
 
         If GRAU = "M" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -595,12 +595,51 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     End If
                     Taxa = z.ToString
 
-                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 25 Then
-                    'POR REEFER 20'
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 36 Then
+                    'POR REEFER'
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 37 Then
+                    'SEGURO
+
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR_CARGA , (ISNULL(SUM(B.VL_TAXA_CALCULADO),0)) AS FRETE_VENDA_CALCULADO
+        FROM TB_BL A 
+		LEFT JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL
+		WHERE A.ID_BL =  " & ID_BL & " AND ID_ITEM_DESPESA = 14 AND CD_PR ='R' ")
+                    Dim TAXAS_DECLARADAS As Decimal = 0
+                    Dim FOB As Decimal = ds1.Tables(0).Rows(0).Item("VALOR_CARGA")
+                    Dim FRETE As Decimal = ds1.Tables(0).Rows(0).Item("FRETE_VENDA_CALCULADO")
+
+                    If ds.Tables(0).Rows(0).Item("ID_INCOTERM") = 10 Then
+                        ds1 = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_TAXA_CALCULADO),0)) AS VALOR_TAXA
+FROM TB_BL_TAXA A
+WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
+                        TAXAS_DECLARADAS = ds1.Tables(0).Rows(0).Item("VALOR_TAXA")
+                    End If
+
+                    Dim DESPESA As Decimal = FOB + FRETE + TAXAS_DECLARADAS
+                    DESPESA = DESPESA / 100
+                    DESPESA = DESPESA * 10
+
+                    Dim TOTAL As Decimal = DESPESA + FRETE + TAXAS_DECLARADAS + FOB
+
+                    x = TOTAL / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -635,7 +674,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
         ElseIf GRAU = "C" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -764,8 +803,9 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 10 Then
                     'POR MAFI 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
-        WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (19)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -785,8 +825,9 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 11 Then
                     'POR CNTR 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
-        WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -805,8 +846,9 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 12 Then
                     'POR CNTR 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
-        WHERE A.ID_BL_MASTER = (SELECT  ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ") AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -904,8 +946,8 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 15 Then
                     '% VR DA MERCADORIA
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0)) AS VALOR
-        FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
+                   'Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0)) AS VALOR  FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -1217,12 +1259,51 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     End If
                     Taxa = z.ToString
 
-                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 25 Then
-                    'POR REEFER 20'
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 36 Then
+                    'POR REEFER
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+                    z = y * x
+                    If VL_TAXA_MIN < 0 Then
+                        If z > VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    ElseIf VL_TAXA_MIN > 0 Then
+                        If z < VL_TAXA_MIN Then
+                            z = VL_TAXA_MIN
+                        End If
+                    End If
+                    Taxa = z.ToString
+
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 37 Then
+                    'SEGURO
+
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR_CARGA , (ISNULL(SUM(B.VL_TAXA_CALCULADO),0)) AS FRETE_VENDA_CALCULADO
+        FROM TB_BL A 
+		LEFT JOIN TB_BL_TAXA B ON A.ID_BL = B.ID_BL
+		WHERE A.ID_BL =  " & ID_BL & " AND ID_ITEM_DESPESA = 14 AND CD_PR ='R' ")
+                    Dim TAXAS_DECLARADAS As Decimal = 0
+                    Dim FOB As Decimal = ds1.Tables(0).Rows(0).Item("VALOR_CARGA")
+                    Dim FRETE As Decimal = ds1.Tables(0).Rows(0).Item("FRETE_VENDA_CALCULADO")
+
+                    If ds.Tables(0).Rows(0).Item("ID_INCOTERM") = 10 Then
+                        ds1 = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_TAXA_CALCULADO),0)) AS VALOR_TAXA
+FROM TB_BL_TAXA A
+WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
+                        TAXAS_DECLARADAS = ds1.Tables(0).Rows(0).Item("VALOR_TAXA")
+                    End If
+
+                    Dim DESPESA As Decimal = FOB + FRETE + TAXAS_DECLARADAS
+                    DESPESA = DESPESA / 100
+                    DESPESA = DESPESA * 10
+
+                    Dim TOTAL As Decimal = DESPESA + FRETE + TAXAS_DECLARADAS + FOB
+
+                    x = TOTAL / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then

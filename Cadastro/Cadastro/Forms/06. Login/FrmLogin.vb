@@ -26,12 +26,6 @@ Public Class FrmLogin
             Exit Sub
         End If
 
-        'If cbEmpresa.Text = String.Empty Then
-        '    MessageBox.Show("Informe a Empresa.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-        '    cbEmpresa.Focus()
-        '    Exit Sub
-        'End If
-
         If Not Logou() Then
             MessageBox.Show("Usuário ou senha inválidos!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
@@ -45,23 +39,22 @@ Public Class FrmLogin
         Ds = Banco.List("SELECT ID_USUARIO, ISNULL(FL_ATIVO,0), LOGIN,ID_TIPO_USUARIO FROM TB_USUARIO WHERE LOGIN = '" & txtUsuario.Text.ToUpper() & "' AND SENHA = '" & senha & "' ")
         If Ds.Rows.Count > 0 Then
 
-
-            Banco.UsuarioSistema = Convert.ToInt32(Ds.Rows.Item("ID_USUARIO").ToString())
-            Banco.TipoUsuario = Convert.ToInt32(Ds.Rows.Item("ID_TIPO_USUARIO").ToString())
+            Dim x As String = Ds.Rows(0).Item("ID_USUARIO").ToString()
+            Banco.UsuarioSistema = Convert.ToInt32(Ds.Rows(0).Item("ID_USUARIO").ToString())
+            Banco.TipoUsuario = Convert.ToInt32(Ds.Rows(0).Item("ID_TIPO_USUARIO").ToString())
 
 
 
             Geral.Cod_Usuario = Banco.UsuarioSistema
-            Geral.Usuario_Sistema = Ds.Rows.Item("LOGIN").ToString()
+            Geral.Usuario_Sistema = Ds.Rows(0).Item("LOGIN").ToString()
             lblDadosIncorretos.Visible = False
             FrmPrincipal.lblUsuario.Text = txtUsuario.Text
             FrmPrincipal.mnPrincipal.Enabled = True
             If (FrmPrincipal.IsHandleCreated) Then
-
-                Hide()
+                Me.Hide()
 
             Else
-
+                Me.Hide()
                 FrmSplash.Show()
             End If
             Return True
@@ -101,14 +94,6 @@ Public Class FrmLogin
         txtSenha.Focus()
     End Sub
 
-    Private Sub txtSenha_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSenha.Leave
-
-        If Convert.ToInt32(Banco.ExecuteScalar("SELECT ISNULL(COD_EMPRESA,0) COD_EMPRESA FROM " & Banco.BancoSGIPA & "TB_CAD_USUARIOS WHERE USUARIO = '" & txtUsuario.Text & "'")) = 0 Then
-            'cbEmpresa.Enabled = True
-            'cbEmpresa.Focus()
-        End If
-
-    End Sub
 
     Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
 

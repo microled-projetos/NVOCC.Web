@@ -78,7 +78,7 @@ Public Class TaxasLocaisArmador
         Con.Fechar()
     End Sub
 
-    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
+    Sub Pesquisa()
         msgerro.Text = ""
         Dim FILTRO As String = ""
 
@@ -113,7 +113,10 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO
             dgvTaxas.DataBind()
         End If
+    End Sub
+    Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
 
+        Pesquisa()
     End Sub
 
 
@@ -154,7 +157,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
                     txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", ",")
 
                     Call Limpar(Me)
-                    dgvTaxas.DataBind()
+                    Pesquisa()
                     ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
 
                 End If
@@ -223,7 +226,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
             Con.Fechar()
 
             mpe.Show()
-
+            Pesquisa()
         ElseIf e.CommandName = "Excluir" Then
 
             Dim ds As DataSet
@@ -238,7 +241,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
 
                 Con.ExecutarQuery("DELETE FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR =" & id)
 
-                dgvTaxas.DataBind()
+                Pesquisa()
                 divExcluir_Success.Visible = True
 
             End If
@@ -250,7 +253,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
             Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO ) SELECT ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & id)
             lblmsgSuccess.Text = "Registro duplicado com sucesso!"
             divSuccess.Visible = True
-            dgvTaxas.DataBind()
+            Pesquisa()
         End If
 
     End Sub
@@ -293,8 +296,17 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         divErroNovo.Visible = False
         divSuccessNovo.Visible = False
         Call Limpar(Me)
-        dgvTaxas.DataBind()
+        Pesquisa()
         mpeNovo.Hide()
+    End Sub
+
+    Private Sub btnFechar_Click(sender As Object, e As EventArgs) Handles btnFechar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Call Limpar(Me)
+        Pesquisa()
+        mpeNovo.Hide()
+        mpe.Hide()
     End Sub
 
     Private Sub lkProximo_Click(sender As Object, e As EventArgs) Handles lkProximo.Click
@@ -305,7 +317,24 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         Dim LinhaAtual As Integer = 0
         Dim ProximaLinha As Integer = 0
         Dim PrimeiraTaxa As String = 0
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY ID_TAXA_LOCAL_TRANSPORTADOR) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id"))
+
+
+        Dim filtro As String = ""
+        If ddlConsulta.SelectedValue = 1 Then
+            filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
+        ElseIf ddlConsulta.SelectedValue = 3 Then
+            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
+        Else
+            filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+
+        End If
+
+
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY ID_TAXA_LOCAL_TRANSPORTADOR) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
+Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
+Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro)
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -371,7 +400,23 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         Dim LinhaAtual As Integer = 0
         Dim ProximaLinha As Integer = 0
         Dim PrimeiraTaxa As String = 0
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY ID_TAXA_LOCAL_TRANSPORTADOR desc) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id"))
+
+        Dim filtro As String = ""
+        If ddlConsulta.SelectedValue = 1 Then
+            FILTRO = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
+        ElseIf ddlConsulta.SelectedValue = 3 Then
+            FILTRO = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
+        Else
+            FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+
+        End If
+
+
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ROW_NUMBER() OVER(ORDER BY ID_TAXA_LOCAL_TRANSPORTADOR desc) AS num,ID_TAXA_LOCAL_TRANSPORTADOR FROM TB_TAXA_LOCAL_TRANSPORTADOR A
+Left Join TB_PORTO B ON B.ID_PORTO = A.ID_PORTO
+Left Join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE
+Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & filtro)
         If ds.Tables(0).Rows.Count > 0 Then
             PrimeiraTaxa = ds.Tables(0).Rows(0).Item("ID_TAXA_LOCAL_TRANSPORTADOR")
             For Each linha As DataRow In ds.Tables(0).Rows

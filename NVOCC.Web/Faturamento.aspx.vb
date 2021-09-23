@@ -4,6 +4,7 @@ Imports System.Runtime.Serialization
 Imports Boleto2Net
 Imports Newtonsoft.Json
 Imports System.Diagnostics
+Imports System.Text
 Public Class Faturamento
     Inherits System.Web.UI.Page
 
@@ -1102,7 +1103,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Dim VL_BOLETO As String = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
                         VL_BOLETO = VL_BOLETO.Replace(",", ".")
 
-                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '123456" & i & "' WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '123456" & i & "', DT_VENCIMENTO_BOLETO = CONVERT(DATE,'" & Titulo.DataVencimento & "',103) WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
 
                     Next
                 End If
@@ -1271,26 +1272,6 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Function
 
-    '    Sub jsonBoleto(IDs As String)
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-
-    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_RPS FROM TB_FATURAMENTO 
-    'WHERE ID_FATURAMENTO IN (" & IDs & ")")
-    '        If ds.Tables(0).Rows.Count > 0 Then
-    '            Dim boleto As New Boleto()
-    '            boleto.Banco = ddlBanco.SelectedValue
-    '            boleto.Nr_rps = New List(Of String)
-
-    '            For Each linhads As DataRow In ds.Tables(0).Rows
-    '                'boleto.Nr_rps = New List(Of String) From {"000001","000002"}
-    '                boleto.Nr_rps.Add(linhads.Item("NR_RPS").ToString())
-    '            Next
-    '            JsonConvert.SerializeObject(boleto)
-
-    '        End If
-    '    End Sub
-
     Private Sub btnConsultaNotas_Click(sender As Object, e As EventArgs) Handles btnConsultaNotas.Click
         Dim filtro As String = ""
 
@@ -1408,5 +1389,88 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         divinf.Visible = False
         AtualizaGrid()
 
+    End Sub
+
+    Sub ArquivoRemessa()
+        Dim GeraRemessa As New GeraRemessa
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim dsBanco As DataSet = Con.ExecutarQuery("SELECT NR_BANCO AS cod_banco, COD_MULTA,VL_MULTA,CNPJ_CPF_CEDENTE AS CNPJ_CEDENTE,NM_CEDENTE AS NOME_CEDENTE,convert(int,NR_BANCO)NR_BANCO,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO as cod_trans ,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,'' COD_MOV, ESPECIE_TITULO,QT_DIAS_PROTESTO,COD_PROTESTO, QT_DIAS_BAIXA, COD_BAIXA,VL_MORA, COD_MORA FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = 1") '& ddlBanco.SelectedValue)
+        If dsBanco.Tables(0).Rows.Count > 0 Then
+
+            Dim strToWrite As String = ""
+            Dim Stream As IO.StreamWriter = Nothing
+            Try
+                Dim NomeStream As String
+                NomeStream = "/Content/boletos\arquivo_remessa.txt"
+                Stream = New IO.StreamWriter(AppDomain.CurrentDomain.BaseDirectory & NomeStream, True)
+                Stream.WriteLine(strToWrite)
+                Stream.Flush()
+                Dim seqRem As Integer = 0
+                Dim seqLote As Integer = 0
+
+                If dsBanco.Tables(0).Rows(0).Item("cod_banco") = "033" Or dsBanco.Tables(0).Rows(0).Item("cod_banco") = "104" Or dsBanco.Tables(0).Rows(0).Item("cod_banco") = "001" Then
+                    Stream.WriteLine(GeraRemessa.criaHeaderSantander(dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), 1))
+                    seqRem = 1
+                    Stream.WriteLine(GeraRemessa.criaHeaderLoteSantander(1, dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), 1))
+                    seqRem = seqRem + 1
+                    seqLote = 1
+                    For i = 1 To dgvFaturamento.Rows.Count - 1
+                        'DoEvents
+                        'dgvFaturamento.Row = i
+                        ' dgvFaturamento.col = 1
+
+                        Dim check As CheckBox = dgvFaturamento.Rows(i).FindControl("ckSelecionar")
+                        Dim ID As String = CType(dgvFaturamento.Rows(i).FindControl("lblID"), Label).Text
+                        If check.Checked Then
+
+                            'Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,REPLACE(CONVERT(VARCHAR,DT_VENCIMENTO_BOLETO,103) , '/' , '' )DT_VENCIMENTO_BOLETO,VL_BOLETO,REPLACE(CONVERT(VARCHAR,DT_EMISSAO_BOLETO,103) , '/' , '' )DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,DT_VENCIMENTO_BOLETO,VL_BOLETO,DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+
+
+
+                            'If dgvFaturamento.CellPicture = ImageSIM.Picture Then
+                            Stream.WriteLine(GeraRemessa.criaDetalhePSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("NOSSONUMERO"), "?", dsFatura.Tables(0).Rows(0).Item("DT_VENCIMENTO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("DT_EMISSAO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("VL_BOLETO"), dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("DG_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("NR_CONTA"), dsBanco.Tables(0).Rows(0).Item("DG_CONTA"), dsBanco.Tables(0).Rows(0).Item("especie_titulo"), dsBanco.Tables(0).Rows(0).Item("cod_mora"), dsBanco.Tables(0).Rows(0).Item("COD_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("COD_BAIXA"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_BAIXA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
+                            seqLote = seqLote + 1
+                            seqRem = seqRem + 1
+                            Stream.WriteLine(GeraRemessa.criaDetalheQSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("CNPJ"), dsFatura.Tables(0).Rows(0).Item("NM_CLIENTE"), dsFatura.Tables(0).Rows(0).Item("ENDERECO"), dsFatura.Tables(0).Rows(0).Item("BAIRRO"), dsFatura.Tables(0).Rows(0).Item("CEP"), dsFatura.Tables(0).Rows(0).Item("CIDADE"), dsFatura.Tables(0).Rows(0).Item("UF"), dsFatura.Tables(0).Rows(0).Item("COD_BANCO")))
+                            seqLote = seqLote + 1
+                            seqRem = seqRem + 1
+                            If GeraRemessa.NNull(dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), 1) <> "" Then
+                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
+                                seqLote = seqLote + 1
+                                seqRem = seqRem + 1
+                            End If
+                            ' If GeraRemessa.Nnull(dgvFaturamento.Rows(i).Cells( 2), 1) = "IPA" Then
+                            Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_ENVIADO_REM = 1, DT_ENVIO_REM = GETDATE(), ARQ_REM ='" & NomeStream & "', USUARIO_REM ='" & Session("ID_USUARIO") & "' WHERE ID_FATURAMENTO = " & ID)
+                            ' Else
+                            'Executa "UPDATE REDEX.FATURANOTA SET ENVIADO_REM = 1, DT_ENVIO_REM = SYSDATE, ARQ_REM ='" & GeraRemessa.Nnull(Me.CommonDialog1.FileTitle, 1) & "', USUARIO_REM ='" & GeraRemessa.Nnull(Usuario_Sistema, 1) & "' WHERE NOSSONUMERO ='" & GeraRemessa.Nnull(dgvFaturamento.Rows(i).Cells( 5), 0) & "' "
+                            'End If
+                        End If
+                    Next i
+                    seqLote = seqLote + 1
+                    seqRem = seqRem + 1
+                    Stream.WriteLine(GeraRemessa.criaTrailerLoteSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO")))
+                    seqRem = seqRem + 1
+                    Stream.WriteLine(GeraRemessa.criaTrailerSantander(1, seqRem, dsBanco.Tables(0).Rows(0).Item("COD_BANCO")))
+                    Stream.Close()
+                End If
+
+
+
+            Catch ex As Exception
+                Stream.Close()
+            End Try
+
+
+
+        End If
+
+    End Sub
+
+    Private Sub ButtonTESTE_Click(sender As Object, e As EventArgs) Handles ButtonTESTE.Click
+        ArquivoRemessa()
     End Sub
 End Class

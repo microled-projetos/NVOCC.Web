@@ -68,31 +68,31 @@
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
-                                <table id="tblModuloOperacional" class="table tablecont">
+                                <table id="tblModuloOperacional" class="table tablecont tablesorter">
                                     <thead id="tblModuloOperacionalHead">
                                         <tr>
-                                            <th class="text-center" scope="col">PROCESSO</th>
-                                            <th class="text-center" scope="col">CLIENTE</th>
-                                            <th class="text-center" scope="col">ORIGEM</th>
-                                            <th class="text-center" scope="col">DESTINO</th>
-                                            <th class="text-center" scope="col">TIPO FRETE</th>
-                                            <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
-                                            <th class="text-center" scope="col">AGENTE</th>
-                                            <th class="text-center" scope="col">PREVISÃO EMBARQUE</th>
-                                            <th class="text-center" scope="col">DATA EMBARQUE</th>
-                                            <th class="text-center" scope="col">PREVISÃO CHEGADA</th>
-                                            <th class="text-center" scope="col">DATA CHEGADA</th>
-                                            <th class="text-center" scope="col">FREE TIME</th>
-                                            <th class="text-center" scope="col">TRANSPORTADOR</th>
-                                            <th class="text-center" scope="col">BL MASTER</th>
-                                            <th class="text-center" scope="col">BL HOUSE</th>
-                                            <th class="text-center" scope="col">CE MASTER</th>
-                                            <th class="text-center" scope="col">CE HOUSE</th>
-                                            <th class="text-center" scope="col">DATA REDESTINAÇÃO</th>
-                                            <th class="text-center" scope="col">DATA DESCONSOLIDAÇÃO</th>
-                                            <th class="text-center" scope="col">WEEK</th>
-                                            <th class="text-center" scope="col">NAVIO</th>
-                                            <th class="text-center" scope="col">TERMO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PROCESSO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">ORIGEM</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DESTINO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO FRETE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO ESTUFAGEM</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO EMBARQUE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA EMBARQUE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FREE TIME</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TRANSPORTADOR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">BL MASTER</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">BL HOUSE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CE MASTER</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CE HOUSE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA REDESTINAÇÃO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA DESCONSOLIDAÇÃO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">WEEK</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TERMO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tblModuloOperacionalBody">
@@ -445,7 +445,7 @@
                                         </div>
                                         <div style="width:100%; display: flex;">
                                             <div>
-                                                <div class="table-responsive tableFixHead topMarg" style="height: 300px;">
+                                                <div class="table-responsive tableFixHead topMarg" style="max-height: 300px;">
                                                     <table id="tblListaProcessoHouse" class="table tablecont">
                                                         <thead>
                                                             <tr>
@@ -551,7 +551,7 @@
                                                 <button type="button" id="btnFiltrarCaixaSaida" onclick="caixaSaida()" class="btn btn-primary btn-ok">Filtrar</button>
                                             </div>
                                         </div>
-                                        <div class="table-responsive tableFixHead topMarg" style="height: 300px;">
+                                        <div class="table-responsive tableFixHead topMarg" style="max-height: 300px;">
                                             <table id="tblCaixaSaida" class="table tablecont">
                                                 <thead>
                                                     <tr>
@@ -561,7 +561,6 @@
                                                         <th class="text-center" scope="col">DATA GERAÇÃO</th>
                                                         <th class="text-center" scope="col">PREVISÃO ENVIO</th>
                                                         <th class="text-center" scope="col">DATA ENVIO</th>
-                                                        <th class="text-center" scope="col">OCORRÊNCIA</th>
                                                         <th class="text-center" scope="col">NOME CLIENTE</th>
                                                         <th class="text-center" scope="col">TERMINAL</th>
                                                         <th class="text-center" scope="col">PARCEIRO</th>
@@ -814,6 +813,8 @@
         $(document).ready(function () {
             listarProcessosOperacional();
         });
+       
+         
 
         var id = 0;
         var idEmailCaixa = 0;
@@ -924,6 +925,12 @@
                                 "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO"] + "</div></td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'><div>" + dado[i]["TERMO"] + "</div></td></tr> ");
 
                         }
+                        $("#tblModuloOperacional").tablesorter({
+                            dateFormat: "ddmmyyyy",
+                            headers: {
+                                0: {sorter: "shortDate"}
+                            }
+                        });
                     }
 
                     else {
@@ -949,7 +956,7 @@
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             document.getElementById("nrProcessoWeek").textContent = dado[0]["NR_PROCESSO"];
-                            document.getElementById("dtRedestinacao").value = dado[0]["DT_REDESTINACAO"];
+                            document.getElementById('dtRedestinacao').value = dado[0]["DT_REDESTINACAO"].substr(0,10);
                             document.getElementById("dtDesconsolidacao").value = dado[0]["DT_DESCONSOLIDACAO"];
                             document.getElementById("MainContent_ddlWeek").value = dado[0]["ID_WEEK"];
                             document.getElementById("dsTermo").value = dado[0]["TERMO"];
@@ -968,7 +975,7 @@
             var termo = document.getElementById("dsTermo").value;
             $.ajax({
                 type: "POST",
-                url: "Gerencial.asmx/inserirDados",
+                url: "Gerencial.asmx/   ",
                 data: '{idProcesso:"' + id + '",week:"' + week + '",dtRedestinacao: "' + redestinacao + '", dtDesconsolidacao: "' + desconsolidacao + '",termo: "' + termo + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -1192,7 +1199,6 @@
                                 "<td class='text-center'>" + dado[i]["DT_GERACAO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PREVISAO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_ENVIO"] + "</td>" +
-                                "<td class='text-center'></td>" +
                                 "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 20ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["IDARMAZEM"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["PARCEIRO"] + "' style='max-width: 20ch;'>" + dado[i]["PARCEIRO"] + "</td>" +

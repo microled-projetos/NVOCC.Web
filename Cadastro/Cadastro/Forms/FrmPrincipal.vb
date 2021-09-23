@@ -150,39 +150,87 @@ Public Class FrmPrincipal
         Return False
     End Function
 
-    Private Sub mnCidades_Click_1(ByVal sender As Object, ByVal e As EventArgs)
-        MyProject.Forms.FrmCidades.Show()
+    'Private Sub mnCidades_Click_1(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmCidades.Show()
+    'End Sub
+
+    'Private Sub mnPais_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmPaises.Show()
+    'End Sub
+
+    'Private Sub mnNCM_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmNCM.Show()
+    'End Sub
+
+    'Private Sub mnEstados_Click_1(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmUF.Show()
+    'End Sub
+
+    'Private Sub mnCadConteiner_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmTiposConteiner.Show()
+    'End Sub
+
+    'Private Sub mnSevicos_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmServico.Show()
+    'End Sub
+
+    'Private Sub mnEventos_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmEventos.Show()
+    'End Sub
+
+    'Private Sub mnContas_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmContaFinanceiro.Show()
+    'End Sub
+
+    'Private Sub mnMoedas_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    MyProject.Forms.FrmMoedas.Show()
+    'End Sub
+
+    Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles MnuCadNavios.Click
+        MyProject.Forms.FrmNavios.Show()
     End Sub
 
-    Private Sub mnPais_Click(ByVal sender As Object, ByVal e As EventArgs)
-        MyProject.Forms.FrmPaises.Show()
-    End Sub
-
-    Private Sub mnNCM_Click(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub nmNCM_Click(sender As Object, e As EventArgs) Handles nmNCM.Click
         MyProject.Forms.FrmNCM.Show()
     End Sub
 
-    Private Sub mnEstados_Click_1(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub MnuCadPortos_Click(sender As Object, e As EventArgs) Handles MnuCadPortos.Click
+        MyProject.Forms.FrmPortos.Show()
+    End Sub
+
+    Private Sub CidadesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CidadesToolStripMenuItem.Click
+        MyProject.Forms.FrmCidades.Show()
+    End Sub
+
+    Private Sub PaísesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PaísesToolStripMenuItem.Click
+        MyProject.Forms.FrmPaises.Show()
+    End Sub
+
+    Private Sub EstadosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EstadosToolStripMenuItem.Click
         MyProject.Forms.FrmUF.Show()
     End Sub
 
-    Private Sub mnCadConteiner_Click(ByVal sender As Object, ByVal e As EventArgs)
-        MyProject.Forms.FrmTiposConteiner.Show()
-    End Sub
-
-    Private Sub mnSevicos_Click(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub ServiçosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ServiçosToolStripMenuItem.Click
         MyProject.Forms.FrmServico.Show()
     End Sub
 
-    Private Sub mnEventos_Click(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub EventosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EventosToolStripMenuItem.Click
         MyProject.Forms.FrmEventos.Show()
     End Sub
 
-    Private Sub mnContas_Click(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub ContasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContasToolStripMenuItem.Click
         MyProject.Forms.FrmContaFinanceiro.Show()
     End Sub
 
-    Private Sub mnMoedas_Click(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub MoedasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoedasToolStripMenuItem.Click
         MyProject.Forms.FrmMoedas.Show()
+    End Sub
+
+    Private Sub ContainerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContainerToolStripMenuItem.Click
+        MyProject.Forms.FrmTiposConteiner.Show()
+    End Sub
+
+    Private Sub Mnusair_Click(sender As Object, e As EventArgs) Handles Mnusair.Click
+        Environment.[Exit](0)
     End Sub
 End Class

@@ -188,6 +188,12 @@
     <Compile Include="Forms\01. Cadastro\3. Usuários\FrmUsuarios.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmPortos.Designer.vb">
+      <DependentUpon>FrmPortos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\01. Cadastro\FrmPortos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\01. Cadastro\FrmServico.Designer.vb">
       <DependentUpon>FrmServico.vb</DependentUpon>
     </Compile>

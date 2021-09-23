@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class Faturamento
 
     '''<summary>
+    '''Controle ButtonTESTE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ButtonTESTE As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel1.
     '''</summary>
     '''<remarks>
