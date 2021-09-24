@@ -426,7 +426,7 @@ isnull(B.ID_MOEDA_COMPRA,0)ID_MOEDA_COMPRA,
 isnull(B.ID_MOEDA_VENDA,0)ID_MOEDA_VENDA
 From TB_COTACAO A 
 Left Join TB_COTACAO_TAXA B ON A.ID_COTACAO = B.ID_COTACAO 
-WHERE A.ID_COTACAO =" & txtID.Text)
+WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY ID_BASE_CALCULO_TAXA")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 Dim COMPRA_MIN As Decimal = linha.Item("VL_TAXA_COMPRA_MIN")
@@ -1586,6 +1586,10 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             Next
 
         End If
+
+
+        'Recalcula seguro
+
     End Sub
     Private Sub bntPesquisar_Click(sender As Object, e As EventArgs) Handles bntPesquisar.Click
         GRID()

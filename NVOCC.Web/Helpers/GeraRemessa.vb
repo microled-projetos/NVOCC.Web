@@ -58,7 +58,7 @@ erro:
 
 
 
-    Public Function criaHeaderLoteSantander(NHeaderLote As Long, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String) As String
+    Public Function criaHeaderLoteSantander(NHeaderLote As Long, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String, obs1 As String, obs2 As String) As String
         '001 - 003 Código do Banco na compensação N 003 353 / 008 / 033
         '004 - 007 Numero do lote remessa N 004 1
         '008 - 008 Tipo de registro N 001 1 2
@@ -81,8 +81,7 @@ erro:
 
         On Error GoTo erro
         Dim strS As String
-        Dim obs1 As String = ""
-        Dim obs2 As String = ""
+
         criaHeaderLoteSantander = String.Empty
 
         strS = String.Empty
@@ -175,7 +174,7 @@ erro:
         strS = strS & Strings.StrDup(1, " ")
         strS = strS & Mid(NNossoDoc & Strings.StrDup(15, " "), 1, 15)
         strS = strS & Format(DtVencimento, "ddmmyyyy").Replace("/", "")
-        strS = strS & Right(Strings.StrDup(15, "0") & Format(VALOR, "#.00"), 15) '& Replace(PPonto(Format(VALOR, "#.00")), ".", ""), 15)
+        strS = strS & Right(Strings.StrDup(15, "0") & Format(VALOR, "#.00").Replace(",", ".").Replace(".", ""), 15) '& Replace(PPonto(Format(VALOR, "#.00")), ".", ""), 15)
         strS = strS & Right(Strings.StrDup(4, "0") & NNull(agencia, 0), 4)
         strS = strS & Microsoft.VisualBasic.Right(Strings.StrDup(1, "0") & NNull(DIG_agencia, 0), 1)
         strS = strS & Strings.StrDup(1, " ")
@@ -359,6 +358,80 @@ erro:
 
 
 
+
+
+
+    Public Function obtemProximoNossoNum(SEQ As String) As String
+        On Error GoTo erro
+
+        obtemProximoNossoNum = Format("0", "0###########")
+        Dim ConOracle As New Conexao_oracle
+        ConOracle.Conectar()
+        Dim Sql As String = "SELECT SGIPA." & SEQ & ".NEXTVAL AS SEQ FROM DUAL "
+        Dim rsNoss As DataTable = ConOracle.Consultar(Sql)
+        If rsNoss.Rows.Count > 0 Then
+            obtemProximoNossoNum = Format(NNull(rsNoss.Rows(0)("SEQ").ToString, 1), "0###########")
+        End If
+
+        Exit Function
+
+erro:
+
+        Err.Description = Empty
+        Exit Function
+
+    End Function
+    Public Function Calculo_NossoNumero(Sequencia As String) As String
+        'montamos o nosso numero com o numero do convenio ( 6 posicoes)
+        Dim dv As Integer
+
+        dv = Calculo_DV_NN_Santander(Sequencia)
+        Calculo_NossoNumero = Format(Sequencia, "0###########") & dv
+
+    End Function
+    Public Function Calculo_DV_NN_Santander(strNumero As String) As String
+        'declara as variáveis
+        Dim intcontador, intnumero, intTotalNumero, intMultiplicador, intResto As Integer
+
+        strNumero = strNumero.Replace(".", "")
+
+        ' se nao for um valor numerico sai da função
+        If Not IsNumeric(strNumero) Then
+            Calculo_DV_NN_Santander = ""
+            Exit Function
+        End If
+
+        'inicia o multiplicador
+        intMultiplicador = 2
+
+        'pega cada caracter do numero a partir da direita
+        For intcontador = Len(strNumero) To 1 Step -1
+
+            'extrai o caracter e multiplica prlo multiplicador
+            intnumero = Val(Mid(strNumero, intcontador, 1)) * intMultiplicador
+
+            'soma o resultado para totalização
+            intTotalNumero = intTotalNumero + intnumero
+
+            'se o multiplicador for maior que 2 decrementa-o caso contrario atribuir valor padrao original
+            intMultiplicador = IIf(intMultiplicador = 9, 2, intMultiplicador + 1)
+
+        Next
+
+        'calcula o resto da divisao do total por 11
+        intResto = intTotalNumero Mod 11
+
+        'verifica as exceções ( 0 -> DV=0    10 -> DV=X (para o BB) e retorna o DV
+        Select Case intResto
+            Case 0, 1
+                Calculo_DV_NN_Santander = "0"
+            Case 10
+                Calculo_DV_NN_Santander = "1"
+            Case Else
+                Calculo_DV_NN_Santander = Str(11 - intResto)
+        End Select
+
+    End Function
 
 
 

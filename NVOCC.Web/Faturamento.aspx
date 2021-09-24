@@ -26,7 +26,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">FATURAMENTO  <asp:Button runat="server" Text="TESTE" ID="ButtonTESTE" CssClass="btn btn-success" Visible="false" />
+                    <h3 class="panel-title">FATURAMENTO<asp:Button runat="server" Text="TESTE" ID="ButtonTESTE" CssClass="btn btn-success" Visible="false" />
                     </h3>
                 </div>
 
