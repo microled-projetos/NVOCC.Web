@@ -50,10 +50,10 @@
             FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA            <br/>
             <br/>
 
-Rua quinze de novembro, 46/48 - Centro<br/>
-Santos - SP - BRASIL<br/>
-Fone:(13) 3797-7850<br/>
-CNPJ:00.639.367/0003-11<br/><br/>
+<asp:label runat="server" ID="lblEnderecoFCA" class="control-label" /><br/>
+<asp:label runat="server" ID="lblCidadeFCA" class="control-label" /> - SP - BRASIL<br/>
+Fone:<asp:label runat="server" ID="lblTelefoneFCA" class="control-label" /><br/>
+CNPJ:<asp:label runat="server" ID="lblCNPJFCA" class="control-label" /><br/><br/>
 Cliente: <asp:label runat="server" ID="lblCliente" class="control-label" /><br/>
 CNPJ:<asp:label runat="server" ID="lblCnpjCliente" class="control-label" /><br/><br/>
 Prezado (a),  <asp:label runat="server" ID="lblNome" class="control-label" />
@@ -71,7 +71,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <strong>Destino: </strong><asp:label runat="server" ID="lblDestino" class="control-label" /><br />
 <strong>Via: </strong><asp:label runat="server" ID="lblVia" class="control-label" /><asp:label runat="server" ID="lblEscalas" class="control-label" /><br />
 <strong>Transit Time: </strong><asp:label runat="server" ID="lblTTime" class="control-label" /><br />
-<strong>Data de validade:</strong> <asp:label runat="server" ID="lblValidade" class="control-label" />
+<strong>Data de validade:</strong> <asp:label runat="server" ID="lblValidade" class="control-label" /><br />
 <strong>Frequencia:</strong> <asp:label runat="server" ID="lblFrequencia" class="control-label" /><asp:label runat="server" ID="lblValorFrequencia" class="control-label" />  <br /><br />        
 <div id="divConteudoDinamico" style="font-family:Arial;font-size:10px;" runat="server">
 </div><br />

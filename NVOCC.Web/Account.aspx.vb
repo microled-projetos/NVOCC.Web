@@ -1148,7 +1148,7 @@ SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TA
     End Sub
 
     Private Sub btnFecharTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExteriorDeclaradas.Click
-        dsTaxasExteriorDeclaradas.Visible = False
+        dgvTaxasExteriorDeclaradas.Visible = False
         ModalPopupExtender10.Hide()
         ModalPopupExtender2.Show()
 

@@ -199,7 +199,7 @@
                                 <ul class="dropdown-sub" style="top: 65%!important"> 
                                     <li><a style="font-size: 12px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
                                     <li runat="server"  visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber1">Estimativa Contas a Pagar</a></li>
-                                    <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                         
+                                    <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                       <li><a style="font-size: 12px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Relatório Invoice</a></li>     
                                 </ul>
                             </li>
                             <li>
@@ -220,7 +220,7 @@
                                 <a href="#"  runat="server" id="A14">Notas Fiscais</a>
                             </li>--%>
                              <li>
-                                <a href="#" id="MenuTotvs2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
+                                <a href="#" id="MenuTotvs2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Integração TOTVS&nbsp;<i class="fa fa-caret-right"></i></a>
                                 <ul class="dropdown-sub" style="top: 55%!important">                                  
                                     <li><a id="mnTOTVSServico" style="font-size: 13px;" runat="server" href="integracaoTOTVSServico.aspx">Nota de Serviço</a></li>
                                 </ul>

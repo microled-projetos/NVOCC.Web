@@ -12,7 +12,33 @@ Public Class CotacaoPDF_PT
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_TIPO_ESTUFAGEM,OB_CLIENTE,
+
+        ds = Con.ExecutarQuery("SELECT NM_RAZAO,CNPJ,ENDERECO,NR_ENDERECO,BAIRRO,TELEFONE,(select nm_cidade from TB_CIDADE where ID_CIDADE = a.id_cidade)Cidade FROM TB_PARCEIRO a where ID_PARCEIRO = 1")
+        If ds.Tables(0).Rows.Count > 0 Then
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("CNPJ")) Then
+                lblCNPJFCA.Text = ds.Tables(0).Rows(0).Item("CNPJ")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TELEFONE")) Then
+                lblTelefoneFCA.Text = ds.Tables(0).Rows(0).Item("TELEFONE")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("Cidade")) Then
+                lblCidadeFCA.Text = ds.Tables(0).Rows(0).Item("Cidade")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ENDERECO")) Then
+                lblEnderecoFCA.Text = ds.Tables(0).Rows(0).Item("ENDERECO")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
+                lblEnderecoFCA.Text &= ", " & ds.Tables(0).Rows(0).Item("NR_ENDERECO")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("BAIRRO")) Then
+                lblEnderecoFCA.Text &= " - " & ds.Tables(0).Rows(0).Item("BAIRRO")
+            End If
+        End If
+
+
+        ds = Con.ExecutarQuery("Select A.ID_COTACAO,ID_TIPO_ESTUFAGEM,OB_CLIENTE,
 A.NR_COTACAO,
 CONVERT(VARCHAR,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 (SELECT NM_TIPO_FREQUENCIA FROM TB_TIPO_FREQUENCIA WHERE ID_TIPO_FREQUENCIA = A.ID_TIPO_FREQUENCIA)NM_TIPO_FREQUENCIA,
