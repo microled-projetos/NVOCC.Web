@@ -117,7 +117,7 @@ Public Class WsNvocc
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 1 AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
@@ -254,8 +254,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                 sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Right(nomeArquivo, 100) & "',GETDATE()," & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "," & loteNumero & ") "
                 Con.ExecutarQuery(sSql)
             End If
-
-
             Call EnviaXML(nomeArquivo, "LOTE-RPS", loteNumero, Cod_Empresa)
 
 
@@ -644,7 +642,6 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
         Dim objXML As New XmlDocument
         'Dim client As New NFSe_Homologa.ServiceGinfesImplClient
         Dim client As New NFsE_Santos.ServiceGinfesImplClient
-        client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
         Dim docCab As New XmlDocument
         Dim Retorno
         Dim seqGR As String = ""
@@ -653,8 +650,7 @@ SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0)) - SUM(ISNULL(VL_PIS,0)) - SUM(
 
         Try
 
-            'ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications)
-            ServicePointManager.ServerCertificateValidationCallback = AddressOf AcceptAllCertifications
+            ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf AcceptAllCertifications)
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
 
