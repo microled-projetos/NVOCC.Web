@@ -509,7 +509,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Inicial:</label>
-                                        <asp:TextBox ID="txtTTimeFreteInicial"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtTTimeFreteInicial" autopostback="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
@@ -647,6 +647,8 @@
             <asp:AsyncPostBackTrigger  ControlID="ddlFreteTransportador_Frete" />
             <asp:AsyncPostBackTrigger  ControlID="ddlRotaFrete" />
        <asp:AsyncPostBackTrigger  ControlID="txtTTimeFreteFinal" />
+           <asp:AsyncPostBackTrigger  ControlID="txtTTimeFreteInicial" />
+
           <asp:AsyncPostBackTrigger  ControlID="ddlOrigemFrete" />      
     <asp:AsyncPostBackTrigger  ControlID="ddlTransportadorFrete" />
      </Triggers>  

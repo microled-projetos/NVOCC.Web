@@ -445,7 +445,14 @@
 
                                     </div>
                                         </div>
-                                <div class="col-sm-2">
+    <div class="col-sm-4">
+                                    <div class="form-group">
+                               <asp:Button runat="server" Text="TAXAS EXTERIOR/DECLARADAS" ID="btnTaxasExteriorDeclaradas" CssClass="btn btn-block btnn" />
+
+
+                                    </div>
+                                        </div>
+                               <%-- <div class="col-sm-2">
                                     <div class="form-group">
                                <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="btnTaxasExterior" CssClass="btn btn-block btnn" />
 
@@ -458,7 +465,7 @@
 
 
                                     </div>
-                                        </div>
+                                        </div>--%>
     <div class="col-sm-2">
                                     <div class="form-group">
                                <asp:Button runat="server" Text="COMISSOES" ID="btnComissoes" CssClass="btn btn-block btnn" />
@@ -637,91 +644,22 @@
                                 </asp:Panel>
 
 
-<asp:TextBox ID="AuxExterior" Style="display:none" runat="server"></asp:TextBox>
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender4" runat="server" PopupControlID="pnlTaxasExterior" TargetControlID="AuxExterior" CancelControlID="AuxExterior"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlTaxasExterior" runat="server" CssClass="modalPopup" Style="display: none;">
+
+                             <asp:TextBox ID="AuxExteriorDeclaradas" Style="display:none" runat="server"></asp:TextBox>
+
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender10" runat="server" PopupControlID="pnlExteriorDeclaradas" TargetControlID="AuxExteriorDeclaradas" CancelControlID="AuxExteriorDeclaradas"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlExteriorDeclaradas" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Taxas Exterior</h5>
+                                                            <h5 class="modal-title">Taxas Exterior/Declaradas</h5>
                                                         </div>
                                                         <div class="modal-body">                                       
                                     <div class="row">
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                                          <asp:GridView ID="dgvTaxasExterior" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExterior" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
-                                            <Columns>
-                                                 <asp:TemplateField>
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                                                                               <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="DESPESA" SortExpression="NM_ITEM_DESPESA" />
-                                                <asp:BoundField DataField="CD_ORIGEM" HeaderText="ORIGEM" SortExpression="CD_ORIGEM" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />          
-                                                                       <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>    
-                                    <asp:BoundField DataField="DT_RECEBIMENTO" HeaderText="DATA RECEBIMENTO" SortExpression="DT_RECEBIMENTO" />
-
-                                            </Columns>
-                                            <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>
-                                        </div>
-                                         </div> 
-                                        </div>
-
-                                                            <div class="row">
-                                     
-                                      
-                                                                <div class="col-sm-offset-6 col-sm-4">
-                                                           TOTAL:   <asp:label ID="lblTotalExterior" runat="server"/>
-
-
-                                           </div>
-                                                               
-                                                                </div>
-                                </div>  
-                           
-                      
-                                                       
-                   
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxasExterior" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnIncluirTaxasExterior" text="Incluir" />
-
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-                                                                                                 <asp:TextBox ID="AuxDeclaradas" Style="display:none" runat="server"></asp:TextBox>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlTaxasDeclaradas" TargetControlID="AuxDeclaradas" CancelControlID="AuxDeclaradas"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlTaxasDeclaradas" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Taxas Declaradas</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                                    <div class="row">
-                                     
-                                       <div class="col-sm-12">
-                                    <div class="form-group">
-                                                                                                    <asp:GridView ID="dgvTaxasDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
+                                                                                                    <asp:GridView ID="dgvTaxasExteriorDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExteriorDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -736,7 +674,6 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="DESPESA" SortExpression="NM_ITEM_DESPESA" />
-                                                <asp:BoundField DataField="CD_DECLARADO" HeaderText="DECLARADO" SortExpression="CD_DECLARADO" />
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                 <asp:TemplateField HeaderText="VALOR" SortExpression="VL_TAXA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA") %>'  />
@@ -756,7 +693,7 @@
                                      
                                       
                                                                 <div class="col-sm-offset-6 col-sm-4">
-                                                          TOTAL:    <asp:label ID="lblTotalDeclaradas" runat="server"/>
+                                                          TOTAL:    <asp:label ID="lblTotalExteriorDeclaradas" runat="server"/>
 
                                            </div>
                                                                
@@ -767,8 +704,8 @@
                                                        
                    
                                <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxasDeclaradas" text="Close" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnIncluirTaxasDeclaradas" text="Incluir" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharTaxasExteriorDeclaradas" text="Close" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnIncluirTaxasExteriorDeclaradas" text="Incluir" />
 
                                                         </div>
                                                     
@@ -776,6 +713,15 @@
       
                                        </div>     </center>
                                 </asp:Panel>
+
+
+
+
+
+
+
+
+
 
                                                                  <asp:TextBox ID="AuxComissoes" Style="display:none" runat="server"></asp:TextBox>
 
@@ -1144,14 +1090,14 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTaxasExterior" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+   <%-- <asp:SqlDataSource ID="dsTaxasExterior" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM  FROM FN_ACCOUNT_TAXAS_EXTERIOR (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
             <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
         </SelectParameters>
-    </asp:SqlDataSource>
+    </asp:SqlDataSource>--%>
 
     <asp:SqlDataSource ID="dsComissoes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
@@ -1162,14 +1108,27 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
         </SelectParameters>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsTaxasDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+   <%-- <asp:SqlDataSource ID="dsTaxasDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
             <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
         </SelectParameters>
+    </asp:SqlDataSource>--%>
+
+
+    <asp:SqlDataSource ID="dsTaxasExteriorDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)
+        union SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO  FROM FN_ACCOUNT_TAXAS_EXTERIOR (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
+            <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
+            <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
+        </SelectParameters>
     </asp:SqlDataSource>
+
+
 
     <asp:SqlDataSource ID="dsOutrasTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM FN_ACCOUNT_OUTRAS_TAXAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">

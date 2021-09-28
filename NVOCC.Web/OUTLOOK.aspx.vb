@@ -80,7 +80,7 @@ Public Class OUTLOOK
             lblerro.Visible = True
         Else
             Dim email As New EmailService
-            Dim retorno As String = email.EnviarEmail(txtDestinatario.Text, txtAssunto.Text, txtMsg.Text, txtCC.Text)
+            Dim retorno As String = email.EnviarEmail(txtDestinatario.Text, txtAssunto.Text, txtMsg.Text, txtCC.Text, "Content/CotacaoPDF.pdf")
             If retorno = "" Then
                 divErro.Visible = True
                 lblerro.Text = "Erro ao enviar e-mail"

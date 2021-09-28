@@ -32,6 +32,42 @@ Partial Public Class CotacaoPDF_PT
     Protected WithEvents DivPortugues As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
+    '''Controle lblEnderecoFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblEnderecoFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCidadeFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCidadeFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTelefoneFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTelefoneFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblCNPJFCA.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCNPJFCA As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lblCliente.
     '''</summary>
     '''<remarks>

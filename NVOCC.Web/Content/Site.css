@@ -1324,3 +1324,18 @@ input[type=file] {
     position: sticky !important;
     background-color: #e6eefa;
 }
+
+/*.tablefixheadupload {
+    overflow-y: auto !important;
+    max-height: 200px;
+}
+
+    .tablefixheadupload thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }*/
+
+.sorter:hover {
+    background-color: #d5dde9;
+}

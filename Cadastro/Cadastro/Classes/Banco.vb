@@ -13,6 +13,7 @@ Public Class Banco
     Private Shared _BancoSAPIENS As String
     Private Shared _BancoNVOCC As String
     Private Shared _Empresa As Integer = 1
+    Private Shared _TipoUsuario As Integer
     Private Shared _Patios As String
     Private Shared _UsuarioSistema As Integer = 0
     Private Shared _IsentaImpostos As Boolean
@@ -233,10 +234,11 @@ Public Class Banco
             Usuario = My.Settings.Usuario
             Senha = My.Settings.Senha
             Base = My.Settings.Banco
-            BancoSGIPA = My.Settings.Banco_SGIPA
-            BancoOPERADOR = My.Settings.Banco_OPERADOR
-            BancoFATURA = My.Settings.Banco_FATURA
-            BancoSAPIENS = My.Settings.Banco_SAPIENS
+            BancoNVOCC = My.Settings.Banco_NVOCC
+            'BancoSGIPA = My.Settings.Banco_SGIPA
+            'BancoOPERADOR = My.Settings.Banco_OPERADOR
+            'BancoFATURA = My.Settings.Banco_FATURA
+            'BancoSAPIENS = My.Settings.Banco_SAPIENS
 
         Catch ex As Exception
             MessageBox.Show("O Arquivo de configuração não foi encontrado ou contém erros. O sistema será encerrado." & ex.Message, "Gerencial", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -587,7 +589,7 @@ Public Class Banco
     End Function
 
     Public Shared Function ConnectionString() As String
-        Return String.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};", Servidor, Usuario, Usuario, Senha)
+        Return String.Format("Data Source={0};Initial Catalog={1};User ID={2};Password={3};", Servidor, BancoNVOCC, Usuario, Senha)
     End Function
 
 End Class

@@ -78,8 +78,7 @@
                         'btnSalvarNovaInvoice.Visible = False
                         btnComissoes.Visible = False
                         btnOutrasTaxas.Visible = False
-                        btnTaxasDeclaradas.Visible = False
-                        btnTaxasExterior.Visible = False
+                        btnTaxasExteriorDeclaradas.Visible = False
                         btnDevolucaoFrete.Visible = False
                         dgvItensInvoice.Columns(5).Visible = False
                         btnGravarCabecalho.Visible = False
@@ -87,8 +86,7 @@
                         ' btnSalvarNovaInvoice.Visible = True
                         btnComissoes.Visible = True
                         btnOutrasTaxas.Visible = True
-                        btnTaxasDeclaradas.Visible = True
-                        btnTaxasExterior.Visible = True
+                        btnTaxasExteriorDeclaradas.Visible = True
                         btnDevolucaoFrete.Visible = True
                         dgvItensInvoice.Columns(5).Visible = True
                         btnGravarCabecalho.Visible = True
@@ -373,50 +371,50 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         ModalPopupExtender2.Show()
     End Sub
 
-    Private Sub btnTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnTaxasExterior.Click
-        divSuccessInvoice.Visible = False
-        divErroInvoice.Visible = False
+    'Private Sub btnTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnTaxasExterior.Click
+    '    divSuccessInvoice.Visible = False
+    '    divErroInvoice.Visible = False
 
-        dsTaxasExterior.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM FROM FN_ACCOUNT_TAXAS_EXTERIOR (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE  VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+    '    dsTaxasExterior.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM FROM FN_ACCOUNT_TAXAS_EXTERIOR (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE  VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
-        dgvTaxasExterior.DataBind()
-        dgvTaxasExterior.Visible = True
-        dgvComissoes.Visible = False
-        dgvOutrasTaxas.Visible = False
-        dgvTaxasDeclaradas.Visible = False
-        dgvDevolucao.Visible = False
+    '    dgvTaxasExterior.DataBind()
+    '    dgvTaxasExterior.Visible = True
+    '    dgvComissoes.Visible = False
+    '    dgvOutrasTaxas.Visible = False
+    '    dgvTaxasDeclaradas.Visible = False
+    '    dgvDevolucao.Visible = False
 
-        For i As Integer = 0 To Me.dgvTaxasExterior.Rows.Count - 1
-            Dim ckbSelecionar = CType(Me.dgvTaxasExterior.Rows(i).FindControl("ckbSelecionar"), CheckBox)
-            ckbSelecionar.Checked = True
-        Next
+    '    For i As Integer = 0 To Me.dgvTaxasExterior.Rows.Count - 1
+    '        Dim ckbSelecionar = CType(Me.dgvTaxasExterior.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+    '        ckbSelecionar.Checked = True
+    '    Next
 
-        atualizaTotalExterior()
-        ModalPopupExtender4.Show()
-        ModalPopupExtender2.Show()
-    End Sub
-    Private Sub btnTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnTaxasDeclaradas.Click
-        divSuccessInvoice.Visible = False
-        divErroInvoice.Visible = False
+    '    atualizaTotalExterior()
+    '    ModalPopupExtender4.Show()
+    '    ModalPopupExtender2.Show()
+    'End Sub
+    'Private Sub btnTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnTaxasDeclaradas.Click
+    '    divSuccessInvoice.Visible = False
+    '    divErroInvoice.Visible = False
 
-        dsTaxasDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+    '    dsTaxasDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
-        dgvTaxasDeclaradas.DataBind()
-        dgvTaxasDeclaradas.Visible = True
-        dgvComissoes.Visible = False
-        dgvOutrasTaxas.Visible = False
-        dgvTaxasExterior.Visible = False
-        dgvDevolucao.Visible = False
+    '    dgvTaxasDeclaradas.DataBind()
+    '    dgvTaxasDeclaradas.Visible = True
+    '    dgvComissoes.Visible = False
+    '    dgvOutrasTaxas.Visible = False
+    '    dgvTaxasExterior.Visible = False
+    '    dgvDevolucao.Visible = False
 
-        For i As Integer = 0 To Me.dgvTaxasDeclaradas.Rows.Count - 1
-            Dim ckbSelecionar = CType(Me.dgvTaxasDeclaradas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
-            ckbSelecionar.Checked = True
-        Next
+    '    For i As Integer = 0 To Me.dgvTaxasDeclaradas.Rows.Count - 1
+    '        Dim ckbSelecionar = CType(Me.dgvTaxasDeclaradas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+    '        ckbSelecionar.Checked = True
+    '    Next
 
-        atualizaTotalDeclaradas()
-        ModalPopupExtender5.Show()
-        ModalPopupExtender2.Show()
-    End Sub
+    '    atualizaTotalDeclaradas()
+    '    ModalPopupExtender5.Show()
+    '    ModalPopupExtender2.Show()
+    'End Sub
 
     Private Sub btnDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnDevolucaoFrete.Click
         divSuccessInvoice.Visible = False
@@ -437,8 +435,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         ModalPopupExtender2.Show()
         dgvComissoes.Visible = False
         dgvOutrasTaxas.Visible = False
-        dgvTaxasDeclaradas.Visible = False
-        dgvTaxasExterior.Visible = False
+        dgvTaxasExteriorDeclaradas.Visible = False
 
     End Sub
 
@@ -451,9 +448,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
 
         dgvComissoes.DataBind()
         dgvComissoes.Visible = True
-        dgvTaxasDeclaradas.Visible = False
+        dgvTaxasExteriorDeclaradas.Visible = False
         dgvOutrasTaxas.Visible = False
-        dgvTaxasExterior.Visible = False
         dgvDevolucao.Visible = False
 
         For i As Integer = 0 To Me.dgvComissoes.Rows.Count - 1
@@ -475,9 +471,8 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
 
         dgvOutrasTaxas.Visible = True
         dgvOutrasTaxas.DataBind()
-        dgvTaxasDeclaradas.Visible = False
         dgvComissoes.Visible = False
-        dgvTaxasExterior.Visible = False
+        dgvTaxasExteriorDeclaradas.Visible = False
         dgvDevolucao.Visible = False
         atualizaTotalOutrasTaxas()
         ModalPopupExtender7.Show()
@@ -511,51 +506,51 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         atualizaTotalInvoice()
     End Sub
 
-    Private Sub btnIncluirTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasExterior.Click
-        Dim operador As String = VerificaPositivoNegativo()
-        For Each linha As GridViewRow In dgvTaxasExterior.Rows
-            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    'Private Sub btnIncluirTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasExterior.Click
+    '    Dim operador As String = VerificaPositivoNegativo()
+    '    For Each linha As GridViewRow In dgvTaxasExterior.Rows
+    '        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '        Dim check As CheckBox = linha.FindControl("ckbSelecionar")
 
-            If check.Checked Then
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TE' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
-            End If
-        Next
-        dsTaxasExterior.DataBind()
-        dgvItensInvoice.DataBind()
-        dgvTaxasExterior.Visible = False
-        ModalPopupExtender4.Hide()
-        lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
-        divSuccessInvoice.Visible = True
-        ModalPopupExtender2.Show()
-        atualizaTotalInvoice()
-    End Sub
+    '        If check.Checked Then
+    '            Dim Con As New Conexao_sql
+    '            Con.Conectar()
+    '            Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TE' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+    '        End If
+    '    Next
+    '    dsTaxasExterior.DataBind()
+    '    dgvItensInvoice.DataBind()
+    '    dgvTaxasExterior.Visible = False
+    '    ModalPopupExtender4.Hide()
+    '    lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+    '    divSuccessInvoice.Visible = True
+    '    ModalPopupExtender2.Show()
+    '    atualizaTotalInvoice()
+    'End Sub
 
-    Private Sub btnIncluirTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasDeclaradas.Click
-        Dim operador As String = VerificaPositivoNegativo()
+    'Private Sub btnIncluirTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasDeclaradas.Click
+    '    Dim operador As String = VerificaPositivoNegativo()
 
-        For Each linha As GridViewRow In dgvTaxasDeclaradas.Rows
-            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '    For Each linha As GridViewRow In dgvTaxasDeclaradas.Rows
+    '        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '        Dim check As CheckBox = linha.FindControl("ckbSelecionar")
 
-            If check.Checked Then
-                Dim Con As New Conexao_sql
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TD' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
-            End If
-        Next
+    '        If check.Checked Then
+    '            Dim Con As New Conexao_sql
+    '            Con.Conectar()
+    '            Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TD' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+    '        End If
+    '    Next
 
-        dsTaxasDeclaradas.DataBind()
-        dgvItensInvoice.DataBind()
-        dgvTaxasDeclaradas.Visible = False
-        ModalPopupExtender5.Hide()
-        lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
-        divSuccessInvoice.Visible = True
-        ModalPopupExtender2.Show()
-        atualizaTotalInvoice()
-    End Sub
+    '    dsTaxasDeclaradas.DataBind()
+    '    dgvItensInvoice.DataBind()
+    '    dgvTaxasDeclaradas.Visible = False
+    '    ModalPopupExtender5.Hide()
+    '    lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+    '    divSuccessInvoice.Visible = True
+    '    ModalPopupExtender2.Show()
+    '    atualizaTotalInvoice()
+    'End Sub
 
     Private Sub btnIncluirComissoes_Click(sender As Object, e As EventArgs) Handles btnIncluirComissoes.Click
         Dim operador As String = VerificaPositivoNegativo()
@@ -721,40 +716,59 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         Con.Fechar()
     End Sub
 
-    Sub atualizaTotalExterior()
-        lblTotalExterior.Text = 0
+    'Sub atualizaTotalExterior()
+    '    lblTotalExterior.Text = 0
 
-        For Each linha As GridViewRow In dgvTaxasExterior.Rows
+    '    For Each linha As GridViewRow In dgvTaxasExterior.Rows
+    '        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '        Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '        Dim Valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+
+    '        Dim Valor2 As Decimal = lblTotalExterior.Text
+
+    '        If check.Checked Then
+    '            lblTotalExterior.Text = Valor + Valor2
+    '        End If
+    '        ModalPopupExtender4.Show()
+    '        ModalPopupExtender2.Show()
+    '    Next
+    'End Sub
+
+    Sub atualizaTotalExteriorDeclaradas()
+        lblTotalExteriorDeclaradas.Text = 0
+
+        For Each linha As GridViewRow In dgvTaxasExteriorDeclaradas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim Valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
 
-            Dim Valor2 As Decimal = lblTotalExterior.Text
+            Dim Valor2 As Decimal = lblTotalExteriorDeclaradas.Text
 
             If check.Checked Then
-                lblTotalExterior.Text = Valor + Valor2
+                lblTotalExteriorDeclaradas.Text = Valor + Valor2
             End If
-            ModalPopupExtender4.Show()
+            ModalPopupExtender10.Show()
             ModalPopupExtender2.Show()
         Next
     End Sub
-    Sub atualizaTotalDeclaradas()
-        lblTotalDeclaradas.Text = 0
 
-        For Each linha As GridViewRow In dgvTaxasDeclaradas.Rows
-            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim Valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
+    'Sub atualizaTotalDeclaradas()
+    '    lblTotalDeclaradas.Text = 0
 
-            Dim Valor2 As Decimal = lblTotalDeclaradas.Text
+    '    For Each linha As GridViewRow In dgvTaxasDeclaradas.Rows
+    '        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+    '        Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '        Dim Valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
 
-            If check.Checked Then
-                lblTotalDeclaradas.Text = Valor + Valor2
-            End If
-            ModalPopupExtender5.Show()
-            ModalPopupExtender2.Show()
-        Next
-    End Sub
+    '        Dim Valor2 As Decimal = lblTotalDeclaradas.Text
+
+    '        If check.Checked Then
+    '            lblTotalDeclaradas.Text = Valor + Valor2
+    '        End If
+    '        ModalPopupExtender5.Show()
+    '        ModalPopupExtender2.Show()
+    '    Next
+    'End Sub
     Sub atualizaTotalComissoes()
         lblTotalComissoes.Text = 0
 
@@ -797,11 +811,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         End If
     End Sub
 
-    Private Sub dgvTaxasExterior_Load(sender As Object, e As EventArgs) Handles dgvTaxasExterior.Load
-        If dgvTaxasExterior.Visible = True Then
-            atualizaTotalExterior()
-        End If
-    End Sub
+    'Private Sub dgvTaxasExterior_Load(sender As Object, e As EventArgs) Handles dgvTaxasExterior.Load
+    '    If dgvTaxasExterior.Visible = True Then
+    '        atualizaTotalExterior()
+    '    End If
+    'End Sub
 
     Private Sub dgvComissoes_Load(sender As Object, e As EventArgs) Handles dgvComissoes.Load
         If dgvComissoes.Visible = True Then
@@ -809,11 +823,11 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         End If
     End Sub
 
-    Private Sub dgvTaxasDeclaradas_Load(sender As Object, e As EventArgs) Handles dgvTaxasDeclaradas.Load
-        If dgvTaxasDeclaradas.Visible = True Then
-            atualizaTotalDeclaradas()
-        End If
-    End Sub
+    'Private Sub dgvTaxasDeclaradas_Load(sender As Object, e As EventArgs) Handles dgvTaxasDeclaradas.Load
+    '    If dgvTaxasDeclaradas.Visible = True Then
+    '        atualizaTotalDeclaradas()
+    '    End If
+    'End Sub
 
     Private Sub dgvOutrasTaxas_Load(sender As Object, e As EventArgs) Handles dgvOutrasTaxas.Load
         If dgvOutrasTaxas.Visible = True Then
@@ -984,12 +998,12 @@ END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIR
         End If
     End Sub
 
-    Private Sub btnFecharTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExterior.Click
-        dgvTaxasExterior.Visible = False
-        ModalPopupExtender4.Hide()
-        ModalPopupExtender2.Show()
+    'Private Sub btnFecharTaxasExterior_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExterior.Click
+    '    dgvTaxasExterior.Visible = False
+    '    ModalPopupExtender4.Hide()
+    '    ModalPopupExtender2.Show()
 
-    End Sub
+    'End Sub
 
     Private Sub btnFecharDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnFecharDevolucaoFrete.Click
         dgvDevolucao.Visible = False
@@ -998,12 +1012,12 @@ END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIR
 
     End Sub
 
-    Private Sub btnFecharTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasDeclaradas.Click
-        dgvTaxasDeclaradas.Visible = False
-        ModalPopupExtender5.Hide()
-        ModalPopupExtender2.Show()
+    'Private Sub btnFecharTaxasDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasDeclaradas.Click
+    '    dgvTaxasDeclaradas.Visible = False
+    '    ModalPopupExtender5.Hide()
+    '    ModalPopupExtender2.Show()
 
-    End Sub
+    'End Sub
 
     Private Sub btnFecharComissoes_Click(sender As Object, e As EventArgs) Handles btnFecharComissoes.Click
         dgvComissoes.Visible = False
@@ -1084,4 +1098,66 @@ END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIR
             ModalPopupExtender8.Show()
         End If
     End Sub
+
+    Private Sub btnTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnTaxasExteriorDeclaradas.Click
+
+        divSuccessInvoice.Visible = False
+        divErroInvoice.Visible = False
+
+        dsTaxasExteriorDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue & " union
+SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_EXTERIOR (" & txtID_BL.Text & ", '" & txtGrau.Text & "') WHERE  VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+
+        dgvTaxasExteriorDeclaradas.DataBind()
+        dgvTaxasExteriorDeclaradas.Visible = True
+        dgvComissoes.Visible = False
+        dgvOutrasTaxas.Visible = False
+        dgvDevolucao.Visible = False
+
+        For i As Integer = 0 To Me.dgvTaxasExteriorDeclaradas.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvTaxasExteriorDeclaradas.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
+
+        atualizaTotalExteriorDeclaradas()
+        ModalPopupExtender10.Show()
+        ModalPopupExtender2.Show()
+    End Sub
+
+    Private Sub btnIncluirTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasExteriorDeclaradas.Click
+        Dim operador As String = VerificaPositivoNegativo()
+
+        For Each linha As GridViewRow In dgvTaxasExteriorDeclaradas.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+
+            If check.Checked Then
+                Dim Con As New Conexao_sql
+                Con.Conectar()
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TD' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+            End If
+        Next
+
+        dsTaxasExteriorDeclaradas.DataBind()
+        dgvItensInvoice.DataBind()
+        dgvTaxasExteriorDeclaradas.Visible = False
+        ModalPopupExtender10.Hide()
+        lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+        divSuccessInvoice.Visible = True
+        ModalPopupExtender2.Show()
+        atualizaTotalInvoice()
+    End Sub
+
+    Private Sub btnFecharTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExteriorDeclaradas.Click
+        dgvTaxasExteriorDeclaradas.Visible = False
+        ModalPopupExtender10.Hide()
+        ModalPopupExtender2.Show()
+
+    End Sub
+
+    Private Sub dgvTaxasExteriorDeclaradas_Load(sender As Object, e As EventArgs) Handles dgvTaxasExteriorDeclaradas.Load
+        If dgvTaxasExteriorDeclaradas.Visible = True Then
+            atualizaTotalExteriorDeclaradas()
+        End If
+    End Sub
+
 End Class

@@ -86,7 +86,7 @@ namespace Boleto2Net
             // POSIÇÃO 4 DO CODIGO DE BARRAS
             var m = codigoDeBarras.Substring(3, 1);
             // POSIÇÃO 20 A 24 DO CODIGO DE BARRAS
-            var ccccc = codigoDeBarras.Substring(19, 5);
+            var ccccc = "95019"; //codigoDeBarras.Substring(19, 5);
             // Calculo do Dígito
             var d1 = CalcularDvModulo10(bbb + m + ccccc);
             // Formata Grupo 1
@@ -97,7 +97,7 @@ namespace Boleto2Net
             #region Campo 2
 
             //POSIÇÃO 25 A 34 DO COD DE BARRAS
-            var d2A = codigoDeBarras.Substring(24, 10);
+            var d2A = "2220000012";//codigoDeBarras.Substring(24, 10);
             // Calculo do Dígito
             var d2B = CalcularDvModulo10(d2A).ToString();
             // Formata Grupo 2

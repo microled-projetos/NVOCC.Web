@@ -121,7 +121,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">CÓD RASTREAMENTO MBL</label>
-                                                        <input type="date" id="txtCdRastreioMBL" class="form-control" />
+                                                        <input type="text" id="txtCdRastreioMBL" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,7 +141,7 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">CÓD RASTREAMENTO HBL</label>
-                                                        <input type="date" id="txtCdRastreioHBL" class="form-control" />
+                                                        <input type="text" id="txtCdRastreioHBL" class="form-control" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -258,10 +258,16 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-3 col-sm-offset-9">
+                                                <div class="col-sm-2 col-sm-offset-6">
                                                     <div class="form-group">
-                                                        <input type="checkbox" id="checkOrigem" name="Origem" onchange="flagOrigem()"/>
-                                                        <label for="Origem">Origem</label>
+                                                        <input type="checkbox" id="checkOrigem" name="OrigemDestinoLivre" onchange="flagOrigem()"/>
+                                                        <label for="checkOrigem">Origem</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <input type="checkbox" id="checkDestino" name="OrigemDestinoLivre" onchange="flagDestino()"/>
+                                                        <label for="checkDestino">Destino</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -367,11 +373,18 @@
                         document.getElementById('dtRetirada').disabled = true;
                         document.getElementById('receptor').disabled = true;
                         document.getElementById("checkOrigem").checked = true;
+                    } else if (data.CD_RASTREAMENTO_HBL == "DESTINO") {
+                        document.getElementById('dtRecebimentoHBL').disabled = true;
+                        document.getElementById('cdRastreamentoHBL').disabled = true;
+                        document.getElementById('dtRetirada').disabled = true;
+                        document.getElementById('receptor').disabled = true;
+                        document.getElementById("checkDestino").checked = true;
                     } else {
                         document.getElementById('dtRecebimentoHBL').disabled = false;
                         document.getElementById('cdRastreamentoHBL').disabled = false;
                         document.getElementById('dtRetirada').disabled = false;
                         document.getElementById('receptor').disabled = false;
+                        document.getElementById("checkDestino").checked = false;
                         document.getElementById("checkOrigem").checked = false;
                     }
                 }
@@ -385,7 +398,37 @@
                 document.getElementById('dtRetirada').disabled = true;
                 document.getElementById('receptor').disabled = true;
                 document.getElementById('cdRastreamentoHBL').value = "ORIGEM";
-            } else{
+                document.getElementById("checkDestino").checked = false;
+
+            } else {
+                document.getElementById('dtRecebimentoHBL').disabled = false;
+                document.getElementById('cdRastreamentoHBL').disabled = false;
+                document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('receptor').disabled = false;
+                document.getElementById('cdRastreamentoHBL').value = "";
+            }
+        }
+
+        function flagDestino() {
+            if (document.getElementById("checkDestino").checked) {
+                document.getElementById('dtRecebimentoHBL').disabled = true;
+                document.getElementById('cdRastreamentoHBL').disabled = true;
+                document.getElementById('dtRetirada').disabled = true;
+                document.getElementById('receptor').disabled = true;
+                document.getElementById('cdRastreamentoHBL').value = "DESTINO";
+                document.getElementById("checkOrigem").checked = false;
+
+            } else {
+                document.getElementById('dtRecebimentoHBL').disabled = false;
+                document.getElementById('cdRastreamentoHBL').disabled = false;
+                document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('receptor').disabled = false;
+                document.getElementById('cdRastreamentoHBL').value = "";
+            }
+        }
+
+        function flagLivre() {
+            if (document.getElementById("checkLivre").checked) {
                 document.getElementById('dtRecebimentoHBL').disabled = false;
                 document.getElementById('cdRastreamentoHBL').disabled = false;
                 document.getElementById('dtRetirada').disabled = false;

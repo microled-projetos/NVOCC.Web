@@ -699,6 +699,7 @@
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -735,6 +736,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1779,6 +1781,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1815,6 +1818,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
+                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -2547,7 +2551,10 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
-VL_TAXA_CALCULADO
+VL_TAXA_CALCULADO,
+CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
+WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+ELSE '' END ORIGEM 
 FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
 
 ">
@@ -2567,7 +2574,10 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
-VL_TAXA_CALCULADO
+VL_TAXA_CALCULADO,
+CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
+WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+ELSE '' END ORIGEM 
 FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
 
 ">
@@ -2587,7 +2597,10 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
-VL_TAXA_CALCULADO
+VL_TAXA_CALCULADO,
+CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
+WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+ELSE '' END ORIGEM 
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
 
 ">
@@ -2607,7 +2620,10 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
 VL_TAXA,
-VL_TAXA_CALCULADO
+VL_TAXA_CALCULADO,
+CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
+WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+ELSE '' END ORIGEM 
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'
 
 ">

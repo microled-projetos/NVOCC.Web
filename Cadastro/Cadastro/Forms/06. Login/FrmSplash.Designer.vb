@@ -89,7 +89,7 @@ Partial Class FrmSplash
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(200, 13)
         Me.Label5.TabIndex = 4
-        Me.Label5.Text = "Licenciado para: ECOPORTO Santos S.A"
+        Me.Label5.Text = "Licenciado para: FCA-Log"
         '
         'lblCarregando
         '

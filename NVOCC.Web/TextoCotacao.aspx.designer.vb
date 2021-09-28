@@ -39,4 +39,13 @@ Partial Public Class TextoCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnLimpar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnLimpar As Global.System.Web.UI.WebControls.Button
 End Class

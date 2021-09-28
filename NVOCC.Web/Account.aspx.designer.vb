@@ -617,22 +617,13 @@ Partial Public Class Account
     Protected WithEvents btnDevolucaoFrete As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnTaxasExterior.
+    '''Controle btnTaxasExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnTaxasExterior As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnTaxasDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnTaxasDeclaradas As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnTaxasExteriorDeclaradas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle btnComissoes.
@@ -806,130 +797,67 @@ Partial Public Class Account
     Protected WithEvents btnIncluirDevolucaoFrete As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle AuxExterior.
+    '''Controle AuxExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents AuxExterior As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents AuxExteriorDeclaradas As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ModalPopupExtender4.
+    '''Controle ModalPopupExtender10.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ModalPopupExtender4 As Global.AjaxControlToolkit.ModalPopupExtender
+    Protected WithEvents ModalPopupExtender10 As Global.AjaxControlToolkit.ModalPopupExtender
 
     '''<summary>
-    '''Controle pnlTaxasExterior.
+    '''Controle pnlExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents pnlTaxasExterior As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents pnlExteriorDeclaradas As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Controle dgvTaxasExterior.
+    '''Controle dgvTaxasExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dgvTaxasExterior As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents dgvTaxasExteriorDeclaradas As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle lblTotalExterior.
+    '''Controle lblTotalExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTotalExterior As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblTotalExteriorDeclaradas As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle btnFecharTaxasExterior.
+    '''Controle btnFecharTaxasExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnFecharTaxasExterior As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnFecharTaxasExteriorDeclaradas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle btnIncluirTaxasExterior.
+    '''Controle btnIncluirTaxasExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnIncluirTaxasExterior As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle AuxDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents AuxDeclaradas As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle ModalPopupExtender5.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ModalPopupExtender5 As Global.AjaxControlToolkit.ModalPopupExtender
-
-    '''<summary>
-    '''Controle pnlTaxasDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents pnlTaxasDeclaradas As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Controle dgvTaxasDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvTaxasDeclaradas As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle lblTotalDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblTotalDeclaradas As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle btnFecharTaxasDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnFecharTaxasDeclaradas As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnIncluirTaxasDeclaradas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnIncluirTaxasDeclaradas As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnIncluirTaxasExteriorDeclaradas As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle AuxComissoes.
@@ -1256,15 +1184,6 @@ Partial Public Class Account
     Protected WithEvents dsDevolucao As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTaxasExterior.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsTaxasExterior As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsComissoes.
     '''</summary>
     '''<remarks>
@@ -1274,13 +1193,13 @@ Partial Public Class Account
     Protected WithEvents dsComissoes As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsTaxasDeclaradas.
+    '''Controle dsTaxasExteriorDeclaradas.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsTaxasDeclaradas As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsTaxasExteriorDeclaradas As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsOutrasTaxas.

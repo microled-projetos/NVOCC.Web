@@ -80,6 +80,9 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
                         txtMBL_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("BL_MASTER")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
                         Session("ID_BL_MASTER") = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
                     End If
 

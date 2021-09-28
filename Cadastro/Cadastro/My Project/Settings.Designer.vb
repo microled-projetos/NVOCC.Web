@@ -77,19 +77,19 @@ Namespace My
                 Me("Banco_SGIPA") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("OPERADOR.DBO.")>  _
-        Public Property Banco_OPERADOR() As String
+
+        <Global.System.Configuration.UserScopedSettingAttribute(),
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),
+         Global.System.Configuration.DefaultSettingValueAttribute("NVOCCTST.DBO.")>
+        Public Property Banco_NVOCC() As String
             Get
-                Return CType(Me("Banco_OPERADOR"),String)
+                Return CType(Me("Banco_NVOCC"), String)
             End Get
             Set
-                Me("Banco_OPERADOR") = value
+                Me("Banco_NVOCC") = Value
             End Set
         End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("FATURA.DBO.")>  _

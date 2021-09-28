@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmCidades
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,11 +20,11 @@ Partial Class FrmCidades
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCidades))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.pbCarregando = New System.Windows.Forms.PictureBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -32,7 +32,6 @@ Partial Class FrmCidades
         Me.txtVL_ISS = New System.Windows.Forms.TextBox()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.pnControles = New System.Windows.Forms.Panel()
-        Me.btnFiltro = New System.Windows.Forms.Button()
         Me.btnUltimo = New System.Windows.Forms.Button()
         Me.btnProximo = New System.Windows.Forms.Button()
         Me.btnAnterior = New System.Windows.Forms.Button()
@@ -53,11 +52,6 @@ Partial Class FrmCidades
         Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.btnSair = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colUF = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colPais = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colIBGE = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel2.SuspendLayout()
         CType(Me.pbCarregando, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -155,7 +149,6 @@ Partial Class FrmCidades
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnControles.BackColor = System.Drawing.SystemColors.Control
         Me.pnControles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnControles.Controls.Add(Me.btnFiltro)
         Me.pnControles.Controls.Add(Me.btnUltimo)
         Me.pnControles.Controls.Add(Me.btnProximo)
         Me.pnControles.Controls.Add(Me.btnAnterior)
@@ -164,21 +157,6 @@ Partial Class FrmCidades
         Me.pnControles.Name = "pnControles"
         Me.pnControles.Size = New System.Drawing.Size(588, 22)
         Me.pnControles.TabIndex = 11
-        '
-        'btnFiltro
-        '
-        Me.btnFiltro.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnFiltro.FlatAppearance.BorderSize = 0
-        Me.btnFiltro.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnFiltro.Image = CType(resources.GetObject("btnFiltro.Image"), System.Drawing.Image)
-        Me.btnFiltro.Location = New System.Drawing.Point(474, -2)
-        Me.btnFiltro.Name = "btnFiltro"
-        Me.btnFiltro.Size = New System.Drawing.Size(29, 25)
-        Me.btnFiltro.TabIndex = 5
-        Me.ToolTip1.SetToolTip(Me.btnFiltro, "Filtrar os registros da Tabela")
-        Me.btnFiltro.UseVisualStyleBackColor = True
         '
         'btnUltimo
         '
@@ -259,14 +237,13 @@ Partial Class FrmCidades
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colUF, Me.colPais, Me.colIBGE})
         Me.dgvConsulta.Location = New System.Drawing.Point(17, 143)
         Me.dgvConsulta.Name = "dgvConsulta"
         Me.dgvConsulta.ReadOnly = True
@@ -447,45 +424,6 @@ Partial Class FrmCidades
         Me.ToolTip1.SetToolTip(Me.btnSair, "Fechar o formulário.")
         Me.btnSair.UseVisualStyleBackColor = True
         '
-        'colCodigo
-        '
-        Me.colCodigo.DataPropertyName = "IBGE"
-        Me.colCodigo.HeaderText = "ID"
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        Me.colCodigo.Width = 60
-        '
-        'colDescricao
-        '
-        Me.colDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.colDescricao.DataPropertyName = "DESCR"
-        Me.colDescricao.HeaderText = "Cidade"
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
-        '
-        'colUF
-        '
-        Me.colUF.DataPropertyName = "ESTADO"
-        Me.colUF.HeaderText = "UF"
-        Me.colUF.Name = "colUF"
-        Me.colUF.ReadOnly = True
-        Me.colUF.Width = 40
-        '
-        'colPais
-        '
-        Me.colPais.DataPropertyName = "PAIS"
-        Me.colPais.HeaderText = "País"
-        Me.colPais.Name = "colPais"
-        Me.colPais.ReadOnly = True
-        Me.colPais.Width = 40
-        '
-        'colIBGE
-        '
-        Me.colIBGE.DataPropertyName = "IBGE"
-        Me.colIBGE.HeaderText = "IBGE"
-        Me.colIBGE.Name = "colIBGE"
-        Me.colIBGE.ReadOnly = True
-        '
         'FrmCidades
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -536,13 +474,7 @@ Partial Class FrmCidades
     Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
     Friend WithEvents btnSair As System.Windows.Forms.Button
     Friend WithEvents pbCarregando As System.Windows.Forms.PictureBox
-    Friend WithEvents btnFiltro As Button
     Friend WithEvents Label4 As Label
     Friend WithEvents txtVL_ISS As TextBox
     Friend WithEvents txtIBGE As TextBox
-    Friend WithEvents colCodigo As DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As DataGridViewTextBoxColumn
-    Friend WithEvents colUF As DataGridViewTextBoxColumn
-    Friend WithEvents colPais As DataGridViewTextBoxColumn
-    Friend WithEvents colIBGE As DataGridViewTextBoxColumn
 End Class

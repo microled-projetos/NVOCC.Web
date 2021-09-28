@@ -117,7 +117,7 @@
                                                 <asp:BoundField DataField="COMPETENCIA" HeaderText="COMPETENCIA" SortExpression="COMPETENCIA" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
-                                                <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" />
+                                                <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" DataFormatString="{0:dd/MM/yyyy}"/>
                                                 <asp:BoundField DataField="TP_SERVICO" HeaderText="IMP/EXP" SortExpression="TP_SERVICO" />
                                                 <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
                                                 <asp:BoundField DataField="TP_VIA" HeaderText="VIA" SortExpression="TP_VIA" />
@@ -168,7 +168,7 @@
                                 <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-<asp:LinkButton ID="lkCadastrarSubVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Cadastrar SubVendedor</asp:LinkButton>
+<asp:LinkButton ID="lkCadastrarSubVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="CadastrarSub()" >Cadastrar SubVendedor</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
@@ -856,6 +856,10 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
             var COMPETENCIA = document.getElementById('<%= txtCompetencia.ClientID %>').value;
 
             window.open('RelatorioVendedor.aspx?tipo=3&c=' + COMPETENCIA, '_blank');
+        }
+
+        function CadastrarSub() {
+            window.open('CadastrarSubVendedor.aspx', '_blank');
         }
     </script>
 </asp:Content>

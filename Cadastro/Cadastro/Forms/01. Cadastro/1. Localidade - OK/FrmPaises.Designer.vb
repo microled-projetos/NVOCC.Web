@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmPaises
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class FrmPaises
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPaises))
@@ -35,17 +35,11 @@ Partial Class FrmPaises
         Me.btnSair = New System.Windows.Forms.Button()
         Me.pbCarregando = New System.Windows.Forms.PictureBox()
         Me.pnControles = New System.Windows.Forms.Panel()
-        Me.btnFiltro = New System.Windows.Forms.Button()
         Me.btnUltimo = New System.Windows.Forms.Button()
         Me.btnProximo = New System.Windows.Forms.Button()
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colSigla = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colCod = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colFumi = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtCodigoPais = New System.Windows.Forms.TextBox()
@@ -198,7 +192,6 @@ Partial Class FrmPaises
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnControles.BackColor = System.Drawing.SystemColors.Control
         Me.pnControles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnControles.Controls.Add(Me.btnFiltro)
         Me.pnControles.Controls.Add(Me.btnUltimo)
         Me.pnControles.Controls.Add(Me.btnProximo)
         Me.pnControles.Controls.Add(Me.btnAnterior)
@@ -207,21 +200,6 @@ Partial Class FrmPaises
         Me.pnControles.Name = "pnControles"
         Me.pnControles.Size = New System.Drawing.Size(588, 22)
         Me.pnControles.TabIndex = 11
-        '
-        'btnFiltro
-        '
-        Me.btnFiltro.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnFiltro.FlatAppearance.BorderSize = 0
-        Me.btnFiltro.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnFiltro.Image = CType(resources.GetObject("btnFiltro.Image"), System.Drawing.Image)
-        Me.btnFiltro.Location = New System.Drawing.Point(474, -2)
-        Me.btnFiltro.Name = "btnFiltro"
-        Me.btnFiltro.Size = New System.Drawing.Size(29, 25)
-        Me.btnFiltro.TabIndex = 6
-        Me.ToolTip1.SetToolTip(Me.btnFiltro, "Filtrar os registros da Tabela")
-        Me.btnFiltro.UseVisualStyleBackColor = True
         '
         'btnUltimo
         '
@@ -294,7 +272,6 @@ Partial Class FrmPaises
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colSigla, Me.colCod, Me.colFumi})
         Me.dgvConsulta.Location = New System.Drawing.Point(17, 143)
         Me.dgvConsulta.Name = "dgvConsulta"
         Me.dgvConsulta.ReadOnly = True
@@ -303,50 +280,6 @@ Partial Class FrmPaises
         Me.dgvConsulta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvConsulta.Size = New System.Drawing.Size(588, 224)
         Me.dgvConsulta.TabIndex = 1
-        '
-        'colCodigo
-        '
-        Me.colCodigo.DataPropertyName = "CODE"
-        Me.colCodigo.HeaderText = "Código"
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        Me.colCodigo.Width = 60
-        '
-        'colDescricao
-        '
-        Me.colDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.colDescricao.DataPropertyName = "DESCR"
-        Me.colDescricao.HeaderText = "País"
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
-        '
-        'colSigla
-        '
-        Me.colSigla.DataPropertyName = "SIGLA"
-        Me.colSigla.HeaderText = "Sigla"
-        Me.colSigla.Name = "colSigla"
-        Me.colSigla.ReadOnly = True
-        Me.colSigla.Width = 80
-        '
-        'colCod
-        '
-        Me.colCod.DataPropertyName = "BIGRAMA"
-        Me.colCod.HeaderText = "Bigrama"
-        Me.colCod.Name = "colCod"
-        Me.colCod.ReadOnly = True
-        Me.colCod.Width = 170
-        '
-        'colFumi
-        '
-        Me.colFumi.DataPropertyName = "FUMIGACAO"
-        Me.colFumi.FalseValue = "0"
-        Me.colFumi.HeaderText = "Fumigação"
-        Me.colFumi.Name = "colFumi"
-        Me.colFumi.ReadOnly = True
-        Me.colFumi.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.colFumi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.colFumi.TrueValue = "1"
-        Me.colFumi.Width = 70
         '
         'GroupBox1
         '
@@ -458,10 +391,4 @@ Partial Class FrmPaises
     Friend WithEvents btnEditar As System.Windows.Forms.Button
     Friend WithEvents txtID As System.Windows.Forms.TextBox
     Friend WithEvents btnSair As System.Windows.Forms.Button
-    Friend WithEvents colCodigo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colSigla As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colCod As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colFumi As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents btnFiltro As Button
 End Class

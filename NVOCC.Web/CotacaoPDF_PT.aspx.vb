@@ -7,12 +7,38 @@ Public Class CotacaoPDF_PT
 
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
+        Session("MOEDA_CNTR") = ""
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_TIPO_ESTUFAGEM,OB_CLIENTE,
+
+        ds = Con.ExecutarQuery("SELECT NM_RAZAO,CNPJ,ENDERECO,NR_ENDERECO,BAIRRO,TELEFONE,(select nm_cidade from TB_CIDADE where ID_CIDADE = a.id_cidade)Cidade FROM TB_PARCEIRO a where ID_PARCEIRO = 1")
+        If ds.Tables(0).Rows.Count > 0 Then
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("CNPJ")) Then
+                lblCNPJFCA.Text = ds.Tables(0).Rows(0).Item("CNPJ")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TELEFONE")) Then
+                lblTelefoneFCA.Text = ds.Tables(0).Rows(0).Item("TELEFONE")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("Cidade")) Then
+                lblCidadeFCA.Text = ds.Tables(0).Rows(0).Item("Cidade")
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("ENDERECO")) Then
+                lblEnderecoFCA.Text = ds.Tables(0).Rows(0).Item("ENDERECO")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_ENDERECO")) Then
+                lblEnderecoFCA.Text &= ", " & ds.Tables(0).Rows(0).Item("NR_ENDERECO")
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("BAIRRO")) Then
+                lblEnderecoFCA.Text &= " - " & ds.Tables(0).Rows(0).Item("BAIRRO")
+            End If
+        End If
+
+
+        ds = Con.ExecutarQuery("Select A.ID_COTACAO,ID_TIPO_ESTUFAGEM,OB_CLIENTE,
 A.NR_COTACAO,
 CONVERT(VARCHAR,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 (SELECT NM_TIPO_FREQUENCIA FROM TB_TIPO_FREQUENCIA WHERE ID_TIPO_FREQUENCIA = A.ID_TIPO_FREQUENCIA)NM_TIPO_FREQUENCIA,
@@ -63,9 +89,14 @@ VL_TOTAL_FRETE_VENDA_CALCULADO,
 FROM  TB_COTACAO A
     WHERE A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
+
             ' PORTUGUES
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_SERVICO")) Then
                 lblTitulo.Text = ds.Tables(0).Rows(0).Item("NOME_SERVICO") & " (" & ds.Tables(0).Rows(0).Item("NOME_ESTUFAGEM") & ")"
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("MOEDA")) Then
+                Session("MOEDA_CNTR") = ds.Tables(0).Rows(0).Item("MOEDA")
             End If
 
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
@@ -180,11 +211,11 @@ FROM  TB_COTACAO A
                     tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
 
                     If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
-                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA") & "</td>"
+                        tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA")) & "</td>"
                         tabela &= "<td style='padding-right:10px'>POR TON / M³</td>"
-                        tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_MIN") & "</td>"
+                        tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_MIN")) & "</td>"
                     End If
-                    tabela &= "<td style='padding-right:10px'>" & linha("VL_TOTAL_FRETE_VENDA_CALCULADO") & "</td>"
+                    tabela &= "<td style='padding-right:10px'>" & String.Format("{0:N}", linha("VL_TOTAL_FRETE_VENDA_CALCULADO")) & "</td>"
                     tabela &= "<td style='padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                     tabela &= "</tr>"
 
@@ -197,8 +228,7 @@ FROM  TB_COTACAO A
                 tabela = tabela.Replace("É", "&Eacute;")
                 tabela &= "</table>"
                 divConteudofrete.InnerHtml = tabela
-                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("MOEDA").ToString & " " & ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO").ToString
-
+                lblTotalFinalFrete.Text = ds.Tables(0).Rows(0).Item("MOEDA").ToString & " " & String.Format("{0:N}", ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO"))
             End If
 
 
@@ -252,7 +282,7 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
     AND A.ID_COTACAO = " & Request.QueryString("c"))
         If ds.Tables(0).Rows.Count > 0 Then
 
-            Dim tabela As String = "<br/><table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
+            Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
             tabela &= "<th style='padding-right:10px'>Taxa</th>"
             tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
@@ -264,12 +294,12 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
-                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA")) & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
-                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA_MIN") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA_MIN")) & "</td>"
 
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
-                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
+                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("CALCULADO")) & "</td>"
                 End If
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
@@ -288,14 +318,14 @@ WHERE FL_DECLARADO = 1 AND ID_DESTINATARIO_COBRANCA <> 3
             'total origem
             Dim DescTotalOrigem As String = ""
 
-            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar) as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 AND A.ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) moeda, SUM(A.VL_TAXA_VENDA_CALCULADO) valor  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 1 AND A.ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     If DescTotalOrigem = "" Then
-                        DescTotalOrigem &= linha("descricao")
+                        DescTotalOrigem &= linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                     Else
-                        DescTotalOrigem &= " + " & linha("descricao")
+                        DescTotalOrigem &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                     End If
                 Next
             End If
@@ -339,7 +369,7 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
         If ds.Tables(0).Rows.Count > 0 Then
 
             'Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'>"
-            Dim tabela As String = "<br/><table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
+            Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
             tabela &= "<th style='padding-right:10px'>Taxa</th>"
             tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th>"
             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor</th>"
@@ -352,12 +382,12 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
             For Each linha As DataRow In ds.Tables(0).Rows
                 tabela &= "<tr><td style='padding-right:10px'>" & linha("TAXA") & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("MOEDA") & "</td>"
-                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA")) & "</td>"
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("BASE_CALCULO") & "</td>"
-                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_TAXA_VENDA_MIN") & "</td>"
+                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("VL_TAXA_VENDA_MIN")) & "</td>"
 
                 If Not IsDBNull(linha.Item("CALCULADO")) Then
-                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("CALCULADO") & "</td>"
+                    tabela &= "<td style='padding-left:10px;padding-right:10px'>" & String.Format("{0:N}", linha("CALCULADO")) & "</td>"
                 End If
                 tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("TIPO_PAGAMENTO") & "</td>"
                 tabela &= "</tr>"
@@ -376,16 +406,16 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
             'total destino
-            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0  AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+            ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) moeda, SUM(A.VL_TAXA_VENDA_CALCULADO) valor  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND FL_DECLARADO = 0  AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
             If ds.Tables(0).Rows.Count > 0 Then
 
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     If DescTotalDestino = "" Then
-                        DescTotalDestino &= linha("descricao")
+                        DescTotalDestino &= linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                     Else
 
-                        DescTotalDestino &= " + " & linha("descricao")
+                        DescTotalDestino &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
 
 
                     End If
@@ -417,15 +447,15 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
         Dim TotalFinalTaxas As String = ""
         Dim TotalFinalFrete As String = ""
 
-        ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) + ' '+ CAST(SUM(A.VL_TAXA_VENDA_CALCULADO)AS varchar)as  descricao  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
+        ds = Con.ExecutarQuery("SELECT (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_VENDA) moeda, SUM(A.VL_TAXA_VENDA_CALCULADO) valor  FROM TB_COTACAO_TAXA A  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ID_DESTINATARIO_COBRANCA <> 3 GROUP BY A.ID_MOEDA_VENDA ")
         If ds.Tables(0).Rows.Count > 0 Then
 
 
             For Each linha As DataRow In ds.Tables(0).Rows
                 If TotalFinalTaxas = "" Then
-                    TotalFinalTaxas &= linha("descricao")
+                    TotalFinalTaxas &= linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                 Else
-                    TotalFinalTaxas &= " + " & linha("descricao")
+                    TotalFinalTaxas &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                 End If
             Next
         End If
@@ -454,13 +484,13 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
         'total final geral
-        ds = Con.ExecutarQuery("select MOEDA +' ' + cast(sum(valor)as varchar) as TOTAL  from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
+        ds = Con.ExecutarQuery("select moeda ,sum(valor) Valor from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 If TotalFinal = "" Then
-                    TotalFinal &= linha("TOTAL")
+                    TotalFinal &= linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                 Else
-                    TotalFinal &= " + " & linha("TOTAL")
+                    TotalFinal &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
                 End If
             Next
         End If
@@ -482,13 +512,15 @@ LEFT JOIN TB_TIPO_CONTAINER B ON B.ID_TIPO_CONTAINER = A.ID_TIPO_CONTAINER WHERE
         tabela &= "<th style='padding-right:10px'>Tipo Container</th>"
         tabela &= "<th style='padding-left:10px;padding-right:10px'>Qtd.</th>"
         tabela &= "<th style='padding-left:10px;padding-right:10px'>FreeTime</th>"
-        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Unit.</th></tr>"
+        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>Valor Unit.</th>"
+        tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
 
         For Each linha As DataRow In ds.Tables(0).Rows
             tabela &= "<tr><td style='padding-right:10px'>" & linha("NM_TIPO_CONTAINER") & "</td>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("QTD") & "</td>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("QT_DIAS_FREETIME") & "</td>"
-            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALOR") & "</td></tr>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VALOR") & "</td>"
+            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & Session("MOEDA_CNTR") & "</td></tr>"
         Next
 
         tabela &= "</table>"

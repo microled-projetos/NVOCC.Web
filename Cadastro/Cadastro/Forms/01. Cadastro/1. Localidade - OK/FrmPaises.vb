@@ -9,7 +9,7 @@ Public Class FrmPaises
     Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        dgvConsulta.DataSource = Banco.List("SELECT ID_PAIS, COD_PAIS CODE, NM_PAIS DESCR FROM " & Banco.BancoNVOCC & "TB_PAIS")
+        dgvConsulta.DataSource = Banco.List("SELECT ID_PAIS as ID, COD_PAIS Código, NM_PAIS País FROM TB_PAIS")
         pbCarregando.Visible = False
     End Sub
 
@@ -23,14 +23,14 @@ Public Class FrmPaises
         pnControles.Enabled = Not pnControles.Enabled
     End Sub
 
-    Private Sub btnNovo_Click(ByVal sender As Object, ByVal e As EventArgs)
-        Dim Tela As Control = Me
-        Geral.LimparCampos(Tela)
-        Tela = Me
-        Geral.HabilitarCampos(Tela, Habilita:=True)
-        SetaControles()
-        txtPais.Focus()
-    End Sub
+    'Private Sub btnNovo_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    Dim Tela As Control = Me
+    '    Geral.LimparCampos(Tela)
+    '    Tela = Me
+    '    Geral.HabilitarCampos(Tela, Habilita:=True)
+    '    SetaControles()
+    '    txtPais.Focus()
+    'End Sub
 
     Private Sub dgvConsulta_CellClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
 
@@ -129,13 +129,13 @@ Public Class FrmPaises
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
-    Private Sub btnExcluir_Click(ByVal sender As Object, ByVal e As EventArgs)
-        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
-            Consultar()
-            Dim Tela As Control = Me
-            Geral.LimparCampos(Tela)
-        End If
-    End Sub
+    'Private Sub btnExcluir_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
+    '        Consultar()
+    '        Dim Tela As Control = Me
+    '        Geral.LimparCampos(Tela)
+    '    End If
+    'End Sub
 
     Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
         Me.Close()
@@ -182,22 +182,15 @@ Public Class FrmPaises
         txtPais.Focus()
     End Sub
 
-    Private Sub btnCancelar_Click(ByVal sender As Object, ByVal e As EventArgs)
-        SetaControles()
-        Dim Tela As Control = Me
-        Geral.LimparCampos(Tela)
-        Tela = Me
-        Geral.HabilitarCampos(Tela, Habilita:=False)
-    End Sub
+    'Private Sub btnCancelar_Click(ByVal sender As Object, ByVal e As EventArgs)
+    '    SetaControles()
+    '    Dim Tela As Control = Me
+    '    Geral.LimparCampos(Tela)
+    '    Tela = Me
+    '    Geral.HabilitarCampos(Tela, Habilita:=False)
+    'End Sub
 
-    Private Sub btImprimir_Click(ByVal sender As Object, ByVal e As EventArgs)
-        Dim formulas As List(Of String) = New List(Of String)()
-        Dim valores As List(Of String) = New List(Of String)()
-        formulas.Add("usuario")
-        valores.Add(MyProject.Forms.FrmPrincipal.lblUsuario.Text)
-        Dim rptName As String = "\rpts\tbpais.rpt"
-        Dim query As String = "SELECT COD_PAIS CODE,NM_PAIS DESCR,ID_PAIS FROM " & Banco.BancoNVOCC & "TB_PAIS"
-    End Sub
+
 
     Private Sub FrmPaises_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
@@ -216,7 +209,12 @@ Public Class FrmPaises
 
     End Sub
 
-    Private Sub FrmPaises_Load(ByVal sender As Object, ByVal e As EventArgs)
+    Private Sub FrmPaises_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+        Me.Dispose()
+    End Sub
+
+
+    Private Sub FrmPaises_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If Filtro IsNot Nothing Then
             Filtro.ActivateAllFilters(Active:=False)
         End If
@@ -258,13 +256,28 @@ Public Class FrmPaises
         End If
     End Sub
 
-    Private Sub FrmPaises_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
-        Me.Dispose()
+    Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
+        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
+            Consultar()
+            Dim Tela As Control = Me
+            Geral.LimparCampos(Tela)
+        End If
     End Sub
 
-    Private Sub btnFiltro_Click_1(sender As Object, e As EventArgs) Handles btnFiltro.Click
-        If dgvConsulta.Rows.Count > 0 Then
-            Filtro.ShowPopup(Me.dgvConsulta.CurrentCell.ColumnIndex)
-        End If
+    Private Sub btnNovo_Click(sender As Object, e As EventArgs) Handles btnNovo.Click
+        Dim Tela As Control = Me
+        Geral.LimparCampos(Tela)
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=True)
+        SetaControles()
+        txtPais.Focus()
+    End Sub
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        SetaControles()
+        Dim Tela As Control = Me
+        Geral.LimparCampos(Tela)
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
 End Class
