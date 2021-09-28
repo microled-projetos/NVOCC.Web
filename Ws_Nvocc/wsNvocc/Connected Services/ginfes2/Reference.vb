@@ -13,220 +13,184 @@ Option Explicit On
 
 
 Namespace ginfes2
-    
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0"),  _
-     System.ServiceModel.ServiceContractAttribute([Namespace]:="http://producao.ginfes.com.br", ConfigurationName:="ginfes2.ServiceGinfesImpl")>  _
+
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0"),
+     System.ServiceModel.ServiceContractAttribute([Namespace]:="http://producao.ginfes.com.br", ConfigurationName:="ginfes2.ServiceGinfesImpl")>
     Public Interface ServiceGinfesImpl
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function CancelarNfse(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function CancelarNfseAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function CancelarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function CancelarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarLoteRps(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarLoteRpsAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarNfse(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarNfseAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarNfsePorRps(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarNfsePorRpsAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarNfsePorRpsV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarNfsePorRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarSituacaoLoteRps(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarSituacaoLoteRpsAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function ConsultarSituacaoLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function ConsultarSituacaoLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function RecepcionarLoteRps(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function RecepcionarLoteRpsAsync(ByVal arg0 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),  _
-         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>  _
+
+        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*"),
+         System.ServiceModel.DataContractFormatAttribute(Style:=System.ServiceModel.OperationFormatStyle.Rpc)>
         Function RecepcionarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> String
-        
-        <System.ServiceModel.OperationContractAttribute(Action:="", ReplyAction:="*")>  _
-        Function RecepcionarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As <System.ServiceModel.MessageParameterAttribute(Name:="return")> System.Threading.Tasks.Task(Of String)
     End Interface
-    
-    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
+
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>
     Public Interface ServiceGinfesImplChannel
         Inherits ginfes2.ServiceGinfesImpl, System.ServiceModel.IClientChannel
     End Interface
-    
-    <System.Diagnostics.DebuggerStepThroughAttribute(),  _
-     System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>  _
+
+    <System.Diagnostics.DebuggerStepThroughAttribute(),
+     System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")>
     Partial Public Class ServiceGinfesImplClient
         Inherits System.ServiceModel.ClientBase(Of ginfes2.ServiceGinfesImpl)
         Implements ginfes2.ServiceGinfesImpl
-        
+
         Public Sub New()
             MyBase.New
         End Sub
-        
+
         Public Sub New(ByVal endpointConfigurationName As String)
             MyBase.New(endpointConfigurationName)
         End Sub
-        
+
         Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As String)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
-        
+
         Public Sub New(ByVal endpointConfigurationName As String, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(endpointConfigurationName, remoteAddress)
         End Sub
-        
+
         Public Sub New(ByVal binding As System.ServiceModel.Channels.Binding, ByVal remoteAddress As System.ServiceModel.EndpointAddress)
             MyBase.New(binding, remoteAddress)
         End Sub
-        
+
         Public Function CancelarNfse(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.CancelarNfse
             Return MyBase.Channel.CancelarNfse(arg0)
         End Function
-        
-        Public Function CancelarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.CancelarNfseAsync
+
+        Public Function CancelarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseAsync
             Return MyBase.Channel.CancelarNfseAsync(arg0)
         End Function
-        
-        Public Function CancelarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.CancelarNfseV3
+
+        Public Function CancelarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseV3
             Return MyBase.Channel.CancelarNfseV3(arg0, arg1)
         End Function
-        
-        Public Function CancelarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.CancelarNfseV3Async
+
+        Public Function CancelarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseV3Async
             Return MyBase.Channel.CancelarNfseV3Async(arg0, arg1)
         End Function
-        
-        Public Function ConsultarLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRps
+
+        Public Function ConsultarLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRps
             Return MyBase.Channel.ConsultarLoteRps(arg0)
         End Function
-        
-        Public Function ConsultarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsAsync
+
+        Public Function ConsultarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsAsync
             Return MyBase.Channel.ConsultarLoteRpsAsync(arg0)
         End Function
-        
-        Public Function ConsultarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsV3
+
+        Public Function ConsultarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsV3
             Return MyBase.Channel.ConsultarLoteRpsV3(arg0, arg1)
         End Function
-        
-        Public Function ConsultarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsV3Async
+
+        Public Function ConsultarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsV3Async
             Return MyBase.Channel.ConsultarLoteRpsV3Async(arg0, arg1)
         End Function
-        
-        Public Function ConsultarNfse(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfse
+
+        Public Function ConsultarNfse(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfse
             Return MyBase.Channel.ConsultarNfse(arg0)
         End Function
-        
-        Public Function ConsultarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfseAsync
+
+        Public Function ConsultarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseAsync
             Return MyBase.Channel.ConsultarNfseAsync(arg0)
         End Function
-        
-        Public Function ConsultarNfsePorRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRps
+
+        Public Function ConsultarNfsePorRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRps
             Return MyBase.Channel.ConsultarNfsePorRps(arg0)
         End Function
-        
-        Public Function ConsultarNfsePorRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsAsync
+
+        Public Function ConsultarNfsePorRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsAsync
             Return MyBase.Channel.ConsultarNfsePorRpsAsync(arg0)
         End Function
-        
-        Public Function ConsultarNfsePorRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsV3
+
+        Public Function ConsultarNfsePorRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsV3
             Return MyBase.Channel.ConsultarNfsePorRpsV3(arg0, arg1)
         End Function
-        
-        Public Function ConsultarNfsePorRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsV3Async
+
+        Public Function ConsultarNfsePorRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsV3Async
             Return MyBase.Channel.ConsultarNfsePorRpsV3Async(arg0, arg1)
         End Function
-        
-        Public Function ConsultarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfseV3
+
+        Public Function ConsultarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseV3
             Return MyBase.Channel.ConsultarNfseV3(arg0, arg1)
         End Function
-        
-        Public Function ConsultarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfseV3Async
+
+        Public Function ConsultarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseV3Async
             Return MyBase.Channel.ConsultarNfseV3Async(arg0, arg1)
         End Function
-        
-        Public Function ConsultarSituacaoLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRps
+
+        Public Function ConsultarSituacaoLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRps
             Return MyBase.Channel.ConsultarSituacaoLoteRps(arg0)
         End Function
-        
-        Public Function ConsultarSituacaoLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsAsync
+
+        Public Function ConsultarSituacaoLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsAsync
             Return MyBase.Channel.ConsultarSituacaoLoteRpsAsync(arg0)
         End Function
-        
-        Public Function ConsultarSituacaoLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3
+
+        Public Function ConsultarSituacaoLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3
             Return MyBase.Channel.ConsultarSituacaoLoteRpsV3(arg0, arg1)
         End Function
-        
-        Public Function ConsultarSituacaoLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3Async
+
+        Public Function ConsultarSituacaoLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3Async
             Return MyBase.Channel.ConsultarSituacaoLoteRpsV3Async(arg0, arg1)
         End Function
-        
-        Public Function RecepcionarLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRps
+
+        Public Function RecepcionarLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRps
             Return MyBase.Channel.RecepcionarLoteRps(arg0)
         End Function
-        
-        Public Function RecepcionarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsAsync
+
+        Public Function RecepcionarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsAsync
             Return MyBase.Channel.RecepcionarLoteRpsAsync(arg0)
         End Function
-        
-        Public Function RecepcionarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsV3
+
+        Public Function RecepcionarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsV3
             Return MyBase.Channel.RecepcionarLoteRpsV3(arg0, arg1)
         End Function
-        
-        Public Function RecepcionarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsV3Async
+
+        Public Function RecepcionarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsV3Async
             Return MyBase.Channel.RecepcionarLoteRpsV3Async(arg0, arg1)
         End Function
     End Class
