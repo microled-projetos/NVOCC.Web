@@ -1008,7 +1008,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     objBoletos.Banco.Cedente = New Cedente
                     objBoletos.Banco.Cedente.CPFCNPJ = ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
                     objBoletos.Banco.Cedente.Nome = ds.Tables(0).Rows(0).Item("NM_CEDENTE")
-                    objBoletos.Banco.Cedente.Observacoes = "Observações do cedente - o que coloca aqui?"
+                    objBoletos.Banco.Cedente.Observacoes = ""
 
                     Dim conta As New ContaBancaria
                     conta.Agencia = ds.Tables(0).Rows(0).Item("NR_AGENCIA")
@@ -1075,7 +1075,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
-                        Titulo.DataVencimento = Now.Date.AddDays(15)
+                        Titulo.DataVencimento = "09/10/2021"
                         Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
                         Titulo.Aceite = "N"
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DM

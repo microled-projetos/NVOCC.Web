@@ -199,7 +199,7 @@ erro:
             Case "1"
                 strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_mora, "#.00"), 15)
             Case "2"
-                strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_mora, "#.00"), 15)
+                strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_mora, "#.00000"), 15)
             Case Else
                 strS = strS & Strings.StrDup(15, "0")
         End Select
@@ -284,12 +284,12 @@ erro:
         strS = strS & Right(Strings.StrDup(5, "0") & NSeqRegistro, 5)
         strS = strS & "R"
         strS = strS & " "
-        strS = strS & Right(Strings.StrDup(2, "0") & NNull(Mid(COD_MOV, 1, 2), 0), 2)
+        strS = strS & Right(Strings.StrDup(2, "0") & NNull(COD_MOV, 0), 2)
         strS = strS & "0"
         strS = strS & "00000000"
         strS = strS & Strings.StrDup(15, "0")
         strS = strS & Strings.StrDup(24, " ")
-        strS = strS & NNull(Mid(COD_MULTA, 1, 1), 0)
+        strS = strS & NNull(COD_MULTA, 0)
         strS = strS & "00000000"
         strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_multa, "#.00"), 15) 'Replace(PPonto(Format(vlr_multa, "#.00")), ".", ""), 15)
         strS = strS & Strings.StrDup(10, " ")
@@ -393,6 +393,7 @@ erro:
         'declara as variáveis
         Dim intcontador, intnumero, intTotalNumero, intMultiplicador, intResto As Integer
 
+
         strNumero = strNumero.Replace(".", "")
 
         ' se nao for um valor numerico sai da função
@@ -409,6 +410,7 @@ erro:
 
             'extrai o caracter e multiplica prlo multiplicador
             intnumero = Val(Mid(strNumero, intcontador, 1)) * intMultiplicador
+
 
             'soma o resultado para totalização
             intTotalNumero = intTotalNumero + intnumero
