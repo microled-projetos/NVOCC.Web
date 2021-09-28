@@ -500,7 +500,8 @@
                                         <asp:LinkButton ID="lkCalcularHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                         <asp:LinkButton ID="lkCourrierHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-transfer"></i>&nbsp;Courrier</asp:LinkButton>
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
-                                        <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>                                       
+                                        <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
+                                         <asp:LinkButton ID="lkConferir" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-check"></i>&nbsp;Conferir</asp:LinkButton>    
                                     </div>
                                     <br />
                                     <br />
@@ -517,6 +518,7 @@
                                                         <asp:ListItem Value="2">Tipo de Estufagem</asp:ListItem>
                                                         <asp:ListItem Value="3">Nome do Cliente</asp:ListItem>
                                                         <asp:ListItem Value="4">Nº BL Master</asp:ListItem>
+                                                        <asp:ListItem Value="5">Nº HBL</asp:ListItem>
                                                     </asp:DropDownList>
                                                 </div>
 
@@ -577,18 +579,19 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="ID_BL" HeaderText="#" SortExpression="ID_BL" Visible="false" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
+                                                <asp:BoundField DataField="NR_BL" HeaderText="HBL" SortExpression="NR_BL" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
                                                 <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
                                                 <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="Pagamento" SortExpression="TIPO_PAGAMENTO" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="PARCEIRO_AGENTE_INTERNACIONAL" HeaderText="Agente" SortExpression="PARCEIRO_AGENTE_INTERNACIONAL" />
-                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="Previsão(Embarque)" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
+                                                <asp:BoundField DataField="DT_PREVISAO_EMBARQUE_MASTER" HeaderText="Prev.(Embarque)" SortExpression="DT_PREVISAO_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_EMBARQUE_MASTER" HeaderText="Embarque" SortExpression="DT_EMBARQUE_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
-                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="Previsão(Chegada)" SortExpression="DT_PREVISAO_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
+                                                <asp:BoundField DataField="DT_PREVISAO_CHEGADA_MASTER" HeaderText="Prev.(Chegada)" SortExpression="DT_PREVISAO_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="Chegada" SortExpression="DT_CHEGADA_MASTER" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="PARCEIRO_TRANSPORTADOR" />
-                                                <asp:BoundField DataField="BL_MASTER" HeaderText="BL Master" SortExpression="BL_MASTER" />
+                                                <asp:BoundField DataField="BL_MASTER" HeaderText="MBL" SortExpression="BL_MASTER" />
                                                 <asp:BoundField DataField="NR_CE" HeaderText="CE" SortExpression="NR_CE" />
                                                 <asp:BoundField DataField="DT_REDESTINACAO" HeaderText="Redestinação" SortExpression="DT_REDESTINACAO" DataFormatString="{0:dd/MM/yyyy}" />
                                                 <asp:BoundField DataField="DT_DESCONSOLIDACAO" HeaderText="Desconsolidação" SortExpression="DT_DESCONSOLIDACAO" DataFormatString="{0:dd/MM/yyyy}" />

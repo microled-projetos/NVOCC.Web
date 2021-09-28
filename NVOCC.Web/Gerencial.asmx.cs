@@ -1015,13 +1015,14 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT A.AUTONUM AS IDEMAIL, ISNULL(B.NR_PROCESSO,'') AS PROCESSO, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO , ISNULL(FORMAT(A.DT_GERACAO,'dd/MM/yyyy'),'') AS DT_GERACAO, ";
             SQL += "ISNULL(FORMAT(A.DT_START, 'dd/MM/yyyy'), '') AS PREVISAO, ISNULL(FORMAT(A.DT_ENVIO, 'dd/MM/yyyy'), '') AS DT_ENVIO, ";
-            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO ";
+            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO, ISNULL(F.CRITICA,'') AS OCORRENCIA ";
             SQL += "FROM TB_GER_EMAIL A ";
             SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO C ON A.IDPARCEIRO = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDCLIENTE = D.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
+            SQL += "LEFT JOIN TB_GER_LOG F ON A.AUTONUM = F.AUTONUM_EMAIL ";
             SQL += "WHERE A.AUTONUM IS NOT NULL ";
             SQL += "AND E.ORIGEM = 'OP' ";
             SQL += ""+filtro+" ";
@@ -1100,17 +1101,17 @@ namespace ABAINFRA.Web
                     break;
             }
             string SQL;
-            SQL = "SELECT A.ID_SOLICITACAO_EMAIL, B.NR_PROCESSO, M.NR_BL, E.NMTIPOAVISO, ISNULL(FORMAT(A.DT_SOLICITACAO,'dd/MM/yyyy'),'') AS DT_SOLICITACAO, ";
+            SQL = "SELECT A.ID_SOLICITACAO_EMAIL, ISNULL(B.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') AS NR_BL, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO, ISNULL(FORMAT(A.DT_SOLICITACAO,'dd/MM/yyyy'),'') AS DT_SOLICITACAO, ";
             SQL += "ISNULL(FORMAT(A.DT_START,'dd/MM/yyyy'),'') AS DT_START, ISNULL(FORMAT(A.DT_GERACAO_EMAIL,'dd/MM/yyyy'),'') AS DT_GERACAO_EMAIL, ";
             SQL += "ISNULL(FORMAT(A.DT_CANCELAMENTO,'dd/MM/yyyy'),'') AS DT_CANCELAMENTO, ISNULL(A.OB_CANCELAMENTO,'') AS OB_CANCELAMENTO, ";
-            SQL += "C.NM_RAZAO AS CLIENTE, ISNULL(CONVERT(VARCHAR,A.IDARMAZEM),'') AS IDARMAZEM, ISNULL(D.NM_RAZAO,'') AS PARCEIRO ";
+            SQL += "ISNULL(C.NM_RAZAO,'') AS CLIENTE, ISNULL(CONVERT(VARCHAR,A.IDARMAZEM),'') AS IDARMAZEM, ISNULL(D.NM_RAZAO,'') AS PARCEIRO ";
             SQL += "FROM TB_solicitacao_email A ";
             SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
             SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO C ON B.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDPARCEIRO = D.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
-            SQL += "WHERE M.NR_BL IS NOT NULL ";
+            SQL += "WHERE ORIGEM = 'OP' ";
             SQL += "" + filtro + " ";
             SQL += "" + enviado + " ";
             SQL += "" + nenviado + " ";
@@ -1128,7 +1129,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT DT_CANCELAMENTO FROM TB_SOLICITACAO_EMAIL WHERE ID_SOLICITACAO_EMAIL = '"+idEmail+"' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if(listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "") 
+            string dtcancelamento = listTable.Rows[0]["DT_CANCELAMENTO"].ToString();
+            if (dtcancelamento != "") 
             {
                 return "cancelado";
             }
@@ -1432,7 +1434,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT C.DT_ENVIO, C.ENVIADO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if (listTable.Rows[0]["DT_ENVIO"].ToString() == "" && listTable.Rows[0]["ENVIADO"].ToString() == "")
+            string dtenvio = listTable.Rows[0]["DT_ENVIO"].ToString();
+            if (dtenvio == "")
             {
                 result = "ok";
                 return JsonConvert.SerializeObject(result);
@@ -1449,10 +1452,11 @@ namespace ABAINFRA.Web
         {
             string SQL;
             string result;
-            SQL = "SELECT C.DT_ENVIO, C.ENVIADO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
+            SQL = "SELECT C.DT_ENVIO FROM TB_GER_EMAIL C WHERE C.AUTONUM = '" + idProcesso + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if (listTable.Rows[0]["DT_ENVIO"].ToString() != "" && listTable.Rows[0]["ENVIADO"].ToString() != "")
+            string dtenvio = listTable.Rows[0]["DT_ENVIO"].ToString();
+            if (dtenvio != "")
             {
                 result = "ok";
                 return JsonConvert.SerializeObject(result);
@@ -1581,7 +1585,8 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(F.NM_RAZAO, '') AS CLIENTE, ";
             SQL += "ISNULL(H.NM_PORTO, '') AS ORIGEM, ";
             SQL += "ISNULL(I.NM_PORTO, '') AS DESTINO, ";
-            SQL += "ISNULL(J.NM_RAZAO, '') AS VENDEDOR, ISNULL(K.NM_STATUS_COTACAO, '') AS STATUS ";
+            SQL += "ISNULL(J.NM_RAZAO, '') AS VENDEDOR, ISNULL(K.NM_STATUS_COTACAO, '') AS STATUS, ";
+            SQL += "ISNULL(A.DS_OBS, '') AS OBS ";
             SQL += "FROM TB_ATENDIMENTO_NEGADO A ";
             SQL += "LEFT JOIN TB_PARCEIRO B ON A.ID_PARCEIRO_INSIDE = B.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
@@ -1668,7 +1673,7 @@ namespace ABAINFRA.Web
             }
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS) VALUES('"+dados.DT_ATENDIMENTO_NEGADO+"','"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"')";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, DS_OBS) VALUES('"+dados.DT_ATENDIMENTO_NEGADO+"','"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"','"+dados.DS_OBS+"')";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");
@@ -1742,15 +1747,104 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT A.AUTONUM AS IDEMAIL, ISNULL(B.NR_PROCESSO,'') AS PROCESSO, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO , ISNULL(FORMAT(A.DT_GERACAO,'dd/MM/yyyy'),'') AS DT_GERACAO, ";
             SQL += "ISNULL(FORMAT(A.DT_START, 'dd/MM/yyyy'), '') AS PREVISAO, ISNULL(FORMAT(A.DT_ENVIO, 'dd/MM/yyyy'), '') AS DT_ENVIO, ";
-            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO ";
+            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO, ";
+            SQL += "ISNULL(F.CRITICA,'') AS OCORRENCIA ";
             SQL += "FROM TB_GER_EMAIL A ";
             SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO C ON A.IDPARCEIRO = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDCLIENTE = D.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
+            SQL += "LEFT JOIN TB_GER_LOG F ON A.AUTONUM = F.AUTONUM_EMAIL ";
             SQL += "WHERE A.AUTONUM IS NOT NULL ";
             SQL += "AND E.ORIGEM = 'FN' ";
+            SQL += "" + filtro + " ";
+            SQL += "" + enviado + " ";
+            SQL += "" + nenviado + " ";
+            SQL += "" + dtgerado + " ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarEmailAgendadoFinanceiro(string filtro, string consulta, string enviado, string nenviado, string dtgerado)
+        {
+            switch (filtro)
+            {
+                case "1":
+                    filtro = "AND B.NR_PROCESSO LIKE '" + consulta + "%' ";
+                    break;
+                case "2":
+                    filtro = "AND C.NM_RAZAO LIKE '" + consulta + "%' ";
+                    break;
+                case "3":
+                    filtro = "AND E.NMTIPOAVISO LIKE '%" + consulta + "%' ";
+                    break;
+                default:
+                    filtro = "";
+                    break;
+            }
+
+            if (enviado == "1" && nenviado == "1")
+            {
+                enviado = "";
+                nenviado = "";
+            }
+            else
+            {
+                switch (enviado)
+                {
+                    case "1":
+                        enviado = "AND A.DT_GERACAO_EMAIL IS NULL ";
+                        break;
+                    default:
+                        enviado = "";
+                        break;
+                }
+
+                switch (nenviado)
+                {
+                    case "1":
+                        nenviado = "AND A.DT_GERACAO_EMAIL IS NOT NULL ";
+                        break;
+                    default:
+                        nenviado = "";
+                        break;
+                }
+            }
+
+            switch (dtgerado)
+            {
+                case "1":
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) = CONVERT (date, GETDATE()) ";
+                    break;
+                case "2":
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -7, CONVERT (date, GETDATE())) ";
+                    break;
+                case "3":
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -30, CONVERT (date, GETDATE())) ";
+                    break;
+                case "4":
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -60, CONVERT (date, GETDATE())) ";
+                    break;
+                case "5":
+                    dtgerado = "AND CONVERT (date,A.DT_SOLICITACAO) >= DATEADD(day, -90, CONVERT (date, GETDATE())) ";
+                    break;
+            }
+            string SQL;
+            SQL = "SELECT A.ID_SOLICITACAO_EMAIL, ISNULL(B.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') AS NR_BL, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO, ISNULL(FORMAT(A.DT_SOLICITACAO,'dd/MM/yyyy'),'') AS DT_SOLICITACAO, ";
+            SQL += "ISNULL(FORMAT(A.DT_START,'dd/MM/yyyy'),'') AS DT_START, ISNULL(FORMAT(A.DT_GERACAO_EMAIL,'dd/MM/yyyy'),'') AS DT_GERACAO_EMAIL, ";
+            SQL += "ISNULL(FORMAT(A.DT_CANCELAMENTO,'dd/MM/yyyy'),'') AS DT_CANCELAMENTO, ISNULL(A.OB_CANCELAMENTO,'') AS OB_CANCELAMENTO, ";
+            SQL += "ISNULL(C.NM_RAZAO,'') AS CLIENTE, ISNULL(CONVERT(VARCHAR,A.IDARMAZEM),'') AS IDARMAZEM, ISNULL(D.NM_RAZAO,'') AS PARCEIRO ";
+            SQL += "FROM TB_solicitacao_email A ";
+            SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
+            SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO C ON B.ID_PARCEIRO_CLIENTE = C.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDPARCEIRO = D.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
+            SQL += "WHERE ORIGEM = 'FN' ";
             SQL += "" + filtro + " ";
             SQL += "" + enviado + " ";
             SQL += "" + nenviado + " ";

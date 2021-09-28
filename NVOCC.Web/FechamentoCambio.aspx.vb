@@ -278,7 +278,8 @@ DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRAN
 SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
 (SELECT ID_MOEDA FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & linha.Item("ID_ACCOUNT_INVOICE") & "),
 (SELECT DT_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),
-(SELECT VL_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),VL_TAXA_BR,VL_TAXA_BR,'ACCOUNT – FECHAMENTO DE CÂMBIO ' + (SELECT NR_CONTRATO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),ID_ITEM_DESPESA,(SELECT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE =  " & linha.Item("ID_ACCOUNT_INVOICE") & "),VL_TAXA,CD_TIPO_DEVOLUCAO,1,(SELECT NR_INVOICE FROM TB_ACCOUNT_INVOICE B WHERE B.ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE),'INVOICE' FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACCOUNT_INVOICE"))
+(SELECT VL_TAXA_CAMBIO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),VL_TAXA_BR,VL_TAXA_BR,'ACCOUNT – FECHAMENTO DE CÂMBIO ' + (SELECT NR_CONTRATO FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "),ID_ITEM_DESPESA,(SELECT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE =  " & linha.Item("ID_ACCOUNT_INVOICE") & "),VL_TAXA,CD_TIPO_DEVOLUCAO,1,(SELECT NR_INVOICE FROM TB_ACCOUNT_INVOICE B WHERE B.ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE),'INV - ' +( SELECT NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR WHERE ID_ACCOUNT_TIPO_EMISSOR IN(SELECT ID_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & linha.Item("ID_ACCOUNT_INVOICE") & ")) 
+FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACCOUNT_INVOICE"))
 
             Next
 
@@ -318,7 +319,7 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
         Dim ValorTotalInvoices As Decimal = lblValorTotalInvoices.Text
 
         If ddlAgenteNovo.SelectedValue = 0 Or ddlMoedaNovo.SelectedValue = 0 Or ddlCorretorNovo.SelectedValue = 0 Or txtContratoNovo.Text = "" Or
-            txtDataFechamentoNovo.Text = "" Or txtTarifaNovo.Text = "" Or txtIOFNovo.Text = "" Or txtValorNovo.Text = "" Or
+            txtDataFechamentoNovo.Text = "" Or txtValorNovo.Text = "" Or
             txtCambioNovo.Text = "" Or txtDataCambioNovo.Text = "" Or txtValorBRNovo.Text = "" Then
             divErroNovoFechamento.Visible = True
             lblErroNovoFechamento.Text = "Preencha os campos obrigatórios!"
@@ -329,12 +330,19 @@ SELECT " & ID_CONTA_PAGAR_RECEBER & ",ID_BL,ID_BL_TAXA,
             lblErroNovoFechamento.Text = "O valor do contrato informado não corresponde ao valor total de invoices selecionadas!"
             ModalPopupExtender3.Show()
             Exit Sub
-        ElseIf VerificaValorReal = False Then
+        ElseIf VerificaValorReal() = False Then
             divErroNovoFechamento.Visible = True
             lblErroNovoFechamento.Text = "O valor em real não corresponde ao produto de Valor x Taxa Câmbio!"
             ModalPopupExtender3.Show()
             Exit Sub
         Else
+            If txtTarifaNovo.Text = "" Then
+                txtTarifaNovo.Text = "0"
+            End If
+
+            If txtIOFNovo.Text = "" Then
+                txtIOFNovo.Text = "0"
+            End If
 
             txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(".", "")
             txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(",", ".")
@@ -446,7 +454,7 @@ WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENT
 
     Function VerificaValorReal() As Boolean
         Dim ValorCambio As Decimal = txtValorNovo.Text * txtCambioNovo.Text
-
+        Dim valorBrNovo As Decimal = txtValorBRNovo.Text
         If txtValorBRNovo.Text = ValorCambio Then
             Return True
         Else
@@ -541,6 +549,7 @@ WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENT
 
     Private Sub btnFecharNovoFechamento_Click(sender As Object, e As EventArgs) Handles btnFecharNovoFechamento.Click
         limpaFormulario()
+        dgvInvoice.Visible = False
         ModalPopupExtender3.Hide()
         divErroNovoFechamento.Visible = False
     End Sub

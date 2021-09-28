@@ -17,6 +17,7 @@ namespace ABAINFRA.Web.Classes
         private string id_porto_destino;
         private string id_incoterm;
         private string id_status;
+        private string ds_obs;
 
 
         public string DT_ATENDIMENTO_NEGADO { get => dt_atendimento_negado; set => dt_atendimento_negado = value; }
@@ -29,5 +30,6 @@ namespace ABAINFRA.Web.Classes
         public string ID_PORTO_DESTINO { get => id_porto_destino; set => id_porto_destino = value; }
         public string ID_INCOTERM { get => id_incoterm; set => id_incoterm = value; }
         public string ID_STATUS { get => id_status; set => id_status = value; }
+        public string DS_OBS { get => ds_obs; set => ds_obs = value; }
     }
 }

@@ -19,12 +19,21 @@
             numeroFinal = numero.ToString.PadLeft(6, "0")
         ElseIf Tipo_Doc = 3 Then
             'NR_RPS
-            ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_RPS NR_RPS")
-            numero = ds.Tables(0).Rows(0).Item("NR_RPS")
-            numeroFinal = numero.ToString.PadLeft(6, "0")
+            'ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_RPS NR_RPS")
+            'numero = ds.Tables(0).Rows(0).Item("NR_RPS")
+            'numeroFinal = numero.ToString.PadLeft(6, "0")
 
             'Chamar ws ???
 
+
+            Dim dt As DataTable
+
+            Dim ConOracle As New Conexao_oracle
+            ConOracle.Conectar()
+            Dim Sql As String = "SELECT  SEQ_NUMERO_RPS.NEXTVAL FROM DUAL "
+            dt = ConOracle.Consultar(Sql)
+            numero = dt.Rows(0)("NEXTVAL").ToString
+            numeroFinal = numero.ToString.PadLeft(6, "0")
 
 
         End If

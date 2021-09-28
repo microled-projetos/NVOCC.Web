@@ -32,7 +32,7 @@ Public Class RastreioBL
         situacao.Text = "Ativo"
         eta.Text = data.dates.eta
         'ADUANA
-        ce.Text = data.aduana.ce_number
+        'ce.Text = data.aduana.ce_number
         manifesto.Text = data.aduana.manifest
         'Mercadoria
         volume_m3.Text = data.commodity.unit_quantity
@@ -55,11 +55,13 @@ Public Class RastreioBL
         agencia_maritima.Text = data.logistics.shipping_agency
         armador_informado.Text = data.logistics.informed_carrier_name
         agente_internacional.Text = data.logistics.forwarder_name_foreign
+
         'IMPORTADOR
         'atividade.Text = data.consignee.activity
         'telefone.Text = data.consignee.phone
         'natureza.Text = data.consignee.legal_nature
         'email.Text = data.consignee.email
+
         'DATAS
         data_cadastro.Text = data.dates.created_datetime
         data_emissao_bl.Text = data.dates.bl_emission_date

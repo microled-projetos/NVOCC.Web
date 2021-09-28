@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web 15092021\Publicacao 16092021\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -105,6 +105,9 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.OleDb, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.OleDb.5.0.0\lib\net461\System.Data.OleDb.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Core" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -168,6 +171,7 @@
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.7.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -267,10 +271,14 @@
     <Content Include="CadastrarOrigemDestino.aspx" />
     <Content Include="CadastrarParceiro.aspx" />
     <Content Include="CadastrarPermissao.aspx" />
+    <Content Include="CadastrarSubVendedor.aspx" />
     <Content Include="CadastrarUsuario.aspx" />
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
     <Content Include="CadastroNavios.aspx" />
+    <Content Include="CaixaSaida.aspx" />
+    <Content Include="CaixaSaida.aspx.cs" />
+    <Content Include="CaixaSaida.aspx.designer.cs" />
     <Content Include="CalcularRecebimento.aspx" />
     <Content Include="CapaProcesso.aspx" />
     <Content Include="Classes\CourrierInfo.cs" />
@@ -520,6 +528,7 @@
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
     <None Include="Web References\NotaFiscal\WsNvocc.disco" />
+    <Content Include="TextoCotacao.aspx" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
@@ -653,6 +662,13 @@
       <DependentUpon>CadastrarPermissao.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.designer.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarSubVendedor.aspx.vb">
+      <DependentUpon>CadastrarSubVendedor.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="CadastrarUsuario.aspx.designer.vb">
       <DependentUpon>CadastrarUsuario.aspx</DependentUpon>
     </Compile>
@@ -695,6 +711,7 @@
       <DependentUpon>CapaProcesso.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
     <Compile Include="Class\Consignee.vb" />
@@ -738,7 +755,6 @@
       <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Conexao_oracle.vb" />
     <Compile Include="Conexao_sql.vb" />
     <Compile Include="Conferencia.aspx.designer.vb">
       <DependentUpon>Conferencia.aspx</DependentUpon>
@@ -864,7 +880,9 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\EMAIL.vb" />
+    <Compile Include="Helpers\GeraRemessa.vb" />
     <Compile Include="Helpers\TrataTextbox.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />
@@ -1068,6 +1086,13 @@
     <Compile Include="TaxasLocaisExpo_PDF.aspx.vb">
       <DependentUpon>TaxasLocaisExpo_PDF.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TextoCotacao.aspx.designer.vb">
+      <DependentUpon>TextoCotacao.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TextoCotacao.aspx.vb">
+      <DependentUpon>TextoCotacao.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="TrocarSenha.aspx.designer.vb">
       <DependentUpon>TrocarSenha.aspx</DependentUpon>

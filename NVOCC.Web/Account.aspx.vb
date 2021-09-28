@@ -16,7 +16,20 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
+        Else
+            If Not Page.IsPostBack Then
+                Dim primeirodia As Date
+                If Month(Now.AddMonths(-1)) <= 9 Then
+                    primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+                Else
+                    primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+                End If
+                txtVencimentoInicial.Text = primeirodia
 
+                Dim ultimodia As Date = DateAdd("m", 1, DateSerial(Year(Now.Date), Month(Now.Date), 1))
+                ultimodia = DateAdd("d", -1, ultimodia)
+                txtVencimentoFinal.Text = ultimodia
+            End If
         End If
 
         Con.Fechar()
@@ -238,7 +251,7 @@
         ddlEmissor.Enabled = True
         ddlTipoInvoice.Enabled = True
         ddlTipoFatura.Enabled = True
-        ckbConferido.Checked = False
+        ckbConferido.Checked = True
         divErroInvoice.Visible = False
         divSuccessInvoice.Visible = False
     End Sub
@@ -457,7 +470,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        'dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS(" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS_NOVA(" & txtID_BL.Text & ", '" & txtGrau.Text & "'," & ddlEmissor.SelectedValue & ", " & ddlTipoFatura.SelectedValue & ")  WHERE ID_PARCEIRO_EMPRESA = " & ddlAgente.SelectedValue & " AND VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+
         dgvOutrasTaxas.Visible = True
         dgvOutrasTaxas.DataBind()
         dgvTaxasDeclaradas.Visible = False
@@ -505,7 +520,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
             If check.Checked Then
                 Dim Con As New Conexao_sql
                 Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA,'TE' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TE' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
             End If
         Next
         dsTaxasExterior.DataBind()
@@ -528,7 +543,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
             If check.Checked Then
                 Dim Con As New Conexao_sql
                 Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA,'TD' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'TD' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
             End If
         Next
 
@@ -580,7 +595,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
             If check.Checked Then
                 Dim Con As New Conexao_sql
                 Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA,'OT' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) SELECT " & txtIDInvoice.Text & ",A.ID_BL,(SELECT ID_BL_MASTER FROM TB_BL B WHERE A.ID_BL = B.ID_BL),A.ID_BL_TAXA,A.ID_ITEM_DESPESA," & operador & " VL_TAXA_CALCULADO,'OT' FROM TB_BL_TAXA A WHERE A.ID_BL_TAXA =" & ID)
             End If
         Next
 
@@ -888,7 +903,13 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
 
         Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
 ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
-ORIGEM,DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
+CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
+
+(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
+END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
+
+(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
+END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER  FROM [dbo].[View_House] 
  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) ORDER BY NR_PROCESSO"

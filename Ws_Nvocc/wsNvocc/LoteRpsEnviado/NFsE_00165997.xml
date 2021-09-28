@@ -1,0 +1,66 @@
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+  <LoteRps Id="_10165997">
+    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10165997</NumeroLote>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+      <Rps>
+        <InfRps Id="_20165997">
+          <IdentificacaoRps>
+            <Numero>076615</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </IdentificacaoRps>
+          <DataEmissao>2021-09-10T19:03:39</DataEmissao>
+          <NaturezaOperacao>1</NaturezaOperacao>
+          <OptanteSimplesNacional>2</OptanteSimplesNacional>
+          <IncentivadorCultural>2</IncentivadorCultural>
+          <Status>1</Status>
+          <Servico>
+            <Valores>
+              <ValorServicos>584.59</ValorServicos>
+              <ValorPis>0.00</ValorPis>
+              <ValorCofins>0.00</ValorCofins>
+              <ValorInss>0.00</ValorInss>
+              <ValorIr>0.00</ValorIr>
+              <ValorCsll>0.00</ValorCsll>
+              <IssRetido>2</IssRetido>
+              <ValorIss>17.54</ValorIss>
+              <ValorIssRetido>0.00</ValorIssRetido>
+              <BaseCalculo>584.59</BaseCalculo>
+              <Aliquota>0.03</Aliquota>
+              <ValorLiquidoNfse>584.59</ValorLiquidoNfse>
+            </Valores>
+            <ItemListaServico>1006</ItemListaServico>
+            <CodigoTributacaoMunicipio>523200001</CodigoTributacaoMunicipio>
+            <Discriminacao>***Valor que levamos a debito, conforme nossa Fatura n 076615 | Processo: M3145-08/21 | S/Ref:  | MASTER: 912572419 | HOUSE: SINODG912572419 | SENDO:  DESCONSOLIDACAO - R$ 584,59  Valor aproximado dos tributos R$ 71,62 (12,25%) conforme LEI 12741/2012</Discriminacao>
+            <CodigoMunicipio>3548500</CodigoMunicipio>
+          </Servico>
+          <Prestador>
+            <Cnpj>00639367000311</Cnpj>
+            <InscricaoMunicipal>1831854</InscricaoMunicipal>
+          </Prestador>
+          <Tomador>
+            <IdentificacaoTomador>
+              <CpfCnpj>
+                <Cnpj>10409614000347</Cnpj>
+              </CpfCnpj>
+            </IdentificacaoTomador>
+            <RazaoSocial>ALTA - AMERICA LATINA TECNOLOGIA AGRICOLA LTDA.</RazaoSocial>
+            <Endereco>
+              <Endereco>ROD PRESIDENTE CASTELO BRANCO</Endereco>
+              <Numero>11100</Numero>
+              <Complemento>KM 30,5 MODULO 5H</Complemento>
+              <Bairro>BAIRRO DOS ALTOS</Bairro>
+              <CodigoMunicipio>3505708</CodigoMunicipio>
+              <Uf>SP</Uf>
+              <Cep>06421400</Cep>
+            </Endereco>
+            <Contato />
+          </Tomador>
+        </InfRps>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+</EnviarLoteRpsEnvio>

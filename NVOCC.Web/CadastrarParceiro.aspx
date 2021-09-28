@@ -339,22 +339,29 @@
                     <div class="row">
                                                      <div class="linha-colorida">SPREAD AEREO</div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Importação:</label>
                                         <asp:TextBox ID="txtAereoImpo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                        <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Acordo Câmbio</label>
+                                        <asp:DropDownList ID="ddlAcordoCambioAereoIMPO" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                            </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Exportação:</label>
                                         <asp:TextBox ID="txtAereoExpo" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Acordo Câmbio</label>
-                                        <asp:DropDownList ID="ddlAcordoCambioAereo" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
+                                        <asp:DropDownList ID="ddlAcordoCambioAereoEXPO" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
                                 </div>

@@ -110,7 +110,7 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">Filtrar por:</label>
-                                            <select id="ddlDataFilter" class="form-control" required="required">
+                                            <select id="ddlDataFilter" class="form-control" required="required" onchange="mudarTitulo()">
                                                 <option value="1">Data Embarque</option>
                                                 <option value="2">Data Previsão Chegada</option>
                                                 <option value="3">Data Chegada</option>
@@ -154,7 +154,7 @@
                                     <table id="grdEstimativaPagamentoRecebimento" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">CHEGADA OU EMBARQUE</th>
+                                                <th class="text-center" scope="col" id="dtContaPagarReceber"></th>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
                                                 <th class="text-center" scope="col">IMP / EXP</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
@@ -198,6 +198,10 @@
         var mes = String(data.getMonth() + 1).padStart(2, '0');
         var ano = data.getFullYear();
 
+        $(document).ready(function () {
+            mudarTitulo();
+        });
+
         function validaDat(data) {
             var date = data;
             var ardt = new Array;
@@ -231,6 +235,18 @@
             // compara se a data informada é maior que a data atual
             // e retorna true ou false
             return dateE > dateV ? false : true
+        }
+
+        function mudarTitulo() {
+            document.getElementById("dtContaPagarReceber").textContent = "";
+            if (document.getElementById("ddlDataFilter").value == '1') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA EMBARQUE";
+            } else if (document.getElementById("ddlDataFilter").value == '2') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA PREVISÃO CHEGADA";
+            } else if (document.getElementById("ddlDataFilter").value == '3') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA CHEGADA";
+            }
+            EstimativaPagamentosRecebimentos();
         }
 
 
@@ -512,7 +528,7 @@
                         $("#grdEstimativaPagamentoRecebimentoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] + "'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
                                     "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
@@ -631,7 +647,7 @@
                             for (let i = 0; i < dado.length; i++) {
                                 position = position + 5;
                                 doc.setFontStyle("normal");
-                                doc.text(dado[i]["DT_CHEGADA"], 4, position);
+                                doc.text(dado[i]["DATA"], 4, position);
                                 doc.text(dado[i]["NR_PROCESSO"], 27, position);
                                 doc.text(dado[i]["TP_SERVICO"], 50, position);
                                 doc.text(dado[i]["NM_ITEM_DESPESA"].substring(0, 15), 65, position);

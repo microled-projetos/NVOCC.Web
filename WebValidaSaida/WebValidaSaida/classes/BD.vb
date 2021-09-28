@@ -30,6 +30,27 @@
         End Get
     End Property
 
+    Public Shared ReadOnly Property BancoOperador() As String
+        Get
+            If BancoEmUso = "ORACLE" Then
+                Return "OPERADOR."
+            Else
+                Return "OPERADOR.."
+            End If
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property BancoSgipa() As String
+        Get
+            If BancoEmUso = "ORACLE" Then
+                Return "SGIPA."
+            Else
+                Return ""
+            End If
+        End Get
+    End Property
+
+    
     Public Shared ReadOnly Property StringConexaoOracle() As String
         Get
             Return String.Format("Provider=OraOLEDB.Oracle.1;Data Source={0};User ID={1};Password={2}", Servidor, Usuario, Senha)

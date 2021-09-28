@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns5:CancelarNfseResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns4="http://www.ginfes.com.br/servico_consultar_nfse_envio" xmlns:ns3="http://www.ginfes.com.br/tipos" xmlns:ns5="http://www.ginfes.com.br/servico_cancelar_nfse_resposta" xmlns:ns6="http://www.ginfes.com.br/servico_cancelar_nfse_envio">
+  <ns5:Sucesso>false</ns5:Sucesso>
+  <ns5:DataHora>2021-09-09T17:56:26</ns5:DataHora>
+  <ns5:MensagemRetorno>
+    <ns3:Codigo>E79</ns3:Codigo>
+    <ns3:Mensagem>Essa NFS-e já está cancelada</ns3:Mensagem>
+    <ns3:Correcao>Confira e informe novamente os dados da NFS-e que deseja cancelar.</ns3:Correcao>
+  </ns5:MensagemRetorno>
+</ns5:CancelarNfseResposta>

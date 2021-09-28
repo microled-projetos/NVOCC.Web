@@ -1737,11 +1737,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
                 Else
 
-
+                    Dim ID_BL_TAXA As String
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String
 
                     'REALIZA INSERT TAXA COMPRA
-                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxaCompra_TaxasMaritimo.Text & "," & txtMinimoCompra_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
-
+                    Dim dstaxa As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxasMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxasMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxasMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxasMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxasMaritimo.SelectedValue & "," & txtTaxaCompra_TaxasMaritimo.Text & "," & txtMinimoCompra_TaxasMaritimo.Text & "," & ddlEmpresa_TaxasMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxasMaritimo.Checked & "','P') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
+                    retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                     dgvTaxasMaritimo.DataBind()
 
@@ -1770,11 +1773,15 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                         lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
                     Else
 
+                        Dim ID_BL_TAXA As String
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String
 
                         'REALIZA UPDATE TAXA COMPRA
                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxasMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxasMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasMaritimo.SelectedValue & ",ID_STATUS_PAGAMENTO = " & ddlStatusPagamento_TaxasMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxasMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxasMaritimo.SelectedValue & ",VL_TAXA = " & txtTaxaCompra_TaxasMaritimo.Text & ",VL_TAXA_MIN = " & txtMinimoCompra_TaxasMaritimo.Text & ",ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxasMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO ='" & ckbPremiacao_TaxasMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxasMaritimo.Text)
 
-
+                        ID_BL_TAXA = txtID_TaxasMaritimo.Text
+                        retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                         dgvTaxasMaritimo.DataBind()
                         divSuccess_TaxasMaritimo2.Visible = True

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 
 namespace LogComexService.Repositorio
 {
@@ -23,16 +24,26 @@ namespace LogComexService.Repositorio
         }
         public List<BlMaster> ListarTodas()
         {
-            var connectionString = this.GetConnection();
+            var connectionString = this.GetConnection();            
             using (var con = new SqlConnection(connectionString))
             {
                 try
                 {
+                    StringBuilder query = new StringBuilder();
+
                     con.Open();
-                    var query = "SELECT b.NR_BL, BL_TOKEN, p.ID_ARMADOR_LOGCOMEX from TB_BL b " +
-                                "LEFT JOIN TB_PARCEIRO p ON b.ID_PARCEIRO_TRANSPORTADOR = p.ID_PARCEIRO " +
-                                "WHERE b.GRAU = 'M' ";
-                    _blmasters = con.Query<BlMaster>(query).ToList();
+
+                    query.AppendLine(" SELECT  ");
+                    query.AppendLine(" b.NR_BL, ");
+                    query.AppendLine(" BL_TOKEN, ");
+                    query.AppendLine(" p.ID_ARMADOR_LOGCOMEX, ");
+                    query.AppendLine(" b.TRAKING_BL ");
+                    query.AppendLine(" FROM  ");
+                    query.AppendLine(" TB_BL b ");
+                    query.AppendLine(" LEFT JOIN TB_PARCEIRO p ON(b.ID_PARCEIRO_TRANSPORTADOR  = p.ID_PARCEIRO ) ");
+                    query.AppendLine(" WHERE b.GRAU = 'M' ");
+
+                    _blmasters = con.Query<BlMaster>(query.ToString()).ToList();
                 }
                 catch (Exception ex)
                 {

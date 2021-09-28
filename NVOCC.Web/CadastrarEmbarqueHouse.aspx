@@ -578,7 +578,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                     <div class="row"  id="divMercadoriaCNTR_Maritimo" runat="server" style="display:none">
+                                                                     <div class="row"  id="divMercadoriaCNTR_Maritimo" runat="server" style="display:block">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="control-label">Resumo Mercadoria:</label>
@@ -1664,7 +1664,7 @@ VENDAS:
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:none">
+                                                            <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:block">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Descrição da Mercadoria:</label>
@@ -2507,7 +2507,9 @@ ID_MERCADORIA,QT_MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,
 ID_NCM,
-(SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM)NCM
+DS_GRUPO_NCM,
+CASE WHEN DS_GRUPO_NCM IS NULL THEN 
+(SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM) ELSE DS_GRUPO_NCM END NCM 
 FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
@@ -2524,9 +2526,10 @@ ID_MERCADORIA,QT_MERCADORIA,
 VL_PESO_BRUTO,
 VL_M3,
 ID_NCM,
-(SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM)NCM
+DS_GRUPO_NCM,
+CASE WHEN DS_GRUPO_NCM IS NULL THEN 
+(SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM) ELSE DS_GRUPO_NCM END NCM 
 FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
-
 ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />

@@ -71,7 +71,7 @@
                                 <div class="col-sm-9">
                                     <div class="form-group">
                                         <label class="control-label">Nome:</label>
-                                        <asp:TextBox ID="txtNome" runat="server"  CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                        <asp:TextBox ID="txtNome" runat="server"  CssClass="form-control" MaxLength="150"></asp:TextBox>
                                     </div>
                                 </div>
                                   
