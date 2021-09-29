@@ -32,6 +32,7 @@ namespace LogComexService
             services.AddScoped<IBlMasterRepositorio, BlMasterRepositorio>();
             services.AddScoped<ILogComexRepositorio, LogComexRepositorio>();
             services.AddScoped<ILogComexService, LogComexServico>();
+            services.AddScoped<IBlHouseRepositorio, BlHouseRepositorio>();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
