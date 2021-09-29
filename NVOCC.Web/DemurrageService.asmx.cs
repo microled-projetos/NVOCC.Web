@@ -6026,14 +6026,14 @@ namespace ABAINFRA.Web
 
 
 
-            SQL = "SELECT A.NR_INVOICE, C.NR_PROCESSO, ";
-            SQL += "C.NR_BL as HBL, M.NR_BL AS MBL, CLIENTE.NM_RAZAO AS CLIENTE, ";
-            SQL += "ORIGEM.NM_PORTO as ORIGEM, DESTINO.NM_PORTO AS DESTINO, ";
-            SQL += "TRANSPORTADOR.NM_RAZAO AS TRANSPORTADOR,  ";
-            SQL += "FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy') AS DT_PREVISAO_EMBARQUE, ";
-            SQL += "FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy') AS DT_EMBARQUE,  ";
-            SQL += "FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy') AS DT_PREVISAO_CHEGADA,  ";
-            SQL += "FORMAT(C.DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA ";
+            SQL = "SELECT ISNULL(A.NR_INVOICE,'') AS NR_INVOICE, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ";
+            SQL += "ISNULL(ORIGEM.NM_PORTO,'') as ORIGEM, ISNULL(DESTINO.NM_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL(TRANSPORTADOR.NM_RAZAO,'') AS TRANSPORTADOR,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS DT_PREVISAO_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_BL C ";
             SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += "JOIN TB_ACCOUNT_INVOICE A ON C.ID_BL = A.ID_BL ";
@@ -6041,7 +6041,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += "LEFT JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-            for(int i = 0; i< invoices.Length; i++)
+            for (int i = 0; i< invoices.Length; i++)
 			{
                 if(i == 0)
 				{
