@@ -1129,38 +1129,40 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     File.Delete(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
                 End If
                 'GERA ARQUIVO DE REMESSA
-                Dim st As New MemoryStream
-                Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
-                remessa.GerarArquivoRemessa(objBoletos, st)
-                Dim arquivo As New FileStream(Server.MapPath("/Content/boletos\arquivo_remessa.txt"), FileMode.Create, FileAccess.ReadWrite)
+                ArquivoRemessa()
 
-                st.WriteTo(arquivo)
-                arquivo.Close()
-                st.Close()
+                'Dim st As New MemoryStream
+                'Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
+                'remessa.GerarArquivoRemessa(objBoletos, st)
+                'Dim arquivo As New FileStream(Server.MapPath("/Content/boletos\arquivo_remessa.txt"), FileMode.Create, FileAccess.ReadWrite)
+
+                'st.WriteTo(arquivo)
+                'arquivo.Close()
+                'st.Close()
 
 
-                Dim LerArquivo As New StreamReader(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
+                'Dim LerArquivo As New StreamReader(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
 
-                Dim RefazArquivo As New StreamWriter(Server.MapPath("/Content/boletos\arquivo_remessa_validado.txt")) 'Arquivo verificado para ser enviado ao banco
-                Dim strTexto As String = Nothing
-                Dim conta1 As Integer = 0
-                Do While LerArquivo.Peek <> -1
-                    strTexto = LerArquivo.ReadLine
-                    conta1 = strTexto.Length
-                    If conta1 < 240 Then
-                        conta1 = 240 - conta1
-                        Dim strEspaco As String = Nothing
-                        For L As Integer = 1 To conta1
-                            strEspaco = strEspaco & " "
-                        Next
-                        RefazArquivo.WriteLine(strTexto & strEspaco)
-                    Else
-                        RefazArquivo.WriteLine(strTexto)
-                    End If
+                'Dim RefazArquivo As New StreamWriter(Server.MapPath("/Content/boletos\arquivo_remessa_validado.txt")) 'Arquivo verificado para ser enviado ao banco
+                'Dim strTexto As String = Nothing
+                'Dim conta1 As Integer = 0
+                'Do While LerArquivo.Peek <> -1
+                '    strTexto = LerArquivo.ReadLine
+                '    conta1 = strTexto.Length
+                '    If conta1 < 240 Then
+                '        conta1 = 240 - conta1
+                '        Dim strEspaco As String = Nothing
+                '        For L As Integer = 1 To conta1
+                '            strEspaco = strEspaco & " "
+                '        Next
+                '        RefazArquivo.WriteLine(strTexto & strEspaco)
+                '    Else
+                '        RefazArquivo.WriteLine(strTexto)
+                '    End If
 
-                Loop
-                RefazArquivo.Close()
-                LerArquivo.Close()
+                'Loop
+                'RefazArquivo.Close()
+                'LerArquivo.Close()
 
                 ''Solicita se vai imprimir os boletos
                 'If MessageBox.Show("Deseja imprimir os boletos agora?", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then

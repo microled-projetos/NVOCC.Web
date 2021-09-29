@@ -102,95 +102,95 @@ Namespace ginfes2
             Return MyBase.Channel.CancelarNfse(arg0)
         End Function
 
-        Public Function CancelarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseAsync
+        Public Function CancelarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.CancelarNfseAsync
             Return MyBase.Channel.CancelarNfseAsync(arg0)
         End Function
 
-        Public Function CancelarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseV3
+        Public Function CancelarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.CancelarNfseV3
             Return MyBase.Channel.CancelarNfseV3(arg0, arg1)
         End Function
 
-        Public Function CancelarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.CancelarNfseV3Async
+        Public Function CancelarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.CancelarNfseV3Async
             Return MyBase.Channel.CancelarNfseV3Async(arg0, arg1)
         End Function
 
-        Public Function ConsultarLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRps
+        Public Function ConsultarLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRps
             Return MyBase.Channel.ConsultarLoteRps(arg0)
         End Function
 
-        Public Function ConsultarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsAsync
+        Public Function ConsultarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsAsync
             Return MyBase.Channel.ConsultarLoteRpsAsync(arg0)
         End Function
 
-        Public Function ConsultarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsV3
+        Public Function ConsultarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsV3
             Return MyBase.Channel.ConsultarLoteRpsV3(arg0, arg1)
         End Function
 
-        Public Function ConsultarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarLoteRpsV3Async
+        Public Function ConsultarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarLoteRpsV3Async
             Return MyBase.Channel.ConsultarLoteRpsV3Async(arg0, arg1)
         End Function
 
-        Public Function ConsultarNfse(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfse
+        Public Function ConsultarNfse(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfse
             Return MyBase.Channel.ConsultarNfse(arg0)
         End Function
 
-        Public Function ConsultarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseAsync
+        Public Function ConsultarNfseAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfseAsync
             Return MyBase.Channel.ConsultarNfseAsync(arg0)
         End Function
 
-        Public Function ConsultarNfsePorRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRps
+        Public Function ConsultarNfsePorRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRps
             Return MyBase.Channel.ConsultarNfsePorRps(arg0)
         End Function
 
-        Public Function ConsultarNfsePorRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsAsync
+        Public Function ConsultarNfsePorRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsAsync
             Return MyBase.Channel.ConsultarNfsePorRpsAsync(arg0)
         End Function
 
-        Public Function ConsultarNfsePorRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsV3
+        Public Function ConsultarNfsePorRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsV3
             Return MyBase.Channel.ConsultarNfsePorRpsV3(arg0, arg1)
         End Function
 
-        Public Function ConsultarNfsePorRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfsePorRpsV3Async
+        Public Function ConsultarNfsePorRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfsePorRpsV3Async
             Return MyBase.Channel.ConsultarNfsePorRpsV3Async(arg0, arg1)
         End Function
 
-        Public Function ConsultarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseV3
+        Public Function ConsultarNfseV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarNfseV3
             Return MyBase.Channel.ConsultarNfseV3(arg0, arg1)
         End Function
 
-        Public Function ConsultarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarNfseV3Async
+        Public Function ConsultarNfseV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarNfseV3Async
             Return MyBase.Channel.ConsultarNfseV3Async(arg0, arg1)
         End Function
 
-        Public Function ConsultarSituacaoLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRps
+        Public Function ConsultarSituacaoLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRps
             Return MyBase.Channel.ConsultarSituacaoLoteRps(arg0)
         End Function
 
-        Public Function ConsultarSituacaoLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsAsync
+        Public Function ConsultarSituacaoLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsAsync
             Return MyBase.Channel.ConsultarSituacaoLoteRpsAsync(arg0)
         End Function
 
-        Public Function ConsultarSituacaoLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3
+        Public Function ConsultarSituacaoLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3
             Return MyBase.Channel.ConsultarSituacaoLoteRpsV3(arg0, arg1)
         End Function
 
-        Public Function ConsultarSituacaoLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3Async
+        Public Function ConsultarSituacaoLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.ConsultarSituacaoLoteRpsV3Async
             Return MyBase.Channel.ConsultarSituacaoLoteRpsV3Async(arg0, arg1)
         End Function
 
-        Public Function RecepcionarLoteRps(ByVal arg0 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRps
+        Public Function RecepcionarLoteRps(ByVal arg0 As String) As String Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRps
             Return MyBase.Channel.RecepcionarLoteRps(arg0)
         End Function
 
-        Public Function RecepcionarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsAsync
+        Public Function RecepcionarLoteRpsAsync(ByVal arg0 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsAsync
             Return MyBase.Channel.RecepcionarLoteRpsAsync(arg0)
         End Function
 
-        Public Function RecepcionarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsV3
+        Public Function RecepcionarLoteRpsV3(ByVal arg0 As String, ByVal arg1 As String) As String Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsV3
             Return MyBase.Channel.RecepcionarLoteRpsV3(arg0, arg1)
         End Function
 
-        Public Function RecepcionarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements NFsE_Santos.ServiceGinfesImpl.RecepcionarLoteRpsV3Async
+        Public Function RecepcionarLoteRpsV3Async(ByVal arg0 As String, ByVal arg1 As String) As System.Threading.Tasks.Task(Of String) Implements ginfes2.ServiceGinfesImpl.RecepcionarLoteRpsV3Async
             Return MyBase.Channel.RecepcionarLoteRpsV3Async(arg0, arg1)
         End Function
     End Class
