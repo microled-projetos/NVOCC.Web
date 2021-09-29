@@ -2146,14 +2146,14 @@ WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione um registro!"
             Else
-                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT ID_BL_MASTER FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text)
+                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT ID_BL_MASTER FROM [TB_BL] WHERE GRAU = 'C' AND ID_COTACAO = " & txtID.Text)
                 If dsVerifica.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(dsVerifica.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
                         divErro.Visible = True
                         lblmsgErro.Text = "Não foi possivel completar a ação: O house desta cotação já possui um Master!"
                     Else
                         dsVerifica = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_CONTA_PAGAR_RECEBER where DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER in (select distinct ID_CONTA_PAGAR_RECEBER from TB_CONTA_PAGAR_RECEBER_ITENS where id_Bl = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text & " ))")
-                        If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
                             divErro.Visible = True
                             lblmsgErro.Text = "Não foi possivel completar a ação: O house desta já enviado para conta corrente!"
                         Else

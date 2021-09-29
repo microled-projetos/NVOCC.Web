@@ -303,7 +303,7 @@
     <script src="Content/js/jquery.mask.min.js"></script>
     <script src="Content/js/toastr.js"></script>
     <script src="Content/js/site.js?id=1234"></script>
-
+    <script src="Content/js/jquery.tablesorter.min.js"></script>
     <script>
         var urlBase = '<%= Page.ResolveUrl("~") %>';
     </script>

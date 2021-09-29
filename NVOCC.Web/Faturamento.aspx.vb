@@ -85,43 +85,89 @@ Public Class Faturamento
 
         End If
 
+         Dim filtro2 As String = ""
+
         If ckStatus.Items.FindByValue(1).Selected Then
+            ''Não liquidados
             If filtro = "" Then
-                filtro &= " WHERE DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL"
+
+
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE DT_LIQUIDACAO IS NULL"
+
+                Else
+
+                    filtro2 &= " Or (DT_LIQUIDACAO IS NULL)"
+                End If
+
+
+
 
             Else
-                filtro &= " OR (DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL)"
+
+                If filtro2 = "" Then
+                    filtro2 &= " AND DT_LIQUIDACAO IS NULL"
+
+                Else
+
+                    filtro2 &= " Or (DT_LIQUIDACAO IS NULL)"
+                End If
 
             End If
 
 
         End If
         If ckStatus.Items.FindByValue(2).Selected Then
-
             If filtro = "" Then
-                filtro &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)  And DT_CANCELAMENTO Is NULL"
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
+
+                Else
+                    filtro2 &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103))"
+
+                End If
 
             Else
-                filtro &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)  And DT_CANCELAMENTO Is NULL)"
+                If filtro2 = "" Then
+                    filtro2 &= " AND CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
 
+                Else
+
+                    filtro2 &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103))"
+                End If
             End If
+
 
         End If
         If ckStatus.Items.FindByValue(3).Selected Then
+            ''Cancelados
             If filtro = "" Then
-                filtro &= " WHERE DT_CANCELAMENTO Is Not NULL"
+
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE DT_CANCELAMENTO Is Not NULL"
+
+                Else
+                    filtro2 &= " Or (DT_CANCELAMENTO Is Not NULL)"
+
+                End If
 
             Else
-                filtro &= " Or (DT_CANCELAMENTO Is Not NULL)"
+                If filtro2 = "" Then
+                    filtro2 &= " AND DT_CANCELAMENTO Is Not NULL"
+
+                Else
+                    filtro2 &= " Or (DT_CANCELAMENTO Is Not NULL)"
+
+                End If
 
             End If
+
         End If
 
-        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro
+        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro & filtro2
         dgvFaturamento.DataBind()
 
-        ddlFiltro.SelectedValue = 0
-        txtPesquisa.Text = ""
+
         lkFatura.Visible = True
         lkDesmosntrativos.Visible = True
         lkRPS.Visible = True
@@ -997,13 +1043,15 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA  FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
 
-                    ''CRIAÇÃO DA PARTE DO CEDENTE
-                    'Cabeçalho do Banco
+                    'Salvando informaçoes importantes
                     COD_BANCO = ds.Tables(0).Rows(0).Item("COD_BANCO")
                     OBS1 = ds.Tables(0).Rows(0).Item("OBS1")
                     OBS2 = ds.Tables(0).Rows(0).Item("OBS2")
                     SEQ_ARQUIVO = ds.Tables(0).Rows(0).Item("SEQ_ARQUIVO")
                     SEQUENCIA = ds.Tables(0).Rows(0).Item("SEQUENCIA")
+
+                    ''CRIAÇÃO DA PARTE DO CEDENTE
+                    'Cabeçalho do Banco
                     objBoletos.Banco = Banco.Instancia(ds.Tables(0).Rows(0).Item("NR_BANCO"))
                     objBoletos.Banco.Cedente = New Cedente
                     objBoletos.Banco.Cedente.CPFCNPJ = ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
@@ -1075,7 +1123,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
-                        Titulo.DataVencimento = Now.Date.AddDays(15)
+                        Titulo.DataVencimento = "09/10/2021" 'Now.Date.AddDays(15)
                         Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
                         Titulo.Aceite = "N"
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DM
@@ -1452,7 +1500,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                             seqLote = seqLote + 1
                             seqRem = seqRem + 1
                             If GeraRemessa.NNull(dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), 1) <> "" Then
-                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
+                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
                                 seqLote = seqLote + 1
                                 seqRem = seqRem + 1
                             End If
@@ -1480,7 +1528,5 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
-    Private Sub ButtonTESTE_Click(sender As Object, e As EventArgs) Handles ButtonTESTE.Click
-        ArquivoRemessa()
-    End Sub
+
 End Class

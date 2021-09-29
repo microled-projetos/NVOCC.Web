@@ -851,7 +851,7 @@ namespace ABAINFRA.Web
         public string NumeroProcesso(string idProcesso)
         {
             string SQL;
-            SQL = "SELECT NR_PROCESSO, DT_DESCONSOLIDACAO, DT_REDESTINACAO, W.ID_WEEK, DS_TERMO as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '"+idProcesso+"' ";           
+            SQL = "SELECT NR_PROCESSO, ISNULL(FORMAT(DT_DESCONSOLIDACAO,'yyyy-MM-dd'),'') as DT_DESCONSOLIDACAO, ISNULL(FORMAT(DT_REDESTINACAO,'yyyy-MM-dd'),'') AS DT_REDESTINACAO, ISNULL(W.ID_WEEK,'') AS ID_WEEK, ISNULL(DS_TERMO,'') as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '" + idProcesso+"' ";           
             
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1498,16 +1498,28 @@ namespace ABAINFRA.Web
         public string inserirDados(string week, string dtRedestinacao, string dtDesconsolidacao, string idProcesso, string termo)
         {
             string SQL;
+            string desconsolidacao;
+            string redestinacao;
             if(dtDesconsolidacao == "")
             {
-                dtDesconsolidacao = "null";
+                desconsolidacao = "DT_DESCONSOLIDACAO = NULL";
+            }
+            else
+			{
+                desconsolidacao = "DT_DESCONSOLIDACAO = '"+dtDesconsolidacao+"' ";
+
             }
 
             if(dtRedestinacao == "")
             {
-                dtRedestinacao = "null";
+                redestinacao = "DT_REDESTINACAO = NULL";
             }
-            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "', DT_DESCONSOLIDACAO = " + dtDesconsolidacao + ", DT_REDESTINACAO = " + dtRedestinacao + ", DS_TERMO = '"+termo+"' ";
+			else
+			{
+                redestinacao = "DT_REDESTINACAO = '" + dtRedestinacao + "'";
+
+            }
+            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "',"+desconsolidacao+","+redestinacao+", DS_TERMO = '"+termo+"' ";
             SQL += "WHERE ID_BL = '" + idProcesso + "' ";
 
             string weekS = DBS.ExecuteScalar(SQL);
