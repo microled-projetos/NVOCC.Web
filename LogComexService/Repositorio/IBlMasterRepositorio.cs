@@ -11,5 +11,6 @@ namespace LogComexService.Repositorio
         List<BlMaster> ListarTodas();
         void CadastrarTokenBl(BlMaster bl);
         void AtualizarBlTraking(BlMaster bl);
+        List<BlMaster> GravaLog();
     }
 }
