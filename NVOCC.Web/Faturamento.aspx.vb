@@ -85,43 +85,89 @@ Public Class Faturamento
 
         End If
 
+         Dim filtro2 As String = ""
+
         If ckStatus.Items.FindByValue(1).Selected Then
+            ''Não liquidados
             If filtro = "" Then
-                filtro &= " WHERE DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL"
+
+
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE DT_LIQUIDACAO IS NULL"
+
+                Else
+
+                    filtro2 &= " Or (DT_LIQUIDACAO IS NULL)"
+                End If
+
+
+
 
             Else
-                filtro &= " OR (DT_LIQUIDACAO IS NULL AND DT_CANCELAMENTO IS NULL)"
+
+                If filtro2 = "" Then
+                    filtro2 &= " AND DT_LIQUIDACAO IS NULL"
+
+                Else
+
+                    filtro2 &= " Or (DT_LIQUIDACAO IS NULL)"
+                End If
 
             End If
 
 
         End If
         If ckStatus.Items.FindByValue(2).Selected Then
-
             If filtro = "" Then
-                filtro &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)  And DT_CANCELAMENTO Is NULL"
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
+
+                Else
+                    filtro2 &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103))"
+
+                End If
 
             Else
-                filtro &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)  And DT_CANCELAMENTO Is NULL)"
+                If filtro2 = "" Then
+                    filtro2 &= " AND CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
 
+                Else
+
+                    filtro2 &= " Or (CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103))"
+                End If
             End If
+
 
         End If
         If ckStatus.Items.FindByValue(3).Selected Then
+            ''Cancelados
             If filtro = "" Then
-                filtro &= " WHERE DT_CANCELAMENTO Is Not NULL"
+
+                If filtro2 = "" Then
+                    filtro2 &= " WHERE DT_CANCELAMENTO Is Not NULL"
+
+                Else
+                    filtro2 &= " Or (DT_CANCELAMENTO Is Not NULL)"
+
+                End If
 
             Else
-                filtro &= " Or (DT_CANCELAMENTO Is Not NULL)"
+                If filtro2 = "" Then
+                    filtro2 &= " AND DT_CANCELAMENTO Is Not NULL"
+
+                Else
+                    filtro2 &= " Or (DT_CANCELAMENTO Is Not NULL)"
+
+                End If
 
             End If
+
         End If
 
-        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro
+        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro & filtro2
         dgvFaturamento.DataBind()
 
-        ddlFiltro.SelectedValue = 0
-        txtPesquisa.Text = ""
+
         lkFatura.Visible = True
         lkDesmosntrativos.Visible = True
         lkRPS.Visible = True
@@ -990,20 +1036,27 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
             Try
                 Dim COD_BANCO As String = ""
+                Dim VL_MULTA As String = ""
+                Dim VL_MORA As String = ""
                 Dim OBS1 As String = ""
                 Dim OBS2 As String = ""
                 Dim SEQ_ARQUIVO As String = ""
                 Dim SEQUENCIA As String = ""
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA  FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA, VL_MULTA,VL_MORA FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
 
-                    ''CRIAÇÃO DA PARTE DO CEDENTE
-                    'Cabeçalho do Banco
+                    'Salvando informaçoes importantes
                     COD_BANCO = ds.Tables(0).Rows(0).Item("COD_BANCO")
+                    VL_MULTA = ds.Tables(0).Rows(0).Item("VL_MULTA")
+                    VL_MORA = ds.Tables(0).Rows(0).Item("VL_MORA")
+
                     OBS1 = ds.Tables(0).Rows(0).Item("OBS1")
                     OBS2 = ds.Tables(0).Rows(0).Item("OBS2")
                     SEQ_ARQUIVO = ds.Tables(0).Rows(0).Item("SEQ_ARQUIVO")
                     SEQUENCIA = ds.Tables(0).Rows(0).Item("SEQUENCIA")
+
+                    ''CRIAÇÃO DA PARTE DO CEDENTE
+                    'Cabeçalho do Banco
                     objBoletos.Banco = Banco.Instancia(ds.Tables(0).Rows(0).Item("NR_BANCO"))
                     objBoletos.Banco.Cedente = New Cedente
                     objBoletos.Banco.Cedente.CPFCNPJ = ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
@@ -1043,7 +1096,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO FROM TB_FATURAMENTO A
+                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
+(SELECT CONVERT(VARCHAR,B.DT_VENCIMENTO,103) FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL
+
+FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If ds.Tables(0).Rows.Count > 0 Then
 
@@ -1067,33 +1123,41 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     .LogradouroNumero = linhads.Item("NR_ENDERECO").ToString(),
                     .UF = "SP"},
                     .Nome = linhads.Item("NM_CLIENTE").ToString(),
-                    .Observacoes = "Pagar com urgência para não ser protestado."
+                    .Observacoes = "" '"Pagar com urgência para não ser protestado."
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                        Titulo.NumeroDocumento = i
+                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_FISCAL").ToString() 'i
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
+<<<<<<< HEAD
                         Titulo.DataVencimento = "09/10/2021"
+=======
+                        Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO") 'Now.Date.AddDays(15)
+>>>>>>> devjuliane
                         Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
                         Titulo.Aceite = "N"
-                        Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                        'Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                        Titulo.EspecieDocumento = TipoEspecieDocumento.DS
                         Titulo.DataDesconto = Now.Date.AddDays(15)
                         Titulo.ValorDesconto = 0 '45
 
                         '
+                        '
                         'PARTE DA MULTA
                         Titulo.DataMulta = Now.Date.AddDays(15)
-                        Titulo.PercentualMulta = 2
+                        Titulo.PercentualMulta = VL_MULTA '2
                         Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
-                        Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
+                        Titulo.MensagemInstrucoesCaixa = OBS1
+                        'Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
                         '
                         'PARTE JUROS DE MORA
                         Titulo.DataJuros = Now.Date.AddDays(15)
-                        Titulo.PercentualJurosDia = 10 / 30
+                        Titulo.PercentualJurosDia = VL_MORA '10 / 30
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
-                        Dim instrucoes As String = $"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
+                        Dim instrucoes As String = OBS2
+                        'Dim instrucoes As String =$"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
                         If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
                             Titulo.MensagemInstrucoesCaixa = instrucoes
                         Else
@@ -1129,38 +1193,40 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     File.Delete(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
                 End If
                 'GERA ARQUIVO DE REMESSA
-                Dim st As New MemoryStream
-                Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
-                remessa.GerarArquivoRemessa(objBoletos, st)
-                Dim arquivo As New FileStream(Server.MapPath("/Content/boletos\arquivo_remessa.txt"), FileMode.Create, FileAccess.ReadWrite)
+                ArquivoRemessa()
 
-                st.WriteTo(arquivo)
-                arquivo.Close()
-                st.Close()
+                'Dim st As New MemoryStream
+                'Dim remessa = New ArquivoRemessa(objBoletos.Banco, TipoArquivo.CNAB240, 1)
+                'remessa.GerarArquivoRemessa(objBoletos, st)
+                'Dim arquivo As New FileStream(Server.MapPath("/Content/boletos\arquivo_remessa.txt"), FileMode.Create, FileAccess.ReadWrite)
+
+                'st.WriteTo(arquivo)
+                'arquivo.Close()
+                'st.Close()
 
 
-                Dim LerArquivo As New StreamReader(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
+                'Dim LerArquivo As New StreamReader(Server.MapPath("/Content/boletos\arquivo_remessa.txt"))
 
-                Dim RefazArquivo As New StreamWriter(Server.MapPath("/Content/boletos\arquivo_remessa_validado.txt")) 'Arquivo verificado para ser enviado ao banco
-                Dim strTexto As String = Nothing
-                Dim conta1 As Integer = 0
-                Do While LerArquivo.Peek <> -1
-                    strTexto = LerArquivo.ReadLine
-                    conta1 = strTexto.Length
-                    If conta1 < 240 Then
-                        conta1 = 240 - conta1
-                        Dim strEspaco As String = Nothing
-                        For L As Integer = 1 To conta1
-                            strEspaco = strEspaco & " "
-                        Next
-                        RefazArquivo.WriteLine(strTexto & strEspaco)
-                    Else
-                        RefazArquivo.WriteLine(strTexto)
-                    End If
+                'Dim RefazArquivo As New StreamWriter(Server.MapPath("/Content/boletos\arquivo_remessa_validado.txt")) 'Arquivo verificado para ser enviado ao banco
+                'Dim strTexto As String = Nothing
+                'Dim conta1 As Integer = 0
+                'Do While LerArquivo.Peek <> -1
+                '    strTexto = LerArquivo.ReadLine
+                '    conta1 = strTexto.Length
+                '    If conta1 < 240 Then
+                '        conta1 = 240 - conta1
+                '        Dim strEspaco As String = Nothing
+                '        For L As Integer = 1 To conta1
+                '            strEspaco = strEspaco & " "
+                '        Next
+                '        RefazArquivo.WriteLine(strTexto & strEspaco)
+                '    Else
+                '        RefazArquivo.WriteLine(strTexto)
+                '    End If
 
-                Loop
-                RefazArquivo.Close()
-                LerArquivo.Close()
+                'Loop
+                'RefazArquivo.Close()
+                'LerArquivo.Close()
 
                 ''Solicita se vai imprimir os boletos
                 'If MessageBox.Show("Deseja imprimir os boletos agora?", "Atenção", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
@@ -1446,11 +1512,11 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                             Stream.WriteLine(GeraRemessa.criaDetalhePSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("NOSSONUMERO"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_FISCAL"), dsFatura.Tables(0).Rows(0).Item("DT_VENCIMENTO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("DT_EMISSAO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("VL_BOLETO"), dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("DG_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("NR_CONTA"), dsBanco.Tables(0).Rows(0).Item("DG_CONTA"), dsBanco.Tables(0).Rows(0).Item("especie_titulo"), dsBanco.Tables(0).Rows(0).Item("cod_mora"), dsBanco.Tables(0).Rows(0).Item("COD_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("COD_BAIXA"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_BAIXA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
                             seqLote = seqLote + 1
                             seqRem = seqRem + 1
-                            Stream.WriteLine(GeraRemessa.criaDetalheQSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("CNPJ"), dsFatura.Tables(0).Rows(0).Item("NM_CLIENTE"), dsFatura.Tables(0).Rows(0).Item("ENDERECO"), dsFatura.Tables(0).Rows(0).Item("BAIRRO"), dsFatura.Tables(0).Rows(0).Item("CEP"), dsFatura.Tables(0).Rows(0).Item("CIDADE"), dsFatura.Tables(0).Rows(0).Item("UF"), dsFatura.Tables(0).Rows(0).Item("COD_BANCO")))
+                            Stream.WriteLine(GeraRemessa.criaDetalheQSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("CNPJ"), dsFatura.Tables(0).Rows(0).Item("NM_CLIENTE"), dsFatura.Tables(0).Rows(0).Item("ENDERECO"), dsFatura.Tables(0).Rows(0).Item("BAIRRO"), dsFatura.Tables(0).Rows(0).Item("CEP"), dsFatura.Tables(0).Rows(0).Item("CIDADE"), dsFatura.Tables(0).Rows(0).Item("UF"), dsFatura.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV")))
                             seqLote = seqLote + 1
                             seqRem = seqRem + 1
                             If GeraRemessa.NNull(dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), 1) <> "" Then
-                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
+                                Stream.WriteLine(GeraRemessa.criaDetalheRSantander(1, seqLote, dsBanco.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("COD_MULTA"), dsBanco.Tables(0).Rows(0).Item("VL_MULTA")))
                                 seqLote = seqLote + 1
                                 seqRem = seqRem + 1
                             End If
@@ -1478,7 +1544,5 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
-    Private Sub ButtonTESTE_Click(sender As Object, e As EventArgs) Handles ButtonTESTE.Click
-        ArquivoRemessa()
-    End Sub
+
 End Class

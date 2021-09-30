@@ -117,6 +117,7 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim Valor_Calculado As Decimal = CType(linha.FindControl("lblValor_Calculado"), Label).Text
             Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor2 As Decimal = lblTotal.Text
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
@@ -130,8 +131,17 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
                     check.Enabled = False
 
                 End If
-            End If
 
+                If Valor_Calculado = 0 Then
+                    lblErro.Text = "TAXA NECESSITA DE CÁLCULO"
+                    divErro.Visible = True
+                    check.Checked = False
+                    check.Enabled = False
+                    Exit Sub
+
+
+                End If
+            End If
         Next
 
     End Sub

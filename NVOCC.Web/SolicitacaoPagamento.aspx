@@ -95,6 +95,11 @@
                                                         <asp:Label ID="lblValor" runat="server" Text='<%# Eval("VL_TAXA_BR") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblValor_Calculado" runat="server" Text='<%# Eval("VL_TAXA_CALCULADO") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                  <asp:TemplateField Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />

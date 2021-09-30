@@ -37,6 +37,7 @@ namespace ABAINFRA.Web
             ddlFiltro.Items.Insert(3, new ListItem("Cliente", "3"));
             ddlFiltro.Items.Insert(4, new ListItem("Transportador", "4"));
             ddlFiltro.Items.Insert(5, new ListItem("Status Terc", "5"));
+            ddlFiltro.Items.Insert(6, new ListItem("Nº Master", "6"));
 
 
         }

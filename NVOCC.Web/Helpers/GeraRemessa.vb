@@ -143,11 +143,11 @@ erro:
         Return Valor
     End Function
 
-    Public Function criaDetalhePSantander(NHeaderLote As Long, NSeqRegistro As Long, NossoNum As String, NNossoDoc As String, DtVencimento As Date, DtEmissao As Date, VALOR As Double, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String, COD_MOV As String, agencia As String, DIG_agencia As String, Conta As String, dig_conta As String, especie_titulo As String, cod_mora As String, COD_PROTESTO As String, N_DIAS_PROTESTO As String, COD_BAIXA As String, N_DIAS_BAIXA As String, vlr_mora As Decimal) As String
+    Public Function criaDetalhePSantander(NHeaderLote As Long, NSeqRegistro As Long, NossoNum As String, NNossoDoc As String, DtVencimento As Date, DtEmissao As Date, VALOR As Double, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String, COD_MOV As String, agencia As String, DIG_agencia As String, Conta As String, dig_conta As String, especie_titulo As String, cod_mora As String, COD_PROTESTO As String, N_DIAS_PROTESTO As String, COD_BAIXA As String, N_DIAS_BAIXA As String, vlr_mora As Double) As String
         On Error GoTo erro
         Dim strS As String
 
-
+        Dim teste As String = vlr_mora.ToString("#.00000").Replace(",", "").Replace(".", "")
 
         criaDetalhePSantander = String.Empty
 
@@ -197,9 +197,16 @@ erro:
 
         Select Case Mid(NNull(cod_mora, 1), 1, 1)
             Case "1"
-                strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_mora, "#.00"), 15)
+                strS = strS & Right(Strings.StrDup(15, "0") & vlr_mora.ToString("#.00"), 15)
             Case "2"
+<<<<<<< HEAD
                 strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_mora, "#.00000"), 15)
+=======
+
+                strS = strS & Right(Strings.StrDup(15, "0") & vlr_mora.ToString("#.00000").Replace(",", "").Replace(".", ""), 15)
+
+
+>>>>>>> devjuliane
             Case Else
                 strS = strS & Strings.StrDup(15, "0")
         End Select
@@ -229,10 +236,9 @@ erro:
 
     End Function
 
-    Public Function criaDetalheQSantander(NHeaderLote As Long, NSeqRegistro As Long, DocSacado As String, NomeSacado As String, EndSacado As String, BaiSacado As String, CEPSacado As String, CidadeSacado As String, UFSacado As String, cod_banco As String) As String
+    Public Function criaDetalheQSantander(NHeaderLote As Long, NSeqRegistro As Long, DocSacado As String, NomeSacado As String, EndSacado As String, BaiSacado As String, CEPSacado As String, CidadeSacado As String, UFSacado As String, cod_banco As String, COD_MOV As String) As String
         On Error GoTo erro
         Dim strS As String
-        Dim COD_MOV As String = 0
         criaDetalheQSantander = String.Empty
 
         strS = String.Empty
@@ -291,7 +297,7 @@ erro:
         strS = strS & Strings.StrDup(24, " ")
         strS = strS & NNull(COD_MULTA, 0)
         strS = strS & "00000000"
-        strS = strS & Right(Strings.StrDup(15, "0") & Format(vlr_multa, "#.00"), 15) 'Replace(PPonto(Format(vlr_multa, "#.00")), ".", ""), 15)
+        strS = strS & Right(Strings.StrDup(15, "0") & vlr_multa.ToString("#.00").Replace(",", "").Replace(".", ""), 15) 'Replace(PPonto(Format(vlr_multa, "#.00")), ".", ""), 15)
         strS = strS & Strings.StrDup(10, " ")
         strS = strS & Strings.StrDup(40, " ")
         strS = strS & Strings.StrDup(40, " ")

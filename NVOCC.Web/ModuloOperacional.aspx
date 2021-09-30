@@ -975,7 +975,7 @@
             var termo = document.getElementById("dsTermo").value;
             $.ajax({
                 type: "POST",
-                url: "Gerencial.asmx/   ",
+                url: "Gerencial.asmx/inserirDados",
                 data: '{idProcesso:"' + id + '",week:"' + week + '",dtRedestinacao: "' + redestinacao + '", dtDesconsolidacao: "' + desconsolidacao + '",termo: "' + termo + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

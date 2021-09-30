@@ -26,7 +26,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">FATURAMENTO<asp:Button runat="server" Text="TESTE" ID="ButtonTESTE" CssClass="btn btn-success" Visible="false" />
+                    <h3 class="panel-title">FATURAMENTO
                     </h3>
                 </div>
 
@@ -70,11 +70,11 @@
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                        </div>
-                       <div class="col-sm-1">
+                       <div class="col-sm-2">
 
                            <div class="form-group">
 
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 12px; text-align: justify" runat="server" RepeatDirection="vertical">
+                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 15px; text-align: justify" runat="server" RepeatDirection="vertical">
                                    <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
                                    <asp:ListItem Value="2" Selected="True">&nbsp;Liquidados desde:</asp:ListItem>
                                    <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
@@ -83,7 +83,7 @@
                        </div>
                         <div class="col-sm-1" style="padding-top: 27px;">
                            <div class="form-group">
-                               <asp:TextBox ID="txtDataCheckLiquidados" Style="font-size: 12px;" runat="server" CssClass="data"></asp:TextBox>
+                               <asp:TextBox ID="txtDataCheckLiquidados" Style="font-size: 15px;" runat="server" width="100px"  CssClass="data"></asp:TextBox>
 
                            </div>
                        </div>
@@ -94,7 +94,7 @@
                            </div>
                        </div>
 
-                       <div class="col-sm-5">
+                       <div class="col-sm-4">
                            <asp:LinkButton ID="lkFatura" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Fatura</asp:LinkButton>
                            <asp:LinkButton ID="lkDesmosntrativos" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">Demonstrativos</asp:LinkButton>
                            <asp:LinkButton ID="lkRPS" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px">RPS</asp:LinkButton>              
