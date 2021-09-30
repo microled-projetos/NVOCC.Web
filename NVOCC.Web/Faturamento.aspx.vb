@@ -1036,15 +1036,20 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
             Try
                 Dim COD_BANCO As String = ""
+                Dim VL_MULTA As String = ""
+                Dim VL_MORA As String = ""
                 Dim OBS1 As String = ""
                 Dim OBS2 As String = ""
                 Dim SEQ_ARQUIVO As String = ""
                 Dim SEQUENCIA As String = ""
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA  FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQ_ARQUIVO,SEQUENCIA, VL_MULTA,VL_MORA FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
 
                     'Salvando informaçoes importantes
                     COD_BANCO = ds.Tables(0).Rows(0).Item("COD_BANCO")
+                    VL_MULTA = ds.Tables(0).Rows(0).Item("VL_MULTA")
+                    VL_MORA = ds.Tables(0).Rows(0).Item("VL_MORA")
+
                     OBS1 = ds.Tables(0).Rows(0).Item("OBS1")
                     OBS2 = ds.Tables(0).Rows(0).Item("OBS2")
                     SEQ_ARQUIVO = ds.Tables(0).Rows(0).Item("SEQ_ARQUIVO")
@@ -1091,7 +1096,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO FROM TB_FATURAMENTO A
+                ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
+(SELECT CONVERT(VARCHAR,B.DT_VENCIMENTO,103) FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL
+
+FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If ds.Tables(0).Rows.Count > 0 Then
 
@@ -1115,33 +1123,37 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     .LogradouroNumero = linhads.Item("NR_ENDERECO").ToString(),
                     .UF = "SP"},
                     .Nome = linhads.Item("NM_CLIENTE").ToString(),
-                    .Observacoes = "Pagar com urgência para não ser protestado."
+                    .Observacoes = "" '"Pagar com urgência para não ser protestado."
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                        Titulo.NumeroDocumento = i
+                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_FISCAL").ToString() 'i
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
-                        Titulo.DataVencimento = "09/10/2021" 'Now.Date.AddDays(15)
+                        Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO") 'Now.Date.AddDays(15)
                         Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
                         Titulo.Aceite = "N"
-                        Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                        'Titulo.EspecieDocumento = TipoEspecieDocumento.DM
+                        Titulo.EspecieDocumento = TipoEspecieDocumento.DS
                         Titulo.DataDesconto = Now.Date.AddDays(15)
                         Titulo.ValorDesconto = 0 '45
 
                         '
+                        '
                         'PARTE DA MULTA
                         Titulo.DataMulta = Now.Date.AddDays(15)
-                        Titulo.PercentualMulta = 2
+                        Titulo.PercentualMulta = VL_MULTA '2
                         Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
-                        Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
+                        Titulo.MensagemInstrucoesCaixa = OBS1
+                        'Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
                         '
                         'PARTE JUROS DE MORA
                         Titulo.DataJuros = Now.Date.AddDays(15)
-                        Titulo.PercentualJurosDia = 10 / 30
+                        Titulo.PercentualJurosDia = VL_MORA '10 / 30
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
-                        Dim instrucoes As String = $"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
+                        Dim instrucoes As String = OBS2
+                        'Dim instrucoes As String =$"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
                         If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
                             Titulo.MensagemInstrucoesCaixa = instrucoes
                         Else
