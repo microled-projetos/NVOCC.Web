@@ -411,10 +411,10 @@
 
         function flagDestino() {
             if (document.getElementById("checkDestino").checked) {
-                document.getElementById('dtRecebimentoHBL').disabled = true;
-                document.getElementById('cdRastreamentoHBL').disabled = true;
-                document.getElementById('dtRetirada').disabled = true;
-                document.getElementById('receptor').disabled = true;
+                document.getElementById('dtRecebimentoHBL').disabled = false;
+                document.getElementById('cdRastreamentoHBL').disabled = false;
+                document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('receptor').disabled = false;
                 document.getElementById('cdRastreamentoHBL').value = "DESTINO";
                 document.getElementById("checkOrigem").checked = false;
 

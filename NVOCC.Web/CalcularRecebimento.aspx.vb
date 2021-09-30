@@ -491,8 +491,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             divErro.Visible = True
             lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
             ddlFornecedor.Enabled = False
-        Else
-            divErro.Visible = False
+
         End If
         Con.Fechar()
 
@@ -509,6 +508,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
+            Dim Valor_Calculado As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor As Decimal = CType(linha.FindControl("lblValorBR"), Label).Text
             Dim valor2 As Decimal = txtValor.Text
 
@@ -517,6 +517,16 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                 txtValor.Text = valor2 + valor
 
                 If Calculado = False Then
+                    lblErro.Text = "O PROCESSO NECESSITA DE CÁLCULO"
+                    divErro.Visible = True
+                    check.Checked = False
+                    check.Enabled = False
+                    Exit Sub
+
+
+                End If
+
+                If Valor_Calculado = 0 Then
                     lblErro.Text = "O PROCESSO NECESSITA DE CÁLCULO"
                     divErro.Visible = True
                     check.Checked = False
