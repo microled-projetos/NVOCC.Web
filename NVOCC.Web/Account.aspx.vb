@@ -19,7 +19,8 @@
         Else
             If Not Page.IsPostBack Then
                 Dim primeirodia As Date
-                If Month(Now.AddMonths(-1)) <= 9 Then
+                ' If Month(Now.AddMonths(-1)) <= 9 Then
+                If Month(Now.Date) <= 9 Then
                     primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
                 Else
                     primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)

@@ -556,6 +556,9 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     'POR CNTR 
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If x = 0 Then
+                        x = 1
+                    End If
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
