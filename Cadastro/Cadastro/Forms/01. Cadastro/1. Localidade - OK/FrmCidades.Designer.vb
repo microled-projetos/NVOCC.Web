@@ -24,7 +24,7 @@ Partial Class FrmCidades
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCidades))
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.pbCarregando = New System.Windows.Forms.PictureBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -52,6 +52,7 @@ Partial Class FrmCidades
         Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.btnSair = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel2.SuspendLayout()
         CType(Me.pbCarregando, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -78,7 +79,7 @@ Partial Class FrmCidades
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(623, 436)
+        Me.Panel2.Size = New System.Drawing.Size(865, 436)
         Me.Panel2.TabIndex = 13
         '
         'pbCarregando
@@ -90,7 +91,7 @@ Partial Class FrmCidades
         Me.pbCarregando.Image = CType(resources.GetObject("pbCarregando.Image"), System.Drawing.Image)
         Me.pbCarregando.Location = New System.Drawing.Point(17, 195)
         Me.pbCarregando.Name = "pbCarregando"
-        Me.pbCarregando.Size = New System.Drawing.Size(586, 197)
+        Me.pbCarregando.Size = New System.Drawing.Size(828, 197)
         Me.pbCarregando.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.pbCarregando.TabIndex = 86
         Me.pbCarregando.TabStop = False
@@ -100,7 +101,7 @@ Partial Class FrmCidades
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Controls.Add(Me.txtVL_ISS)
-        Me.GroupBox2.Location = New System.Drawing.Point(484, 11)
+        Me.GroupBox2.Location = New System.Drawing.Point(726, 11)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(122, 93)
         Me.GroupBox2.TabIndex = 59
@@ -155,7 +156,7 @@ Partial Class FrmCidades
         Me.pnControles.Controls.Add(Me.btnPrimeiro)
         Me.pnControles.Location = New System.Drawing.Point(17, 112)
         Me.pnControles.Name = "pnControles"
-        Me.pnControles.Size = New System.Drawing.Size(588, 22)
+        Me.pnControles.Size = New System.Drawing.Size(830, 22)
         Me.pnControles.TabIndex = 11
         '
         'btnUltimo
@@ -166,7 +167,7 @@ Partial Class FrmCidades
         Me.btnUltimo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnUltimo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnUltimo.Image = CType(resources.GetObject("btnUltimo.Image"), System.Drawing.Image)
-        Me.btnUltimo.Location = New System.Drawing.Point(556, -2)
+        Me.btnUltimo.Location = New System.Drawing.Point(798, -2)
         Me.btnUltimo.Name = "btnUltimo"
         Me.btnUltimo.Size = New System.Drawing.Size(29, 25)
         Me.btnUltimo.TabIndex = 3
@@ -181,7 +182,7 @@ Partial Class FrmCidades
         Me.btnProximo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnProximo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnProximo.Image = CType(resources.GetObject("btnProximo.Image"), System.Drawing.Image)
-        Me.btnProximo.Location = New System.Drawing.Point(538, -2)
+        Me.btnProximo.Location = New System.Drawing.Point(780, -2)
         Me.btnProximo.Name = "btnProximo"
         Me.btnProximo.Size = New System.Drawing.Size(29, 25)
         Me.btnProximo.TabIndex = 2
@@ -196,7 +197,7 @@ Partial Class FrmCidades
         Me.btnAnterior.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnAnterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnAnterior.Image = CType(resources.GetObject("btnAnterior.Image"), System.Drawing.Image)
-        Me.btnAnterior.Location = New System.Drawing.Point(520, -2)
+        Me.btnAnterior.Location = New System.Drawing.Point(762, -2)
         Me.btnAnterior.Name = "btnAnterior"
         Me.btnAnterior.Size = New System.Drawing.Size(29, 25)
         Me.btnAnterior.TabIndex = 1
@@ -211,7 +212,7 @@ Partial Class FrmCidades
         Me.btnPrimeiro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnPrimeiro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnPrimeiro.Image = CType(resources.GetObject("btnPrimeiro.Image"), System.Drawing.Image)
-        Me.btnPrimeiro.Location = New System.Drawing.Point(500, -2)
+        Me.btnPrimeiro.Location = New System.Drawing.Point(742, -2)
         Me.btnPrimeiro.Name = "btnPrimeiro"
         Me.btnPrimeiro.Size = New System.Drawing.Size(29, 25)
         Me.btnPrimeiro.TabIndex = 0
@@ -237,8 +238,8 @@ Partial Class FrmCidades
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle3.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -250,7 +251,7 @@ Partial Class FrmCidades
         Me.dgvConsulta.RowHeadersWidth = 24
         Me.dgvConsulta.RowTemplate.Height = 18
         Me.dgvConsulta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvConsulta.Size = New System.Drawing.Size(588, 224)
+        Me.dgvConsulta.Size = New System.Drawing.Size(830, 224)
         Me.dgvConsulta.TabIndex = 1
         '
         'btnExcluir
@@ -273,6 +274,7 @@ Partial Class FrmCidades
         Me.GroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox1.Controls.Add(Me.txtIBGE)
+        Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.Label2)
         Me.GroupBox1.Controls.Add(Me.cbPais)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -281,7 +283,7 @@ Partial Class FrmCidades
         Me.GroupBox1.Controls.Add(Me.txtCidade)
         Me.GroupBox1.Location = New System.Drawing.Point(17, 11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(460, 93)
+        Me.GroupBox1.Size = New System.Drawing.Size(702, 93)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detalhes:"
@@ -292,19 +294,18 @@ Partial Class FrmCidades
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtIBGE.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtIBGE.Enabled = False
-        Me.txtIBGE.Location = New System.Drawing.Point(149, 21)
+        Me.txtIBGE.Location = New System.Drawing.Point(350, 52)
         Me.txtIBGE.MaxLength = 30
         Me.txtIBGE.Name = "txtIBGE"
-        Me.txtIBGE.Size = New System.Drawing.Size(82, 23)
+        Me.txtIBGE.Size = New System.Drawing.Size(110, 23)
         Me.txtIBGE.TabIndex = 5
         Me.txtIBGE.Tag = "requerido"
-        Me.txtIBGE.Visible = False
         '
         'Label2
         '
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(300, 31)
+        Me.Label2.Location = New System.Drawing.Point(542, 31)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(36, 16)
         Me.Label2.TabIndex = 10
@@ -317,7 +318,7 @@ Partial Class FrmCidades
         Me.cbPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbPais.Enabled = False
         Me.cbPais.FormattingEnabled = True
-        Me.cbPais.Location = New System.Drawing.Point(304, 50)
+        Me.cbPais.Location = New System.Drawing.Point(546, 50)
         Me.cbPais.Name = "cbPais"
         Me.cbPais.Size = New System.Drawing.Size(137, 24)
         Me.cbPais.TabIndex = 9
@@ -328,7 +329,7 @@ Partial Class FrmCidades
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(237, 31)
+        Me.Label1.Location = New System.Drawing.Point(471, 32)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(28, 16)
         Me.Label1.TabIndex = 8
@@ -341,7 +342,7 @@ Partial Class FrmCidades
         Me.cbUF.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbUF.Enabled = False
         Me.cbUF.FormattingEnabled = True
-        Me.cbUF.Location = New System.Drawing.Point(241, 50)
+        Me.cbUF.Location = New System.Drawing.Point(475, 51)
         Me.cbUF.Name = "cbUF"
         Me.cbUF.Size = New System.Drawing.Size(56, 24)
         Me.cbUF.TabIndex = 7
@@ -363,10 +364,10 @@ Partial Class FrmCidades
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtCidade.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCidade.Enabled = False
-        Me.txtCidade.Location = New System.Drawing.Point(20, 50)
+        Me.txtCidade.Location = New System.Drawing.Point(20, 52)
         Me.txtCidade.MaxLength = 30
         Me.txtCidade.Name = "txtCidade"
-        Me.txtCidade.Size = New System.Drawing.Size(213, 23)
+        Me.txtCidade.Size = New System.Drawing.Size(313, 23)
         Me.txtCidade.TabIndex = 0
         Me.txtCidade.Tag = "requerido"
         '
@@ -414,9 +415,9 @@ Partial Class FrmCidades
         Me.btnSair.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSair.Image = CType(resources.GetObject("btnSair.Image"), System.Drawing.Image)
-        Me.btnSair.Location = New System.Drawing.Point(492, 383)
+        Me.btnSair.Location = New System.Drawing.Point(738, 383)
         Me.btnSair.Name = "btnSair"
-        Me.btnSair.Size = New System.Drawing.Size(114, 34)
+        Me.btnSair.Size = New System.Drawing.Size(110, 34)
         Me.btnSair.TabIndex = 78
         Me.btnSair.Tag = "Sair"
         Me.btnSair.Text = "Sair [ESC]"
@@ -424,13 +425,22 @@ Partial Class FrmCidades
         Me.ToolTip1.SetToolTip(Me.btnSair, "Fechar o formulário.")
         Me.btnSair.UseVisualStyleBackColor = True
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(347, 34)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(39, 16)
+        Me.Label5.TabIndex = 12
+        Me.Label5.Text = "IBGE:"
+        '
         'FrmCidades
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.WhiteSmoke
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ClientSize = New System.Drawing.Size(623, 436)
+        Me.ClientSize = New System.Drawing.Size(865, 436)
         Me.Controls.Add(Me.Panel2)
         Me.Font = New System.Drawing.Font("Tahoma", 9.5!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -477,4 +487,5 @@ Partial Class FrmCidades
     Friend WithEvents Label4 As Label
     Friend WithEvents txtVL_ISS As TextBox
     Friend WithEvents txtIBGE As TextBox
+    Friend WithEvents Label5 As Label
 End Class

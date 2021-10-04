@@ -59,6 +59,16 @@
                                     </div>
                               </div>  
                     </div>
+                         <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Anexo:</label>
+                            <asp:FileUpload ID="FileUpload1" runat="server"  />
+                             <asp:Button ID="ButtonUpload" runat="server" CssClass="btn" Text="anexo"  />
+                        </div>
+                    </div>
+                </div>        
+
                           <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">

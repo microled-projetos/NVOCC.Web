@@ -1235,6 +1235,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             End If
 
         End If
+
+        txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", ",")
+
     End Sub
 
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click
@@ -1597,6 +1600,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
 
         End If
+
+        txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(".", ",")
     End Sub
 
     Private Sub btnSalvar_TaxaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvar_TaxaAereo.Click
@@ -1635,6 +1640,10 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para cadastrar."
+
+                    txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
+
                     Exit Sub
 
                 Else
@@ -1645,7 +1654,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
 
-
+                    txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
 
                     dgvTaxasAereo.DataBind()
                     Con.Fechar()
@@ -1661,6 +1671,10 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para alterar."
+
+                    txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
+
                     Exit Sub
 
                 Else
@@ -1673,6 +1687,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                         divErro_TaxasMaritimo1.Visible = True
                         lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
+
+                        txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
+
                     Else
 
 
@@ -1686,6 +1704,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         ''REALIZA UPDATE TAXA VENDA
                         'Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoVenda_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
+                        txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
 
                         divSuccess_TaxaAereo2.Visible = True
                         Con.Fechar()
@@ -1698,6 +1718,8 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         Else
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "É necessário informar um valor para que a taxa seja cadastrada/alterada."
+            txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
+            txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
         End If
 
 
@@ -1742,6 +1764,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxasMaritimo2.Visible = True
                     lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para cadastrar."
+
+                    txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
+
                     Exit Sub
 
                 Else
@@ -1757,6 +1783,9 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
                     dgvTaxasMaritimo.DataBind()
 
+                    txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
+
                     Con.Fechar()
 
                     divSuccess_TaxasMaritimo2.Visible = True
@@ -1768,6 +1797,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxasMaritimo2.Visible = True
                     lblErro_TaxasMaritimo2.Text = "Usuário não possui permissão para alterar."
+
+                    txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+                    txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
+
                     Exit Sub
 
                 Else
@@ -1780,6 +1813,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                     If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                         divErro_TaxasMaritimo1.Visible = True
                         lblErro_TaxasMaritimo1.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
+
+                        txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+                        txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
+
                     Else
 
                         Dim ID_BL_TAXA As String
@@ -1792,6 +1829,9 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
                         ID_BL_TAXA = txtID_TaxasMaritimo.Text
                         retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
+                        txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+                        txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
+
                         dgvTaxasMaritimo.DataBind()
                         divSuccess_TaxasMaritimo2.Visible = True
                         Con.Fechar()
@@ -1803,9 +1843,13 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
 
             End If
         Else
+            txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+            txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
             divErro_TaxasMaritimo2.Visible = True
             lblErro_TaxasMaritimo2.Text = "É necessário informar um valor para que a taxa seja cadastrada/alterada."
         End If
+        txtTaxaCompra_TaxasMaritimo.Text = txtTaxaCompra_TaxasMaritimo.Text.Replace(".", ",")
+        txtMinimoCompra_TaxasMaritimo.Text = txtMinimoCompra_TaxasMaritimo.Text.Replace(".", ",")
         mpeTaxasMaritimo.Show()
 
     End Sub
@@ -1909,6 +1953,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
 
 
         End If
+        txtTara_CNTRMaritimo.Text = txtTara_CNTRMaritimo.Text.Replace(".", ",")
         mpeCNTRMaritimo.Show()
 
     End Sub

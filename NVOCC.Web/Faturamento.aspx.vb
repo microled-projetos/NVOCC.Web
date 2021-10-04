@@ -264,11 +264,16 @@ Public Class Faturamento
                 divErro.Visible = True
                 lblmsgErro.Text = "É necessario preencher o campo de observações!"
             Else
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,A.NR_NOTA_FISCAL,A.DT_CANCELAMENTO FROM [TB_FATURAMENTO] A
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.DT_LIQUIDACAO,A.NR_NOTA_FISCAL,B.DT_CANCELAMENTO,A.DT_CANCELAMENTO DT_CANCELAMENTO_FATURA  FROM [TB_FATURAMENTO] A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
-WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
-                If ds.Tables(0).Rows.Count > 0 Then
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+WHERE ID_FATURAMENTO =" & txtID.Text)
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_LIQUIDACAO")) And Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+                    'ds.Tables(0).Rows.Count > 0
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Não foi possivel completar a ação: fatura já liquidada!"
+                Else
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO_FATURA")) Then
                         divErro.Visible = True
                         lblmsgErro.Text = "Não foi possivel completar a ação: fatura já cancelada!"
                         Exit Sub
@@ -308,9 +313,7 @@ WHERE DT_LIQUIDACAO IS NULL AND ID_FATURAMENTO =" & txtID.Text)
                         dgvFaturamento.DataBind()
                         divInfo.Visible = False
                     End If
-                Else
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Não foi possivel completar a ação: fatura já liquidada!"
+
                 End If
             End If
         End If
@@ -946,10 +949,13 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
-                    txtID_CLIENTE.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                     lblClienteCancelamento.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
                     lblClienteBaixa.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
                     lblClienteSubs.Text = "CLIENTE: " & ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")) Then
+                    txtID_CLIENTE.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then

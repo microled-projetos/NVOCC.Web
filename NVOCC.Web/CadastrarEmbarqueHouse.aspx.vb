@@ -1895,6 +1895,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
         End If
+        txtValorDivisaoProfit_BasicoMaritimo.Text = txtValorDivisaoProfit_BasicoMaritimo.Text.Replace(".", ",")
     End Sub
 
     Sub LimpaNulo()
@@ -2083,6 +2084,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
         End If
+
+        txtValorDivisaoProfit_BasicoAereo.Text = txtValorDivisaoProfit_BasicoAereo.Text.Replace(".", ",")
+
     End Sub
 
     Private Sub btnSalvar_CargaAereo_Click(sender As Object, e As EventArgs) Handles btnSalvar_CargaAereo.Click
@@ -2213,7 +2217,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         End If
         txtDescMercadoria_CargaAereo.Text = txtDescMercadoria_CargaAereo.Text.Replace("'", "")
         txtDescMercadoria_CargaAereo.Text = txtDescMercadoria_CargaAereo.Text.Replace("NULL", "")
+        txtPesoVolumetrico_CargaAereo.Text = txtPesoVolumetrico_CargaAereo.Text.Replace(".", ",")
 
+        txtPesoBruto_CargaAereo.Text = txtPesoBruto_CargaAereo.Text.Replace(".", ",")
     End Sub
 
     Private Sub btnSalvar_CargaMaritimo_Click(sender As Object, e As EventArgs) Handles btnSalvar_CargaMaritimo.Click
@@ -2350,6 +2356,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
         End If
 
+        txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", ",")
+
+        txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(".", ",")
+
         txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("'", "")
         txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("NULL", "")
 
@@ -2419,6 +2429,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             mpeTaxaAereo.Show()
             txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
             txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+            txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
+            txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
+            txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
+            txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
             Exit Sub
         Else
             If txtID_TaxaAereo.Text = "" Then
@@ -2497,6 +2511,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para alterar."
                     txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
                     txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+                    txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
+                    txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
+                    txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
+                    txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
                     mpeTaxaAereo.Show()
                     Exit Sub
 
@@ -2513,6 +2531,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         mpeTaxaAereo.Show()
                         txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
                         txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+                        txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
+                        txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
                         Exit Sub
 
                     Else
@@ -2537,6 +2559,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
 
                         txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
                         txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+                        txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
+                        txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
+                        txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
 
                         divSuccess_TaxaAereo2.Visible = True
                         Con.Fechar()
@@ -2690,6 +2716,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             mpeTaxaMaritimo.Show()
             txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
             txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+            txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
+            txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
+            txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
+            txtMinVenda_TaxaMaritimo.Text = txtMinVenda_TaxaMaritimo.Text.Replace(".", ",")
             Exit Sub
         Else
             ds = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue)
@@ -2711,7 +2741,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
                     txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
                     mpeTaxaMaritimo.Show()
-
+                    txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
+                    txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
+                    txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
+                    txtMinVenda_TaxaMaritimo.Text = txtMinVenda_TaxaMaritimo.Text.Replace(".", ",")
                     Exit Sub
 
                 Else
@@ -2787,7 +2820,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
                     txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
                     mpeTaxaMaritimo.Show()
-
+                    txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
+                    txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
+                    txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
+                    txtMinVenda_TaxaMaritimo.Text = txtMinVenda_TaxaMaritimo.Text.Replace(".", ",")
                     Exit Sub
 
                 Else
@@ -2803,7 +2839,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
                         mpeTaxaMaritimo.Show()
-
+                        txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
+                        txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
+                        txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
+                        txtMinVenda_TaxaMaritimo.Text = txtMinVenda_TaxaMaritimo.Text.Replace(".", ",")
                         Exit Sub
                     Else
 
@@ -2832,7 +2871,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
 
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
                         txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
-
+                        txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
+                        txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
+                        txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
+                        txtMinVenda_TaxaMaritimo.Text = txtMinVenda_TaxaMaritimo.Text.Replace(".", ",")
 
                         Con.Fechar()
                     End If
@@ -2840,15 +2882,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
 
             End If
         End If
-
-
-
-
-
-
-
-
-
 
         mpeTaxaMaritimo.Show()
 

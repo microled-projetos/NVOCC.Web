@@ -23,15 +23,6 @@ Public Class FrmPaises
         pnControles.Enabled = Not pnControles.Enabled
     End Sub
 
-    'Private Sub btnNovo_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    Dim Tela As Control = Me
-    '    Geral.LimparCampos(Tela)
-    '    Tela = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=True)
-    '    SetaControles()
-    '    txtPais.Focus()
-    'End Sub
-
     Private Sub dgvConsulta_CellClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
 
         If Me.dgvConsulta.Rows.Count > 0 Then
@@ -129,13 +120,6 @@ Public Class FrmPaises
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
-    'Private Sub btnExcluir_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
-    '        Consultar()
-    '        Dim Tela As Control = Me
-    '        Geral.LimparCampos(Tela)
-    '    End If
-    'End Sub
 
     Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
         Me.Close()
@@ -182,23 +166,6 @@ Public Class FrmPaises
         txtPais.Focus()
     End Sub
 
-    'Private Sub btnCancelar_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    SetaControles()
-    '    Dim Tela As Control = Me
-    '    Geral.LimparCampos(Tela)
-    '    Tela = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=False)
-    'End Sub
-
-
-
-    Private Sub FrmPaises_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-
-        If e.KeyCode = Keys.Escape Then
-            Me.Close()
-        End If
-
-    End Sub
 
     Private Sub btnPrimeiro_Click(sender As System.Object, e As System.EventArgs) Handles btnPrimeiro.Click
 
@@ -279,5 +246,17 @@ Public Class FrmPaises
         Geral.LimparCampos(Tela)
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
+    End Sub
+
+    Private Sub FrmPaises_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub dgvConsulta_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellEnter
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
+        End If
     End Sub
 End Class

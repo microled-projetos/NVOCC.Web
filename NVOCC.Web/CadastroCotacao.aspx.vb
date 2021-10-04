@@ -85,6 +85,29 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                     ddlStatusCotacao.DataBind()
                 End If
             End If
+
+            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                btnGravar.Visible = False
+                btnSalvarFrete.Visible = False
+                btnSalvarTaxa.Visible = False
+                btnSalvarMercadoria.Visible = False
+                btnNovaMercadoria.Visible = False
+                btnNovaTaxa.Visible = False
+                btnImportar.Visible = False
+                dgvMercadoria.Columns(8).Visible = False
+                dgvTaxas.Columns(10).Visible = False
+
+            Else
+                btnGravar.Visible = True
+                btnSalvarFrete.Visible = True
+                btnSalvarTaxa.Visible = True
+                btnSalvarMercadoria.Visible = True
+                btnNovaMercadoria.Visible = True
+                btnNovaTaxa.Visible = True
+                btnImportar.Visible = True
+                dgvTaxas.Columns(10).Visible = True
+
+            End If
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO")) Then
@@ -1197,6 +1220,12 @@ WHERE ID_COTACAO = " & txtID.Text)
                 '    divInfoFrete.Visible = True
                 '    Session("ID_TRANSPORTADOR") = ddlTransportadorFrete.SelectedValue
                 'End If
+
+                txtVendaMinimaFCL.Text = txtVendaMinimaFCL.Text.Replace(".", ",")
+                txtCompraMinimaFCL.Text = txtCompraMinimaFCL.Text.Replace(".", ",")
+                txtFreteVenda.Text = txtFreteVenda.Text.Replace(".", ",")
+                txtFreteCompra.Text = txtFreteCompra.Text.Replace(".", ",")
+                txtValorDivisaoProfit.Text = txtValorDivisaoProfit.Text.Replace(".", ",")
 
                 divSuccessFrete.Visible = True
                 Con.Fechar()
