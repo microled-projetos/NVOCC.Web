@@ -1198,6 +1198,7 @@
                                                     <th class="text-center" scope="col">Nº Processo</th>
                                                     <th class="text-center" scope="col">Nº CNTR</th>
                                                     <th class="text-center" scope="col">Tipo CNTR</th>
+                                                    <th class="text-center" scope="col">MBL</th>
                                                     <th class="text-center" scope="col">Cliente</th>
                                                     <th class="text-center" scope="col">Transportador</th>
                                                     <th class="text-center" scope="col">Data Chegada</th>
@@ -1261,6 +1262,7 @@
                                     <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
                                     <th class="text-center" scope="col">Nº Processo</th>
+                                    <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
                                     <th class="text-center" scope="col">Data Chegada</th>
@@ -3751,6 +3753,7 @@
                             $("#grdEstimativaBody").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
@@ -4110,31 +4113,78 @@
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
                             if (dado[i]["QT_DIAS_DEMURRAGE"] >= -10 && dado[i]["QT_DIAS_DEMURRAGE"] <= -1) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'>" +
+                                    "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr> ");
                             }
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'>" +
+                                    "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr> ");
                             }
                             else {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr > ");
                             }
                         }
                     }

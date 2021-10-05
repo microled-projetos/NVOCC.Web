@@ -129,7 +129,7 @@
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
                                             <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
-                                            <asp:BoundField DataField="NM_CLIENTE" HeaderText="Cliente" SortExpression="NM_CLIENTE" />
+                                            <asp:BoundField DataField="NM_CLIENTE_REDUZIDO" HeaderText="Cliente" SortExpression="NM_CLIENTE_REDUZIDO" />
                                             <asp:BoundField DataField="REFERENCIA_CLIENTE" HeaderText="Ref. Cliente" SortExpression="REFERENCIA_CLIENTE" />
                                             <asp:BoundField DataField="VL_NOTA_DEBITO" HeaderText="Valor Nota de Deb." SortExpression="VL_NOTA_DEBITO" />
                                             <asp:BoundField DataField="NR_NOTA_DEBITO" HeaderText="Nota de Deb." SortExpression="NR_NOTA_DEBITO" />
@@ -142,7 +142,7 @@
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
                                             <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
-
+                                            <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -176,7 +176,7 @@
                                     <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                             
-                                                                                    <asp:LinkButton ID="lkBoletoRemessa" href="RemessaBoletos.aspx" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Enviar Remessa</asp:LinkButton>
+                                                                                    <asp:LinkButton ID="lkBoletoRemessa" runat="server" CssClass="btn btnn btn-default btn-sm  btn-block" Style="font-size: 15px">Gerar Remessa</asp:LinkButton>
                            
                                         </div>
                                          </div>
@@ -727,7 +727,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
             console.log(ID);
 
-            window.open('CONtent/BOLETOS/BOLETO'+ ID +'.pdf', '_blank');
+            window.open('CONtent/BOLETOS/BOLETO_'+ ID +'.pdf', '_blank');
         }
 
 

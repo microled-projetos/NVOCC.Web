@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web 04102021\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web 05102021\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -301,8 +301,6 @@
     <Content Include="ContaPagarReceber.aspx" />
     <Content Include="ContaPagarReceber.aspx.cs" />
     <Content Include="ContaPagarReceber.aspx.designer.cs" />
-    <Content Include="Content\boletos\arquivo_remessa.txt" />
-    <Content Include="Content\boletos\arquivo_remessa_validado.txt" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -526,7 +524,6 @@
     <Content Include="Content\chart.js-3.2.0\package\LICENSE.md" />
     <Content Include="Content\chart.js-3.2.0\package\package.json" />
     <Content Include="Content\chart.js-3.2.0\package\README.md" />
-    <Content Include="Content\boletos\boleto1.pdf" />
     <Content Include="FileUpload.ashx" />
     <None Include="Web References\NotaFiscal\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -1165,6 +1162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\boletos\" />
     <Folder Include="UPLOADS\" />
   </ItemGroup>
   <ItemGroup>
