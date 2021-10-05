@@ -288,6 +288,9 @@
     <EmbeddedResource Include="Forms\01. Cadastro\3. Usuários\FrmUsuarios.resx">
       <DependentUpon>FrmUsuarios.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmServico.resx">
+      <DependentUpon>FrmServico.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\06. Login\FrmLogin.resx">
       <DependentUpon>FrmLogin.vb</DependentUpon>
     </EmbeddedResource>

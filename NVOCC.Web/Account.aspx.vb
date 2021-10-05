@@ -19,7 +19,8 @@
         Else
             If Not Page.IsPostBack Then
                 Dim primeirodia As Date
-                If Month(Now.AddMonths(-1)) <= 9 Then
+                ' If Month(Now.AddMonths(-1)) <= 9 Then
+                If Month(Now.Date) <= 9 Then
                     primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
                 Else
                     primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
@@ -915,7 +916,27 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
     Private Sub btnCSVProcessoPeriodo_Click(sender As Object, e As EventArgs) Handles btnCSVProcessoPeriodo.Click
         'SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER,NR_BL,TIPO_PAGAMENTO,TIPO_ESTUFAGEM,(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)ORIGEM,(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_CHEGADA_MASTER  FROM [dbo].[View_House] 
 
-        Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
+
+        If txtEmbarqueInicial.Text = "" Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "É necessário informar data incial para concluir a pesquisa"
+        ElseIf txtEmbarqueFinal.Text = "" Then
+            divErroRelatorio.Visible = True
+            lblErroRelatorio.Text = "É necessário informar data final para concluir a pesquisa"
+        Else
+
+            Dim filtro As String = ""
+
+            If ddlAgenteRelatorio.SelectedValue <> 0 Then
+                filtro &= " AND ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgenteRelatorio.SelectedValue
+            End If
+            If txtProcessoRelatorio.Text <> "" Then
+                filtro &= " AND NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'"
+            End If
+
+
+
+            Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
 ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
 CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
 
@@ -926,8 +947,11 @@ END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORT
 END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER  FROM [dbo].[View_House] 
- WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) ORDER BY NR_PROCESSO"
-        Classes.Excel.exportaExcel(SQL, "NVOCC", "ProcessosPeriodo")
+ WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) 
+" & filtro & "
+ORDER BY NR_PROCESSO"
+            Classes.Excel.exportaExcel(SQL, "NVOCC", "ProcessosPeriodo")
+        End If
 
     End Sub
 
@@ -1095,8 +1119,8 @@ END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIR
             dsProcessoPeriodo.SelectCommand = sql
             dgvProcessoPeriodo.DataBind()
             dgvProcessoPeriodo.Visible = True
-            ModalPopupExtender8.Show()
         End If
+        ModalPopupExtender8.Show()
     End Sub
 
     Private Sub btnTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnTaxasExteriorDeclaradas.Click

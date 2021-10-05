@@ -24,7 +24,7 @@ Partial Class FrmPaises
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPaises))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
@@ -179,7 +179,7 @@ Partial Class FrmPaises
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCarregando.BackColor = System.Drawing.Color.White
         Me.pbCarregando.Image = CType(resources.GetObject("pbCarregando.Image"), System.Drawing.Image)
-        Me.pbCarregando.Location = New System.Drawing.Point(18, 169)
+        Me.pbCarregando.Location = New System.Drawing.Point(17, 170)
         Me.pbCarregando.Name = "pbCarregando"
         Me.pbCarregando.Size = New System.Drawing.Size(586, 197)
         Me.pbCarregando.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -265,8 +265,8 @@ Partial Class FrmPaises
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)

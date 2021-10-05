@@ -683,6 +683,10 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (19)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -697,6 +701,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (19)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -717,6 +724,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (5,6,2,9,10,12,16,18,19)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -731,6 +743,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (5,6,2,9,10,12,
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -751,6 +766,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11,3,4,7,8,1)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -765,6 +785,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (17,13,14,15,11
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -997,6 +1020,9 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER = 10")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1011,6 +1037,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER = 10")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1031,6 +1060,9 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (15)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1045,6 +1077,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (15)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1065,6 +1100,9 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (9)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1079,6 +1117,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (9)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1099,6 +1140,10 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1113,6 +1158,9 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+                        If x = 0 Then
+                            x = 1
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1132,6 +1180,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (8)")
 FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (16)")
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1146,6 +1199,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (16)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1166,6 +1224,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (5)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1180,6 +1243,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (5)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1200,6 +1268,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (4)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1214,6 +1287,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER in (4)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1234,6 +1312,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1248,6 +1331,11 @@ WHERE A.ID_COTACAO = " & txtID.Text & " AND ID_TIPO_CONTAINER IN (13)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1416,6 +1504,12 @@ WHERE A.ID_COTACAO = " & txtID.Text)
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
+
                         If COMPRA_MIN < 0 Then
                             If z > COMPRA_MIN Then
                                 z = COMPRA_MIN
@@ -1428,6 +1522,11 @@ WHERE A.ID_COTACAO = " & txtID.Text)
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
@@ -1491,6 +1590,11 @@ FROM TB_COTACAO_MERCADORIA A
 WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -1505,6 +1609,11 @@ WHERE A.ID_COTACAO =" & txtID.Text & " AND ID_TIPO_CONTAINER IN (4,5)")
                         CompraCalc = z.ToString
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                        If x = 0 Then
+                            x = 1
+                        End If
+
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then

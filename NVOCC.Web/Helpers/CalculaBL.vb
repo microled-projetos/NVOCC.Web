@@ -145,6 +145,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -166,6 +171,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -186,6 +196,10 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
         WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -333,6 +347,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR = 10")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -353,6 +372,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (15)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -374,6 +398,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (9)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -394,6 +423,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (8)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -414,6 +447,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (16)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -434,6 +472,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -454,6 +497,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -474,6 +522,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (13)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -556,6 +610,9 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     'POR CNTR 
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+                    If x = 0 Then
+                        x = 1
+                    End If
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -581,6 +638,8 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & ")")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
 
                     z = x * y
@@ -601,6 +660,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -807,6 +871,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -829,6 +898,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -850,6 +925,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -997,6 +1078,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR = 10")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1017,6 +1103,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (15)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1038,6 +1129,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (9)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1058,6 +1155,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (8)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1078,6 +1181,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (16)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1098,6 +1207,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1118,6 +1232,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1138,6 +1257,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (13)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1220,8 +1345,14 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     'POR CNTR 
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
+
                     If VL_TAXA_MIN < 0 Then
                         If z > VL_TAXA_MIN Then
                             z = VL_TAXA_MIN
@@ -1245,6 +1376,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & ")")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
+
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
 
                     z = x * y
@@ -1266,6 +1398,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
+
+                    If x = 0 Then
+                        x = 1
+                    End If
+
+
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
                         If z > VL_TAXA_MIN Then

@@ -251,17 +251,19 @@
                         var doc = new jsPDF('l');
                         var pageHeight = doc.internal.pageSize.height;
                         doc.setFontStyle("bold");
-                        doc.setFontSize(15);
-                        doc.text("INVOICES COM VENCIMENTO ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 70, 13);
+                        doc.setFontSize(18);
+                        doc.text("AVISO DE EMBARQUE", 120, 13);
+                        doc.setFontSize(8);
+                        doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 125, 18);
                         doc.setFontSize(7);
                         doc.setLineWidth(0.2);
                         doc.line(3, 24, 295, 24);
                         doc.line(3, 28, 295, 28);
                         doc.line(3, 24, 3, 28);
-                        doc.line(26, 24, 26, 28);
-                        doc.line(44, 24, 44, 28);
-                        doc.line(74, 24, 74, 28);
-                        doc.line(99, 24, 99, 28);
+                        doc.line(31, 24, 31, 28);
+                        doc.line(49, 24, 49, 28);
+                        doc.line(84, 24, 84, 28);
+                        doc.line(114, 24, 114, 28);
                         doc.line(139, 24, 139, 28);
                         doc.line(159, 24, 159, 28);
                         doc.line(179, 24, 179, 28);
@@ -273,10 +275,10 @@
 
 
                         doc.text("INVOICE", 4, 27);
-                        doc.text("PROCESSO", 27, 27);
-                        doc.text("HBL", 45, 27);
-                        doc.text("MBL", 75, 27);
-                        doc.text("CLIENTE", 100, 27);
+                        doc.text("PROCESSO", 32, 27);
+                        doc.text("HBL", 55, 27);
+                        doc.text("MBL", 85, 27);
+                        doc.text("CLIENTE", 115, 27);
                         doc.text("ORIGEM", 140, 27);
                         doc.text("DESTINO", 160, 27);
                         doc.text("TRANSPORTADOR", 180, 27);
@@ -308,17 +310,19 @@
                                 doc.addPage();
                                 doc.setFontStyle("bold");
                                 doc.setFontSize(15);
-                                doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 68, 13);
+                                doc.text("AVISO DE EMBARQUE", 68, 13);
+                                doc.setFontSize(12);
+                                doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 68, 18);
                                 doc.setFontSize(7);
                                 doc.text("NR PROCESSO", 4, 27);
                                 doc.setLineWidth(0.2);
                                 doc.line(3, 24, 295, 24);
                                 doc.line(3, 28, 295, 28);
                                 doc.line(3, 24, 3, 28);
-                                doc.line(26, 24, 26, 28);
-                                doc.line(44, 24, 44, 28);
-                                doc.line(74, 24, 74, 28);
-                                doc.line(99, 24, 99, 28);
+                                doc.line(31, 24, 31, 28);
+                                doc.line(54, 24, 54, 28);
+                                doc.line(84, 24, 84, 28);
+                                doc.line(114, 24, 114, 28);
                                 doc.line(139, 24, 139, 28);
                                 doc.line(159, 24, 159, 28);
                                 doc.line(179, 24, 179, 28);
@@ -347,10 +351,10 @@
                                 doc.setFontStyle("normal");
                                 doc.line(3, positionv, 295, positionv);
                                 doc.text(dado[i]["NR_INVOICE"], 4, position);
-                                doc.text(dado[i]["NR_PROCESSO"], 27, position);
-                                doc.text(dado[i]["HBL"], 45, position);
-                                doc.text(dado[i]["MBL"].substring(0, 15), 75, position);
-                                doc.text(dado[i]["CLIENTE"].substring(0, 15), 100, position);
+                                doc.text(dado[i]["NR_PROCESSO"], 32, position);
+                                doc.text(dado[i]["HBL"], 50, position);
+                                doc.text(dado[i]["MBL"].substring(0, 15), 85, position);
+                                doc.text(dado[i]["CLIENTE"].substring(0, 15), 115, position);
                                 doc.text(dado[i]["ORIGEM"], 140, position);
                                 doc.text(dado[i]["DESTINO"], 160, position);
                                 doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 180, position);
@@ -362,10 +366,10 @@
                         }
                         doc.line(3, positionv, 295, positionv);
                         doc.line(3, 28, 3, positionv);
-                        doc.line(26, 28, 26, positionv);
-                        doc.line(44, 28, 44, positionv);
-                        doc.line(74, 28, 74, positionv);0
-                        doc.line(99, 28, 99, positionv);
+                        doc.line(31, 28, 31, positionv);
+                        doc.line(49, 28, 49, positionv);
+                        doc.line(84, 28, 84, positionv);
+                        doc.line(114, 28, 114, positionv);
                         doc.line(139, 28, 139, positionv);
                         doc.line(159, 28, 159, positionv);
                         doc.line(179, 28, 179, positionv);

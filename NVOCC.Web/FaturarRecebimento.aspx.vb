@@ -20,6 +20,7 @@
     End Sub
 
     Private Sub dgvContasReceber_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvContasReceber.RowCommand
+        dgvContasReceber.Columns(9).Visible = False
         divSuccess.Visible = False
         divErro.Visible = False
         Dim Con As New Conexao_sql
@@ -56,6 +57,8 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
             dgvContasReceber.DataBind()
 
         End If
+        dgvContasReceber.Columns(9).Visible = True
+
         CarregaGrid()
     End Sub
 
