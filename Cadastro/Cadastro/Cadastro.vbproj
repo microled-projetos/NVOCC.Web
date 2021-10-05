@@ -276,6 +276,12 @@
     <EmbeddedResource Include="Forms\01. Cadastro\3. Usuários\FrmNovaPermissao.resx">
       <DependentUpon>FrmNovaPermissao.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmContaFinanceiro.resx">
+      <DependentUpon>FrmContaFinanceiro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmMoedas.resx">
+      <DependentUpon>FrmMoedas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\01. Cadastro\FrmNCM.resx">
       <DependentUpon>FrmNCM.vb</DependentUpon>
     </EmbeddedResource>
@@ -287,6 +293,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\01. Cadastro\3. Usuários\FrmUsuarios.resx">
       <DependentUpon>FrmUsuarios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmPortos.resx">
+      <DependentUpon>FrmPortos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\01. Cadastro\FrmServico.resx">
       <DependentUpon>FrmServico.vb</DependentUpon>

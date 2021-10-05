@@ -1,11 +1,13 @@
-﻿Imports DgvFilterPopup
+﻿Imports System
+Imports System.Data
+Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.CompilerServices
 Public Class FrmNavios
 
     Private Coluna As Integer
-    Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT CODE,DESCR,NACIONALIDADE,CASE WHEN FLAG_RORO IS NULL THEN 'NÃO' WHEN FLAG_RORO = 0 THEN 'NÃO' ELSE 'SIM'END AS RO_RO FROM " & Banco.BancoSGIPA & "DTE_TB_NAVIOS")
+        Me.dgvConsulta.DataSource = Banco.List("SELECT ID_NAVIO,NM_NAVIO,CD_LOYD,A.ID_PAIS,B.NM_PAIS,FL_ATIVO FROM TB_NAVIO A LEFT JOIN TB_PAIS B on B.ID_PAIS = A.ID_PAIS")
     End Sub
 
     Private Sub SetaControles()
@@ -21,49 +23,33 @@ Public Class FrmNavios
 
     Private Sub FrmPrincipal_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
 
-        If Not Filtro Is Nothing Then
-            Filtro.ActivateAllFilters(False)
-        End If
-
         Consultar()
 
-        If Me.dgvConsulta.Rows.Count > 0 Then
-            Filtro = New DgvFilterManager(Me.dgvConsulta)
-        End If
-
         FundoTextBox(Me)
-
-    End Sub
-
-    Private Sub dgvConsulta_CellClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
-
-        If Me.dgvConsulta.Rows.Count > 0 Then
-            MostraDados()
-            If Convert.ToInt32(e.ColumnIndex) >= 0 Then Coluna = Me.dgvConsulta.Columns(e.ColumnIndex).Index
-        End If
 
     End Sub
 
     Private Sub MostraDados()
 
         If Me.dgvConsulta.Rows.Count > 0 Then
-            Me.txtCodigo.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
+            Me.txtID.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
             Me.txtNome.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
-            Me.txtNacionalidade.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
-            Me.chkRoRo.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(3).Value.ToString().Equals("SIM"), True, False)
+            Me.txtCodigoLoyd.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
+            Me.cbPais.SelectedValue = Me.dgvConsulta.CurrentRow.Cells(3).Value.ToString()
+            chkAtivo.Checked = Conversions.ToBoolean(dgvConsulta.CurrentRow.Cells(5).Value.ToString())
         End If
 
     End Sub
 
-    Private Sub btnSalvar_Click(sender As System.Object, e As System.EventArgs) Handles btnSalvar.Click
+    Private Sub btnSalvar_Click(sender As System.Object, e As System.EventArgs)
 
         If ValidarCampos(Me) = False Then
             Exit Sub
         End If
 
-        If txtCodigo.Text = String.Empty Then
+        If txtID.Text = String.Empty Then
             Try
-                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_NAVIOS (DESCR, NACIONALIDADE, FLAG_RORO) VALUES ('" & Me.txtNome.Text & "','" & Me.txtNacionalidade.Text & "', '" & Me.chkRoRo.CheckState & "')") Then
+                If Banco.Execute("INSERT INTO TB_NAVIO (NM_NAVIO,CD_LOYD,FL_ATIVO,ID_PAIS) VALUES ('" & Me.txtNome.Text & "','" & Me.txtCodigoLoyd.Text & "', '" & Me.chkAtivo.CheckState & "', " & cbPais.SelectedValue & ")") Then
                     Consultar()
                     Mensagens(Me, 1)
                 Else
@@ -74,7 +60,7 @@ Public Class FrmNavios
             End Try
         Else
             Try
-                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_NAVIOS SET FLAG_RORO = '" & Me.chkRoRo.CheckState & "' WHERE CODE = " & Me.txtCodigo.Text & "") Then
+                If Banco.Execute("UPDATE TB_NAVIO SET FL_ATIVO = '" & Me.chkAtivo.CheckState & "' , NM_NAVIO = '" & txtNome.Text & "', CD_LOYD = '" & Me.txtCodigoLoyd.Text & "', ID_PAIS = " & cbPais.SelectedValue & " WHERE ID_NAVIO = " & Me.txtID.Text & "") Then
                     Consultar()
                     Mensagens(Me, 2)
                 Else
@@ -90,11 +76,8 @@ Public Class FrmNavios
 
     End Sub
 
-    Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
-        Me.Close()
-    End Sub
 
-    Private Sub btnPrimeiro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
+    Private Sub btnPrimeiro_Click(sender As System.Object, e As System.EventArgs) Handles btnPrimeiro.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(0).Cells(0)
@@ -103,7 +86,7 @@ Public Class FrmNavios
 
     End Sub
 
-    Private Sub btnProximo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+    Private Sub btnProximo_Click(sender As System.Object, e As System.EventArgs) Handles btnProximo.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             If dgvConsulta.CurrentRow.Index < dgvConsulta.Rows.Count - 1 Then
@@ -114,7 +97,7 @@ Public Class FrmNavios
 
     End Sub
 
-    Private Sub btnUltimo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+    Private Sub btnUltimo_Click(sender As System.Object, e As System.EventArgs) Handles btnUltimo.Click
 
         If dgvConsulta.Rows.Count > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(dgvConsulta.Rows.Count - 1).Cells(0)
@@ -123,7 +106,7 @@ Public Class FrmNavios
 
     End Sub
 
-    Private Sub btnAnterior_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
+    Private Sub btnAnterior_Click(sender As System.Object, e As System.EventArgs) Handles btnAnterior.Click
 
         If dgvConsulta.CurrentRow.Index > 0 Then
             dgvConsulta.CurrentCell = dgvConsulta.Rows(dgvConsulta.CurrentRow.Index - 1).Cells(0)
@@ -132,29 +115,27 @@ Public Class FrmNavios
 
     End Sub
 
-    Private Sub btnEditar_Click(sender As System.Object, e As System.EventArgs) Handles btnEditar.Click
-
-        If String.IsNullOrEmpty(txtCodigo.Text) Then
-            MessageBox.Show("Selecione um registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
-        End If
-
-        HabilitarCampos(Me, True)
-        SetaControles()
-        Me.txtNome.Focus()
-
-    End Sub
-
-    Private Sub btnFiltro_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    Private Sub dgvConsulta_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellEnter
         If dgvConsulta.Rows.Count > 0 Then
-            Filtro.ShowPopup(Me.dgvConsulta.CurrentCell.ColumnIndex)
+            MostraDados()
+
+            If Convert.ToInt32(e.ColumnIndex) >= 0 Then
+                Coluna = dgvConsulta.Columns(e.ColumnIndex).Index
+            End If
         End If
     End Sub
 
-    Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
-        SetaControles()
-        LimparCampos(Me)
+    Private Sub dgvConsulta_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
+
+            If Convert.ToInt32(e.ColumnIndex) >= 0 Then
+                Coluna = dgvConsulta.Columns(e.ColumnIndex).Index
+            End If
+        End If
     End Sub
+
+
 
     Private Sub FrmNavios_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
@@ -168,11 +149,38 @@ Public Class FrmNavios
         Me.Dispose()
     End Sub
 
+
+
+    Private Sub btnSair_Click(sender As Object, e As EventArgs) Handles btnSair.Click
+        Me.Close()
+    End Sub
+
     Private Sub btnNovo_Click(sender As Object, e As EventArgs) Handles btnNovo.Click
         LimparCampos(Me)
         HabilitarCampos(Me, True)
         SetaControles()
         Me.txtNome.Focus()
+    End Sub
+
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        SetaControles()
+        LimparCampos(Me)
+    End Sub
+
+    Private Sub btnEditar_Click(sender As Object, e As EventArgs) Handles btnEditar.Click
+        If String.IsNullOrEmpty(txtID.Text) Then
+            MessageBox.Show("Selecione um registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        HabilitarCampos(Me, True)
+        SetaControles()
+        Me.txtNome.Focus()
+
+    End Sub
+
+    Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
+
     End Sub
 
 End Class
