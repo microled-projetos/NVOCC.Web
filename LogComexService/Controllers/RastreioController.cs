@@ -40,13 +40,15 @@ namespace LogComexService.Controllers
                 {
                     BlMaster bl = new BlMaster();
 
-                    bl.BL_TOKEN = item.BL_TOKEN;
-                    bl.ID_ARMADOR_LOGCOMEX = item.ID_ARMADOR_LOGCOMEX;
-                    bl.TRAKING_BL = item.TRAKING_BL;
-                    bl.NR_BL = item.NR_BL;                    
+                    if (bl != null) {
 
-                    IniciarRastreioBL(bl);                   
+                        bl.BL_TOKEN = item.BL_TOKEN;
+                        bl.ID_ARMADOR_LOGCOMEX = item.ID_ARMADOR_LOGCOMEX;
+                        bl.TRAKING_BL = item.TRAKING_BL;
+                        bl.NR_BL = item.NR_BL;
 
+                        IniciarRastreioBL(bl);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -54,22 +56,22 @@ namespace LogComexService.Controllers
                 }                
             }
             
-            var queryHouse = _repositorio_bl_house.GetAllDadosBlHouse().ToList();
-            foreach (var itemIn in queryHouse)
-            {
-                BlHouse blHouse = new BlHouse();
+            //var queryHouse = _repositorio_bl_house.GetAllDadosBlHouse().ToList();
+            //foreach (var itemIn in queryHouse)
+            //{
+            //    BlHouse blHouse = new BlHouse();
 
-                blHouse.BL_TOKEN = itemIn.BL_TOKEN;
-                blHouse.ID_ARMADOR_LOGCOMEX = itemIn.ID_ARMADOR_LOGCOMEX;
-                blHouse.TRAKING_BL = itemIn.TRAKING_BL;
-                blHouse.NR_BL = itemIn.NR_BL;
+            //    blHouse.BL_TOKEN = itemIn.BL_TOKEN;
+            //    blHouse.ID_ARMADOR_LOGCOMEX = itemIn.ID_ARMADOR_LOGCOMEX;
+            //    blHouse.TRAKING_BL = itemIn.TRAKING_BL;
+            //    blHouse.NR_BL = itemIn.NR_BL;
 
-                IniciarRastreioBLHouse(blHouse);
+            //    IniciarRastreioBLHouse(blHouse);
 
-            }
+            //}
 
-            list.AddRange(query.ToList());
-            list.AddRange(queryHouse.ToList());                     
+            //list.AddRange(query.ToList());
+            //list.AddRange(queryHouse.ToList());                     
 
             return Ok(list);
         }

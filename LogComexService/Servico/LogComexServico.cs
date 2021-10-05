@@ -95,16 +95,21 @@ namespace LogComexService.Servico
             var json = JsonConvert.DeserializeObject(detailResponse);
             //
             var listBl = _blmasterRepositorio.ListarTodas();
-            var bl = listBl.Find(x => x.BL_TOKEN == token);
-            if (bl.BL_TOKEN != null || bl.BL_TOKEN != "")
+
+            if (token != null)
             {
-                bl.TRAKING_BL = json.ToString();
-                _blmasterRepositorio.AtualizarBlTraking(bl);
+                var bl = listBl.Find(x => x.BL_TOKEN == token);
+                if (bl.BL_TOKEN != null || bl.BL_TOKEN != "")
+                {
+                    bl.TRAKING_BL = json.ToString();
+                    _blmasterRepositorio.AtualizarBlTraking(bl);
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
-                return null;
-            }
+            
             return json;
         }
 

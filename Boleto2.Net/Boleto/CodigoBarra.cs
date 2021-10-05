@@ -81,6 +81,9 @@ namespace Boleto2Net
                                       ValorDocumento,
                                       CampoLivre);
 
+ 
+
+
                 // Calcula Dígito Verificador do Código de Barras
                 int pesoMaximo = 9, soma = 0, peso = 2;
                 for (int i = (codigoSemDv.Length - 1); i >= 0; i--)
