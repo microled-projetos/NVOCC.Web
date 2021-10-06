@@ -14,21 +14,6 @@
             background-color: #e6c3a5;
         }
 
-       /* .none {
-            display: none
-        }
-
-        th {
-            position: sticky !important;
-            top: 0;
-            background-color: #e6eefa;
-        }
-
-        td, th {
-            padding: 0;
-            padding-top: 5px;
-            margin: 0;
-        }*/
     </style>
      <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">

@@ -411,6 +411,8 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                 Dim i As Integer = 0
 
                 Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                ' Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,A.ID_BL_TAXA)ID_BL_TAXA FROM TB_BL_TAXA A WHERE ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1  AND ID_MOEDA <> 0 AND ID_ITEM_DESPESA = 27 AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE .DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
+
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
                         Dim Calcula As New CalculaBL
