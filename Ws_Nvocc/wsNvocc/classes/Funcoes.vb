@@ -15,7 +15,7 @@ Public Class Funcoes
     Public diretorioLoteRps As String = AppContext.BaseDirectory & "LoteRpsEnviado\" 'Application.StartupPath 
     Public diretorioLoteRpsRet As String = AppContext.BaseDirectory & "LoteRpsRet\"
     Public diretorioConultaLoteRps As String = AppContext.BaseDirectory & "\LoteRpsConsulta\"
-    Public diretorioLoteRpsConsultaRet As String = AppContext.BaseDirectory & "\LoteRpsConsultaRet\"
+    Public diretorioLoteRpsConsultaRet As String = AppContext.BaseDirectory & "LoteRpsConsultaRet\"
     Public diretorioCancEnv As String = AppContext.BaseDirectory & "CancelamentoEnv\"
     Public diretorioCancRet As String = AppContext.BaseDirectory & "\CancelamentoRet\"
     Public diretorioConRPS As String = AppContext.BaseDirectory & "RpsConsulta\"

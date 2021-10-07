@@ -88,7 +88,8 @@ ISNULL(QT_DIAS_FATURAMENTO,0)QT_DIAS_FATURAMENTO,
 ISNULL(ID_TIPO_FATURAMENTO,0)ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES,
-FL_SHIPPER
+FL_SHIPPER,
+OB_COMPLEMENTARES
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -116,6 +117,7 @@ WHERE ID_PARCEIRO =" & ID)
                 txtNumero.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO").ToString()
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
+                txtOBSComplementares.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
                     txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
                 End If
@@ -488,6 +490,12 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtComplemento.Text = "'" & txtComplemento.Text & "'"
                             End If
 
+                            If txtOBSComplementares.Text = "" Then
+                                txtOBSComplementares.Text = "NULL"
+                            Else
+                                txtOBSComplementares.Text = "'" & txtOBSComplementares.Text & "'"
+                            End If
+
                             If txtEmailParceiro.Text = "" Then
                                 txtEmailParceiro.Text = "NULL "
                             Else
@@ -529,6 +537,7 @@ WHERE ID_PARCEIRO =" & ID)
             NR_ENDERECO,
             BAIRRO,
             COMPL_ENDERECO,
+            OB_COMPLEMENTARES,
             ID_CIDADE,
             TELEFONE,
             CEP,
@@ -585,6 +594,7 @@ WHERE ID_PARCEIRO =" & ID)
             " & txtNumero.Text & ",
             " & txtBairro.Text & ",
             " & txtComplemento.Text & ",
+            " & txtOBSComplementares.Text & ",
             " & ddlCidade.SelectedValue & ",
             " & txtTelefone.Text & ",
             " & txtCEP.Text & ",
@@ -824,6 +834,12 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtComplemento.Text = "'" & txtComplemento.Text & "'"
                             End If
 
+                            If txtOBSComplementares.Text = "" Then
+                                txtOBSComplementares.Text = "NULL "
+                            Else
+                                txtOBSComplementares.Text = "'" & txtOBSComplementares.Text & "'"
+                            End If
+
                             If txtEmailNF.Text = "" Then
                                 txtEmailNF.Text = "NULL "
                             Else
@@ -928,6 +944,7 @@ WHERE ID_PARCEIRO =" & ID)
             NR_ENDERECO=" & txtNumero.Text & ",
             BAIRRO=" & txtBairro.Text & ",
             COMPL_ENDERECO=" & txtComplemento.Text & ",
+            OB_COMPLEMENTARES=" & txtOBSComplementares.Text & ",
             ID_CIDADE=" & ddlCidade.SelectedValue & ",
             TELEFONE=" & txtTelefone.Text & ",
             CEP=" & txtCEP.Text & ",
