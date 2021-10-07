@@ -153,7 +153,7 @@ Public Class WsNvocc
             ConOracle.Conectar()
             sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
             Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString '165791  '165606 
+            loteNumero = 167636 'rsNumero.Rows(0)("NEXTVAL").ToString '165791  '165606 
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)

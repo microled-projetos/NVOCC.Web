@@ -35,6 +35,7 @@
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
             Else
+
                 lkProximo.Visible = False
                 lkAnterior.Visible = False
 
@@ -2123,6 +2124,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             txtComprimento_CargaAereo.Text = 0
         End If
 
+        If Session("ID_BL_MASTER") = "" Then
+            Session("ID_BL_MASTER") = 0
+        End If
+
         If txtDescMercadoria_CargaAereo.Text = "" Then
             txtDescMercadoria_CargaAereo.Text = "NULL"
         Else
@@ -2250,12 +2255,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             txtPesoBruto_CargaMaritimo.Text = 0
         End If
 
+        If Session("ID_BL_MASTER") Is Nothing Then
+            Session("ID_BL_MASTER") = 0
+        End If
 
         txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(".", "")
         txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(",", ".")
 
-        txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", "")
-        txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(",", ".")
+
 
         Dim ID_NCM As String = 0
 
@@ -2277,7 +2284,54 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             divErro_CargaMaritimo2.Visible = True
             lblErro_CargaMaritimo2.Text = "Peso Volumetrico da carga deve ser maior que zero."
 
-        ElseIf txtID_CargaMaritimo.Text = "" Then
+
+        ElseIf Session("ID_BL_MASTER") <> 0 Then
+            Dim VL_M3_TOTAL As Decimal = 0
+            Dim VL_MAXIMO As Decimal = 0
+            Dim QTD_CNTR As Integer = 0
+            Dim VL_M3 As Decimal = 0
+
+
+            ds = Con.ExecutarQuery("SELECT SUM(VL_M3)VL_M3_TOTAL FROM TB_CARGA_BL where id_bl IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER") & " )")
+            If ds.Tables(0).Rows.Count > 0 And Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")) Then
+                VL_M3_TOTAL = ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")
+            End If
+
+            ds = Con.ExecutarQuery("SELECT count(ID_CNTR_BL)QTD_CNTR,(count(ID_CNTR_BL) * 80)VL_MAXIMO FROM TB_CNTR_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER"))
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("QTD_CNTR")) Then
+                    QTD_CNTR = ds.Tables(0).Rows(0).Item("QTD_CNTR")
+                End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_MAXIMO")) Then
+                    VL_MAXIMO = ds.Tables(0).Rows(0).Item("VL_MAXIMO")
+                End If
+            End If
+
+
+            VL_M3 = VL_M3_TOTAL + txtPesoVolumetrico_CargaMaritimo.Text
+            If VL_M3 > VL_MAXIMO Then
+                divErro_CargaMaritimo2.Visible = True
+                lblErro_CargaMaritimo2.Text = "Valor M3 superior ao permitido para quantidade containers!"
+
+                txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", ",")
+
+                txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(".", ",")
+
+                txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("'", "")
+                txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("NULL", "")
+
+                txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("'", "")
+                txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("NULL", "")
+
+                mpeCargaMaritimo.Show()
+                Exit Sub
+
+            End If
+
+        End If
+
+
+        If txtID_CargaMaritimo.Text = "" Then
 
 
             ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -2293,6 +2347,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     lblErro_CargaMaritimo2.Text = "Container vinculado em outra carga desta mesma BL."
 
                 Else
+
+
+
+                    txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", "")
+                    txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(",", ".")
 
                     'INSERE 
                     ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_CNTR_BL, ID_EMBALAGEM, DS_GRUPO_NCM,ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,DS_MERCADORIA,ID_TIPO_CNTR) VALUES (" & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "," & ddlEmbalagem_CargaMaritimo.SelectedValue & "," & txtGrupoNCM_CargaMaritimo.Text & "," & txtID_BasicoMaritimo.Text & "," & ddlMercadoria_CargaMaritimo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaMaritimo.Text & "," & txtPesoVolumetrico_CargaMaritimo.Text & "," & txtQtdVolumes_CargaMaritimo.Text & "," & txtDescMercadoriaCNTR_Maritimo.Text & "," & ddlTipoContainer_CargaMaritimo.SelectedValue & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
@@ -2337,6 +2396,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                         Call AMR_CNTR_UPDATE(txtID_BasicoMaritimo.Text, txtID_CargaMaritimo.Text)
                     End If
 
+
+                    txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", "")
+                    txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(",", ".")
 
                     'REALIZA UPDATE 
                     Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoMaritimo.Text & ",ID_TIPO_CARGA = " & ddlMercadoria_CargaMaritimo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaMaritimo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaMaritimo.Text & ",ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & ", ID_EMBALAGEM = " & ddlEmbalagem_CargaMaritimo.SelectedValue & ", DS_GRUPO_NCM = " & txtGrupoNCM_CargaMaritimo.Text & ",DS_MERCADORIA = " & txtDescMercadoriaCNTR_Maritimo.Text & ", QT_MERCADORIA = " & txtQtdVolumes_CargaMaritimo.Text & ", ID_TIPO_CNTR = " & ddlTipoContainer_CargaMaritimo.SelectedValue & " WHERE ID_CARGA_BL = " & txtID_CargaMaritimo.Text)

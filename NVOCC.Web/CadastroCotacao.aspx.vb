@@ -87,24 +87,25 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             End If
 
             If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
-                btnGravar.Visible = False
+                btnGravar.Enabled = False
                 btnSalvarFrete.Visible = False
                 btnSalvarTaxa.Visible = False
                 btnSalvarMercadoria.Visible = False
-                btnNovaMercadoria.Visible = False
-                btnNovaTaxa.Visible = False
+                btnNovaMercadoria.Enabled = False
+                btnNovaTaxa.Enabled = False
                 btnImportar.Visible = False
                 dgvMercadoria.Columns(8).Visible = False
                 dgvTaxas.Columns(10).Visible = False
 
             Else
-                btnGravar.Visible = True
+                btnGravar.Enabled = True
                 btnSalvarFrete.Visible = True
                 btnSalvarTaxa.Visible = True
                 btnSalvarMercadoria.Visible = True
-                btnNovaMercadoria.Visible = True
-                btnNovaTaxa.Visible = True
+                btnNovaMercadoria.Enabled = True
+                btnNovaTaxa.Enabled = True
                 btnImportar.Visible = True
+                dgvMercadoria.Columns(8).Visible = True
                 dgvTaxas.Columns(10).Visible = True
 
             End If
