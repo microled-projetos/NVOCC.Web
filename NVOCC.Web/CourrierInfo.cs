@@ -14,6 +14,7 @@ namespace ABAINFRA.Web.Classes
         private string cd_rastreamento_hbl;
         private string nr_fatura_courrier;
         private string dt_retirada_courrier;
+        private string dt_retirada_personal;
         private string nm_retirado_por_courrier;
         private string nm_razao;
         private string id_bl;
@@ -28,6 +29,7 @@ namespace ABAINFRA.Web.Classes
         public string CD_RASTREAMENTO_HBL { get => cd_rastreamento_hbl; set => cd_rastreamento_hbl = value; }
         public string NR_FATURA_COURRIER { get => nr_fatura_courrier; set => nr_fatura_courrier = value; }
         public string DT_RETIRADA_COURRIER { get => dt_retirada_courrier; set => dt_retirada_courrier = value; }
+        public string DT_RETIRADA_PERSONAL { get => dt_retirada_personal; set => dt_retirada_personal = value; }
         public string NM_RETIRADO_POR_COURRIER { get => nm_retirado_por_courrier; set => nm_retirado_por_courrier = value; }
         public string NM_RAZAO { get => nm_razao; set => nm_razao = value; }
         public string ID_BL { get => id_bl; set => id_bl = value; }

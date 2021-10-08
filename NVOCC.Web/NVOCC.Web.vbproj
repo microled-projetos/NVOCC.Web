@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web 05102021 - 4\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\Nova pasta\ABAINFRA.Web\PUBLICACAO\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -372,6 +372,10 @@
     <Content Include="Content\js\webcam.min.js" />
     <Content Include="Content\ScrollableGridPlugin.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="Courrier.aspx" />
+    <Content Include="Courrier.aspx.cs" />
+    <Content Include="Courrier.aspx.designer.cs" />
+    <Content Include="CourrierInfo.cs" />
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
@@ -397,10 +401,6 @@
     <Content Include="FiltroModuloOperacional.cs" />
     <Content Include="Financeiro.aspx" />
     <Content Include="CotacaoPDF_ING.aspx" />
-    <Content Include="Courrier.aspx" />
-    <Content Include="Courrier.aspx.cs" />
-    <Content Include="Courrier.aspx.designer.cs" />
-    <Content Include="CourrierInfo.cs" />
     <Content Include="DBS.cs" />
     <Content Include="DemurrageControl.cs" />
     <Content Include="DemurragesCls.cs" />

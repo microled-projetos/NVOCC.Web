@@ -984,6 +984,18 @@ WHERE ID_PARCEIRO =" & ID)
                             SQL = SQL.Replace("#filtro", FILTRO)
                             Con.ExecutarQuery(SQL)
 
+
+                            Con.ExecutarQuery("update F 
+set F.COMPL_ENDERECO = P.COMPL_ENDERECO,
+F.ENDERECO = P.ENDERECO,
+F.BAIRRO = P.BAIRRO,
+F.NR_ENDERECO = P.NR_ENDERECO,
+F.CEP = P.CEP
+--SELECT *
+FROM TB_FATURAMENTO F
+INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
+WHERE F.NR_RPS IS NULL AND P.ID_PARCEIRO = " & ID)
+
                             If txtNomeContato.Text <> "" Then
 
                                 If txtNomeContato.Text = "" Then

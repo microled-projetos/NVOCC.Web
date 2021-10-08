@@ -32,10 +32,16 @@
                                     <div class="alert alert-success text-center" id="msgSuccessPARec">
                                         Tabela Despesa REC exportada com sucesso.
                                     </div>
+                                     <div class="alert alert-success text-center" id="msgSuccessExportDelete">
+                                        Data exportação zerada.
+                                    </div>
+                                    <div class="alert alert-danger text-center" id="msgErrorExportDelete">
+                                        Erro ao zerar Data exportação.
+                                    </div>
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('FORNEC_FCA.csv','REC_PA.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportTotusPA" class="btn btn-primary" onclick="exportTableToCSVPA('FORNEC_FCA.csv','PA_FCA.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -76,11 +82,15 @@
                                     <div class="form-group">
                                         <button type="button" id="btnConsultarPA" style="margin-left: 10px;" onclick="TOTVSPA()" class="btn btn-primary">Consultar</button>
                                     </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnLimparExportPA" style="margin-left: 10px;" onclick="LimparExportPA()" class="btn btn-primary">Zerar Exportação</button>
+                                    </div>
                                 </div> 
                                 <div class="table-responsive tableFixHead topMarg">
                                     <table id="grdPA" class="table tablecont">
                                         <thead>
                                             <tr>
+                                                <th class="text-center" scope="col">&nbsp;</th>
                                                 <th class="text-center" scope="col">Data Pagamento</th>
                                                 <th class="text-center" scope="col">Id Master</th>
                                                 <th class="text-center" scope="col">Nº Processo</th>
@@ -114,6 +124,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
+
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
@@ -152,6 +163,44 @@
                 break;
         }
 
+        function LimparExportPA() {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            var dataI = document.getElementById("txtDtEmissaoInicialPA").value;
+            var dataF = document.getElementById("txtDtEmissaoFinalPA").value;
+            var nota = document.getElementById("txtNotaPA").value;
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
+            if (values.length > 0) {
+                for (let i = 0; i < values.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/ZerarExportTOTVSPA",
+                        data: '{ dataI: "'+dataI+'", dataF: "'+dataF+'", value: "'+values[i]+'"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {
+                            if (dado.d == "ok") {
+                                $("#msgSuccessExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            } else {
+                                $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        }, error: function () {
+                            $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    })
+                }
+            }
+            var exporta = document.getElementById("todosPA");
+            exporta.checked = false;
+            var nexporta = document.getElementById("naoExportadosPA");
+            nexporta.checked;
+            TOTVSPA();
+        }
+
         function TOTVSPA() {
             $("#modalPA").modal("show");
             var exporta = document.getElementById("todosPA");
@@ -181,7 +230,7 @@
                     $("#grdPABody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdPABody").append("<tr><td class='text-center'> " + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
+                            $("#grdPABody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EXPORTACAO"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VL_LIQUIDO"] + "</td><td class='text-center'>" + dado[i]["VL_ISS"] + "</td></tr> ");
@@ -230,7 +279,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPAFORNEC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "'+situacao+'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -254,7 +303,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSPAREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {

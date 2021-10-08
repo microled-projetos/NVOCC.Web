@@ -508,6 +508,9 @@
             
         }
 
+
+
+
         function EstimativaPagamentosRecebimentos() {
             $("#modalEstimativaPagamentoRecebimento").modal('show');
             var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
@@ -679,6 +682,8 @@
             }
         }
 
+
+
         function RelacaoCotacao() {
             $("#modalRelacaoCotacao").modal('show');
             var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
@@ -760,10 +765,16 @@
             $("#modalRelacaoCotacao").modal('show');
             var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
             var dtFinal = document.getElementById("txtDtFinalRelacaoCotacao").value;
+            var diaI = document.getElementById("txtDtInicialRelacaoCotacao").value.substring(8, 10);
+            var mesI = document.getElementById("txtDtInicialRelacaoCotacao").value.substring(5, 7);
+            var anoI = document.getElementById("txtDtInicialRelacaoCotacao").value.substring(0, 4);
+            var diaF = document.getElementById("txtDtFinalRelacaoCotacao").value.substring(8, 10);
+            var mesF = document.getElementById("txtDtFinalRelacaoCotacao").value.substring(5, 7);
+            var anoF = document.getElementById("txtDtFinalRelacaoCotacao").value.substring(0, 4);
             var nota = document.getElementById("txtRelacaoCotacao").value;
             var filter = document.getElementById("ddlFilterRelacaoCotacao").value;
-            var position = 5;
-            var positionLineF = 6;
+            var position = 25;
+            var positionLineF = 26;
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
@@ -776,65 +787,67 @@
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             var doc = new jsPDF('l');
-                            doc.setFontSize(7);
+                            doc.setFontSize(15);
                             doc.setFontStyle("bold");
-                            doc.text("SOLICITAÇÃO", 5, 5);
+                            doc.text("RELAÇÃO DAS COTAÇÕES ABERTAS ENTRE " + diaI + "/" + mesI + "/" + anoI + " E " + diaI +"/"+mesI+"/"+anoI, 65, 15);
+                            doc.setFontSize(7);
+                            doc.text("SOLICITAÇÃO", 5, 25);
                             doc.setLineWidth(0.2);
-                            doc.line(4, 2, 295, 2);
-                            doc.line(4, 2, 4, 6);
-                            doc.line(4, 6, 295, 6);
-                            doc.line(295, 2, 295, 6);
+                            doc.line(4, 22, 295, 22);
+                            doc.line(4, 22, 4, 26);
+                            doc.line(4, 26, 295, 26);
+                            doc.line(295, 22, 295, 26);
 
-                            doc.line(25, 2, 25, 6);
-                            doc.line(48, 2, 48, 6);
-                            doc.line(68, 2, 68, 6);
-                            doc.line(81, 2, 81, 6);
-                            doc.line(98, 2, 98, 6);
-                            doc.line(183, 2, 183, 6);
-                            doc.line(213, 2, 213, 6);
-                            doc.line(229, 2, 229, 6);
-                            doc.line(243, 2, 243, 6);
-                            doc.line(268, 2, 268, 6);
+                            doc.line(23, 22, 23, 26);
+                            doc.line(48, 22, 48, 26);
+                            doc.line(68, 22, 68, 26);
+                            doc.line(81, 22, 81, 26);
+                            doc.line(98, 22, 98, 26);
+                            doc.line(168, 22, 168, 26);
+                            doc.line(196, 22, 196, 26);
+                            doc.line(220, 22, 220, 26);
+                            doc.line(241, 22, 241, 26);
+                            doc.line(268, 22, 268, 26);
 
-                            doc.text("INSIDE", 27, 5);
-                            doc.text("NR COTAÇÃO", 50, 5);
-                            doc.text("MODAL", 70, 5);
-                            doc.text("INCOTERM", 83, 5);
-                            doc.text("CLIENTE", 100, 5);
-                            doc.text("SUB CLIENTE", 185, 5);
-                            doc.text("ORIGEM", 215, 5);
-                            doc.text("DESTINO", 231, 5);
-                            doc.text("VENDEDOR", 245, 5);
-                            doc.text("STATUS COTAÇÃO", 270, 5);
+                            doc.text("INSIDE", 24, 25);
+                            doc.text("NR COTAÇÃO", 49, 25);
+                            doc.text("MODAL", 70, 25);
+                            doc.text("INCOTERM", 83, 25);
+                            doc.text("CLIENTE", 100, 25);
+                            doc.text("SUB CLIENTE", 170, 25);
+                            doc.text("ORIGEM", 198, 25);
+                            doc.text("DESTINO", 222, 25);
+                            doc.text("VENDEDOR", 243, 25);
+                            doc.text("STATUS COTAÇÃO", 270, 25);
                             for (let i = 0; i < dado.length; i++) {
                                 positionLineF = positionLineF + 5;
                                 position = position + 5;
                                 doc.line(4, positionLineF, 295, positionLineF);
                                 doc.setFontStyle("normal");
                                 doc.text(dado[i]["SOLICITACAO"], 5, position);
-                                doc.text(dado[i]["INSIDE"], 27, position);
-                                doc.text(dado[i]["NR_COTACAO"], 50, position);
+                                doc.text(dado[i]["INSIDE"], 24, position);
+                                doc.text(dado[i]["NR_COTACAO"], 49, position);
                                 doc.text(dado[i]["MODAL"].substring(0, 15), 70, position);
                                 doc.text(dado[i]["INCOTERM"].substring(0, 15), 83, position);
-                                doc.text(dado[i]["CLIENTE"], 100, position);
-                                doc.text(dado[i]["SUB_CLIENTE"], 185, position);
-                                doc.text(dado[i]["ORIGEM"], 215, position);
-                                doc.text(dado[i]["DESTINO"], 231, position);
-                                doc.text(dado[i]["VENDEDOR"].substring(0, 15), 245, position);
+                                doc.text(dado[i]["CLIENTE"].substring(0, 40), 100, position);
+                                doc.text(dado[i]["SUB_CLIENTE"].substring(0, 20), 170, position);
+                                doc.text(dado[i]["ORIGEM"].substring(0,15), 198, position);
+                                doc.text(dado[i]["DESTINO"].substring(0, 15), 222, position);
+                                doc.text(dado[i]["VENDEDOR"].substring(0, 15), 243, position);
                                 doc.text(dado[i]["STATUS_COTACAO"].substring(0, 15), 270, position);
                             }
-                            doc.line(4, 6, 4, positionLineF);
-                            doc.line(25, 6, 25, positionLineF);
-                            doc.line(48, 6, 48, positionLineF);
-                            doc.line(68, 6, 68, positionLineF);
-                            doc.line(81, 6, 81, positionLineF);
-                            doc.line(98, 6, 98, positionLineF);
-                            doc.line(183, 6, 183, positionLineF);
-                            doc.line(213, 6, 213, positionLineF);
-                            doc.line(229, 6, 229, positionLineF);
-                            doc.line(243, 6, 243, positionLineF);
-                            doc.line(268, 6, 268, positionLineF);
-                            doc.line(295, 6, 295, positionLineF);
+                            doc.line(4, 26, 4, positionLineF);
+                            doc.line(23, 26, 23, positionLineF);
+                            doc.line(48, 26, 48, positionLineF);
+                            doc.line(68, 26, 68, positionLineF);
+                            doc.line(81, 26, 81, positionLineF);
+                            doc.line(98, 26, 98, positionLineF);
+                            doc.line(168, 26, 168, positionLineF);
+                            doc.line(196, 26, 196, positionLineF);
+                            doc.line(220, 26, 220, positionLineF);
+                            doc.line(241, 26, 241, positionLineF);
+                            doc.line(268, 26, 268, positionLineF);
+                            doc.line(295, 26, 295, positionLineF);
                             doc.line(4, positionLineF, 295, positionLineF);
                             doc.output("dataurlnewwindow");
                         }
@@ -847,6 +860,8 @@
 
             }
         }
+
+
     </script>
 
 </asp:Content>

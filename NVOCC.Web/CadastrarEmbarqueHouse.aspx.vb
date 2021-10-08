@@ -53,7 +53,7 @@
         Session("ID_BL_MASTER") = 0
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_INDICADOR ,
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,ID_COTACAO,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_INDICADOR ,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)NM_RAZAO_CLIENTE,
 ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO, ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE, 103)DT_CE,OB_REFERENCIA_COMERCIAL,OB_REFERENCIA_AUXILIAR,NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,ID_PARCEIRO_ARMAZEM_DESEMBARACO,ID_PARCEIRO_RODOVIARIO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER,(SELECT DT_CHEGADA FROM TB_BL WHERE TB_BL.ID_BL = A.ID_BL_MASTER)DT_CHEGADA_MASTER,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,ISNULL((SELECT B.ID_STATUS_COTACAO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)ID_STATUS_COTACAO,
 (SELECT B.OB_CLIENTE FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_CLIENTE_COTACAO,
@@ -71,6 +71,12 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
                         txtIDMaster_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
+                        Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                    Else
+                        Session("ID_COTACAO") = 0
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO")) Then
@@ -2744,6 +2750,20 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
+        If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
+            If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
+                divErro_TaxaMaritimo2.Visible = True
+                lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
+                mpeTaxaMaritimo.Show()
+                Exit Sub
+            End If
+        End If
+
+
+
+
+
+
         If txtObs_TaxaMaritimo.Text = "" Then
             txtObs_TaxaMaritimo.Text = "NULL"
         Else
@@ -3761,9 +3781,6 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
     End Sub
 
 
-
-
-
     Private Sub txtNomeIndicador_Aereo_TextChanged(sender As Object, e As EventArgs) Handles txtNomeIndicador_Aereo.TextChanged
         divErro_BasicoAereo.Visible = False
         Dim Con As New Conexao_sql
@@ -3837,4 +3854,79 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         txtNomeAgente_Aereo.Text = txtNomeAgente_Aereo.Text.Replace("NULL", "")
 
     End Sub
+
+    Function VerificaDiferencaCotacao(ID As Integer, Tipo As String, ID_COTACAO As Integer, Via As String) As Boolean
+
+        If Tipo = "TAXA" Then
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim dsBL As DataSet = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF FROM TB_BL_TAXA WHERE CD_ORIGEM_INF = 'COTA' AND ID_BL_TAXA = " & ID)
+            If dsBL.Tables(0).Rows.Count > 0 Then
+                Dim dsCotacao As DataSet
+                Dim valor As String
+                If dsBL.Tables(0).Rows(0).Item("CD_PR") = "P" Then
+                    valor = dsBL.Tables(0).Rows(0).Item("VL_TAXA").ToString.Replace(",", ".")
+
+                    dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_CALCULADO,VL_TAXA_COMPRA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & dsBL.Tables(0).Rows(0).Item("ID_ITEM_DESPESA") & " AND VL_TAXA_COMPRA = " & valor & " AND ID_COTACAO = " & ID_COTACAO)
+
+                    If Via = "M" Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString <> txtValorCompra_TaxaMaritimo.Text Then
+                            Return True
+                        Else
+                            Return False
+                        End If
+
+                    ElseIf Via = "A" Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA") <> txtValorCompra_TaxaAereo.Text Then
+                            Return True
+                        Else
+                            Return False
+                        End If
+
+                    End If
+
+
+                ElseIf dsBL.Tables(0).Rows(0).Item("CD_PR") = "R" Then
+
+                    valor = dsBL.Tables(0).Rows(0).Item("VL_TAXA").ToString.Replace(",", ".")
+
+                    dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_VENDA,VL_TAXA_VENDA_CALCULADO,VL_TAXA_VENDA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA WHERE ID_ITEM_DESPESA = " & dsBL.Tables(0).Rows(0).Item("ID_ITEM_DESPESA") & " AND VL_TAXA_VENDA = " & valor & " AND ID_COTACAO = " & ID_COTACAO)
+
+                    If Via = "M" Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString <> txtValorVenda_TaxaMaritimo.Text Then
+                            Return True
+                        Else
+                            Return False
+                        End If
+
+                    ElseIf Via = "A" Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA") <> txtValorVenda_TaxaAereo.Text Then
+                            Return True
+                        Else
+                            Return False
+                        End If
+
+                    End If
+
+                End If
+
+
+
+            Else
+                Return False
+            End If
+
+
+
+
+        ElseIf Tipo = "CARGA" Then
+
+        End If
+
+    End Function
+
 End Class
