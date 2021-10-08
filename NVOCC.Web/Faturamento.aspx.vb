@@ -411,11 +411,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
                     If IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) And IsDBNull(ds.Tables(0).Rows(0).Item("DT_RPS")) Then
 
-                        If ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString.Length > 6 Then
-                            divErro.Visible = True
-                            lblmsgErro.Text = "Campo complemento do endereco exede o valor maximo permitido!"
-                            Exit Sub
-                        End If
+                        'If ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString.Length > 6 Then
+                        '    divErro.Visible = True
+                        '    lblmsgErro.Text = "Campo complemento do endereco exede o valor maximo permitido!"
+                        '    Exit Sub
+                        'End If
 
 
 
