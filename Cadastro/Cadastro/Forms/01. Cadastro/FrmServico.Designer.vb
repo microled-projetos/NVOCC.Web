@@ -103,6 +103,8 @@ Partial Class FrmServico
         Me.cbTransporte.TabIndex = 11
         Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
         Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
+        Me.cbTransporte.Enabled = False
+        Me.cbTransporte.Tag = "requerido"
 
         '
         'ckbAtivo

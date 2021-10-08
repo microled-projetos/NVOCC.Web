@@ -10,6 +10,8 @@ Imports Gerencial
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CompilerServices
 Public Class FrmServico
+    Private Coluna As Integer
+
     Private Sub btnNovo_Click(sender As Object, e As EventArgs) Handles btnNovo.Click
         Dim Tela As Control = Me
         Geral.LimparCampos(Tela)
@@ -248,5 +250,26 @@ Public Class FrmServico
             btnEditar.Visible = False
         End If
     End Sub
+
+    Private Sub dgvConsulta_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
+
+            If Convert.ToInt32(e.ColumnIndex) >= 0 Then
+                Coluna = dgvConsulta.Columns(e.ColumnIndex).Index
+            End If
+        End If
+    End Sub
+
+    Private Sub dgvConsulta_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellEnter
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
+
+            If Convert.ToInt32(e.ColumnIndex) >= 0 Then
+                Coluna = dgvConsulta.Columns(e.ColumnIndex).Index
+            End If
+        End If
+    End Sub
+
 
 End Class

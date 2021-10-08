@@ -7,8 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Net.Mail;
-//using Outlook=Microsoft.Office.Interop.Outlook;
-//using Word=Microsoft.Office.Interop.Word;
+
 
 
 namespace ABAINFRA.Web

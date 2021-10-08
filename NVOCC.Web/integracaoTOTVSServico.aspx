@@ -44,6 +44,12 @@
                                     <div class="alert alert-success text-center" id="msgSuccessServREC">
                                         Tabela Serviço REC exportada com sucesso.
                                     </div>
+                                    <div class="alert alert-success text-center" id="msgSuccessExportDelete">
+                                        Data exportação zerada.
+                                    </div>
+                                    <div class="alert alert-danger text-center" id="msgErrorExportDelete">
+                                        Erro ao zerar Data exportação.
+                                    </div>
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
@@ -72,11 +78,15 @@
                                     <div class="form-group">
                                         <button type="button" id="btnConsultarServico" style="margin-left: 10px" onclick="TOTVSNotaServico()" class="btn btn-primary">Consultar</button>
                                     </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnLimparExportServico" style="margin-left: 10px;" onclick="LimparExportServico()" class="btn btn-primary">Zerar Exportação</button>
+                                    </div>
                                 </div> 
                                 <div class="table-responsive tableFixHead topMarg">
                                     <table id="grdServico" class="table tablecont">
                                         <thead>
                                             <tr>
+                                                <th class="text-center" scope="col">&nbsp;</th>
                                                 <th class="text-center" scope="col">Nº Nota</th>
                                                 <th class="text-center" scope="col">Tipo Nota</th>
                                                 <th class="text-center" scope="col">Data Emissão</th>
@@ -147,6 +157,43 @@
                 break;
         }
 
+        function LimparExportServico() {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            var dataI = document.getElementById("txtDtEmissaoInicialServ").value;
+            var dataF = document.getElementById("txtDtEmissaoFinalServ").value;
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
+            if (values.length > 0) {
+                for (let i = 0; i < values.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/ZerarExportTOTVSServico",
+                        data: '{ dataI: "' + dataI + '", dataF: "' + dataF + '", value: "' + values[i] + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {
+                            if (dado.d == "ok") {
+                                $("#msgSuccessExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            } else {
+                                $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        }, error: function () {
+                            $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    })
+                }
+            }
+            var exporta = document.getElementById("todosServ");
+            exporta.checked = false;
+            var nexporta = document.getElementById("naoExportadosServ");
+            nexporta.checked;
+            TOTVSNotaServico();
+        }
+
         function TOTVSNotaServico() {
             $("#modalServico").modal("show");
 
@@ -175,7 +222,7 @@
                     $("#grdServicoBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdServicoBody").append("<tr><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
+                            $("#grdServicoBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td><td class='text-center'>" + dado[i]["VL_NOTA"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_TOTVS_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_REFERENCIA_CLIENTE"] + "</td></tr> ");
@@ -229,7 +276,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServicoCLI",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -253,7 +300,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTA",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -277,7 +324,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTITE",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -301,7 +348,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServicoREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {

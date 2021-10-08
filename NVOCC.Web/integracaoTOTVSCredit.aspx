@@ -32,6 +32,12 @@
                                     <div class="alert alert-success text-center" id="msgSuccessCreditRec">
                                         Tabela Credit REC exportada com sucesso.
                                     </div>
+                                    <div class="alert alert-success text-center" id="msgSuccessExportDelete">
+                                        Data exportação zerada.
+                                    </div>
+                                    <div class="alert alert-danger text-center" id="msgErrorExportDelete">
+                                        Erro ao zerar Data exportação.
+                                    </div>
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
@@ -66,11 +72,15 @@
                                     <div class="form-group">
                                         <button type="button" style="margin-left: 10px;" id="btnConsultarCredito" onclick="TOTVSInvCredit()" class="btn btn-primary">Consultar</button>
                                     </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnLimparExportCredit" style="margin-left: 10px;" onclick="LimparExportCredit()" class="btn btn-primary">Zerar Exportação</button>
+                                    </div>
                                 </div> 
                                 <div class="table-responsive tableFixHead topMarg">
                                     <table id="grdCredit" class="table tablecont">
                                         <thead>
                                             <tr>
+                                                <th class="text-center" scope="col">&nbsp;</th>
                                                 <th class="text-center" scope="col">Nº Documento</th>
                                                 <th class="text-center" scope="col">Tipo</th>
                                                 <th class="text-center" scope="col">Data Pagamento</th>
@@ -146,6 +156,43 @@
                 break;
         }
 
+        function LimparExportCredit() {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            var dataI = document.getElementById("txtDtEmissaoInicialCredit").value;
+            var dataF = document.getElementById("txtDtEmissaoFinalCredit").value;
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
+            if (values.length > 0) {
+                for (let i = 0; i < values.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/ZerarExportTOTVSCredit",
+                        data: '{ dataI: "' + dataI + '", dataF: "' + dataF + '", value: "' + values[i] + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {
+                            if (dado.d == "ok") {
+                                $("#msgSuccessExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            } else {
+                                $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        }, error: function () {
+                            $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    })
+                }
+            }
+            var exporta = document.getElementById("todosCredit");
+            exporta.checked = false;
+            var nexporta = document.getElementById("naoExportadosCredit");
+            nexporta.checked;
+            TOTVSInvCredit();
+        }
+
         function TOTVSInvCredit() {
             $("#modalInvCredit").modal("show");
             var exporta = document.getElementById("todosCredit");
@@ -174,7 +221,7 @@
                     $("#grdCreditBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdCreditBody").append("<tr><td class='text-center'> " + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["TP_CONTRATO"] + "</td>" +
+                            $("#grdCreditBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["TP_CONTRATO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_REFERENCIA_CLIENTE"] + "</td></tr> ");
@@ -227,7 +274,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSInvCreditCLI",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -251,7 +298,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSInvCreditREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {

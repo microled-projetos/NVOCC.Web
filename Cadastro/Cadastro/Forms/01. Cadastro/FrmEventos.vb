@@ -1,10 +1,12 @@
-﻿
+﻿Imports System
+Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.CompilerServices
 Public Class FrmEventos
 
     Private Coluna As Integer
 
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT AUTONUM,DESCR,SUFIXO FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS")
+        Me.dgvConsulta.DataSource = Banco.List("SELECT ID_EVENTO,NM_EVENTO,SEQUENCIA,A.ID_VIATRANSPORTE,B.NM_VIATRANSPORTE,PRZ_HORAS,PRZ_DIAS,FL_ATIVO FROM TB_EVENTO A left join TB_VIATRANSPORTE B ON B.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE")
     End Sub
 
     Private Sub SetaControles()
@@ -49,59 +51,103 @@ Public Class FrmEventos
         If Me.dgvConsulta.Rows.Count > 0 Then
             Me.txtCodigo.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
             Me.txtDescricao.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
-            Me.txtSufixo.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
+            Me.txtSequencia.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
         End If
 
     End Sub
 
     Private Sub btnSalvar_Click(sender As System.Object, e As System.EventArgs) Handles btnSalvar.Click
+        Dim Tela As Control = Me
 
-        If ValidarCampos(Me) = False Then
-            Exit Sub
+        If Not Geral.ValidarCampos(Tela) Then
+            Return
         End If
 
-        If txtCodigo.Text = String.Empty Then
+        If Operators.CompareString(txtCodigo.Text, String.Empty, TextCompare:=False) = 0 Then
 
-            If VerificarDadosRepetidos(Me.dgvConsulta, 1, Me.txtDescricao.Text) Then
-                Mensagens(Me, 7)
-                Exit Sub
+            If Geral.VerificarDadosRepetidos(dgvConsulta, 1, txtDescricao.Text) Then
+                Geral.Mensagens(Me, 7)
+                Return
             End If
 
             Try
 
-                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_EVENTOS (DESCR,SUFIXO) VALUES ('" & Me.txtDescricao.Text & "','" & Me.txtSufixo.Text & "')") Then
-                    Consultar()
-                    Mensagens(Me, 1)
+                If Operators.CompareString(txtSequencia.Text, "", TextCompare:=False) = 0 Then
+                    txtSequencia.Text = " NULL "
                 Else
-                    Mensagens(Me, 4)
+                    txtSequencia.Text = "'" & txtSequencia.Text & "'"
                 End If
-            Catch ex As Exception
-                Mensagens(Me, 4)
+
+                If Operators.CompareString(txtHoras.Text, "", TextCompare:=False) = 0 Then
+                    txtHoras.Text = " NULL "
+                End If
+
+                If Operators.CompareString(txtDias.Text, "", TextCompare:=False) = 0 Then
+                    txtDias.Text = " NULL "
+                End If
+
+                Dim sql As String = (If((cbTransporte.SelectedIndex <> -1), Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO " & Banco.BancoNVOCC & "TB_EVENTO (NM_EVENTO,SEQUENCIA,ID_VIATRANSPORTE,PRZ_HORAS,PRZ_DIAS,FL_ATIVO ) VALUES ('" + txtDescricao.Text & "'," + txtSequencia.Text & ",", cbTransporte.SelectedValue), " ,"), txtHoras.Text), ", "), txtDias.Text), ", '"), chkAtivo.Checked), "')")), ("INSERT INTO " & Banco.BancoNVOCC & "TB_EVENTO (NM_EVENTO,SEQUENCIA,PRZ_HORAS,PRZ_DIAS,FL_ATIVO ) VALUES ('" + txtDescricao.Text & "'," + txtSequencia.Text & " ," + txtHoras.Text & ", " + txtDias.Text & ", '" + Conversions.ToString(chkAtivo.Checked) & "')")))
+
+                If Banco.Execute(sql) Then
+                    Consultar()
+                    Geral.Mensagens(Me, 1)
+                Else
+                    Geral.Mensagens(Me, 4)
+                End If
+
+            Catch ex3 As Exception
+                ProjectData.SetProjectError(ex3)
+                Dim ex2 As Exception = ex3
+                Geral.Mensagens(Me, 4)
+                ProjectData.ClearProjectError()
             End Try
         Else
+
             Try
-                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_EVENTOS SET DESCR = '" & Me.txtDescricao.Text & "',SUFIXO='" & Me.txtSufixo.Text & "'  WHERE AUTONUM = " & Me.txtCodigo.Text & "") Then
-                    Consultar()
-                    Mensagens(Me, 2)
+
+                If Operators.CompareString(txtSequencia.Text, "", TextCompare:=False) = 0 Then
+                    txtSequencia.Text = " NULL "
                 Else
-                    Mensagens(Me, 5)
+                    txtSequencia.Text = "'" & txtSequencia.Text & "'"
                 End If
-            Catch ex As Exception
-                Mensagens(Me, 5)
+
+                If Operators.CompareString(txtHoras.Text, "", TextCompare:=False) = 0 Then
+                    txtHoras.Text = " NULL "
+                End If
+
+                If Operators.CompareString(txtDias.Text, "", TextCompare:=False) = 0 Then
+                    txtDias.Text = " NULL "
+                End If
+
+                Dim sql As String = (If((cbTransporte.SelectedIndex <> -1), Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE " & Banco.BancoNVOCC & "TB_EVENTO SET NM_EVENTO = '" + txtDescricao.Text & "',SEQUENCIA = " + txtSequencia.Text & ",ID_VIATRANSPORTE = ", cbTransporte.SelectedValue), ",PRZ_HORAS = "), txtHoras.Text), ", PRZ_DIAS = "), txtDias.Text), ", FL_ATIVO = '"), chkAtivo.Checked), "'  WHERE ID_EVENTO = "), txtCodigo.Text), "")), (If(("UPDATE " & Banco.BancoNVOCC & "TB_EVENTO SET NM_EVENTO = '" + txtDescricao.Text & "',SEQUENCIA = " + txtSequencia.Text & ",PRZ_HORAS = " + txtHoras.Text & ", PRZ_DIAS = " + txtDias.Text & ", FL_ATIVO = '" + Conversions.ToString(chkAtivo.Checked) & "'  WHERE ID_EVENTO = " + txtCodigo.Text), ""))))
+
+                If Banco.Execute(sql) Then
+                    Consultar()
+                    Geral.Mensagens(Me, 2)
+                Else
+                    Geral.Mensagens(Me, 5)
+                End If
+
+            Catch ex4 As Exception
+                ProjectData.SetProjectError(ex4)
+                Dim ex As Exception = ex4
+                Geral.Mensagens(Me, 5)
+                ProjectData.ClearProjectError()
             End Try
         End If
 
-        LimparCampos(Me)
-        HabilitarCampos(Me, False)
+        Tela = Me
+        Geral.LimparCampos(Tela)
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
         SetaControles()
-
     End Sub
 
     Private Sub btnExcluir_Click(sender As System.Object, e As System.EventArgs) Handles btnExcluir.Click
 
         If Not String.IsNullOrEmpty(txtCodigo.Text) Then
             If MessageBox.Show("Deseja realmente excluir o registro selecionado?", Me.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                If Banco.Execute("DELETE FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS WHERE AUTONUM = " & txtCodigo.Text & "") Then
+                If Banco.Execute("DELETE FROM TB_EVENTO WHERE ID_EVENTO = " & txtCodigo.Text & "") Then
                     Consultar()
                     LimparCampos(Me)
                 End If
@@ -165,7 +211,7 @@ Public Class FrmEventos
 
     End Sub
 
-    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs) Handles btnFiltro.Click
+    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs)
 
     End Sub
 
@@ -185,7 +231,7 @@ Public Class FrmEventos
         valores.Add(FrmPrincipal.lblUsuario.Text)
 
         Dim rptName As String = "\rpts\DteEventos.rpt"
-        Dim query As String = "SELECT DTE_TB_EVENTOS.CODE, DTE_TB_EVENTOS.DESCR FROM " & Banco.BancoSGIPA & "DTE_TB_EVENTOS DTE_TB_EVENTOS ORDER BY DTE_TB_EVENTOS.CODE"
+        Dim query As String = "SELECT DTE_TB_EVENTO.CODE, DTE_TB_EVENTO.DESCR FROM TB_EVENTO DTE_TB_EVENTO ORDER BY DTE_TB_EVENTO.CODE"
         'Banco.TestaSQL(query)
         'ChamarRelatorio(rptName, query, "0", formulas, valores)
 
@@ -227,7 +273,7 @@ Public Class FrmEventos
 
     End Sub
 
-    Private Sub txtSufixo_TextChanged(sender As Object, e As EventArgs) Handles txtSufixo.TextChanged
+    Private Sub txtSufixo_TextChanged(sender As Object, e As EventArgs) Handles txtSequencia.TextChanged
 
     End Sub
 

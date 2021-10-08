@@ -4052,6 +4052,25 @@ namespace ABAINFRA.Web
                 }
             }
 
+            if (dados.DTRETIRADAPEROSNALINICIO != "")
+            {
+                if (dados.DTRETIRADAPEROSNALFIM != "")
+                {
+                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTRETIRADAPEROSNALFIM != "")
+                {
+                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                }
+            }
+
             if(dados.AGENTE != "")
 			{
                 SQL += "AND P2.NM_RAZAO LIKE '" + dados.AGENTE + "%' ";
@@ -4114,7 +4133,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') as MASTER, ISNULL(BL.NR_BL,'') AS HOUSE, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
             SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P2.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
@@ -4138,7 +4157,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT BL.NR_PROCESSO, M.NR_BL AS MASTER, BL.NR_BL AS HOUSE, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, ";
+            SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, FORMAT(BL.DT_RETIRADA_PERSONAL,'yyyy-MM-dd') AS DT_RETIRADA_PERSONAL, ";
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, ";
             SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
@@ -4163,6 +4182,7 @@ namespace ABAINFRA.Web
             resultado.DT_RETIRADA_COURRIER = carregarDados.Rows[0]["DT_RETIRADA_COURRIER"].ToString();
             resultado.NM_RETIRADO_POR_COURRIER = carregarDados.Rows[0]["NM_RETIRADO_POR_COURRIER"].ToString();
             resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
+            resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
 
             return JsonConvert.SerializeObject(resultado);
         }
@@ -4189,6 +4209,14 @@ namespace ABAINFRA.Web
             else
             {
                 SQL += "DT_RETIRADA_COURRIER = '" + dadosEdit.DT_RETIRADA_COURRIER + "', ";
+            }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
+            {
+                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
+            }
+            else
+            {
+                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
             }
             SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', ";
             SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER+ "' ";
@@ -4220,6 +4248,27 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string ZerarExportTOTVSDespesa(string dataI, string dataF, string value)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_EXPORTACAO_TOTVS_DESPESA = NULL WHERE ID_CONTA_PAGAR_RECEBER = '" + value + "'";
+            DBS.ExecuteScalar(SQL);
+
+            return "ok";
+
+        }
+
+        [WebMethod]
         public string listarTOTVSNotaDespesa(string dataI, string dataF, string situacao, string nota)
         {
             switch(situacao)
@@ -4243,7 +4292,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_DESPESA,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_DESPESA, ";
             SQL += "NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_DESPESA(";
@@ -4352,8 +4401,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaDespesaCLI(string dataI, string dataF)
+        public string listarTOTVSNotaDespesaCLI(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4370,7 +4429,12 @@ namespace ABAINFRA.Web
             SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
             SQL += "FROM dbo.FN_NOTA_DESPESA_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -4414,8 +4478,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaDespesaREC(string dataI, string dataF)
+        public string listarTOTVSNotaDespesaREC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4432,8 +4506,12 @@ namespace ABAINFRA.Web
             SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
             SQL += "FROM dbo.FN_NOTA_DESPESA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
-
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+            SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -4473,6 +4551,27 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string ZerarExportTOTVSServico(string dataI, string dataF, string value)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_EXPORTACAO_TOTVS_SERVICO = NULL WHERE ID_CONTA_PAGAR_RECEBER = '" + value + "'";
+            DBS.ExecuteScalar(SQL);
+
+            return "ok";
+
+        }
+
+        [WebMethod]
         public string listarTOTVSNotaServico(string dataI, string dataF, string situacao)
         {
             switch (situacao)
@@ -4496,7 +4595,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ISNULL(NR_NOTA,'') AS NR_NOTA, TP_NOTA, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, VL_NOTA, ";
             SQL += "NM_PARCEIRO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO_TOTVS_SERVICO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_TOTVS_SERVICO, ";
             SQL += "ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NR_REFERENCIA_CLIENTE,'') AS NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_NOTA_SERVICO(";
@@ -4581,8 +4680,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServicoCLI(string dataI, string dataF)
+        public string listarTOTVSNotaServicoCLI(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4599,7 +4708,12 @@ namespace ABAINFRA.Web
             SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -4643,8 +4757,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServicoNOTA(string dataI, string dataF)
+        public string listarTOTVSNotaServicoNOTA(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4663,7 +4787,11 @@ namespace ABAINFRA.Web
             SQL += "LOJENT, CHVNFE, TPFRETE, HORNFE, XCNPJ ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_NOTA(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -4737,8 +4865,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServicoNOTITE(string dataI, string dataF)
+        public string listarTOTVSNotaServicoNOTITE(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4756,7 +4894,12 @@ namespace ABAINFRA.Web
             SQL += "VALIMP5, VALIMP6, ITEMORI, ALIQINS, ALIQISS, BASEINS, BASEIPI, BASEISS, CCUSTO, ITEMCC, ALQIMP5, DTDIGIT, VALISS, ALQIMP6 ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_NOTITE(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -4825,8 +4968,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServicoREC(string dataI, string dataF)
+        public string listarTOTVSNotaServicoREC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -4843,8 +4996,12 @@ namespace ABAINFRA.Web
             SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
-
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+            SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -4884,6 +5041,27 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string ZerarExportTOTVSCredit(string dataI, string dataF, string value)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_EXPORTACAO_TOTVS_CREDIT = NULL WHERE ID_CONTA_PAGAR_RECEBER = '" + value + "'";
+            DBS.ExecuteScalar(SQL);
+
+            return "ok";
+
+        }
+
+        [WebMethod]
         public string listarTOTVSInvCredit(string dataI, string dataF, string situacao, string nota)
         {
             switch (situacao)
@@ -4907,7 +5085,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT NR_CONTRATO, TP_CONTRATO, FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, VL_LIQUIDO, ";
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, NR_CONTRATO, TP_CONTRATO, FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, VL_LIQUIDO, ";
             SQL += "NM_PARCEIRO, FORMAT(DT_VENCIMENTO,'dd/MM/yyyy') AS DT_VENCIMENTO, ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy HH:mm:ss'),'') AS DT_EXPORTACAO, ";
             SQL += "NR_PROCESSO, NR_REFERENCIA_CLIENTE ";
             SQL += "FROM dbo.FN_INV_CREDIT(";
@@ -5017,8 +5195,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSInvCreditCLI(string dataI, string dataF)
+        public string listarTOTVSInvCreditCLI(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5035,7 +5223,11 @@ namespace ABAINFRA.Web
             SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
             SQL += "FROM dbo.FN_INV_CREDIT_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if(listTable != null) { 
@@ -5076,8 +5268,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSInvCreditREC(string dataI, string dataF)
+        public string listarTOTVSInvCreditREC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5094,8 +5296,12 @@ namespace ABAINFRA.Web
             SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
             SQL += "FROM dbo.FN_INV_CREDIT_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
-
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+            SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -5132,6 +5338,27 @@ namespace ABAINFRA.Web
 			{
                 return JsonConvert.SerializeObject("erro");
             }
+        }
+
+        [WebMethod]
+        public string ZerarExportTOTVSDebit(string dataI, string dataF, string value)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_EXPORTACAO_TOTVS_DEBIT = NULL WHERE ID_CONTA_PAGAR_RECEBER = '" + value + "'";
+            DBS.ExecuteScalar(SQL);
+
+            return "ok";
+
         }
 
         [WebMethod]
@@ -5172,7 +5399,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, ";
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, FORMAT(DT_PAGAMENTO,'dd/MM/yyyy') AS DT_PAGAMENTO, ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, FORMAT(DT_EMISSAO,'dd/MM/yyyy') AS DT_EMISSAO, ";
             SQL += "ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy HH:mm:ss'),'') AS DT_EXPORTACAO, ISNULL(NM_CLIENTE,'') AS NM_CLIENTE, NM_ITEM_DESPESA, VL_LIQUIDO, NR_DOCUMENTO ";
             SQL += "FROM dbo.FN_INV_DEBIT(";
             SQL += "'" + dataI + "','" + dataF + "'";
@@ -5298,8 +5525,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSInvDebitFornec(string dataI, string dataF)
+        public string listarTOTVSInvDebitFornec(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5316,7 +5553,12 @@ namespace ABAINFRA.Web
             SQL += "NATUREZ, CODPAIS, CONTATO, SIMPNAC ";
             SQL += "FROM dbo.FN_INV_DEBIT_FORNEC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -5355,8 +5597,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSInvDebitREC(string dataI, string dataF)
+        public string listarTOTVSInvDebitREC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5374,8 +5626,12 @@ namespace ABAINFRA.Web
             SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
             SQL += "FROM dbo.FN_INV_DEBIT_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
-
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+            SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             if (listTable != null)
@@ -5447,7 +5703,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT ISNULL(FORMAT(DT_PAGAMENTO,'dd/MM/yyyy'),'') AS DT_PAGAMENTO , ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, ";
+            SQL = "SELECT ID_CONTA_PAGAR_RECEBER, ISNULL(FORMAT(DT_PAGAMENTO,'dd/MM/yyyy'),'') AS DT_PAGAMENTO , ID_BL_MASTER, NR_PROCESSO, NM_FORNECEDOR, ISNULL(FORMAT(DT_EMISSAO,'dd/MM/yyyy'),'') AS DT_EMISSAO, ";
             SQL += "ISNULL(FORMAT(DT_EXPORTACAO,'dd/MM/yyyy'),'') AS DT_EXPORTACAO, NM_CLIENTE, NM_ITEM_DESPESA, VL_LIQUIDO, VL_ISS ";
             SQL += "FROM dbo.FN_PA(";
             SQL += "'" + dataI + "','" + dataF + "'";
@@ -5470,6 +5726,27 @@ namespace ABAINFRA.Web
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
+
+        }
+
+        [WebMethod]
+        public string ZerarExportTOTVSPA(string dataI, string dataF, string value)
+        {
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '-' + mesI + '-' + anoI;
+            dataF = diaF + '-' + mesF + '-' + anoF;
+
+            string SQL;
+            SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_EXPORTACAO_TOTVS_PA = NULL WHERE ID_CONTA_PAGAR_RECEBER = '"+ value +"'";
+            DBS.ExecuteScalar(SQL);
+
+            return "ok";
 
         }
 
@@ -5569,8 +5846,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSPAFORNEC(string dataI, string dataF)
+        public string listarTOTVSPAFORNEC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5587,7 +5874,11 @@ namespace ABAINFRA.Web
             SQL += "CODPAIS, CONTATO, SIMPNAC ";
             SQL += "FROM DBO.FN_PA_FORNEC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -5627,8 +5918,18 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSPAREC(string dataI, string dataF)
+        public string listarTOTVSPAREC(string dataI, string dataF, string situacao)
         {
+            switch (situacao)
+            {
+                case "0":
+                    situacao = "";
+                    break;
+                case "1":
+                    situacao = "DT_EXPORTACAO IS NULL ";
+                    break;
+            }
+
             string diaI = dataI.Substring(8, 2);
             string mesI = dataI.Substring(5, 2);
             string anoI = dataI.Substring(0, 4);
@@ -5645,7 +5946,12 @@ namespace ABAINFRA.Web
             SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
             SQL += "FROM dbo.FN_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
-            SQL += ")";
+            SQL += ") ";
+            if (situacao != "")
+            {
+                SQL += " WHERE " + situacao + " ";
+            }
+            SQL += "ORDER BY ITEMCTA ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -5868,14 +6174,17 @@ namespace ABAINFRA.Web
                 case "3":
                     nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
                     break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
                 default:
                     nota = "";
                     break;
 			}
 
-            SQL = "SELECT NR_PROCESSO, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO_REC,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ";
-            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_REC),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_LIQUIDACAO_PAG,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_RECEBIDAS_PAGAS('" + dataI+"','"+dataF+"') ";
+            SQL = "SELECT NR_PROCESSO, NR_BL_MASTER AS MBL, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO_REC,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ";
+            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_REC,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_LIQUIDACAO_PAG,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
+            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_PAG,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_RECEBIDAS_PAGAS('" + dataI+"','"+dataF+"') ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
@@ -5911,6 +6220,9 @@ namespace ABAINFRA.Web
                 case "3":
                     nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
                     break;
+                case "4":
+                    nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
+                    break;
                 default:
                     nota = "";
                     break;
@@ -5929,8 +6241,8 @@ namespace ABAINFRA.Web
                     SQL += " ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS DATA, ";
                     break;
 			}
-            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_REC),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_CAMBIO_PAG,'dd/MM/yyyy'),'') AS DT_CAMBIO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(CONVERT(VARCHAR,VL_CAMBIO_PAG),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "',"+filterby+") ";
+            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, NR_BL_MASTER AS MBL, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_REC,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_CAMBIO_PAG,'dd/MM/yyyy'),'') AS DT_CAMBIO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
+            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_PAG,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "',"+filterby+") ";
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
