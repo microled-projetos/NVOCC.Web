@@ -376,17 +376,17 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             Dim HOUSE As String = ""
             Dim dsInfo As DataSet
             dsInfo = Con.ExecutarQuery(SqlInfo)
-
-            If dsInfo.Tables(0).Rows(0).Item("GRAU") = "C" Then
-                Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
-                MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
-                HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
-            Else
-                Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
-                MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
-                HOUSE = ""
+            If dsInfo.Tables(0).Rows.Count > 0 Then
+                If dsInfo.Tables(0).Rows(0).Item("GRAU") = "C" Then
+                    Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                    MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
+                    HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                Else
+                    Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                    MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                    HOUSE = ""
+                End If
             End If
-
 
 
             Dim noServicos As XmlElement
@@ -1042,7 +1042,6 @@ saida:
         seqGR = ""
         rsGR = Nothing
     End Sub
-
 
     Public Sub montaConsultaLoteRPS(ByVal numeroProtocolo As String, ByVal numeroLote As Long, Optional Cod_Empresa As Integer = 1)
 

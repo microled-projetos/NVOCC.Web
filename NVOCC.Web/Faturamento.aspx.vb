@@ -411,13 +411,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
                     If IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) And IsDBNull(ds.Tables(0).Rows(0).Item("DT_RPS")) Then
 
-                        'If ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString.Length > 6 Then
-                        '    divErro.Visible = True
-                        '    lblmsgErro.Text = "Campo complemento do endereco exede o valor maximo permitido!"
-                        '    Exit Sub
-                        'End If
-
-
+                        If ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString.Length > 60 Then
+                            divErro.Visible = True
+                            lblmsgErro.Text = "Campo complemento do endereço exede o valor maximo permitido!"
+                            Exit Sub
+                        End If
 
                         'Dim dsVerificaReceita As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER_ITENS)QTD,SUM(ISNULL(VL_LIQUIDO,0))VL_LIQUIDO,SUM(ISNULL(VL_ISS,0))VL_ISS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & ") AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_TIPO_ITEM_DESPESA IN (SELECT ID_TIPO_ITEM_DESPESA FROM TB_TIPO_ITEM_DESPESA WHERE CD_TIPO_ITEM_DESPESA= 'R'))")
 

@@ -405,16 +405,18 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                 divErroHouse.Visible = True
                 lblErroHouse.Text = "Não há valor de moeda de câmbio cadastrado com a data atual."
                 Exit Sub
+
             Else
                 CalculoProfit()
 
                 Dim i As Integer = 0
 
-                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtIDHouse.Text & ")")
                 ' Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,A.ID_BL_TAXA)ID_BL_TAXA FROM TB_BL_TAXA A WHERE ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND A.ID_BL_MASTER IS NULL AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL AND ID_BL_TAXA IS NOT NULL)")
-
+                Dim IDs As String = "0"
                 If dsTaxa.Tables(0).Rows.Count > 0 Then
                     For Each linha As DataRow In dsTaxa.Tables(0).Rows
+
                         Dim Calcula As New CalculaBL
                         Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
 
@@ -422,6 +424,7 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                             lblSuccessHouse.Text = "BL calculada com sucesso!"
                             divSuccessHouse.Visible = True
                         Else
+                            IDs &= "," & linha.Item("ID_BL").ToString()
                             i = i + 1
                         End If
                     Next
@@ -432,6 +435,12 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                     divSuccessHouse.Visible = False
                     divErroHouse.Visible = True
                     lblErroHouse.Text = "Verifique a base de cálculo!"
+                    dsTaxa = Con.ExecutarQuery("SELECT DISTINCT NR_PROCESSO FROM TB_BL WHERE ID_BL IN (" & IDs & ")")
+                    If dsTaxa.Tables(0).Rows.Count > 0 Then
+                        For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                            lblErroHouse.Text &= "<br/>PROCESSO: " & linha.Item("NR_PROCESSO").ToString()
+                        Next
+                    End If
                 Else
                     lblSuccessHouse.Text = "BL calculada com sucesso!"
                     divSuccessHouse.Visible = True

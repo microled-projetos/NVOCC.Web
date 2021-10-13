@@ -2291,49 +2291,52 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             lblErro_CargaMaritimo2.Text = "Peso Volumetrico da carga deve ser maior que zero."
 
 
-            'ElseIf Session("ID_BL_MASTER") <> 0 Then
-            '    Dim VL_M3_TOTAL As Decimal = 0
-            '    Dim VL_MAXIMO As Decimal = 0
-            '    Dim QTD_CNTR As Integer = 0
-            '    Dim VL_M3 As Decimal = 0
+        ElseIf Session("ID_BL_MASTER") <> 0 Then
+
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_CNTR_BL)QTD FROM TB_CNTR_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER"))
+            If ds.Tables(0).Rows(0).Item("QTD") <> 0 Then
+                Dim VL_M3_TOTAL As Decimal = 0
+                Dim VL_MAXIMO As Decimal = 0
+                Dim QTD_CNTR As Integer = 0
+                Dim VL_M3 As Decimal = 0
 
 
-            '    ds = Con.ExecutarQuery("SELECT SUM(VL_M3)VL_M3_TOTAL FROM TB_CARGA_BL where id_bl IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER") & " )")
-            '    If ds.Tables(0).Rows.Count > 0 And Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")) Then
-            '        VL_M3_TOTAL = ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")
-            '    End If
+                ds = Con.ExecutarQuery("SELECT SUM(VL_M3)VL_M3_TOTAL FROM TB_CARGA_BL where id_bl IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER") & " )")
+                If ds.Tables(0).Rows.Count > 0 And Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")) Then
+                    VL_M3_TOTAL = ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")
+                End If
 
-            '    ds = Con.ExecutarQuery("SELECT count(ID_CNTR_BL)QTD_CNTR,(count(ID_CNTR_BL) * 80)VL_MAXIMO FROM TB_CNTR_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER"))
-            '    If ds.Tables(0).Rows.Count > 0 Then
-            '        If Not IsDBNull(ds.Tables(0).Rows(0).Item("QTD_CNTR")) Then
-            '            QTD_CNTR = ds.Tables(0).Rows(0).Item("QTD_CNTR")
-            '        End If
-            '        If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_MAXIMO")) Then
-            '            VL_MAXIMO = ds.Tables(0).Rows(0).Item("VL_MAXIMO")
-            '        End If
-            '    End If
+                ds = Con.ExecutarQuery("SELECT count(ID_CNTR_BL)QTD_CNTR,(count(ID_CNTR_BL) * 80)VL_MAXIMO FROM TB_CNTR_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER"))
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("QTD_CNTR")) Then
+                        QTD_CNTR = ds.Tables(0).Rows(0).Item("QTD_CNTR")
+                    End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_MAXIMO")) Then
+                        VL_MAXIMO = ds.Tables(0).Rows(0).Item("VL_MAXIMO")
+                    End If
+                End If
 
 
-            '    VL_M3 = VL_M3_TOTAL + txtPesoVolumetrico_CargaMaritimo.Text
-            '    If VL_M3 > VL_MAXIMO Then
-            '        divErro_CargaMaritimo2.Visible = True
-            '        lblErro_CargaMaritimo2.Text = "Valor M3 superior ao permitido para quantidade containers!"
+                VL_M3 = VL_M3_TOTAL + txtPesoVolumetrico_CargaMaritimo.Text
+                If VL_M3 > VL_MAXIMO Then
+                    divErro_CargaMaritimo2.Visible = True
+                    lblErro_CargaMaritimo2.Text = "Valor M3 superior ao permitido para quantidade containers!"
 
-            '        txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", ",")
+                    txtPesoVolumetrico_CargaMaritimo.Text = txtPesoVolumetrico_CargaMaritimo.Text.Replace(".", ",")
 
-            '        txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(".", ",")
+                    txtPesoBruto_CargaMaritimo.Text = txtPesoBruto_CargaMaritimo.Text.Replace(".", ",")
 
-            '        txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("'", "")
-            '        txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("NULL", "")
+                    txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("'", "")
+                    txtDescMercadoriaCNTR_Maritimo.Text = txtDescMercadoriaCNTR_Maritimo.Text.Replace("NULL", "")
 
-            '        txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("'", "")
-            '        txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("NULL", "")
+                    txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("'", "")
+                    txtGrupoNCM_CargaMaritimo.Text = txtGrupoNCM_CargaMaritimo.Text.Replace("NULL", "")
 
-            '        mpeCargaMaritimo.Show()
-            '        Exit Sub
+                    mpeCargaMaritimo.Show()
+                    Exit Sub
 
-            '    End If
-
+                End If
+            End If
         End If
 
 
@@ -2750,18 +2753,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
-        If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
-            If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
-                divErro_TaxaMaritimo2.Visible = True
-                lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
-                mpeTaxaMaritimo.Show()
-                Exit Sub
-            End If
-        End If
-
-
-
-
+        'If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
+        '    If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
+        '        divErro_TaxaMaritimo2.Visible = True
+        '        lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
+        '        mpeTaxaMaritimo.Show()
+        '        Exit Sub
+        '    End If
+        'End If
 
 
         If txtObs_TaxaMaritimo.Text = "" Then
@@ -3860,7 +3859,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         If Tipo = "TAXA" Then
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim dsBL As DataSet = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF FROM TB_BL_TAXA WHERE CD_ORIGEM_INF = 'COTA' AND ID_BL_TAXA = " & ID)
+            Dim dsBL As DataSet = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF FROM TB_BL_TAXA WHERE CD_ORIGEM_INF = 'COTA' AND ID_ITEM_DESPESA <> 14 AND ID_BL_TAXA = " & ID)
             If dsBL.Tables(0).Rows.Count > 0 Then
                 Dim dsCotacao As DataSet
                 Dim valor As String

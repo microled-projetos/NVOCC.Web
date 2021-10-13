@@ -886,6 +886,10 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             diverro.Visible = True
             lblmsgErro.Text = "A data de abertura é inválida."
 
+        ElseIf v.ValidaData(txtValidade.Text) = False Then
+            diverro.Visible = True
+            lblmsgErro.Text = "A data de validade é inválida."
+
         ElseIf txtProcessoCotacao.Text = "" And ddlStatusCotacao.SelectedValue = 10 Then
             diverro.Visible = True
             lblmsgErro.Text = "Apenas cotações com número de processo gerado podem ser colocadas em update"

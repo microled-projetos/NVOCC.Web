@@ -1929,6 +1929,8 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
             Else
                 'CANCELAR
                 Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 7, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                Con.ExecutarQuery("UPDATE TB_BL SET DT_CANCELAMENTO = GETDATE() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Item cancelado com sucesso!"
                 GRID()
