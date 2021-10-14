@@ -6,7 +6,7 @@
         <div class="row principal">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">MÓDULO OPERACIONAL - MASTER 
+                    <h3 class="panel-title">MÓDULO OPERACIONAL - MASTER  <asp:Label ID="lblMaster_Titulo" runat="server" />
                                            
                     </h3>
                 </div>

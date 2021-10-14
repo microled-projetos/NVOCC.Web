@@ -34,6 +34,7 @@
             End If
             If Request.QueryString("id") <> "" And Not Page.IsPostBack Then
                 CarregaCampos()
+
             Else
 
                 lkProximo.Visible = False
@@ -99,6 +100,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                         txtProcesso_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                        lblHouse_Titulo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then

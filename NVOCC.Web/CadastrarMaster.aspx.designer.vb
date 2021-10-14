@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class CadastrarMaster
 
     '''<summary>
+    '''Controle lblMaster_Titulo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblMaster_Titulo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle divSuccess_BasicoMaritimo.
     '''</summary>
     '''<remarks>

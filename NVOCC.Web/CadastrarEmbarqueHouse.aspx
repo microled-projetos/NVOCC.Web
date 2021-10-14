@@ -5,8 +5,8 @@
         <div class="row principal">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">MÓDULO OPERACIONAL -
-                    <asp:Label ID="lblTipoModulo" runat="server" /></h3>
+                    <h3 class="panel-title">MÓDULO OPERACIONAL - 
+                    <asp:Label ID="lblTipoModulo" runat="server" /> <asp:Label ID="lblHouse_Titulo" runat="server"/></h3>
                     
                    <asp:Linkbutton ID="lkProximo" runat="server" BackColor="White" ForeColor="Black" style="float: right;MARGIN-TOP: -25PX;
     POSITION: static;" CssClass="btn btn-default"  ><i class="glyphicon glyphicon-step-forward"></i></asp:Linkbutton>
