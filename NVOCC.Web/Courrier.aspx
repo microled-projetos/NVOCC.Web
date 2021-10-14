@@ -61,27 +61,27 @@
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
-                                <table id="courrierExport" class="table tablecont">
+                                <table id="courrierExport" class="table tablecont tablesorter">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" scope="col">&nbsp;</th>
-                                            <th class="text-center" scope="col">PROCESSO</th>
-                                            <th class="text-center" scope="col">MBL</th>
-                                            <th class="text-center" scope="col">HBL</th>
-                                            <th class="text-center" scope="col">CLIENTE</th>
-                                            <th class="text-center" scope="col">DATA RECEBIMENTO MBL</th>
-                                            <th class="text-center" scope="col">CÓD RASTREAMENTO MBL</th>
-                                            <th class="text-center" scope="col">DATA RECEBIMENTO HBL</th>
-                                            <th class="text-center" scope="col">CÓD RASTREAMENTO HBL</th>
-                                            <th class="text-center" scope="col">DATA RETIRADA CLIENTE</th>
-                                            <th class="text-center" scope="col">DATA RETIRADA PERSONAL</th>
-                                            <th class="text-center" scope="col">RETIRADO POR</th>
-                                            <th class="text-center" scope="col">AGENTE</th>
-                                            <th class="text-center" scope="col">NAVIO</th>
-                                            <th class="text-center" scope="col">PREVISÃO CHEGADA</th>
-                                            <th class="text-center" scope="col">DATA CHEGADA</th>
-                                            <th class="text-center" scope="col">FATURA</th>
-                                            <th class="text-center" scope="col">TIPO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">&nbsp;</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PROCESSO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA PERSONAL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">RETIRADO POR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FATURA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="containerCourrier">
@@ -554,6 +554,12 @@
                                 "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
                                 "</tr>");
                         }
+                        $("#courrierExport").tablesorter({
+                            dateFormat: "ddmmyyyy",
+                            headers: {
+                                0: { sorter: "shortDate" }
+                            }
+                        });
                     }
                     else {
                         $("#containerCourrier").empty();

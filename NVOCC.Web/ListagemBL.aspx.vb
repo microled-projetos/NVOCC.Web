@@ -1074,10 +1074,23 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 divErroMaster.Visible = True
                 lblErroMaster.Text = "Selecione o registro que deseja excluir!"
             Else
-                Con.ExecutarQuery("UPDATE TB_BL SET DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
-                dgvMaster.DataBind()
-                divSuccessMaster.Visible = True
-                lblSuccessMaster.Text = "Item deletado com sucesso!"
+
+                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+From TB_BL_TAXA A 
+INNER Join TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER Join TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO Is NULL And ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+From TB_BL_TAXA
+Where ID_BL = " & txtID_Master.Text & ")")
+                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
+                Else
+                    Con.ExecutarQuery("UPDATE TB_BL Set DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
+                    dgvMaster.DataBind()
+                    divSuccessMaster.Visible = True
+                    lblSuccessMaster.Text = "Item deletado com sucesso!"
+                End If
             End If
         End If
         Con.Fechar()
@@ -1089,7 +1102,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ds As DataSet
 
 
-        ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
+        ds = Con.ExecutarQuery("Select Next VALUE For Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
         Dim PROCESSO_FINAL As String
 
         Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
@@ -1103,7 +1116,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         End If
 
 
-        ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 AND A.ID_BL = " & ID_BL)
+        ds = Con.ExecutarQuery("Select A.ID_SERVICO,(Select SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO from TB_BL A Where ID_SERVICO <> 0 And A.ID_BL = " & ID_BL)
 
         If ds.Tables(0).Rows.Count > 0 Then
             SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
@@ -1111,7 +1124,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
             PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
-            Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
+            Con.ExecutarQuery("UPDATE TB_PARAMETROS Set NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "'")
 
             Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = '" & PROCESSO_FINAL & "' WHERE ID_BL = " & ID_BL)
 
@@ -1133,10 +1146,25 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Else
             Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_BL WHERE ID_BL_MASTER IS NULL AND ID_BL = " & txtID_Embarque.Text)
             If ds.Tables(0).Rows(0).Item("QTD") = 1 Then
-                Con.ExecutarQuery("UPDATE TB_BL SET FL_CANCELADO = 1, ID_USUARIO_CANCELAMENTO =  " & Session("ID_USUARIO") & ", DT_CANCELAMENTO = GETDATE() WHERE ID_BL = " & txtID_Embarque.Text)
-                lblSuccessEmbarque.Text = "Registro cancelado!"
-                divSuccessEmbarque.Visible = True
-                dgvEmbarque.DataBind()
+
+                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+From TB_BL_TAXA A 
+INNER Join TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER Join TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  C.DT_CANCELAMENTO Is NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Text & "))")
+
+                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErroEmbarque.Visible = True
+                    lblErroEmbarque.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
+                Else
+                    Con.ExecutarQuery("UPDATE TB_BL SET FL_CANCELADO = 1, ID_USUARIO_CANCELAMENTO =  " & Session("ID_USUARIO") & ", DT_CANCELAMENTO = GETDATE() WHERE ID_BL = " & txtID_Embarque.Text)
+                    lblSuccessEmbarque.Text = "Registro cancelado!"
+                    divSuccessEmbarque.Visible = True
+                    dgvEmbarque.DataBind()
+                End If
+
             Else
                 divErroEmbarque.Visible = True
                 lblErroEmbarque.Text = "Só é permitido o cancelamento de registros sem BL Master vinculada!"
