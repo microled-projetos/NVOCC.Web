@@ -180,7 +180,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="60"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">

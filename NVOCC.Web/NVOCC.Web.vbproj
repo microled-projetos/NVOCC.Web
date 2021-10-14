@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web 13102021\ABAINFRA.Web\publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web 14102021\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -892,6 +892,7 @@
     <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\EMAIL.vb" />
     <Compile Include="Helpers\GeraRemessa.vb" />
+    <Compile Include="Helpers\RotinaUpdate.vb" />
     <Compile Include="Helpers\TrataTextbox.vb" />
     <Compile Include="Helpers\ValorExtenso.vb" />
     <Compile Include="Helpers\NumeracaoDoc.vb" />

@@ -75,6 +75,9 @@
                                         <div class="form-group">
                                             <button type="button" id="btnLimparExportDespesa" style="margin-left: 10px;" onclick="LimparExportDespesa()" class="btn btn-primary">Zerar Exportação</button>
                                         </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btnMarcarDesmcarcar" style="margin-left: 10px;" onclick="MarcarDesmarcar()" class="btn btn-primary">Marcar Todos</button>
+                                        </div>
                                     </div> 
                                     <div class="table-responsive tableFixHead topMarg">
                                         <table id="grdEstimativa" class="table tablecont">
@@ -113,6 +116,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
+
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
@@ -188,6 +192,18 @@
             TOTVSNotaDespesa();
         }
 
+        function MarcarDesmarcar() {
+            $(".check").each(
+                function () {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }                
+                }
+            )
+        }
+
         function TOTVSNotaDespesa() {
             $("#modalDespesa").modal("show");
 
@@ -217,7 +233,7 @@
                     $("#grdEstimativaBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdEstimativaBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
+                            $("#grdEstimativaBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td><td class='text-center'>" + dado[i]["VL_NOTA"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_TOTVS_DESPESA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_REFERENCIA_CLIENTE"] + "</td></tr> ");

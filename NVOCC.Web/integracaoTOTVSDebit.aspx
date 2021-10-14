@@ -85,6 +85,9 @@
                                     <div class="form-group">
                                         <button type="button" id="btnLimparExportDebit" style="margin-left: 10px;" onclick="LimparExportDebit()" class="btn btn-primary">Zerar Exportação</button>
                                     </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnMarcarDesmcarcar" style="margin-left: 10px;" onclick="MarcarDesmarcar()" class="btn btn-primary">Marcar Todos</button>
+                                    </div>
                                 </div> 
                                 <div class="table-responsive tableFixHead topMarg">
                                     <table id="grdDebit" class="table tablecont">
@@ -199,6 +202,18 @@
             TOTVSInvDebit();
         }
 
+        function MarcarDesmarcar() {
+            $(".check").each(
+                function () {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }
+                }
+            )
+        }
+
         function TOTVSInvDebit() {
             $("#modalInvDebit").modal("show");
             var exporta = document.getElementById("todosDebit");
@@ -228,7 +243,7 @@
                     $("#grdDebitBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdDebitBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
+                            $("#grdDebitBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["ID_BL_MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EXPORTACAO"] + "</td><td class='text-center'>" + dado[i]["NM_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VL_LIQUIDO"] + "</td><td class='text-center'>" + dado[i]["NR_DOCUMENTO"] + "</td></tr> ");
