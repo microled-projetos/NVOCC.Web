@@ -180,7 +180,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Complemento:</label>
-                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                        <asp:TextBox ID="txtComplemento" runat="server" CssClass="form-control" MaxLength="60"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
@@ -294,7 +294,7 @@
                                 </div>
                                   <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -307,7 +307,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioMaritimoImpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -323,7 +323,7 @@
                                 </div>
             <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoFCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -336,7 +336,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioMaritimoExpoLCL" runat="server"  CssClass="form-control" Font-Size="11px" DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -353,7 +353,7 @@
                                 </div>
                         <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioAereoIMPO" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -366,7 +366,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Acordo Câmbio</label>
+                                        <label class="control-label">Acordo Câmbio:</label>
                                         <asp:DropDownList ID="ddlAcordoCambioAereoEXPO" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_ACORDO_CAMBIO" DataSourceID="dsAcordoCambio" DataValueField="ID_ACORDO_CAMBIO">
                                             </asp:DropDownList>
                                     </div>
@@ -392,6 +392,16 @@
                                         <label class="control-label">Tipo de Faturamento:</label>
                                        <asp:DropDownList ID="ddlTipoFaturamento" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">
                                             </asp:DropDownList>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Regra de atualização:</label>
+                                       <asp:DropDownList ID="ddlRegraAtualizacao" runat="server"  CssClass="form-control" Font-Size="11px"  >
+                                            <asp:ListItem Value="0" Selected="True">Selecione</asp:ListItem>
+                                            <asp:ListItem Value="1">DATA DE CHEGADA DO NAVIO</asp:ListItem>
+                                            <asp:ListItem Value="2">DATA DE SAIDA DO NAVIO</asp:ListItem>
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
                             </div>

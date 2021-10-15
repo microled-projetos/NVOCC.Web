@@ -4409,7 +4409,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
                     break;
             }
 
@@ -4486,7 +4486,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_DESPESA IS NULL ";
                     break;
             }
 
@@ -4688,7 +4688,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -4765,7 +4765,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -4873,7 +4873,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -4976,7 +4976,7 @@ namespace ABAINFRA.Web
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "DT_EXPORTACAO IS NULL ";
+                    situacao = "DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -6372,12 +6372,60 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string listarDemonstrativoRateio(string text, string filter)
+        {
+            string SQL;
+
+			switch (filter)
+			{
+                case "1":
+                    text = " WHERE C.NR_BL LIKE '" + text + "%' ";
+                    break;
+                case "2":
+                    text = " WHERE C.NR_BL LIKE '" + text + "%' ";
+                    break;
+                default:
+                    text = "";
+                    break;
+            }
+
+            SQL = "SELECT C.NR_BL AS MBL, FORMAT(C.DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, C.ID_BL FROM TB_BL A ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL = B.ID_BL ";
+            SQL += "INNER JOIN TB_BL C ON A.ID_BL_MASTER = C.ID_BL ";
+            SQL += " " + text + " ";
+            SQL += "GROUP BY C.NR_BL, C.DT_CHEGADA, C.ID_BL ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string imprimirDemonstrativoRateio(string blmaster)
+        {
+            string SQL;
+
+            SQL = "SELECT A.NR_PROCESSO AS PROCESSO, CONVERT(VARCHAR,A.VL_M3) AS CUBAGEM, CONVERT(VARCHAR,C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM FROM TB_BL A ";
+            SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
+            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
+            SQL += "AND A.ID_BL_MASTER = '"+blmaster+"' ";
+            SQL += "GROUP BY A.NR_PROCESSO, A.VL_M3, D.NM_ITEM_DESPESA, C.VL_LIQUIDO ";
+
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public void OutlookService(string destinatario)
         {
-
-			
-
-
             MailMessage email = new MailMessage();
             email.From = new MailAddress("thiago.amaro@abainfra.com.br");
             email.To.Add(new MailAddress("thiago.amaro@abainfra.com.br"));

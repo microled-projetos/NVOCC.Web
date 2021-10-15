@@ -22,10 +22,15 @@ Partial Class FrmNCM
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmNCM))
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.dgvNCM = New System.Windows.Forms.DataGridView()
+        Me.ID_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CD_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.AP_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
         Me.btnExcluir = New System.Windows.Forms.Button()
@@ -39,18 +44,13 @@ Partial Class FrmNCM
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.ckbAtivo = New System.Windows.Forms.CheckBox()
+        Me.txtCodigoNCM = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.txtAPNCM = New System.Windows.Forms.TextBox()
         Me.txtDescricao = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtCodigoNCM = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.ckbAtivo = New System.Windows.Forms.CheckBox()
-        Me.ID_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CD_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.AP_NCM = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         CType(Me.dgvNCM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnControles.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -60,8 +60,8 @@ Partial Class FrmNCM
         '
         Me.dgvNCM.AllowUserToAddRows = False
         Me.dgvNCM.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvNCM.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvNCM.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
         Me.dgvNCM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvNCM.BackgroundColor = System.Drawing.Color.White
@@ -75,6 +75,43 @@ Partial Class FrmNCM
         Me.dgvNCM.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgvNCM.Size = New System.Drawing.Size(985, 199)
         Me.dgvNCM.TabIndex = 133
+        '
+        'ID_NCM
+        '
+        Me.ID_NCM.DataPropertyName = "ID_NCM"
+        Me.ID_NCM.HeaderText = "ID"
+        Me.ID_NCM.Name = "ID_NCM"
+        Me.ID_NCM.ReadOnly = True
+        '
+        'CD_NCM
+        '
+        Me.CD_NCM.DataPropertyName = "CD_NCM"
+        Me.CD_NCM.HeaderText = "CÓDIGO"
+        Me.CD_NCM.Name = "CD_NCM"
+        Me.CD_NCM.ReadOnly = True
+        '
+        'NM_NCM
+        '
+        Me.NM_NCM.DataPropertyName = "NM_NCM"
+        Me.NM_NCM.HeaderText = "NOME NCM"
+        Me.NM_NCM.Name = "NM_NCM"
+        Me.NM_NCM.ReadOnly = True
+        Me.NM_NCM.Width = 350
+        '
+        'AP_NCM
+        '
+        Me.AP_NCM.DataPropertyName = "AP_NCM"
+        Me.AP_NCM.HeaderText = "AP NCM"
+        Me.AP_NCM.Name = "AP_NCM"
+        Me.AP_NCM.ReadOnly = True
+        Me.AP_NCM.Width = 350
+        '
+        'FL_ATIVO
+        '
+        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
+        Me.FL_ATIVO.HeaderText = "ATIVO"
+        Me.FL_ATIVO.Name = "FL_ATIVO"
+        Me.FL_ATIVO.ReadOnly = True
         '
         'btnCancelar
         '
@@ -258,6 +295,38 @@ Partial Class FrmNCM
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detalhes:"
         '
+        'ckbAtivo
+        '
+        Me.ckbAtivo.AutoSize = True
+        Me.ckbAtivo.Location = New System.Drawing.Point(911, 45)
+        Me.ckbAtivo.Name = "ckbAtivo"
+        Me.ckbAtivo.Size = New System.Drawing.Size(55, 20)
+        Me.ckbAtivo.TabIndex = 11
+        Me.ckbAtivo.Text = "Ativo"
+        Me.ckbAtivo.UseVisualStyleBackColor = True
+        '
+        'txtCodigoNCM
+        '
+        Me.txtCodigoNCM.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtCodigoNCM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCodigoNCM.Enabled = False
+        Me.txtCodigoNCM.Location = New System.Drawing.Point(15, 42)
+        Me.txtCodigoNCM.MaxLength = 3
+        Me.txtCodigoNCM.Name = "txtCodigoNCM"
+        Me.txtCodigoNCM.Size = New System.Drawing.Size(128, 23)
+        Me.txtCodigoNCM.TabIndex = 8
+        Me.txtCodigoNCM.Tag = "requerido"
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(12, 24)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(52, 16)
+        Me.Label1.TabIndex = 9
+        Me.Label1.Text = "Código:"
+        '
         'txtAPNCM
         '
         Me.txtAPNCM.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -301,75 +370,6 @@ Partial Class FrmNCM
         Me.Label2.Size = New System.Drawing.Size(58, 16)
         Me.Label2.TabIndex = 7
         Me.Label2.Text = "AP NCM:"
-        '
-        'txtCodigoNCM
-        '
-        Me.txtCodigoNCM.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtCodigoNCM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCodigoNCM.Enabled = False
-        Me.txtCodigoNCM.Location = New System.Drawing.Point(15, 42)
-        Me.txtCodigoNCM.MaxLength = 3
-        Me.txtCodigoNCM.Name = "txtCodigoNCM"
-        Me.txtCodigoNCM.Size = New System.Drawing.Size(128, 23)
-        Me.txtCodigoNCM.TabIndex = 8
-        Me.txtCodigoNCM.Tag = "requerido"
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 24)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(52, 16)
-        Me.Label1.TabIndex = 9
-        Me.Label1.Text = "Código:"
-        '
-        'ckbAtivo
-        '
-        Me.ckbAtivo.AutoSize = True
-        Me.ckbAtivo.Location = New System.Drawing.Point(911, 45)
-        Me.ckbAtivo.Name = "ckbAtivo"
-        Me.ckbAtivo.Size = New System.Drawing.Size(55, 20)
-        Me.ckbAtivo.TabIndex = 11
-        Me.ckbAtivo.Text = "Ativo"
-        Me.ckbAtivo.UseVisualStyleBackColor = True
-        '
-        'ID_NCM
-        '
-        Me.ID_NCM.DataPropertyName = "ID_NCM"
-        Me.ID_NCM.HeaderText = "ID"
-        Me.ID_NCM.Name = "ID_NCM"
-        Me.ID_NCM.ReadOnly = True
-        '
-        'CD_NCM
-        '
-        Me.CD_NCM.DataPropertyName = "CD_NCM"
-        Me.CD_NCM.HeaderText = "CÓDIGO"
-        Me.CD_NCM.Name = "CD_NCM"
-        Me.CD_NCM.ReadOnly = True
-        '
-        'NM_NCM
-        '
-        Me.NM_NCM.DataPropertyName = "NM_NCM"
-        Me.NM_NCM.HeaderText = "NOME NCM"
-        Me.NM_NCM.Name = "NM_NCM"
-        Me.NM_NCM.ReadOnly = True
-        Me.NM_NCM.Width = 350
-        '
-        'AP_NCM
-        '
-        Me.AP_NCM.DataPropertyName = "AP_NCM"
-        Me.AP_NCM.HeaderText = "AP NCM"
-        Me.AP_NCM.Name = "AP_NCM"
-        Me.AP_NCM.ReadOnly = True
-        Me.AP_NCM.Width = 350
-        '
-        'FL_ATIVO
-        '
-        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
-        Me.FL_ATIVO.HeaderText = "ATIVO"
-        Me.FL_ATIVO.Name = "FL_ATIVO"
-        Me.FL_ATIVO.ReadOnly = True
         '
         'FrmNCM
         '

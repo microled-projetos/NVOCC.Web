@@ -27,6 +27,39 @@
                 PermissoesEspeciais()
 
 
+                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & ")")
+                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    'MARITIMO
+                    btnGravar_BasicoMaritimo.Enabled = False
+                    btnSalvar_CNTRMaritimo.Visible = False
+                    btnNovoCNTRMaritimo.Enabled = False
+                    btnNovaTaxasMaritimo.Enabled = False
+                    btnSalvar_TaxasMaritimo.Visible = False
+                    btnDesvincular.Visible = False
+                    btnVincular.Visible = False
+                    dgvContainer.Columns(7).Visible = False
+                    dgvContainer.Columns(8).Visible = False
+                    dgvContainer.Columns(7).Visible = False
+                    dgvContainer.Columns(8).Visible = False
+                    dgvTaxasMaritimo.Columns(9).Visible = False
+                    dgvTaxasMaritimo.Columns(10).Visible = False
+
+
+                    'AEREO
+                    btnGravar_BasicoAereo.Enabled = False
+                    btnNovaTaxaAereo.Enabled = False
+                    btnSalvar_TaxaAereo.Visible = False
+                    dgvTaxasAereo.Columns(9).Visible = False
+                    dgvTaxasAereo.Columns(10).Visible = False
+
+                End If
+
 
             End If
 
@@ -75,6 +108,7 @@
     Sub CarregaCampos()
         Dim Con As New Conexao_sql
         Con.Conectar()
+
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_WEEK,ID_BL_MASTER,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR, ID_COTACAO ,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE,103)DT_CE,CONVERT(varchar,DT_EMISSAO_BL,103)DT_EMISSAO_BL, CONVERT(varchar,DT_PREVISAO_EMBARQUE,103)DT_PREVISAO_EMBARQUE,CONVERT(varchar,DT_PREVISAO_CHEGADA,103)DT_PREVISAO_CHEGADA,CONVERT(varchar,DT_CHEGADA,103)DT_CHEGADA,CONVERT(varchar,DT_EMBARQUE,103)DT_EMBARQUE,
 NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T,ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_3T,ID_PORTO_2T,ID_PARCEIRO_AGENCIA,ID_MOEDA_FRETE,VL_FRETE,VL_PESO_BRUTO,VL_PESO_TAXADO,QT_MERCADORIA,CONVERT(varchar,DT_EMISSAO_CONHECIMENTO,103)DT_EMISSAO_CONHECIMENTO,VL_TARIFA_MASTER,VL_TARIFA_MASTER_MINIMA,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO) NM_NAVIO,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_1T) NM_NAVIO1,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_2T) NM_NAVIO2,(SELECT NM_NAVIO FROM TB_NAVIO B WHERE B.ID_NAVIO = A.ID_NAVIO_3T) NM_NAVIO3,ID_STATUS_FRETE_AGENTE 
 FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
@@ -103,6 +137,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
                         txtNumeroBL_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                        lblMaster_Titulo.Text = ds.Tables(0).Rows(0).Item("NR_BL")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EMISSAO_BL")) Then
@@ -284,6 +319,9 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                     btnGravar_BasicoAereo.Visible = False
                     btnLimpar_BasicoAereo.Visible = False
                     btnNovaTaxaAereo.Visible = False
+
+
+
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                     'AGENCIAMENTO DE IMPORTACAO AEREO
@@ -732,15 +770,15 @@ WHERE A.ID_BL_TAXA = " & ID)
                     ddlEmpresa_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
                 End If
 
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
-                    If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
-                        btnSalvar_TaxasMaritimo.Visible = False
-                    Else
-                        btnSalvar_TaxasMaritimo.Visible = True
-                    End If
-                Else
-                    btnSalvar_TaxasMaritimo.Visible = True
-                End If
+                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
+                '    If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+                '        btnSalvar_TaxasMaritimo.Visible = False
+                '    Else
+                '        btnSalvar_TaxasMaritimo.Visible = True
+                '    End If
+                'Else
+                '    btnSalvar_TaxasMaritimo.Visible = True
+                'End If
 
                 mpeTaxasMaritimo.Show()
 

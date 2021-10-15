@@ -48,7 +48,7 @@
                 If check.Checked Then
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
 
-                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NOT NULL  AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
                     If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
                         divErro.Visible = True
@@ -75,7 +75,7 @@
                 If check.Checked Then
 
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NOT NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER =" & ID)
                     If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Não foi possivel conclir a ação: Registro já faturado!"
                         divErro.Visible = True

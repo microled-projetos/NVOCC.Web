@@ -1501,7 +1501,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_ESTUFAGEM">
 </asp:SqlDataSource>
 
 <asp:SqlDataSource ID="dsStatusCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO 
+        selectcommand="SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO
 union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsDestinatarioComercial" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

@@ -75,6 +75,9 @@
                                     <div class="form-group">
                                         <button type="button" id="btnLimparExportCredit" style="margin-left: 10px;" onclick="LimparExportCredit()" class="btn btn-primary">Zerar Exportação</button>
                                     </div>
+                                    <div class="form-group">
+                                        <button type="button" id="btnMarcarDesmcarcar" style="margin-left: 10px;" onclick="MarcarDesmarcar()" class="btn btn-primary">Marcar Todos</button>
+                                    </div>
                                 </div> 
                                 <div class="table-responsive tableFixHead topMarg">
                                     <table id="grdCredit" class="table tablecont">
@@ -221,7 +224,7 @@
                     $("#grdCreditBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdCreditBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export'></td><td class='text-center'> " + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["TP_CONTRATO"] + "</td>" +
+                            $("#grdCreditBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["TP_CONTRATO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_PAGAMENTO"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_REFERENCIA_CLIENTE"] + "</td></tr> ");
@@ -232,6 +235,18 @@
                     }
                 }
             })
+        }
+
+        function MarcarDesmarcar() {
+            $(".check").each(
+                function () {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }
+                }
+            )
         }
 
         function exportTableToCSVCredit(clif, recf) {
