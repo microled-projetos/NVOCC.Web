@@ -1,5 +1,5 @@
 ﻿Public Class RotinaUpdate
-    Sub Update(ID_COTACAO As String, NR_PROCESSO As String)
+    Sub UpdateInfoBasicas(ID_COTACAO As String, NR_PROCESSO As String)
         If ID_COTACAO = "" Or NR_PROCESSO = "" Then
             Exit Sub
         Else
@@ -243,4 +243,172 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
 
         End If
     End Sub
+
+    Sub UpdateTaxas(ID_COTACAO_TAXA As String, NR_PROCESSO As String)
+        If ID_COTACAO_TAXA = "" Or NR_PROCESSO = "" Then
+            Exit Sub
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim dsCotacao As DataSet
+            Dim dsProcesso As DataSet
+
+            ''TAXAS COMPRA
+            dsProcesso = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF FROM TB_BL_TAXA A WHERE CD_ORIGEM_INF='COTA' AND CD_PR='P' AND ID_ITEM_DEPESA <> 14 AND A.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA)
+            If dsProcesso.Tables(0).Rows.Count > 0 Then
+
+                For Each linha As DataRow In dsProcesso.Tables(0).Rows
+
+                    dsCotacao = Con.ExecutarQuery("SELECT ID_BL_TAXA,ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_CALCULADO,VL_TAXA_COMPRA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA
+ WHERE VL_TAXA_COMPRA IS NOT NULL AND VL_TAXA_COMPRA <> 0 AND ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA"))
+                    If dsCotacao.Tables(0).Rows.Count > 0 Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_PAGAMENTO = '" & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_ORIGEM_PAGAMENTO = '" & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_DESTINATARIO_COBRANCA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_BASE_CALCULO_TAXA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString <> linha.Item("ID_MOEDA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_MOEDA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString <> linha.Item("VL_TAXA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA_CALCULADO = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA_MIN = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_TAXA_TRANSPORTADOR").ToString <> linha.Item("FL_TAXA_TRANSPORTADOR").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_TAXA_TRANSPORTADOR = '" & dsCotacao.Tables(0).Rows(0).Item("FL_TAXA_TRANSPORTADOR").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_EMPRESA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                    End If
+
+                Next
+
+
+            End If
+
+
+
+
+            ''TAXAS VENDA
+            dsProcesso = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF FROM TB_BL_TAXA A WHERE CD_ORIGEM_INF='COTA' AND CD_PR='R' AND ID_ITEM_DEPESA <> 14 AND A.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA)
+            If dsProcesso.Tables(0).Rows.Count > 0 Then
+
+                For Each linha As DataRow In dsProcesso.Tables(0).Rows
+
+                    dsCotacao = Con.ExecutarQuery("SELECT ID_BL_TAXA,ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_CALCULADO,VL_TAXA_VENDA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA
+ WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND ID_ITEM_DESPESA = " & linha.Item("ID_ITEM_DESPESA"))
+                    If dsCotacao.Tables(0).Rows.Count > 0 Then
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_TIPO_PAGAMENTO = '" & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_ORIGEM_PAGAMENTO = '" & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_DESTINATARIO_COBRANCA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_BASE_CALCULO_TAXA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString <> linha.Item("ID_MOEDA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_MOEDA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString <> linha.Item("VL_TAXA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA_CALCULADO = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET VL_TAXA_MIN = '" & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("FL_TAXA_TRANSPORTADOR").ToString <> linha.Item("FL_TAXA_TRANSPORTADOR").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_TAXA_TRANSPORTADOR = '" & dsCotacao.Tables(0).Rows(0).Item("FL_TAXA_TRANSPORTADOR").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                        If dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET ID_PARCEIRO_EMPRESA = '" & dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString & "' WHERE ID_BL = " & linha.Item("ID_BL_TAXA").ToString)
+                        End If
+
+                    End If
+
+                Next
+
+
+            End If
+
+        End If
+    End Sub
+
+    Sub UpdateCarga(ID_COTACAO_TAXA As String, NR_PROCESSO As String)
+        If ID_COTACAO_TAXA = "" Or NR_PROCESSO = "" Then
+            Exit Sub
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim dsCotacao As DataSet
+            Dim dsProcesso As DataSet
+
+        End If
+    End Sub
+
 End Class

@@ -16,56 +16,6 @@ Public Class FrmNCM
 
     Dim NCM As New NCM
 
-
-
-    Private Sub FrmNCM_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
-
-        If e.KeyCode = Keys.Escape Then
-            Me.Close()
-        End If
-
-    End Sub
-
-    Private Sub btPrim_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-        If dgvNCM.Rows.Count > 0 Then
-            dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, 0)
-            ExibeInformacoes()
-        End If
-
-    End Sub
-
-    Private Sub btAnt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-        If dgvNCM.Rows.Count > 0 Then
-            If dgvNCM.CurrentRow.Index > 0 Then
-                dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.CurrentCell.RowIndex - 1)
-                ExibeInformacoes()
-            End If
-        End If
-
-    End Sub
-
-    Private Sub BtProx_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-        If dgvNCM.Rows.Count > 0 Then
-            If dgvNCM.CurrentRow.Index < dgvNCM.Rows.Count - 1 Then
-                dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.CurrentCell.RowIndex + 1)
-                ExibeInformacoes()
-            End If
-        End If
-
-    End Sub
-
-    Private Sub btUlt_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-        If dgvNCM.Rows.Count > 0 Then
-            dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.Rows.Count - 1)
-            ExibeInformacoes()
-        End If
-
-    End Sub
-
     Private Sub ExibeInformacoes()
 
         If dgvNCM.Rows.Count > 0 Then
@@ -117,7 +67,116 @@ Public Class FrmNCM
 
     End Function
 
-    Private Sub btSalvar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub SetarControles()
+        btnNovo.Enabled = Not btnNovo.Enabled
+        btnEditar.Enabled = Not btnEditar.Enabled
+        btnExcluir.Enabled = Not btnExcluir.Enabled
+        btnSalvar.Enabled = Not btnSalvar.Enabled
+        btnCancelar.Enabled = Not btnCancelar.Enabled
+        '   barraNavegacao.Enabled = Not barraNavegacao.Enabled
+        dgvNCM.Enabled = Not dgvNCM.Enabled
+    End Sub
+
+    Private Sub btFechar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Me.Close()
+    End Sub
+
+    Private Sub FrmNCM_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
+        Config.EnterTAB(e)
+    End Sub
+
+    Private Sub txtCodigoNCM_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        Config.CampoAlphaNumerico(e)
+    End Sub
+    Private Sub FrmNCM_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        CarregarGridNCM()
+
+    End Sub
+
+    Private Sub btnAnterior_Click(sender As Object, e As EventArgs) Handles btnAnterior.Click
+        If dgvNCM.Rows.Count > 0 Then
+            If dgvNCM.CurrentRow.Index > 0 Then
+                dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.CurrentCell.RowIndex - 1)
+                ExibeInformacoes()
+            End If
+        End If
+    End Sub
+
+    Private Sub btnProximo_Click(sender As Object, e As EventArgs) Handles btnProximo.Click
+        If dgvNCM.Rows.Count > 0 Then
+            If dgvNCM.CurrentRow.Index < dgvNCM.Rows.Count - 1 Then
+                dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.CurrentCell.RowIndex + 1)
+                ExibeInformacoes()
+            End If
+        End If
+    End Sub
+
+    Private Sub btnPrimeiro_Click(sender As Object, e As EventArgs) Handles btnPrimeiro.Click
+        If dgvNCM.Rows.Count > 0 Then
+            dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, 0)
+            ExibeInformacoes()
+        End If
+    End Sub
+
+    Private Sub btnUltimo_Click(sender As Object, e As EventArgs) Handles btnUltimo.Click
+
+        If dgvNCM.Rows.Count > 0 Then
+            dgvNCM.CurrentCell = dgvNCM(dgvNCM.CurrentCell.ColumnIndex, dgvNCM.Rows.Count - 1)
+            ExibeInformacoes()
+        End If
+    End Sub
+
+    Private Sub btnNovo_Click(sender As Object, e As EventArgs) Handles btnNovo.Click
+
+        Dim Tela As Control = Me
+        Geral.LimparCampos(Tela)
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=True)
+        SetarControles()
+        txtCodigoNCM.Focus()
+        txtAPNCM.Text = ""
+        txtCodigoNCM.Text = ""
+        txtDescricao.Text = ""
+        txtID.Text = ""
+
+    End Sub
+
+    Private Sub btnEditar_Click(sender As Object, e As EventArgs) Handles btnEditar.Click
+
+        If txtID.Text = String.Empty Then
+            MessageBox.Show("Selecione um Registro.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Exit Sub
+        End If
+
+        SetarControles()
+        HabilitarCampos(Me, True)
+        Me.txtDescricao.Focus()
+    End Sub
+
+    Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
+        If dgvNCM.Rows.Count > 0 Then
+
+            If Not txtID.Text = String.Empty Then
+                If MessageBox.Show("Deseja excluir o NCM: " & dgvNCM.CurrentRow.Cells("DESCRICAO").Value & "?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                    NCM.Codigo = txtID.Text
+                    If NCM.Excluir(NCM) Then
+                        MessageBox.Show("Registro excluído com sucesso.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        CarregarGridNCM()
+                    Else
+                        MessageBox.Show("Erro durante a operação. Tente Novamente", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End If
+                End If
+            Else
+                MessageBox.Show("Selecione um Registro.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            End If
+
+            '  LimparControles()
+
+        End If
+    End Sub
+
+    Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
         Dim Ds As DataTable = New DataTable()
 
         If Not ValidarCampos() Then
@@ -161,92 +220,43 @@ Public Class FrmNCM
         Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
 
-
-    Private Sub btNovo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
+    Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
         Dim Tela As Control = Me
-        Geral.LimparCampos(Tela)
-        Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
+        Tela = Me
+        Geral.LimparCampos(Tela)
         SetarControles()
-        txtCodigoNCM.Focus()
-
     End Sub
 
-    Private Sub btEditar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub btnSair_Click(sender As Object, e As EventArgs) Handles btnSair.Click
+        Close()
+    End Sub
 
-        If txtID.Text = String.Empty Then
-            MessageBox.Show("Selecione um Registro.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Exit Sub
+    Private Sub txtDescricao_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDescricao.KeyPress
+        Config.CampoAlphaNumerico(e)
+    End Sub
+
+    Private Sub FrmNCM_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Close()
         End If
-
-        SetarControles()
-        HabilitarCampos(Me, True)
-        Me.txtDescricao.Focus()
-
     End Sub
 
-    Private Sub btCancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim Tela As Control = Me
-        Geral.HabilitarCampos(Tela, Habilita:=False)
-        Tela = Me
-        Geral.LimparCampos(Tela)
-        SetarControles()
-    End Sub
-    Private Sub SetarControles()
-        btnNovo.Enabled = Not btnNovo.Enabled
-        btnEditar.Enabled = Not btnEditar.Enabled
-        btnExcluir.Enabled = Not btnExcluir.Enabled
-        btnSalvar.Enabled = Not btnSalvar.Enabled
-        btnCancelar.Enabled = Not btnCancelar.Enabled
-        '   barraNavegacao.Enabled = Not barraNavegacao.Enabled
-        dgvNCM.Enabled = Not dgvNCM.Enabled
-    End Sub
-    Private Sub btExcluir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
+    Private Sub dgvNCM_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvNCM.CellClick
         If dgvNCM.Rows.Count > 0 Then
-
-            If Not txtID.Text = String.Empty Then
-                If MessageBox.Show("Deseja excluir o NCM: " & dgvNCM.CurrentRow.Cells("DESCRICAO").Value & "?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
-                    NCM.Codigo = txtID.Text
-                    If NCM.Excluir(NCM) Then
-                        MessageBox.Show("Registro excluído com sucesso.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        CarregarGridNCM()
-                    Else
-                        MessageBox.Show("Erro durante a operação. Tente Novamente", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End If
-                End If
-            Else
-                MessageBox.Show("Selecione um Registro.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            End If
-
-            '  LimparControles()
-
+            ExibeInformacoes()
         End If
-
     End Sub
 
-    Private Sub btFechar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Me.Close()
+    Private Sub dgvNCM_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvNCM.CellEnter
+        If dgvNCM.Rows.Count > 0 Then
+            ExibeInformacoes()
+        End If
     End Sub
 
-    Private Sub FrmNCM_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress
-        Config.EnterTAB(e)
+    Private Sub dgvNCM_KeyUp(sender As Object, e As KeyEventArgs) Handles dgvNCM.KeyUp
+        If dgvNCM.Rows.Count > 0 Then
+            ExibeInformacoes()
+        End If
     End Sub
-
-    Private Sub txtCodigoNCM_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-        Config.CampoAlphaNumerico(e)
-    End Sub
-
-    Private Sub txtDescricao_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-        Config.CampoAlphaNumerico(e)
-    End Sub
-
-    Private Sub FrmNCM_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-        CarregarGridNCM()
-
-    End Sub
-
-
 End Class
