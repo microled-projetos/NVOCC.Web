@@ -2301,9 +2301,15 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Dim VL_MAXIMO As Decimal = 0
                 Dim QTD_CNTR As Integer = 0
                 Dim VL_M3 As Decimal = 0
+                Dim ID_Carga As Integer = 0
 
 
-                ds = Con.ExecutarQuery("SELECT SUM(VL_M3)VL_M3_TOTAL FROM TB_CARGA_BL where id_bl IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER") & " )")
+                If txtID_CargaMaritimo.Text <> "" Then
+                    ID_Carga = txtID_CargaMaritimo.Text
+                End If
+
+
+                ds = Con.ExecutarQuery("SELECT SUM(VL_M3)VL_M3_TOTAL FROM TB_CARGA_BL where id_bl IN (SELECT ID_BL FROM TB_BL WHERE ID_BL_MASTER = " & Session("ID_BL_MASTER") & " ) AND ID_CARGA_BL <> " & ID_Carga)
                 If ds.Tables(0).Rows.Count > 0 And Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")) Then
                     VL_M3_TOTAL = ds.Tables(0).Rows(0).Item("VL_M3_TOTAL")
                 End If
