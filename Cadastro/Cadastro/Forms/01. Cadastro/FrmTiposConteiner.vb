@@ -69,6 +69,7 @@ Public Class FrmTiposConteiner
 
                 Try
                     txtMaxGross.Text = txtMaxGross.Text.Replace(",", ".")
+                    txtTEU.Text = txtTEU.Text.Replace(",", ".")
 
                     If Operators.CompareString(txtMaxGross.Text, "", TextCompare:=False) = 0 Then
                         txtMaxGross.Text = " NULL "
@@ -105,7 +106,7 @@ Public Class FrmTiposConteiner
                     MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     txtMaxGross.Text = txtMaxGross.Text.Replace(",", ".")
-
+                    txtTEU.Text = txtTEU.Text.Replace(",", ".")
                     If Operators.CompareString(txtMaxGross.Text, "", TextCompare:=False) = 0 Then
                         txtMaxGross.Text = " NULL "
                     Else
@@ -133,7 +134,7 @@ Public Class FrmTiposConteiner
                 ProjectData.ClearProjectError()
             End Try
         End If
-
+        LimparCampos(Me)
         SetaControles()
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)

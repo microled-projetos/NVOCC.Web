@@ -58,8 +58,6 @@ Partial Class FrmPortos
         Me.txtNome = New System.Windows.Forms.TextBox()
         Me.txtSiglaIATA = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.txtAgencia = New System.Windows.Forms.TextBox()
-        Me.txtBanco = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.chkAtivo = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -326,8 +324,6 @@ Partial Class FrmPortos
         Me.GroupBox1.Controls.Add(Me.txtNome)
         Me.GroupBox1.Controls.Add(Me.txtSiglaIATA)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Controls.Add(Me.txtAgencia)
-        Me.GroupBox1.Controls.Add(Me.txtBanco)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.chkAtivo)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -362,13 +358,13 @@ Partial Class FrmPortos
         '
         'cbCidade
         '
+        Me.cbCidade.DisplayMember = "NM_CIDADE"
         Me.cbCidade.Enabled = False
         Me.cbCidade.FormattingEnabled = True
         Me.cbCidade.Location = New System.Drawing.Point(486, 44)
         Me.cbCidade.Name = "cbCidade"
         Me.cbCidade.Size = New System.Drawing.Size(121, 21)
         Me.cbCidade.TabIndex = 31
-        Me.cbCidade.DisplayMember = "NM_CIDADE"
         Me.cbCidade.ValueMember = "ID_CIDADE"
         '
         'cbTransporte
@@ -444,30 +440,6 @@ Partial Class FrmPortos
         Me.Label7.Size = New System.Drawing.Size(49, 13)
         Me.Label7.TabIndex = 24
         Me.Label7.Text = "Agência:"
-        '
-        'txtAgencia
-        '
-        Me.txtAgencia.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtAgencia.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtAgencia.Enabled = False
-        Me.txtAgencia.Location = New System.Drawing.Point(-123, 141)
-        Me.txtAgencia.MaxLength = 3
-        Me.txtAgencia.Name = "txtAgencia"
-        Me.txtAgencia.Size = New System.Drawing.Size(120, 20)
-        Me.txtAgencia.TabIndex = 23
-        Me.txtAgencia.Tag = "requerido"
-        '
-        'txtBanco
-        '
-        Me.txtBanco.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtBanco.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBanco.Enabled = False
-        Me.txtBanco.Location = New System.Drawing.Point(-123, 92)
-        Me.txtBanco.MaxLength = 3
-        Me.txtBanco.Name = "txtBanco"
-        Me.txtBanco.Size = New System.Drawing.Size(120, 20)
-        Me.txtBanco.TabIndex = 20
-        Me.txtBanco.Tag = "requerido"
         '
         'Label5
         '
@@ -564,8 +536,6 @@ Partial Class FrmPortos
     Friend WithEvents txtNome As TextBox
     Friend WithEvents txtSiglaIATA As TextBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents txtAgencia As TextBox
-    Friend WithEvents txtBanco As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents chkAtivo As CheckBox
     Friend WithEvents Label4 As Label
