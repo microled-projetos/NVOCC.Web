@@ -180,7 +180,7 @@ Public Class FrmContaFinanceiro
     End Sub
 
     Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
-        If Not String.IsNullOrEmpty(txtCodigo.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM " & Banco.BancoNVOCC & "TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " + txtCodigo.Text), "")) Then
+        If Not String.IsNullOrEmpty(txtCodigo.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " + txtCodigo.Text), "")) Then
             Consultar()
             Dim Tela As Control = Me
             Geral.LimparCampos(Tela)
@@ -210,7 +210,7 @@ Public Class FrmContaFinanceiro
 
                 Try
 
-                    If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO " & Banco.BancoNVOCC & "TB_CONTA_BANCARIA (NM_CONTA_BANCARIA, ID_TIPO_CONTA_BANCARIA,NR_BANCO,NR_AGENCIA,DG_AGENCIA, NR_CONTA, FL_ATIVO) VALUES ('" + txtDescricao.Text & "',", cbTipoConta.SelectedValue), ",'"), txtBanco.Text), "','"), txtAgencia.Text), "',"), txtDigito.Text), ",'"), txtConta.Text), "','"), chkAtivo.Checked), "')"))) Then
+                    If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO TB_CONTA_BANCARIA (NM_CONTA_BANCARIA, ID_TIPO_CONTA_BANCARIA,NR_BANCO,NR_AGENCIA,DG_AGENCIA, NR_CONTA, FL_ATIVO) VALUES ('" + txtDescricao.Text & "',", cbTipoConta.SelectedValue), ",'"), txtBanco.Text), "','"), txtAgencia.Text), "',"), txtDigito.Text), ",'"), txtConta.Text), "','"), chkAtivo.Checked), "')"))) Then
                         Consultar()
                         Geral.Mensagens(Me, 1)
                     Else
@@ -240,7 +240,7 @@ Public Class FrmContaFinanceiro
 
                 Try
 
-                    If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE " & Banco.BancoNVOCC & "TB_CONTA_BANCARIA SET NM_CONTA_BANCARIA = '" + txtDescricao.Text & "', ID_TIPO_CONTA_BANCARIA = ", cbTipoConta.SelectedValue), " ,NR_BANCO = '"), txtBanco.Text), "', NR_AGENCIA = '"), txtAgencia.Text), "',DG_AGENCIA = "), txtDigito.Text), ", NR_CONTA = '"), txtConta.Text), "', FL_ATIVO = '"), chkAtivo.Checked), "' WHERE ID_CONTA_BANCARIA = "), txtCodigo.Text), ""))) Then
+                    If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE TB_CONTA_BANCARIA SET NM_CONTA_BANCARIA = '" + txtDescricao.Text & "', ID_TIPO_CONTA_BANCARIA = ", cbTipoConta.SelectedValue), " ,NR_BANCO = '"), txtBanco.Text), "', NR_AGENCIA = '"), txtAgencia.Text), "',DG_AGENCIA = "), txtDigito.Text), ", NR_CONTA = '"), txtConta.Text), "', FL_ATIVO = '"), chkAtivo.Checked), "' WHERE ID_CONTA_BANCARIA = "), txtCodigo.Text), ""))) Then
                         Consultar()
                         Geral.Mensagens(Me, 2)
                         txtDigito.Text = ""

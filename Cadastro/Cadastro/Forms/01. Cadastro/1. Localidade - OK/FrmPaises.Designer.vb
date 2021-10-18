@@ -24,7 +24,7 @@ Partial Class FrmPaises
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPaises))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
@@ -47,6 +47,9 @@ Partial Class FrmPaises
         Me.txtPais = New System.Windows.Forms.TextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
+        Me.ID_PAIS = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.COD_PAIS = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_PAIS = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel2.SuspendLayout()
         CType(Me.pbCarregando, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnControles.SuspendLayout()
@@ -265,20 +268,21 @@ Partial Class FrmPaises
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle3
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID_PAIS, Me.COD_PAIS, Me.NM_PAIS})
         Me.dgvConsulta.Location = New System.Drawing.Point(17, 143)
         Me.dgvConsulta.Name = "dgvConsulta"
         Me.dgvConsulta.ReadOnly = True
         Me.dgvConsulta.RowHeadersWidth = 24
         Me.dgvConsulta.RowTemplate.Height = 18
         Me.dgvConsulta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvConsulta.Size = New System.Drawing.Size(588, 224)
+        Me.dgvConsulta.Size = New System.Drawing.Size(586, 224)
         Me.dgvConsulta.TabIndex = 1
         '
         'GroupBox1
@@ -345,6 +349,29 @@ Partial Class FrmPaises
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
         '
+        'ID_PAIS
+        '
+        Me.ID_PAIS.DataPropertyName = "ID_PAIS"
+        Me.ID_PAIS.HeaderText = "ID"
+        Me.ID_PAIS.Name = "ID_PAIS"
+        Me.ID_PAIS.ReadOnly = True
+        '
+        'COD_PAIS
+        '
+        Me.COD_PAIS.DataPropertyName = "COD_PAIS"
+        Me.COD_PAIS.HeaderText = "Código"
+        Me.COD_PAIS.Name = "COD_PAIS"
+        Me.COD_PAIS.ReadOnly = True
+        Me.COD_PAIS.Width = 200
+        '
+        'NM_PAIS
+        '
+        Me.NM_PAIS.DataPropertyName = "NM_PAIS"
+        Me.NM_PAIS.HeaderText = "País"
+        Me.NM_PAIS.Name = "NM_PAIS"
+        Me.NM_PAIS.ReadOnly = True
+        Me.NM_PAIS.Width = 300
+        '
         'FrmPaises
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
@@ -391,4 +418,7 @@ Partial Class FrmPaises
     Friend WithEvents btnEditar As System.Windows.Forms.Button
     Friend WithEvents txtID As System.Windows.Forms.TextBox
     Friend WithEvents btnSair As System.Windows.Forms.Button
+    Friend WithEvents ID_PAIS As DataGridViewTextBoxColumn
+    Friend WithEvents COD_PAIS As DataGridViewTextBoxColumn
+    Friend WithEvents NM_PAIS As DataGridViewTextBoxColumn
 End Class

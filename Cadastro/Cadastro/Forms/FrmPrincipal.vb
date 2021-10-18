@@ -66,47 +66,47 @@ Public Class FrmPrincipal
         Return False
     End Function
 
-    Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles MnuCadNavios.Click
+    Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles mnNavios.Click
         MyProject.Forms.FrmNavios.Show()
     End Sub
 
-    Private Sub nmNCM_Click(sender As Object, e As EventArgs) Handles nmNCM.Click
+    Private Sub nmNCM_Click(sender As Object, e As EventArgs) Handles mnNCM.Click
         MyProject.Forms.FrmNCM.Show()
     End Sub
 
-    Private Sub MnuCadPortos_Click(sender As Object, e As EventArgs) Handles MnuCadPortos.Click
+    Private Sub MnuCadPortos_Click(sender As Object, e As EventArgs) Handles mnPortos.Click
         MyProject.Forms.FrmPortos.Show()
     End Sub
 
-    Private Sub CidadesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CidadesToolStripMenuItem.Click
+    Private Sub CidadesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnCidades.Click
         MyProject.Forms.FrmCidades.Show()
     End Sub
 
-    Private Sub PaísesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PaísesToolStripMenuItem.Click
+    Private Sub PaísesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnPais.Click
         MyProject.Forms.FrmPaises.Show()
     End Sub
 
-    Private Sub EstadosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EstadosToolStripMenuItem.Click
+    Private Sub EstadosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnEstados.Click
         MyProject.Forms.FrmUF.Show()
     End Sub
 
-    Private Sub ServiçosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ServiçosToolStripMenuItem.Click
+    Private Sub ServiçosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnServicos.Click
         MyProject.Forms.FrmServico.Show()
     End Sub
 
-    Private Sub EventosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EventosToolStripMenuItem.Click
+    Private Sub EventosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnEventos.Click
         MyProject.Forms.FrmEventos.Show()
     End Sub
 
-    Private Sub ContasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContasToolStripMenuItem.Click
+    Private Sub ContasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnContas.Click
         MyProject.Forms.FrmContaFinanceiro.Show()
     End Sub
 
-    Private Sub MoedasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoedasToolStripMenuItem.Click
+    Private Sub MoedasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnMoedas.Click
         MyProject.Forms.FrmMoedas.Show()
     End Sub
 
-    Private Sub ContainerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContainerToolStripMenuItem.Click
+    Private Sub ContainerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnCadConteiner.Click
         MyProject.Forms.FrmTiposConteiner.Show()
     End Sub
 

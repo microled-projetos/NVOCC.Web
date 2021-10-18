@@ -37,6 +37,16 @@ Partial Class FrmPortos
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
+        Me.ID_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CD_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SIGLA_IATA = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CD_SIGLA = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -55,16 +65,6 @@ Partial Class FrmPortos
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtCodigo = New System.Windows.Forms.TextBox()
-        Me.ID_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CD_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ID_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SIGLA_IATA = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CD_SIGLA = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ID_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.pnControles.SuspendLayout()
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -240,6 +240,80 @@ Partial Class FrmPortos
         Me.dgvConsulta.Size = New System.Drawing.Size(624, 228)
         Me.dgvConsulta.TabIndex = 90
         '
+        'ID_PORTO
+        '
+        Me.ID_PORTO.DataPropertyName = "ID_PORTO"
+        Me.ID_PORTO.HeaderText = "ID"
+        Me.ID_PORTO.Name = "ID_PORTO"
+        Me.ID_PORTO.ReadOnly = True
+        Me.ID_PORTO.Visible = False
+        '
+        'CD_PORTO
+        '
+        Me.CD_PORTO.DataPropertyName = "CD_PORTO"
+        Me.CD_PORTO.HeaderText = "Código"
+        Me.CD_PORTO.Name = "CD_PORTO"
+        Me.CD_PORTO.ReadOnly = True
+        '
+        'NM_PORTO
+        '
+        Me.NM_PORTO.DataPropertyName = "NM_PORTO"
+        Me.NM_PORTO.HeaderText = "Descrição"
+        Me.NM_PORTO.Name = "NM_PORTO"
+        Me.NM_PORTO.ReadOnly = True
+        Me.NM_PORTO.Width = 200
+        '
+        'ID_CIDADE
+        '
+        Me.ID_CIDADE.DataPropertyName = "ID_CIDADE"
+        Me.ID_CIDADE.HeaderText = "ID_CIDADE"
+        Me.ID_CIDADE.Name = "ID_CIDADE"
+        Me.ID_CIDADE.ReadOnly = True
+        Me.ID_CIDADE.Visible = False
+        '
+        'NM_CIDADE
+        '
+        Me.NM_CIDADE.DataPropertyName = "NM_CIDADE"
+        Me.NM_CIDADE.HeaderText = "Cidade"
+        Me.NM_CIDADE.Name = "NM_CIDADE"
+        Me.NM_CIDADE.ReadOnly = True
+        '
+        'SIGLA_IATA
+        '
+        Me.SIGLA_IATA.DataPropertyName = "SIGLA_IATA"
+        Me.SIGLA_IATA.HeaderText = "Sigla IATA"
+        Me.SIGLA_IATA.Name = "SIGLA_IATA"
+        Me.SIGLA_IATA.ReadOnly = True
+        '
+        'CD_SIGLA
+        '
+        Me.CD_SIGLA.DataPropertyName = "CD_SIGLA"
+        Me.CD_SIGLA.HeaderText = "Cód. Sigla"
+        Me.CD_SIGLA.Name = "CD_SIGLA"
+        Me.CD_SIGLA.ReadOnly = True
+        '
+        'ID_VIATRANSPORTE
+        '
+        Me.ID_VIATRANSPORTE.DataPropertyName = "ID_VIATRANSPORTE"
+        Me.ID_VIATRANSPORTE.HeaderText = "ID_VIATRANSPORTE"
+        Me.ID_VIATRANSPORTE.Name = "ID_VIATRANSPORTE"
+        Me.ID_VIATRANSPORTE.ReadOnly = True
+        Me.ID_VIATRANSPORTE.Visible = False
+        '
+        'NM_VIATRANSPORTE
+        '
+        Me.NM_VIATRANSPORTE.DataPropertyName = "NM_VIATRANSPORTE"
+        Me.NM_VIATRANSPORTE.HeaderText = "Transporte"
+        Me.NM_VIATRANSPORTE.Name = "NM_VIATRANSPORTE"
+        Me.NM_VIATRANSPORTE.ReadOnly = True
+        '
+        'FL_ATIVO
+        '
+        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
+        Me.FL_ATIVO.HeaderText = "Ativo"
+        Me.FL_ATIVO.Name = "FL_ATIVO"
+        Me.FL_ATIVO.ReadOnly = True
+        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.Label8)
@@ -294,22 +368,20 @@ Partial Class FrmPortos
         Me.cbCidade.Name = "cbCidade"
         Me.cbCidade.Size = New System.Drawing.Size(121, 21)
         Me.cbCidade.TabIndex = 31
-        Me.cbTransporte.DisplayMember = "NM_CIDADE"
-        Me.cbTransporte.ValueMember = "ID_CIDADE"
-        Me.cbTransporte.Tag = "requerido"
+        Me.cbCidade.DisplayMember = "NM_CIDADE"
+        Me.cbCidade.ValueMember = "ID_CIDADE"
         '
         'cbTransporte
         '
+        Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
         Me.cbTransporte.Enabled = False
         Me.cbTransporte.FormattingEnabled = True
         Me.cbTransporte.Location = New System.Drawing.Point(235, 91)
         Me.cbTransporte.Name = "cbTransporte"
         Me.cbTransporte.Size = New System.Drawing.Size(228, 21)
         Me.cbTransporte.TabIndex = 30
-        Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
-        Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
         Me.cbTransporte.Tag = "requerido"
-
+        Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
         '
         'txtCodSigla
         '
@@ -448,80 +520,6 @@ Partial Class FrmPortos
         Me.txtCodigo.TabIndex = 0
         Me.txtCodigo.Tag = "requerido"
         '
-        'ID_PORTO
-        '
-        Me.ID_PORTO.DataPropertyName = "ID_PORTO"
-        Me.ID_PORTO.HeaderText = "ID"
-        Me.ID_PORTO.Name = "ID_PORTO"
-        Me.ID_PORTO.ReadOnly = True
-        Me.ID_PORTO.Visible = False
-        '
-        'CD_PORTO
-        '
-        Me.CD_PORTO.DataPropertyName = "CD_PORTO"
-        Me.CD_PORTO.HeaderText = "Código"
-        Me.CD_PORTO.Name = "CD_PORTO"
-        Me.CD_PORTO.ReadOnly = True
-        '
-        'NM_PORTO
-        '
-        Me.NM_PORTO.DataPropertyName = "NM_PORTO"
-        Me.NM_PORTO.HeaderText = "Descrição"
-        Me.NM_PORTO.Name = "NM_PORTO"
-        Me.NM_PORTO.ReadOnly = True
-        Me.NM_PORTO.Width = 200
-        '
-        'ID_CIDADE
-        '
-        Me.ID_CIDADE.DataPropertyName = "ID_CIDADE"
-        Me.ID_CIDADE.HeaderText = "ID_CIDADE"
-        Me.ID_CIDADE.Name = "ID_CIDADE"
-        Me.ID_CIDADE.ReadOnly = True
-        Me.ID_CIDADE.Visible = False
-        '
-        'NM_CIDADE
-        '
-        Me.NM_CIDADE.DataPropertyName = "NM_CIDADE"
-        Me.NM_CIDADE.HeaderText = "Cidade"
-        Me.NM_CIDADE.Name = "NM_CIDADE"
-        Me.NM_CIDADE.ReadOnly = True
-        '
-        'SIGLA_IATA
-        '
-        Me.SIGLA_IATA.DataPropertyName = "SIGLA_IATA"
-        Me.SIGLA_IATA.HeaderText = "Sigla IATA"
-        Me.SIGLA_IATA.Name = "SIGLA_IATA"
-        Me.SIGLA_IATA.ReadOnly = True
-        '
-        'CD_SIGLA
-        '
-        Me.CD_SIGLA.DataPropertyName = "CD_SIGLA"
-        Me.CD_SIGLA.HeaderText = "Cód. Sigla"
-        Me.CD_SIGLA.Name = "CD_SIGLA"
-        Me.CD_SIGLA.ReadOnly = True
-        '
-        'ID_VIATRANSPORTE
-        '
-        Me.ID_VIATRANSPORTE.DataPropertyName = "ID_VIATRANSPORTE"
-        Me.ID_VIATRANSPORTE.HeaderText = "ID_VIATRANSPORTE"
-        Me.ID_VIATRANSPORTE.Name = "ID_VIATRANSPORTE"
-        Me.ID_VIATRANSPORTE.ReadOnly = True
-        Me.ID_VIATRANSPORTE.Visible = False
-        '
-        'NM_VIATRANSPORTE
-        '
-        Me.NM_VIATRANSPORTE.DataPropertyName = "NM_VIATRANSPORTE"
-        Me.NM_VIATRANSPORTE.HeaderText = "Transporte"
-        Me.NM_VIATRANSPORTE.Name = "NM_VIATRANSPORTE"
-        Me.NM_VIATRANSPORTE.ReadOnly = True
-        '
-        'FL_ATIVO
-        '
-        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
-        Me.FL_ATIVO.HeaderText = "Ativo"
-        Me.FL_ATIVO.Name = "FL_ATIVO"
-        Me.FL_ATIVO.ReadOnly = True
-        '
         'FrmPortos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -538,7 +536,7 @@ Partial Class FrmPortos
         Me.Controls.Add(Me.dgvConsulta)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FrmPortos"
-        Me.Text = "FrmPortos"
+        Me.Text = "Portos"
         Me.pnControles.ResumeLayout(False)
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)

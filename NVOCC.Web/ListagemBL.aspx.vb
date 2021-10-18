@@ -1014,15 +1014,15 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
                     Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
+                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
                     Session("ID_BL") = txtID_Master.Text
                     Response.Redirect("RastreioBL.aspx")
 
-                Else
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                    'Else
+                    '    divErroMaster.Visible = True
+                    '    lblErroMaster.Text = "BL não cadastrada no Logcomex."
                 End If
             End If
 

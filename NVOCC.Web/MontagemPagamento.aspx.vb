@@ -95,14 +95,15 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_ALIQUOTA_ISS,0)VL_ALIQUOTA_ISS FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
             If ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS") > 0 Then
                 lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
+                lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
+                lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
             Else
                 lbl_ISS.Text = 3
             End If
-            lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
-            lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
+
         Else
             lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
             divErro.Visible = True
@@ -119,12 +120,14 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Dim checkISS As CheckBox = linha.FindControl("ckbISS")
             If check.Checked Then
                 If checkISS.Checked Then
-                    Dim iss As Decimal = (valor / 100) * lbl_ISS.Text
+                    Dim iss As Decimal = valor / 100
+                    iss = iss * lbl_ISS.Text
                     valor = valor - iss
 
                 End If
 
                 txtValor.Text = valor2 + valor
+                txtValor.Text = FormatCurrency(txtValor.Text)
             End If
         Next
 

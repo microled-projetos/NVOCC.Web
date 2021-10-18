@@ -274,9 +274,9 @@ Public Class FrmCidades
         If Operators.CompareString(txtCodigo.Text, String.Empty, TextCompare:=False) = 0 Then
 
             Try
-                Dim IBGE As String = obtemCodIBGEUF(cbUF.SelectedText)
-                txtIBGE.Text = IBGE
-                Dim sql2 As String = Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO TB_CIDADE (COD_IBGE,NM_CIDADE,ID_PAIS,ID_ESTADO,VL_ISS) VALUES (" & IBGE & ", '" & txtCidade.Text & "',", cbPais.SelectedValue), ","), cbUF.SelectedValue), ",'"), txtVL_ISS.Text), "')"))
+                ' Dim IBGE As String = obtemCodIBGEUF(cbUF.SelectedValue)
+                ' txtIBGE.Text = IBGE
+                Dim sql2 As String = "INSERT INTO TB_CIDADE (COD_IBGE,NM_CIDADE,ID_PAIS,ID_ESTADO,VL_ISS) VALUES ('" & txtIBGE.Text & "', '" & txtCidade.Text & "'," & cbPais.SelectedValue & "," & cbUF.SelectedValue & ",'" & txtVL_ISS.Text & "')"
                 Banco.Execute(sql2)
                 Consultar()
                 Geral.Mensagens(Me, 1)
@@ -289,9 +289,9 @@ Public Class FrmCidades
         Else
 
             Try
-                Dim IBGE As String = obtemCodIBGEUF(cbUF.SelectedText)
-                txtIBGE.Text = IBGE
-                Dim sql As String = Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE TB_CIDADE Set NM_CIDADE = '" & txtCidade.Text & "',ID_PAIS = ", cbPais.SelectedValue), ",ID_ESTADO = "), cbUF.SelectedValue), ", VL_ISS ='"), txtVL_ISS.Text), "' WHERE COD_IBGE = "), txtIBGE.Text), " AND ID_CIDADE = "), txtCodigo.Text))
+                ' Dim IBGE As String = obtemCodIBGEUF(cbUF.SelectedText)
+                ' txtIBGE.Text = IBGE
+                Dim sql As String = "UPDATE TB_CIDADE Set NM_CIDADE = '" & txtCidade.Text & "', ID_PAIS = " & cbPais.SelectedValue & ", ID_ESTADO = " & cbUF.SelectedValue & ", VL_ISS ='" & txtVL_ISS.Text & "' , COD_IBGE = '" & txtIBGE.Text & "' WHERE ID_CIDADE = " & txtCodigo.Text
                 Banco.Execute(sql)
                 Consultar()
                 Geral.Mensagens(Me, 2)

@@ -19,7 +19,7 @@
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
-                                <asp:Label runat="server" ID="lbl_ISS" CssClass="control-label" Style="display: none" />
+                                <asp:Label runat="server" ID="lbl_ISS" CssClass="control-label" Style="display: BLOCK" />
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
@@ -159,7 +159,7 @@
                                     <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="text-align: left">VALOR:</label>
-                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control moeda"></asp:TextBox>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                     </div>
                                     <div class="col-sm-2">
