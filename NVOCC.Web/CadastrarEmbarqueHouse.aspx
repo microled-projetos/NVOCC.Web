@@ -837,13 +837,13 @@ VENDAS:
                                                                     <div class="row">
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Tipo de Pagamento:</label>
+                                                                                <label class="control-label">Tipo de Pagamento:</label><label runat="server" style="color: red">*</label>
                                                                                 <asp:DropDownList ID="ddlTipoPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
-                                                                                <label class="control-label">Origem Serviço:</label>
+                                                                                <label class="control-label">Origem Serviço:</label><label runat="server" style="color: red">*</label>
                                                                                 <asp:DropDownList ID="ddlOrigemPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
 
                                                                             </div>
@@ -1918,13 +1918,13 @@ VENDAS:
                                                             <div class="row">
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Tipo Pagamento:</label>
+                                                                        <label class="control-label">Tipo Pagamento:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlTipoPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
-                                                                        <label class="control-label">Origem Serviço:</label>
+                                                                        <label class="control-label">Origem Serviço:</label><label runat="server" style="color: red">*</label>
                                                                         <asp:DropDownList ID="ddlOrigemPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
                                                                     </div>
                                                                 </div>

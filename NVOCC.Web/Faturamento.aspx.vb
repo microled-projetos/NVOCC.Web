@@ -1230,7 +1230,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
                 divSuccess.Visible = True
                 lblmsgSuccess.Text = "Boleto gerado com sucesso!"
-
+                AtualizaGrid()
 
 
             Catch ex As Exception
@@ -1524,8 +1524,8 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
     End Sub
 
     Private Sub lkBoletoRemessa_Click(sender As Object, e As EventArgs) Handles lkBoletoRemessa.Click
-        ArquivoRemessa()
+        ' ArquivoRemessa()
 
-
+        Response.Redirect("RemessaBoletos.aspx")
     End Sub
 End Class

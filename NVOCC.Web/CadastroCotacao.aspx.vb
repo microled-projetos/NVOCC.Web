@@ -427,7 +427,9 @@ FROM TB_COTACAO A where ID_CLIENTE = " & Session("ID_CLIENTE") & " AND ID_TIPO_E
 
         If e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
-
+            divErroFrete.Visible = False
+            divSuccessFrete.Visible = False
+            divInfoFrete.Visible = False
             ds = Con.ExecutarQuery("
 SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TIPO_PAGAMENTO,ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN ,VL_TOTAL_FRETE_COMPRA_MIN,TRANSITTIME_TRUCKING_AEREO  FROM TB_COTACAO WHERE ID_COTACAO = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -1235,6 +1237,10 @@ WHERE ID_COTACAO = " & txtID.Text)
                 divSuccessFrete.Visible = True
                 Con.Fechar()
                 ImportaTaxas()
+                If divDeleteTaxas.Visible = True And lblDeleteTaxas.Text = "Ação realizada com sucesso!" Then
+                    divInfoFrete.Visible = True
+                    lblInfoFrete.Text = "Registros importados automaticamente, favor revisar as taxas da cotação!"
+                End If
                 dgvTaxas.DataBind()
                 dgvFrete.DataBind()
 
@@ -1264,7 +1270,7 @@ WHERE ID_COTACAO = " & txtID.Text)
         Dim Con As New Conexao_sql
         Con.Conectar()
         If Session("estufagem") = 1 And ddlFreteTransportador_Frete.SelectedValue <> 0 Then
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA A INNER Join TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO
+            Dim ds As DataSet = Con.ExecutarQuery("Select ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA A INNER Join TB_COTACAO B On B.ID_COTACAO = A.ID_COTACAO
 WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TIPO_CONTAINER from TB_TARIFARIO_FRETE_TRANSPORTADOR WHERE ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR AND convert(date,getdate(),103) between convert(date,DT_VALIDADE_INICIAL,103) and convert(date,DT_VALIDADE_FINAL,103)) ")
             If ds.Tables(0).Rows.Count > 0 Then
 
