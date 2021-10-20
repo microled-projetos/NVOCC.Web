@@ -1,4 +1,5 @@
 ﻿Imports Newtonsoft.Json
+Imports System.IO
 
 Public Class RemessaBoletos
     Inherits System.Web.UI.Page
@@ -119,7 +120,6 @@ Public Class RemessaBoletos
 
         divSuccess.Visible = False
         divErro.Visible = False
-
         Dim GeraRemessa As New GeraRemessa
 
         Dim Con As New Conexao_sql
@@ -141,9 +141,20 @@ Public Class RemessaBoletos
             Dim strToWrite As String = ""
             Dim Stream As IO.StreamWriter = Nothing
             Try
+                'limpa diretorio de remessa
+                Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/remessa"))
+                For Each file As FileInfo In di.GetFiles()
+                    file.Delete()
+                Next
+                For Each dir As DirectoryInfo In di.GetDirectories()
+                    dir.Delete(True)
+                Next
+
+
                 Dim NomeStream As String
                 NomeStream = "arquivo_remessa_" & SEQ_ARQUIVO & ".txt"
-                Stream = New IO.StreamWriter("C:\microledtemp\" & NomeStream, True)
+                Stream = New IO.StreamWriter(Server.MapPath("/Content/remessa/") & NomeStream, True)
+
                 Stream.WriteLine(strToWrite)
                 Stream.Flush()
                 Dim seqRem As Integer = 0
@@ -193,22 +204,34 @@ Public Class RemessaBoletos
                 End If
 
 
+
+                Dim _file As System.IO.FileInfo = New System.IO.FileInfo(Server.MapPath("/Content/remessa/") & NomeStream)
+                If _file.Exists Then
+                    Response.Clear()
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" & _file.Name)
+                    Response.AddHeader("Content-Length", _file.Length.ToString())
+                    Response.ContentType = "application/octet-stream"
+                    Response.WriteFile(Server.UrlDecode(_file.FullName))
+                    Response.Flush()
+                    Response.Close()
+                End If
+
+                Pesquisar()
+                divSuccess.Visible = True
+                lblmsgSuccess.Text = "Remessa gerada com sucesso!"
+
             Catch ex As Exception
                 divErro.Visible = True
                 lblmsgErro.Text = ex.Message
-                Exit Sub
+
             End Try
 
-            Pesquisar()
-            divSuccess.Visible = True
-            lblmsgSuccess.Text = "Remessa gerada com sucesso!"
 
         End If
         Con.Fechar()
         ConOracle.Desconectar()
     End Sub
     Private Sub btnEnviarRemessa_Click(sender As Object, e As EventArgs) Handles btnEnviarRemessa.Click
-
         ArquivoRemessa()
     End Sub
 End Class

@@ -32,8 +32,8 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
-                            <ContentTemplate>
+                       <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                            <ContentTemplate>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -172,13 +172,13 @@
                                 </div>
                                 </div>
 
-                            </ContentTemplate>
+                          <%--  </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFaturamento" />
-                                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
+                                <asp:PostBackTrigger ControlID="btnPesquisar" />
+                                  <asp:PostBackTrigger ControlID="btnEnviarRemessa" />                                         
+
                             </Triggers>
-                        </asp:UpdatePanel>
+                        </asp:UpdatePanel>--%>
                     </div>
 
                 </div>
@@ -190,14 +190,11 @@
     </div>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Faturamento] WHERE NOSSONUMERO IS NOT NULL AND FL_ENVIADO_REM = 0 AND COD_BANCO = 0 ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
-
-   <%-- <asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT COD_BANCO Codigo, COD_BANCO FROM TB_FATURAMENTO WHERE COD_BANCO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY COD_BANCO"></asp:SqlDataSource>--%>
     <asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT NR_BANCO,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA
 union SELECT  '0', ' Selecione' ORDER BY NR_BANCO"></asp:SqlDataSource>
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE"></asp:SqlDataSource>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">   
 </asp:Content>
