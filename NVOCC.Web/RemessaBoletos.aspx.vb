@@ -17,7 +17,10 @@ Public Class RemessaBoletos
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
-
+        Else
+            If Not Page.IsPostBack Then
+                ddlBanco.SelectedValue = "033"
+            End If
         End If
         Con.Fechar()
     End Sub
@@ -196,10 +199,10 @@ Public Class RemessaBoletos
                 Exit Sub
             End Try
 
-
+            Pesquisar()
             divSuccess.Visible = True
             lblmsgSuccess.Text = "Remessa gerada com sucesso!"
-            Pesquisar()
+
         End If
         Con.Fechar()
         ConOracle.Desconectar()
