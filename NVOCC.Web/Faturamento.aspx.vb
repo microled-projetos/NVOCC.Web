@@ -557,6 +557,16 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                     lblmsginf.Text = "RPS em processamento, por favor aguarde!"
                                     dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
                                     dgvFaturamento.DataBind()
+                                ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
+                                    divinf.Visible = True
+                                    lblmsginf.Text = "RPS em processamento, por favor aguarde!"
+                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                    dgvFaturamento.DataBind()
+                                    'ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
+                                    '    divinf.Visible = True
+                                    '    lblmsginf.Text = "RPS não enviada para prefeitura, por favor tente novamente!"
+                                    '    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                    '    dgvFaturamento.DataBind()
 
                                 Else
                                     lblmsgErro.Text = "Não foi possivel completar a ação!"
@@ -1057,8 +1067,14 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 Dim OBS2 As String = ""
                 ' Dim SEQ_ARQUIVO As String = ""
                 Dim SEQUENCIA As String = ""
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQUENCIA, VL_MULTA,VL_MORA FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NM_CEDENTE,NR_BANCO AS COD_BANCO,convert(int,NR_BANCO)NR_BANCO,CNPJ_CPF_CEDENTE,NR_AGENCIA,DG_AGENCIA,NR_CONTA,DG_CONTA,ENDERECO_CEDENTE,CARTEIRA,CD_CEDENTE,CD_TRASMISSAO,NUMERO_END_CEDENTE, BAIRRO_END_CEDENTE, UF_END_CEDENTE, CEP_END_CEDENTE, CIDADE_END_CEDENTE, COMP_END_CEDENTE,OBS1,OBS2,SEQUENCIA, VL_MULTA,VL_MORA, (SELECT NR_NOTA_DEBITO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NR_NOTA_DEBITO FROM TB_CONTA_BANCARIA WHERE ID_CONTA_BANCARIA = " & ddlBanco.SelectedValue)
                 If ds.Tables(0).Rows.Count > 0 Then
+
+                    If IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_DEBITO")) Then
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Fatura sem nota de débito!"
+                        Exit Sub
+                    End If
 
                     'Salvando informaçoes importantes
                     COD_BANCO = ds.Tables(0).Rows(0).Item("COD_BANCO")
@@ -1112,7 +1128,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                 Dim i As Integer = 0
                 ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-(SELECT CONVERT(VARCHAR,B.DT_VENCIMENTO,103) FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL
+(SELECT CONVERT(VARCHAR,B.DT_VENCIMENTO,103) FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL,NR_NOTA_DEBITO
 
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO IN (" & IDs & ")")
@@ -1142,7 +1158,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_FISCAL").ToString() 'i
+                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_DEBITO").ToString() 'i
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
