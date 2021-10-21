@@ -86,7 +86,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Then
                 btnGravar.Enabled = False
                 btnSalvarFrete.Visible = False
                 btnSalvarTaxa.Visible = False
@@ -1057,6 +1057,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     Session("transporte") = ddlServico.SelectedValue
                     Session("ID_CLIENTE") = ddlCliente.SelectedValue
                     Session("ID_STATUS") = ddlStatusCotacao.SelectedValue
+
+                    If ddlStatusCotacao.SelectedValue = 9 And txtProcessoCotacao.Text <> "" Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                    End If
+
                     VerificaEstufagem()
                     VerificaTransporte()
 
@@ -1245,6 +1251,13 @@ WHERE ID_COTACAO = " & txtID.Text)
                 dgvFrete.DataBind()
 
                 AtualizaFreteMercadoria()
+
+                If Session("ID_STATUS") = 9 Then
+                    Dim RotinaUpdate As New RotinaUpdate
+                    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                End If
+
             End If
 
 
@@ -1593,7 +1606,12 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     mpeNovoMercadoria.Show()
                     AtualizaFreteMercadoria()
 
+                    If Session("ID_STATUS") = 9 Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
 
+                    End If
 
                 End If
 
@@ -1645,7 +1663,12 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
                     AtualizaFreteMercadoria()
 
+                    If Session("ID_STATUS") = 9 Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
 
+                    End If
                 End If
 
             End If
@@ -1746,7 +1769,7 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
 
                     'INSERE TAXAS
-                    Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (
+                    Dim dsCotacao As DataSet = Con.ExecutarQuery("INSERT INTO TB_COTACAO_TAXA (
 ID_COTACAO,
 ID_FORNECEDOR,
 ID_ITEM_DESPESA,
@@ -1762,7 +1785,8 @@ VL_TAXA_COMPRA_MIN,
 ID_MOEDA_VENDA,
 VL_TAXA_VENDA,
 VL_TAXA_VENDA_MIN,
-OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & "," & txtObsTaxa.Text & ")")
+OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & "," & txtObsTaxa.Text & ")   Select SCOPE_IDENTITY() as ID_COTACAO_TAXA ")
+                    Dim ID_COTACAO_TAXA = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO_TAXA").ToString()
 
                     'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 1 WHERE ID_FORNECEDOR = (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
                     'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 0 WHERE ID_FORNECEDOR <> (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
@@ -1789,6 +1813,11 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddl
                     Con.Fechar()
                     dgvTaxas.DataBind()
                     divSuccessTaxa.Visible = True
+
+                    If Session("ID_STATUS") = 9 Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
+                    End If
 
                 End If
 
@@ -1841,6 +1870,10 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     Con.Fechar()
                     dgvTaxas.DataBind()
 
+                    If Session("ID_STATUS") = 9 Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
+                    End If
                 End If
 
 

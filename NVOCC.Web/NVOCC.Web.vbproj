@@ -891,6 +891,7 @@
     </Compile>
     <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\EMAIL.vb" />
+    <Compile Include="Helpers\FinalizaCotacao.vb" />
     <Compile Include="Helpers\GeraRemessa.vb" />
     <Compile Include="Helpers\RotinaUpdate.vb" />
     <Compile Include="Helpers\TrataTextbox.vb" />
