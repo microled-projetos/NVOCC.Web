@@ -1481,4 +1481,16 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
     Private Sub ButtonTESTE_Click(sender As Object, e As EventArgs) Handles ButtonTESTE.Click
         ArquivoRemessa()
     End Sub
+
+    Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
+
+    End Sub
+
+    Private Sub btnFecharFatura_Click(sender As Object, e As EventArgs) Handles btnFecharFatura.Click
+
+    End Sub
+
+    Protected Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
+
+    End Sub
 End Class
