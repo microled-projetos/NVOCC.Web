@@ -54,6 +54,7 @@
                                                 <option value="1">Nr Processo</option>
                                                 <option value="2">Cliente</option>
                                                 <option value="3">Fornecedor</option>
+                                                <option value="4">Nº BL Master</option>
                                             </select>
                                         </div>
                                     </div>
@@ -72,6 +73,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
+                                                <th class="text-center" scope="col">NR BL MASTER</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">DATA (REC)</th>
                                                 <th class="text-center" scope="col">CLIENTE (REC)</th>
@@ -137,6 +139,7 @@
                                                 <option value="1">Nr Processo</option>
                                                 <option value="2">Cliente</option>
                                                 <option value="3">Fornecedor</option>
+                                                <option value="4">Nº BL Master</option>
                                             </select>
                                         </div>
                                     </div>
@@ -156,6 +159,7 @@
                                             <tr>
                                                 <th class="text-center" scope="col" id="dtContaPagarReceber"></th>
                                                 <th class="text-center" scope="col">NR PROCESSO</th>
+                                                <th class="text-center" scope="col">NR BL MASTER</th>
                                                 <th class="text-center" scope="col">IMP / EXP</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
                                                 <th class="text-center" scope="col">CLIENTE (REC)</th>
@@ -274,7 +278,7 @@
                         $("#grdPagamentoRecebimentoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
+                                $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_REC"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] +"'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_PAG"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] +"'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
@@ -528,7 +532,7 @@
                         $("#grdEstimativaPagamentoRecebimentoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] + "'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
                                     "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +

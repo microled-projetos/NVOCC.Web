@@ -9,7 +9,7 @@ Public Class FrmPaises
     Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        dgvConsulta.DataSource = Banco.List("SELECT ID_PAIS as ID, COD_PAIS Código, NM_PAIS País FROM TB_PAIS")
+        dgvConsulta.DataSource = Banco.List("SELECT ID_PAIS, COD_PAIS, NM_PAIS FROM TB_PAIS")
         pbCarregando.Visible = False
     End Sub
 
@@ -22,15 +22,6 @@ Public Class FrmPaises
         dgvConsulta.Enabled = Not dgvConsulta.Enabled
         pnControles.Enabled = Not pnControles.Enabled
     End Sub
-
-    'Private Sub btnNovo_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    Dim Tela As Control = Me
-    '    Geral.LimparCampos(Tela)
-    '    Tela = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=True)
-    '    SetaControles()
-    '    txtPais.Focus()
-    'End Sub
 
     Private Sub dgvConsulta_CellClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
 
@@ -48,94 +39,6 @@ Public Class FrmPaises
         End If
     End Sub
 
-    Private Sub btnSalvar_Click(ByVal sender As Object, ByVal e As EventArgs)
-        Dim Ds As DataTable = New DataTable()
-        Dim Tela As Control = Me
-
-        If Not Geral.ValidarCampos(Tela) Then
-            Return
-        End If
-
-        If Operators.CompareString(txtID.Text, String.Empty, TextCompare:=False) = 0 Then
-            Ds = Banco.List("SELECT NM_PAIS FROM [TB_PAIS] where NM_PAIS = '" & txtPais.Text & "'")
-
-            If Ds.Rows.Count > 0 Then
-                MessageBox.Show("Já existe pais cadastrado com este nome", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Else
-                Ds = Banco.List("SELECT COD_PAIS FROM [TB_PAIS] where COD_PAIS = '" & txtCodigoPais.Text & "'")
-
-                If Ds.Rows.Count > 0 Then
-                    MessageBox.Show("Já existe pais cadastrado com este código", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Else
-
-                    Try
-
-                        If Operators.CompareString(txtCodigoPais.Text, String.Empty, TextCompare:=False) = 0 Then
-                            txtCodigoPais.Text = "NULL"
-                        End If
-
-                        If Banco.Execute("INSERT INTO " & Banco.BancoNVOCC & "TB_PAIS (NM_PAIS,COD_PAIS) VALUES ('" + txtPais.Text & "'," + txtCodigoPais.Text & ")") Then
-                            Consultar()
-                            Geral.Mensagens(Me, 1)
-                        Else
-                            Geral.Mensagens(Me, 4)
-                        End If
-
-                    Catch ex3 As Exception
-                        ProjectData.SetProjectError(ex3)
-                        Dim ex2 As Exception = ex3
-                        Geral.Mensagens(Me, 4)
-                        ProjectData.ClearProjectError()
-                    End Try
-                End If
-            End If
-        Else
-            Ds = Banco.List("SELECT NM_PAIS FROM [TB_PAIS] where NM_PAIS = '" & txtPais.Text & "' and ID_PAIS <> " + txtID.Text)
-
-            If Ds.Rows.Count > 0 Then
-                MessageBox.Show("Já existe pais cadastrado com este nome", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Else
-                Ds = Banco.List("SELECT COD_PAIS FROM [TB_PAIS] where COD_PAIS = '" & txtCodigoPais.Text & "' and ID_PAIS <> " + txtID.Text)
-
-                If Ds.Rows.Count > 0 Then
-                    MessageBox.Show("Já existe pais cadastrado com este código", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Else
-
-                    Try
-
-                        If Operators.CompareString(txtCodigoPais.Text, String.Empty, TextCompare:=False) = 0 Then
-                            txtCodigoPais.Text = "NULL"
-                        End If
-
-                        If Banco.Execute("UPDATE " & Banco.BancoNVOCC & "TB_PAIS SET NM_PAIS = '" + txtPais.Text & "',COD_PAIS = " + txtCodigoPais.Text & " WHERE ID_PAIS = " + txtID.Text) Then
-                            Consultar()
-                            BackgroundWorker1.RunWorkerAsync()
-                            Geral.Mensagens(Me, 2)
-                        Else
-                            Geral.Mensagens(Me, 5)
-                        End If
-
-                    Catch ex4 As Exception
-                        ProjectData.SetProjectError(ex4)
-                        Dim ex As Exception = ex4
-                        Geral.Mensagens(Me, 5)
-                        ProjectData.ClearProjectError()
-                    End Try
-                End If
-            End If
-        End If
-
-        SetaControles()
-        Tela = Me
-        Geral.HabilitarCampos(Tela, Habilita:=False)
-    End Sub
-    'Private Sub btnExcluir_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
-    '        Consultar()
-    '        Dim Tela As Control = Me
-    '        Geral.LimparCampos(Tela)
-    '    End If
-    'End Sub
 
     Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
         Me.Close()
@@ -169,37 +72,6 @@ Public Class FrmPaises
         End If
 
     End Sub
-
-    Private Sub btnEditar_Click(ByVal sender As Object, ByVal e As EventArgs)
-        If String.IsNullOrEmpty(txtID.Text) Then
-            MessageBox.Show("Selecione um registro.", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return
-        End If
-
-        SetaControles()
-        Dim Tela As Control = Me
-        Geral.HabilitarCampos(Tela, Habilita:=True)
-        txtPais.Focus()
-    End Sub
-
-    'Private Sub btnCancelar_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    SetaControles()
-    '    Dim Tela As Control = Me
-    '    Geral.LimparCampos(Tela)
-    '    Tela = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=False)
-    'End Sub
-
-
-
-    Private Sub FrmPaises_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
-
-        If e.KeyCode = Keys.Escape Then
-            Me.Close()
-        End If
-
-    End Sub
-
     Private Sub btnPrimeiro_Click(sender As System.Object, e As System.EventArgs) Handles btnPrimeiro.Click
 
         If dgvConsulta.Rows.Count > 0 Then
@@ -257,7 +129,7 @@ Public Class FrmPaises
     End Sub
 
     Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
-        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM " & Banco.BancoNVOCC & "TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
+        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM TB_PAIS WHERE ID_PAIS = " + txtID.Text) Then
             Consultar()
             Dim Tela As Control = Me
             Geral.LimparCampos(Tela)
@@ -279,5 +151,111 @@ Public Class FrmPaises
         Geral.LimparCampos(Tela)
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
+    End Sub
+
+    Private Sub FrmPaises_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub dgvConsulta_CellEnter(sender As Object, e As DataGridViewCellEventArgs) Handles dgvConsulta.CellEnter
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
+        End If
+    End Sub
+
+    Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
+        Dim Ds As DataTable = New DataTable()
+        Dim Tela As Control = Me
+
+        If Not Geral.ValidarCampos(Tela) Then
+            Return
+        End If
+
+        If Operators.CompareString(txtID.Text, String.Empty, TextCompare:=False) = 0 Then
+            Ds = Banco.List("SELECT NM_PAIS FROM [TB_PAIS] where NM_PAIS = '" & txtPais.Text & "'")
+
+            If Ds.Rows.Count > 0 Then
+                MessageBox.Show("Já existe pais cadastrado com este nome", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                Ds = Banco.List("SELECT COD_PAIS FROM [TB_PAIS] where COD_PAIS = '" & txtCodigoPais.Text & "'")
+
+                If Ds.Rows.Count > 0 Then
+                    MessageBox.Show("Já existe pais cadastrado com este código", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+
+                    Try
+
+                        If Operators.CompareString(txtCodigoPais.Text, String.Empty, TextCompare:=False) = 0 Then
+                            txtCodigoPais.Text = "NULL"
+                        End If
+
+                        If Banco.Execute("INSERT INTO TB_PAIS (NM_PAIS,COD_PAIS) VALUES ('" + txtPais.Text & "'," + txtCodigoPais.Text & ")") Then
+                            Consultar()
+                            Geral.Mensagens(Me, 1)
+                        Else
+                            Geral.Mensagens(Me, 4)
+                        End If
+
+                    Catch ex3 As Exception
+                        ProjectData.SetProjectError(ex3)
+                        Dim ex2 As Exception = ex3
+                        Geral.Mensagens(Me, 4)
+                        ProjectData.ClearProjectError()
+                    End Try
+                End If
+            End If
+        Else
+            Ds = Banco.List("SELECT NM_PAIS FROM [TB_PAIS] where NM_PAIS = '" & txtPais.Text & "' and ID_PAIS <> " + txtID.Text)
+
+            If Ds.Rows.Count > 0 Then
+                MessageBox.Show("Já existe pais cadastrado com este nome", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+                Ds = Banco.List("SELECT COD_PAIS FROM [TB_PAIS] where COD_PAIS = '" & txtCodigoPais.Text & "' and ID_PAIS <> " + txtID.Text)
+
+                If Ds.Rows.Count > 0 Then
+                    MessageBox.Show("Já existe pais cadastrado com este código", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Else
+
+                    Try
+
+                        If Operators.CompareString(txtCodigoPais.Text, String.Empty, TextCompare:=False) = 0 Then
+                            txtCodigoPais.Text = "NULL"
+                        End If
+
+                        If Banco.Execute("UPDATE TB_PAIS SET NM_PAIS = '" + txtPais.Text & "',COD_PAIS = " + txtCodigoPais.Text & " WHERE ID_PAIS = " + txtID.Text) Then
+                            Consultar()
+                            BackgroundWorker1.RunWorkerAsync()
+                            Geral.Mensagens(Me, 2)
+                        Else
+                            Geral.Mensagens(Me, 5)
+                        End If
+
+                    Catch ex4 As Exception
+                        ProjectData.SetProjectError(ex4)
+                        Dim ex As Exception = ex4
+                        Geral.Mensagens(Me, 5)
+                        ProjectData.ClearProjectError()
+                    End Try
+                End If
+            End If
+        End If
+
+        SetaControles()
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
+    End Sub
+
+    Private Sub btnEditar_Click(sender As Object, e As EventArgs) Handles btnEditar.Click
+        If String.IsNullOrEmpty(txtID.Text) Then
+            MessageBox.Show("Selecione um registro.", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
+        End If
+
+        SetaControles()
+        Dim Tela As Control = Me
+        Geral.HabilitarCampos(Tela, Habilita:=True)
+        txtPais.Focus()
     End Sub
 End Class

@@ -345,8 +345,8 @@
                     <div class="col-md-12 col-lg-12">
                         <div id="tracking-pre"></div>
                         <div id="tracking">
-                            <div class="text-center tracking-status-intransit">
-                                <p class="tracking-status text-tight">historico</p>
+                            <div class="text-center tracking-status-intransit" style="background: #d5dce6 !important">
+                                <p class="tracking-status text-tight" style="color:#003663 !important">historico</p>
                             </div>
                             <div id="trakinglist" runat="server" class="tracking-list">
                             </div>

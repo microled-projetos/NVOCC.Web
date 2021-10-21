@@ -23,6 +23,15 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents lblTipoModulo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblHouse_Titulo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblHouse_Titulo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle lkProximo.
     '''</summary>
     '''<remarks>

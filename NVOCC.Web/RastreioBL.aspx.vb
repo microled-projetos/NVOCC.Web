@@ -1,9 +1,14 @@
 ﻿Imports Newtonsoft.Json
-
 Public Class RastreioBL
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        ' Dim teste As New RastreioService
+        'Try
+        '    teste.PostAsyncBl(Session("NR_BL"), "", "", "")
+        'Catch ex As Exception
+        '    Dim X As String = ex.Message
+        'End Try
         nr_bl.Text = Session("NR_BL")
         Dim data = DeserializarNewtonsoft()
 

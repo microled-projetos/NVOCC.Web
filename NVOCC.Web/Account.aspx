@@ -393,7 +393,7 @@
                                         <div class="col-sm-5">
                                     <div class="form-group">
                                            <label class="control-label">Número Invoice:</label><label runat="server" style="color: red">*</label>
-                                                <asp:TextBox ID="txtNumeroInvoice" runat="server"  CssClass="form-control"></asp:TextBox>
+                                                <asp:TextBox ID="txtNumeroInvoice" runat="server"  CssClass="form-control" MaxLength="40"></asp:TextBox>
 
                                     </div>
                                         </div>

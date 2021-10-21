@@ -45,7 +45,7 @@
         Con.Conectar()
 
         Dim ds0 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
-WHERE  ID_DESTINATARIO_COBRANCA<>3 and (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
+WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 AND ID_DESTINATARIO_COBRANCA <> 3")
         If ds0.Tables(0).Rows(0).Item("QTD") > 0 Then
             ddlFornecedor.Enabled = False
             lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
@@ -332,7 +332,7 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
 
 
                 dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
                 dgvTaxas.DataBind()
 
 
@@ -365,6 +365,10 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             divErro.Visible = True
             Exit Sub
 
+        ElseIf txtValor.Text = 0 Then
+            lblErro.Text = "Não é possivel completar a ação: o valor não pode se zerado!"
+            divErro.Visible = True
+            Exit Sub
         Else
             If lblDiasFaturamento.Text = "" Then
                 lblDiasFaturamento.Text = 0
@@ -376,6 +380,9 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             Dim ISS_final As String = Session("VL_ALIQUOTA_ISS")
             ISS_final = ISS_final.Replace(".", "")
             ISS_final = ISS_final.Replace(",", ".")
+
+            VerificaTaxas()
+
 
             ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R',(SELECT ID_TIPO_FATURAMENTO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & Session("FORNECEDOR") & ")," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
@@ -474,6 +481,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             ddlFornecedor.SelectedValue = 0
             dgvTaxas.DataBind()
             mpeND.Show()
+            ' Dim finaliza As New FinalizaCotacao
+            ' finaliza.Finalizar()
         End If
 
 
@@ -484,20 +493,21 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         VerificaTaxas()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
-                WHERE   ID_DESTINATARIO_COBRANCA<>3 and  (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
-        If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
-
+        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_PROCESSO,NM_ITEM_DESPESA FROM [dbo].[View_BL_TAXAS]
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 AND ID_DESTINATARIO_COBRANCA <> 3")
+        If ds1.Tables(0).Rows.Count > 0 Then
             divErro.Visible = True
             lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
             ddlFornecedor.Enabled = False
-        Else
-            divErro.Visible = False
+            For Each linha As DataRow In ds1.Tables(0).Rows
+                lblErro.Text &= "<br/>PROCESSO: " & linha.Item("NR_PROCESSO").ToString() & " - TAXA: " & linha.Item("NM_ITEM_DESPESA").ToString()
+            Next
         End If
         Con.Fechar()
 
     End Sub
     Sub VerificaTaxas()
+        btnCalcularRecebimento.Enabled = True
         divErro.Visible = False
         divSuccess.Visible = False
 
@@ -509,6 +519,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
+            Dim Valor_Calculado As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor As Decimal = CType(linha.FindControl("lblValorBR"), Label).Text
             Dim valor2 As Decimal = txtValor.Text
 
@@ -524,6 +535,18 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                     Exit Sub
 
 
+                End If
+
+                If Valor_Calculado = 0 Then
+                    lblErro.Text = "O PROCESSO NECESSITA DE CÁLCULO"
+                    divErro.Visible = True
+                    check.Checked = False
+                    check.Enabled = False
+                    Exit Sub
+                End If
+
+                If valor = 0 Then
+                    btnCalcularRecebimento.Enabled = False
                 End If
 
             End If
@@ -601,29 +624,42 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
 
                             If MoedaFrete = moeda Then
                                 ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
-                                If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                                    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                        ValorCambio = ValorCambio + spread
+
+                                If ValorCambio = 0 Then
+                                    lblErro.Text = "Informe o valor de câmbio!"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+
+
+
+
+
+                                    If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                                        If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
+                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                            ValorCambio = ValorCambio + spread
+                                        End If
+
                                     End If
+                                    Dim valorCambioFinal As String = ValorCambio
+                                    valorCambioFinal = valorCambioFinal.Replace(".", "")
+                                    valorCambioFinal = valorCambioFinal.Replace(",", ".")
+
+
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
+
+
+                                    'Dim dsOperador As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue)
+                                    'Dim OPERADOR As String = "+"
+                                    'If dsOperador.Tables(0).Rows(0).Item("ID_TIPO_ITEM_DESPESA") = 3 Then
+                                    '    OPERADOR = "-"
+                                    'Else
+                                    '    OPERADOR = "+"
+                                    'End If
+                                    'Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
 
                                 End If
-                                Dim valorCambioFinal As String = ValorCambio
-                                valorCambioFinal = valorCambioFinal.Replace(".", "")
-                                valorCambioFinal = valorCambioFinal.Replace(",", ".")
-
-
-                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
-
-
-                                'Dim dsOperador As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_ITEM_DESPESA,0)ID_TIPO_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue)
-                                'Dim OPERADOR As String = "+"
-                                'If dsOperador.Tables(0).Rows(0).Item("ID_TIPO_ITEM_DESPESA") = 3 Then
-                                '    OPERADOR = "-"
-                                'Else
-                                '    OPERADOR = "+"
-                                'End If
-                                'Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
                             End If
 
                         Next
@@ -636,26 +672,34 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
 
                             If MoedaFrete = moeda Then
                                 ValorCambio = CType(linhaMoedas.FindControl("txtValorCambio"), TextBox).Text
-                                If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                                    If lblAcordo.Text = "CAMBIO PTAX + SPREAD" Then
-                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                        ValorCambio = ValorCambio + spread
-                                    End If
 
-                                    If lblAcordo.Text = "TAXA ABERTURA PTAX + SPREAD" Then
-                                        ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
-                                        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                                        ValorCambio = ValorCambio + spread
+                                If ValorCambio = 0 Then
+                                    lblErro.Text = "Informe o valor de câmbio!"
+                                    divErro.Visible = True
+                                    Exit Sub
+                                Else
+                                    If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                                        If lblAcordo.Text = "CAMBIO PTAX + SPREAD" Then
+                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                            ValorCambio = ValorCambio + spread
+                                        End If
+
+                                        If lblAcordo.Text = "TAXA ABERTURA PTAX + SPREAD" Then
+                                            ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
+                                            Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                                            ValorCambio = ValorCambio + spread
+                                        End If
+                                        If lblAcordo.Text = "TAXA ABERTURA PTAX" Then
+                                            ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
+                                        End If
                                     End If
-                                    If lblAcordo.Text = "TAXA ABERTURA PTAX" Then
-                                        ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
-                                    End If
+                                    Dim valorCambioFinal As String = ValorCambio
+                                    valorCambioFinal = valorCambioFinal.Replace(".", "")
+                                    valorCambioFinal = valorCambioFinal.Replace(",", ".")
+
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
                                 End If
-                                Dim valorCambioFinal As String = ValorCambio
-                                valorCambioFinal = valorCambioFinal.Replace(".", "")
-                                valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-                                Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & valorCambioFinal & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & valorCambioFinal & " WHERE ID_BL_TAXA =" & ID)
                             End If
 
                         Next

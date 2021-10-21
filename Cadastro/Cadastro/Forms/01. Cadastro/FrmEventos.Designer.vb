@@ -24,7 +24,7 @@ Partial Class FrmEventos
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEventos))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
@@ -34,21 +34,24 @@ Partial Class FrmEventos
         Me.btnSair = New System.Windows.Forms.Button()
         Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.pnControles = New System.Windows.Forms.Panel()
-        Me.btnFiltro = New System.Windows.Forms.Button()
         Me.btnUltimo = New System.Windows.Forms.Button()
         Me.btnProximo = New System.Windows.Forms.Button()
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colSufixo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtSufixo = New System.Windows.Forms.TextBox()
+        Me.txtSequencia = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtDescricao = New System.Windows.Forms.TextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.cbTransporte = New System.Windows.Forms.ComboBox()
+        Me.chkAtivo = New System.Windows.Forms.CheckBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtDias = New System.Windows.Forms.TextBox()
+        Me.txtHoras = New System.Windows.Forms.TextBox()
         Me.Panel2.SuspendLayout()
         Me.pnControles.SuspendLayout()
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -71,14 +74,14 @@ Partial Class FrmEventos
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(621, 430)
+        Me.Panel2.Size = New System.Drawing.Size(964, 595)
         Me.Panel2.TabIndex = 13
         '
         'btnCancelar
         '
         Me.btnCancelar.Enabled = False
         Me.btnCancelar.Image = CType(resources.GetObject("btnCancelar.Image"), System.Drawing.Image)
-        Me.btnCancelar.Location = New System.Drawing.Point(328, 381)
+        Me.btnCancelar.Location = New System.Drawing.Point(336, 535)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(84, 34)
         Me.btnCancelar.TabIndex = 68
@@ -91,7 +94,7 @@ Partial Class FrmEventos
         'btnNovo
         '
         Me.btnNovo.Image = CType(resources.GetObject("btnNovo.Image"), System.Drawing.Image)
-        Me.btnNovo.Location = New System.Drawing.Point(14, 381)
+        Me.btnNovo.Location = New System.Drawing.Point(22, 535)
         Me.btnNovo.Name = "btnNovo"
         Me.btnNovo.Size = New System.Drawing.Size(79, 34)
         Me.btnNovo.TabIndex = 67
@@ -105,7 +108,7 @@ Partial Class FrmEventos
         'btnExcluir
         '
         Me.btnExcluir.Image = CType(resources.GetObject("btnExcluir.Image"), System.Drawing.Image)
-        Me.btnExcluir.Location = New System.Drawing.Point(171, 381)
+        Me.btnExcluir.Location = New System.Drawing.Point(179, 535)
         Me.btnExcluir.Name = "btnExcluir"
         Me.btnExcluir.Size = New System.Drawing.Size(79, 34)
         Me.btnExcluir.TabIndex = 66
@@ -120,7 +123,7 @@ Partial Class FrmEventos
         '
         Me.btnSalvar.Enabled = False
         Me.btnSalvar.Image = CType(resources.GetObject("btnSalvar.Image"), System.Drawing.Image)
-        Me.btnSalvar.Location = New System.Drawing.Point(250, 381)
+        Me.btnSalvar.Location = New System.Drawing.Point(258, 535)
         Me.btnSalvar.Name = "btnSalvar"
         Me.btnSalvar.Size = New System.Drawing.Size(79, 34)
         Me.btnSalvar.TabIndex = 65
@@ -134,7 +137,7 @@ Partial Class FrmEventos
         'btnEditar
         '
         Me.btnEditar.Image = CType(resources.GetObject("btnEditar.Image"), System.Drawing.Image)
-        Me.btnEditar.Location = New System.Drawing.Point(92, 381)
+        Me.btnEditar.Location = New System.Drawing.Point(100, 535)
         Me.btnEditar.Name = "btnEditar"
         Me.btnEditar.Size = New System.Drawing.Size(79, 34)
         Me.btnEditar.TabIndex = 64
@@ -147,7 +150,7 @@ Partial Class FrmEventos
         'btnSair
         '
         Me.btnSair.Image = CType(resources.GetObject("btnSair.Image"), System.Drawing.Image)
-        Me.btnSair.Location = New System.Drawing.Point(487, 381)
+        Me.btnSair.Location = New System.Drawing.Point(822, 535)
         Me.btnSair.Name = "btnSair"
         Me.btnSair.Size = New System.Drawing.Size(117, 34)
         Me.btnSair.TabIndex = 62
@@ -160,9 +163,9 @@ Partial Class FrmEventos
         'txtCodigo
         '
         Me.txtCodigo.Enabled = False
-        Me.txtCodigo.Location = New System.Drawing.Point(430, 388)
+        Me.txtCodigo.Location = New System.Drawing.Point(438, 542)
         Me.txtCodigo.Name = "txtCodigo"
-        Me.txtCodigo.Size = New System.Drawing.Size(78, 27)
+        Me.txtCodigo.Size = New System.Drawing.Size(78, 23)
         Me.txtCodigo.TabIndex = 63
         Me.txtCodigo.Visible = False
         '
@@ -170,29 +173,14 @@ Partial Class FrmEventos
         '
         Me.pnControles.BackColor = System.Drawing.SystemColors.Control
         Me.pnControles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnControles.Controls.Add(Me.btnFiltro)
         Me.pnControles.Controls.Add(Me.btnUltimo)
         Me.pnControles.Controls.Add(Me.btnProximo)
         Me.pnControles.Controls.Add(Me.btnAnterior)
         Me.pnControles.Controls.Add(Me.btnPrimeiro)
-        Me.pnControles.Location = New System.Drawing.Point(16, 110)
+        Me.pnControles.Location = New System.Drawing.Point(22, 210)
         Me.pnControles.Name = "pnControles"
-        Me.pnControles.Size = New System.Drawing.Size(588, 22)
+        Me.pnControles.Size = New System.Drawing.Size(915, 22)
         Me.pnControles.TabIndex = 11
-        '
-        'btnFiltro
-        '
-        Me.btnFiltro.FlatAppearance.BorderSize = 0
-        Me.btnFiltro.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnFiltro.Image = CType(resources.GetObject("btnFiltro.Image"), System.Drawing.Image)
-        Me.btnFiltro.Location = New System.Drawing.Point(470, -2)
-        Me.btnFiltro.Name = "btnFiltro"
-        Me.btnFiltro.Size = New System.Drawing.Size(29, 25)
-        Me.btnFiltro.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.btnFiltro, "Filtrar os registros da Tabela")
-        Me.btnFiltro.UseVisualStyleBackColor = True
         '
         'btnUltimo
         '
@@ -201,7 +189,7 @@ Partial Class FrmEventos
         Me.btnUltimo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnUltimo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnUltimo.Image = CType(resources.GetObject("btnUltimo.Image"), System.Drawing.Image)
-        Me.btnUltimo.Location = New System.Drawing.Point(556, -2)
+        Me.btnUltimo.Location = New System.Drawing.Point(872, -4)
         Me.btnUltimo.Name = "btnUltimo"
         Me.btnUltimo.Size = New System.Drawing.Size(29, 25)
         Me.btnUltimo.TabIndex = 3
@@ -215,7 +203,7 @@ Partial Class FrmEventos
         Me.btnProximo.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnProximo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnProximo.Image = CType(resources.GetObject("btnProximo.Image"), System.Drawing.Image)
-        Me.btnProximo.Location = New System.Drawing.Point(538, -2)
+        Me.btnProximo.Location = New System.Drawing.Point(854, -4)
         Me.btnProximo.Name = "btnProximo"
         Me.btnProximo.Size = New System.Drawing.Size(29, 25)
         Me.btnProximo.TabIndex = 2
@@ -229,7 +217,7 @@ Partial Class FrmEventos
         Me.btnAnterior.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnAnterior.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnAnterior.Image = CType(resources.GetObject("btnAnterior.Image"), System.Drawing.Image)
-        Me.btnAnterior.Location = New System.Drawing.Point(520, -2)
+        Me.btnAnterior.Location = New System.Drawing.Point(836, -4)
         Me.btnAnterior.Name = "btnAnterior"
         Me.btnAnterior.Size = New System.Drawing.Size(29, 25)
         Me.btnAnterior.TabIndex = 1
@@ -243,7 +231,7 @@ Partial Class FrmEventos
         Me.btnPrimeiro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
         Me.btnPrimeiro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnPrimeiro.Image = CType(resources.GetObject("btnPrimeiro.Image"), System.Drawing.Image)
-        Me.btnPrimeiro.Location = New System.Drawing.Point(500, -2)
+        Me.btnPrimeiro.Location = New System.Drawing.Point(816, -4)
         Me.btnPrimeiro.Name = "btnPrimeiro"
         Me.btnPrimeiro.Size = New System.Drawing.Size(29, 25)
         Me.btnPrimeiro.TabIndex = 0
@@ -254,52 +242,35 @@ Partial Class FrmEventos
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colSufixo})
-        Me.dgvConsulta.Location = New System.Drawing.Point(16, 141)
+        Me.dgvConsulta.Location = New System.Drawing.Point(22, 241)
         Me.dgvConsulta.Name = "dgvConsulta"
         Me.dgvConsulta.ReadOnly = True
         Me.dgvConsulta.RowHeadersWidth = 24
         Me.dgvConsulta.RowTemplate.Height = 18
         Me.dgvConsulta.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvConsulta.Size = New System.Drawing.Size(588, 224)
+        Me.dgvConsulta.Size = New System.Drawing.Size(915, 274)
         Me.dgvConsulta.TabIndex = 1
-        '
-        'colCodigo
-        '
-        Me.colCodigo.DataPropertyName = "AUTONUM"
-        Me.colCodigo.HeaderText = "Código"
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        Me.colCodigo.Width = 60
-        '
-        'colDescricao
-        '
-        Me.colDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.colDescricao.DataPropertyName = "DESCR"
-        Me.colDescricao.HeaderText = "Descrição"
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
-        '
-        'colSufixo
-        '
-        Me.colSufixo.DataPropertyName = "SUFIXO"
-        Me.colSufixo.HeaderText = "Sufixo"
-        Me.colSufixo.Name = "colSufixo"
-        Me.colSufixo.ReadOnly = True
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtHoras)
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.txtDias)
+        Me.GroupBox1.Controls.Add(Me.Label5)
+        Me.GroupBox1.Controls.Add(Me.cbTransporte)
+        Me.GroupBox1.Controls.Add(Me.chkAtivo)
+        Me.GroupBox1.Controls.Add(Me.Label4)
         Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.txtSufixo)
+        Me.GroupBox1.Controls.Add(Me.txtSequencia)
         Me.GroupBox1.Controls.Add(Me.Label3)
         Me.GroupBox1.Controls.Add(Me.txtDescricao)
-        Me.GroupBox1.Location = New System.Drawing.Point(16, 9)
+        Me.GroupBox1.Location = New System.Drawing.Point(16, 27)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(588, 93)
+        Me.GroupBox1.Size = New System.Drawing.Size(923, 154)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detalhes:"
@@ -307,29 +278,29 @@ Partial Class FrmEventos
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(466, 30)
+        Me.Label1.Location = New System.Drawing.Point(660, 30)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(143, 19)
+        Me.Label1.Size = New System.Drawing.Size(72, 16)
         Me.Label1.TabIndex = 5
-        Me.Label1.Text = "Sufixo do Arquivo:"
+        Me.Label1.Text = "Sequência:"
         '
-        'txtSufixo
+        'txtSequencia
         '
-        Me.txtSufixo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtSufixo.Enabled = False
-        Me.txtSufixo.Location = New System.Drawing.Point(469, 48)
-        Me.txtSufixo.MaxLength = 3
-        Me.txtSufixo.Name = "txtSufixo"
-        Me.txtSufixo.Size = New System.Drawing.Size(98, 27)
-        Me.txtSufixo.TabIndex = 1
-        Me.txtSufixo.Tag = ""
+        Me.txtSequencia.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtSequencia.Enabled = False
+        Me.txtSequencia.Location = New System.Drawing.Point(663, 48)
+        Me.txtSequencia.MaxLength = 3
+        Me.txtSequencia.Name = "txtSequencia"
+        Me.txtSequencia.Size = New System.Drawing.Size(156, 23)
+        Me.txtSequencia.TabIndex = 1
+        Me.txtSequencia.Tag = ""
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(18, 30)
+        Me.Label3.Location = New System.Drawing.Point(3, 30)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(82, 19)
+        Me.Label3.Size = New System.Drawing.Size(68, 16)
         Me.Label3.TabIndex = 3
         Me.Label3.Text = "Descrição:"
         '
@@ -337,23 +308,99 @@ Partial Class FrmEventos
         '
         Me.txtDescricao.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtDescricao.Enabled = False
-        Me.txtDescricao.Location = New System.Drawing.Point(21, 48)
+        Me.txtDescricao.Location = New System.Drawing.Point(6, 48)
         Me.txtDescricao.MaxLength = 50
         Me.txtDescricao.Name = "txtDescricao"
-        Me.txtDescricao.Size = New System.Drawing.Size(440, 27)
+        Me.txtDescricao.Size = New System.Drawing.Size(612, 23)
         Me.txtDescricao.TabIndex = 0
         Me.txtDescricao.Tag = "requerido"
         '
         'ToolTip1
         '
         '
+        'Label5
+        '
+        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 90)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(76, 16)
+        Me.Label5.TabIndex = 17
+        Me.Label5.Text = "Transporte:"
+        '
+        'cbTransporte
+        '
+        Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
+        Me.cbTransporte.Enabled = False
+        Me.cbTransporte.FormattingEnabled = True
+        Me.cbTransporte.Location = New System.Drawing.Point(9, 109)
+        Me.cbTransporte.Name = "cbTransporte"
+        Me.cbTransporte.Size = New System.Drawing.Size(323, 24)
+        Me.cbTransporte.TabIndex = 16
+        Me.cbTransporte.Tag = "requerido"
+        Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
+        '
+        'chkAtivo
+        '
+        Me.chkAtivo.AutoSize = True
+        Me.chkAtivo.Location = New System.Drawing.Point(663, 112)
+        Me.chkAtivo.Name = "chkAtivo"
+        Me.chkAtivo.Size = New System.Drawing.Size(55, 20)
+        Me.chkAtivo.TabIndex = 15
+        Me.chkAtivo.Text = "Ativo"
+        Me.chkAtivo.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(345, 90)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(91, 16)
+        Me.Label4.TabIndex = 14
+        Me.Label4.Text = "Prazo (horas):"
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(496, 90)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(78, 16)
+        Me.Label2.TabIndex = 19
+        Me.Label2.Text = "Prazo(dias):"
+        '
+        'txtDias
+        '
+        Me.txtDias.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtDias.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtDias.Enabled = False
+        Me.txtDias.Location = New System.Drawing.Point(498, 109)
+        Me.txtDias.MaxLength = 3
+        Me.txtDias.Name = "txtDias"
+        Me.txtDias.Size = New System.Drawing.Size(120, 23)
+        Me.txtDias.TabIndex = 18
+        Me.txtDias.Tag = "requerido"
+        '
+        'txtHoras
+        '
+        Me.txtHoras.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtHoras.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtHoras.Enabled = False
+        Me.txtHoras.Location = New System.Drawing.Point(348, 110)
+        Me.txtHoras.MaxLength = 3
+        Me.txtHoras.Name = "txtHoras"
+        Me.txtHoras.Size = New System.Drawing.Size(120, 23)
+        Me.txtHoras.TabIndex = 20
+        Me.txtHoras.Tag = "requerido"
+        '
         'FrmEventos
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 19.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.WhiteSmoke
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ClientSize = New System.Drawing.Size(621, 430)
+        Me.ClientSize = New System.Drawing.Size(964, 595)
         Me.Controls.Add(Me.Panel2)
         Me.Font = New System.Drawing.Font("Tahoma", 9.5!)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -381,7 +428,6 @@ Partial Class FrmEventos
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtDescricao As System.Windows.Forms.TextBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-    Friend WithEvents btnFiltro As System.Windows.Forms.Button
     Friend WithEvents btnCancelar As System.Windows.Forms.Button
     Friend WithEvents btnNovo As System.Windows.Forms.Button
     Friend WithEvents btnExcluir As System.Windows.Forms.Button
@@ -390,9 +436,12 @@ Partial Class FrmEventos
     Friend WithEvents btnSair As System.Windows.Forms.Button
     Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents txtSufixo As System.Windows.Forms.TextBox
-    Friend WithEvents colCodigo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colSufixo As System.Windows.Forms.DataGridViewTextBoxColumn
-
+    Friend WithEvents txtSequencia As System.Windows.Forms.TextBox
+    Friend WithEvents txtHoras As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents txtDias As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents cbTransporte As ComboBox
+    Friend WithEvents chkAtivo As CheckBox
+    Friend WithEvents Label4 As Label
 End Class

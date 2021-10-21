@@ -1,11 +1,14 @@
-﻿Imports DgvFilterPopup
+﻿Imports System
+Imports System.Data
+Imports System.Windows.Forms
+Imports Microsoft.VisualBasic.CompilerServices
+
 Public Class FrmTiposConteiner
 
     Private Coluna As Integer
-    Dim Filtro As DgvFilterManager
 
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT CODE,DESCR + ' (' + CODIGO + ')' DESCR,TARA_MIN_20,TARA_MIN_40,TARA_MAX_20,TARA_MAX_40,CASE WHEN FLAG_TEMPERATURA = 1 THEN 'SIM' ELSE 'NÃO' END FLAG_TEMPERATURA,CASE WHEN FLAG_EXCESSO = 1 THEN 'SIM' ELSE 'NÃO' END FLAG_EXCESSO,CODIGO FROM " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER")
+        Me.dgvConsulta.DataSource = Banco.List("SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER ,ISO,MAXGROSS,TEU,TAMANHO_CONTAINER,FL_ATIVO FROM TB_TIPO_CONTAINER")
     End Sub
 
     Private Sub SetaControles()
@@ -18,26 +21,14 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub FrmPrincipal_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
+    Private Sub dgvConsulta_CellEnter(ByVal sender As Object, ByVal e As DataGridViewCellEventArgs)
+        If dgvConsulta.Rows.Count > 0 Then
+            MostraDados()
 
-        If Not Filtro Is Nothing Then
-            Filtro.ActivateAllFilters(False)
+            If Convert.ToInt32(e.ColumnIndex) >= 0 Then
+                Coluna = dgvConsulta.Columns(e.ColumnIndex).Index
+            End If
         End If
-
-        Consultar()
-
-        If Me.dgvConsulta.Rows.Count > 0 Then
-            Filtro = New DgvFilterManager(Me.dgvConsulta)
-            LoadFilters(Filtro)
-        End If
-
-        FundoTextBox(Me)
-
-        CampoNumerico(Me.txtMin20)
-        CampoNumerico(Me.txtMin40)
-        CampoNumerico(Me.txtMax20)
-        CampoNumerico(Me.txtMax40)
-
     End Sub
 
     Private Sub dgvConsulta_CellClick(sender As System.Object, e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvConsulta.CellClick
@@ -50,55 +41,103 @@ Public Class FrmTiposConteiner
     End Sub
 
     Private Sub MostraDados()
-
-        If Me.dgvConsulta.Rows.Count > 0 Then
-            Me.txtCodigo.Text = Me.dgvConsulta.CurrentRow.Cells(0).Value.ToString()
-            Me.txtDescricao.Text = Me.dgvConsulta.CurrentRow.Cells(1).Value.ToString()
-            Me.txtMin20.Text = Me.dgvConsulta.CurrentRow.Cells(2).Value.ToString()
-            Me.txtMin40.Text = Me.dgvConsulta.CurrentRow.Cells(3).Value.ToString()
-            Me.txtMax20.Text = Me.dgvConsulta.CurrentRow.Cells(4).Value.ToString()
-            Me.txtMax40.Text = Me.dgvConsulta.CurrentRow.Cells(5).Value.ToString()
-            Me.chkTemp.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(6).Value.ToString() = "SIM", True, False)
-            Me.chkExcesso.Checked = IIf(Me.dgvConsulta.CurrentRow.Cells(7).Value.ToString() = "SIM", True, False)
-            Me.txtCodigoDescr.Text = Me.dgvConsulta.CurrentRow.Cells(8).Value.ToString()
+        If dgvConsulta.Rows.Count > 0 Then
+            txtID.Text = dgvConsulta.CurrentRow.Cells(0).Value.ToString()
+            txtDescricao.Text = dgvConsulta.CurrentRow.Cells(1).Value.ToString()
+            txtISO.Text = dgvConsulta.CurrentRow.Cells(2).Value.ToString()
+            txtMaxGross.Text = dgvConsulta.CurrentRow.Cells(3).Value.ToString()
+            txtTEU.Text = dgvConsulta.CurrentRow.Cells(4).Value.ToString()
+            txtTamanho.Text = dgvConsulta.CurrentRow.Cells(5).Value.ToString()
+            chkAtivo.Checked = Conversions.ToBoolean(dgvConsulta.CurrentRow.Cells(6).Value.ToString())
         End If
-
     End Sub
 
     Private Sub btnSalvar_Click(sender As System.Object, e As System.EventArgs) Handles btnSalvar.Click
+        Dim Ds As DataTable = New DataTable()
+        Dim Tela As Control = Me
 
-        If ValidarCampos(Me) = False Then
-            Exit Sub
+        If Not Geral.ValidarCampos(Tela) Then
+            Return
         End If
 
-        If txtCodigo.Text = String.Empty Then
-            Try
-                Dim Codigo As String = Banco.ExecuteScalar("SELECT MAX(CAST(CODE AS NUMERIC))+1 FROM " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER")
-                If Banco.Execute("INSERT INTO " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER (CODE, DESCR, CODIGO, FLAG_TEMPERATURA, FLAG_EXCESSO, TARA_MIN_20, TARA_MIN_40, TARA_MAX_20, TARA_MAX_40) VALUES (" & Codigo & ",'" & Me.txtDescricao.Text & "','" & Me.txtCodigoDescr.Text & "'," & Me.chkTemp.CheckState & "," & chkExcesso.CheckState & "," & Val(Me.txtMin20.Text) & "," & Val(Me.txtMin40.Text) & "," & Val(Me.txtMax20.Text) & "," & Val(Me.txtMax40.Text) & ")") Then
-                    Consultar()
-                    Mensagens(Me, 1)
-                Else
-                    Mensagens(Me, 4)
-                End If
-            Catch ex As Exception
-                Mensagens(Me, 5)
-            End Try
+        If Operators.CompareString(txtID.Text, String.Empty, TextCompare:=False) = 0 Then
+            Ds = Banco.List("SELECT ID_TIPO_CONTAINER FROM [TB_TIPO_CONTAINER] where NM_TIPO_CONTAINER = '" & txtDescricao.Text & "' and TEU = '" + txtTEU.Text & "' and TAMANHO_CONTAINER = " + txtTamanho.Text)
+
+            If Ds.Rows.Count > 0 Then
+                MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+
+                Try
+                    txtMaxGross.Text = txtMaxGross.Text.Replace(",", ".")
+                    txtTEU.Text = txtTEU.Text.Replace(",", ".")
+
+                    If Operators.CompareString(txtMaxGross.Text, "", TextCompare:=False) = 0 Then
+                        txtMaxGross.Text = " NULL "
+                    Else
+                        txtMaxGross.Text = "'" & txtMaxGross.Text & "'"
+                    End If
+
+                    If Operators.CompareString(txtISO.Text, "", TextCompare:=False) = 0 Then
+                        txtISO.Text = " NULL "
+                    Else
+                        txtISO.Text = "'" & txtISO.Text & "'"
+                    End If
+
+                    If Banco.Execute("INSERT INTO TB_TIPO_CONTAINER (NM_TIPO_CONTAINER,ISO,MAXGROSS,TEU,TAMANHO_CONTAINER,FL_ATIVO) VALUES ('" + txtDescricao.Text & "'," + txtISO.Text & "," + txtMaxGross.Text & ",'" + txtTEU.Text & "'," + txtTamanho.Text & "," + Conversions.ToString(CInt(chkAtivo.CheckState)) & ")") Then
+                        Consultar()
+                        Geral.Mensagens(Me, 1)
+                    Else
+                        Geral.Mensagens(Me, 4)
+                    End If
+
+                Catch ex3 As Exception
+                    ProjectData.SetProjectError(ex3)
+                    Dim ex2 As Exception = ex3
+                    Geral.Mensagens(Me, 5)
+                    ProjectData.ClearProjectError()
+                End Try
+            End If
         Else
+
             Try
-                If Banco.Execute("UPDATE " & Banco.BancoSGIPA & "DTE_TB_TIPOS_CONTEINER SET TARA_MIN_20 = " & txtMin20.Text & ", TARA_MIN_40 = " & txtMin40.Text & ", TARA_MAX_20 = '" & txtMax20.Text & "', TARA_MAX_40 = '" & txtMax40.Text & "',flag_excesso=" & chkExcesso.CheckState & ",flag_temperatura=" & chkTemp.CheckState & " WHERE CODE = " & txtCodigo.Text & "") Then
-                    Consultar()
-                    Mensagens(Me, 2)
+                Ds = Banco.List("SELECT ID_TIPO_CONTAINER FROM [TB_TIPO_CONTAINER] where NM_TIPO_CONTAINER = '" & txtDescricao.Text & "' and TEU = '" + txtTEU.Text & "' and TAMANHO_CONTAINER = " + txtTamanho.Text & " and FL_ATIVO = 1 AND ID_TIPO_CONTAINER <> " + txtID.Text)
+
+                If Ds.Rows.Count > 0 Then
+                    MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
-                    Mensagens(Me, 5)
+                    txtMaxGross.Text = txtMaxGross.Text.Replace(",", ".")
+                    txtTEU.Text = txtTEU.Text.Replace(",", ".")
+                    If Operators.CompareString(txtMaxGross.Text, "", TextCompare:=False) = 0 Then
+                        txtMaxGross.Text = " NULL "
+                    Else
+                        txtMaxGross.Text = "'" & txtMaxGross.Text & "'"
+                    End If
+
+                    If Operators.CompareString(txtISO.Text, "", TextCompare:=False) = 0 Then
+                        txtISO.Text = " NULL "
+                    Else
+                        txtISO.Text = "'" & txtISO.Text & "'"
+                    End If
+
+                    If Banco.Execute(If(("UPDATE TB_TIPO_CONTAINER SET NM_TIPO_CONTAINER = '" + txtDescricao.Text & "', ISO = " + txtISO.Text & ", MAXGROSS = " + txtMaxGross.Text & ", TEU = '" + txtTEU.Text & "',TAMANHO_CONTAINER=" + txtTamanho.Text & ",FL_ATIVO=" + Conversions.ToString(CInt(chkAtivo.CheckState)) & " WHERE ID_TIPO_CONTAINER = " + txtID.Text), "")) Then
+                        Consultar()
+                        Geral.Mensagens(Me, 2)
+                    Else
+                        Geral.Mensagens(Me, 5)
+                    End If
                 End If
-            Catch ex As Exception
-                Mensagens(Me, 5)
+
+            Catch ex4 As Exception
+                ProjectData.SetProjectError(ex4)
+                Dim ex As Exception = ex4
+                Geral.Mensagens(Me, 5)
+                ProjectData.ClearProjectError()
             End Try
         End If
-
+        LimparCampos(Me)
         SetaControles()
-        HabilitarCampos(Me, False)
-
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
 
     Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
@@ -144,23 +183,15 @@ Public Class FrmTiposConteiner
     End Sub
 
     Private Sub btnEditar_Click(sender As System.Object, e As System.EventArgs) Handles btnEditar.Click
-
-        If String.IsNullOrEmpty(txtCodigo.Text) Then
-            MessageBox.Show("Selecione um registro.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Exit Sub
+        If String.IsNullOrEmpty(txtID.Text) Then
+            MessageBox.Show("Selecione um registro.", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Return
         End If
 
         SetaControles()
-        HabilitarCampos(Me, True)
-        txtDescricao.Enabled = False
-        txtCodigoDescr.Enabled = False
-
-    End Sub
-
-    Private Sub btnFiltro_Click(sender As System.Object, e As System.EventArgs) Handles btnFiltro.Click
-        If dgvConsulta.Rows.Count > 0 Then
-            Filtro.ShowPopup(Me.dgvConsulta.CurrentCell.ColumnIndex)
-        End If
+        Dim Tela As Control = Me
+        Geral.HabilitarCampos(Tela, Habilita:=True)
+        txtID.Enabled = False
     End Sub
 
     Private Sub btnCancelar_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelar.Click
@@ -168,7 +199,7 @@ Public Class FrmTiposConteiner
         LimparCampos(Me)
         HabilitarCampos(Me, False)
     End Sub
-    Private Sub FrmAvisoExtrato_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+    Private Sub FrmTiposConteiner_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
         If e.KeyCode = Keys.Escape Then
             Me.Close()
@@ -176,7 +207,7 @@ Public Class FrmTiposConteiner
 
     End Sub
 
-    Private Sub FrmAvisoExtrato_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+    Private Sub FrmTiposConteiner_FormClosed(sender As System.Object, e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
         Me.Dispose()
     End Sub
 
@@ -187,4 +218,52 @@ Public Class FrmTiposConteiner
         Me.txtDescricao.Focus()
     End Sub
 
+    Private Sub FrmTiposConteiner_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Consultar()
+
+        If dgvConsulta.Rows.Count > 0 Then
+        End If
+
+        Dim Tela As Control = Me
+        Geral.FundoTextBox(Tela)
+        Geral.CampoNumerico(txtTamanho)
+        Geral.CampoNumerico(txtID)
+        Dim TipoUsuario As Integer = Banco.TipoUsuario
+        Dim Ds As DataTable = New DataTable()
+        Ds = Banco.List("SELECT FL_EXCLUIR,FL_ATUALIZAR,FL_CADASTRAR FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 20 AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario))
+
+        If Ds.Rows.Count > 0 Then
+
+            If Not Conversions.ToBoolean(Ds.Rows(0)("FL_ATUALIZAR").ToString()) Then
+                btnEditar.Visible = False
+            Else
+                btnEditar.Visible = True
+            End If
+
+            If Not Conversions.ToBoolean(Ds.Rows(0)("FL_EXCLUIR").ToString()) Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
+            End If
+
+            If Not Conversions.ToBoolean(Ds.Rows(0)("FL_CADASTRAR").ToString()) Then
+                btnNovo.Visible = False
+            Else
+                btnNovo.Visible = True
+            End If
+        Else
+            btnNovo.Visible = False
+            btnExcluir.Visible = False
+            btnEditar.Visible = False
+        End If
+    End Sub
+
+    Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
+        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM TB_TIPO_CONTAINER WHERE ID_TIPO_CONTAINER = " + txtID.Text), "")) Then
+            Consultar()
+            Dim Tela As Control = Me
+            Geral.LimparCampos(Tela)
+        End If
+    End Sub
 End Class

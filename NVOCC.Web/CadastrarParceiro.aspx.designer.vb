@@ -275,6 +275,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtNumero As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtComplemento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtComplemento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle RedBairro.
     '''</summary>
     '''<remarks>
@@ -311,13 +320,13 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents ddlCidade As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtComplemento.
+    '''Controle txtOBSComplementares.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtComplemento As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtOBSComplementares As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle mpeTaxas.
@@ -561,6 +570,15 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlRegraAtualizacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlRegraAtualizacao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ckbAtivo.

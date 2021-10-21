@@ -58,7 +58,7 @@
 
 
 
-            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT DISTINCT NR_PROCESSO,PARCEIRO_CLIENTE,DT_EMBARQUE,DT_CHEGADA,TP_SERVICO,TP_VIA_INGLES,ORIGEM,DESTINO,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)TIPO_PAGAMENTO_MASTER,NR_BL_MASTER,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,NR_BL,B.NR_INVOICE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,SUM(ISNULL(VL_TAXA,0))VL_TAXA,SUM(ISNULL(VL_TAXA_BR,0))VL_TAXA_BR
+            Dim dsdados As DataSet = Con.ExecutarQuery("SELECT DISTINCT GRAU,NR_PROCESSO,PARCEIRO_CLIENTE,DT_EMBARQUE,DT_CHEGADA,TP_SERVICO,TP_VIA_INGLES,ORIGEM,DESTINO,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO_MASTER)TIPO_PAGAMENTO_MASTER,NR_BL_MASTER,(SELECT CD_TIPO_PAGAMENTO FROM TB_TIPO_PAGAMENTO WHERE ID_TIPO_PAGAMENTO = A.ID_TIPO_PAGAMENTO)TIPO_PAGAMENTO,NR_BL,B.NR_INVOICE,DT_INVOICE,SIGLA_MOEDA,CD_ACCOUNT_TIPO_FATURA,SUM(ISNULL(VL_TAXA,0))VL_TAXA,SUM(ISNULL(VL_TAXA_BR,0))VL_TAXA_BR
 FROM [dbo].[View_BL]  A 
 INNER JOIN (SELECT * FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "')) AS B ON B.ID_BL_INVOICE = A.ID_BL
  WHERE FL_CONFERIDO = 1 AND B.ID_PARCEIRO_AGENTE = " & PARCEIRO & " AND ID_MOEDA = " & MOEDA & "
@@ -68,7 +68,14 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
 
             For Each linhadados As DataRow In dsdados.Tables(0).Rows
 
-                tabela &= "<tr><td>" & linhadados("NR_PROCESSO") & "</td>"
+
+                If linhadados("GRAU") = "M" Then
+                    tabela &= "<tr><td>MBL</td>"
+                ElseIf linhadados("GRAU") = "C" Then
+                    tabela &= "<tr><td>" & linhadados("NR_PROCESSO") & "</td>"
+                End If
+
+
                 tabela &= "<td>" & linhadados("PARCEIRO_CLIENTE") & "</td>"
                 tabela &= "<td>" & linhadados("DT_EMBARQUE") & "</td>"
                 tabela &= "<td>" & linhadados("DT_CHEGADA") & "</td>"
@@ -77,9 +84,21 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("ORIGEM") & "</td>"
                 tabela &= "<td>" & linhadados("DESTINO") & "</td>"
                 tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
-                tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
+
+                If linhadados("GRAU") = "M" Then
+                    tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+                ElseIf linhadados("GRAU") = "C" Then
+                    tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
+                End If
+
                 tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
-                tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+
+                If linhadados("GRAU") = "M" Then
+                    tabela &= "<td></td>"
+                ElseIf linhadados("GRAU") = "C" Then
+                    tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+                End If
+
                 tabela &= "<td>" & linhadados("NR_INVOICE") & "</td>"
                 tabela &= "<td>" & linhadados("DT_INVOICE") & "</td>"
                 tabela &= "<td>" & linhadados("CD_ACCOUNT_TIPO_FATURA") & "</td>"

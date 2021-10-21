@@ -136,6 +136,12 @@
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
                                         </div>
+                                        <div class="col-sm-2 col-sm-offset-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Quantidade Dias de FreeTime Confirmado</label>
+                                                <input id="qtDiasFreeTimeConfirm" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row topMarg">
                                         <div class="col-sm-2">
@@ -513,7 +519,7 @@
                                         <div class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label">Dias<span class="required">*</span></label>
-                                                <input id="dtDemurrage1" class="form-control" type="text" />
+                                                <input id="dtDemurrage1" class="form-control" type="text" maxlength="4" />
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -531,7 +537,7 @@
                                         <div id="boxdtDemurrage5" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label">Dias<span class="required"></span></label>
-                                                <input id="dtDemurrage5" class="form-control" value="0" type="text">
+                                                <input id="dtDemurrage5" class="form-control" value="0" type="text" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage5" class="col-sm-4">
@@ -551,7 +557,7 @@
                                         <div id="boxdtDemurrage2" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage2" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage2" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage2" class="col-sm-4">
@@ -569,7 +575,7 @@
                                         <div id="boxdtDemurrage6" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage6" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage6" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage6" class="col-sm-4">
@@ -589,7 +595,7 @@
                                         <div id="boxdtDemurrage3" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage3" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage3" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage3" class="col-sm-4">
@@ -607,7 +613,7 @@
                                         <div id="boxdtDemurrage7" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage7" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage7" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage7" class="col-sm-4">
@@ -627,7 +633,7 @@
                                         <div id="boxdtDemurrage4" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage4" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage4" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage4" class="col-sm-4">
@@ -645,7 +651,7 @@
                                         <div id="boxdtDemurrage8" class="col-sm-1">
                                             <div class="form-group margBot">
                                                 <label class="control-label"><span class="required"></span></label>
-                                                <input id="dtDemurrage8" class="form-control" type="text" value="0">
+                                                <input id="dtDemurrage8" class="form-control" type="text" value="0" maxlength="4" >
                                             </div>
                                         </div>
                                         <div id="boxvlDemurrage8" class="col-sm-4">
@@ -1192,10 +1198,12 @@
                                                     <th class="text-center" scope="col">Nº Processo</th>
                                                     <th class="text-center" scope="col">Nº CNTR</th>
                                                     <th class="text-center" scope="col">Tipo CNTR</th>
+                                                    <th class="text-center" scope="col">MBL</th>
                                                     <th class="text-center" scope="col">Cliente</th>
                                                     <th class="text-center" scope="col">Transportador</th>
                                                     <th class="text-center" scope="col">Data Chegada</th>
                                                     <th class="text-center" scope="col">Free Time</th>
+                                                    <th class="text-center" scope="col">FreeTime Confirmado</th>
                                                     <th class="text-center" scope="col">Data Limite</th>
                                                     <th class="text-center" scope="col">Data Devolução</th>
                                                     <th class="text-center" scope="col">Qtd Dias Demurrage</th>
@@ -1210,6 +1218,7 @@
                                                     <th class="text-center" scope="col">Valor Venda</th>
                                                     <th class="text-center" scope="col">Data Recebimento</th>
                                                     <th class="text-center" scope="col">Status</th>
+                                                    <th class="text-center" scope="col">Data Status</th>
                                                     <th class="text-center" scope="col">Observação</th>
                                                 </tr>
                                             </thead>
@@ -1253,11 +1262,13 @@
                                     <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
                                     <th class="text-center" scope="col">Nº Processo</th>
+                                    <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
                                     <th class="text-center" scope="col">Data Chegada</th>
                                     <th class="text-center" scope="col">Data Limite Chegada</th>
                                     <th class="text-center" scope="col">FreeTime</th>
+                                    <th class="text-center" scope="col">FreeTime Confirmado</th>
                                     <th class="text-center" scope="col">Data Devolução</th>
                                     <th class="text-center" scope="col">Qtd Dias Demurrage</th>
                                     <th class="text-center" scope="col">Status</th>
@@ -1861,6 +1872,7 @@
                             document.getElementById('MainContent_dsStatus').value = dado[0]["ID_STATUS_DEMURRAGE"];
                             document.getElementById('dtStatus').value = dado[0]['DATA_STATUS_DEMURRAGE'];
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
+                            document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
                             if (dado[0]['DS_OBSERVACAO'] == null) {
                                 document.getElementById('obsInfoCont').value = "";
                             }
@@ -1889,11 +1901,12 @@
             var dsStatus = document.getElementById("MainContent_dsStatus").value;
             var qtDiasFreeTime = document.getElementById("qtDiasFreeTime").value;
             var obsInfoCont = document.getElementById("obsInfoCont").value;
+            var qtDiasFreeTimeConfirm = document.getElementById("qtDiasFreeTimeConfirm").value;
             if (dsStatus != "") {
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/atualizarContainer",
-                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '" }',
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm+'" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
@@ -3737,14 +3750,30 @@
                                 dado[i]["VALOR_VENDA"] = "TABELA";
                                 dado[i]["VALOR_VENDA_REAL"] = "TABELA";
                             }
-                            $("#grdEstimativaBody").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td><td class='text-center'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["DT_FINAL_FREETIME"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
-                                "<td class='text-center'><input type='checkbox' id='chkCompra"+i+"' name='vlEstimadoCompra["+i+"]'></td><td class='text-center'>" + dado[i]["MOEDA_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VALOR_COMPRA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VALOR_COMPRA_REAL"] + "</td><td class='text-center'>" + dado[i]["DATA_PAGAMENTO"] + "</td><td class='text-center'><input type='checkbox' id='chkVenda" + i + "' name='vlEstimadoVenda[" + i +"]'></td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_VENDA"] + "</td><td class='text-center'>" + dado[i]["VALOR_VENDA"] + "</td><td class='text-center'>" + dado[i]["VALOR_VENDA_REAL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DATA_RECEBIMENTO"] + "</td><td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["DT_STATUS_DEMURRAGE"] + "</td>" +
+                            $("#grdEstimativaBody").append("<tr><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_FINAL_FREETIME"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                "<td class='text-center'><input type='checkbox' id='chkCompra" + i + "' name='vlEstimadoCompra[" + i + "]'></td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA_COMPRA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VALOR_COMPRA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VALOR_COMPRA_REAL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DATA_PAGAMENTO"] + "</td>" +
+                                "<td class='text-center'><input type='checkbox' id='chkVenda" + i + "' name='vlEstimadoVenda[" + i +"]'></td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA_VENDA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VALOR_VENDA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VALOR_VENDA_REAL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DATA_RECEBIMENTO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_STATUS_DEMURRAGE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td></tr > ");
                             if (dado[i]["VALOR_COMPRA_ESTIMADO"] == 1) {
                                 $("#chkCompra" + i + "").prop('checked', true)
@@ -4084,31 +4113,78 @@
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
                             if (dado[i]["QT_DIAS_DEMURRAGE"] >= -10 && dado[i]["QT_DIAS_DEMURRAGE"] <= -1) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'>" +
+                                    "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr> ");
                             }
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'>" +
+                                    "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr> ");
                             }
                             else {
-                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td > <td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td><td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td></tr>");
+                                $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
+                                    "</tr > ");
                             }
                         }
                     }
@@ -4149,17 +4225,20 @@
 
         function exportTableToCSVAtual(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#grdModuloDemurrage tr");
-
+            var rows = document.querySelectorAll("#grdDemurrageAtual tr");
+            var f;
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdModuloDemurrage td, #grdModuloDemurrage th");
-
-                for (var j = 0; j < cols.length; j++)
+                var row = [];
+                if (i > 0) {
+                    var cols = rows[i].querySelectorAll("#grdDemurrageAtual td, #grdDemurrageAtual th");
+                } else {
+                    var cols = rows[i].querySelectorAll("#grdDemurrageAtual td, #grdDemurrageAtual th");
+                }
+                for (var j = 1; j < cols.length; j++)
                     row.push(cols[j].innerText);
-
+                console.log(row);
                 csv.push(row.join(";"));
             }
-
             // Download CSV file
             downloadCSVAtual(csv.join("\n"), filename);
         }

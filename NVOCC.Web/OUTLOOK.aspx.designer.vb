@@ -95,6 +95,24 @@ Partial Public Class OUTLOOK
     Protected WithEvents txtAssunto As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle FileUpload1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents FileUpload1 As Global.System.Web.UI.WebControls.FileUpload
+
+    '''<summary>
+    '''Controle ButtonUpload.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ButtonUpload As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle txtMsg.
     '''</summary>
     '''<remarks>

@@ -19,6 +19,8 @@ namespace ABAINFRA.Web.Classes
         private string cdrastreamentohbl;
         private string dtretiradainicio;
         private string dtretiradafim;
+        private string dtretiradaterceiroinicio;
+        private string dtretiradaterceirofim;
         private string retiradopor;
         private string agente;
         private string previsaochegadainicio;
@@ -39,6 +41,8 @@ namespace ABAINFRA.Web.Classes
         public string CDRASTREAMENTOHBL { get => cdrastreamentohbl; set => cdrastreamentohbl = value; }
         public string DTRETIRADAINICIO { get => dtretiradainicio; set => dtretiradainicio = value; }
         public string DTRETIRADAFIM { get => dtretiradafim; set => dtretiradafim = value; }
+        public string DTRETIRADAPEROSNALINICIO { get => dtretiradaterceiroinicio; set => dtretiradaterceiroinicio = value; }
+        public string DTRETIRADAPEROSNALFIM { get => dtretiradaterceirofim; set => dtretiradaterceirofim = value; }
         public string RETIRADOPOR { get => retiradopor; set => retiradopor = value; }
         public string AGENTE { get => agente; set => agente = value; }
         public string PREVISAOCHEGADAINICIO { get => previsaochegadainicio; set => previsaochegadainicio = value; }

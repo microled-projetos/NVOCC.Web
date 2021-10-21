@@ -61,26 +61,27 @@
                                 </div>
                             </div>
                             <div class="table-responsive tableFixHead topMarg">
-                                <table id="courrierExport" class="table tablecont">
+                                <table id="courrierExport" class="table tablecont tablesorter">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" scope="col">&nbsp;</th>
-                                            <th class="text-center" scope="col">PROCESSO</th>
-                                            <th class="text-center" scope="col">MBL</th>
-                                            <th class="text-center" scope="col">HBL</th>
-                                            <th class="text-center" scope="col">CLIENTE</th>
-                                            <th class="text-center" scope="col">DATA RECEBIMENTO MBL</th>
-                                            <th class="text-center" scope="col">CÓD RASTREAMENTO MBL</th>
-                                            <th class="text-center" scope="col">DATA RECEBIMENTO HBL</th>
-                                            <th class="text-center" scope="col">CÓD RASTREAMENTO HBL</th>
-                                            <th class="text-center" scope="col">DATA RETIRADA</th>
-                                            <th class="text-center" scope="col">RETIRADO POR</th>
-                                            <th class="text-center" scope="col">AGENTE</th>
-                                            <th class="text-center" scope="col">NAVIO</th>
-                                            <th class="text-center" scope="col">PREVISÃO CHEGADA</th>
-                                            <th class="text-center" scope="col">DATA CHEGADA</th>
-                                            <th class="text-center" scope="col">FATURA</th>
-                                            <th class="text-center" scope="col">TIPO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">&nbsp;</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PROCESSO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA PERSONAL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">RETIRADO POR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FATURA</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO</th>
                                         </tr>
                                     </thead>
                                     <tbody id="containerCourrier">
@@ -205,6 +206,18 @@
                                                         <input id="txtFatura" class="form-control" type="text"/>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RETIRADA PERSONAL (INICIO)</label>
+                                                        <input id="dtRetiradaPersonalInicio" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">DATA RETIRADA PERSONAL (FIM)</label>
+                                                        <input id="dtRetiradaPersonalFim" class="form-control" type="date"/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -300,7 +313,7 @@
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Data da Retirada</label>
+                                                        <label class="control-label">Data da Retirada Cliente</label>
                                                         <input id="dtRetirada" class="form-control" type="date" />
                                                     </div>
                                                 </div>
@@ -314,6 +327,12 @@
                                                     <div class="form-group">
                                                         <label class="control-label">Nº da Fatura</label>
                                                         <input id="nrFatura" class="form-control" type="text" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Data da Retirada Personal</label>
+                                                        <input id="dtRetiradaTerceiro" class="form-control" type="date" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -367,22 +386,26 @@
                     document.getElementById('dtRetirada').value = data.DT_RETIRADA_COURRIER;
                     document.getElementById('receptor').value = data.NM_RETIRADO_POR_COURRIER;
                     document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;
+                    document.getElementById('dtRetiradaTerceiro').value = data.DT_RETIRADA_PERSONAL;
                     if (data.CD_RASTREAMENTO_HBL == "ORIGEM") {
                         document.getElementById('dtRecebimentoHBL').disabled = true;
                         document.getElementById('cdRastreamentoHBL').disabled = true;
                         document.getElementById('dtRetirada').disabled = true;
+                        document.getElementById('dtRetiradaTerceiro').disabled = true;
                         document.getElementById('receptor').disabled = true;
                         document.getElementById("checkOrigem").checked = true;
                     } else if (data.CD_RASTREAMENTO_HBL == "DESTINO") {
-                        document.getElementById('dtRecebimentoHBL').disabled = true;
-                        document.getElementById('cdRastreamentoHBL').disabled = true;
-                        document.getElementById('dtRetirada').disabled = true;
-                        document.getElementById('receptor').disabled = true;
+                        document.getElementById('dtRecebimentoHBL').disabled = false;
+                        document.getElementById('cdRastreamentoHBL').disabled = false;
+                        document.getElementById('dtRetirada').disabled = false;
+                        document.getElementById('dtRetiradaTerceiro').disabled = false;
+                        document.getElementById('receptor').disabled = false;
                         document.getElementById("checkDestino").checked = true;
                     } else {
                         document.getElementById('dtRecebimentoHBL').disabled = false;
                         document.getElementById('cdRastreamentoHBL').disabled = false;
                         document.getElementById('dtRetirada').disabled = false;
+                        document.getElementById('dtRetiradaTerceiro').disabled = false;
                         document.getElementById('receptor').disabled = false;
                         document.getElementById("checkDestino").checked = false;
                         document.getElementById("checkOrigem").checked = false;
@@ -396,6 +419,7 @@
                 document.getElementById('dtRecebimentoHBL').disabled = true;
                 document.getElementById('cdRastreamentoHBL').disabled = true;
                 document.getElementById('dtRetirada').disabled = true;
+                document.getElementById('dtRetiradaTerceiro').disabled = true;
                 document.getElementById('receptor').disabled = true;
                 document.getElementById('cdRastreamentoHBL').value = "ORIGEM";
                 document.getElementById("checkDestino").checked = false;
@@ -404,6 +428,7 @@
                 document.getElementById('dtRecebimentoHBL').disabled = false;
                 document.getElementById('cdRastreamentoHBL').disabled = false;
                 document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('dtRetiradaTerceiro').disabled = false;
                 document.getElementById('receptor').disabled = false;
                 document.getElementById('cdRastreamentoHBL').value = "";
             }
@@ -411,10 +436,11 @@
 
         function flagDestino() {
             if (document.getElementById("checkDestino").checked) {
-                document.getElementById('dtRecebimentoHBL').disabled = true;
-                document.getElementById('cdRastreamentoHBL').disabled = true;
-                document.getElementById('dtRetirada').disabled = true;
-                document.getElementById('receptor').disabled = true;
+                document.getElementById('dtRecebimentoHBL').disabled = false;
+                document.getElementById('cdRastreamentoHBL').disabled = false;
+                document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('dtRetiradaTerceiro').disabled = false;
+                document.getElementById('receptor').disabled = false;
                 document.getElementById('cdRastreamentoHBL').value = "DESTINO";
                 document.getElementById("checkOrigem").checked = false;
 
@@ -422,6 +448,7 @@
                 document.getElementById('dtRecebimentoHBL').disabled = false;
                 document.getElementById('cdRastreamentoHBL').disabled = false;
                 document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('dtRetiradaTerceiro').disabled = false;
                 document.getElementById('receptor').disabled = false;
                 document.getElementById('cdRastreamentoHBL').value = "";
             }
@@ -432,6 +459,7 @@
                 document.getElementById('dtRecebimentoHBL').disabled = false;
                 document.getElementById('cdRastreamentoHBL').disabled = false;
                 document.getElementById('dtRetirada').disabled = false;
+                document.getElementById('dtRetiradaTerceiro').disabled = false;
                 document.getElementById('receptor').disabled = false;
                 document.getElementById('cdRastreamentoHBL').value = "";
             }
@@ -454,6 +482,8 @@
                 document.getElementById("dtPrevisaoChegadafim"),
                 document.getElementById("dtChegadainicio"),
                 document.getElementById("dtChegadafim"),
+                document.getElementById("dtRetiradaPersonalInicio"),
+                document.getElementById("dtRetiradaPersonalFim"),
                 document.getElementById("txtFatura"),
                 document.getElementById("MainContent_ddlFiltro"),
                 document.getElementById("txtConsulta")
@@ -494,7 +524,9 @@
                 "PREVISAOCHEGADAFIM": document.getElementById("dtPrevisaoChegadafim").value,
                 "DTCHEGADAINICIO": document.getElementById("dtChegadainicio").value,
                 "DTCHEGADAFIM": document.getElementById("dtChegadafim").value,
-                "FATURA": document.getElementById("txtFatura").value
+                "FATURA": document.getElementById("txtFatura").value,
+                "DTRETIRADAPEROSNALINICIO": document.getElementById("dtRetiradaPersonalInicio").value,
+                "DTRETIRADAPEROSNALFIM": document.getElementById("dtRetiradaPersonalFim").value,
             }
 
             $.ajax({
@@ -505,7 +537,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#containerCourrier").empty();
-                    $("#containerCourrier").append("<tr><td colspan='17'><div class='loader'></div></td></tr>");
+                    $("#containerCourrier").append("<tr><td colspan='18'><div class='loader'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -517,15 +549,21 @@
                                 "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["MASTER"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["HOUSE"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] +"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center' title='" + dado[i]["NM_NAVIO"] +"' style='max-width: 14ch;'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
                                 "</tr>");
                         }
+                        $("#courrierExport").tablesorter({
+                            dateFormat: "ddmmyyyy",
+                            headers: {
+                                0: { sorter: "shortDate" }
+                            }
+                        });
                     }
                     else {
                         $("#containerCourrier").empty();
-                        $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='17' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                        $("#containerCourrier").append("<tr id='msgEmptyWeek'><td colspan='18' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                     }
                 }
             })
@@ -553,7 +591,8 @@
                 "CD_RASTREAMENTO_HBL": document.getElementById('cdRastreamentoHBL').value,
                 "DT_RETIRADA_COURRIER": document.getElementById('dtRetirada').value,
                 "NM_RETIRADO_POR_COURRIER": document.getElementById('receptor').value,
-                "NR_FATURA_COURRIER": document.getElementById('nrFatura').value
+                "NR_FATURA_COURRIER": document.getElementById('nrFatura').value,
+                "DT_RETIRADA_PERSONAL": document.getElementById('dtRetiradaTerceiro').value,
             }
             $.ajax({
                 type: "POST",

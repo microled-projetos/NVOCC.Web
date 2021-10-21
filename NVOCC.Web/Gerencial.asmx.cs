@@ -772,18 +772,18 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTREDESTINACAOFIM != "")
                 {
-                    SQL += "AND C.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' AND C.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
+                    SQL += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' ";
+                    SQL += "AND M.DT_REDESTINACAO >= '" + dados.DTREDESTINACAOINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTREDESTINACAOFIM != "")
                 {
-                    SQL += "AND C.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
+                    SQL += "AND M.DT_REDESTINACAO <= '" + dados.DTREDESTINACAOFIM + "' ";
                 }
             }
 
@@ -791,18 +791,18 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTDESCONSOLIDACAOFIM != "")
                 {
-                    SQL += "AND C.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' AND C.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
+                    SQL += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND C.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' ";
+                    SQL += "AND M.DT_DESCONSOLIDACAO >= '" + dados.DTDESCONSOLIDACAOINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTDESCONSOLIDACAOFIM != "")
                 {
-                    SQL += "AND C.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
+                    SQL += "AND M.DT_DESCONSOLIDACAO <= '" + dados.DTDESCONSOLIDACAOFIM + "' ";
                 }
             }
             if (dados.WEEK != "")
@@ -826,7 +826,7 @@ namespace ABAINFRA.Web
             SQL = "SELECT M.ID_BL AS MASTER, C.ID_BL AS HOUSE, ISNULL(C.NR_PROCESSO,'') AS PROCESSO, ISNULL(CLT.NM_RAZAO,'') AS CLIENTE, ISNULL(PORT1.NM_PORTO,'') AS ORIGEM, ISNULL(PORT2.NM_PORTO,'') AS DESTINO ";
             SQL += ", ISNULL(TPAG.NM_TIPO_PAGAMENTO,'') AS TPAGAMENTO, ISNULL(TESTUF.NM_TIPO_ESTUFAGEM,'') AS TESTUFAGEM, ISNULL(AGT.NM_RAZAO,'') AS AGENTE ";
             SQL += ", ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS PEMBARQUE, ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS EMBARQUE, ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PCHEGADA, ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA ";
-            SQL += ", ISNULL(TRANSP.NM_RAZAO,'') AS TRANSPORTADOR, ISNULL(M.NR_BL,'') as BLMASTER, ISNULL(C.NR_BL,'') as BLHOUSE, ISNULL(FORMAT(C.DT_REDESTINACAO,'dd/MM/yyyy'),'') AS REDESTINACAO, ISNULL(FORMAT(C.DT_DESCONSOLIDACAO,'dd/MM/yyyy'),'') AS DESCONSOLIDACAO ";
+            SQL += ", ISNULL(TRANSP.NM_RAZAO,'') AS TRANSPORTADOR, ISNULL(M.NR_BL,'') as BLMASTER, ISNULL(C.NR_BL,'') as BLHOUSE, ISNULL(FORMAT(M.DT_REDESTINACAO,'dd/MM/yyyy'),'') AS REDESTINACAO, ISNULL(FORMAT(M.DT_DESCONSOLIDACAO,'dd/MM/yyyy'),'') AS DESCONSOLIDACAO ";
             SQL += ", ISNULL(W.NM_WEEK,'') AS WEEK, ISNULL(NAV.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_CE,'') as CEMASTER, ISNULL(C.NR_CE,'') AS CEHOUSE, ISNULL(C.DS_TERMO,'') AS TERMO ";
             SQL += "FROM TB_BL C ";
             SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
@@ -851,7 +851,7 @@ namespace ABAINFRA.Web
         public string NumeroProcesso(string idProcesso)
         {
             string SQL;
-            SQL = "SELECT NR_PROCESSO, DT_DESCONSOLIDACAO, DT_REDESTINACAO, W.ID_WEEK, DS_TERMO as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '"+idProcesso+"' ";           
+            SQL = "SELECT NR_PROCESSO, ISNULL(FORMAT(DT_DESCONSOLIDACAO,'yyyy-MM-dd'),'') as DT_DESCONSOLIDACAO, ISNULL(FORMAT(DT_REDESTINACAO,'yyyy-MM-dd'),'') AS DT_REDESTINACAO, ISNULL(W.ID_WEEK,'') AS ID_WEEK, ISNULL(DS_TERMO,'') as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '" + idProcesso+"' ";           
             
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1498,16 +1498,28 @@ namespace ABAINFRA.Web
         public string inserirDados(string week, string dtRedestinacao, string dtDesconsolidacao, string idProcesso, string termo)
         {
             string SQL;
+            string desconsolidacao;
+            string redestinacao;
             if(dtDesconsolidacao == "")
             {
-                dtDesconsolidacao = "null";
+                desconsolidacao = "DT_DESCONSOLIDACAO = NULL";
+            }
+            else
+			{
+                desconsolidacao = "DT_DESCONSOLIDACAO = '"+dtDesconsolidacao+"' ";
+
             }
 
             if(dtRedestinacao == "")
             {
-                dtRedestinacao = "null";
+                redestinacao = "DT_REDESTINACAO = NULL";
             }
-            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "', DT_DESCONSOLIDACAO = " + dtDesconsolidacao + ", DT_REDESTINACAO = " + dtRedestinacao + ", DS_TERMO = '"+termo+"' ";
+			else
+			{
+                redestinacao = "DT_REDESTINACAO = '" + dtRedestinacao + "'";
+
+            }
+            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "',"+desconsolidacao+","+redestinacao+", DS_TERMO = '"+termo+"' ";
             SQL += "WHERE ID_BL = '" + idProcesso + "' ";
 
             string weekS = DBS.ExecuteScalar(SQL);

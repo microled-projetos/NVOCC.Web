@@ -75,18 +75,30 @@ namespace ABAINFRA.Web
                 {
                     DirectoryInfo di = Directory.CreateDirectory(diretorio);
                 }
+                try
+                {
+                    if (Directory.Exists(diretorio))
+                    {
+                        postedFile.SaveAs(Path.Combine(diretorio, filename));
+                    }
+                }
+                catch (Exception e)
+				{
+                    throw e;
+				}
+                
+                if(File.Exists(Path.Combine(diretorio, filename)))
+				{
+                    SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
+                    SQL += "VALUES ('" + idprocesso + "',NULL,'" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\" + filename + "') ";
 
-                SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
-                SQL += "VALUES ('" + idprocesso + "',NULL,'" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\"+ filename +"') ";
+                    DBS.ExecuteScalar(SQL);
 
-                DBS.ExecuteScalar(SQL);
+                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', '" + idprocesso + "',NULL, '" + idprocesso + "', NULL, NULL) ";
 
-                SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', '" + idprocesso + "',NULL, '" + idprocesso + "', NULL, NULL) ";
-
-                DBS.ExecuteScalar(SQL);
-
-                postedFile.SaveAs(Path.Combine(diretorio, filename));
+                    DBS.ExecuteScalar(SQL);
+                }
             }
             else
             {
@@ -104,27 +116,41 @@ namespace ABAINFRA.Web
                     DirectoryInfo di = Directory.CreateDirectory(diretorio);
                 }
 
-                SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
-                SQL += "VALUES (NULL,'" + idblmaster + "','" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\MASTER-" + blmaster + "\\" + filename+ "') ";
-                DBS.ExecuteScalar(SQL);
-
-                if (tipoaviso == "1")
+                try
                 {
-                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL,'" + parceiroD + "') ";
-                    DBS.ExecuteScalar(SQL);
+                    if (Directory.Exists(diretorio))
+                    {
+                        postedFile.SaveAs(Path.Combine(diretorio, filename));
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
-                    DBS.ExecuteScalar(SQL);
+                    throw e;
                 }
 
-                postedFile.SaveAs(Path.Combine(diretorio, filename));
+                if (File.Exists(Path.Combine(diretorio, filename)))
+                {
+                    SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
+                    SQL += "VALUES (NULL,'" + idblmaster + "','" + documento + "','" + sqlFormattedDate + "','" + diretorio + "','" + filename + "','" + pathrobo + "20" + anoH + "\\" + mesH + "\\MASTER-" + blmaster + "\\" + filename+ "') ";
+                    DBS.ExecuteScalar(SQL);
+
+                
+
+                    if (tipoaviso == "1")
+                    {
+                        SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
+                        SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "',NULL,'" + parceiroD + "') ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                    else
+                    {
+                        SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
+                        SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + tipoaviso + "', NULL, '" + idblmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
+                        DBS.ExecuteScalar(SQL);
+                    }
+                }
             }
-
-    }
+        }
 
 		public bool IsReusable
 		{

@@ -16,6 +16,21 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -276,6 +291,12 @@
     <EmbeddedResource Include="Forms\01. Cadastro\3. Usuários\FrmNovaPermissao.resx">
       <DependentUpon>FrmNovaPermissao.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmContaFinanceiro.resx">
+      <DependentUpon>FrmContaFinanceiro.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmMoedas.resx">
+      <DependentUpon>FrmMoedas.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\01. Cadastro\FrmNCM.resx">
       <DependentUpon>FrmNCM.vb</DependentUpon>
     </EmbeddedResource>
@@ -287,6 +308,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\01. Cadastro\3. Usuários\FrmUsuarios.resx">
       <DependentUpon>FrmUsuarios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmPortos.resx">
+      <DependentUpon>FrmPortos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\01. Cadastro\FrmServico.resx">
+      <DependentUpon>FrmServico.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\06. Login\FrmLogin.resx">
       <DependentUpon>FrmLogin.vb</DependentUpon>
@@ -379,7 +406,13 @@
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

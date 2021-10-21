@@ -27,6 +27,7 @@ Public Class FrmLogin
         End If
 
         If Not Logou() Then
+            txtSenha.Text = ""
             MessageBox.Show("Usuário ou senha inválidos!", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
 

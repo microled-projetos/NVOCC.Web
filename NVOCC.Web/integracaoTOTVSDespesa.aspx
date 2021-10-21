@@ -32,10 +32,16 @@
                                         <div class="alert alert-success text-center" id="msgSuccessDespRec">
                                             Tabela Despesa REC exportada com sucesso.
                                         </div>
+                                        <div class="alert alert-success text-center" id="msgSuccessExportDelete">
+                                            Data exportação zerada.
+                                        </div>
+                                        <div class="alert alert-danger text-center" id="msgErrorExportDelete">
+                                            Erro ao zerar Data exportação.
+                                        </div>
                                     </div>
                                     <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                         <div style="margin: auto">
-                                            <button type="button" id="btnExportTotusDespesa" class="btn btn-primary" onclick="exportTableToCSVDespesa('CLI_FCA.csv','REC_FCA.csv')">Exportar Grid - CSV</button>
+                                            <button type="button" id="btnExportTotusDespesa" class="btn btn-primary" onclick="exportTableToCSVDespesa('CLI_FCA.csv','RA_FCA.csv')">Exportar Grid - CSV</button>
                                         </div>
                                     </div>
                                     <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -66,11 +72,18 @@
                                         <div class="form-group">
                                             <button type="button" id="btnConsultar" onclick="TOTVSNotaDespesa()" class="btn btn-primary">Consultar</button>
                                         </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btnLimparExportDespesa" style="margin-left: 10px;" onclick="LimparExportDespesa()" class="btn btn-primary">Zerar Exportação</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" id="btnMarcarDesmcarcar" style="margin-left: 10px;" onclick="MarcarDesmarcar()" class="btn btn-primary">Marcar Todos</button>
+                                        </div>
                                     </div> 
                                     <div class="table-responsive tableFixHead topMarg">
                                         <table id="grdEstimativa" class="table tablecont">
                                             <thead>
-                                                <tr>
+                                                <tr>                                                
+                                                    <th class="text-center" scope="col">&nbsp;</th>
                                                     <th class="text-center" scope="col">Nº Nota</th>
                                                     <th class="text-center" scope="col">Tipo Nota</th>
                                                     <th class="text-center" scope="col">Data Emissão</th>
@@ -103,6 +116,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
+
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
@@ -141,6 +155,55 @@
                 break;
         }
 
+        function LimparExportDespesa() {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            var dataI = document.getElementById("txtDtEmissaoInicial").value;
+            var dataF = document.getElementById("txtDtEmissaoFinal").value;
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
+            if (values.length > 0) {
+                for (let i = 0; i < values.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        url: "DemurrageService.asmx/ZerarExportTOTVSDespesa",
+                        data: '{ dataI: "' + dataI + '", dataF: "' + dataF + '", value: "' + values[i] + '"}',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (dado) {
+                            if (dado.d == "ok") {
+                                $("#msgSuccessExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            } else {
+                                $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                            }
+                        }, error: function () {
+                            $("#msgErrorExportDelete").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    })
+                }
+            }
+            var exporta = document.getElementById("todos");
+            exporta.checked = false;
+            var nexporta = document.getElementById("naoExportados");
+            nexporta.checked;
+            TOTVSNotaDespesa();
+        }
+
+        function MarcarDesmarcar() {
+            $(".check").each(
+                function () {
+                    if ($(this).prop("checked")) {
+                        $(this).prop("checked", false);
+                    } else {
+                        $(this).prop("checked", true);
+                    }                
+                }
+            )
+        }
+
         function TOTVSNotaDespesa() {
             $("#modalDespesa").modal("show");
 
@@ -170,7 +233,7 @@
                     $("#grdEstimativaBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
-                            $("#grdEstimativaBody").append("<tr><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
+                            $("#grdEstimativaBody").append("<tr><td class='text-center'><input type='checkbox' value='" + dado[i]["ID_CONTA_PAGAR_RECEBER"] + "' name='export' class='check'></td><td class='text-center'> " + dado[i]["NR_NOTA"] + "</td><td class='text-center'>" + dado[i]["TP_NOTA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_EMISSAO"] + "</td><td class='text-center'>" + dado[i]["VL_NOTA"] + "</td><td class='text-center'>" + dado[i]["NM_PARCEIRO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_EXPORTACAO_TOTVS_DESPESA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["NR_REFERENCIA_CLIENTE"] + "</td></tr> ");
@@ -217,7 +280,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaDespesaCLI",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -241,7 +304,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaDespesaREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {

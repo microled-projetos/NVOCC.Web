@@ -17,21 +17,6 @@ Imports Microsoft.VisualBasic.CompilerServices
 
 
 Public Class FrmPrincipal
-
-    Private Sub FrmPrincipal_Activated(ByVal sender As Object, ByVal e As EventArgs)
-        Try
-            Dim IP As IPAddress() = Dns.GetHostAddresses(Dns.GetHostName())
-            lblData.Text = Conversions.ToString(DateAndTime.Now.Date)
-            lblEstacao.Text = MyProject.Computer.Name
-            lblBase.Text = Banco.Servidor
-            lblIP.Text = IP(1).ToString()
-        Catch ex2 As Exception
-            ProjectData.SetProjectError(ex2)
-            Dim ex As Exception = ex2
-            ProjectData.ClearProjectError()
-        End Try
-    End Sub
-
     Private Sub FrmPrincipal_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs)
         Try
             Dim ItemProcess As Process() = Process.GetProcessesByName("FontePagadora")
@@ -58,7 +43,78 @@ Public Class FrmPrincipal
         Environment.[Exit](0)
     End Sub
 
-    Private Sub FrmPrincipal_Load(ByVal sender As Object, ByVal e As EventArgs)
+    Private Function UsuarioTemAcesso(ByVal NomeMenu As String) As Boolean
+        Dim TipoUsuario As Integer = Banco.TipoUsuario
+        Dim sql As String = "SELECT (SELECT FL_Acessar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario) & "   ) As Acessar FROM [dbo].[TB_MENUS] M WHERE  M.NM_OBJETO = '" & NomeMenu & "' ORDER BY M.NM_MENUS"
+        Dim Ds As DataTable = New DataTable()
+        Ds = Banco.List(sql)
+
+        If Ds.Rows.Count > 0 Then
+
+            If Not Information.IsDBNull(RuntimeHelpers.GetObjectValue(Ds.Rows(0)("Acessar"))) Then
+
+                If Operators.ConditionalCompareObjectEqual(Ds.Rows(0)("Acessar"), True, TextCompare:=False) Then
+                    Return True
+                End If
+
+                Return False
+            End If
+
+            Return False
+        End If
+
+        Return False
+    End Function
+
+    Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles mnNavios.Click
+        MyProject.Forms.FrmNavios.Show()
+    End Sub
+
+    Private Sub nmNCM_Click(sender As Object, e As EventArgs) Handles mnNCM.Click
+        MyProject.Forms.FrmNCM.Show()
+    End Sub
+
+    Private Sub MnuCadPortos_Click(sender As Object, e As EventArgs) Handles mnPortos.Click
+        MyProject.Forms.FrmPortos.Show()
+    End Sub
+
+    Private Sub CidadesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnCidades.Click
+        MyProject.Forms.FrmCidades.Show()
+    End Sub
+
+    Private Sub PaísesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnPais.Click
+        MyProject.Forms.FrmPaises.Show()
+    End Sub
+
+    Private Sub EstadosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnEstados.Click
+        MyProject.Forms.FrmUF.Show()
+    End Sub
+
+    Private Sub ServiçosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnServicos.Click
+        MyProject.Forms.FrmServico.Show()
+    End Sub
+
+    Private Sub EventosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnEventos.Click
+        MyProject.Forms.FrmEventos.Show()
+    End Sub
+
+    Private Sub ContasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnContas.Click
+        MyProject.Forms.FrmContaFinanceiro.Show()
+    End Sub
+
+    Private Sub MoedasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnMoedas.Click
+        MyProject.Forms.FrmMoedas.Show()
+    End Sub
+
+    Private Sub ContainerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles mnCadConteiner.Click
+        MyProject.Forms.FrmTiposConteiner.Show()
+    End Sub
+
+    Private Sub Mnusair_Click(sender As Object, e As EventArgs) Handles Mnusair.Click
+        Environment.[Exit](0)
+    End Sub
+
+    Private Sub FrmPrincipal_Load(sender As Object, e As EventArgs) Handles Me.Load
         Text = "FCA - Log :: Cadastro - Versão: " & Application.ProductVersion.ToString()
         Dim enumerator As IEnumerator = Nothing
 
@@ -127,110 +183,18 @@ Public Class FrmPrincipal
             End If
         End Try
     End Sub
-    Private Function UsuarioTemAcesso(ByVal NomeMenu As String) As Boolean
-        Dim TipoUsuario As Integer = Banco.TipoUsuario
-        Dim sql As String = "SELECT (SELECT FL_Acessar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario) & "   ) As Acessar FROM [dbo].[TB_MENUS] M WHERE  M.NM_OBJETO = '" & NomeMenu & "' ORDER BY M.NM_MENUS"
-        Dim Ds As DataTable = New DataTable()
-        Ds = Banco.List(sql)
 
-        If Ds.Rows.Count > 0 Then
-
-            If Not Information.IsDBNull(RuntimeHelpers.GetObjectValue(Ds.Rows(0)("Acessar"))) Then
-
-                If Operators.ConditionalCompareObjectEqual(Ds.Rows(0)("Acessar"), True, TextCompare:=False) Then
-                    Return True
-                End If
-
-                Return False
-            End If
-
-            Return False
-        End If
-
-        Return False
-    End Function
-
-    'Private Sub mnCidades_Click_1(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmCidades.Show()
-    'End Sub
-
-    'Private Sub mnPais_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmPaises.Show()
-    'End Sub
-
-    'Private Sub mnNCM_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmNCM.Show()
-    'End Sub
-
-    'Private Sub mnEstados_Click_1(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmUF.Show()
-    'End Sub
-
-    'Private Sub mnCadConteiner_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmTiposConteiner.Show()
-    'End Sub
-
-    'Private Sub mnSevicos_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmServico.Show()
-    'End Sub
-
-    'Private Sub mnEventos_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmEventos.Show()
-    'End Sub
-
-    'Private Sub mnContas_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmContaFinanceiro.Show()
-    'End Sub
-
-    'Private Sub mnMoedas_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    MyProject.Forms.FrmMoedas.Show()
-    'End Sub
-
-    Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles MnuCadNavios.Click
-        MyProject.Forms.FrmNavios.Show()
-    End Sub
-
-    Private Sub nmNCM_Click(sender As Object, e As EventArgs) Handles nmNCM.Click
-        MyProject.Forms.FrmNCM.Show()
-    End Sub
-
-    Private Sub MnuCadPortos_Click(sender As Object, e As EventArgs) Handles MnuCadPortos.Click
-        MyProject.Forms.FrmPortos.Show()
-    End Sub
-
-    Private Sub CidadesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CidadesToolStripMenuItem.Click
-        MyProject.Forms.FrmCidades.Show()
-    End Sub
-
-    Private Sub PaísesToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PaísesToolStripMenuItem.Click
-        MyProject.Forms.FrmPaises.Show()
-    End Sub
-
-    Private Sub EstadosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EstadosToolStripMenuItem.Click
-        MyProject.Forms.FrmUF.Show()
-    End Sub
-
-    Private Sub ServiçosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ServiçosToolStripMenuItem.Click
-        MyProject.Forms.FrmServico.Show()
-    End Sub
-
-    Private Sub EventosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EventosToolStripMenuItem.Click
-        MyProject.Forms.FrmEventos.Show()
-    End Sub
-
-    Private Sub ContasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContasToolStripMenuItem.Click
-        MyProject.Forms.FrmContaFinanceiro.Show()
-    End Sub
-
-    Private Sub MoedasToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MoedasToolStripMenuItem.Click
-        MyProject.Forms.FrmMoedas.Show()
-    End Sub
-
-    Private Sub ContainerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ContainerToolStripMenuItem.Click
-        MyProject.Forms.FrmTiposConteiner.Show()
-    End Sub
-
-    Private Sub Mnusair_Click(sender As Object, e As EventArgs) Handles Mnusair.Click
-        Environment.[Exit](0)
+    Private Sub FrmPrincipal_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        Try
+            Dim IP As IPAddress() = Dns.GetHostAddresses(Dns.GetHostName())
+            lblData.Text = Conversions.ToString(DateAndTime.Now.Date)
+            lblEstacao.Text = MyProject.Computer.Name
+            lblBase.Text = Banco.Servidor
+            lblIP.Text = IP(1).ToString()
+        Catch ex2 As Exception
+            ProjectData.SetProjectError(ex2)
+            Dim ex As Exception = ex2
+            ProjectData.ClearProjectError()
+        End Try
     End Sub
 End Class

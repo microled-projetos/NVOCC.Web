@@ -24,7 +24,7 @@ Partial Class FrmUF
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmUF))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
@@ -35,22 +35,22 @@ Partial Class FrmUF
         Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.pbCarregando = New System.Windows.Forms.PictureBox()
         Me.pnControles = New System.Windows.Forms.Panel()
-        Me.btnFiltro = New System.Windows.Forms.Button()
         Me.btnUltimo = New System.Windows.Forms.Button()
         Me.btnProximo = New System.Windows.Forms.Button()
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
-        Me.colCodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colDescricao = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.colSigla = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DESCR = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.País = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID_PAIS = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.cbPais = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtDescricao = New System.Windows.Forms.TextBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
-        Me.cbPais = New System.Windows.Forms.ComboBox()
         Me.Panel2.SuspendLayout()
         CType(Me.pbCarregando, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnControles.SuspendLayout()
@@ -157,9 +157,9 @@ Partial Class FrmUF
         '
         Me.btnSair.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSair.Image = CType(resources.GetObject("btnSair.Image"), System.Drawing.Image)
-        Me.btnSair.Location = New System.Drawing.Point(515, 383)
+        Me.btnSair.Location = New System.Drawing.Point(506, 383)
         Me.btnSair.Name = "btnSair"
-        Me.btnSair.Size = New System.Drawing.Size(90, 34)
+        Me.btnSair.Size = New System.Drawing.Size(99, 34)
         Me.btnSair.TabIndex = 62
         Me.btnSair.Tag = "Sair"
         Me.btnSair.Text = "Sair [ESC]"
@@ -170,7 +170,7 @@ Partial Class FrmUF
         'txtCodigo
         '
         Me.txtCodigo.Enabled = False
-        Me.txtCodigo.Location = New System.Drawing.Point(442, 391)
+        Me.txtCodigo.Location = New System.Drawing.Point(422, 389)
         Me.txtCodigo.Name = "txtCodigo"
         Me.txtCodigo.Size = New System.Drawing.Size(78, 23)
         Me.txtCodigo.TabIndex = 63
@@ -183,7 +183,7 @@ Partial Class FrmUF
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pbCarregando.BackColor = System.Drawing.Color.White
         Me.pbCarregando.Image = CType(resources.GetObject("pbCarregando.Image"), System.Drawing.Image)
-        Me.pbCarregando.Location = New System.Drawing.Point(18, 169)
+        Me.pbCarregando.Location = New System.Drawing.Point(17, 167)
         Me.pbCarregando.Name = "pbCarregando"
         Me.pbCarregando.Size = New System.Drawing.Size(586, 197)
         Me.pbCarregando.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -196,7 +196,6 @@ Partial Class FrmUF
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnControles.BackColor = System.Drawing.SystemColors.Control
         Me.pnControles.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnControles.Controls.Add(Me.btnFiltro)
         Me.pnControles.Controls.Add(Me.btnUltimo)
         Me.pnControles.Controls.Add(Me.btnProximo)
         Me.pnControles.Controls.Add(Me.btnAnterior)
@@ -205,21 +204,6 @@ Partial Class FrmUF
         Me.pnControles.Name = "pnControles"
         Me.pnControles.Size = New System.Drawing.Size(588, 22)
         Me.pnControles.TabIndex = 11
-        '
-        'btnFiltro
-        '
-        Me.btnFiltro.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnFiltro.FlatAppearance.BorderSize = 0
-        Me.btnFiltro.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent
-        Me.btnFiltro.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnFiltro.Image = CType(resources.GetObject("btnFiltro.Image"), System.Drawing.Image)
-        Me.btnFiltro.Location = New System.Drawing.Point(474, -2)
-        Me.btnFiltro.Name = "btnFiltro"
-        Me.btnFiltro.Size = New System.Drawing.Size(29, 25)
-        Me.btnFiltro.TabIndex = 6
-        Me.ToolTip1.SetToolTip(Me.btnFiltro, "Filtrar os registros da Tabela")
-        Me.btnFiltro.UseVisualStyleBackColor = True
         '
         'btnUltimo
         '
@@ -285,15 +269,15 @@ Partial Class FrmUF
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.colCodigo, Me.colDescricao, Me.colSigla})
-        Me.dgvConsulta.Location = New System.Drawing.Point(17, 143)
+        Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID, Me.DESCR, Me.País, Me.ID_PAIS})
+        Me.dgvConsulta.Location = New System.Drawing.Point(17, 140)
         Me.dgvConsulta.Name = "dgvConsulta"
         Me.dgvConsulta.ReadOnly = True
         Me.dgvConsulta.RowHeadersWidth = 24
@@ -302,29 +286,36 @@ Partial Class FrmUF
         Me.dgvConsulta.Size = New System.Drawing.Size(588, 224)
         Me.dgvConsulta.TabIndex = 1
         '
-        'colCodigo
+        'ID
         '
-        Me.colCodigo.DataPropertyName = "CODE"
-        Me.colCodigo.HeaderText = "Código"
-        Me.colCodigo.Name = "colCodigo"
-        Me.colCodigo.ReadOnly = True
-        Me.colCodigo.Width = 60
+        Me.ID.DataPropertyName = "ID_ESTADO"
+        Me.ID.HeaderText = "ID"
+        Me.ID.Name = "ID"
+        Me.ID.ReadOnly = True
         '
-        'colDescricao
+        'DESCR
         '
-        Me.colDescricao.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill
-        Me.colDescricao.DataPropertyName = "DESCR"
-        Me.colDescricao.HeaderText = "Descrição"
-        Me.colDescricao.Name = "colDescricao"
-        Me.colDescricao.ReadOnly = True
+        Me.DESCR.DataPropertyName = "DESCR"
+        Me.DESCR.HeaderText = "Descrição"
+        Me.DESCR.Name = "DESCR"
+        Me.DESCR.ReadOnly = True
+        Me.DESCR.Width = 300
         '
-        'colSigla
+        'País
         '
-        Me.colSigla.DataPropertyName = "SIGLA"
-        Me.colSigla.HeaderText = "Sigla"
-        Me.colSigla.Name = "colSigla"
-        Me.colSigla.ReadOnly = True
-        Me.colSigla.Width = 106
+        Me.País.DataPropertyName = "PAIS"
+        Me.País.HeaderText = "Pais"
+        Me.País.Name = "País"
+        Me.País.ReadOnly = True
+        Me.País.Width = 200
+        '
+        'ID_PAIS
+        '
+        Me.ID_PAIS.DataPropertyName = "ID_PAIS"
+        Me.ID_PAIS.HeaderText = "ID_PAIS"
+        Me.ID_PAIS.Name = "ID_PAIS"
+        Me.ID_PAIS.ReadOnly = True
+        Me.ID_PAIS.Visible = False
         '
         'GroupBox1
         '
@@ -340,6 +331,20 @@ Partial Class FrmUF
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detalhes:"
+        '
+        'cbPais
+        '
+        Me.cbPais.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cbPais.DisplayMember = "DESCR"
+        Me.cbPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbPais.Enabled = False
+        Me.cbPais.FormattingEnabled = True
+        Me.cbPais.Location = New System.Drawing.Point(440, 48)
+        Me.cbPais.Name = "cbPais"
+        Me.cbPais.Size = New System.Drawing.Size(123, 24)
+        Me.cbPais.TabIndex = 10
+        Me.cbPais.Tag = "requerido"
+        Me.cbPais.ValueMember = "ID_PAIS"
         '
         'Label1
         '
@@ -377,20 +382,6 @@ Partial Class FrmUF
         '
         Me.BackgroundWorker1.WorkerReportsProgress = True
         Me.BackgroundWorker1.WorkerSupportsCancellation = True
-        '
-        'cbPais
-        '
-        Me.cbPais.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cbPais.DisplayMember = "DESCR"
-        Me.cbPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbPais.Enabled = False
-        Me.cbPais.FormattingEnabled = True
-        Me.cbPais.Location = New System.Drawing.Point(440, 48)
-        Me.cbPais.Name = "cbPais"
-        Me.cbPais.Size = New System.Drawing.Size(123, 24)
-        Me.cbPais.TabIndex = 10
-        Me.cbPais.Tag = "requerido"
-        Me.cbPais.ValueMember = "SIGLA"
         '
         'FrmUF
         '
@@ -436,10 +427,10 @@ Partial Class FrmUF
     Friend WithEvents btnEditar As System.Windows.Forms.Button
     Friend WithEvents btnSair As System.Windows.Forms.Button
     Friend WithEvents txtCodigo As System.Windows.Forms.TextBox
-    Friend WithEvents colCodigo As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colDescricao As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents colSigla As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents btnFiltro As Button
     Friend WithEvents cbPais As ComboBox
+    Friend WithEvents ID As DataGridViewTextBoxColumn
+    Friend WithEvents DESCR As DataGridViewTextBoxColumn
+    Friend WithEvents País As DataGridViewTextBoxColumn
+    Friend WithEvents ID_PAIS As DataGridViewTextBoxColumn
 End Class

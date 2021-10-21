@@ -14,15 +14,6 @@ Option Explicit On
 Partial Public Class RemessaBoletos
 
     '''<summary>
-    '''Controle UpdatePanel1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -228,24 +219,6 @@ Partial Public Class RemessaBoletos
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnEnviarRemessa As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle txtResultado.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtResultado As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle TextBox1.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents TextBox1 As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle dsFaturamento.

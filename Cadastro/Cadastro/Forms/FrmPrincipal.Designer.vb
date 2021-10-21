@@ -25,9 +25,17 @@ Partial Class FrmPrincipal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmPrincipal))
         Me.mnPrincipal = New System.Windows.Forms.MenuStrip()
         Me.MnuCadastros = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuCadNavios = New System.Windows.Forms.ToolStripMenuItem()
-        Me.nmNCM = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MnuCadPortos = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnNavios = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnNCM = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnPortos = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnCidades = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnPais = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnEstados = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnServicos = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnEventos = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnContas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnMoedas = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnCadConteiner = New System.Windows.Forms.ToolStripMenuItem()
         Me.Mnusair = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
@@ -47,14 +55,6 @@ Partial Class FrmPrincipal
         Me.PrintDialog1 = New System.Windows.Forms.PrintDialog()
         Me.pbLogo = New System.Windows.Forms.PictureBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.CidadesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PaísesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EstadosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ServiçosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EventosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MoedasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContainerToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnPrincipal.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.pbLogo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,28 +75,76 @@ Partial Class FrmPrincipal
         '
         'MnuCadastros
         '
-        Me.MnuCadastros.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MnuCadNavios, Me.nmNCM, Me.MnuCadPortos, Me.CidadesToolStripMenuItem, Me.PaísesToolStripMenuItem, Me.EstadosToolStripMenuItem, Me.ServiçosToolStripMenuItem, Me.EventosToolStripMenuItem, Me.ContasToolStripMenuItem, Me.MoedasToolStripMenuItem, Me.ContainerToolStripMenuItem})
+        Me.MnuCadastros.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnNavios, Me.mnNCM, Me.mnPortos, Me.mnCidades, Me.mnPais, Me.mnEstados, Me.mnServicos, Me.mnEventos, Me.mnContas, Me.mnMoedas, Me.mnCadConteiner})
         Me.MnuCadastros.Name = "MnuCadastros"
         Me.MnuCadastros.Size = New System.Drawing.Size(71, 20)
         Me.MnuCadastros.Text = "&Cadastros"
         '
-        'MnuCadNavios
+        'mnNavios
         '
-        Me.MnuCadNavios.Name = "MnuCadNavios"
-        Me.MnuCadNavios.Size = New System.Drawing.Size(180, 22)
-        Me.MnuCadNavios.Text = "&Navios"
+        Me.mnNavios.Name = "mnNavios"
+        Me.mnNavios.Size = New System.Drawing.Size(180, 22)
+        Me.mnNavios.Text = "&Navios"
         '
-        'nmNCM
+        'mnNCM
         '
-        Me.nmNCM.Name = "nmNCM"
-        Me.nmNCM.Size = New System.Drawing.Size(180, 22)
-        Me.nmNCM.Text = "NCM"
+        Me.mnNCM.Name = "mnNCM"
+        Me.mnNCM.Size = New System.Drawing.Size(180, 22)
+        Me.mnNCM.Text = "NCM"
         '
-        'MnuCadPortos
+        'mnPortos
         '
-        Me.MnuCadPortos.Name = "MnuCadPortos"
-        Me.MnuCadPortos.Size = New System.Drawing.Size(180, 22)
-        Me.MnuCadPortos.Text = "Portos"
+        Me.mnPortos.Name = "mnPortos"
+        Me.mnPortos.Size = New System.Drawing.Size(180, 22)
+        Me.mnPortos.Text = "Portos"
+        '
+        'mnCidades
+        '
+        Me.mnCidades.Name = "mnCidades"
+        Me.mnCidades.Size = New System.Drawing.Size(180, 22)
+        Me.mnCidades.Text = "Cidades"
+        '
+        'mnPais
+        '
+        Me.mnPais.Name = "mnPais"
+        Me.mnPais.Size = New System.Drawing.Size(180, 22)
+        Me.mnPais.Text = "Países"
+        '
+        'mnEstados
+        '
+        Me.mnEstados.Name = "mnEstados"
+        Me.mnEstados.Size = New System.Drawing.Size(180, 22)
+        Me.mnEstados.Text = "Estados"
+        '
+        'mnServicos
+        '
+        Me.mnServicos.Name = "mnServicos"
+        Me.mnServicos.Size = New System.Drawing.Size(180, 22)
+        Me.mnServicos.Text = "Serviços"
+        '
+        'mnEventos
+        '
+        Me.mnEventos.Name = "mnEventos"
+        Me.mnEventos.Size = New System.Drawing.Size(180, 22)
+        Me.mnEventos.Text = "Eventos"
+        '
+        'mnContas
+        '
+        Me.mnContas.Name = "mnContas"
+        Me.mnContas.Size = New System.Drawing.Size(180, 22)
+        Me.mnContas.Text = "Contas"
+        '
+        'mnMoedas
+        '
+        Me.mnMoedas.Name = "mnMoedas"
+        Me.mnMoedas.Size = New System.Drawing.Size(180, 22)
+        Me.mnMoedas.Text = "Moedas"
+        '
+        'mnCadConteiner
+        '
+        Me.mnCadConteiner.Name = "mnCadConteiner"
+        Me.mnCadConteiner.Size = New System.Drawing.Size(180, 22)
+        Me.mnCadConteiner.Text = "Container"
         '
         'Mnusair
         '
@@ -248,54 +296,6 @@ Partial Class FrmPrincipal
         Me.Panel1.Size = New System.Drawing.Size(987, 550)
         Me.Panel1.TabIndex = 10
         '
-        'CidadesToolStripMenuItem
-        '
-        Me.CidadesToolStripMenuItem.Name = "CidadesToolStripMenuItem"
-        Me.CidadesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CidadesToolStripMenuItem.Text = "Cidades"
-        '
-        'PaísesToolStripMenuItem
-        '
-        Me.PaísesToolStripMenuItem.Name = "PaísesToolStripMenuItem"
-        Me.PaísesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.PaísesToolStripMenuItem.Text = "Países"
-        '
-        'EstadosToolStripMenuItem
-        '
-        Me.EstadosToolStripMenuItem.Name = "EstadosToolStripMenuItem"
-        Me.EstadosToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.EstadosToolStripMenuItem.Text = "Estados"
-        '
-        'ServiçosToolStripMenuItem
-        '
-        Me.ServiçosToolStripMenuItem.Name = "ServiçosToolStripMenuItem"
-        Me.ServiçosToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ServiçosToolStripMenuItem.Text = "Serviços"
-        '
-        'EventosToolStripMenuItem
-        '
-        Me.EventosToolStripMenuItem.Name = "EventosToolStripMenuItem"
-        Me.EventosToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.EventosToolStripMenuItem.Text = "Eventos"
-        '
-        'ContasToolStripMenuItem
-        '
-        Me.ContasToolStripMenuItem.Name = "ContasToolStripMenuItem"
-        Me.ContasToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ContasToolStripMenuItem.Text = "Contas"
-        '
-        'MoedasToolStripMenuItem
-        '
-        Me.MoedasToolStripMenuItem.Name = "MoedasToolStripMenuItem"
-        Me.MoedasToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.MoedasToolStripMenuItem.Text = "Moedas"
-        '
-        'ContainerToolStripMenuItem
-        '
-        Me.ContainerToolStripMenuItem.Name = "ContainerToolStripMenuItem"
-        Me.ContainerToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.ContainerToolStripMenuItem.Text = "Container"
-        '
         'FrmPrincipal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -340,8 +340,8 @@ Partial Class FrmPrincipal
     Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
     Friend WithEvents Printer As System.Drawing.Printing.PrintDocument
     Friend WithEvents PrintDialog1 As System.Windows.Forms.PrintDialog
-    Friend WithEvents MnuCadNavios As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents MnuCadPortos As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnNavios As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnPortos As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents pbLogo As System.Windows.Forms.PictureBox
     Friend WithEvents Mnusair As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
@@ -349,13 +349,13 @@ Partial Class FrmPrincipal
     Friend WithEvents ToolStripStatusLabel3 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents lblBase As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents nmNCM As ToolStripMenuItem
-    Friend WithEvents CidadesToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PaísesToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents EstadosToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ServiçosToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents EventosToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ContasToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents MoedasToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ContainerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents mnNCM As ToolStripMenuItem
+    Friend WithEvents mnCidades As ToolStripMenuItem
+    Friend WithEvents mnPais As ToolStripMenuItem
+    Friend WithEvents mnEstados As ToolStripMenuItem
+    Friend WithEvents mnServicos As ToolStripMenuItem
+    Friend WithEvents mnEventos As ToolStripMenuItem
+    Friend WithEvents mnContas As ToolStripMenuItem
+    Friend WithEvents mnMoedas As ToolStripMenuItem
+    Friend WithEvents mnCadConteiner As ToolStripMenuItem
 End Class

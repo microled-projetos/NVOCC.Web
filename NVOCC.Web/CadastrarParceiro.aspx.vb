@@ -88,7 +88,9 @@ ISNULL(QT_DIAS_FATURAMENTO,0)QT_DIAS_FATURAMENTO,
 ISNULL(ID_TIPO_FATURAMENTO,0)ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES,
-FL_SHIPPER
+FL_SHIPPER,
+OB_COMPLEMENTARES,
+ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
 FROM TB_PARCEIRO 
 WHERE ID_PARCEIRO =" & ID)
             If ds.Tables(0).Rows.Count > 0 Then
@@ -116,6 +118,7 @@ WHERE ID_PARCEIRO =" & ID)
                 txtNumero.Text = ds.Tables(0).Rows(0).Item("NR_ENDERECO").ToString()
                 txtBairro.Text = ds.Tables(0).Rows(0).Item("BAIRRO").ToString()
                 txtComplemento.Text = ds.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString()
+                txtOBSComplementares.Text = ds.Tables(0).Rows(0).Item("OB_COMPLEMENTARES").ToString()
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("EMAIL")) Then
                     txtEmailParceiro.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
                 End If
@@ -178,6 +181,7 @@ WHERE ID_PARCEIRO =" & ID)
                 ddlAcordoCambioMaritimoImpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
                 ddlAcordoCambioMaritimoExpoFCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
                 ddlAcordoCambioMaritimoExpoLCL.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
+                ddlRegraAtualizacao.SelectedValue = ds.Tables(0).Rows(0).Item("REGRA_ATUALIZACAO")
                 txtQtdFaturamento.Text = ds.Tables(0).Rows(0).Item("QT_DIAS_FATURAMENTO")
                 ddlTipoFaturamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO")
 
@@ -322,6 +326,10 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Visible = True
         ElseIf txtEmail.Text <> "" And SeparaEmail(txtEmail.Text) = False Then
             msgErro.Text = "E-Mail informado na aba Email x Eventos é inválido."
+            divmsg1.Visible = True
+            msgErro.Visible = True
+        ElseIf ckbTransportador.Checked = True And ddlRegraAtualizacao.SelectedValue = 0 And ckbAtivo.Checked = True Then
+            msgErro.Text = "Necessário informar a <strong>regra de atualização</strong> na Aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
         Else
@@ -488,6 +496,12 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtComplemento.Text = "'" & txtComplemento.Text & "'"
                             End If
 
+                            If txtOBSComplementares.Text = "" Then
+                                txtOBSComplementares.Text = "NULL"
+                            Else
+                                txtOBSComplementares.Text = "'" & txtOBSComplementares.Text & "'"
+                            End If
+
                             If txtEmailParceiro.Text = "" Then
                                 txtEmailParceiro.Text = "NULL "
                             Else
@@ -529,6 +543,7 @@ WHERE ID_PARCEIRO =" & ID)
             NR_ENDERECO,
             BAIRRO,
             COMPL_ENDERECO,
+            OB_COMPLEMENTARES,
             ID_CIDADE,
             TELEFONE,
             CEP,
@@ -561,7 +576,9 @@ WHERE ID_PARCEIRO =" & ID)
             EMAIL,
             FL_VENDEDOR_DIRETO,
             FL_EQUIPE_INSIDE_SALES,
-            FL_SHIPPER
+            FL_SHIPPER,
+            REGRA_ATUALIZACAO
+
             ) 
             VALUES ( 
             '" & ckbImportador.Checked & "',
@@ -585,6 +602,7 @@ WHERE ID_PARCEIRO =" & ID)
             " & txtNumero.Text & ",
             " & txtBairro.Text & ",
             " & txtComplemento.Text & ",
+            " & txtOBSComplementares.Text & ",
             " & ddlCidade.SelectedValue & ",
             " & txtTelefone.Text & ",
             " & txtCEP.Text & ",
@@ -617,7 +635,8 @@ WHERE ID_PARCEIRO =" & ID)
             " & txtEmailParceiro.Text & ",
             '" & ckbVendedorDireto.Checked & "',
             '" & ckbEquipeInsideSales.Checked & "',
-            '" & ckbShipper.Checked & "'
+            '" & ckbShipper.Checked & "',
+            " & ddlRegraAtualizacao.SelectedValue & "
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
 
@@ -824,6 +843,12 @@ WHERE ID_PARCEIRO =" & ID)
                                 txtComplemento.Text = "'" & txtComplemento.Text & "'"
                             End If
 
+                            If txtOBSComplementares.Text = "" Then
+                                txtOBSComplementares.Text = "NULL "
+                            Else
+                                txtOBSComplementares.Text = "'" & txtOBSComplementares.Text & "'"
+                            End If
+
                             If txtEmailNF.Text = "" Then
                                 txtEmailNF.Text = "NULL "
                             Else
@@ -928,6 +953,7 @@ WHERE ID_PARCEIRO =" & ID)
             NR_ENDERECO=" & txtNumero.Text & ",
             BAIRRO=" & txtBairro.Text & ",
             COMPL_ENDERECO=" & txtComplemento.Text & ",
+            OB_COMPLEMENTARES=" & txtOBSComplementares.Text & ",
             ID_CIDADE=" & ddlCidade.SelectedValue & ",
             TELEFONE=" & txtTelefone.Text & ",
             CEP=" & txtCEP.Text & ",
@@ -960,12 +986,25 @@ WHERE ID_PARCEIRO =" & ID)
             EMAIL =  " & txtEmailParceiro.Text & ",
             FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
             FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
-            FL_SHIPPER = '" & ckbShipper.Checked & "'
+            FL_SHIPPER = '" & ckbShipper.Checked & "',
+            REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " 
             where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID
 
                             SQL = SQL.Replace("#filtro", FILTRO)
                             Con.ExecutarQuery(SQL)
+
+
+                            Con.ExecutarQuery("update F 
+                            set F.COMPL_ENDERECO = P.COMPL_ENDERECO,
+                            F.ENDERECO = P.ENDERECO,
+                            F.BAIRRO = P.BAIRRO,
+                            F.NR_ENDERECO = P.NR_ENDERECO,
+                            F.CEP = P.CEP
+                            --SELECT *
+                            FROM TB_FATURAMENTO F
+                            INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
+                            WHERE F.NR_RPS IS NULL AND F.NR_NOTA_FISCAL IS NULL AND P.ID_PARCEIRO = " & ID)
 
                             If txtNomeContato.Text <> "" Then
 

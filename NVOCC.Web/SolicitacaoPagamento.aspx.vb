@@ -33,13 +33,16 @@
                     End If
                 End If
 
-                ds1 = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
+                ds1 = Con.ExecutarQuery("SELECT NR_PROCESSO,NM_ITEM_DESPESA FROM [dbo].[View_BL_TAXAS]
                 WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
-                If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
-
+                If ds1.Tables(0).Rows.Count > 0 Then
                     divErro.Visible = True
                     lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
                     ddlFornecedor.Enabled = False
+                    For Each linha As DataRow In ds1.Tables(0).Rows
+                        lblErro.Text &= "<br/>PROCESSO: " & linha.Item("NR_PROCESSO").ToString() & " - TAXA: " & linha.Item("NM_ITEM_DESPESA").ToString()
+                    Next
+
                 Else
                     divErro.Visible = False
                 End If
@@ -117,6 +120,7 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim Valor_Calculado As Decimal = CType(linha.FindControl("lblValor_Calculado"), Label).Text
             Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
             Dim valor2 As Decimal = lblTotal.Text
             Dim Calculado As String = CType(linha.FindControl("lblCalculado"), Label).Text
@@ -130,8 +134,17 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
                     check.Enabled = False
 
                 End If
-            End If
 
+                If Valor_Calculado = 0 Then
+                    lblErro.Text = "TAXA NECESSITA DE CÁLCULO"
+                    divErro.Visible = True
+                    check.Checked = False
+                    check.Enabled = False
+                    Exit Sub
+
+
+                End If
+            End If
         Next
 
     End Sub
