@@ -1829,6 +1829,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
 
         Else
+            txtHBL_BasicoMaritimo.Text = txtHBL_BasicoMaritimo.Text.Replace(" ", "")
+
 
             If txtValorDivisaoProfit_BasicoMaritimo.Text = "" Then
                 txtValorDivisaoProfit_BasicoMaritimo.Text = 0
@@ -2020,6 +2022,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             divErro_BasicoAereo.Visible = True
             lblErro_BasicoAereo.Text = "É necesário informar o tipo de serviço."
         Else
+
+            txtHBL_BasicoAereo.Text = txtHBL_BasicoAereo.Text.Replace(" ", "")
+
+
             If txtValorDivisaoProfit_BasicoAereo.Text = "" Then
                 txtValorDivisaoProfit_BasicoAereo.Text = 0
             End If

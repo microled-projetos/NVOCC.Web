@@ -959,7 +959,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             lblErro_BasicoAereo.Text = "É necesário informar o tipo de serviço."
         Else
 
-
+            txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace(" ", "")
             txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", "")
             txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(",", ".")
 
@@ -1292,6 +1292,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             lblErro_BasicoMaritimo.Text = "É necesário informar o tipo de serviço."
         Else
 
+            txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace(" ", "")
 
             txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(".", "")
             txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(",", ".")
