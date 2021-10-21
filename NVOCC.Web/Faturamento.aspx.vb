@@ -557,16 +557,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                     lblmsginf.Text = "RPS em processamento, por favor aguarde!"
                                     dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
                                     dgvFaturamento.DataBind()
-                                ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
-                                    divinf.Visible = True
-                                    lblmsginf.Text = "RPS em processamento, por favor aguarde!"
-                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    dgvFaturamento.DataBind()
-                                    'ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
-                                    '    divinf.Visible = True
-                                    '    lblmsginf.Text = "RPS não enviada para prefeitura, por favor tente novamente!"
-                                    '    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    '    dgvFaturamento.DataBind()
 
                                 Else
                                     lblmsgErro.Text = "Não foi possivel completar a ação!"
