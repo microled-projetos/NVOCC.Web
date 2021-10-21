@@ -744,7 +744,6 @@ WHERE A.ID_BL_TAXA = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
                     ddlMoedaCompra_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
-                    ' ddlMoedaVenda_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_PAGAMENTO")) Then
@@ -753,17 +752,14 @@ WHERE A.ID_BL_TAXA = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
                     txtTaxaCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
-                    ' txtTaxaVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")) Then
                     txtCalculoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
-                    'txtCalculoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")) Then
                     txtMinimoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
-                    ' txtMinimoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")) Then
