@@ -195,7 +195,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             txtVencimento.Text = ""
             dgvTaxas.DataBind()
 
-
+            ' Dim finaliza As New FinalizaCotacao
+            ' finaliza.Finalizar()
         End If
 
     End Sub
