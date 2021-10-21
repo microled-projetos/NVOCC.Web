@@ -136,6 +136,8 @@
                                                         <asp:Label ID="lblProcesso" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                               <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />
+
                                                 <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
                                                 <asp:TemplateField HeaderText="Liquidação" SortExpression="Liquidação">
                                                     <ItemTemplate>

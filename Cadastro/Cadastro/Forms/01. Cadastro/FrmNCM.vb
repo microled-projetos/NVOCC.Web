@@ -158,7 +158,7 @@ Public Class FrmNCM
         If dgvNCM.Rows.Count > 0 Then
 
             If Not txtID.Text = String.Empty Then
-                If MessageBox.Show("Deseja excluir o NCM: " & dgvNCM.CurrentRow.Cells("DESCRICAO").Value & "?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                If MessageBox.Show("Deseja excluir o NCM selecionado?", "Excluir", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     NCM.Codigo = txtID.Text
                     If NCM.Excluir(NCM) Then
                         MessageBox.Show("Registro excluído com sucesso.", "Cadastro de NCM", MessageBoxButtons.OK, MessageBoxIcon.Information)

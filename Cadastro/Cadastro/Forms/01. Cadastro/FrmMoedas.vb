@@ -99,7 +99,7 @@ Public Class FrmMoedas
                         txtSigla.Text = "'" & txtSigla.Text & "'"
                     End If
 
-                    If Banco.Execute("INSERT INTO TB_MOEDA (CD_MOEDA,NM_MOEDA,SIGLA_MOEDA, FL_ATIVO) VALUES ('" & txtID.Text & "','" + txtNome.Text & "'," + txtSigla.Text & ",'" + Conversions.ToString(chkAtivo.Checked) & "')") Then
+                    If Banco.Execute("INSERT INTO TB_MOEDA (CD_MOEDA,NM_MOEDA,SIGLA_MOEDA, FL_ATIVO) VALUES ('" & txtCodigo.Text & "','" + txtNome.Text & "'," + txtSigla.Text & ",'" + Conversions.ToString(chkAtivo.Checked) & "')") Then
                         Consultar()
                         Geral.Mensagens(Me, 1)
                         txtSigla.Text = ""
@@ -115,7 +115,7 @@ Public Class FrmMoedas
                 End Try
             End If
         Else
-            Ds = Banco.List("SELECT ID_MOEDA FROM [TB_MOEDA] where NM_MOEDA = '" & txtNome.Text & "' and CD_MOEDA ='" + txtID.Text & "' and FL_ATIVO = 1 AND ID_MOEDA <> " + txtID.Text)
+            Ds = Banco.List("SELECT ID_MOEDA FROM [TB_MOEDA] where NM_MOEDA = '" & txtNome.Text & "' and CD_MOEDA ='" + txtCodigo.Text & "' and FL_ATIVO = 1 AND ID_MOEDA <> " + txtID.Text)
 
             If Ds.Rows.Count > 0 Then
                 MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -129,7 +129,7 @@ Public Class FrmMoedas
                         txtSigla.Text = "'" & txtSigla.Text & "'"
                     End If
 
-                    If Banco.Execute("UPDATE TB_MOEDA SET CD_MOEDA = '" & txtID.Text & "', NM_MOEDA = '" + txtNome.Text & "',SIGLA_MOEDA = " + txtSigla.Text & ", FL_ATIVO = '" + Conversions.ToString(chkAtivo.Checked) & "' WHERE ID_MOEDA = " + txtID.Text) Then
+                    If Banco.Execute("UPDATE TB_MOEDA SET CD_MOEDA = '" & txtCodigo.Text & "', NM_MOEDA = '" + txtNome.Text & "',SIGLA_MOEDA = " + txtSigla.Text & ", FL_ATIVO = '" + Conversions.ToString(chkAtivo.Checked) & "' WHERE ID_MOEDA = " + txtID.Text) Then
                         Consultar()
                         Geral.Mensagens(Me, 2)
                         txtSigla.Text = ""

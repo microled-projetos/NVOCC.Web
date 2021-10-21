@@ -22,7 +22,7 @@ Partial Class FrmNCM
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmNCM))
         Me.PrintDocument1 = New System.Drawing.Printing.PrintDocument()
         Me.dgvNCM = New System.Windows.Forms.DataGridView()
@@ -60,8 +60,8 @@ Partial Class FrmNCM
         '
         Me.dgvNCM.AllowUserToAddRows = False
         Me.dgvNCM.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvNCM.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvNCM.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvNCM.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvNCM.BackgroundColor = System.Drawing.Color.White
@@ -311,7 +311,7 @@ Partial Class FrmNCM
         Me.txtCodigoNCM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCodigoNCM.Enabled = False
         Me.txtCodigoNCM.Location = New System.Drawing.Point(15, 42)
-        Me.txtCodigoNCM.MaxLength = 3
+        Me.txtCodigoNCM.MaxLength = 10
         Me.txtCodigoNCM.Name = "txtCodigoNCM"
         Me.txtCodigoNCM.Size = New System.Drawing.Size(128, 23)
         Me.txtCodigoNCM.TabIndex = 8
@@ -333,7 +333,7 @@ Partial Class FrmNCM
         Me.txtAPNCM.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtAPNCM.Enabled = False
         Me.txtAPNCM.Location = New System.Drawing.Point(645, 42)
-        Me.txtAPNCM.MaxLength = 3
+        Me.txtAPNCM.MaxLength = 150
         Me.txtAPNCM.Name = "txtAPNCM"
         Me.txtAPNCM.Size = New System.Drawing.Size(245, 23)
         Me.txtAPNCM.TabIndex = 6
@@ -346,7 +346,7 @@ Partial Class FrmNCM
         Me.txtDescricao.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtDescricao.Enabled = False
         Me.txtDescricao.Location = New System.Drawing.Point(163, 42)
-        Me.txtDescricao.MaxLength = 20
+        Me.txtDescricao.MaxLength = 4000
         Me.txtDescricao.Name = "txtDescricao"
         Me.txtDescricao.Size = New System.Drawing.Size(467, 23)
         Me.txtDescricao.TabIndex = 0

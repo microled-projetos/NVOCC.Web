@@ -48,65 +48,6 @@ Public Class FrmUF
         End If
     End Sub
 
-    Private Sub btnSalvar_Click(ByVal sender As Object, ByVal e As EventArgs)
-        Dim Tela As Control = Me
-
-        If Not Geral.ValidarCampos(Tela) Then
-            Return
-        End If
-
-        If Operators.CompareString(txtCodigo.Text, String.Empty, TextCompare:=False) = 0 Then
-
-            If Geral.VerificarDadosRepetidos(dgvConsulta, 1, txtDescricao.Text) Then
-                Geral.Mensagens(Me, 7)
-                Return
-            End If
-
-            Try
-
-                If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO " & Banco.BancoNVOCC & "TB_ESTADO (NM_ESTADO, ID_PAIS) VALUES ('" + txtDescricao.Text & "',", cbPais.SelectedValue), ")"))) Then
-                    Consultar()
-                    Geral.Mensagens(Me, 1)
-                Else
-                    Geral.Mensagens(Me, 4)
-                End If
-
-            Catch ex3 As Exception
-                ProjectData.SetProjectError(ex3)
-                Dim ex2 As Exception = ex3
-                Geral.Mensagens(Me, 4)
-                ProjectData.ClearProjectError()
-            End Try
-        Else
-
-            Try
-
-                If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE " & Banco.BancoNVOCC & "TB_ESTADO SET NM_ESTADO='" + txtDescricao.Text & "',ID_PAIS = ", cbPais.SelectedValue), " WHERE ID_ESTADO = "), txtCodigo.Text), ""))) Then
-                    Consultar()
-                    Geral.Mensagens(Me, 2)
-                Else
-                    Geral.Mensagens(Me, 5)
-                End If
-
-            Catch ex4 As Exception
-                ProjectData.SetProjectError(ex4)
-                Dim ex As Exception = ex4
-                Geral.Mensagens(Me, 5)
-                ProjectData.ClearProjectError()
-            End Try
-        End If
-
-        SetaControles()
-        Tela = Me
-        Geral.HabilitarCampos(Tela, Habilita:=False)
-    End Sub
-    'Private Sub btnExcluir_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    If Not String.IsNullOrEmpty(txtCodigo.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM " & Banco.BancoNVOCC & "TB_ESTADO WHERE ID_ESTADO = " + txtCodigo.Text), "")) Then
-    '        Consultar()
-    '        Dim Tela As Control = Me
-    '        Geral.LimparCampos(Tela)
-    '    End If
-    'End Sub
 
     Private Sub btnSair_Click(sender As System.Object, e As System.EventArgs) Handles btnSair.Click
         Me.Close()
@@ -150,25 +91,7 @@ Public Class FrmUF
 
     End Sub
 
-    'Private Sub btnEditar_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    If String.IsNullOrEmpty(txtCodigo.Text) Then
-    '        MessageBox.Show("Selecione um registro.", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-    '        Return
-    '    End If
 
-    '    SetaControles()
-    '    Dim Tela As Control = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=True)
-    '    txtDescricao.Focus()
-    'End Sub
-
-    'Private Sub btnCancelar_Click(ByVal sender As Object, ByVal e As EventArgs)
-    '    SetaControles()
-    '    Dim Tela As Control = Me
-    '    Geral.LimparCampos(Tela)
-    '    Tela = Me
-    '    Geral.HabilitarCampos(Tela, Habilita:=False)
-    'End Sub
 
     Private Sub FrmAgencias_KeyDown(sender As System.Object, e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
 
@@ -243,7 +166,7 @@ Public Class FrmUF
     End Sub
 
     Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
-        If Not String.IsNullOrEmpty(txtCodigo.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM " & Banco.BancoNVOCC & "TB_ESTADO WHERE ID_ESTADO = " + txtCodigo.Text), "")) Then
+        If Not String.IsNullOrEmpty(txtCodigo.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute(If(("DELETE FROM TB_ESTADO WHERE ID_ESTADO = " + txtCodigo.Text), "")) Then
             Consultar()
             Dim Tela As Control = Me
             Geral.LimparCampos(Tela)
@@ -266,6 +189,59 @@ Public Class FrmUF
         SetaControles()
         Dim Tela As Control = Me
         Geral.LimparCampos(Tela)
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
+    End Sub
+
+    Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
+        Dim Tela As Control = Me
+
+        If Not Geral.ValidarCampos(Tela) Then
+            Return
+        End If
+
+        If Operators.CompareString(txtCodigo.Text, String.Empty, TextCompare:=False) = 0 Then
+
+            If Geral.VerificarDadosRepetidos(dgvConsulta, 1, txtDescricao.Text) Then
+                Geral.Mensagens(Me, 7)
+                Return
+            End If
+
+            Try
+
+                If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject("INSERT INTO TB_ESTADO (NM_ESTADO, ID_PAIS) VALUES ('" + txtDescricao.Text & "',", cbPais.SelectedValue), ")"))) Then
+                    Consultar()
+                    Geral.Mensagens(Me, 1)
+                Else
+                    Geral.Mensagens(Me, 4)
+                End If
+
+            Catch ex3 As Exception
+                ProjectData.SetProjectError(ex3)
+                Dim ex2 As Exception = ex3
+                Geral.Mensagens(Me, 4)
+                ProjectData.ClearProjectError()
+            End Try
+        Else
+
+            Try
+
+                If Banco.Execute(Conversions.ToString(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject("UPDATE  TB_ESTADO SET NM_ESTADO='" + txtDescricao.Text & "',ID_PAIS = ", cbPais.SelectedValue), " WHERE ID_ESTADO = "), txtCodigo.Text), ""))) Then
+                    Consultar()
+                    Geral.Mensagens(Me, 2)
+                Else
+                    Geral.Mensagens(Me, 5)
+                End If
+
+            Catch ex4 As Exception
+                ProjectData.SetProjectError(ex4)
+                Dim ex As Exception = ex4
+                Geral.Mensagens(Me, 5)
+                ProjectData.ClearProjectError()
+            End Try
+        End If
+
+        SetaControles()
         Tela = Me
         Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
