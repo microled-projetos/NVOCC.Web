@@ -173,7 +173,7 @@ Public Class RemessaBoletos
                         If check.Checked = True Then
 
 
-                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, NR_NOTA_DEBITO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,upper([dbo].[fnTiraAcento](NM_CLIENTE))NM_CLIENTE,upper([dbo].[fnTiraAcento](ENDERECO))ENDERECO,upper([dbo].[fnTiraAcento](BAIRRO))BAIRRO,CEP,upper([dbo].[fnTiraAcento](CIDADE))CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
 
 
 
@@ -231,6 +231,7 @@ Public Class RemessaBoletos
         Con.Fechar()
         ConOracle.Desconectar()
     End Sub
+
     Private Sub btnEnviarRemessa_Click(sender As Object, e As EventArgs) Handles btnEnviarRemessa.Click
         ArquivoRemessa()
     End Sub
