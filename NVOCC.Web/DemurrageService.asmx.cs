@@ -4056,18 +4056,18 @@ namespace ABAINFRA.Web
             {
                 if (dados.DTRETIRADAPEROSNALFIM != "")
                 {
-                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
                 else
                 {
-                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' ";
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' ";
                 }
             }
             else
             {
                 if (dados.DTRETIRADAPEROSNALFIM != "")
                 {
-                    SQL += "AND BL.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
                 }
             }
 
@@ -4133,7 +4133,7 @@ namespace ABAINFRA.Web
             }
 
             SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') as MASTER, ISNULL(BL.NR_BL,'') AS HOUSE, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(BL.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
             SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P2.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, ";
             SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
@@ -4157,7 +4157,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT BL.NR_PROCESSO, M.NR_BL AS MASTER, BL.NR_BL AS HOUSE, P.NM_RAZAO AS CLIENTE, FORMAT(M.DT_RECEBIMENTO_MBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_MBL, ";
-            SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, FORMAT(BL.DT_RETIRADA_PERSONAL,'yyyy-MM-dd') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "M.CD_RASTREAMENTO_MBL, FORMAT(BL.DT_RECEBIMENTO_HBL,'yyyy-MM-dd') AS DT_RECEBIMENTO_HBL, BL.CD_RASTREAMENTO_HBL, FORMAT(BL.DT_RETIRADA_COURRIER,'yyyy-MM-dd') AS DT_RETIRADA_COURRIER, FORMAT(M.DT_RETIRADA_PERSONAL,'yyyy-MM-dd') AS DT_RETIRADA_PERSONAL, ";
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, ";
             SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
@@ -4237,6 +4237,14 @@ namespace ABAINFRA.Web
             else
             {
                 SQL += "DT_RECEBIMENTO_MBL = '" + dadosEdit.DT_RECEBIMENTO_MBL + "', ";
+            }
+            if (dadosEdit.DT_RETIRADA_PERSONAL == "")
+            {
+                SQL += "DT_RETIRADA_PERSONAL = NULL, ";
+            }
+            else
+            {
+                SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
             }
             SQL += "CD_RASTREAMENTO_MBL = '" + dadosEdit.CD_RASTREAMENTO_MBL + "' ";
             SQL += "WHERE ID_BL = '" + idblmaster + "' ";
@@ -6300,9 +6308,9 @@ namespace ABAINFRA.Web
             SQL += "CASE WHEN AI.FL_CONFERIDO = 1 THEN 'SIM' ELSE 'NÃO' END AS CONFERIDO, ";
             SQL += "ATF.NM_ACCOUNT_TIPO_FATURA, ";
             SQL += "M.SIGLA_MOEDA, ";
-            SQL += "(SELECT SUM(VL_TAXA) FROM TB_ACCOUNT_INVOICE_ITENS ";
+            SQL += "isnull(convert(varchar,(SELECT SUM(VL_TAXA) FROM TB_ACCOUNT_INVOICE_ITENS ";
             SQL += "WHERE ID_ACCOUNT_INVOICE = AI.ID_ACCOUNT_INVOICE ";
-            SQL += "GROUP BY ID_ACCOUNT_INVOICE) as VALOR, ";
+            SQL += "GROUP BY ID_ACCOUNT_INVOICE)),'') as VALOR, ";
             SQL += "ISNULL(FORMAT(AF.DT_FECHAMENTO,'dd/MM/yyyy'),'') AS DT_FECHAMENTO, ";
             SQL += "ISNULL(AI.DS_OBSERVACAO,'') AS OBS ";
             SQL += "from TB_ACCOUNT_INVOICE AI ";
@@ -6315,6 +6323,40 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS AFI ON AI.ID_ACCOUNT_INVOICE = AFI.ID_ACCOUNT_INVOICE ";
             SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO AF ON AFI.ID_ACCOUNT_FECHAMENTO = AF.ID_ACCOUNT_FECHAMENTO ";
             SQL += "WHERE AI.DT_VENCIMENTO >= '"+dataI+"' AND AI.DT_VENCIMENTO <= '"+dataF+"' ";
+            SQL += "" + nota + "";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarInvoicesQuitadas(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "WHERE NM_AGENTE LIKE '" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+            SQL = "select ISNULL(NM_AGENTE,'') AS NM_AGENTE, ISNULL(FORMAT(DT_QUITACAO,'dd/MM/yyyy'),'') AS DT_QUITACAO, ISNULL(NR_CONTRATO,'') AS NR_CONTRATO, ISNULL(NR_MBL,'') AS NR_MBL, ISNULL(NR_HBL,'') AS NR_HBL, ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(NR_INVOICE,'') AS NR_INVOICE, ISNULL(TP_INVOICE,'') AS TP_INVOICE, ISNULL(FORMAT(DT_INVOICE,'dd/MM/yyyy'),'') AS DT_INVOICE, ISNULL(convert(varchar,TX_INVOICE),'') AS TX_INVOICE, CONVERT(DECIMAL(13,3), VL_INVOICE) AS VLINVOICE, ISNULL(SIGLA_MOEDA,'') AS SIGLA, CONVERT(DECIMAL(13,3),VL_INVOICE_BR) AS VLINVOICEBRL, ";
+            SQL += "ISNULL(convert(varchar,TX_RECEBIMENTO),'') AS TX_RECEBIMENTO, ISNULL(FORMAT(DT_RECEBIMENTO,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO, ISNULL(NM_IMPORTADOR,'') AS NM_IMPORTADOR from FN_INVOICES_QUITADAS( '" + dataI + "', '" + dataF + "') ";
             SQL += "" + nota + "";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -6402,19 +6444,60 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string indiceItemDespesa(string blmaster)
+        {
+            string SQL;
+
+            SQL = "SELECT distinct(D.NM_ITEM_DESPESA) AS INDICEITEM FROM TB_BL A ";
+            SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
+            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' AND A.ID_BL_MASTER = '"+ blmaster+"' ";
+
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public string imprimirDemonstrativoRateio(string blmaster)
         {
             string SQL;
 
-            SQL = "SELECT A.NR_PROCESSO AS PROCESSO, CONVERT(VARCHAR,A.VL_M3) AS CUBAGEM, CONVERT(VARCHAR,C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM FROM TB_BL A ";
+            SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, CONVERT(DECIMAL(13,2),C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM, D.ID_ITEM_DESPESA AS ITEMID FROM TB_BL A ";
             SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
             SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
             SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
             SQL += "AND A.ID_BL_MASTER = '"+blmaster+"' ";
-            SQL += "GROUP BY A.NR_PROCESSO, A.VL_M3, D.NM_ITEM_DESPESA, C.VL_LIQUIDO ";
+            SQL += "GROUP BY D.NM_ITEM_DESPESA, A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, C.VL_LIQUIDO, B.NR_BL, D.ID_ITEM_DESPESA ";
+            SQL += "ORDER BY D.NM_ITEM_DESPESA ";
 
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string imprimirDemonstrativoRateioTotal(string blmaster)
+        {
+            string SQL;
+
+            SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, CONVERT(DECIMAL(13,2),C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM, D.ID_ITEM_DESPESA AS ITEMID FROM TB_BL A ";
+            SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
+            SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
+            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
+            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
+            SQL += "AND A.ID_BL_MASTER = '" + blmaster + "' ";
+            SQL += "GROUP BY D.NM_ITEM_DESPESA, A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, C.VL_LIQUIDO, B.NR_BL, D.ID_ITEM_DESPESA ";
+            SQL += "ORDER BY D.NM_ITEM_DESPESA ";
 
 
             DataTable listTable = new DataTable();
