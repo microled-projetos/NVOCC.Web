@@ -36,6 +36,9 @@ Public Class Faturamento
                 txtDataCheckLiquidados.Text = Now.Date.AddDays(-1)
                 txtDataCheckLiquidados.Text = FinalSemanaSubtrai(txtDataCheckLiquidados.Text)
                 AtualizaGrid()
+                If Not Page.IsPostBack Then
+                    ddlBanco.SelectedValue = "1"
+                End If
             End If
             txtData.Text = Now.Date.ToString("dd/MM/yyyy")
             lkNotasFiscais.Visible = True
@@ -1064,6 +1067,8 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Exit Sub
                     End If
 
+
+
                     'Salvando informaçoes importantes
                     COD_BANCO = ds.Tables(0).Rows(0).Item("COD_BANCO")
                     VL_MULTA = ds.Tables(0).Rows(0).Item("VL_MULTA")
@@ -1116,7 +1121,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                 Dim i As Integer = 0
                 ds = Con.ExecutarQuery("SELECT ID_FATURAMENTO,(SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-(SELECT CONVERT(VARCHAR,B.DT_VENCIMENTO,103) FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If ds.Tables(0).Rows.Count > 0 Then
@@ -1125,9 +1130,12 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         i = i + 1
                         ''CRIAÇÃO DO TITULO
                         Dim GeraRemessa As New GeraRemessa
+                        If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOSSONUMERO")) Then
+                            NossoNumero = ds.Tables(0).Rows(0).Item("NOSSONUMERO")
+                        Else
+                            NossoNumero = GeraRemessa.obtemProximoNossoNum(SEQUENCIA)
+                        End If
 
-                        NossoNumero = GeraRemessa.obtemProximoNossoNum(SEQUENCIA)
-                        NossoNumero = GeraRemessa.Calculo_NossoNumero(NossoNumero)
 
                         Dim Titulo As New Boleto(objBoletos.Banco)
                         Titulo.Sacado = New Sacado With {
@@ -1145,7 +1153,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
-                        Titulo.NumeroDocumento = linhads.Item("NR_NOTA_DEBITO").ToString() 'i
+                        Titulo.NumeroDocumento = "00008180" 'linhads.Item("NR_NOTA_DEBITO").ToString() 
                         Titulo.NumeroControleParticipante = "12"
                         Titulo.NossoNumero = NossoNumero ' "123456" & i
                         Titulo.DataEmissao = Now.Date
@@ -1196,7 +1204,8 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Dim VL_BOLETO As String = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
                         VL_BOLETO = VL_BOLETO.Replace(",", ".")
 
-                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '" & NossoNumero & "', DT_VENCIMENTO_BOLETO = CONVERT(DATE,'" & Titulo.DataVencimento & "',103), DT_EMISSAO_BOLETO = GETDATE(), COD_BANCO = '" & COD_BANCO & "' WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
+                        Dim Dig_NossoNum As String = GeraRemessa.Calculo_DV_NN_Santander(NossoNumero)
+                        Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '" & NossoNumero & "', DT_VENCIMENTO_BOLETO = CONVERT(DATE,'" & Titulo.DataVencimento & "',103), DT_EMISSAO_BOLETO = GETDATE(), COD_BANCO = '" & COD_BANCO & "', DIG_NOSSONUM='" & Dig_NossoNum & "',FL_ENVIADO_REM = 0 WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
 
                     Next
                 End If
