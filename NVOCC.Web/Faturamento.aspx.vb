@@ -1531,4 +1531,9 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
+
+    'Private Sub lkBoleto_Click(sender As Object, e As EventArgs) Handles lkBoleto.Click
+    '    ModalPopupExtender11.Hide()
+    '    ModalPopupExtender6.Show()
+    'End Sub
 End Class

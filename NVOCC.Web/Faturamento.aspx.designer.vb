@@ -788,6 +788,15 @@ Partial Public Class Faturamento
     Protected WithEvents btnFecharSubstituicao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle TextBox5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox5 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ModalPopupExtender6.
     '''</summary>
     '''<remarks>
@@ -821,7 +830,7 @@ Partial Public Class Faturamento
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnImprimirBoleto As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnImprimirBoleto As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharBoleto.
