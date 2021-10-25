@@ -39,8 +39,8 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
                     btnGravar_BasicoMaritimo.Enabled = False
                     btnSalvar_CNTRMaritimo.Visible = False
                     btnNovoCNTRMaritimo.Enabled = False
-                    btnNovaTaxasMaritimo.Enabled = False
-                    btnSalvar_TaxasMaritimo.Visible = False
+                    '  btnNovaTaxasMaritimo.Enabled = False
+                    ' btnSalvar_TaxasMaritimo.Visible = False
                     btnDesvincular.Visible = False
                     btnVincular.Visible = False
                     dgvContainer.Columns(7).Visible = False
@@ -53,8 +53,8 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
                     'AEREO
                     btnGravar_BasicoAereo.Enabled = False
-                    btnNovaTaxaAereo.Enabled = False
-                    btnSalvar_TaxaAereo.Visible = False
+                    'btnNovaTaxaAereo.Enabled = False
+                    ' btnSalvar_TaxaAereo.Visible = False
                     dgvTaxasAereo.Columns(9).Visible = False
                     dgvTaxasAereo.Columns(10).Visible = False
 
@@ -744,7 +744,6 @@ WHERE A.ID_BL_TAXA = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_MOEDA")) Then
                     ddlMoedaCompra_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
-                    ' ddlMoedaVenda_TaxasMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_PAGAMENTO")) Then
@@ -753,32 +752,41 @@ WHERE A.ID_BL_TAXA = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA")) Then
                     txtTaxaCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
-                    ' txtTaxaVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")) Then
                     txtCalculoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
-                    'txtCalculoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_CALCULADO")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")) Then
                     txtMinimoCompra_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
-                    ' txtMinimoVenda_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")) Then
                     ddlEmpresa_TaxasMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
-                '    If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
-                '        btnSalvar_TaxasMaritimo.Visible = False
-                '    Else
-                '        btnSalvar_TaxasMaritimo.Visible = True
-                '    End If
-                'Else
-                '    btnSalvar_TaxasMaritimo.Visible = True
-                'End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER_ITENS")) Then
+                    If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CANCELAMENTO")) Then
+                        btnSalvar_TaxasMaritimo.Visible = False
+                    Else
+                        btnSalvar_TaxasMaritimo.Visible = True
+                    End If
+                Else
+                    btnSalvar_TaxasMaritimo.Visible = True
+                End If
+
+
+                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
+                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    btnSalvar_TaxasMaritimo.Visible = False
+                End If
 
                 mpeTaxasMaritimo.Show()
 
@@ -915,6 +923,19 @@ WHERE A.ID_BL_TAXA =" & ID)
                     End If
                 Else
                     btnSalvar_TaxaAereo.Visible = True
+                End If
+
+
+
+                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
+                If ds2.Tables(0).Rows(0).Item("QTD") > 0 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_TAXA_MASTER")) Then
+                    btnSalvar_TaxaAereo.Visible = False
                 End If
 
                 mpeTaxaAereo.Show()

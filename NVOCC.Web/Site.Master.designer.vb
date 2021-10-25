@@ -419,6 +419,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnRelatorioInvoice As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnInvoiceQuitada.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnInvoiceQuitada As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle mnCaixaSaida.
     '''</summary>
     '''<remarks>

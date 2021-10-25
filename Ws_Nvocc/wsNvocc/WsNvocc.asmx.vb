@@ -133,7 +133,7 @@ Public Class WsNvocc
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE IN (0,4) AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
@@ -949,13 +949,14 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                         retCodErro = uri(0)("ns4:Codigo").InnerText
                         If retCodErro = "A02" Then
+                            GRAVARLOG(loteNumero, "A02")
                             GoTo saida
                         End If
 
                         If retCodErro = "E4" Then
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
-
+                            GRAVARLOG(loteNumero, "E4")
                             GoTo saida
                         End If
                         GRAVARLOG(loteNumero, retCodErro)

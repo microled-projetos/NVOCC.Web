@@ -347,6 +347,15 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lkComDisparoEmail As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkRelEquipe.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRelEquipe As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle btnFecharRelatorios.
     '''</summary>
     '''<remarks>

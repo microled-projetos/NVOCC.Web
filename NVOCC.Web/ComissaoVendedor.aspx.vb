@@ -389,6 +389,7 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
                     SubVendedor(cabecalho)
                     SubInside(cabecalho)
                     CarregaGrid()
+                    divErro.Visible = False
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
 
@@ -859,5 +860,17 @@ AND  CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtLiquidacaoInic
         End If
     End Sub
 
+    Private Sub lkRelEquipe_Click(sender As Object, e As EventArgs) Handles lkRelEquipe.Click
+        divErro.Visible = False
 
+        If txtCompetencia.Text = "" Then
+            lblmsgErro.Text = "É necessario informar a competência."
+            divErro.Visible = True
+        Else
+            Dim SQL As String = "SELECT COMPETENCIA,PARCEIRO_INSIDE, VL_COMISSAO_INSIDE as 'VALOR' FROM [dbo].[View_Equipe_Inside] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' ORDER BY PARCEIRO_INSIDE"
+
+            Classes.Excel.exportaExcel(SQL, "NVOCC", "EquipeInside")
+        End If
+
+    End Sub
 End Class

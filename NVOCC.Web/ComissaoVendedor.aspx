@@ -219,7 +219,14 @@
                                         <asp:LinkButton ID="lkComDisparoEmail" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="RelPorEmail()">Com Disparo de Email</asp:LinkButton>
                                         </div>
                                          </div>
-                                   </div>           
+                                   </div> 
+                                 <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                             
+                                        <asp:LinkButton ID="lkRelEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Equipe por Competência</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div>    
                                 </div>  
                              </div>
                                <div class="modal-footer">
@@ -789,6 +796,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="txtLiquidacaoCCProcesso" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                 <asp:PostBackTrigger ControlID="lkCSV" />
+                                <asp:PostBackTrigger ControlID="lkRelEquipe" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>

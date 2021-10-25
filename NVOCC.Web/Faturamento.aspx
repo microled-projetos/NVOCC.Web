@@ -413,6 +413,7 @@
                                                 </div>      
                                        </div>     </center>
                                 </asp:Panel>
+                        
                                 <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox3" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlSubstituirNota" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -471,8 +472,10 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkBoleto" CancelControlID="btnFecharBoleto"></ajaxToolkit:ModalPopupExtender>
+                                
+                                
+                                <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkboleto" CancelControlID="btnFecharBoleto"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBanco" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content" >
@@ -496,8 +499,7 @@
                                                        
                                                                         
                                <div class="modal-footer">
-<%--                                                   OnClientClick="javascript:return confirm('Deseja realmente cancelar esta fatura?');"         --%>
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimirBoleto" text="Imprimir"/>
+                                                            <asp:linkButton runat="server" CssClass="btn btn-success" ID="btnImprimirBoleto" OnClientClick="javascript:return confirm('Deseja realmente gerar um novo boleto?');">Imprimir</asp:linkButton>
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBoleto" text="Close" />
                                                         </div>
                                                     

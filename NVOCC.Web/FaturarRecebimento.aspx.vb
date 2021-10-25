@@ -31,27 +31,32 @@
             ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_CONTA_PAGAR_RECEBER] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
             If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                 divErro.Visible = True
-                lblmsgErro.Text = "Não é possivel faturar este recebimento!"
+                lblmsgErro.Text = "Não é possivel enviar este recebimento!"
             Else
+                ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Recebimento já enviado!"
+                Else
 
-                Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
-                Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
+                    Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER ) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
 
 
-                Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                    Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
-                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
+                    Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
 WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER= " & ID & ")")
-                If dsParceiro.Tables(0).Rows.Count > 0 Then
+                    If dsParceiro.Tables(0).Rows.Count > 0 Then
 
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET ID_PARCEIRO_CLIENTE = " & dsParceiro.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString & ",NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET ID_PARCEIRO_CLIENTE = " & dsParceiro.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString & ",NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
+                    End If
+
+
+                    divSuccess.Visible = True
+                    lblmsgSuccess.Text = "Enviado com sucesso!"
                 End If
-
-
-                divSuccess.Visible = True
-                lblmsgSuccess.Text = "Enviado com sucesso!"
-
             End If
 
             dgvContasReceber.DataBind()
@@ -83,13 +88,25 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
 
 
         If rdStatus.SelectedValue = 0 Then
-            filtro &= " AND DT_CANCELAMENTO IS NULL"
+            'aberto
+            filtro &= " AND DT_CANCELAMENTO IS NULL and DT_ENVIO_FATURAMENTO IS NULL"
         ElseIf rdStatus.SelectedValue = 1 Then
-            filtro &= " AND DT_CANCELAMENTO IS NOT NULL"
+            'cancelado
+            filtro &= " AND DT_CANCELAMENTO IS NOT NULL "
+        ElseIf rdStatus.SelectedValue = 2 Then
+            'enviado
+            filtro &= " AND DT_ENVIO_FATURAMENTO IS NOT NULL"
         End If
 
-        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE DT_ENVIO_FATURAMENTO IS NULL AND (CD_PR = 'R') AND ID_CONTA_PAGAR_RECEBER NOT IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE DT_CANCELAMENTO IS NULL) AND ISNULL(TP_EXPORTACAO,'') = '' " & filtro
+        dsContasReceber.SelectCommand = "SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R') AND ISNULL(TP_EXPORTACAO,'') = '' " & filtro
         dgvContasReceber.DataBind()
+
+        If rdStatus.SelectedValue = 0 Then
+            'aberto
+            dgvContasReceber.Columns(12).Visible = True
+        Else
+            dgvContasReceber.Columns(12).Visible = False
+        End If
 
         ddlFiltro.SelectedValue = 0
         txtPesquisa.Text = ""

@@ -1,18 +1,18 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RelatorioInvoice.aspx.cs" Inherits="ABAINFRA.Web.RelatorioInvoice" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="InvoiceQuitada.aspx.cs" Inherits="ABAINFRA.Web.InvoiceQuitada" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Relatório Invoice
+                    <h3 class="panel-title">Invoices
                     </h3>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active" id="tabprocessoExpectGrid">
                             <a href="#processoExpectGrid" id="linkprocessoExcepctGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Relatório Invoice - Aviso Embarque/Vencimento
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Invoices Quitadas
                             </a>
                         </li>
                     </ul>
@@ -31,13 +31,13 @@
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Vencimento Inicial:</label>
+                                            <label class="control-label">Data Quitação Inicial:</label>
                                             <input id="txtDtInicialVencimentoInvoice" class="form-control" type="date" required="required"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Vencimento Final:</label>
+                                            <label class="control-label">Data Quitação Final:</label>
                                             <input id="txtDtFinalVencimentoInvoice" class="form-control" type="date" required="required"/>
                                         </div>
                                     </div>
@@ -64,20 +64,20 @@
                                     <table id="grdInvoice" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">Nº INVOICE</th>
-                                                <th class="text-center" scope="col">TIPO</th>
-                                                <th class="text-center" scope="col">EMISSOR</th>
-                                                <th class="text-center" scope="col">DATA INVOICE</th>
-                                                <th class="text-center" scope="col">DATA VENCIMENTO</th>
-                                                <th class="text-center" scope="col">PROCESSO</th>
-                                                <th class="text-center" scope="col">Nº BL</th>
                                                 <th class="text-center" scope="col">AGENTE</th>
-                                                <th class="text-center" scope="col">CONFERIDO</th>
-                                                <th class="text-center" scope="col">TIPO FATURA</th>
-                                                <th class="text-center" scope="col">MOEDA</th>
-                                                <th class="text-center" scope="col">VALOR</th>
-                                                <th class="text-center" scope="col">DATA FECHAMENTO</th>
-                                                <th class="text-center" scope="col">OBSERVAÇÕES</th>
+                                                <th class="text-center" scope="col">DATA QUITAÇÃO</th>
+                                                <th class="text-center" scope="col">Nº CONTRATO</th>
+                                                <th class="text-center" scope="col">MBL</th>
+                                                <th class="text-center" scope="col">HBL</th>
+                                                <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">INVOICE</th>
+                                                <th class="text-center" scope="col">DATA INVOICE</th>
+                                                <th class="text-center" scope="col">TAXA INVOICE</th>
+                                                <th class="text-center" scope="col">VALOR INVOICE + MOEDA</th>
+                                                <th class="text-center" scope="col">VALOR R$</th>
+                                                <th class="text-center" scope="col">TAXA RECEBIMENTO</th>
+                                                <th class="text-center" scope="col">DATA RECEBIMENTO</th>
+                                                <th class="text-center" scope="col">CNEE</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdInvoiceBody">
@@ -154,7 +154,7 @@
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
-                    url: "DemurrageService.asmx/listarInvoices",
+                    url: "DemurrageService.asmx/listarInvoicesQuitadas",
                     data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -169,11 +169,11 @@
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 arrayInvoice.push(dado[i]["ID_ACCOUNT_INVOICE"])
-                                $("#grdInvoiceBody").append("<tr><td class='text-center'> " + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_ACCOUNT_TIPO_EMISSOR"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_VENCIMENTO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_BL"] + "</td><td class='text-center'>" + dado[i]["NM_RAZAO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["CONFERIDO"] + "</td><td class='text-center'>" + dado[i]["NM_ACCOUNT_TIPO_FATURA"] + "</td><td class='text-center'>" + dado[i]["SIGLA_MOEDA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["VALOR"] + "</td><td class='text-center'>" + dado[i]["DT_FECHAMENTO"] + "</td><td class='text-center'>" + dado[i]["OBS"] + "</td></tr>");
+                                $("#grdInvoiceBody").append("<tr><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_AGENTE"]+"'> " + dado[i]["NM_AGENTE"] + "</td><td class='text-center'>" + dado[i]["DT_QUITACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["NR_MBL"] + "</td><td class='text-center'>" + dado[i]["NR_HBL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TX_INVOICE"] + "</td><td class='text-center'>" + dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"] + "</td><td class='text-center'>" + dado[i]["VLINVOICEBRL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TX_RECEBIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO"] + "</td><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_IMPORTADOR"] +"'>" + dado[i]["NM_IMPORTADOR"] + "</td></tr>");
                             }
                         }
                         else {
@@ -238,10 +238,15 @@
             var position = 27;
             var positionv = 28;
             var datetime = new Date().toLocaleString('pt-BR');
+            var h = 3;
+            var v = 30;
+            var moeda = "";
+            var total = 0;
+            var totalbrl = 0;
             $.ajax({
                 type: "POST",
-                url: "DemurrageService.asmx/imprimirInvoice",
-                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice)}),
+                url: "DemurrageService.asmx/listarInvoicesQuitadas",
+                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -255,125 +260,122 @@
                         imgData.src = 'Content/imagens/FCA-LOG(deitado).png';
                         doc.setFontStyle("bold");
                         doc.setFontSize(18);
-                        doc.text("AVISO DE EMBARQUE", 120, 13);
-                        doc.setFontSize(8);
-                        doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 125, 18);
+                        doc.text("Relatórios de Invoices Quitadas ", 110, 13);
+                        doc.setFontSize(10);
+                        doc.setFontStyle("normal");
+                        doc.text("Quitadas de " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 130, 18);
                         doc.addImage(imgData, 'png', 10, 5, 60, 15);
-                        doc.setFontSize(7);
+                        doc.setFontSize(10);
                         doc.setLineWidth(0.2);
-                        doc.line(3, 24, 289, 24);
-                        doc.line(3, 28, 289, 28);
-                        doc.line(3, 24, 3, 28);
-                        doc.line(51, 24, 51, 28);
-                        doc.line(69, 24, 69, 28);
-                        doc.line(104, 24, 104, 28);
-                        doc.line(134, 24, 134, 28);
-                        doc.line(159, 24, 159, 28);
-                        doc.line(179, 24, 179, 28);
-                        doc.line(199, 24, 199, 28);
-                        doc.line(229, 24, 229, 28);
-                        doc.line(249, 24, 249, 28);
-                        doc.line(269, 24, 269, 28);
-                        doc.line(289, 24, 289, 28);
+                        doc.setFontStyle("bold");
+                        doc.line(h - 1, v + 1, h + 290, v + 1);
+                        doc.setFontSize(9);
+                        doc.text("Agente Account", h, v);
+                        doc.text("Quitação", h + 35, v);
+                        doc.text("Contrato Camb.", h + 53, v);
+                        doc.text("Master", h + 81, v);
+                        doc.text("Processo", h + 116, v);
+                        doc.text("Invoice/Act Nº", h + 150 , v);
+                        doc.text("Invoice Date", h + 175, v);
+                        doc.text("Nº Fech. Câmb.", h + 207, v);
+                        doc.text("Tx.", h + 235, v);
+                        doc.text("Valor Inv.", h + 250, v);
+                        doc.text("BRL", h + 277, v);
+                        doc.setFontSize(8);
+                        doc.setFontStyle("normal    ");
 
-
-                        doc.text("INVOICE", 4, 27);
-                        doc.text("PROCESSO", 52, 27);
-                        doc.text("HBL", 70, 27);
-                        doc.text("MBL", 105, 27);
-                        doc.text("CLIENTE", 135, 27);
-                        doc.text("ORIGEM", 160, 27);
-                        doc.text("DESTINO", 180, 27);
-                        doc.text("TRANSPORTADOR", 200, 27);
-                        doc.text("EMBARQUE", 230, 27);
-                        doc.text("P. CHEGADA", 250, 27);
-                        doc.text("CHEGADA", 270, 27);
                         for (let i = 0; i < dado.length; i++) {
-                            if (position >= pageHeight -10 ) {
-                                doc.line(3, 28, 3, positionv);
-                                doc.line(51, 28, 51, positionv);
-                                doc.line(69, 28, 69, positionv);
-                                doc.line(104, 28, 104, positionv);
-                                doc.line(134, 28, 134, positionv);
-                                doc.line(159, 28, 159, positionv);
-                                doc.line(179, 28, 179, positionv);
-                                doc.line(199, 28, 199, positionv);
-                                doc.line(229, 28, 229, positionv);
-                                doc.line(249, 28, 249, positionv);
-                                doc.line(269, 28, 269, positionv);
-                                doc.line(289, 28, 289, positionv);
-                                doc.line(3, 28, 3, positionv);
-                                doc.addPage();
-                                doc.setFontStyle("bold");
-                                doc.setFontSize(18);
-                                doc.text("AVISO DE EMBARQUE", 120, 13);
-                                doc.setFontSize(8);
-                                doc.text("INVOICES ENTRE " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 125, 18);
-                                doc.addImage(imgData, 'png', 10, 5, 60, 15);
-                                doc.setFontSize(7);
-                                doc.setLineWidth(0.2);
-                                doc.line(3, 24, 289, 24);
-                                doc.line(3, 28, 289, 28);
-                                doc.line(3, 24, 3, 28);
-                                doc.line(51, 24, 51, 28);
-                                doc.line(69, 24, 69, 28);
-                                doc.line(104, 24, 104, 28);
-                                doc.line(134, 24, 134, 28);
-                                doc.line(159, 24, 159, 28);
-                                doc.line(179, 24, 179, 28);
-                                doc.line(199, 24, 199, 28);
-                                doc.line(229, 24, 229, 28);
-                                doc.line(249, 24, 249, 28);
-                                doc.line(269, 24, 269, 28);
-                                doc.line(289, 24, 289, 28);
-
-
-                                doc.text("INVOICE", 4, 27);
-                                doc.text("PROCESSO", 52, 27);
-                                doc.text("HBL", 70, 27);
-                                doc.text("MBL", 105, 27);
-                                doc.text("CLIENTE", 135, 27);
-                                doc.text("ORIGEM", 160, 27);
-                                doc.text("DESTINO", 180, 27);
-                                doc.text("TRANSPORTADOR", 200, 27);
-                                doc.text("EMBARQUE", 230, 27);
-                                doc.text("P. CHEGADA", 250, 27);
-                                doc.text("CHEGADA", 270, 27);
-                                position = 27;
-                                positionv = 28;
-                            } else {
-                                position = position + 5;
-                                positionv = positionv + 5;
-                                doc.setFontStyle("normal");
-                                doc.line(3, positionv, 289, positionv);
-                                doc.text(dado[i]["NR_INVOICE"], 4, position);
-                                doc.text(dado[i]["NR_PROCESSO"], 52, position);
-                                doc.text(dado[i]["HBL"], 70, position);
-                                doc.text(dado[i]["MBL"].substring(0, 15), 105, position);
-                                doc.text(dado[i]["CLIENTE"].substring(0, 12), 135, position);
-                                doc.text(dado[i]["ORIGEM"].substring(0,12), 160, position);
-                                doc.text(dado[i]["DESTINO"], 180, position);
-                                doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 200, position);
-                                doc.text(dado[i]["DT_EMBARQUE"], 230, position);
-                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"].substring(0, 15), 250, position);
-                                doc.text(dado[i]["DT_CHEGADA"], 270, position);
+                            if (moeda == "") {
+                                moeda = dado[i]["SIGLA"].toString();
+                                console.log(moeda);
                             }
+                            if (v > pageHeight - 10) {
+                                h = 3;
+                                v = 30;
+                                doc.addPage();
+                                doc.setFontSize(18);
+                                doc.setFontStyle("bold");
+                                doc.text("Relatórios de Invoices Quitadas ", 110, 13);
+                                doc.setFontSize(10);
+                                doc.line(h - 1, v + 1, h + 290, v + 1);
+                                doc.setFontStyle("normal    ");
+                                doc.text("Quitadas de " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 130, 18);
+                                doc.addImage(imgData, 'png', 10, 5, 60, 15);
+                                doc.setFontSize(9);
+                                doc.setLineWidth(0.2);
+                                doc.setFontStyle("bold");
+
+                                doc.text("Agente Account", h, v);
+                                doc.text("Quitação", h + 35, v);
+                                doc.text("Contrato Camb.", h + 53, v);
+                                doc.text("Master", h + 81, v);
+                                doc.text("Processo", h + 116, v);
+                                doc.text("Invoice/Act Nº", h + 150, v);
+                                doc.text("Invoice Date", h + 175, v);
+                                doc.text("Nº Fech. Câmb.", h + 207, v);
+                                doc.text("Tx.", h + 235, v);
+                                doc.text("Valor Inv.", h + 250, v);
+                                doc.text("BRL", h + 277, v);
+                                doc.setFontSize(8);
+                                doc.setFontStyle("normal    ");
+                                v = v + 5;
+                                doc.text(dado[i]["NM_AGENTE"].substring(0, 15), h, v);
+                                doc.text(dado[i]["DT_QUITACAO"], h + 35, v);
+                                doc.text(dado[i]["NR_CONTRATO"], h + 53, v);
+                                doc.text(dado[i]["NR_MBL"], h + 81, v);
+                                doc.text(dado[i]["NR_HBL"], h + 116, v);
+                                doc.text(dado[i]["NR_PROCESSO"], h + 150, v);
+                                doc.text(dado[i]["NR_INVOICE"], h + 175, v);
+                                doc.text(dado[i]["DT_INVOICE"], h + 207, v);
+                                doc.text(dado[i]["TX_INVOICE"], h + 235, v);
+                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 250, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(3), h + 277, v);
+                                total = total + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
+                                totalbrl = totalbrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
+                                if (dado[i]["SIGLA"].toString() != moeda || i == dado.length - 1) {
+                                    v = v + 5;
+                                    doc.setFontStyle("bold");
+                                    doc.setFontSize(10);
+                                    doc.line(h - 1, v - 2, h + 290, v - 2);
+                                    doc.text("Total Valor Invoice", h + 220, v + 3);
+                                    doc.text("Total BRL", h + 220, v + 8);
+                                    doc.setFontSize(9);
+                                    doc.setFontStyle("normal");
+                                    doc.text(total.toLocaleString('en-us', { style: 'currency', currency: 'USD' }), h + 260, v + 3);
+                                    doc.text(totalbrl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 260, v + 8);
+                                    doc.line(h - 1, v + 11, h + 290, v + 11);
+                                }
+
+                            } else {
+                                v = v + 5;
+                                doc.text(dado[i]["NM_AGENTE"].substring(0, 15), h, v);
+                                doc.text(dado[i]["DT_QUITACAO"], h + 35, v);
+                                doc.text(dado[i]["NR_CONTRATO"], h + 53, v);
+                                doc.text(dado[i]["NR_MBL"], h + 81, v);
+                                doc.text(dado[i]["NR_HBL"], h + 116, v);
+                                doc.text(dado[i]["NR_PROCESSO"], h + 150, v);
+                                doc.text(dado[i]["NR_INVOICE"], h + 175, v);
+                                doc.text(dado[i]["DT_INVOICE"], h + 207, v);
+                                doc.text(dado[i]["TX_INVOICE"], h + 235, v);
+                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 250, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(3), h + 277, v);
+                                total = total + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
+                                totalbrl = totalbrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
+                                if (dado[i]["SIGLA"].toString() != moeda || i == dado.length - 1) {
+                                    v = v + 5;
+                                    doc.setFontStyle("bold");
+                                    doc.setFontSize(10);
+                                    doc.line(h - 1, v - 2, h + 290, v - 2);
+                                    doc.text("Total Valor Invoice", h + 220, v + 3);
+                                    doc.text("Total BRL", h + 220, v + 8);
+                                    doc.setFontSize(9);
+                                    doc.setFontStyle("normal");
+                                    doc.text(total.toLocaleString('en-us', { style: 'currency', currency: 'USD' }), h + 260, v + 3);
+                                    doc.text(totalbrl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 260, v + 8);
+                                    doc.line(h - 1, v + 11, h + 290, v + 11);
+                                }
+                            }                            
                         }
-                        doc.text("Gerado: " + datetime, 260, 205);
-                        doc.line(3, positionv, 289, positionv);
-                        doc.line(3, 28, 3, positionv);
-                        doc.line(51, 28, 51, positionv);
-                        doc.line(69, 28, 69, positionv);
-                        doc.line(104, 28, 104, positionv);
-                        doc.line(134, 28, 134, positionv);
-                        doc.line(159, 28, 159, positionv);
-                        doc.line(179, 28, 179, positionv);
-                        doc.line(199, 28, 199, positionv);
-                        doc.line(229, 28, 229, positionv);
-                        doc.line(249, 28, 249, positionv);
-                        doc.line(269, 28, 269, positionv);
-                        doc.line(289, 28, 289, positionv);
-                        doc.line(3, 28, 3, positionv);
                         doc.output("dataurlnewwindow");
                     }
                     else {
