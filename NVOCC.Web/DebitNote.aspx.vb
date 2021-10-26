@@ -152,7 +152,7 @@ WHERE ID_BL_MASTER = " & lblID_BL_MASTER.Text & " AND ID_ACCOUNT_INVOICE  =" & l
 
                 End If
 
-                Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT SIGLA_MOEDA,NM_ITEM_DESPESA,VL_TAXA FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "') WHERE ID_ACCOUNT_INVOICE  =" & lblIDINVOICE.Text)
+                Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT SIGLA_MOEDA,NM_ITEM_DESPESA,sum(VL_TAXA)VL_TAXA FROM FN_ACCOUNT_INVOICE('" & Session("DataInicial") & "','" & Session("DataFinal") & "') WHERE ID_ACCOUNT_INVOICE  =" & lblIDINVOICE.Text & " group by  SIGLA_MOEDA,NM_ITEM_DESPESA")
 
                 Dim valores As Decimal = 0
                 If dsTaxas.Tables(0).Rows.Count > 0 Then

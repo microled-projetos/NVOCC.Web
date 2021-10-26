@@ -74,7 +74,7 @@ Public Class RemessaBoletos
         If txtConsultaEmissaoInicio.Text <> "" Then
             If txtConsultaEmissaoFim.Text <> "" Then
                 'filtro
-                filtro &= " AND CONVERT(DATE,DT_NOTA_FISCAL,103)  BETWEEN CONVERT(DATE,'" & txtConsultaEmissaoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaEmissaoFim.Text & "',103) "
+                filtro &= " AND CONVERT(DATE,DT_NOTA_DEBITO,103)  BETWEEN CONVERT(DATE,'" & txtConsultaEmissaoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaEmissaoFim.Text & "',103) "
 
             Else
                 'msg erro

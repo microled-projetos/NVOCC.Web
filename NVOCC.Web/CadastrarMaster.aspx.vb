@@ -36,7 +36,7 @@ from TB_BL_TAXA
 WHERE ID_BL=" & Request.QueryString("id") & ")")
                 If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
                     'MARITIMO
-                    btnGravar_BasicoMaritimo.Enabled = False
+                    '  btnGravar_BasicoMaritimo.Enabled = False
                     btnSalvar_CNTRMaritimo.Visible = False
                     btnNovoCNTRMaritimo.Enabled = False
                     '  btnNovaTaxasMaritimo.Enabled = False
@@ -52,7 +52,7 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
 
                     'AEREO
-                    btnGravar_BasicoAereo.Enabled = False
+                    '  btnGravar_BasicoAereo.Enabled = False
                     'btnNovaTaxaAereo.Enabled = False
                     ' btnSalvar_TaxaAereo.Visible = False
                     dgvTaxasAereo.Columns(9).Visible = False
@@ -549,7 +549,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         Session("CD_PR") = 0
         'divVendaAereo.Visible = True
         divCompraAereo.Visible = True
-
+        btnSalvar_TaxaAereo.Visible = True
         mpeTaxaAereo.Hide()
     End Sub
 
@@ -581,6 +581,7 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         Session("CD_PR") = 0
         'divVendaMaritimo.Visible = True
         divCompraMaritimo.Visible = True
+        btnSalvar_TaxasMaritimo.Visible = True
 
         mpeTaxasMaritimo.Hide()
     End Sub

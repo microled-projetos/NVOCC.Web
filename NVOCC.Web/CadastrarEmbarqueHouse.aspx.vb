@@ -2253,6 +2253,20 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text)
 
 
+
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                    Next
+
+                End If
+
+
+
+
+
                 Con.Fechar()
                 divSuccess_CargaAereo2.Visible = True
                 dgvCargaAereo.DataBind()
@@ -2283,7 +2297,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Con.Fechar()
                 dgvCargaAereo.DataBind()
 
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoAereo.Text & ") where id_bl= " & txtID_BasicoAereo.Text)
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                    Next
 
+                End If
             End If
 
 
@@ -2445,6 +2466,14 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
 
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoMaritimo.Text & ") where id_bl= " & txtID_BasicoMaritimo.Text)
+                    If dsTaxa.Tables(0).Rows.Count > 0 Then
+                        For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                            Dim Calcula As New CalculaBL
+                            Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                        Next
+
+                    End If
 
                     dgvCargaMaritimo.DataBind()
                     Con.Fechar()
@@ -2484,6 +2513,16 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
+
+
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoMaritimo.Text & ") where id_bl= " & txtID_BasicoMaritimo.Text)
+                    If dsTaxa.Tables(0).Rows.Count > 0 Then
+                        For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                            Dim Calcula As New CalculaBL
+                            Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                        Next
+
+                    End If
 
                     divSuccess_CargaMaritimo2.Visible = True
                     Con.Fechar()

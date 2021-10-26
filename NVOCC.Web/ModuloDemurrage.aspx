@@ -3159,7 +3159,7 @@
                                 doc.addImage(bg, 'png', 128, 82, 78, 4);
                                 doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 129, 85);
                                 doc.addImage(bg, 'png', 128, 87, 78, 4);
-                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".", ","), 129, 90);
+                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toFixed(2), 129, 90);
                                 doc.addImage(bg, 'png', 128, 92, 78, 4);
                                 doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 129, 95);
 
@@ -3181,7 +3181,6 @@
                                 doc.setFontStyle("normal");
 
                                 doc.setLineWidth(0.2);
-                                doc.line(11.7, 91.5, 200.5, 91.5);
 
                                 $.ajax({
                                     type: "POST",
@@ -3194,7 +3193,7 @@
                                         dado = $.parseJSON(dado);
                                         if (dado != null) {
                                             for (let i = 0; i < dado.length; i++) {
-                                                doc.line(11.7, lineH, 200.5, lineH);
+                                                doc.line(11.7, lineH, 187.5, lineH);
                                                 doc.addImage(bg, 'png', 12, positionbgV, 22, 4);
                                                 doc.text(dado[i]["NR_CNTR"], 13, positionV);
                                                 doc.addImage(bg, 'png', 35, positionbgV, 18, 4);
@@ -3214,25 +3213,26 @@
                                                 doc.addImage(bg, 'png', 126, positionbgV, 12, 4);
                                                 doc.text(dado[i]["SIGLA_MOEDA"].toString(), 129, positionV);
                                                 doc.addImage(bg, 'png', 139, positionbgV, 14, 4);
-                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"].toString(), 141, positionV);
+                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"].toFixed(2), 141, positionV);
                                                 doc.addImage(bg, 'png', 154, positionbgV, 16, 4);
-                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_VENDA"].toString(), 156, positionV);
+                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_VENDA"].toFixed(5), 156, positionV);
                                                 doc.addImage(bg, 'png', 171, positionbgV, 16, 4);
-                                                doc.text(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString(), 173, positionV);
+                                                doc.text(dado[i]["VL_DEMURRAGE_VENDA_BR"].toFixed(2), 173, positionV);
                                                 positionV = positionV + 5;
                                                 positionbgV = positionbgV + 5;
                                                 lineV = lineV + 5;
                                                 lineH = lineH + 5;
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
-                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(".", ""));
+                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toFixed(2));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString() != "") {
                                                     desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString() != "") {
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(".", ""));
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toFixed(2));
                                                 }
                                             }
+                                            doc.line(11.7, lineH, 187.5, lineH);
                                             doc.line(11.7, 111.5, 11.7, lineV - 5);
                                             doc.line(34.5, 111.5, 34.5, lineV - 5);
                                             doc.line(53.5, 111.5, 53.5, lineV - 5);
@@ -3242,6 +3242,10 @@
                                             doc.line(103.5, 111.5, 103.5, lineV - 5);
                                             doc.line(117.5, 111.5, 117.5, lineV - 5);
                                             doc.line(125.5, 111.5, 125.5, lineV - 5);
+                                            doc.line(138.5, 111.5, 138.5, lineV - 5);
+                                            doc.line(153.5, 111.5, 153.5, lineV - 5);
+                                            doc.line(170.5, 111.5, 170.5, lineV - 5);
+                                            doc.line(187.5, 111.5, 187.5, lineV - 5);
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DAS DESPESAS: ", 145, positionV + 15);
                                             doc.setFontStyle("normal");

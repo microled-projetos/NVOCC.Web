@@ -71,6 +71,21 @@
                                         <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                      </div>
+                                 <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbLTL" runat="server" CssClass="form-control" text="&nbsp;&nbsp;LTL" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbDtaHub" runat="server" CssClass="form-control" text="&nbsp;&nbsp;DTA HUB" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbTranspDedicado" runat="server" CssClass="form-control" text="&nbsp;&nbsp;TRANSPORTE DEDICADO" ></asp:Checkbox>
+                                    </div>
+                                </div>
                                 </div>
                             <div class="row">
                                  <div class="col-sm-4">
@@ -839,10 +854,20 @@
                                         <asp:TextBox ID="txtM3Mercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                                                   <div class="col-sm-4">
+                                                                </div>
+                           
+                           
+                                 <div class="row">    <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor da Carga:</label>
                                         <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Moeda da Carga:</label><asp:label id="Label1" runat="server" style="color:red" >*</asp:label>
+                                         <asp:DropDownList ID="ddlMoedaCarga" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
                                 </div>
