@@ -20,6 +20,8 @@ Public Class TaxasLocaisArmador
         Else
             dsTaxas.SelectParameters("ID").DefaultValue = Request.QueryString("id")
             dgvTaxas.DataBind()
+            'dsAjustaTaxa.SelectParameters("ID").DefaultValue = Request.QueryString("id")
+            'dgvAjustaTaxa.DataBind()
             ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
 
         End If
@@ -45,6 +47,12 @@ Public Class TaxasLocaisArmador
         Else
 
             If txtIDTaxa.Text <> "" Then
+                lblValorNovo.Text = txtValorTaxaLocal.Text
+
+                ds = Con.ExecutarQuery("SELECT ISNULL(VL_TAXA_LOCAL_COMPRA,0)VL_TAXA_LOCAL_COMPRA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    lblValorAntigo.text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA")
+                End If
 
 
                 txtValorTaxaLocal.Text = txtValorTaxaLocal.Text.Replace(".", "")
@@ -66,7 +74,18 @@ Public Class TaxasLocaisArmador
 
                     divSuccess.Visible = True
                     dgvTaxas.DataBind()
-                    'mpe.Show()
+
+                    If lblValorNovo.Text > lblValorAntigo.Text Then
+                        lblPorto.Text = ddlPortoTaxa.SelectedValue
+                        lblComex.Text = ddlComexTaxa.SelectedValue
+                        lblVia.Text = ddlViaTransporte.SelectedValue
+                        lblItemDespesa.Text = ddlDespesaTaxa.SelectedValue
+                        AtualizaGridAjuste()
+
+                        'mpeAjusta.Show()
+                        '  mpe.Hide()
+                    End If
+
                 End If
 
 
@@ -139,6 +158,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
 
 
             If txtIDTaxaNovo.Text = "" Then
+                lblValorNovo.Text = txtValorTaxaLocalNovo.Text
 
                 txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", "")
                 txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(",", ".")
@@ -151,14 +171,35 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
                     Exit Sub
                 Else
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & ")")
-                    lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
-                    divSuccess.Visible = True
+                    ' ds = Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & ")")
+                    lblmsgSuccessNovo.Text = "Registro cadastrado/atualizado com sucesso!"
+                    divSuccessNovo.Visible = True
                     txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", ",")
 
-                    Call Limpar(Me)
-                    Pesquisa()
+
                     ddlTransportadorTaxaNovo.SelectedValue = Request.QueryString("id")
+
+                    ds = Con.ExecutarQuery("SELECT ISNULL(A.VL_TAXA_LOCAL_COMPRA,0)VL_TAXA_LOCAL_COMPRA
+FROM TB_TAXA_LOCAL_TRANSPORTADOR A
+INNER JOIN (
+SELECT ID_ITEM_DESPESA,ID_BASE_CALCULO, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
+FROM TB_TAXA_LOCAL_TRANSPORTADOR
+WHERE ID_PORTO =  " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = " & Request.QueryString("id") & " AND ID_ITEM_DESPESA = " & ddlDespesaTaxaNovo.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComexTaxaNovo.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporteNovo.SelectedValue & " AND CONVERT(DATE,DT_VALIDADE_INICIAL,103) <= GETDATE()
+GROUP BY  ID_ITEM_DESPESA,ID_BASE_CALCULO) B
+ON  A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA
+AND A.DT_VALIDADE_INICIAL = B.DT_VALIDADE_INICIAL
+WHERE ID_PORTO = " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = " & Request.QueryString("id") & " AND A.ID_ITEM_DESPESA = " & ddlDespesaTaxaNovo.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComexTaxaNovo.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporteNovo.SelectedValue & " AND CONVERT(DATE,A.DT_VALIDADE_INICIAL,103) <= GETDATE() ")
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        lblValorAntigo.Text = ds.Tables(0).Rows(0).Item("VL_TAXA_LOCAL_COMPRA")
+                    End If
+
+                    lblPorto.Text = ddlPortoTaxaNovo.SelectedValue
+                    lblComex.Text = ddlComexTaxaNovo.SelectedValue
+                    lblVia.Text = ddlViaTransporteNovo.SelectedValue
+                    lblItemDespesa.Text = ddlDespesaTaxaNovo.SelectedValue
+                    AtualizaGridAjuste()
+
+                    Call Limpar(Me)
 
                 End If
 
@@ -473,6 +514,102 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
             'url = String.Format(url, ds.Tables(0).Rows(0).Item("ID_BL"))
             'Response.Redirect(url)
         End If
+    End Sub
+
+    Private Sub btnDesmarcar_Click(sender As Object, e As EventArgs) Handles btnDesmarcar.Click
+        AtualizaGridAjuste()
+        For i As Integer = 0 To Me.dgvAjustaTaxa.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvAjustaTaxa.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = False
+        Next
+    End Sub
+
+    Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
+        AtualizaGridAjuste()
+        For i As Integer = 0 To Me.dgvAjustaTaxa.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvAjustaTaxa.Rows(i).FindControl("ckbSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
+
+    End Sub
+
+    Private Sub btnFecharAjustaTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharAjustaTaxa.Click
+        mpeAjusta.Hide()
+    End Sub
+
+    Private Sub btnAjustar_Click(sender As Object, e As EventArgs) Handles btnAjustar.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        For Each linha As GridViewRow In dgvAjustaTaxa.Rows
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            If check.Checked Then
+                Dim ID As String = CType(linha.FindControl("lblid_cotacao_taxa"), Label).Text
+                Dim VL_TAXA_COMPRA As String = CType(linha.FindControl("lblVL_TAXA_COMPRA"), Label).Text
+                Dim VL_TAXA_VENDA As String = CType(linha.FindControl("lblVL_TAXA_VENDA"), Label).Text
+
+                Dim ValorNovoCompra As String = lblValorNovo.Text + (VL_TAXA_COMPRA - lblValorAntigo.Text)
+                Dim ValorNovoVenda As String = lblValorNovo.Text + (VL_TAXA_VENDA - lblValorAntigo.Text)
+
+                Con.ExecutarQuery("UPDATE [dbo].[TB_COTACAO_TAXA]  SET VL_TAXA_COMPRA = " & ValorNovoCompra.ToString.Replace(",", ".") & ", VL_TAXA_VENDA = " & ValorNovoVenda.ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID)
+            End If
+
+        Next
+        AtualizaGridAjuste()
+        'lblSuccess.Text = "Atualização realizada com sucesso!"
+        divSuccess.Visible = True
+        Con.Fechar()
+    End Sub
+    Sub AtualizaGridAjuste()
+        Dim ValorAntigo As String = lblValorAntigo.Text
+        ValorAntigo = ValorAntigo.ToString.Replace(",", ".")
+
+
+        Dim Servico As String = ""
+
+        If lblComex.Text = 1 And lblVia.Text = 1 Then
+            'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            Servico = 1
+
+            'comex = 1
+            'ID_PORTO = ddlDestinoFrete.SelectedValue
+            'via = 1
+        ElseIf lblComex.Text = 2 And lblVia.Text = 1 Then
+            'AGENCIAMENTO DE EXPORTACAO MARITIMA
+            Servico = 4
+            'comex = 2
+            'ID_PORTO = ddlOrigemFrete.SelectedValue
+            'via = 1
+        ElseIf lblComex.Text = 2 And lblVia.Text = 4 Then
+            'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+            Servico = 5
+
+            'comex = 2
+            'ID_PORTO = ddlOrigemFrete.SelectedValue
+            'via = 4
+        ElseIf lblComex.Text = 1 And lblVia.Text = 4 Then
+            'AGENCIAMENTO DE IMPORTACAO AEREO
+            Servico = 2
+
+            'comex = 1
+            'ID_PORTO = ddlDestinoFrete.SelectedValue
+            'via = 4
+        End If
+
+
+
+
+        dsAjustaTaxa.SelectCommand = "select id_cotacao_taxa, (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA where ID_TRANSPORTADOR = " & Request.QueryString("id") & " AND VL_TAXA_COMPRA > " & ValorAntigo & " AND ID_PORTO = " & lblPorto.Text & " AND ID_SERVICO = " & Servico & " AND ID_ITEM_DESPESA = " & lblItemDespesa.Text
+
+        dgvAjustaTaxa.DataBind()
+        If dgvAjustaTaxa.Rows.Count > 0 Then
+            mpeAjusta.Show()
+            mpe.Hide()
+            mpeNovo.Hide()
+        End If
+
     End Sub
 
 End Class
