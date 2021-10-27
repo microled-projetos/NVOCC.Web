@@ -1868,15 +1868,14 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 lkAprovar.Visible = False
                 'APROVADA
                 Dim reaprovamento As Boolean = False
-                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-                If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 Then
-                        reaprovamento = True
-                    Else
-                        reaprovamento = False
-                    End If
-                Else
-                    reaprovamento = False
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE DT_CALCULO_COTACAO IS NULL AND ID_COTACAO = " & txtID.Text)
+
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Necessário calcular cotação!"
+                    Exit Sub
+
                 End If
 
 
