@@ -147,13 +147,19 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            'loteNumero = IDFatura 'chamar ws aqui
 
-            Dim ConOracle As New Conexao_oracle
-            ConOracle.Conectar()
-            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            If Reprocessamento Then
+                sSql = "SELECT NR_LOTE FROM VW_FILA_LOTE_RPS WHERE IDFATURA =" & IDFatura
+                Dim rsNumero As DataSet = Con.ExecutarQuery(sSql)
+                loteNumero = rsNumero.Tables(0).Rows(0)("NR_LOTE").ToString
+            Else
+
+                Dim ConOracle As New Conexao_oracle
+                ConOracle.Conectar()
+                sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+                Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+                loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            End If
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
@@ -659,7 +665,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
             If Funcoes.NNull(rsRPS.Rows(0)("UF_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("Uf", NFeNamespacte)
-
                 noText = doc.CreateTextNode(rsRPS.Rows(0)("UF_CLI").ToString)
                 No.AppendChild(noText)
                 noEnderecoTom.AppendChild(No)
@@ -938,7 +943,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     GRAVARLOG(loteNumero, "DEU CERTO")
 
                 Catch ex As Exception
-                    GRAVARLOG(loteNumero, ex.Message)
                     Err.Clear()
 
                     Try

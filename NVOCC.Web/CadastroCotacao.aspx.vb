@@ -163,8 +163,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             ddlServico.SelectedValue = ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString()
             If ds.Tables(0).Rows(0).Item("ID_SERVICO") = 2 Or ds.Tables(0).Rows(0).Item("ID_SERVICO") = 5 Then
                 txtViaTransporte.Text = 4
+                divTTAereo.Attributes.CssStyle.Add("display", "block")
             Else
                 txtViaTransporte.Text = 1
+                divTTAereo.Attributes.CssStyle.Add("display", "none")
 
             End If
 
@@ -3015,9 +3017,10 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
     Private Sub ddlServico_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlServico.SelectedIndexChanged
         If ddlServico.SelectedValue = 2 Or ddlServico.SelectedValue = 5 Then
             txtViaTransporte.Text = 4
+            divTTAereo.Attributes.CssStyle.Add("display", "block")
         Else
             txtViaTransporte.Text = 1
-
+            divTTAereo.Attributes.CssStyle.Add("display", "none")
         End If
     End Sub
 

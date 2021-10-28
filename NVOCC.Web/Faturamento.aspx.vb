@@ -581,6 +581,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                         End Using
 
+                        Using GeraRps = New NotaFiscal.WsNvocc
+
+                            Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+
+                        End Using
 
                         ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
                         If ds.Tables(0).Rows.Count > 0 Then
@@ -994,7 +999,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("STATUS_NFE")) Then
-                    If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 1 Then
+                    If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 1 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Or ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
                         lkReenviarRPS.Visible = True
                     Else
                         lkReenviarRPS.Visible = False

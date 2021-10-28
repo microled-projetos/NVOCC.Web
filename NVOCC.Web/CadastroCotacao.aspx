@@ -539,7 +539,7 @@
                                         <asp:TextBox ID="txtTTimeFreteMedia" enabled="false"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" id="divTTAereo" runat="server" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Trucking(Aéreo):</label>
                                         <asp:TextBox ID="txtTTimeFreteTruckingAereo" enabled="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
