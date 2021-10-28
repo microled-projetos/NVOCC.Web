@@ -164,10 +164,18 @@ Public Class FrmNavios
         If ValidarCampos(Me) = False Then
             Exit Sub
         End If
+        Dim pais As String = 0
+
 
         If txtID.Text = String.Empty Then
             Try
-                If Banco.Execute("INSERT INTO TB_NAVIO (NM_NAVIO,CD_LOYD,FL_ATIVO,ID_PAIS) VALUES ('" & Me.txtNome.Text & "','" & Me.txtCodigoLoyd.Text & "', '" & Me.chkAtivo.CheckState & "', " & cbPais.SelectedValue & ")") Then
+                If cbPais.SelectedValue = 0 Then
+                    pais = 0
+                Else
+                    pais = cbPais.SelectedValue
+                End If
+
+                If Banco.Execute("INSERT INTO TB_NAVIO (NM_NAVIO,CD_LOYD,FL_ATIVO,ID_PAIS) VALUES ('" & Me.txtNome.Text & "','" & Me.txtCodigoLoyd.Text & "', '" & Me.chkAtivo.CheckState & "', " & pais & ")") Then
                     Consultar()
                     Mensagens(Me, 1)
                 Else
@@ -178,7 +186,13 @@ Public Class FrmNavios
             End Try
         Else
             Try
-                If Banco.Execute("UPDATE TB_NAVIO SET FL_ATIVO = '" & Me.chkAtivo.CheckState & "' , NM_NAVIO = '" & txtNome.Text & "', CD_LOYD = '" & Me.txtCodigoLoyd.Text & "', ID_PAIS = " & cbPais.SelectedValue & " WHERE ID_NAVIO = " & Me.txtID.Text & "") Then
+                If cbPais.SelectedValue = 0 Then
+                    pais = 0
+                Else
+                    pais = cbPais.SelectedValue
+                End If
+
+                If Banco.Execute("UPDATE TB_NAVIO SET FL_ATIVO = '" & Me.chkAtivo.CheckState & "' , NM_NAVIO = '" & txtNome.Text & "', CD_LOYD = '" & Me.txtCodigoLoyd.Text & "', ID_PAIS = " & pais & " WHERE ID_NAVIO = " & Me.txtID.Text & "") Then
                     Consultar()
                     Mensagens(Me, 2)
                 Else

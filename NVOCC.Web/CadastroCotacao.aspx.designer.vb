@@ -113,6 +113,33 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtNumeroCotacao As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ckbLTL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbLTL As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbDtaHub.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbDtaHub As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckbTranspDedicado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckbTranspDedicado As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle txtAbertura.
     '''</summary>
     '''<remarks>
@@ -725,6 +752,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtTTimeFreteMedia As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle divTTAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divTTAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle txtTTimeFreteTruckingAereo.
     '''</summary>
     '''<remarks>
@@ -1227,6 +1263,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtValorCargaMercadoria As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlMoedaCarga.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlMoedaCarga As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtComprimentoMercadoria.

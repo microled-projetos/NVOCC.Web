@@ -293,6 +293,15 @@ Partial Public Class Faturamento
     Protected WithEvents lkBoleto As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkExcluirBoleto.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkExcluirBoleto As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle lkBoletoRemessa.
     '''</summary>
     '''<remarks>

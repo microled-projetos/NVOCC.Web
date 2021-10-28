@@ -34,7 +34,7 @@
                 lblmsgErro.Text = "Não é possivel enviar este recebimento!"
             Else
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
-                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Recebimento já enviado!"
                 Else

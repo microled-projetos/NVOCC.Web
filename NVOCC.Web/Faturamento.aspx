@@ -115,7 +115,7 @@
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  PageSize="100">
+                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" OnSorting="dgvFaturamento_Sorting" EmptyDataText="Nenhum registro encontrado."  PageSize="100">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
@@ -169,6 +169,14 @@
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
                            <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Imprimir Boleto</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                 <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                           <asp:LinkButton ID="lkExcluirBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente excluir o boleto desta fatura?');">Excluir Boleto</asp:LinkButton>
 
                                     </div>
                                         </div>

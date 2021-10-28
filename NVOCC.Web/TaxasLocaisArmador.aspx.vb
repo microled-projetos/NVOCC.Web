@@ -403,11 +403,11 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
 
         Dim filtro As String = ""
         If ddlConsulta.SelectedValue = 1 Then
-            FILTRO = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
+            filtro = " AND NM_PORTO LIKE '%" & txtConsulta.Text & "%' "
         ElseIf ddlConsulta.SelectedValue = 3 Then
-            FILTRO = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
+            filtro = " AND NM_TIPO_COMEX LIKE '%" & txtConsulta.Text & "%' "
         Else
-            FILTRO = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
+            filtro = " AND NM_VIATRANSPORTE LIKE '%" & txtConsulta.Text & "%' "
 
         End If
 

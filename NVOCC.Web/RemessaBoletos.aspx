@@ -74,7 +74,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-2">  
-                      <div class="linha-colorida">Data de Emissao NF</div>
+                      <div class="linha-colorida">Data de Emissao ND</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>

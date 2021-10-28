@@ -798,60 +798,56 @@ namespace ABAINFRA.Web
                 int d6 = (Int16)listTable.Rows[0]["QT_DIAS_06"];
                 int d7 = (Int16)listTable.Rows[0]["QT_DIAS_07"];
                 int d8 = (Int16)listTable.Rows[0]["QT_DIAS_08"];
-                int ft = (Int16)listTable.Rows[0]["FreeTimeTab"];
+                int diasDemurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
 
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
-                    somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"] + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    if (somaDias <= ft)
+                    
+                    if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
                     {
-                        vlTaxa = 0;
-                    }
-                    else if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
-                    {
-                        if (somaDias > ft && somaDias <= ft + d1)
+                        if (diasDemurrage <= d1)
                         {
                             vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_01"];
                         }
                         else if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
                         {
-                            if (somaDias > ft + d1 && somaDias <= ft + d1 + d2)
+                            if (diasDemurrage > d1 && diasDemurrage <= d1 + d2)
                             {
                                 vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_02"];
                             }
                             else if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
                             {
-                                if (somaDias > ft + d1 + d2 && somaDias <= ft + d1 + d2 + d3)
+                                if (diasDemurrage > d1 + d2 && diasDemurrage <= d1 + d2 + d3)
                                 {
                                     vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_03"];
                                 }
                                 else if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
                                 {
-                                    if (somaDias > ft + d1 + d2 + d3 && somaDias <= ft + d1 + d2 + d3 + d4)
+                                    if (diasDemurrage > d1 + d2 + d3 && diasDemurrage <= d1 + d2 + d3 + d4)
                                     {
                                         vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_04"];
                                     }
                                     else if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
                                     {
-                                        if (somaDias > ft + d1 + d2 + d3 + d4 && somaDias <= ft + d1 + d2 + d3 + d4 + d5)
+                                        if (diasDemurrage > d1 + d2 + d3 + d4 && diasDemurrage <= d1 + d2 + d3 + d4 + d5)
                                         {
                                             vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_05"];
                                         }
                                         else if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
                                         {
-                                            if (somaDias > ft + d1 + d2 + d3 + d4 + d5 && somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6)
+                                            if (diasDemurrage > d1 + d2 + d3 + d4 + d5 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6)
                                             {
                                                 vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_06"];
                                             }
                                             else if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
                                             {
-                                                if (somaDias > ft + d1 + d2 + d3 + d4 + d5 + d6 && somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6 + d7)
+                                                if (diasDemurrage > d1 + d2 + d3 + d4 + d5 + d6 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7)
                                                 {
                                                     vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_07"];
                                                 }
                                                 else if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
                                                 {
-                                                    if (somaDias > ft + d1 + d2 + d3 + d4 + d5 + d6 + d7 && somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8)
+                                                    if (diasDemurrage > d1 + d2 + d3 + d4 + d5 + d6 + d7 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8)
                                                     {
                                                         vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_08"];
                                                     }
@@ -926,60 +922,55 @@ namespace ABAINFRA.Web
                 int d6 = (Int16)listTable.Rows[0]["QT_DIAS_06"];
                 int d7 = (Int16)listTable.Rows[0]["QT_DIAS_07"];
                 int d8 = (Int16)listTable.Rows[0]["QT_DIAS_08"];
-                int ft = (Int16)listTable.Rows[0]["FreeTimeTab"];
+                int diasDemurrage = (Int16)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
 
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
-                    somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"] + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    if (somaDias <= ft)
+                    if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
                     {
-                        vlTaxa = 0;
-                    }
-                    else if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
-                    {
-                        if (somaDias <= ft + d1)
+                        if (diasDemurrage <= d1)
                         {
                             vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_01"];
                         }
                         else if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
                         {
-                            if (somaDias <= ft + d1 + d2)
+                            if (diasDemurrage <= d1 + d2)
                             {
                                 vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_02"];
                             }
                             else if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
                             {
-                                if (somaDias <= ft + d1 + d2 + d3)
+                                if (diasDemurrage <= d1 + d2 + d3)
                                 {
                                     vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_03"];
                                 }
                                 else if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
                                 {
-                                    if (somaDias <= ft + d1 + d2 + d3 + d4)
+                                    if (diasDemurrage <= d1 + d2 + d3 + d4)
                                     {
                                         vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_04"];
                                     }
                                     else if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
                                     {
-                                        if (somaDias <= ft + d1 + d2 + d3 + d4 + d5)
+                                        if (diasDemurrage <= d1 + d2 + d3 + d4 + d5)
                                         {
                                             vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_05"];
                                         }
                                         else if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
                                         {
-                                            if (somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6)
+                                            if (diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6)
                                             {
                                                 vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_06"];
                                             }
                                             else if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
                                             {
-                                                if (somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6 + d7)
+                                                if (diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7)
                                                 {
                                                     vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_07"];
                                                 }
                                                 else if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
                                                 {
-                                                    if (somaDias <= ft + d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8)
+                                                    if (diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8)
                                                     {
                                                         vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_08"];
                                                     }
@@ -2252,6 +2243,13 @@ namespace ABAINFRA.Web
             return "ok";
         }
 
+        public static double Trunc2(double Valor) // Função para truncar valores com 2 casas decimais 
+        {
+            int Valor_Inteiro = (int)(Valor * 100.00000000001);
+            Valor = Valor_Inteiro / 100.0;
+            return Valor;
+        }
+
         [WebMethod]
         public string atualizacaoCambialContainer(int idCntr, string vlDemurrage, string dtCambio, double vlCambio, string descontoBRL, int check)
         {
@@ -2268,8 +2266,8 @@ namespace ABAINFRA.Web
             if (check == 1)
             {
                 SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_CAMBIO_DEMURRAGE_VENDA = '" + dtCambio + "', ";
-                SQL += "VL_CAMBIO_DEMURRAGE_VENDA = '" + vlCambio.ToString("F").Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_VENDA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
-                SQL += "VL_DEMURRAGE_VENDA_BR = '" + vlDemu.ToString("F").Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_VENDA = '" + valorLiquido.ToString("F").Replace(",",".") + "' ";
+                SQL += "VL_CAMBIO_DEMURRAGE_VENDA = '" + vlCambio.ToString().Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_VENDA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
+                SQL += "VL_DEMURRAGE_VENDA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_VENDA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCntr + "' ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "ok";
@@ -2277,8 +2275,8 @@ namespace ABAINFRA.Web
             else
             {
                 SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_CAMBIO_DEMURRAGE_COMPRA = '" + dtCambio + "', ";
-                SQL += "VL_CAMBIO_DEMURRAGE_COMPRA = '" + vlCambio.ToString("F").Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_COMPRA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
-                SQL += "VL_DEMURRAGE_COMPRA_BR = '" + vlDemu.ToString("F").Replace(",",".") + "', VL_DEMURRAGE_LIQUIDO_COMPRA = '" + valorLiquido.ToString("F").Replace(",", ".") + "' ";
+                SQL += "VL_CAMBIO_DEMURRAGE_COMPRA = '" + vlCambio.ToString().Replace(",", ".") + "', VL_DESCONTO_DEMURRAGE_COMPRA = '" + descontoBRL.ToString().Replace(",", ".") + "', ";
+                SQL += "VL_DEMURRAGE_COMPRA_BR = '" + Trunc2(vlDemu).ToString().Replace(",", ".") + "', VL_DEMURRAGE_LIQUIDO_COMPRA = '" + Trunc2(valorLiquido).ToString().Replace(",", ".") + "' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCntr + "' ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "ok";
@@ -2633,7 +2631,7 @@ namespace ABAINFRA.Web
             SQL = "SELECT ISNULL(A.DT_CANCELAMENTO,'') AS DT_CANCELAMENTO, ISNULL(P1.NM_RAZAO,'') AS CLIENTE, ISNULL(P1.ENDERECO,'') AS ENDERECO, ISNULL(P1.NR_ENDERECO,'') AS NR_ENDERECO, ISNULL(C.NM_CIDADE,'') AS NM_CIDADE, ISNULL(FORMAT(A.DT_LANCAMENTO,'dd/MM/yy'),'') AS DT_LANCAMENTO, ISNULL(FORMAT(A.DT_VENCIMENTO,'dd/MM/yy'),'') AS DT_VENCIMENTO, ";
             SQL += "ISNULL(P1.BAIRRO,'') AS BAIRRO, ISNULL(E.NM_ESTADO,'') AS NM_ESTADO, ISNULL(P1.CEP,'') AS CEP, ISNULL(P1.CNPJ,'') AS CNPJ, ISNULL(P1.INSCR_ESTADUAL,'') AS INSCR_ESTADUAL, ISNULL(B.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(P2.NM_RAZAO,'') AS TRANSPORTADOR, ";
             SQL += "ISNULL(S.NM_SERVICO,'') AS NM_SERVICO, ISNULL(ORIGEM.NM_PORTO,'') AS ORIGEM, ISNULL(DESTINO.NM_PORTO,'') as DESTINO, ISNULL(FORMAT(B.DT_EMBARQUE, 'dd/MM/yyyy'),'') as DT_EMBARQUE, ";
-            SQL += "ISNULL(FORMAT(B.DT_CHEGADA, 'dd/MM/yyyy'),'') AS DT_CHEGADA, isnull(CONVERT(VARCHAR,B.VL_PESO_BRUTO),'') as VL_PESO_BRUTO, isnull(CONVERT(VARCHAR,B.VL_M3),'') AS VL_M3, ISNULL(CONVERT(VARCHAR,B.VL_INDICE_VOLUMETRICO),'') AS VL_INDICE_VOLUMETRICO, ";
+            SQL += "ISNULL(FORMAT(B.DT_CHEGADA, 'dd/MM/yyyy'),'') AS DT_CHEGADA, isnull(CONVERT(VARCHAR,B.VL_PESO_BRUTO),'') as VL_PESO_BRUTO, isnull(CONVERT(VARCHAR,B.VL_M3),'') AS VL_M3, ISNULL(B.VL_INDICE_VOLUMETRICO,'') AS VL_INDICE_VOLUMETRICO, ";
             SQL += "ISNULL(N.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_BL,'') AS MASTER, ISNULL(B.NR_BL,'') AS HOUSE ";
             SQL += "from TB_DEMURRAGE_FATURA A ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
@@ -2676,16 +2674,16 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(B.DT_FINAL_FREETIME,'dd/MM/yy'),'') AS FINALFT,ISNULL(A.QT_DIAS_FREETIME,'') AS QT_DIAS_FREETIME, ";
             SQL += "ISNULL(FORMAT(B.DT_INICIAL_DEMURRAGE,'dd/MM/yy'),'') AS INICIALDEM, ISNULL(FORMAT(B.DT_FINAL_DEMURRAGE,'dd/MM/yy'),'') AS FINALDEM, ";
             SQL += "ISNULL(B.QT_DIAS_DEMURRAGE,'') AS QT_DIAS_DEMURRAGE, ISNULL(MD.SIGLA_MOEDA,'') AS SIGLA_MOEDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_TAXA_DEMURRAGE_VENDA,'C','PT-BR')),'R$',''),'') AS VL_TAXA_DEMURRAGE_VENDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_CAMBIO_DEMURRAGE_VENDA,'C','PT-BR')),'R$',''),'') AS VL_CAMBIO_DEMURRAGE_VENDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_DEMURRAGE_LIQUIDO_VENDA,'C','PT-BR')),'R$',''),'') AS VL_DEMURRAGE_LIQUIDO_VENDA, ";
+            SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_VENDA,0) AS VL_TAXA_DEMURRAGE_VENDA, ";
+            SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_VENDA,0) AS VL_CAMBIO_DEMURRAGE_VENDA, ";
+            SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_VENDA,0) AS VL_DEMURRAGE_LIQUIDO_VENDA, ";
             SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DESCONTO_DEMURRAGE_VENDA,'C','PT-BR')),'R$',''),'') AS VL_DESCONTO_DEMURRAGE_VENDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DEMURRAGE_VENDA_BR, 'C', 'PT-BR')), 'R$', ''),'') AS VL_DEMURRAGE_VENDA_BR ";
+            SQL += "ISNULL(B.VL_DEMURRAGE_VENDA_BR,0) AS VL_DEMURRAGE_VENDA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_DEMURRAGE_FATURA DF ON DF.ID_DEMURRAGE_FATURA = DFI.ID_DEMURRAGE_FATURA ";
-            SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_COMPRA = MD.ID_MOEDA ";
+            SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_VENDA = MD.ID_MOEDA ";
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
             SQL += "AND DF.CD_PR = 'R' ";
 
@@ -6489,15 +6487,19 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT B.NR_BL, A.NR_PROCESSO AS PROCESSO, CONVERT(DECIMAL(13,3),A.VL_M3) AS CUBAGEM, CONVERT(DECIMAL(13,2),C.VL_LIQUIDO) AS HBL, D.NM_ITEM_DESPESA AS ITEM, D.ID_ITEM_DESPESA AS ITEMID FROM TB_BL A ";
+            SQL = "SELECT A.NR_PROCESSO AS PROCESSO, ";
+            SQL += "MAX(CONVERT(DECIMAL(13, 3), A.VL_M3)) AS CUBAGEM, ";
+            SQL += "SUM((CASE WHEN C.FL_ABATER_ISS = 1 THEN C.VL_LIQUIDO - C.VL_ISS ELSE C.VL_LIQUIDO END)) AS RATEIO_TOTAL, ";
+            SQL += "SUM((CASE WHEN C.FL_ABATER_ISS = 1 THEN C.VL_LIQUIDO ELSE 0 END)) AS RATEIONF, ";
+            SQL += "SUM((CASE WHEN C.FL_ABATER_ISS = 1 THEN C.VL_ISS ELSE 0 END)) AS RATEIOISS, ";
+            SQL += "SUM((CASE WHEN C.FL_ABATER_ISS = 1 THEN C.VL_LIQUIDO - C.VL_ISS ELSE C.VL_LIQUIDO END)) AS NFLIQUIDO ";
+            SQL += "FROM TB_BL A ";
             SQL += "INNER JOIN TB_BL B ON A.ID_BL_MASTER = B.ID_BL ";
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
-            SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
             SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
-            SQL += "AND A.ID_BL_MASTER = '" + blmaster + "' ";
-            SQL += "GROUP BY D.NM_ITEM_DESPESA, A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, C.VL_LIQUIDO, B.NR_BL, D.ID_ITEM_DESPESA ";
-            SQL += "ORDER BY D.NM_ITEM_DESPESA ";
+            SQL += "AND A.ID_BL_MASTER = '"+blmaster+"' ";
+            SQL += "GROUP BY  A.NR_PROCESSO ";
 
 
             DataTable listTable = new DataTable();
