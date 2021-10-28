@@ -1569,7 +1569,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_ATIVO = 1 AND FL_VENDEDOR = 1 
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
