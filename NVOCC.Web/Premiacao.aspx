@@ -1,27 +1,24 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="InvoiceQuitada.aspx.cs" Inherits="ABAINFRA.Web.InvoiceQuitada" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Premiacao.aspx.cs" Inherits="ABAINFRA.Web.Premiacao" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Invoices
+                    <h3 class="panel-title">Premiação
                     </h3>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active" id="tabprocessoExpectGrid">
                             <a href="#processoExpectGrid" id="linkprocessoExcepctGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Invoices Quitadas
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Premiação
                             </a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="row topMarg">
-                                <div class="row">
-                                    
-                                </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Invoice.csv')">Exportar Grid - CSV</button>
@@ -31,75 +28,20 @@
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Quitação Inicial:</label>
-                                            <input id="txtDtInicialVencimentoInvoice" class="form-control" type="date" required="required"/>
+                                            <label class="control-label">Data Competência:</label>
+                                            <input id="txtDtCompentencia" class="form-control" type="text" required="required"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Quitação Final:</label>
-                                            <input id="txtDtFinalVencimentoInvoice" class="form-control" type="date" required="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">Filtro</label>
-                                            <select id="ddlFilterInvoice" class="form-control">
-                                                <option value="">Selecione</option>
-                                                <option value="1">Agente</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">*</label>
-                                            <input id="txtInvoice" class="form-control" type="text" />
+                                            <label class="control-label">Quinzena</label>
+                                            <input id="txtQuinzena" class="form-control" type="text" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" id="btnConsultarInvoice" onclick="listarInvoices()" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsultarPremiacao" onclick="imprimirPremiacao()" class="btn btn-primary">Consultar</button>
                                     </div>
                                 </div> 
-                                <div class="table-responsive fixedDoubleHead topMarg">
-                                    <table id="grdInvoice" class="table tablecont">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" scope="col">AGENTE</th>
-                                                <th class="text-center" scope="col">DATA QUITAÇÃO</th>
-                                                <th class="text-center" scope="col">Nº CONTRATO</th>
-                                                <th class="text-center" scope="col">MBL</th>
-                                                <th class="text-center" scope="col">HBL</th>
-                                                <th class="text-center" scope="col">PROCESSO</th>
-                                                <th class="text-center" scope="col">INVOICE</th>
-                                                <th class="text-center" scope="col">DATA INVOICE</th>
-                                                <th class="text-center" scope="col">TAXA INVOICE</th>
-                                                <th class="text-center" scope="col">VALOR INVOICE</th>
-                                                <th class="text-center" scope="col">MOEDA</th>
-                                                <th class="text-center" scope="col">VALOR R$</th>
-                                                <th class="text-center" scope="col">TAXA RECEBIMENTO</th>
-                                                <th class="text-center" scope="col">DATA RECEBIMENTO</th>
-                                                <th class="text-center" scope="col">CNEE</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="grdInvoiceBody">
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row topMarg">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label" style="font-weight: normal">TOTAL:</label><label class="control-label" style="font-weight: bold" id="totalInvoice"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <label class="control-label" style="font-weight: normal">TOTAL BRL:</label><label class="control-label" style="font-weight: bold" id="totalInvoiceBrl"></label>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,93 +58,103 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
-        var data = new Date();
-        var dia = String(data.getDate()).padStart(2, '0');
-        var mes = String(data.getMonth() + 1).padStart(2, '0');
-        var ano = data.getFullYear();
-
-        var arrayInvoice = [];
-
-        function validaDat(data) {
-            var date = data;
-            var ardt = new Array;
-            var ExpReg = new RegExp("(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/[12][0-9]{3}");
-            ardt = date.split("/");
-            erro = false;
-            if (date.search(ExpReg) == -1) {
-                erro = true;
-            }
-            else if (((ardt[1] == 4) || (ardt[1] == 6) || (ardt[1] == 9) || (ardt[1] == 11)) && (ardt[0] > 30))
-                erro = true;
-            else if (ardt[1] == 2) {
-                if ((ardt[0] > 28) && ((ardt[2] % 4) != 0))
-                    erro = true;
-                if ((ardt[0] > 29) && ((ardt[2] % 4) == 0))
-                    erro = true;
-            }
-            if (erro) {
-                return false;
-            }
-            return true;
-        }
-
-        function compareDates(dateE, dateV) {
-            let emissao = dateE.split('/') // separa a data pelo caracter '/'
-            let vencimento = dateV.split('/')      // pega a data atual
-
-            dateE = new Date(emissao[2], emissao[1] - 1, emissao[0]) // formata 'date'
-            dateV = new Date(vencimento[2], vencimento[1] - 1, vencimento[0])
-
-            // compara se a data informada é maior que a data atual
-            // e retorna true ou false
-            return dateE > dateV ? false : true
-        }
-
 
         //PagamentosRecebimentos
 
-        function listarInvoices() {
-            var dtInicial = document.getElementById("txtDtInicialVencimentoInvoice").value;
-            var dtFinal = document.getElementById("txtDtFinalVencimentoInvoice").value;
-            var nota = document.getElementById("txtInvoice").value;
-            var filter = document.getElementById("ddlFilterInvoice").value;
-            var totalInvoice = 0;
-            var totalInvoiceBrl = 0;
-            if (dtInicial != "" && dtFinal != "") {
+        function imprimirPremiacao() {
+            var dtInicial = document.getElementById("txtDtCompentencia").value;
+            var nota = document.getElementById("txtQuinzena").value;
+            var posih = 3;
+            var posiv = 25;
+            var pcindicador = [];
+            var idpc = "";
+            var totalpremiacao = 0;
+            var totalpc = 0;
+            if (dtInicial != "") {
                 $.ajax({
                     type: "POST",
-                    url: "DemurrageService.asmx/listarInvoicesQuitadas",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    url: "Gerencial.asmx/listarPremiacao",
+                    data: '{dtCompetencia:"' + dtInicial + '",quinzena: "' + nota + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    beforeSend: function () {
-                        $("#grdInvoiceBody").empty();
-                        $("#grdInvoiceBody").append("<tr><td colspan='15'><div class='loader'></div></td></tr>");
-                        $("#totalInvoice").empty();
-                        $("#totalInvoiceBrl").empty();
-                    },
                     success: function (dado) {
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
-                        $("#grdInvoiceBody").empty();
-                        $("#totalInvoice").empty();
-                        $("#totalInvoiceBrl").empty();
+                        console.log(dado);
                         if (dado != null) {
-                            for (let i = 0; i < dado.length; i++) {
-                                arrayInvoice.push(dado[i]["ID_ACCOUNT_INVOICE"])
-                                totalInvoice = totalInvoice + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
-                                totalInvoiceBrl = totalInvoiceBrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
-                                $("#grdInvoiceBody").append("<tr><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_AGENTE"]+"'> " + dado[i]["NM_AGENTE"] + "</td><td class='text-center'>" + dado[i]["DT_QUITACAO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["NR_MBL"] + "</td><td class='text-center'>" + dado[i]["NR_HBL"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TX_INVOICE"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["VLINVOICE"].toLocaleString({ style: 'currency', currency: dado[i]["SIGLA"]}) + "</td><td class='text-center'>" + dado[i]["SIGLA"] + "</td><td class='text-center'>" + dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TX_RECEBIMENTO"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO"] + "</td><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_IMPORTADOR"] +"'>" + dado[i]["NM_IMPORTADOR"] + "</td></tr>");
+                            var doc = new jsPDF('l');
+                            var pageHeight = doc.internal.pageSize.height;
+                            var imgData = new Image();
+                            doc.setFontSize(12);
+                            doc.setFontStyle("bold");
+                            doc.text("RATEAMENTO DA PREMIÇÃO", 120, 7);
+                            doc.setFontSize(9);
+                            doc.setFontStyle("normal");
+                            doc.text("COMPETÊNCIA - " + dado[0]["DT_COMPETENCIA"].substr(0, 2) + "/" + dado[0]["DT_COMPETENCIA"].substr(2, dado[0]["DT_COMPETENCIA"].length) +" - QUINZENA -" + dado[0]["NR_QUINZENA"], 120, 12);
+                            for (let x = 0; x < dado.length; x++) {
+                                if (pcindicador.indexOf(dado[x]["IDAGENTE"]) == -1) {
+                                    pcindicador.push(dado[x]["IDAGENTE"]);
+                                }
                             }
-                            $("#totalInvoice").append(totalInvoice.toLocaleString('en-us', { style: 'currency', currency: 'USD' }));
-                            $("#totalInvoiceBrl").append(totalInvoiceBrl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
+                            console.log(pcindicador);
+                            doc.setFontSize(8);
+                            doc.text("AGENTE", posih, posiv);
+                            doc.text("MBL", posih + 30, posiv);
+                            doc.text("HBL", posih + 65, posiv);
+                            doc.text("CNEE", posih + 95, posiv);
+                            doc.text("TIPO ESTUF", posih+ 130, posiv);
+                            doc.text("VALOR COMPRA", posih + 153, posiv);
+                            doc.text("MOEDA", posih + 180, posiv);
+                            doc.text("TX. CONVERSAO", posih + 200, posiv);
+                            doc.text("PREMIACAO", posih+230, posiv);
+                            doc.text("MOEDA", posih + 255, posiv);
+                            doc.text("% RATEIO", posih + 275, posiv);
+                            doc.setFontStyle("normal");
+                            for (let i = 0; i < pcindicador.length; i++) {
+                                totalpremiacao = 0;
+                                totalpc = 0;
+                                idpc = "";
+                                if (idpc == "") {
+                                    idpc = pcindicador[i];
+                                }
+                                for (let z = 0; z < dado.length; z++) {
+                                    if (idpc == dado[z]["IDAGENTE"]) {
+                                        doc.setFontSize(8);
+                                        doc.setFontStyle("normal");
+                                        posiv = posiv + 5;
+                                        doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
+                                        doc.text(dado[z]["MBL"], posih + 30, posiv);
+                                        doc.text(dado[z]["HBL"], posih + 65, posiv);
+                                        doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
+                                        doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
+                                        doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
+                                        doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
+                                        doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
+                                        doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
+                                        doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
+                                        doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
+                                        totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
+                                        totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                    } else {
+                                        if (z == dado.length - 1) {
+                                            doc.setFontStyle("bold");
+                                            doc.setFontSize(9);
+                                            doc.text('TOTAL PREMIAÇÃO >>>>', posih + 95, posiv + 5);
+                                            doc.text(totalpremiacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv + 5);
+                                            doc.text(totalpc.toString() + '%', posih + 275, posiv + 5);
+                                            posiv = posiv + 5;
+                                        }
+                                    }
+                                }
+                            }
+                            doc.setFontStyle("bold");
+                            doc.setFontSize(9);
+                            doc.text('TOTAL PREMIAÇÃO >>>>', posih + 95, posiv + 5);
+                            doc.text(totalpremiacao.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv + 5);
+                            doc.text(totalpc.toString() + '%', posih + 275, posiv + 5);
+                            doc.output("dataurlnewwindow");
                         }
                         else {
-                            $("#grdInvoiceBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='15' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })
@@ -360,7 +312,7 @@
                                 doc.text(dado[i]["DT_INVOICE"], h + 173, v);
                                 doc.text(dado[i]["TX_INVOICE"], h + 191, v);
                                 doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);
-                                doc.text(dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 220, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(2), h + 220, v);
                                 doc.text(dado[i]["TX_RECEBIMENTO"], h + 235, v);
                                 doc.text(dado[i]["DT_RECEBIMENTO"], h + 250, v);
                                 doc.text(dado[i]["NM_IMPORTADOR"].toString().substr(0, 15), h + 265, v);
@@ -392,7 +344,7 @@
                                 doc.text(dado[i]["DT_INVOICE"], h + 173, v);
                                 doc.text(dado[i]["TX_INVOICE"], h + 191, v);
                                 doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);
-                                doc.text(dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 220, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(2), h + 220, v);
                                 doc.text(dado[i]["TX_RECEBIMENTO"], h + 235, v);
                                 doc.text(dado[i]["DT_RECEBIMENTO"], h + 250, v);
                                 doc.text(dado[i]["NM_IMPORTADOR"].toString().substr(0, 15), h + 265, v);

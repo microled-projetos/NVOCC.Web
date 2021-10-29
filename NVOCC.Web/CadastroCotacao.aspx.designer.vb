@@ -752,6 +752,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtTTimeFreteMedia As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle divTTAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divTTAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle txtTTimeFreteTruckingAereo.
     '''</summary>
     '''<remarks>

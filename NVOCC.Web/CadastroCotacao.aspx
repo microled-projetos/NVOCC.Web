@@ -539,7 +539,7 @@
                                         <asp:TextBox ID="txtTTimeFreteMedia" enabled="false"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" id="divTTAereo" runat="server" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Trucking(Aéreo):</label>
                                         <asp:TextBox ID="txtTTimeFreteTruckingAereo" enabled="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
@@ -1569,7 +1569,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_ATIVO = 1 AND FL_VENDEDOR = 1 
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

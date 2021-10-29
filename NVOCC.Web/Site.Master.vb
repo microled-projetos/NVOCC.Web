@@ -210,6 +210,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnInvoiceQuitada.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2053 And linha.Item("Acessar").ToString() = 0 Then
                         mnDemonstrativoRateio.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2054 And linha.Item("Acessar").ToString() = 0 Then
+                        mnPremiacao.Visible = False
                     End If
 
 
@@ -267,7 +269,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnEstimativaContaPagarReceber1.Visible = False And mnEstimativaContaPagarReceber2.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False Then
+            If mnEstimativaContaPagarReceber1.Visible = False And mnEstimativaContaPagarReceber2.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False Then
                 MnRelatoriosFinanceiros.Visible = False
             End If
         End If
