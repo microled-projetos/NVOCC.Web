@@ -347,7 +347,7 @@ CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORT
                                 End If
 
                                 If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
-                                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_CALCULADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+                                    Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_CALCULADO = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString.Replace(",", ".") & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
                                 End If
 
                                 If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
