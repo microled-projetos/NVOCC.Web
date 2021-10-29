@@ -184,6 +184,10 @@
             var totalRatNf = 0;
             var totalRatIss = 0;
             var totalRatLiq = 0;
+            var auxIv = 0;
+            var auxFv = 0;
+            var auxFieldIv = 0;
+            var auxPosV = 0;
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/indiceItemDespesa",
@@ -218,7 +222,7 @@
                                 doc.text("RATEIO DE DESPESAS DO MASTER POR PESO CÚBICO", 70, 13);
                                 doc.setFontSize(10);
                                 doc.text("MBL: " + dados[0]["NR_BL"], 130, 18);
-                                doc.setFontSize(8);
+                                doc.setFontSize(7);
                                 for (let z = 0; z < itemid.length; z++) {
                                     if (lineIh < pageWidth - 20) {
                                         if (l == 0) {
@@ -229,9 +233,9 @@
                                             doc.line(lineFh, lineIv, lineFh, lineFv)
                                             doc.line(lineProc, lineIv, lineProc, lineFv)
                                             doc.line(lineCub, lineIv, lineCub, lineFv)
-                                            doc.text(itemid[z].toString().substr(0, 15), fieldIh + 9, fieldIv - 4);
+                                            doc.text(itemid[z].toString().substr(0, 20), fieldIh + 9, fieldIv - 4);
                                             doc.text("PROCESSO", fieldIh, fieldIv + 0.5);
-                                            doc.text("M3", fieldCub, fieldIv + 0.5);
+                                            doc.text("CUBAGEM", fieldCub, fieldIv + 0.5);
                                             doc.text("HBL", fieldHbl, fieldIv + 0.5);
                                             for (let i = 0; i < dados.length; i++) {
                                                 if (dados[i]["ITEM"] == itemid[z]) {
@@ -267,39 +271,39 @@
                                             fieldHbl = fieldHbl + 55;
                                             lineProc = lineProc + 55;
                                             lineCub = lineCub + 55;
-                                            aux = position;
+                                            aux = positionV;
                                             position = 30;
                                             positionV = 28;
                                         } else {                                            
-                                            fieldIv = aux + 15;
-                                            lineIv = aux + 13;
-                                            lineFv = aux + 17;
+                                            fieldIv = auxFieldIv;
+                                            lineIv = auxIv;
+                                            lineFv = auxFv;
+                                            positionV = auxPosV;
                                             doc.line(lineIh, lineIv, lineFh, lineIv)
                                             doc.line(lineIh, lineIv, lineIh, lineFv)
                                             doc.line(lineIh, lineFv, lineFh, lineFv)
                                             doc.line(lineFh, lineIv, lineFh, lineFv)
                                             doc.line(lineProc, lineIv, lineProc, lineFv)
                                             doc.line(lineCub, lineIv, lineCub, lineFv)
-                                            doc.text(itemid[z].toString().substr(0, 15), fieldIh + 9, fieldIv - 4);
+                                            doc.text(itemid[z].toString().substr(0, 20), fieldIh + 9, fieldIv - 4);
                                             doc.text("PROCESSO", fieldIh, fieldIv + 0.5);
-                                            doc.text("M3", fieldCub, fieldIv + 0.5);
+                                            doc.text("CUBAGEM", fieldCub, fieldIv + 0.5);
                                             doc.text("HBL", fieldHbl, fieldIv + 0.5);
                                             for (let i = 0; i < dados.length; i++) {
                                                 if (dados[i]["ITEM"] == itemid[z]) {
-                                                    position = position + 4;
-                                                    positionV = positionV + 4;
+                                                    position = position + 5;
+                                                    positionV = positionV + 5;
                                                     doc.line(lineIh, lineFv, lineIh, lineFv + 5)
                                                     doc.line(lineIh, lineFv + 5, lineFh, lineFv + 5)
                                                     doc.line(lineFh, lineFv, lineFh, lineFv + 5)
-                                                    doc.text(dados[i]["PROCESSO"], fieldIh, position)
-                                                    doc.text(dados[i]["CUBAGEM"].toFixed(3), fieldCub, position)
-                                                    doc.text(dados[i]["HBL"].toFixed(2), fieldHbl, position)
+                                                    doc.text(dados[i]["PROCESSO"], fieldIh, positionV)
+                                                    doc.text(dados[i]["CUBAGEM"].toFixed(3), fieldCub, positionV)
+                                                    doc.text(dados[i]["HBL"].toFixed(2), fieldHbl, positionV)
                                                     totalcub = totalcub + parseFloat(dados[i]["CUBAGEM"].toFixed(3));
                                                     total = total + parseFloat(dados[i]["HBL"].toFixed(2));
                                                     lineFv = lineFv + 5;
                                                 }
                                                 position = fieldIv + 1;
-                                                positionV = 28.5;
                                             }
                                             
                                             doc.text("TOTAL", fieldIh, lineFv + 3.5)
@@ -323,7 +327,25 @@
                                         }
                                     } else {
                                         l = 1;
+                                        
+                                        lineIv = lineFv + 10;
+                                        lineFv = lineIv + 4;
                                         lineIh = 10;
+                                        lineFh = 63;
+                                        lineProc = 29;
+                                        lineCub = 44;
+                                        fieldIv = lineIv + 2.5;
+                                        fieldIh = 11;
+                                        fieldCub = 30;
+                                        fieldHbl = 45;
+                                        positionV = lineIv + 2;
+                                        position = 30;
+
+                                        auxIv = lineIv;
+                                        auxFv = lineFv;
+                                        auxFieldIv = fieldIv;
+                                        auxPosV = positionV;
+                                        /*lineIh = 10;
                                         lineFh = 63;
                                         fieldIh = 11;
                                         fieldCub = 30;
@@ -332,34 +354,33 @@
                                         lineIv = aux + 13;
                                         lineFv = aux + 17;
                                         lineProc = 29;
-                                        lineCub = 44;
+                                        lineCub = 44;*/
                                         doc.line(lineIh, lineIv, lineFh, lineIv)
                                         doc.line(lineIh, lineIv, lineIh, lineFv)
                                         doc.line(lineIh, lineFv, lineFh, lineFv)
                                         doc.line(lineFh, lineIv, lineFh, lineFv)
                                         doc.line(lineProc, lineIv, lineProc, lineFv)
                                         doc.line(lineCub, lineIv, lineCub, lineFv)
-                                        doc.text(itemid[z].toString().substr(0, 15), fieldIh + 9, fieldIv - 4);
+                                        doc.text(itemid[z].toString().substr(0, 20), fieldIh + 9, fieldIv - 4);
                                         doc.text("PROCESSO", fieldIh, fieldIv + 0.5);
-                                        doc.text("M3", fieldCub, fieldIv + 0.5);
+                                        doc.text("CUBAGEM", fieldCub, fieldIv + 0.5);
                                         doc.text("HBL", fieldHbl, fieldIv + 0.5);
                                         for (let i = 0; i < dados.length; i++) {
-                                            if (dados[i]["ITEM"] == itemid[z]) {
+                                            if (dados[i]["ITEM"] == itemid[z]) {  
                                                 position = position + 4;
-                                                positionV = positionV + 4;
+                                                positionV = positionV + 5;
                                                 doc.line(lineIh, lineFv, lineIh, lineFv + 5)
                                                 doc.line(lineIh, lineFv + 5, lineFh, lineFv + 5)
                                                 doc.line(lineFh, lineFv, lineFh, lineFv + 5)
-                                                doc.text(dados[i]["PROCESSO"], fieldIh, position)
-                                                doc.text(dados[i]["CUBAGEM"].toFixed(3), fieldCub, position)
-                                                doc.text(dados[i]["HBL"].toFixed(2), fieldHbl, position)
+                                                doc.text(dados[i]["PROCESSO"], fieldIh, positionV)
+                                                doc.text(dados[i]["CUBAGEM"].toFixed(3), fieldCub, positionV)
+                                                doc.text(dados[i]["HBL"].toFixed(2), fieldHbl, positionV)
                                                 totalcub = totalcub + parseFloat(dados[i]["CUBAGEM"].toFixed(3));
                                                 total = total + parseFloat(dados[i]["HBL"].toFixed(2));
                                                 lineFv = lineFv + 5;
 
                                             }
                                             position = fieldIv + 1;
-                                            positionV = 28.5;
                                         }
                                         
                                         doc.text("TOTAL", fieldIh, lineFv + 3.5)
@@ -415,7 +436,7 @@
                                             doc.setFontSize(18);
                                             doc.setTextColor(50, 50, 50);
                                             doc.text("RATEIO DE DESPESAS DO MASTER POR PESO CÚBICO", 70, 13);
-                                            doc.setFontSize(8);
+                                            doc.setFontSize(7);
                                             doc.line(lineIh, lineIv, lineIh, lineFv)
                                             doc.line(lineIh, lineIv, lineFh, lineIv)
                                             doc.line(lineIh, lineFv, lineFh, lineFv)
@@ -427,7 +448,7 @@
                                             doc.line(lineRateioIss, lineIv, lineRateioIss, lineFv)
                                             doc.line(lineNfLiquido, lineIv, lineNfLiquido, lineFv)
                                             doc.text("PROCESSO", fieldIh, fieldIv + 0.5);
-                                            doc.text("M3", fieldCub, fieldIv + 0.5);
+                                            doc.text("CUBAGEM", fieldCub, fieldIv + 0.5);
                                             doc.text("RATEIO TOTAL", fieldRateioTotal, fieldIv + 0.5);
                                             doc.text("RATEIO NF", fieldRateioNf, fieldIv + 0.5);
                                             doc.text("RATEIO ISS", fieldRateioIss, fieldIv + 0.5);
@@ -435,16 +456,17 @@
                                             for (let k = 0; k < data.length; k++) {
                                                 fieldIv = fieldIv + 5;
                                                 lineFv = lineFv + 5;
+
                                                 doc.line(lineIh, lineFv, lineFh, lineFv)                                                
                                                 doc.text(data[k]["PROCESSO"], fieldIh, fieldIv + 0.5);
                                                 doc.text(data[k]["CUBAGEM"].toFixed(3), fieldCub, fieldIv + 0.5);
                                                 doc.text(data[k]["RATEIO_TOTAL"].toFixed(2), fieldRateioTotal, fieldIv + 0.5);
                                                 doc.text(data[k]["RATEIONF"].toFixed(2), fieldRateioNf, fieldIv + 0.5);
-                                                doc.text(data[k]["RATEIONF"].toFixed(2), fieldRateioIss, fieldIv + 0.5);
+                                                doc.text(data[k]["RATEIOISS"].toFixed(2), fieldRateioIss, fieldIv + 0.5);
                                                 doc.text(data[k]["NFLIQUIDO"].toFixed(2), fieldNfLiquido, fieldIv + 0.5);
                                                 totalRatTot = totalRatTot + parseFloat(data[k]["RATEIO_TOTAL"].toFixed(2));
                                                 totalRatNf = totalRatNf + parseFloat(data[k]["RATEIONF"].toFixed(2));
-                                                totalRatIss = totalRatIss + parseFloat(data[k]["RATEIONF"].toFixed(2));
+                                                totalRatIss = totalRatIss + parseFloat(data[k]["RATEIOISS"].toFixed(2));
                                                 totalRatLiq = totalRatLiq + parseFloat(data[k]["NFLIQUIDO"].toFixed(2));
                                             }
                                             
