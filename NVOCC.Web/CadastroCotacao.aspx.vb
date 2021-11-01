@@ -1618,6 +1618,13 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                     '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
 
+                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                    '    If ds2.Tables(0).Rows.Count > 0 Then
+                    '        For Each linha As DataRow In ds2.Tables(0).Rows
+                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                    '        Next
+                    '    End If
+
                     'End If
 
                 End If
@@ -1674,6 +1681,13 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
                     '    Dim RotinaUpdate As New RotinaUpdate
                     '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                     '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
+
+                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                    '    If ds2.Tables(0).Rows.Count > 0 Then
+                    '        For Each linha As DataRow In ds2.Tables(0).Rows
+                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                    '        Next
+                    '    End If
 
                     'End If
                 End If

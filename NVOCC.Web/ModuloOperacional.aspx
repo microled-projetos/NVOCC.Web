@@ -807,7 +807,34 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
-    <script src="Content/js/papaparse.min.js"></script>    
+    <script src="Content/js/papaparse.min.js"></script>
+    <script>
+        ClassicEditor.create(document.querySelector('#corpoEmail'), {
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'link',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'indent',
+                    'outdent',
+                    '|',
+                    'blockQuote',
+                    'insertTable',
+                    'mediaEmbed',
+                    'undo',
+                    'redo',
+                    'HtmlEmbed'
+                ]
+            },
+
+        })
+
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -843,8 +870,8 @@
                 document.getElementById("dtEmbarqueFimFilter"),
                 document.getElementById("dtPrevisaoChegadaInicioFilter"),
                 document.getElementById("dtPrevisaoChegadaFimFilter"),
-                document.getElementById("dtPrevisaoChegadaInicioFilter"),
-                document.getElementById("dtPrevisaoChegadaFimFilter"),
+                document.getElementById("dtChegadaInicioFilter"),
+                document.getElementById("dtChegadaFimFilter"),
                 document.getElementById("dtFreetimeFilter"),
                 document.getElementById("MainContent_ddlTransportadorFilter"),
                 document.getElementById("nrMasterFilter"),
@@ -863,7 +890,7 @@
                 dadosFiltro[i].value = "";
             }
             listarProcessosOperacional();
-        }
+     }
 
         function listarProcessosOperacional() {
             var dadosFiltro = {
@@ -884,8 +911,8 @@
                 "dtembarquefim": document.getElementById("dtEmbarqueFimFilter").value,
                 "pchegadainicio": document.getElementById("dtPrevisaoChegadaInicioFilter").value,
                 "pchegadafim": document.getElementById("dtPrevisaoChegadaFimFilter").value,
-                "dtchegadainicio": document.getElementById("dtPrevisaoChegadaInicioFilter").value,
-                "dtchegadafim": document.getElementById("dtPrevisaoChegadaFimFilter").value,
+                "dtchegadainicio": document.getElementById("dtChegadaInicioFilter").value,
+                "dtchegadafim": document.getElementById("dtChegadaFimFilter").value,
                 "freetime": document.getElementById("dtFreetimeFilter").value,
                 "transportador": document.getElementById("MainContent_ddlTransportadorFilter").value,
                 "blmaster": document.getElementById("nrMasterFilter").value,
@@ -1349,11 +1376,13 @@
             values = [];
             var master = document.getElementById("nrMasterBLemail").textContent;
             var corpo = document.getElementById("corpoEmail").value;
+            let doc = new DOMParser().parseFromString(corpo, "text/html");
             for (let i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
             }
+            console.log(doc);
             if (values.length > 0) {
-                for (let i = 0; i < values.length; i++) {
+                /*for (let i = 0; i < values.length; i++) {
                     $.ajax({
                         type: "POST",
                         url: "Gerencial.asmx/enviarEmail",
@@ -1367,7 +1396,7 @@
                             }
                         }
                     })
-                }
+                }*/
                 $("#modalMontagemEmail").modal("hide");
             }
         }

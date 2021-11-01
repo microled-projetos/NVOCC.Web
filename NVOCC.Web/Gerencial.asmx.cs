@@ -82,7 +82,7 @@ namespace ABAINFRA.Web
                 periodof = anof + "12";
             }
 
-            
+
             SQL += " AND A.ANO+A.MES >=" + periodoi + " AND A.ANO+A.MES <=" + periodof;
 
 
@@ -103,10 +103,10 @@ namespace ABAINFRA.Web
                 SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
             }
 
-            if(embarque == "0")
-			{
+            if (embarque == "0")
+            {
                 SQL += " AND ID_BL_MASTER IS NOT NULL ";
-			}
+            }
             return SQL;
         }
         /*[WebMethod]
@@ -292,7 +292,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "" + CarregaFiltroPizza(anoI,mesI,vendedor, tipo, embarque) + "";
+            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO ";
@@ -386,7 +386,7 @@ namespace ABAINFRA.Web
 
         [WebMethod]
         public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
-		{
+        {
             string SQL;
 
             SQL = "SELECT NM_RAZAO AS VENDEDOR, ";
@@ -444,7 +444,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
-            SQL += "" + CarregaFiltroPizza(anoI,mesI, vendedor, tipo, embarque) + " ";
+            SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
             SQL += ") X ";
             SQL += "GROUP BY MES, ANO, NM_RAZAO ";
@@ -544,10 +544,10 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_SERVICO S ON A.ID_SERVICO = S.ID_SERVICO ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
             SQL += "WHERE A.GRAU = 'C' ";
-            SQL += ""+nmfilter+" ";
-            SQL += ""+estufagem+" ";
-            SQL += ""+via+" ";
-            SQL += ""+servico+" ";
+            SQL += "" + nmfilter + " ";
+            SQL += "" + estufagem + " ";
+            SQL += "" + via + " ";
+            SQL += "" + servico + " ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -597,7 +597,7 @@ namespace ABAINFRA.Web
             SQL = "WHERE SUBSTRING(C.NR_PROCESSO,10,2)>= '18' AND C.ID_BL_MASTER IS NOT NULL ";
             if (dados.VIA != "")
             {
-                SQL += "AND V.ID_VIATRANSPORTE = "+dados.VIA+" ";
+                SQL += "AND V.ID_VIATRANSPORTE = " + dados.VIA + " ";
             }
             switch (dados.ETAPA)
             {
@@ -646,11 +646,11 @@ namespace ABAINFRA.Web
 
             if (dados.PROCESSO != "")
             {
-                SQL += "AND C.NR_PROCESSO LIKE '"+dados.PROCESSO+"%' ";
+                SQL += "AND C.NR_PROCESSO LIKE '" + dados.PROCESSO + "%' ";
             }
             if (dados.CLIENTE != "")
             {
-                SQL += "AND C.ID_PARCEIRO_CLIENTE = '"+dados.CLIENTE+"' ";
+                SQL += "AND C.ID_PARCEIRO_CLIENTE = '" + dados.CLIENTE + "' ";
             }
             if (dados.ORIGEM != "")
             {
@@ -841,7 +841,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_WEEK W ON C.ID_WEEK = W.ID_WEEK ";
             SQL += "LEFT JOIN TB_SERVICO S ON C.ID_SERVICO = S.ID_SERVICO ";
             SQL += "LEFT JOIN TB_VIATRANSPORTE V ON S.ID_VIATRANSPORTE = V.ID_VIATRANSPORTE ";
-            SQL += "" + listarProcessosOperacionalFilter(dados) + " ";           
+            SQL += "" + listarProcessosOperacionalFilter(dados) + " ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -851,8 +851,8 @@ namespace ABAINFRA.Web
         public string NumeroProcesso(string idProcesso)
         {
             string SQL;
-            SQL = "SELECT NR_PROCESSO, ISNULL(FORMAT(DT_DESCONSOLIDACAO,'yyyy-MM-dd'),'') as DT_DESCONSOLIDACAO, ISNULL(FORMAT(DT_REDESTINACAO,'yyyy-MM-dd'),'') AS DT_REDESTINACAO, ISNULL(W.ID_WEEK,'') AS ID_WEEK, ISNULL(DS_TERMO,'') as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '" + idProcesso+"' ";           
-            
+            SQL = "SELECT NR_PROCESSO, ISNULL(FORMAT(DT_DESCONSOLIDACAO,'yyyy-MM-dd'),'') as DT_DESCONSOLIDACAO, ISNULL(FORMAT(DT_REDESTINACAO,'yyyy-MM-dd'),'') AS DT_REDESTINACAO, ISNULL(W.ID_WEEK,'') AS ID_WEEK, ISNULL(DS_TERMO,'') as TERMO FROM TB_BL LEFT JOIN TB_WEEK W ON TB_BL.ID_WEEK = W.ID_WEEK WHERE ID_BL = '" + idProcesso + "' ";
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -993,7 +993,7 @@ namespace ABAINFRA.Web
                         break;
                 }
             }
-            
+
             switch (dtgerado)
             {
                 case "1":
@@ -1025,11 +1025,11 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_GER_LOG F ON A.AUTONUM = F.AUTONUM_EMAIL ";
             SQL += "WHERE A.AUTONUM IS NOT NULL ";
             SQL += "AND E.ORIGEM = 'OP' ";
-            SQL += ""+filtro+" ";
-            SQL += ""+enviado+" ";
-            SQL += ""+nenviado+" ";
-            SQL += ""+dtgerado+" ";
-            
+            SQL += "" + filtro + " ";
+            SQL += "" + enviado + " ";
+            SQL += "" + nenviado + " ";
+            SQL += "" + dtgerado + " ";
+
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
@@ -1126,11 +1126,11 @@ namespace ABAINFRA.Web
         public string verificarCancelamento(string idEmail)
         {
             string SQL;
-            SQL = "SELECT DT_CANCELAMENTO FROM TB_SOLICITACAO_EMAIL WHERE ID_SOLICITACAO_EMAIL = '"+idEmail+"' ";
+            SQL = "SELECT DT_CANCELAMENTO FROM TB_SOLICITACAO_EMAIL WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             string dtcancelamento = listTable.Rows[0]["DT_CANCELAMENTO"].ToString();
-            if (dtcancelamento != "") 
+            if (dtcancelamento != "")
             {
                 return "cancelado";
             }
@@ -1169,7 +1169,7 @@ namespace ABAINFRA.Web
             string SQL;
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd hh:mm:ss");
-            SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_GERACAO_EMAIL = NULL, DT_CANCELAMENTO = null, OB_CANCELAMENTO = NULL WHERE ID_SOLICITACAO_EMAIL = '"+idEmail+"' ";
+            SQL = "UPDATE TB_SOLICITACAO_EMAIL SET DT_GERACAO_EMAIL = NULL, DT_CANCELAMENTO = null, OB_CANCELAMENTO = NULL WHERE ID_SOLICITACAO_EMAIL = '" + idEmail + "' ";
             string reativar = DBS.ExecuteScalar(SQL);
 
             return "ok";
@@ -1228,15 +1228,15 @@ namespace ABAINFRA.Web
                 listTable2 = DBS.List(SQL);
                 string anoH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(9, 2);
                 string mesH = listTable2.Rows[0]["NRHOUSE"].ToString().Substring(6, 2);
-                string diretorio = path+"20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
+                string diretorio = path + "20" + anoH + "\\" + mesH + "\\" + listTable2.Rows[0]["NRHOUSE"].ToString().Replace("/", "") + "\\";
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
-                SQL += "VALUES ('" + idprocesso + "',NULL,'" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','"+ pathrobo + "') ";
+                SQL += "VALUES ('" + idprocesso + "',NULL,'" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','" + pathrobo + "') ";
 
                 DBS.ExecuteScalar(SQL);
 
                 SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                SQL += "VALUES ('"+ sqlFormattedDate + "','"+ sqlFormattedDate + "','"+ idtipoaviso + "', '"+ idprocesso + "',NULL,'"+idprocesso+"',NULL,NULL) ";
+                SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', '" + idprocesso + "',NULL,'" + idprocesso + "',NULL,NULL) ";
 
                 DBS.ExecuteScalar(SQL);
             }
@@ -1252,7 +1252,7 @@ namespace ABAINFRA.Web
                 DataTable listTable4 = new DataTable();
                 listTable4 = DBS.List(SQL);
                 string nrblmaster = listTable4.Rows[0]["NRMASTER"].ToString();
-                string diretorio = path+"20" + anoH + "\\" + mesH + "\\MASTER-" + nrblmaster + "\\";
+                string diretorio = path + "20" + anoH + "\\" + mesH + "\\MASTER-" + nrblmaster + "\\";
 
                 SQL = "INSERT INTO TB_GER_ANEXO (IDPROCESSO, IDMASTER, IDDOCUMENTO, DTPOSTAGEM, DCPATHARQUIVO, NMARQUIVO, DCPATHARQUIVOROBO) ";
                 SQL += "VALUES (NULL,'" + blmaster + "','" + iddocumento + "','" + sqlFormattedDate + "','" + diretorio + "','" + arquivo + "','" + pathrobo + "') ";
@@ -1261,13 +1261,13 @@ namespace ABAINFRA.Web
                 if (idtipoaviso == "1")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "',NULL,NULL,'"+ parceiroD + "') ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "',NULL,NULL,'" + parceiroD + "') ";
                     DBS.ExecuteScalar(SQL);
                 }
-                else if(idtipoaviso == "2")
+                else if (idtipoaviso == "2")
                 {
                     SQL = "INSERT INTO TB_SOLICITACAO_EMAIL (DT_SOLICITACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDMASTER, IDCLIENTE, IDARMAZEM, IDPARCEIRO) ";
-                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '"+ blmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
+                    SQL += "VALUES ('" + sqlFormattedDate + "','" + sqlFormattedDate + "','" + idtipoaviso + "', NULL, '" + blmaster + "','" + idprocesso + "','" + parceiroRD + "',NULL) ";
                     DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1290,7 +1290,7 @@ namespace ABAINFRA.Web
                 SQL = "SELECT FORMAT(A.DTPOSTAGEM,'dd/MM/yyyy hh:mm:ss') AS DTPOSTAGEM, A.AUTONUM, B.NMDOCUMENTO ";
                 SQL += "FROM TB_GER_ANEXO A ";
                 SQL += "LEFT JOIN TB_DOCUMENTO B ON A.IDDOCUMENTO = B.IDDOCUMENTO ";
-                SQL += "WHERE A.IDPROCESSO = '"+ idprocesso + "' ";
+                SQL += "WHERE A.IDPROCESSO = '" + idprocesso + "' ";
                 DataTable listTable2 = new DataTable();
                 listTable2 = DBS.List(SQL);
 
@@ -1301,7 +1301,7 @@ namespace ABAINFRA.Web
                 SQL = "SELECT FORMAT(A.DTPOSTAGEM,'dd/MM/yyyy hh:mm:ss') AS DTPOSTAGEM, A.AUTONUM, B.NMDOCUMENTO ";
                 SQL += "FROM TB_GER_ANEXO A ";
                 SQL += "LEFT JOIN TB_DOCUMENTO B ON A.IDDOCUMENTO = B.IDDOCUMENTO ";
-                SQL += "WHERE A.IDMASTER = '"+ blmaster + "' ";
+                SQL += "WHERE A.IDMASTER = '" + blmaster + "' ";
                 DataTable listTable3 = new DataTable();
                 listTable3 = DBS.List(SQL);
 
@@ -1363,7 +1363,8 @@ namespace ABAINFRA.Web
                 destinatario = listTable2.Rows[0]["ID_DESTINATARIO_MAR"].ToString();
                 origem = listTable2.Rows[0]["ORIGEM"].ToString();
             }
-            else {
+            else
+            {
                 if (nmVia == "AÉREA")
                 {
                     SQL = "SELECT ID_DESTINATARIO_AER, ORIGEM FROM TB_TIPOAVISO WHERE ID_TIPOAVISO = 12";
@@ -1376,7 +1377,7 @@ namespace ABAINFRA.Web
 
             refCliente = DBS.ExecuteScalar("SELECT dbo.FN_REFERENCIA_CLIENTE(" + house + ")");
             SQL = "INSERT INTO TB_GER_EMAIL (ASSUNTO, CORPO, DT_GERACAO, DT_START, IDTIPOAVISO, IDPROCESSO, IDCLIENTE, TPORIGEM, ID_DESTINATARIO) ";
-            SQL += "VALUES ('"+nrProcesso+" - COMUNICADO - "+origemP+" X "+destinoP+" - HBL: "+nrHouse+"<br>"+nmCliente+" - "+cnpj+"<br>"+ refCliente +"<br>', ";
+            SQL += "VALUES ('" + nrProcesso + " - COMUNICADO - " + origemP + " X " + destinoP + " - HBL: " + nrHouse + "<br>" + nmCliente + " - " + cnpj + "<br>" + refCliente + "<br>', ";
             SQL += "'" + corpo + "','" + sqlFormattedDate + "','" + sqlFormattedDate + "',12,'" + house + "','" + idCliente + "','" + origem + "','" + destinatario + "') ";
             string gerarEmail = DBS.ExecuteScalar(SQL);
 
@@ -1407,7 +1408,7 @@ namespace ABAINFRA.Web
             SQL = "SELECT A.IDDOCUMENTO, B.NMDOCUMENTO ";
             SQL += "FROM dbo.TB_TIPOAVISOITEM A ";
             SQL += "INNER JOIN TB_DOCUMENTO B ON A.IDDOCUMENTO = B.IDDOCUMENTO ";
-            SQL += "WHERE A.IDTIPOAVISO = '"+ idtipoaviso + "' ";
+            SQL += "WHERE A.IDTIPOAVISO = '" + idtipoaviso + "' ";
             SQL += "ORDER BY B.NMDOCUMENTO ";
 
             DataTable listTable = new DataTable();
@@ -1500,30 +1501,30 @@ namespace ABAINFRA.Web
             string SQL;
             string desconsolidacao;
             string redestinacao;
-            if(dtDesconsolidacao == "")
+            if (dtDesconsolidacao == "")
             {
                 desconsolidacao = "DT_DESCONSOLIDACAO = NULL";
             }
             else
-			{
-                desconsolidacao = "DT_DESCONSOLIDACAO = '"+dtDesconsolidacao+"' ";
+            {
+                desconsolidacao = "DT_DESCONSOLIDACAO = '" + dtDesconsolidacao + "' ";
 
             }
 
-            if(dtRedestinacao == "")
+            if (dtRedestinacao == "")
             {
                 redestinacao = "DT_REDESTINACAO = NULL";
             }
-			else
-			{
+            else
+            {
                 redestinacao = "DT_REDESTINACAO = '" + dtRedestinacao + "'";
 
             }
-            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "',"+desconsolidacao+","+redestinacao+", DS_TERMO = '"+termo+"' ";
+            SQL = "UPDATE TB_BL SET ID_WEEK = '" + week + "'," + desconsolidacao + "," + redestinacao + ", DS_TERMO = '" + termo + "' ";
             SQL += "WHERE ID_BL = '" + idProcesso + "' ";
 
             string weekS = DBS.ExecuteScalar(SQL);
-            if(weekS == null)
+            if (weekS == null)
             {
                 return null;
             }
@@ -1535,9 +1536,9 @@ namespace ABAINFRA.Web
 
         [WebMethod]
         public string CarregarCliente(string idvendedor)
-		{
+        {
             string SQL;
-            SQL = "SELECT id_parceiro, NM_RAZAO FROM tb_parceiro where id_vendedor = '"+idvendedor+"' order by NM_RAZAO ";
+            SQL = "SELECT id_parceiro, NM_RAZAO FROM tb_parceiro where id_vendedor = '" + idvendedor + "' order by NM_RAZAO ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1550,7 +1551,7 @@ namespace ABAINFRA.Web
         public string deletarAtendimento(string id)
         {
             string SQL;
-            SQL = "DELETE FROM TB_ATENDIMENTO_NEGADO WHERE ID_ATENDIMENTO_NEGADO = '"+id+"' ";
+            SQL = "DELETE FROM TB_ATENDIMENTO_NEGADO WHERE ID_ATENDIMENTO_NEGADO = '" + id + "' ";
 
             DBS.ExecuteScalar(SQL);
 
@@ -1561,7 +1562,7 @@ namespace ABAINFRA.Web
         public string CarregarClienteFinal(string idcliente)
         {
             string SQL;
-            SQL = "select ID_CLIENTE_FINAL, NM_CLIENTE_FINAL from tb_cliente_final where ID_PARCEIRO = '"+idcliente+"' order by NM_CLIENTE_FINAL ";
+            SQL = "select ID_CLIENTE_FINAL, NM_CLIENTE_FINAL from tb_cliente_final where ID_PARCEIRO = '" + idcliente + "' order by NM_CLIENTE_FINAL ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1574,10 +1575,10 @@ namespace ABAINFRA.Web
         public string listarAtendimento(string dataI, string dataF, string filter, string text)
         {
 
-			switch (filter)
-			{
+            switch (filter)
+            {
                 case "1":
-                    filter = "AND J.NM_RAZAO LIKE '"+text+"%' ";
+                    filter = "AND J.NM_RAZAO LIKE '" + text + "%' ";
                     break;
                 case "2":
                     filter = "AND B.NM_RAZAO LIKE '" + text + "%' ";
@@ -1588,7 +1589,7 @@ namespace ABAINFRA.Web
                 default:
                     filter = "";
                     break;
-			}
+            }
 
             string SQL;
             SQL = "SELECT ID_ATENDIMENTO_NEGADO, ISNULL(FORMAT(A.DT_ATENDIMENTO_NEGADO,'dd/MM/yyyy'),'') AS ATENDIMENTO, ";
@@ -1611,23 +1612,23 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_STATUS_COTACAO K ON A.ID_STATUS = K.ID_STATUS_COTACAO ";
             SQL += "WHERE ID_ATENDIMENTO_NEGADO IS NOT NULL ";
             SQL += "" + filter + "";
-            if(dataI != "")
-			{
-                if(dataF != "")
-				{
+            if (dataI != "")
+            {
+                if (dataF != "")
+                {
                     SQL += "AND A.DT_ATENDIMENTO_NEGADO >= '" + dataI + "' AND A.DT_ATENDIMENTO_NEGADO <= '" + dataF + "' ";
-				}
-				else
-				{
+                }
+                else
+                {
                     SQL += "AND A.DT_ATENDIMENTO_NEGADO >= '" + dataI + "' ";
                 }
-			}
-			else
-			{
+            }
+            else
+            {
                 if (dataF != "")
                 {
                     SQL += "AND A.DT_ATENDIMENTO_NEGADO <= '" + dataF + "' ";
-                }                
+                }
             }
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1659,33 +1660,33 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string CadastrarAtendimento(Atendimento dados)
         {
-			if (dados.DT_ATENDIMENTO_NEGADO == "")
-			{
+            if (dados.DT_ATENDIMENTO_NEGADO == "")
+            {
                 return JsonConvert.SerializeObject("0");
             }
 
-			if (dados.ID_PARCEIRO_INSIDE == "")
-			{
+            if (dados.ID_PARCEIRO_INSIDE == "")
+            {
                 return JsonConvert.SerializeObject("0");
             }
 
-            if(dados.ID_VENDEDOR == "")
-			{
+            if (dados.ID_VENDEDOR == "")
+            {
                 return JsonConvert.SerializeObject("0");
             }
 
-            if(dados.ID_PARCEIRO_CLIENTE == "")
-			{
+            if (dados.ID_PARCEIRO_CLIENTE == "")
+            {
                 return JsonConvert.SerializeObject("0");
             }
 
-            if(dados.ID_STATUS == "")
-			{
+            if (dados.ID_STATUS == "")
+            {
                 return JsonConvert.SerializeObject("0");
             }
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, DS_OBS) VALUES('"+dados.DT_ATENDIMENTO_NEGADO+"','"+dados.ID_PARCEIRO_INSIDE+"','"+dados.ID_VENDEDOR+"','"+dados.ID_PARCEIRO_CLIENTE+"','"+dados.ID_SERVICO+"','"+dados.ID_TIPO_ESTUFAGEM+"','"+dados.ID_PORTO_ORIGEM+"','"+dados.ID_PORTO_DESTINO+"','"+dados.ID_INCOTERM+"','"+dados.ID_STATUS+"','"+dados.DS_OBS+"')";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, DS_OBS) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "','" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "','" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "','" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "','" + dados.ID_STATUS + "','" + dados.DS_OBS + "')";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");
@@ -1865,6 +1866,29 @@ namespace ABAINFRA.Web
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarPremiacao(string dtCompetencia, string quinzena)
+        {
+            string SQL;
+            SQL = "SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE DT_COMPETENCIA = '"+ dtCompetencia + "' and NR_QUINZENA = '"+ quinzena + "' ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            string idPremiacao = listTable.Rows[0]["ID_CABECALHO_COMISSAO_NACIONAL"].ToString();
+            if (listTable != null)
+            {
+                SQL = "SELECT ID_PARCEIRO_INDICADOR AS IDAGENTE, DT_COMPETENCIA, NR_QUINZENA, NM_AGENTE AS AGENTE, NR_MASTER AS MBL, NR_HOUSE AS HBL, NM_CLIENTE AS CNEE, NM_TIPO_ESTUFAGEM AS ESTUFAGEM, ";
+                SQL += "VL_COMPRA, MOEDA_COMPRA, VL_CAMBIO, VL_PREMIACAO, MOEDA_PREMIACAO, PC_RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO("+idPremiacao+") ORDER BY NM_AGENTE";
+                DataTable listTable2 = new DataTable();
+                listTable2 = DBS.List(SQL);
+
+                return JsonConvert.SerializeObject(listTable2);
+			}
+			else
+			{
+                return null;
+			}
         }
     }
 }

@@ -437,6 +437,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnDemonstrativoRateio As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnPremiacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnPremiacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle mnCaixaSaida.
     '''</summary>
     '''<remarks>

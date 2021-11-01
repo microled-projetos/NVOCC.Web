@@ -68,20 +68,17 @@
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PROCESSO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">MBL</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">HBL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO MBL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO MBL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO HBL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO HBL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA CLIENTE</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA PERSONAL</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">RETIRADO POR</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">NAVIO</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">PREVISÃO CHEGADA</th>
                                             <th class="text-center sorter" scope="col" style="cursor:pointer">DATA CHEGADA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">FATURA</th>
-                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TIPO</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO MBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CÓD RASTREAMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RECEBIMENTO HBL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">AGENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">CLIENTE</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">RETIRADO POR</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">DATA RETIRADA PERSONAL</th>
+                                            <th class="text-center sorter" scope="col" style="cursor:pointer">TROCA</th>
                                         </tr>
                                     </thead>
                                     <tbody id="containerCourrier">
@@ -283,6 +280,12 @@
                                                         <label for="checkDestino">Destino</label>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <input type="checkbox" id="checkTroca" name="Troca"/>
+                                                        <label for="checkTroca">Troca</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -387,6 +390,11 @@
                     document.getElementById('receptor').value = data.NM_RETIRADO_POR_COURRIER;
                     document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;
                     document.getElementById('dtRetiradaTerceiro').value = data.DT_RETIRADA_PERSONAL;
+                    if (data.FL_TROCA == "True") {
+                        document.getElementById('checkTroca').checked = true;
+                    } else {
+                        document.getElementById('checkTroca').checked = false;
+                    }
                     if (data.CD_RASTREAMENTO_HBL == "ORIGEM") {
                         document.getElementById('dtRecebimentoHBL').disabled = true;
                         document.getElementById('cdRastreamentoHBL').disabled = true;
@@ -500,6 +508,8 @@
             idFiltro = document.getElementById("MainContent_ddlFiltro").value;
             stringConsulta = document.getElementById("txtConsulta").value;
             tipo = document.getElementById("MainContent_chkFCL");
+            var bg = 'background-color: #ccc;';
+            var checked = "";
             tipoValue;
             if (tipo.checked) {
                 tipoValue = "1";
@@ -545,14 +555,46 @@
                     if (dado != null) {
                         $("#containerCourrier").empty();
                         for (let i = 0; i < dado.length; i++) {
-                            $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
-                                "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["MASTER"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["HOUSE"] + "</td><td class='text-center' title='" + dado[i]["CLIENTE"] +"' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_MBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td><td class='text-center'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["DT_RETIRADA_COURRIER"] + "</td><td class='text-center'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td><td class='text-center'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td><td class='text-center' title='" + dado[i]["AGENTE"] +"' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
-                                "<td class='text-center' title='" + dado[i]["NM_NAVIO"] +"' style='max-width: 14ch;'>" + dado[i]["NM_NAVIO"] + "</td><td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["NR_FATURA_COURRIER"] + "</td > <td class='text-center'>" + dado[i]["NM_TIPO_ESTUFAGEM"] + "</td>" +
-                                "</tr>");
+                            if (dado[i]["FL_TROCA"] == 1) {
+                                checked = "checked='true'";
+                            } else {
+                                checked = "";
+                            }
+                            if (dado[i]["CD_RASTREAMENTO_MBL"] != "" && dado[i]["DT_RECEBIMENTO_MBL"] !== "" && dado[i]["CD_RASTREAMENTO_HBL"] !== "" && dado[i]["DT_RECEBIMENTO_HBL"] !== "") {
+                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'> " + dado[i]["MASTER"] + "</td > " +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["HOUSE"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'> " + dado[i]["DT_RECEBIMENTO_MBL"] + "</td> " +
+                                    "<td class='text-center' title='" + dado[i]["CD_RASTREAMENTO_HBL"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
+                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["AGENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch; word-break: break-all;"+bg+"'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td>" +
+                                    "<td class='text-center' style='" + bg + "'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td>" +
+                                    "<td class='text-center' style='" + bg + "'><input type='checkbox' name='' " + checked + " disabled='disable'></td>" +
+                                    "</tr>");
+                            } else {
+                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["MASTER"] + "</td > " +
+                                    "<td class='text-center'>" + dado[i]["HOUSE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["DT_RECEBIMENTO_MBL"] + "</td> " +
+                                    "<td class='text-center' title='" + dado[i]["CD_RASTREAMENTO_HBL"] + "' style='max-width: 14ch;'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch; word-break: break-all'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "' style='max-width: 14ch;'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td>" +
+                                    "<td class='text-center'><input type='checkbox' name='' " + checked +"  disabled='disable'></td>" +
+                                    "</tr>");
+                            }
                         }
                         $("#courrierExport").tablesorter({
                             dateFormat: "ddmmyyyy",
@@ -575,11 +617,18 @@
             stringConsulta = document.getElementById("txtConsulta").value;
             tipo = document.getElementById("MainContent_chkFCL");
             tipoValue;
+            var troca = document.getElementById("checkTroca");
             if (tipo.checked) {
                 tipoValue = "1";
             }
             else {
                 tipoValue = "0";
+            }
+
+            if (troca.checked) {
+                troca = "1";
+            } else {
+                troca = "0";
             }
             var dadoEdit = {
                 "ID_BL": idblC,
@@ -593,6 +642,7 @@
                 "NM_RETIRADO_POR_COURRIER": document.getElementById('receptor').value,
                 "NR_FATURA_COURRIER": document.getElementById('nrFatura').value,
                 "DT_RETIRADA_PERSONAL": document.getElementById('dtRetiradaTerceiro').value,
+                "FL_TROCA": troca,
             }
             $.ajax({
                 type: "POST",
@@ -609,7 +659,6 @@
                     }
                     else {
                         $("#msgErrUpdate").fadeIn(500).delay(1000).fadeOut(500);
-                        $("#containerCourrier").empty();
                         listarCourrier();
                     }
                 }
