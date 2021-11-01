@@ -1084,7 +1084,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     objBoletos.Banco.Cedente = New Cedente
                     objBoletos.Banco.Cedente.CPFCNPJ = ds.Tables(0).Rows(0).Item("CNPJ_CPF_CEDENTE")
                     objBoletos.Banco.Cedente.Nome = ds.Tables(0).Rows(0).Item("NM_CEDENTE")
-                    objBoletos.Banco.Cedente.Observacoes = "" '"Observações Do cedente - o que coloca aqui?"
+                    objBoletos.Banco.Cedente.Observacoes = ""
 
                     Dim conta As New ContaBancaria
                     conta.Agencia = ds.Tables(0).Rows(0).Item("NR_AGENCIA")
@@ -1148,34 +1148,34 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     .LogradouroNumero = linhads.Item("NR_ENDERECO").ToString(),
                     .UF = "SP"},
                     .Nome = linhads.Item("NM_CLIENTE").ToString(),
-                    .Observacoes = "" '"Pagar com urgência para não ser protestado."
+                    .Observacoes = ""
                 }
                         Titulo.CodigoOcorrencia = "01"
                         Titulo.DescricaoOcorrencia = "Remessa Registrar"
                         Titulo.NumeroDocumento = linhads.Item("NR_NOTA_DEBITO").ToString()
                         Titulo.NumeroControleParticipante = "12"
-                        Titulo.NossoNumero = NossoNumero ' "123456" & i
+                        Titulo.NossoNumero = NossoNumero
                         Titulo.DataEmissao = Now.Date
-                        Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO") 'Now.Date.AddDays(15)
-                        Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString() '200.0
+                        Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
+                        Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
                         Titulo.Aceite = "N"
                         'Titulo.EspecieDocumento = TipoEspecieDocumento.DM
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DS
                         Titulo.DataDesconto = Now.Date.AddDays(15)
-                        Titulo.ValorDesconto = 0 '45
+                        Titulo.ValorDesconto = 0
 
                         '
                         '
                         'PARTE DA MULTA
                         Titulo.DataMulta = Now.Date.AddDays(15)
-                        Titulo.PercentualMulta = VL_MULTA '2
+                        Titulo.PercentualMulta = VL_MULTA
                         Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
                         Titulo.MensagemInstrucoesCaixa = OBS1
                         'Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
                         '
                         'PARTE JUROS DE MORA
                         Titulo.DataJuros = Now.Date.AddDays(15)
-                        Titulo.PercentualJurosDia = VL_MORA '10 / 30
+                        Titulo.PercentualJurosDia = VL_MORA
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
                         Dim instrucoes As String = OBS2
                         'Dim instrucoes As String =$"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
@@ -1218,12 +1218,6 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 For Each dir As DirectoryInfo In di.GetDirectories()
                     dir.Delete(True)
                 Next
-
-
-
-                'GERA ARQUIVO DE REMESSA
-                ' ArquivoRemessa()
-
 
 
                 'Gera boletos
@@ -1540,26 +1534,6 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
-
-    End Sub
-
-    Private Sub btnFecharFatura_Click(sender As Object, e As EventArgs) Handles btnFecharFatura.Click
-
-    End Sub
-
-    Protected Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
-
-    End Sub
-=======
-    'Private Sub lkBoleto_Click(sender As Object, e As EventArgs) Handles lkBoleto.Click
-    '    ModalPopupExtender11.Hide()
-    '    ModalPopupExtender6.Show()
-    'End Sub
->>>>>>> devjuliane
-=======
     Private Sub lkExcluirBoleto_Click(sender As Object, e As EventArgs) Handles lkExcluirBoleto.Click
         divSuccess.Visible = False
         divErro.Visible = False
@@ -1579,5 +1553,4 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
->>>>>>> devjuliane
 End Class
