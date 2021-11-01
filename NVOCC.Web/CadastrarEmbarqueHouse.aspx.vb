@@ -2871,14 +2871,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
-        If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
-            If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
-                divErro_TaxaMaritimo2.Visible = True
-                lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
-                mpeTaxaMaritimo.Show()
-                Exit Sub
-            End If
-        End If
+        'If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
+        '    If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
+        '        divErro_TaxaMaritimo2.Visible = True
+        '        lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
+        '        mpeTaxaMaritimo.Show()
+        '        Exit Sub
+        '    End If
+        'End If
 
 
         If txtObs_TaxaMaritimo.Text = "" Then
