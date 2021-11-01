@@ -145,7 +145,8 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 10 Then
                     'POR MAFI 20'
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL A
-        WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
+                    WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
+
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -345,9 +346,8 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 20 Then
                     'POR HC 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR = 10")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR = 10")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     If x = 0 Then
                         x = 1
@@ -370,9 +370,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 21 Then
                     'POR FLAT RACK 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (15)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR (15)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -396,9 +395,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 22 Then
                     ' POR OPEN TOP 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (9)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (9)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -421,9 +419,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 23 Then
                     'POR OPEN TOP 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (8)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (8)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     If x = 0 Then
                         x = 1
@@ -445,9 +442,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 24 Then
                     'POR FLAT RACK 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (16)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (16)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -470,9 +466,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 25 Then
                     'POR REEFER 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (5)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -495,9 +490,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 26 Then
                     'POR REEFER 40
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (4)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -520,9 +514,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 28 Then
                     'POR MAFI 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (13)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (13)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -551,7 +544,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 30 Then
                     'POR UNIDADE - quantidade de conteineres do processo
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL WHERE ID_BL_MASTER =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -610,7 +603,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 34 Then
                     'POR CNTR 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL WHERE ID_BL_MASTER =" & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     If x = 0 Then
                         x = 1
@@ -658,9 +651,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 36 Then
                     'POR REEFER'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_CNTR_BL A
+        WHERE A.ID_BL_MASTER = " & ID_BL & "  AND A.ID_TIPO_CNTR In (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -871,9 +863,10 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 10 Then
                     'POR MAFI 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -898,9 +891,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 11 Then
                     'POR CNTR 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5,6,2,9,10,12,16,18,19)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -925,9 +919,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 12 Then
                     'POR CNTR 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (17,13,14,15,11,3,4,7,8,1)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -1078,9 +1073,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 20 Then
                     'POR HC 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR = 10")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR = 10")
+
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (10)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1103,9 +1100,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 21 Then
                     'POR FLAT RACK 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (15)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (15)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (15)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1129,9 +1127,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 22 Then
                     ' POR OPEN TOP 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (9)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (9)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (9)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -1155,9 +1154,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 23 Then
                     'POR OPEN TOP 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (8)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (8)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (8)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -1181,9 +1181,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 24 Then
                     'POR FLAT RACK 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (16)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (16)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (16)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
 
@@ -1207,9 +1208,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 25 Then
                     'POR REEFER 20'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (5)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (5)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1232,9 +1234,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 26 Then
                     'POR REEFER 40
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (4)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1257,9 +1260,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 28 Then
                     'POR MAFI 40'
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (13)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (13)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN (13)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1347,7 +1351,9 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 34 Then
                     'POR CNTR 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+
+                    'Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL WHERE ID_BL =" & ID_BL)
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
 
                     If x = 0 Then
@@ -1397,9 +1403,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 36 Then
                     'POR REEFER
-                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
-INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
-        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
+                    '                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(A.ID_CNTR_BL)QTD FROM TB_AMR_CNTR_BL A
+                    'INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
+                    '        WHERE A.ID_BL = " & ID_BL & "  AND B.ID_TIPO_CNTR In (4,5)")
+                    Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CARGA_BL)QTD FROM TB_CARGA_BL
+        WHERE  ID_BL = " & ID_BL & " AND ID_TIPO_CNTR IN  (4,5)")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
 
