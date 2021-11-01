@@ -164,7 +164,9 @@ Public Class WsNvocc
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
 
-            sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
+            sSql = "INSERT INTO ID_DESTINATARIO_COBRANCA=3
+
+ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)
 

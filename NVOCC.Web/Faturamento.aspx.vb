@@ -1540,6 +1540,26 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
+
+    End Sub
+
+    Private Sub btnFecharFatura_Click(sender As Object, e As EventArgs) Handles btnFecharFatura.Click
+
+    End Sub
+
+    Protected Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
+
+    End Sub
+=======
+    'Private Sub lkBoleto_Click(sender As Object, e As EventArgs) Handles lkBoleto.Click
+    '    ModalPopupExtender11.Hide()
+    '    ModalPopupExtender6.Show()
+    'End Sub
+>>>>>>> devjuliane
+=======
     Private Sub lkExcluirBoleto_Click(sender As Object, e As EventArgs) Handles lkExcluirBoleto.Click
         divSuccess.Visible = False
         divErro.Visible = False
@@ -1559,4 +1579,5 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
+>>>>>>> devjuliane
 End Class
