@@ -332,6 +332,16 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Necessário informar a <strong>regra de atualização</strong> na Aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
+
+        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True) And ddlTipoFaturamento.SelectedValue = 0 Then
+            msgErro.Text = "Informe o tipo de faturamento na aba de Inf. Adicionais!"
+            divmsg1.Visible = True
+            msgErro.Visible = True
+
+        ElseIf ddlTipoFaturamento.SelectedValue = 2 And (txtQtdFaturamento.Text = "" Or txtQtdFaturamento.Text = 0) Then
+            msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
+            divmsg1.Visible = True
+            msgErro.Visible = True
         Else
             Con.Conectar()
 
@@ -1001,7 +1011,6 @@ WHERE ID_PARCEIRO =" & ID)
                             F.BAIRRO = P.BAIRRO,
                             F.NR_ENDERECO = P.NR_ENDERECO,
                             F.CEP = P.CEP
-                            --SELECT *
                             FROM TB_FATURAMENTO F
                             INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
                             WHERE F.NR_RPS IS NULL AND F.NR_NOTA_FISCAL IS NULL AND P.ID_PARCEIRO = " & ID)

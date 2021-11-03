@@ -169,7 +169,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divTTAereo.Attributes.CssStyle.Add("display", "none")
 
             End If
-
+            'txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
+            'dsVendedor.DataBind()
+            'ddlVendedor.DataBind()
             ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CALCULO_COTACAO")) Then

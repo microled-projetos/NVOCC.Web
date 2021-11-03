@@ -190,6 +190,8 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
             If check.Checked Then
                 Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                 Dim moeda As String = CType(linha.FindControl("lblMoeda"), Label).Text
+                Dim ValorCalc As String = CType(linha.FindControl("lblValor_Calculado"), Label).Text
+
                 Dim ValorCambio As String
 
                 If moeda = 124 Then
@@ -206,8 +208,13 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
                                     ValorCambio = ValorCambio.Replace(".", "")
                                     ValorCambio = ValorCambio.Replace(",", ".")
 
+                                    Dim valorfinal As Decimal = ValorCambio * ValorCalc
 
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
+                                    valorfinal = Math.Truncate(valorfinal)
+                                    valorfinal = valorfinal / 100
+
+                                    'Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = " & valorfinal.ToString.Replace(",", ".") & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
                                 End If
 
                             Next
@@ -223,8 +230,13 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
                                     ValorCambio = ValorCambio.Replace(".", "")
                                     ValorCambio = ValorCambio.Replace(",", ".")
 
+                                    Dim valorfinal As Decimal = ValorCambio * ValorCalc
 
-                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
+                                    valorfinal = Math.Truncate(valorfinal)
+                                    valorfinal = valorfinal / 100
+
+                                    'Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = VL_TAXA_CALCULADO * " & ValorCambio & ",DT_ATUALIZACAO_CAMBIO = GETDATE(), VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL_TAXA]  SET [VL_TAXA_BR] = " & valorfinal.ToString.Replace(",", ".") & ",DT_ATUALIZACAO_CAMBIO = GETDATE(),VL_CAMBIO = " & ValorCambio & " WHERE ID_BL_TAXA =" & ID)
                                 End If
 
                             Next

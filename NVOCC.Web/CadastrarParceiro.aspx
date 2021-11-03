@@ -744,7 +744,7 @@
         selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
           <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 OR ID_PARCEIRO = @ID_PARCEIRO
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 OR ID_PARCEIRO = @ID_PARCEIRO AND FL_ATIVO = 1
 union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
                <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />

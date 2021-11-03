@@ -318,6 +318,8 @@
                             </div>
                                 <div class="col-sm-2"  >
                                     <div class="form-group">
+                                        
+                                         <asp:TextBox ID="txtID_Vendedor" style="display:none" runat="server"  CssClass="form-control" MaxLength="18"></asp:TextBox>
                                         <label class="control-label">Vendedor:</label></label><label runat="server" style="color:red" >*</label>
                                        <asp:DropDownList ID="ddlVendedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
                                         </asp:DropDownList>
@@ -1571,6 +1573,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_ATIVO = 1 AND FL_VENDEDOR = 1 
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
+           <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOTIVO_CANCELAMENTO,NM_MOTIVO_CANCELAMENTO FROM TB_MOTIVO_CANCELAMENTO
