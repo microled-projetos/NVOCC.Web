@@ -3223,13 +3223,13 @@
                                                 lineV = lineV + 5;
                                                 lineH = lineH + 5;
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
-                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toFixed(2));
+                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString() != "") {
-                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString() != "") {
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toFixed(2));
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(",", "."));
                                                 }
                                             }
                                             doc.line(11.7, lineH, 187.5, lineH);
@@ -3404,13 +3404,14 @@
                                                 positionC = positionC + 5;
                                                 positionbgC = positionbgC + 5;
                                                 if (dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString() != "") {
-                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(".", ""));
+                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString() != "") {
-                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString() != "") {
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(".", ""));
+                                                 
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(",", "."));
                                                 }
                                             }
                                             doc.setFontStyle("bold");
