@@ -62,6 +62,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Código:</label>
+                                        <asp:TextBox ID="txtID_Vendedor" runat="server" style="display:none"></asp:TextBox>
                                         <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
@@ -525,7 +526,7 @@
                                         <label class="control-label">Vendedor:</label><label ID="lblRed2" runat="server" visible="false" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlVendedor" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
                                             </asp:DropDownList>
-                                         <asp:TextBox ID="txtID_Vendedor" runat="server" style="display:none"></asp:TextBox>
+                                         
                                     </div>
                                 </div>
                             </div>
@@ -744,8 +745,8 @@
         selectcommand="select ID_PORTO, NM_PORTO FROM [dbo].[TB_PORTO] union SELECT  0, 'Selecione' ORDER BY ID_PORTO ">
 </asp:SqlDataSource>
           <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 OR ID_PARCEIRO = @ID_PARCEIRO AND FL_ATIVO = 1
-union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO">
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1 OR ID_PARCEIRO = @ID_PARCEIRO) AND FL_ATIVO = 1
+union SELECT  0, '  Selecione' ORDER BY NM_RAZAO">
                <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />
         </SelectParameters>

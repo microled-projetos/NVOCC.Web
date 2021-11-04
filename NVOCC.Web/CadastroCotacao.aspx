@@ -1571,7 +1571,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_ATIVO = 1 AND FL_VENDEDOR = 1 
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1)  OR ID_PARCEIRO = @ID_PARCEIRO
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
            <SelectParameters>
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />

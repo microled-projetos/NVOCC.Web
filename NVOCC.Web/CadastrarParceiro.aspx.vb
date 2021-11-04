@@ -147,19 +147,22 @@ WHERE ID_PARCEIRO =" & ID)
                     If ds.Tables(0).Rows(0).Item("ID_VENDEDOR") <> 0 Then
 
 
-                        Dim dsVendedor As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_PARCEIRO WHERE FL_VENDEDOR =1 AND ID_PARCEIRO =" & ds.Tables(0).Rows(0).Item("ID_VENDEDOR"))
-                        If dsVendedor.Tables(0).Rows(0).Item("QTD") = 0 Then
+                        Dim dssqlVendedor As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_PARCEIRO WHERE FL_VENDEDOR =1 AND FL_ATIVO = 1 AND ID_PARCEIRO =" & ds.Tables(0).Rows(0).Item("ID_VENDEDOR"))
+                        If dssqlVendedor.Tables(0).Rows(0).Item("QTD") = 0 Then
                             msgErro.Text = "Atualização Cadastral Pendente: Necessário cadastrar um vendedor valido para este parceiro!"
                             divmsg1.Visible = True
-                            txtID_Vendedor.Text = 0
-                            ddlVendedor.SelectedValue = 0
+                            dsVendedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1) OR ID_PARCEIRO = " & ds.Tables(0).Rows(0).Item("ID_VENDEDOR") & " union SELECT  0, '  Selecione' ORDER BY NM_RAZAO"
+                            txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                            ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
                         Else
                             txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                            txtID_Vendedor.DataBind()
                             ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
                             divmsg1.Visible = False
                         End If
                     Else
                         txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
+                        txtID_Vendedor.DataBind()
                         ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR")
                         divmsg1.Visible = False
                     End If

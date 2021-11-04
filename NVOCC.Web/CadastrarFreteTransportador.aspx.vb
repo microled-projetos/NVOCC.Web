@@ -824,7 +824,21 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text)
         If dsTaxas.Tables(0).Rows(0).Item("QTD") = 0 Then
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR,ID_ITEM_DESPESA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,A.ID_ITEM_DESPESA
+FROM TB_TAXA_LOCAL_TRANSPORTADOR A
+
+INNER JOIN (
+SELECT ID_ITEM_DESPESA, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
+FROM TB_TAXA_LOCAL_TRANSPORTADOR
+WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & "  AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & "
+
+
+GROUP BY  ID_ITEM_DESPESA) B
+
+ON  A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA
+AND A.DT_VALIDADE_INICIAL = B.DT_VALIDADE_INICIAL
+
+WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & "  AND ID_TIPO_COMEX = " & ddlComex.SelectedValue)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows
@@ -840,7 +854,22 @@ SELECT " & txtID_FreteTransportador.Text & ", ID_ITEM_DESPESA, VL_TAXA_LOCAL_COM
             End If
 
         Else
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_TAXA_LOCAL_TRANSPORTADOR,ID_ITEM_DESPESA FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & " AND ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text & "  )")
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT A.ID_TAXA_LOCAL_TRANSPORTADOR,A.ID_ITEM_DESPESA
+FROM TB_TAXA_LOCAL_TRANSPORTADOR A
+
+INNER JOIN (
+SELECT ID_ITEM_DESPESA, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
+FROM TB_TAXA_LOCAL_TRANSPORTADOR
+WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & "  AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & "
+
+GROUP BY  ID_ITEM_DESPESA) B
+
+ON  A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA
+AND A.DT_VALIDADE_INICIAL = B.DT_VALIDADE_INICIAL
+
+WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportador.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & "  AND ID_TIPO_COMEX = " & ddlComex.SelectedValue & "
+
+AND A.ID_ITEM_DESPESA NOT IN (SELECT ID_ITEM_DESPESA FROM TB_TABELA_FRETE_TAXA WHERE ID_FRETE_TRANSPORTADOR = " & txtID_FreteTransportador.Text & "  )")
             If ds.Tables(0).Rows.Count > 0 Then
 
                 For Each linha As DataRow In ds.Tables(0).Rows

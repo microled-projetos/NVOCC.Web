@@ -169,9 +169,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divTTAereo.Attributes.CssStyle.Add("display", "none")
 
             End If
-            'txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
-            'dsVendedor.DataBind()
-            'ddlVendedor.DataBind()
+            txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
+            dsVendedor.SelectParameters("ID_PARCEIRO").DefaultValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
             ddlVendedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CALCULO_COTACAO")) Then
@@ -2070,7 +2069,7 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             sql = "SELECT ID_VENDEDOR FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue
             Dim ds1 As DataSet = Con.ExecutarQuery(sql)
 
-            sql = "SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 AND ID_PARCEIRO = " & ds1.Tables(0).Rows(0).Item("ID_VENDEDOR") & " union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO"
+            sql = "SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1)  OR ID_PARCEIRO = " & ds1.Tables(0).Rows(0).Item("ID_VENDEDOR") & " union SELECT  0, 'Selecione' ORDER BY ID_PARCEIRO"
             ds = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count > 1 Then
                 dsVendedor.SelectCommand = sql
@@ -2215,7 +2214,7 @@ WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & FILTROCOMEX & FILTROV
 FROM TB_TAXA_LOCAL_TRANSPORTADOR A
 
 INNER JOIN (
-SELECT ID_ITEM_DESPESA, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
+SELECT ID_ITEM_DESPESA,ID_BASE_CALCULO, MAX(DT_VALIDADE_INICIAL) AS DT_VALIDADE_INICIAL
 FROM TB_TAXA_LOCAL_TRANSPORTADOR
 WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & FILTROVIA & FILTROCOMEX & "
 
@@ -2223,9 +2222,10 @@ AND ID_BASE_CALCULO IN (SELECT ID_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA C 
 
 
 AND CONVERT(DATE,DT_VALIDADE_INICIAL,103) <= (SELECT CONVERT(DATE,DT_VALIDADE_COTACAO,103) FROM TB_COTACAO WHERE ID_COTACAO =  " & txtID.Text & ")
-GROUP BY  ID_ITEM_DESPESA) B
+GROUP BY  ID_ITEM_DESPESA,ID_BASE_CALCULO) B
 
 ON  A.ID_ITEM_DESPESA = B.ID_ITEM_DESPESA
+AND A.ID_BASE_CALCULO = B.ID_BASE_CALCULO
 AND A.DT_VALIDADE_INICIAL = B.DT_VALIDADE_INICIAL
 
 WHERE ID_PORTO = " & ID_PORTO & " AND ID_TRANSPORTADOR = " & ddlTransportadorFrete.SelectedValue & FILTROVIA & FILTROCOMEX & "
