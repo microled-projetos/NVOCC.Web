@@ -251,6 +251,11 @@ WHERE ID_PARCEIRO =" & ID)
         Dim ds As DataSet
 
         Dim Con As New Conexao_sql
+
+        If txtQtdFaturamento.Text = "" Then
+            txtQtdFaturamento.Text = 0
+        End If
+
         If txtRazaoSocial.Text = "" Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
@@ -338,7 +343,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ddlTipoFaturamento.SelectedValue = 2 And (txtQtdFaturamento.Text = "" Or txtQtdFaturamento.Text = 0) Then
+        ElseIf ddlTipoFaturamento.SelectedValue = 2 And txtQtdFaturamento.Text = 0 Then
             msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True

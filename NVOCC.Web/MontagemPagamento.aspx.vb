@@ -119,22 +119,30 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             Dim valor2 As Double = txtValor.Text
             Dim checkISS As CheckBox = linha.FindControl("ckbISS")
             If check.Checked Then
+                'If checkISS.Checked Then
+                '    Dim iss As Double = valor / 100
+                '    iss = iss * lbl_ISS.Text
+
+
+                '    valor = valor - iss
+
+                '    valor = valor * 100
+                '    valor = Math.Truncate(valor)
+                '    valor = valor / 100
+                'End If
+
+                'txtValor.Text = valor2 + valor
+                'txtValor.Text = FormatNumber(txtValor.Text, 2)
+
                 If checkISS.Checked Then
-                    Dim iss As Double = valor / 100
+                    Dim iss As Decimal = valor / 100
                     iss = iss * lbl_ISS.Text
-
-
                     valor = valor - iss
 
-                    valor = valor * 100
-                    valor = Math.Truncate(valor)
-                    valor = valor / 100
                 End If
 
                 txtValor.Text = valor2 + valor
-                txtValor.Text = FormatNumber(txtValor.Text, 2)
-
-
+                txtValor.Text = FormatCurrency(txtValor.Text)
 
             End If
         Next
