@@ -498,15 +498,48 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         End If
 
 
-        If lblValorFreteDevolucao.Text <> 0 Then
-            Dim Con As New Conexao_sql
-            Dim VALOR As Decimal = lblValorFreteDevolucao.Text
-            Dim VALOR_STRING As String = VALOR.ToString
-            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
-            Con.Conectar()
-            Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
-(" & txtIDInvoice.Text & "," & txtID_BL.Text & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
-        End If
+        'If lblValorFreteDevolucao.Text <> 0 Then
+        '            Dim Con As New Conexao_sql
+        '            Dim VALOR As Decimal = lblValorFreteDevolucao.Text
+        '            Dim VALOR_STRING As String = VALOR.ToString
+        '            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+        '            Con.Conectar()
+        ' Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+        '(" & txtIDInvoice.Text & "," & txtID_BL.Text & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
+
+
+        For Each linha As GridViewRow In dgvDevolucao.Rows
+            Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+            Dim Devolucao As Decimal = 0
+            If check.Checked Then
+                Dim Con As New Conexao_sql
+                If ddlTipoDevolucao.SelectedValue = 2 Then
+                    'DEVOLUÇÃO DO FRETE DE COMPRA
+                    Devolucao = ValorCompra
+                ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+                    'DEVOLUÇÃO DO FRETE DE VENDA
+                    Devolucao = ValorVenda
+                ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+                    'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                    Devolucao = ValorVenda - ValorCompra
+                End If
+
+                Dim VALOR_STRING As String = Devolucao.ToString
+                VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+                Con.Conectar()
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+            End If
+
+
+        Next
+
+        ' End If
+
 
         dsDevolucao.DataBind()
         dgvItensInvoice.DataBind()
