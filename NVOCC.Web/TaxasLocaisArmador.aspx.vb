@@ -333,6 +333,10 @@ WHERE ID_PORTO = " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = "
     Protected Sub dgvTaxas_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
         mpe.Hide()
         Pesquisa()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 29e5d84... ajuste na ordenação do grid de taxas locais, versao de produção
         Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
 
         If dt IsNot Nothing Then
