@@ -618,7 +618,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             ElseIf e.CommandName = "visualizar" Then
                 Dim ID As String = e.CommandArgument
 
-                ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR, ID_BL_TAXA_MASTER, ID_BL_MASTER
+                ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR, ID_BL_TAXA_MASTER, ID_BL_MASTER, CD_ORIGEM_INF
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -720,6 +720,15 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                         btnSalvar_TaxaMaritimo.Visible = False
                     End If
 
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                        If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                            btnSalvar_TaxaMaritimo.Visible = False
+                        End If
+                    End If
+
+
+
                     lblTipoEmpresa_Maritimo.Text = "Fornecedor:"
                     mpeTaxaMaritimo.Show()
 
@@ -792,7 +801,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             ElseIf e.CommandName = "visualizar" Then
                 Dim ID As String = e.CommandArgument
 
-                ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR,ID_BL_TAXA_MASTER, ID_BL_MASTER
+                ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR,ID_BL_TAXA_MASTER, ID_BL_MASTER,CD_ORIGEM_INF
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -896,6 +905,13 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     End If
 
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                        If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                            btnSalvar_TaxaMaritimo.Visible = False
+                        End If
+                    End If
+
+
                     lblTipoEmpresa_Maritimo.Text = "Parceiro:"
 
                     mpeTaxaMaritimo.Show()
@@ -967,7 +983,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR,ID_BL_TAXA_MASTER, ID_BL_MASTER
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR,ID_BL_TAXA_MASTER, ID_BL_MASTER,CD_ORIGEM_INF
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -1059,7 +1075,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     btnSalvar_TaxaAereo.Visible = False
                 End If
 
-
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                        btnSalvar_TaxaAereo.Visible = False
+                    End If
+                End If
 
                 mpeTaxaAereo.Show()
 
@@ -1128,7 +1148,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR, ID_BL_TAXA_MASTER, ID_BL_MASTER
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_ITEM_DESPESA,A.FL_DECLARADO,A.FL_DIVISAO_PROFIT,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,A.ID_BASE_CALCULO_TAXA,A.ID_MOEDA,A.VL_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA_MIN,A. ID_STATUS_PAGAMENTO,A.OB_TAXAS,A.ID_PARCEIRO_EMPRESA, B.ID_CONTA_PAGAR_RECEBER_ITENS,C.DT_CANCELAMENTO,FL_PREMIACAO,A.CD_PR, ID_BL_TAXA_MASTER, ID_BL_MASTER,CD_ORIGEM_INF
 from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
@@ -1209,6 +1229,7 @@ WHERE A.ID_BL_TAXA =" & ID)
                 End If
 
 
+
                 Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
 from TB_BL_TAXA A 
 INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
@@ -1221,6 +1242,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                 End If
 
 
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                        btnSalvar_TaxaAereo.Visible = False
+                    End If
+                End If
 
                 mpeTaxaAereo.Show()
 
@@ -1397,6 +1423,7 @@ WHERE ID_CARGA_BL = " & ID)
         Session("CD_PR") = 0
         divVendaAereo.Visible = True
         divCompraAereo.Visible = True
+        btnSalvar_TaxaAereo.Visible = True
         lblTipoEmpresa_Aereo.Text = "Fornecedor:"
         ddlDestinatarioCob_TaxaAereo.Enabled = True
         mpeTaxaAereo.Hide()
@@ -1424,6 +1451,7 @@ WHERE ID_CARGA_BL = " & ID)
         Session("CD_PR") = 0
         divVendaMaritimo.Visible = True
         divCompraMaritimo.Visible = True
+        btnSalvar_TaxaMaritimo.Visible = True
         lblTipoEmpresa_Maritimo.Text = "Fornecedor:"
         ddlDestinatarioCob_TaxaMaritimo.Enabled = True
         mpeTaxaMaritimo.Hide()
@@ -2871,14 +2899,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
-        'If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
-        '    If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
-        '        divErro_TaxaMaritimo2.Visible = True
-        '        lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
-        '        mpeTaxaMaritimo.Show()
-        '        Exit Sub
-        '    End If
-        'End If
+        If txtID_TaxaMaritimo.Text <> "" And Session("ID_COTACAO") <> 0 Then
+            If VerificaDiferencaCotacao(txtID_TaxaMaritimo.Text, "TAXA", Session("ID_COTACAO"), "M") = True Then
+                divErro_TaxaMaritimo2.Visible = True
+                lblErro_TaxaMaritimo2.Text = "Não é possivel alterar informaçoes de origem da cotação."
+                mpeTaxaMaritimo.Show()
+                Exit Sub
+            End If
+        End If
 
 
         If txtObs_TaxaMaritimo.Text = "" Then
@@ -4057,4 +4085,61 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
     End Function
 
+
+    Private Sub dgvTaxaMaritimoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoCompras.Load
+        For Each linha As GridViewRow In dgvTaxaMaritimoCompras.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
+
+            End If
+        Next
+
+    End Sub
+
+    Private Sub dgvTaxaMaritimoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoVendas.Load
+        For Each linha As GridViewRow In dgvTaxaMaritimoVendas.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
+
+            End If
+        Next
+    End Sub
+
+    Private Sub dgvTaxaAereoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoCompras.Load
+        For Each linha As GridViewRow In dgvTaxaAereoCompras.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
+
+            End If
+        Next
+    End Sub
+
+    Private Sub dgvTaxaAereoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoVendas.Load
+        For Each linha As GridViewRow In dgvTaxaAereoVendas.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
+
+            End If
+        Next
+    End Sub
 End Class
