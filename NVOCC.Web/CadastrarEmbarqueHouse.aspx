@@ -700,7 +700,12 @@
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
+                                                               <%-- <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
+                    </ItemTemplate>
+                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -738,7 +743,12 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
+<%--                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
+                    </ItemTemplate>
+                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1784,7 +1794,12 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
+<%--                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                        <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
+                    </ItemTemplate>
+                </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'
@@ -1822,7 +1837,12 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />
+<%--                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                        <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
+                    <ItemTemplate>                     
+                         <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
+                    </ItemTemplate>
+                </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_BL_TAXA") %>'

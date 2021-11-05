@@ -1259,9 +1259,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" scope="col">#</th>
+                                    <th class="text-center" scope="col">Nº Processo</th>
                                     <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
-                                    <th class="text-center" scope="col">Nº Processo</th>
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
@@ -3223,13 +3223,13 @@
                                                 lineV = lineV + 5;
                                                 lineH = lineH + 5;
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
-                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toFixed(2));
+                                                    totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString() != "") {
-                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(".", ""));
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString() != "") {
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toFixed(2));
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_VENDA"].toString().replace(",", "."));
                                                 }
                                             }
                                             doc.line(11.7, lineH, 187.5, lineH);
@@ -3404,13 +3404,14 @@
                                                 positionC = positionC + 5;
                                                 positionbgC = positionbgC + 5;
                                                 if (dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString() != "") {
-                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(".", ""));
+                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString() != "") {
-                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", ""));
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString() != "") {
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(".", ""));
+                                                 
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(",", "."));
                                                 }
                                             }
                                             doc.setFontStyle("bold");
@@ -4087,6 +4088,7 @@
             var finalizadoValue;
             var ativo = document.getElementById("MainContent_chkAtivo");
             var ativoValue;
+            var freetime = "";
             if (ativo.checked) {
                 ativoValue = "1";
             }
@@ -4116,19 +4118,25 @@
                     if (dado != null) {
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
+                            console.log(dado[i]["QT_DIAS_FREETIME"] + ' - ' + dado[i]["QT_DIAS_FREETIME_CONFIRMA"]);
+                            if (parseInt(dado[i]["QT_DIAS_FREETIME"]) < parseInt(dado[i]["QT_DIAS_FREETIME_CONFIRMA"])) {
+                                freetime = "<td class='text-center' style='background-color: yellow;'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>";
+                            } else {
+                                freetime = "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>"
+                            }
                             if (dado[i]["QT_DIAS_DEMURRAGE"] >= -10 && dado[i]["QT_DIAS_DEMURRAGE"] <= -1) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(153,51,153,1); font-weight: bold'>" +
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
@@ -4144,16 +4152,16 @@
                             else if (dado[i]["QT_DIAS_DEMURRAGE"] >= 0) {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "' style='color: rgba(255,0,0,0.8); font-weight: bold'>" +
                                     "<td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
@@ -4168,16 +4176,16 @@
                             }
                             else {
                                 $("#grdModuloDemurrage").append("<tr data-id='" + dado[i]["ID_CNTR"] + "'><td class='text-center'><div class='btn btn-primary' onclick='setId(" + dado[i]["ID_CNTR"] + ")'>Selecionar</div></td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch;'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["TRANSPORTADOR"] + "' style='max-width: 14ch;'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["FINAL_FREETIME"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONRIFMA"] + "</td>" +
+                                    freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +

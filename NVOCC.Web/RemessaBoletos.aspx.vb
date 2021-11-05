@@ -155,7 +155,6 @@ Public Class RemessaBoletos
                 NomeStream = "arquivo_remessa_" & SEQ_ARQUIVO & ".txt"
                 Stream = New IO.StreamWriter(Server.MapPath("/Content/remessa/") & NomeStream, True)
 
-                Stream.WriteLine(strToWrite)
                 Stream.Flush()
                 Dim seqRem As Integer = 0
                 Dim seqLote As Integer = 0

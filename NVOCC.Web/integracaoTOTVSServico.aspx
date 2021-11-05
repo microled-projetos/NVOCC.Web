@@ -254,140 +254,201 @@
             var dataI = document.getElementById("txtDtEmissaoInicialServ").value;
             var dataF = document.getElementById("txtDtEmissaoFinalServ").value;
             var exporta = document.getElementById("todosServ");
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             var situacao;
             if (exporta.checked) {
                 situacao = 0
             } else {
                 situacao = 1
             }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaServico",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        ServicoCliF(dataI, dataF, situacao, clif, notaf, notitef, recf);
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaServico",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", values:"'+values[x]+'"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            if (x == values.length - 1) {
+                                ServicoCliF(dataI, dataF, situacao, clif, notaf, notitef, recf);
+                            }
+                        }
+                        else {
+                            $("#msgErrServCli").fadeIn(500).delay(1000).fadeOut(500);
+                        }
                     }
-                    else {
-                        $("#msgErrServCli").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                }
-            })
-
-
-
-
-
-
+                })
+            }
             // Download CSV file*/
 
         }
 
         function ServicoCliF(dataI, dataF, situacao, clif, notaf, notitef, recf) {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaServicoCLI",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        var cli = [["A1_COD;A1_LOJA;A1_NOME;A1_NREDUZ;A1_PESSOA;A1_TIPO;A1_END;A1_EST;A1_COD_MUN;A1_MUN;A1_NATUREZ;A1_BAIRRO;A1_CEP;A1_ATIVIDA;A1_TEL;A1_TELEX;A1_FAX;A1_CONTATO;A1_CGC;A1_INSCR;A1_INSCRM;A1_CONTA;A1_RECISS;A1_CONT"]];
-                        for (let i = 0; i < dado.length; i++) {
-                            cli.push([dado[i]]);
-                        }
-                        ServicoNotaF(dataI, dataF, situacao, cli, clif, notaf, notitef, recf);
-                    }
-                    else {
-                        $("#msgErrServCli").fadeIn(500).delay(1000).fadeOut(500);
-                    }
+            var exp = document.querySelectorAll("[name=export]:checked");
+            var cli = [["A1_COD;A1_LOJA;A1_NOME;A1_NREDUZ;A1_PESSOA;A1_TIPO;A1_END;A1_EST;A1_COD_MUN;A1_MUN;A1_NATUREZ;A1_BAIRRO;A1_CEP;A1_ATIVIDA;A1_TEL;A1_TELEX;A1_FAX;A1_CONTATO;A1_CGC;A1_INSCR;A1_INSCRM;A1_CONTA;A1_RECISS;A1_CONT"]];
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
                 }
-            })
+            }
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaServicoCLI",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values:"' + values[x] +'"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                cli.push([dado[i]]);
+                            }
+                            if (x == values.length - 1) {
+                                console.log(cli);
+                                ServicoNotaF(dataI, dataF, situacao, cli, clif, notaf, notitef, recf);
+                            }
+                        }
+                        else {
+                            $("#msgErrServCli").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
         }
 
         function ServicoNotaF(dataI, dataF, situacao, cli, clif, notaf, notitef, recf) {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTA",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        var nota = [["F2_DOC;F2_SERIE;F2_CLIENTE;F2_LOJA;F2_COND;F2_DUPL;F2_EMISSAO;F2_EST;F2_FRETE;F2_SEGURO;F2_TIPOCLI;F2_VALBRUT;F2_VALIPI;F2_BASEIPI;F2_VALMERC;F2_NFORI;F2_SERIORI;F2_TIPO;F2_ESPEC1;F2_VOLUME1;F2_ICMSRET;F2_PLIQUI;F2_PBRUTO;F2_TRANSP;F2_FILIAL;F2_BASEISS;F2_VALISS;F2_VALFAT;F2_ESPECIE;F2_PREFIXO;F2_BASIMP5;F2_BASIMP6;F2_VALIMP5;F2_VALIMP6;F2_VALINSS;F2_HORA;F2_BASEINS;F2_MOEDA;F2_VALCOFI;F2_VALCSLL;F2_VALPIS;F2_DTDIGIT;F2_RECISS;F2_NFELETR;F2_EMINFE;F2_CREDNFE;F2_CODNFE;F2_TPNFEXP;F2_CLIENT;F2_LOJENT;F2_CHVNFE;F2_TPFRETE;F2_HORNFE;F2_XCNPJ;"]];
-                        for (let i = 0; i < dado.length; i++) {
-                            nota.push([dado[i]]);
-                        }
-                        ServicoNotiteF(dataI, dataF, situacao, cli, nota, clif, notaf, notitef, recf);
-                    }
-                    else {
-                        $("#msgErrServNota").fadeIn(500).delay(1000).fadeOut(500);
-                    }
+            var exp = document.querySelectorAll("[name=export]:checked");
+            var nota = [["F2_DOC;F2_SERIE;F2_CLIENTE;F2_LOJA;F2_COND;F2_DUPL;F2_EMISSAO;F2_EST;F2_FRETE;F2_SEGURO;F2_TIPOCLI;F2_VALBRUT;F2_VALIPI;F2_BASEIPI;F2_VALMERC;F2_NFORI;F2_SERIORI;F2_TIPO;F2_ESPEC1;F2_VOLUME1;F2_ICMSRET;F2_PLIQUI;F2_PBRUTO;F2_TRANSP;F2_FILIAL;F2_BASEISS;F2_VALISS;F2_VALFAT;F2_ESPECIE;F2_PREFIXO;F2_BASIMP5;F2_BASIMP6;F2_VALIMP5;F2_VALIMP6;F2_VALINSS;F2_HORA;F2_BASEINS;F2_MOEDA;F2_VALCOFI;F2_VALCSLL;F2_VALPIS;F2_DTDIGIT;F2_RECISS;F2_NFELETR;F2_EMINFE;F2_CREDNFE;F2_CODNFE;F2_TPNFEXP;F2_CLIENT;F2_LOJENT;F2_CHVNFE;F2_TPFRETE;F2_HORNFE;F2_XCNPJ;"]];
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
                 }
-            })
+            }
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTA",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values:"' + values[x] +'"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                nota.push([dado[i]]);
+                            }
+                            if (x == values.length - 1) {
+                                console.log(nota);
+                                ServicoNotiteF(dataI, dataF, situacao, cli, nota, clif, notaf, notitef, recf);
+                            }
+                        }
+                        else {
+                            $("#msgErrServNota").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
         }
 
         function ServicoNotiteF(dataI, dataF, situacao, cli, nota, clif, notaf, notitef, recf) {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTITE",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        var notite = [["D2_FILIAL;D2_COD;D2_UM;D2_SEGUM;D2_QUANT;D2_PRCVEN;D2_TOTAL;D2_VALIPI;D2_VALICM;D2_TES;D2_CF;D2_IPI;D2_PESO;D2_CONTA;D2_PEDIDO;D2_ITEMPV;D2_CLIENTE;D2_LOJA;D2_LOCAL;D2_DOC;D2_EMISSAO;D2_GRUPO;D2_TP;D2_SERIE;D2_CUSTO1;D2_EST;D2_TIPO;D2_NFORI;D2_SERIORI;D2_QTDEDEV;D2_ITEM;D2_CODISS;D2_CLASFIS;D2_BASIMP5;D2_BASIMP6;D2_VALIMP5;D2_VALIMP6;D2_ITEMORI;D2_ALIQINS;D2_ALIQISS;D2_BASEINS;D2_BASEIPI;D2_BASEISS;D2_CCUSTO;D2_ITEMCC;D2_ALQIMP5;D2_DTDIGIT;D2_VALISS;D2_ALQIMP6;"]];
-                        for (let i = 0; i < dado.length; i++) {
-                            notite.push([dado[i]]);
-                        }
-                        ServicoRECF(dataI, dataF, situacao, cli, nota, notite, clif, notaf, notitef, recf)
-                    }
-                    else {
-                        $("#msgErrServNotite").fadeIn(500).delay(1000).fadeOut(500);
-                    }
+            var exp = document.querySelectorAll("[name=export]:checked");
+            var notite = [["D2_FILIAL;D2_COD;D2_UM;D2_SEGUM;D2_QUANT;D2_PRCVEN;D2_TOTAL;D2_VALIPI;D2_VALICM;D2_TES;D2_CF;D2_IPI;D2_PESO;D2_CONTA;D2_PEDIDO;D2_ITEMPV;D2_CLIENTE;D2_LOJA;D2_LOCAL;D2_DOC;D2_EMISSAO;D2_GRUPO;D2_TP;D2_SERIE;D2_CUSTO1;D2_EST;D2_TIPO;D2_NFORI;D2_SERIORI;D2_QTDEDEV;D2_ITEM;D2_CODISS;D2_CLASFIS;D2_BASIMP5;D2_BASIMP6;D2_VALIMP5;D2_VALIMP6;D2_ITEMORI;D2_ALIQINS;D2_ALIQISS;D2_BASEINS;D2_BASEIPI;D2_BASEISS;D2_CCUSTO;D2_ITEMCC;D2_ALQIMP5;D2_DTDIGIT;D2_VALISS;D2_ALQIMP6;"]];
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
                 }
-            })
+            }
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaServicoNOTITE",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values:"' + values[x] +'"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                notite.push([dado[i]]);
+                            }
+                            if (x == values.length - 1) {
+                                console.log(notite);
+                                ServicoRECF(dataI, dataF, situacao, cli, nota, notite, clif, notaf, notitef, recf);
+                            }
+                        }
+                        else {
+                            $("#msgErrServNotite").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
         }
 
         function ServicoRECF(dataI, dataF, situacao, cli, nota, notite, clif, notaf, notitef, recf) {
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaServicoREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao +'"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        var rec = [["E1_PREFIXO;E1_NUM;E1_PARCELA;E1_TIPO;E1_NATUREZ;E1_CLIENTE;E1_LOJA;E1_EMISSAO;E1_VENCTO;E1_VENCREA;E1_VALOR;E1_IRRF;E1_ISS;E1_HIST;E1_INSS;E1_COFINS;E1_CSLL;E1_PIS;E1_CONTROL;E1_ITEMCTA;E1_XPROD;"]];
-                        for (let i = 0; i < dado.length; i++) {
-                            rec.push([dado[i]]);
-                        }
-                        updateContaPagarReceberServico(dataI, dataF, situacao, cli, nota, notite, rec, clif, notaf, notitef, recf);
-
-
-                    }
-                    else {
-                        $("#msgErrServRec").fadeIn(500).delay(1000).fadeOut(500);
-                    }
+            var exp = document.querySelectorAll("[name=export]:checked");
+            var rec = [["E1_PREFIXO;E1_NUM;E1_PARCELA;E1_TIPO;E1_NATUREZ;E1_CLIENTE;E1_LOJA;E1_EMISSAO;E1_VENCTO;E1_VENCREA;E1_VALOR;E1_IRRF;E1_ISS;E1_HIST;E1_INSS;E1_COFINS;E1_CSLL;E1_PIS;E1_CONTROL;E1_ITEMCTA;E1_XPROD;"]];
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
                 }
-            })
+            }
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaServicoREC",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '", situacao: "' + situacao + '", values:"' + values[x] +'"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) { 
+                            for (let i = 0; i < dado.length; i++) {
+                                rec.push([dado[i]]);
+                            }
+                            if (x == values.length -1) {
+                                console.log(rec);
+                                updateContaPagarReceberServico(dataI, dataF, situacao, cli, nota, notite, rec, clif, notaf, notitef, recf);
+                            }
+                            
+
+
+                        }
+                        else {
+                            $("#msgErrServRec").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            }
         }
 
         function updateContaPagarReceberServico(dataI, dataF, situacao, cli, nota, notite, rec, clif, notaf, notitef, recf) {
             var dataI = document.getElementById("txtDtEmissaoInicialServ").value;
             var dataF = document.getElementById("txtDtEmissaoFinalServ").value;
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             var exporta = document.getElementById("todosServ");
             var situacao;
             if (exporta.checked) {
@@ -395,23 +456,27 @@
             } else {
                 situacao = 1
             }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/integrarTOTVSServico",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado == "ok") {
-                        downloadCSVServico(cli.join("\n"), nota.join("\n"), notite.join("\n"), rec.join("\n"), clif, notaf, notitef, recf);
-                        alert("sucesso");
-                    } else {
-                        alert("falha");
+            for (let x = 0; x < values.length; x++) {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/integrarTOTVSServico",
+                    data: '{ dataI: "'+dataI+'", dataF:"'+dataF+'", situacao:"'+situacao+'", dado:"'+values[x]+'" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado == "ok") {
+                            if (x == values.length - 1) {
+                                downloadCSVServico(cli.join("\n"), nota.join("\n"), notite.join("\n"), rec.join("\n"), clif, notaf, notitef, recf);
+                                alert("sucesso");
+                            }
+                        } else {
+                            alert("falha");
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         function downloadCSVServico(cli, nota, notite, rec, clif, notaf, notitef, recf) {

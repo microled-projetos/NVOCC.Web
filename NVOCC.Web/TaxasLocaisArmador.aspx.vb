@@ -260,6 +260,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
 
     Protected Sub dgvTaxas_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
         mpe.Hide()
+        Pesquisa()
 
         Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
 
