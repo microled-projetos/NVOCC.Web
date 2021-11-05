@@ -66,7 +66,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
                     lkCalcular.Visible = False
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
-                    lkCancelar.Visible = False
+                    ' lkCancelar.Visible = False
                     ' lkUpdate.Visible = True
                 Else
                     lkCalcular.Visible = True
