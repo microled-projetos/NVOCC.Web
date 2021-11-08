@@ -1166,6 +1166,15 @@ Partial Public Class Account
     Protected WithEvents dgvInvoice As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''Controle TextBox2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents TextBox2 As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle dsInvoice.
     '''</summary>
     '''<remarks>

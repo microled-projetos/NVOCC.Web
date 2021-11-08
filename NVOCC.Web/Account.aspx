@@ -1044,7 +1044,7 @@
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                                CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                                CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -1077,6 +1077,7 @@
 
             </div>
         </div>
+                                        <asp:TextBox ID="TextBox2" Style="display: none" runat="server"></asp:TextBox>
 
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1259,5 +1260,28 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('SOA_II.aspx?ag=' + AGENTE , '_blank');
 
         }
+
+
+        function SalvaPosicao() {
+            var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox2.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox2.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox2.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
     </script>
 </asp:Content>

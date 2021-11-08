@@ -64,7 +64,11 @@
                     ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE").ToString()
                     ddlEmissor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString()
                     ddlTipoInvoice.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString()
-                    txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
+                    If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString() = 1 Then
+                        txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_BL").ToString()
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString() = 2 Then
+                        txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
+                    End If
                     txtVencimento.Text = ds.Tables(0).Rows(0).Item("DT_VENCIMENTO").ToString()
                     ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
                     ddlTipoFatura.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_FATURA").ToString()
