@@ -63,22 +63,22 @@ Public Class TaxasLocaisArmador
                     lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccess.Visible = True
 
-                    ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A
-INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & "
-AND (CASE 
-WHEN B.ID_TIPO_COMEX = 1 THEN 
-ID_PORTO_DESTINO
-WHEN  B.ID_TIPO_COMEX = 2 THEN 
-ID_PORTO_ORIGEM 
-END) = " & ddlPortoTaxa.SelectedValue & "
-  AND ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_ITEM_DESPESA  = " & ddlDespesaTaxa.SelectedValue)
+                    '                    ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A
+                    'INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
+                    'WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & "
+                    'AND (CASE 
+                    'WHEN B.ID_TIPO_COMEX = 1 THEN 
+                    'ID_PORTO_DESTINO
+                    'WHEN  B.ID_TIPO_COMEX = 2 THEN 
+                    'ID_PORTO_ORIGEM 
+                    'END) = " & ddlPortoTaxa.SelectedValue & "
+                    '  AND ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & " AND ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & " AND ID_ITEM_DESPESA  = " & ddlDespesaTaxa.SelectedValue)
 
-                    If ds.Tables(0).Rows.Count > 0 Then
-                        For Each linha As DataRow In ds.Tables(0).Rows
-                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocal.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
-                        Next
-                    End If
+                    '                    If ds.Tables(0).Rows.Count > 0 Then
+                    '                        For Each linha As DataRow In ds.Tables(0).Rows
+                    '                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocal.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                    '                        Next
+                    '                    End If
 
                     txtValorTaxaLocal.Text = txtValorTaxaLocal.Text.Replace(".", ",")
 
