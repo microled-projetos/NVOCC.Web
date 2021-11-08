@@ -485,6 +485,7 @@
                                      
                                       
                                        <div class="col-sm-12">
+                                            <div class="table-responsive tableFixHead">
                                      <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_ACCOUNT_INVOICE_ITENS"  HeaderText="ID" Visible="False" SortExpression="ID_ACCOUNT_INVOICE_ITENS" />
@@ -506,7 +507,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-
+                                                </div>
                                            </div>
                                                                 </div>
                                                             <div class="row">
@@ -565,7 +566,7 @@
                                     <div class="row">
                                      
                                        <div class="col-sm-12">
-                                    <div class="form-group">
+                                    <div class="form-group"><div class="table-responsive tableFixHead">
                                                                                   <asp:GridView ID="dgvDevolucao" DataKeyNames="ID_BL" DataSourceID="dsDevolucao" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
@@ -595,7 +596,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-
+                                        </div>
                                         </div>
                                          </div> 
                                         </div>
@@ -659,7 +660,7 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
-                                                                                                    <asp:GridView ID="dgvTaxasExteriorDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExteriorDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
+                                                                    <div class="table-responsive tableFixHead">                                <asp:GridView ID="dgvTaxasExteriorDeclaradas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsTaxasExteriorDeclaradas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
@@ -685,6 +686,7 @@
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
 
+                                        </div>
                                         </div>
                                          </div> 
                                         </div>
@@ -746,6 +748,7 @@
                                     <div class="row">
                                        <div class="col-sm-12">
                                     <div class="form-group">
+                                        <div class="table-responsive tableFixHead">
 <asp:GridView ID="dgvComissoes" DataKeyNames="ID_BL_TAXA" DataSourceID="dsComissoes" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
@@ -774,6 +777,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
+                                            </div>
                                         </div>
                                          </div> 
                                         </div>
@@ -818,6 +822,8 @@
                                      
                                        <div class="col-sm-12">
                                     <div class="form-group">
+
+                                        <div class="table-responsive tableFixHead">
                                           <asp:GridView ID="dgvOutrasTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
@@ -844,7 +850,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
-
+                                            </div>
                                         </div>
                                          </div> 
                                         </div>
@@ -1038,7 +1044,7 @@
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                                CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar"></asp:LinkButton>
+                                                                CommandArgument='<%# Eval("ID_ACCOUNT_INVOICE") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
                                                         </ItemTemplate>
                                                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                     </asp:TemplateField>
@@ -1071,13 +1077,16 @@
 
             </div>
         </div>
+                                        <asp:TextBox ID="TextBox2" Style="display: none" runat="server"></asp:TextBox>
 
     </div>
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
+        SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,
+case when A.ID_ACCOUNT_TIPO_INVOICE = 2 then
+B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
         CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE(CONVERT(varchar,@DATAINICIAL,103),CONVERT(varchar,@DATAFINAL,103))) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
-        group by A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO">
+        group by A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO,A.ID_ACCOUNT_TIPO_INVOICE">
         <SelectParameters>
             <asp:ControlParameter Name="DATAINICIAL" Type="datetime" ControlID="txtVencimentoInicial" />
             <asp:ControlParameter Name="DATAFINAL" Type="datetime" ControlID="txtVencimentoFinal"  />
@@ -1199,7 +1208,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL
 
     <asp:SqlDataSource ID="dsItensInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE, 
-(SELECT NR_PROCESSO FROM TB_BL WHERE A.ID_BL = ID_BL )NR_PROCESSO,
+(SELECT NR_PROCESSO FROM TB_BL WHERE B.ID_BL = ID_BL )NR_PROCESSO,
 B.ID_ACCOUNT_INVOICE_ITENS, B.ID_BL AS ID_BL_ITENS, B.ID_BL_TAXA,  K.NM_ITEM_DESPESA, B.VL_TAXA, VL_TAXA_BR, I.NM_ACCOUNT_TIPO_DEVOLUCAO
 FROM TB_ACCOUNT_INVOICE A
 LEFT JOIN TB_ACCOUNT_INVOICE_ITENS B ON A.ID_ACCOUNT_INVOICE=B.ID_ACCOUNT_INVOICE
@@ -1253,5 +1262,28 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('SOA_II.aspx?ag=' + AGENTE , '_blank');
 
         }
+
+
+        function SalvaPosicao() {
+            var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox2.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox2.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox2.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
     </script>
 </asp:Content>

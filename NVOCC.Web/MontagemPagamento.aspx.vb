@@ -90,7 +90,7 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
 
 
             dgvTaxas.DataBind()
-            divgrid.Visible = True
+            ' divgrid.Visible = True
 
 
             Dim Con As New Conexao_sql
@@ -211,8 +211,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             txtVencimento.Text = ""
             dgvTaxas.DataBind()
 
-            Dim finaliza As New FinalizaCotacao
-            finaliza.Finalizar()
+            'Dim finaliza As New FinalizaCotacao
+            'finaliza.Finalizar()
         End If
 
     End Sub

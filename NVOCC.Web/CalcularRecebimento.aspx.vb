@@ -45,7 +45,7 @@
         Con.Conectar()
 
         Dim ds0 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 AND ID_DESTINATARIO_COBRANCA <> 3")
+WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
         If ds0.Tables(0).Rows(0).Item("QTD") > 0 Then
             ddlFornecedor.Enabled = False
             lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
@@ -481,8 +481,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             ddlFornecedor.SelectedValue = 0
             dgvTaxas.DataBind()
             mpeND.Show()
-            Dim finaliza As New FinalizaCotacao
-            finaliza.Finalizar()
+            'Dim finaliza As New FinalizaCotacao
+            'finaliza.Finalizar()
         End If
 
 
@@ -493,9 +493,10 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         VerificaTaxas()
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT NR_PROCESSO,NM_ITEM_DESPESA FROM [dbo].[View_BL_TAXAS]
-                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 AND ID_DESTINATARIO_COBRANCA <> 3")
-        If ds1.Tables(0).Rows.Count > 0 Then
+        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM [dbo].[View_BL_TAXAS]
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
+        If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+
             divErro.Visible = True
             lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
             ddlFornecedor.Enabled = False
