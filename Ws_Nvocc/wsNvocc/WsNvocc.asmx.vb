@@ -721,6 +721,32 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         End If
     End Function
 
+    <WebMethod()> Public Sub StatusBloqueio(ByVal consulta As String)
+        Dim Sql As String
+        Dim Lote As String
+        Dim Comando_Proc As New OracleCommand()
+        Dim ConOracle As New Conexao_oracle
+        ConOracle.Conectar()
+        Con.Conectar()
+        '--abrir conexao do sql abridno um dataset/datatale com o o select enviado de parametro, fazer loop,
+        Dim rsNumero As DataTable
+        Dim dsConsulta As DataSet = Con.ExecutarQuery(consulta)
+        If dsConsulta.Tables(0).Rows.Count > 0 Then
+            For Each linha As DataRow In dsConsulta.Tables(0).Rows
+                Sql = "SELECT nvl(max(FLAG_BLOQUEIO_MANUAL),0) lote FROM sgipa.tb_bl Where numero='" & linha.Item("NR_BL").ToString() & "' and flag_ativo=1 and ultima_saida is null "
+                rsNumero = ConOracle.Consultar(Sql)
+                Lote = rsNumero.Rows(0)("lote").ToString
+                If Lote = "0" Then
+                    ' if se lote = 0 gravar na tb_bl como liberado se for = 1 gravar como bloqueado
+                    Con.ExecutarQuery("UPDATE TB_BL SET FLAG_BLOQUEIO_MANUAL =0 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
+                Else
+                    Con.ExecutarQuery("UPDATE TB_BL SET FLAG_BLOQUEIO_MANUAL =1 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
+                End If
+            Next
+        End If
+
+    End Sub
+
     Public Sub montaLoteRPS(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()
