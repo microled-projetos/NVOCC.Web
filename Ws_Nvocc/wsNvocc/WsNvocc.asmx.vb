@@ -1,12 +1,8 @@
 ﻿Imports System.Xml
-Imports System.Xml.Schema
-Imports System.Security.Cryptography.Xml
-Imports System.IO
-Imports System.Security.Cryptography
-Imports System.Security.Cryptography.X509Certificates
 Imports System.Net
 Imports System.Web.Services
 Imports System.ComponentModel
+Imports Oracle.ManagedDataAccess.Client
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -117,6 +113,40 @@ Public Class WsNvocc
 
         Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
     End Function
+    <WebMethod()> Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
+        Dim Sql As String
+        Dim Retorno_Sql As String
+        Dim Lote As String
+        Dim Comando_Proc As New OracleCommand()
+        Dim ConOracle As New Conexao_oracle
+        ConOracle.Conectar()
+
+        Sql = "SELECT nvl(max(Autonum),0) lote FROM sgipa.tb_bl Where numero='" & Bl & "' and flag_ativo=1 and ultima_saida is null "
+        Dim rsNumero As DataTable = ConOracle.Consultar(Sql)
+        Lote = rsNumero.Rows(0)("lote").ToString
+
+        If Lote <> "0" Then
+
+            Comando_Proc.Connection = ConOracle.Con_ORA
+            Comando_Proc.CommandType = CommandType.StoredProcedure
+            Comando_Proc.CommandText = "PROC_CHRONOS_BLOQUEIO"
+            Comando_Proc.Parameters.Add("@ID_LOTE", SqlDbType.BigInt).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@ID_LOTE").Value = Lote
+            Comando_Proc.Parameters.Add("@V_Motivo", SqlDbType.VarChar).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@V_Motivo").Value = "38"
+            Comando_Proc.Parameters.Add("@ACAO", SqlDbType.VarChar).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@ACAO").Value = Acao
+            Comando_Proc.Parameters.Add("@Errocode", SqlDbType.VarChar).Direction = ParameterDirection.Output
+            Comando_Proc.Parameters("@Errocode").Size = 32660
+            Comando_Proc.ExecuteNonQuery()
+            retorno_sql = Comando_Proc.Parameters("@Errocode").Value
+            Comando_Proc = Nothing
+            Return Retorno_Sql
+        Else
+            Return "Bl não localizado"
+        End If
+    End Function
+
     Public Sub montaLoteRPS(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()

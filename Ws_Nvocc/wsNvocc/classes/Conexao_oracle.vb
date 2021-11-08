@@ -4,19 +4,19 @@ Public Class Conexao_oracle
     Public Property Server As String
     Public Property User As String
     Public Property Password As String
-    Private Con As OracleConnection
+    Public Con_ORA As OracleConnection
     Public Sub Conectar()
 
-        If Con Is Nothing Then
-            Con = New OracleConnection(ConnectionString())
+        If Con_ORA Is Nothing Then
+            Con_ORA = New OracleConnection(ConnectionString())
         End If
 
-        If Con IsNot Nothing Then
+        If Con_ORA IsNot Nothing Then
 
-            If Con.State = ConnectionState.Closed Then
+            If Con_ORA.State = ConnectionState.Closed Then
 
                 Try
-                    Con.Open()
+                    Con_ORA.Open()
                 Catch ex As Exception
                     Throw New Exception(ex.Message)
                 End Try
@@ -25,12 +25,12 @@ Public Class Conexao_oracle
     End Sub
 
     Public Sub Desconectar()
-        If Con IsNot Nothing Then
+        If Con_ORA IsNot Nothing Then
 
-            If Con.State = ConnectionState.Open Then
+            If Con_ORA.State = ConnectionState.Open Then
 
                 Try
-                    Con.Close()
+                    Con_ORA.Close()
                 Catch ex As Exception
                     Throw New Exception(ex.Message)
                 End Try
@@ -41,7 +41,7 @@ Public Class Conexao_oracle
     Public Function ExecuteScalar(ByVal SQL As String) As Object
         Conectar()
 
-        Using Cmd As OracleCommand = New OracleCommand(SQL, Con)
+        Using Cmd As OracleCommand = New OracleCommand(SQL, Con_ORA)
             Try
                 Return Cmd.ExecuteScalar()
             Catch ex As Exception
@@ -62,7 +62,7 @@ Public Class Conexao_oracle
         Dim ds As DataTable = New DataTable()
         Conectar()
 
-        Using Cmd As OracleCommand = New OracleCommand(sSql, Con)
+        Using Cmd As OracleCommand = New OracleCommand(sSql, Con_ORA)
             Try
                 Dim dr As OracleDataReader
                 dr = Cmd.ExecuteReader()
