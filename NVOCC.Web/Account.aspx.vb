@@ -64,7 +64,11 @@
                     ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE").ToString()
                     ddlEmissor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString()
                     ddlTipoInvoice.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString()
-                    txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
+                    If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString() = 1 Then
+                        txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_BL").ToString()
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString() = 2 Then
+                        txtProc_ou_BL.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO").ToString()
+                    End If
                     txtVencimento.Text = ds.Tables(0).Rows(0).Item("DT_VENCIMENTO").ToString()
                     ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA").ToString()
                     ddlTipoFatura.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_FATURA").ToString()
@@ -330,8 +334,10 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EM
 
 
 
-            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
-INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO"
+            dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,
+case when A.ID_ACCOUNT_TIPO_INVOICE = 2 then
+B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO,A.ID_ACCOUNT_TIPO_INVOICE"
 
             dgvInvoice.DataBind()
             dgvInvoice.Visible = True
@@ -498,15 +504,48 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         End If
 
 
-        If lblValorFreteDevolucao.Text <> 0 Then
-            Dim Con As New Conexao_sql
-            Dim VALOR As Decimal = lblValorFreteDevolucao.Text
-            Dim VALOR_STRING As String = VALOR.ToString
-            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
-            Con.Conectar()
-            Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
-(" & txtIDInvoice.Text & "," & txtID_BL.Text & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
-        End If
+        'If lblValorFreteDevolucao.Text <> 0 Then
+        '            Dim Con As New Conexao_sql
+        '            Dim VALOR As Decimal = lblValorFreteDevolucao.Text
+        '            Dim VALOR_STRING As String = VALOR.ToString
+        '            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+        '            Con.Conectar()
+        ' Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+        '(" & txtIDInvoice.Text & "," & txtID_BL.Text & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
+
+
+        For Each linha As GridViewRow In dgvDevolucao.Rows
+            Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+            Dim Devolucao As Decimal = 0
+            If check.Checked Then
+                Dim Con As New Conexao_sql
+                If ddlTipoDevolucao.SelectedValue = 2 Then
+                    'DEVOLUÇÃO DO FRETE DE COMPRA
+                    Devolucao = ValorCompra
+                ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+                    'DEVOLUÇÃO DO FRETE DE VENDA
+                    Devolucao = ValorVenda
+                ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+                    'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                    Devolucao = ValorVenda - ValorCompra
+                End If
+
+                Dim VALOR_STRING As String = Devolucao.ToString
+                VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+                Con.Conectar()
+                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+            End If
+
+
+        Next
+
+        ' End If
+
 
         dsDevolucao.DataBind()
         dgvItensInvoice.DataBind()
