@@ -109,9 +109,9 @@ Public Class WsNvocc
 
 
     <WebMethod()>
-    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, id_faturamento As String) As String
+        Call montaLoteRPSSUB(RpsOld, RpsNew, id_faturamento)
 
-        Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
     End Function
     <WebMethod()> Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
         Dim Sql As String
@@ -139,7 +139,7 @@ Public Class WsNvocc
             Comando_Proc.Parameters.Add("@Errocode", SqlDbType.VarChar).Direction = ParameterDirection.Output
             Comando_Proc.Parameters("@Errocode").Size = 32660
             Comando_Proc.ExecuteNonQuery()
-            retorno_sql = Comando_Proc.Parameters("@Errocode").Value
+            Retorno_Sql = Comando_Proc.Parameters("@Errocode").Value
             Comando_Proc = Nothing
             Return Retorno_Sql
         Else
@@ -177,20 +177,24 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            'loteNumero = IDFatura 'chamar ws aqui
 
-            Dim ConOracle As New Conexao_oracle
-            ConOracle.Conectar()
-            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            If Reprocessamento Then
+                sSql = "SELECT NR_LOTE FROM VW_FILA_LOTE_RPS WHERE IDFATURA =" & IDFatura
+                Dim rsNumero As DataSet = Con.ExecutarQuery(sSql)
+                loteNumero = rsNumero.Tables(0).Rows(0)("NR_LOTE").ToString
+            Else
+
+                Dim ConOracle As New Conexao_oracle
+                ConOracle.Conectar()
+                sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+                Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+                loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            End If
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
 
-            sSql = "INSERT INTO ID_DESTINATARIO_COBRANCA=3
-
-ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
+            sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)
 
@@ -553,7 +557,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dfinal As String
 
-                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & FATURA & " | Processo: " & PROCESSO & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
 
                 dDescr &= "SENDO: "
                 dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
@@ -691,7 +695,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
             If Funcoes.NNull(rsRPS.Rows(0)("UF_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("Uf", NFeNamespacte)
-
                 noText = doc.CreateTextNode(rsRPS.Rows(0)("UF_CLI").ToString)
                 No.AppendChild(noText)
                 noEnderecoTom.AppendChild(No)
@@ -970,7 +973,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     GRAVARLOG(loteNumero, "DEU CERTO")
 
                 Catch ex As Exception
-                    GRAVARLOG(loteNumero, ex.Message)
                     Err.Clear()
 
                     Try
