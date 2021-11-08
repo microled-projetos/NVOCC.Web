@@ -62,6 +62,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="CodEmpresa" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="BancoDestino" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="StringConexaoDestino" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="id_faturamento" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>

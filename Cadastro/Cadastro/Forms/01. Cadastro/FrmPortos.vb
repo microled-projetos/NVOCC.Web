@@ -58,12 +58,12 @@ Public Class FrmPortos
     Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
         Dim Ds As DataTable = New DataTable()
         Dim Tela As Control = Me
-
+        Dim Cidade As String
         If Not Geral.ValidarCampos(Tela) Then
             Return
         End If
         If Operators.CompareString(txtID.Text, String.Empty, TextCompare:=False) = 0 Then
-            Ds = Banco.List("SELECT ID_PORTO FROM [TB_PORTO] where NM_PORTO = '" & txtNome.Text & "' and CD_PORTO ='" & txtID.Text & "'")
+            Ds = Banco.List("SELECT ID_PORTO FROM [TB_PORTO] where NM_PORTO = '" & txtNome.Text & "' and CD_PORTO ='" & txtCodigo.Text & "'")
 
             If Ds.Rows.Count > 0 Then
                 MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -71,8 +71,13 @@ Public Class FrmPortos
 
                 Try
 
+                    If cbCidade.SelectedValue = 0 Then
+                        Cidade = 0
+                    Else
+                        Cidade = cbCidade.SelectedValue
+                    End If
 
-                    If Banco.Execute("INSERT INTO TB_PORTO (CD_PORTO,NM_PORTO,ID_CIDADE,SIGLA_IATA,CD_SIGLA,ID_VIATRANSPORTE,FL_ATIVO) VALUES ('" & txtCodigo.Text & "','" & txtNome.Text & "'," & cbCidade.SelectedValue & ",'" & txtSiglaIATA.Text & "','" & txtCodSigla.Text & "'," & cbTransporte.SelectedValue & ",'" & Conversions.ToString(chkAtivo.Checked) & "')") Then
+                    If Banco.Execute("INSERT INTO TB_PORTO (CD_PORTO,NM_PORTO,ID_CIDADE,SIGLA_IATA,CD_SIGLA,ID_VIATRANSPORTE,FL_ATIVO) VALUES ('" & txtCodigo.Text & "','" & txtNome.Text & "'," & Cidade & ",'" & txtSiglaIATA.Text & "','" & txtCodSigla.Text & "'," & cbTransporte.SelectedValue & ",'" & Conversions.ToString(chkAtivo.Checked) & "')") Then
                         Consultar()
                         Geral.Mensagens(Me, 1)
                     Else
@@ -95,7 +100,12 @@ Public Class FrmPortos
 
                 Try
 
-                    If Banco.Execute("UPDATE TB_PORTO SET CD_PORTO = '" & txtCodigo.Text & "', NM_PORTO = '" & txtNome.Text & "',SIGLA_IATA = '" & txtSiglaIATA.Text & "', FL_ATIVO = '" & Conversions.ToString(chkAtivo.Checked) & "' ,CD_SIGLA = '" & txtCodSigla.Text & "',ID_VIATRANSPORTE = " & cbTransporte.SelectedValue & ",ID_CIDADE = " & cbCidade.SelectedValue & " WHERE ID_PORTO = " & txtID.Text) Then
+                    If cbCidade.SelectedValue = 0 Then
+                        Cidade = 0
+                    Else
+                        Cidade = cbCidade.SelectedValue
+                    End If
+                    If Banco.Execute("UPDATE TB_PORTO SET CD_PORTO = '" & txtCodigo.Text & "', NM_PORTO = '" & txtNome.Text & "',SIGLA_IATA = '" & txtSiglaIATA.Text & "', FL_ATIVO = '" & Conversions.ToString(chkAtivo.Checked) & "' ,CD_SIGLA = '" & txtCodSigla.Text & "',ID_VIATRANSPORTE = " & cbTransporte.SelectedValue & ",ID_CIDADE = " & Cidade & " WHERE ID_PORTO = " & txtID.Text) Then
                         Consultar()
                         Geral.Mensagens(Me, 2)
                     Else
@@ -110,7 +120,10 @@ Public Class FrmPortos
                 End Try
             End If
         End If
-
+        LimparCampos(Me)
+        SetaControles()
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click

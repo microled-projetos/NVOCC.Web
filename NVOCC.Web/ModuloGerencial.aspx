@@ -172,9 +172,9 @@
                                 "<td class='text-center'></td>" +
                                 "<td class='text-center'>" + dado[i]["DT_PAGO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VL_PAGO"] + "</td>" +
-                                "<td class='text-center'></td>" +
                                 "<td class='text-center'>" + dado[i]["DT_RECEBIDO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VL_RECEBIDO"] + "</td>" +
+                                "<td class='text-center'></td>" +
                                 "<td class='text-center'></td>" +
                                 "<td class='text-center'></td>" +
                                 "<td class='text-center'></td>" +
@@ -220,10 +220,10 @@
 
         function exportTableToCSVAtual(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#tblModuloGerencialBody tr");
+            var rows = document.querySelectorAll("#tblModuloGerencial tr");
 
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#tblModuloGerencialBody td, #tblModuloGerencialBody th");
+                var row = [], cols = rows[i].querySelectorAll("#tblModuloGerencial td, #tblModuloGerencial th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);

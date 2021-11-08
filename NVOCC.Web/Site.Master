@@ -199,8 +199,11 @@
                                 <ul class="dropdown-sub" style="top: 65%!important"> 
                                     <li><a style="font-size: 12px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
                                     <li runat="server"  visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber1">Estimativa Contas a Pagar</a></li>
-                                    <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                       <li><a style="font-size: 12px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Relatório Invoice</a></li>     
-                                    <li><a style="font-size: 12px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li> 
+                                    <li runat="server" visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber2">Estimativa Contas a Receber</a></li>                       
+                                    <li><a style="font-size: 12px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Relatório Invoice</a></li>     
+                                    <li><a style="font-size: 12px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
+                                    <li><a style="font-size: 12px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
+                                    <li><a style="font-size: 12px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação</a></li>
                                 </ul>
                             </li>
                             <li>

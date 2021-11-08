@@ -73,7 +73,8 @@
                                                 <th class="text-center" scope="col">INVOICE</th>
                                                 <th class="text-center" scope="col">DATA INVOICE</th>
                                                 <th class="text-center" scope="col">TAXA INVOICE</th>
-                                                <th class="text-center" scope="col">VALOR INVOICE + MOEDA</th>
+                                                <th class="text-center" scope="col">VALOR INVOICE</th>
+                                                <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">VALOR R$</th>
                                                 <th class="text-center" scope="col">TAXA RECEBIMENTO</th>
                                                 <th class="text-center" scope="col">DATA RECEBIMENTO</th>
@@ -84,6 +85,20 @@
 
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="row topMarg">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label" style="font-weight: normal">TOTAL:</label><label class="control-label" style="font-weight: bold" id="totalInvoice"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label" style="font-weight: normal">TOTAL BRL:</label><label class="control-label" style="font-weight: bold" id="totalInvoiceBrl"></label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -151,6 +166,8 @@
             var dtFinal = document.getElementById("txtDtFinalVencimentoInvoice").value;
             var nota = document.getElementById("txtInvoice").value;
             var filter = document.getElementById("ddlFilterInvoice").value;
+            var totalInvoice = 0;
+            var totalInvoiceBrl = 0;
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
@@ -160,24 +177,32 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdInvoiceBody").empty();
-                        $("#grdInvoiceBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
+                        $("#grdInvoiceBody").append("<tr><td colspan='15'><div class='loader'></div></td></tr>");
+                        $("#totalInvoice").empty();
+                        $("#totalInvoiceBrl").empty();
                     },
                     success: function (dado) {
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
                         $("#grdInvoiceBody").empty();
+                        $("#totalInvoice").empty();
+                        $("#totalInvoiceBrl").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 arrayInvoice.push(dado[i]["ID_ACCOUNT_INVOICE"])
+                                totalInvoice = totalInvoice + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
+                                totalInvoiceBrl = totalInvoiceBrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
                                 $("#grdInvoiceBody").append("<tr><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_AGENTE"]+"'> " + dado[i]["NM_AGENTE"] + "</td><td class='text-center'>" + dado[i]["DT_QUITACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["NR_MBL"] + "</td><td class='text-center'>" + dado[i]["NR_HBL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TX_INVOICE"] + "</td><td class='text-center'>" + dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"] + "</td><td class='text-center'>" + dado[i]["VLINVOICEBRL"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TX_RECEBIMENTO"] + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO"] + "</td><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_IMPORTADOR"] +"'>" + dado[i]["NM_IMPORTADOR"] + "</td></tr>");
+                                    "<td class='text-center'>" + dado[i]["TX_INVOICE"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["VLINVOICE"].toLocaleString({ style: 'currency', currency: dado[i]["SIGLA"]}) + "</td><td class='text-center'>" + dado[i]["SIGLA"] + "</td><td class='text-center'>" + dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TX_RECEBIMENTO"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO"] + "</td><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_IMPORTADOR"] +"'>" + dado[i]["NM_IMPORTADOR"] + "</td></tr>");
                             }
+                            $("#totalInvoice").append(totalInvoice.toLocaleString('en-us', { style: 'currency', currency: 'USD' }));
+                            $("#totalInvoiceBrl").append(totalInvoiceBrl.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }));
                         }
                         else {
-                            $("#grdInvoiceBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdInvoiceBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='15' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })
@@ -269,19 +294,22 @@
                         doc.setLineWidth(0.2);
                         doc.setFontStyle("bold");
                         doc.line(h - 1, v + 1, h + 290, v + 1);
-                        doc.setFontSize(9);
+                        doc.setFontSize(7);
                         doc.text("Agente Account", h, v);
-                        doc.text("Quitação", h + 35, v);
-                        doc.text("Contrato Camb.", h + 53, v);
-                        doc.text("Master", h + 81, v);
-                        doc.text("Processo", h + 116, v);
-                        doc.text("Invoice/Act Nº", h + 150 , v);
-                        doc.text("Invoice Date", h + 175, v);
-                        doc.text("Nº Fech. Câmb.", h + 207, v);
-                        doc.text("Tx.", h + 235, v);
-                        doc.text("Valor Inv.", h + 250, v);
-                        doc.text("BRL", h + 277, v);
-                        doc.setFontSize(8);
+                        doc.text("Quitação", h + 25, v);
+                        doc.text("Contrato Camb.", h + 40, v);
+                        doc.text("MBL", h + 61, v);
+                        doc.text("HBL", h + 88, v);
+                        doc.text("Processo", h + 114, v);
+                        doc.text("Invoice/Act Nº", h + 129 , v);
+                        doc.text("Invoice Date", h + 173, v);
+                        doc.text("Tx.", h + 191, v);
+                        doc.text("Valor Inv.", h + 203, v);
+                        doc.text("BRL", h + 220, v);
+                        doc.text("Tx. Receb.", h + 235, v);
+                        doc.text("Dt. Receb.", h + 250, v);
+                        doc.text("Cnee", h + 265, v);
+                        doc.setFontSize(7);
                         doc.setFontStyle("normal    ");
 
                         for (let i = 0; i < dado.length; i++) {
@@ -296,40 +324,46 @@
                                 doc.setFontSize(18);
                                 doc.setFontStyle("bold");
                                 doc.text("Relatórios de Invoices Quitadas ", 110, 13);
-                                doc.setFontSize(10);
+                                doc.setFontSize(9);
                                 doc.line(h - 1, v + 1, h + 290, v + 1);
                                 doc.setFontStyle("normal    ");
                                 doc.text("Quitadas de " + diaI + "/" + mesI + "/" + anoI + " e " + diaF + "/" + mesF + "/" + anoF, 130, 18);
                                 doc.addImage(imgData, 'png', 10, 5, 60, 15);
-                                doc.setFontSize(9);
+                                doc.setFontSize(7);
                                 doc.setLineWidth(0.2);
                                 doc.setFontStyle("bold");
 
                                 doc.text("Agente Account", h, v);
-                                doc.text("Quitação", h + 35, v);
-                                doc.text("Contrato Camb.", h + 53, v);
-                                doc.text("Master", h + 81, v);
-                                doc.text("Processo", h + 116, v);
-                                doc.text("Invoice/Act Nº", h + 150, v);
-                                doc.text("Invoice Date", h + 175, v);
-                                doc.text("Nº Fech. Câmb.", h + 207, v);
-                                doc.text("Tx.", h + 235, v);
-                                doc.text("Valor Inv.", h + 250, v);
-                                doc.text("BRL", h + 277, v);
-                                doc.setFontSize(8);
+                                doc.text("Quitação", h + 25, v);
+                                doc.text("Contrato Camb.", h + 40, v);
+                                doc.text("MBL", h + 61, v);
+                                doc.text("HBL", h + 88, v);
+                                doc.text("Processo", h + 114, v);
+                                doc.text("Invoice/Act Nº", h + 129, v);
+                                doc.text("Invoice Date", h + 173, v);
+                                doc.text("Tx.", h + 191, v);
+                                doc.text("Valor Inv.", h + 203, v);
+                                doc.text("BRL", h + 220, v);
+                                doc.text("Tx. Receb.", h + 235, v);
+                                doc.text("Dt. Receb.", h + 250, v);
+                                doc.text("Cnee", h + 265, v);
+                                doc.setFontSize(7);
                                 doc.setFontStyle("normal    ");
                                 v = v + 5;
                                 doc.text(dado[i]["NM_AGENTE"].substring(0, 15), h, v);
-                                doc.text(dado[i]["DT_QUITACAO"], h + 35, v);
-                                doc.text(dado[i]["NR_CONTRATO"], h + 53, v);
-                                doc.text(dado[i]["NR_MBL"], h + 81, v);
-                                doc.text(dado[i]["NR_HBL"], h + 116, v);
-                                doc.text(dado[i]["NR_PROCESSO"], h + 150, v);
-                                doc.text(dado[i]["NR_INVOICE"], h + 175, v);
-                                doc.text(dado[i]["DT_INVOICE"], h + 207, v);
-                                doc.text(dado[i]["TX_INVOICE"], h + 235, v);
-                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 250, v);
-                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(3), h + 277, v);
+                                doc.text(dado[i]["DT_QUITACAO"], h + 25, v);
+                                doc.text(dado[i]["NR_CONTRATO"], h + 40, v);
+                                doc.text(dado[i]["NR_MBL"], h + 61, v);
+                                doc.text(dado[i]["NR_HBL"], h + 88, v);
+                                doc.text(dado[i]["NR_PROCESSO"], h + 114, v);
+                                doc.text(dado[i]["NR_INVOICE"], h + 129, v);
+                                doc.text(dado[i]["DT_INVOICE"], h + 173, v);
+                                doc.text(dado[i]["TX_INVOICE"], h + 191, v);
+                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 220, v);
+                                doc.text(dado[i]["TX_RECEBIMENTO"], h + 235, v);
+                                doc.text(dado[i]["DT_RECEBIMENTO"], h + 250, v);
+                                doc.text(dado[i]["NM_IMPORTADOR"].toString().substr(0, 15), h + 265, v);
                                 total = total + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
                                 totalbrl = totalbrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
                                 if (dado[i]["SIGLA"].toString() != moeda || i == dado.length - 1) {
@@ -349,16 +383,19 @@
                             } else {
                                 v = v + 5;
                                 doc.text(dado[i]["NM_AGENTE"].substring(0, 15), h, v);
-                                doc.text(dado[i]["DT_QUITACAO"], h + 35, v);
-                                doc.text(dado[i]["NR_CONTRATO"], h + 53, v);
-                                doc.text(dado[i]["NR_MBL"], h + 81, v);
-                                doc.text(dado[i]["NR_HBL"], h + 116, v);
-                                doc.text(dado[i]["NR_PROCESSO"], h + 150, v);
-                                doc.text(dado[i]["NR_INVOICE"], h + 175, v);
-                                doc.text(dado[i]["DT_INVOICE"], h + 207, v);
-                                doc.text(dado[i]["TX_INVOICE"], h + 235, v);
-                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 250, v);
-                                doc.text(dado[i]["VLINVOICEBRL"].toFixed(3), h + 277, v);
+                                doc.text(dado[i]["DT_QUITACAO"], h + 25, v);
+                                doc.text(dado[i]["NR_CONTRATO"], h + 40, v);
+                                doc.text(dado[i]["NR_MBL"], h + 61, v);
+                                doc.text(dado[i]["NR_HBL"], h + 88, v);
+                                doc.text(dado[i]["NR_PROCESSO"], h + 114, v);
+                                doc.text(dado[i]["NR_INVOICE"], h + 129, v);
+                                doc.text(dado[i]["DT_INVOICE"], h + 173, v);
+                                doc.text(dado[i]["TX_INVOICE"], h + 191, v);
+                                doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);
+                                doc.text(dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), h + 220, v);
+                                doc.text(dado[i]["TX_RECEBIMENTO"], h + 235, v);
+                                doc.text(dado[i]["DT_RECEBIMENTO"], h + 250, v);
+                                doc.text(dado[i]["NM_IMPORTADOR"].toString().substr(0, 15), h + 265, v);
                                 total = total + parseFloat(dado[i]["VLINVOICE"].toFixed(2));
                                 totalbrl = totalbrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
                                 if (dado[i]["SIGLA"].toString() != moeda || i == dado.length - 1) {

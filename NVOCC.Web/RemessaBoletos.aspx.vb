@@ -74,7 +74,7 @@ Public Class RemessaBoletos
         If txtConsultaEmissaoInicio.Text <> "" Then
             If txtConsultaEmissaoFim.Text <> "" Then
                 'filtro
-                filtro &= " AND CONVERT(DATE,DT_NOTA_FISCAL,103)  BETWEEN CONVERT(DATE,'" & txtConsultaEmissaoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaEmissaoFim.Text & "',103) "
+                filtro &= " AND CONVERT(DATE,DT_NOTA_DEBITO,103)  BETWEEN CONVERT(DATE,'" & txtConsultaEmissaoInicio.Text & "',103) AND CONVERT(DATE,'" & txtConsultaEmissaoFim.Text & "',103) "
 
             Else
                 'msg erro
@@ -155,7 +155,6 @@ Public Class RemessaBoletos
                 NomeStream = "arquivo_remessa_" & SEQ_ARQUIVO & ".txt"
                 Stream = New IO.StreamWriter(Server.MapPath("/Content/remessa/") & NomeStream, True)
 
-                Stream.WriteLine(strToWrite)
                 Stream.Flush()
                 Dim seqRem As Integer = 0
                 Dim seqLote As Integer = 0
@@ -173,11 +172,11 @@ Public Class RemessaBoletos
                         If check.Checked = True Then
 
 
-                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,upper([dbo].[fnTiraAcento](NM_CLIENTE))NM_CLIENTE,upper([dbo].[fnTiraAcento](ENDERECO))ENDERECO,upper([dbo].[fnTiraAcento](BAIRRO))BAIRRO,CEP,upper([dbo].[fnTiraAcento](CIDADE))CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO+DIG_NOSSONUM as NOSSONUM,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,upper([dbo].[fnTiraAcento](NM_CLIENTE))NM_CLIENTE,upper([dbo].[fnTiraAcento](ENDERECO))ENDERECO,upper([dbo].[fnTiraAcento](BAIRRO))BAIRRO,CEP,upper([dbo].[fnTiraAcento](CIDADE))CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
 
 
 
-                            Stream.WriteLine(GeraRemessa.criaDetalhePSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("NOSSONUMERO"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_DEBITO"), dsFatura.Tables(0).Rows(0).Item("DT_VENCIMENTO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("DT_EMISSAO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("VL_BOLETO"), dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("DG_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("NR_CONTA"), dsBanco.Tables(0).Rows(0).Item("DG_CONTA"), dsBanco.Tables(0).Rows(0).Item("especie_titulo"), dsBanco.Tables(0).Rows(0).Item("cod_mora"), dsBanco.Tables(0).Rows(0).Item("COD_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("COD_BAIXA"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_BAIXA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
+                            Stream.WriteLine(GeraRemessa.criaDetalhePSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("NOSSONUM"), dsFatura.Tables(0).Rows(0).Item("NR_NOTA_DEBITO"), dsFatura.Tables(0).Rows(0).Item("DT_VENCIMENTO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("DT_EMISSAO_BOLETO"), dsFatura.Tables(0).Rows(0).Item("VL_BOLETO"), dsBanco.Tables(0).Rows(0).Item("cod_banco"), dsBanco.Tables(0).Rows(0).Item("CNPJ_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("NOME_CEDENTE"), dsBanco.Tables(0).Rows(0).Item("cod_trans"), dsBanco.Tables(0).Rows(0).Item("COD_MOV"), dsBanco.Tables(0).Rows(0).Item("NR_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("DG_AGENCIA"), dsBanco.Tables(0).Rows(0).Item("NR_CONTA"), dsBanco.Tables(0).Rows(0).Item("DG_CONTA"), dsBanco.Tables(0).Rows(0).Item("especie_titulo"), dsBanco.Tables(0).Rows(0).Item("cod_mora"), dsBanco.Tables(0).Rows(0).Item("COD_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_PROTESTO"), dsBanco.Tables(0).Rows(0).Item("COD_BAIXA"), dsBanco.Tables(0).Rows(0).Item("QT_DIAS_BAIXA"), dsBanco.Tables(0).Rows(0).Item("VL_MORA")))
                             seqLote = seqLote + 1
                             seqRem = seqRem + 1
                             Stream.WriteLine(GeraRemessa.criaDetalheQSantander(1, seqLote, dsFatura.Tables(0).Rows(0).Item("CNPJ"), dsFatura.Tables(0).Rows(0).Item("NM_CLIENTE"), dsFatura.Tables(0).Rows(0).Item("ENDERECO"), dsFatura.Tables(0).Rows(0).Item("BAIRRO"), dsFatura.Tables(0).Rows(0).Item("CEP"), dsFatura.Tables(0).Rows(0).Item("CIDADE"), dsFatura.Tables(0).Rows(0).Item("UF"), dsFatura.Tables(0).Rows(0).Item("COD_BANCO"), dsBanco.Tables(0).Rows(0).Item("COD_MOV")))

@@ -50,9 +50,8 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 22102021\Nova pasta\bin\ABAINFRA.Web.dll</HintPath>
+    <Reference Include="ABAINFRA.Web">
+      <HintPath>..\..\..\ABAINFRA.Web 04112021\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -380,6 +379,9 @@
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
     <Content Include="DebitNote.aspx" />
+    <Content Include="DemonstrativoRateio.aspx" />
+    <Content Include="DemonstrativoRateio.aspx.cs" />
+    <Content Include="DemonstrativoRateio.aspx.designer.cs" />
     <Content Include="Demurrage.aspx" />
     <Content Include="Demurrage.aspx.cs" />
     <Content Include="Demurrage.aspx.designer.cs" />
@@ -496,6 +498,9 @@
     <Content Include="MontagemPagamento.aspx" />
     <Content Include="Oracle.DataAccess.dll" />
     <Content Include="OUTLOOK.aspx" />
+    <Content Include="Premiacao.aspx" />
+    <Content Include="Premiacao.aspx.cs" />
+    <Content Include="Premiacao.aspx.designer.cs" />
     <Content Include="Processos.cs" />
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
