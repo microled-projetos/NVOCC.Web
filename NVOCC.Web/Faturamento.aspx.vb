@@ -1562,8 +1562,12 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
 
-<<<<<<< HEAD
-    Private Sub btnFecharRPS_Click(sender As Object, e As EventArgs) Handles btnFecharRPS.Click
+    Private Sub lkExcluirBoleto_Click(sender As Object, e As EventArgs) Handles lkExcluirBoleto.Click
+        divSuccess.Visible = False
+        divErro.Visible = False
+        If txtID.Text = "" Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Selecione um registro"
 
         Else
             Dim Con As New Conexao_sql
@@ -1577,13 +1581,4 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
-    Protected Sub lkRPS_Click(sender As Object, e As EventArgs) Handles lkRPS.Click
-
-    End Sub
-=======
-    'Private Sub lkBoleto_Click(sender As Object, e As EventArgs) Handles lkBoleto.Click
-    '    ModalPopupExtender11.Hide()
-    '    ModalPopupExtender6.Show()
-    'End Sub
->>>>>>> devjuliane
 End Class

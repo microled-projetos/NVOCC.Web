@@ -8,6 +8,8 @@ $(document).ready(function () {
         }
     });  
 
+    $(".peso").mask('#0.000', { reverse: true });
+
     $(".moeda").mask('#.##0,00', { reverse: true });
 
     $(".ApenasNumeros").mask('#', { reverse: true });
@@ -33,6 +35,9 @@ $(document).ready(function () {
     $('.data-hora').mask('00/00/0000 00:00');
 
     $('.placa').mask('SSS-9A99');
+
+    $('.competencia').mask('00/0000');
+
 });
 
 

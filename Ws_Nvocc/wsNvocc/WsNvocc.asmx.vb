@@ -113,6 +113,580 @@ Public Class WsNvocc
         Call montaLoteRPSSUB(RpsOld, RpsNew, id_faturamento)
 
     End Function
+
+    Public Sub montaLoteRPSSUB(ByVal RpsOld As String, ByVal RpsNew As String, IDFatura As String)
+        '  Dim sP As New ServicoEspecial()
+        Dim sql As String
+        Dim rsaux As New DataSet
+        Dim rsRPS As DataSet
+        Dim Cod_Empresa As String = 1
+        Con.Conectar()
+
+        Try
+            erroValor = False
+
+
+            rsRPS = Con.ExecutarQuery("SELECT * FROM VW_FILA_LOTE_RPS WHERE NUMERO_RPS ='" & RpsNew & "'")
+            If rsRPS.Tables(0).Rows.Count <= 0 Then
+                Exit Sub
+            End If
+
+            Dim NFeNamespacte As String = "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd"
+
+
+            raiz = doc.CreateElement("EnviarLoteRpsEnvio", NFeNamespacte)
+
+
+            Dim loteNumero As Long
+            Dim sSql As String
+
+            Dim ConOracle As New Conexao_oracle
+            ConOracle.Conectar()
+            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+
+
+            sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
+            Con.ExecutarQuery(sSql)
+
+            sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
+            sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
+            Con.ExecutarQuery(sSql)
+
+            Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & IDFatura & ")"
+            Dim Fatura As String = rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString
+            Dim Processo As String = ""
+            Dim Ref As String = ""
+            Dim MASTER As String = ""
+            Dim HOUSE As String = ""
+            Dim dsInfo As DataSet
+            dsInfo = Con.ExecutarQuery(SqlInfo)
+            If dsInfo.Tables(0).Rows.Count > 0 Then
+                If dsInfo.Tables(0).Rows(0).Item("GRAU") = "C" Then
+                    Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                    MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
+                    HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                Else
+                    Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
+                    MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                    HOUSE = ""
+                End If
+            End If
+
+
+
+
+            noLoteRPS = doc.CreateElement("LoteRps", NFeNamespacte)
+
+            att = doc.CreateAttribute("Id")
+            att.Value = "_10" & Format(loteNumero, "000000")
+            noLoteRPS.Attributes.Append(att)
+
+
+
+            ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
+CROSS JOIN View_Faturamento B 
+LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
+WHERE ID_FATURAMENTO = " & IDFatura)
+
+            NFeNamespacte = "http://www.ginfes.com.br/tipos_v03.xsd"
+            No = doc.CreateElement("NumeroLote", NFeNamespacte)
+            noText = doc.CreateTextNode("10" & Format(loteNumero, "000000"))
+            No.AppendChild(noText)
+            noLoteRPS.AppendChild(No)
+
+            No = doc.CreateElement("Cnpj", NFeNamespacte)
+            noText = doc.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("CNPJ").ToString))
+            No.AppendChild(noText)
+            noLoteRPS.AppendChild(No)
+
+            No = doc.CreateElement("InscricaoMunicipal", NFeNamespacte)
+            noText = doc.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("IM").ToString))
+            No.AppendChild(noText)
+            noLoteRPS.AppendChild(No)
+
+            No = doc.CreateElement("QuantidadeRps", NFeNamespacte)
+            noText = doc.CreateTextNode("1")
+            No.AppendChild(noText)
+            noLoteRPS.AppendChild(No)
+
+            noListaRPS = doc.CreateElement("ListaRps", NFeNamespacte)
+            noRPS = doc.CreateElement("Rps", NFeNamespacte)
+
+            Dim DADOS As String
+            DADOS = "LOTE :" & loteNumero & " | RPS Nº " & rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString
+
+
+
+            'sP.carrega(Long.Parse(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString, 0)), 0)
+            'If sP.TemDivergencia Then
+            '    erroValor = True
+            '    Exit Sub
+            'End If
+
+            noInfRps = doc.CreateElement("InfRps", NFeNamespacte)
+
+            att = doc.CreateAttribute("Id")
+            att.Value = "_20" & Format(loteNumero, "000000")
+            noInfRps.Attributes.Append(att)
+
+            noIdentRPS = doc.CreateElement("IdentificacaoRps", NFeNamespacte)
+
+            No = doc.CreateElement("Numero", NFeNamespacte)
+            noText = doc.CreateTextNode("1")
+            noText = doc.CreateTextNode(rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString)
+            No.AppendChild(noText)
+            noIdentRPS.AppendChild(No)
+
+            No = doc.CreateElement("Serie", NFeNamespacte)
+            noText = doc.CreateTextNode(rsRPS.Tables(0).Rows(0)("SERIE_RPS").ToString)
+            No.AppendChild(noText)
+            noIdentRPS.AppendChild(No)
+
+            No = doc.CreateElement("Tipo", NFeNamespacte)
+            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("TIPO_RPS").ToString)
+            No.AppendChild(noText)
+            noIdentRPS.AppendChild(No)
+
+            noInfRps.AppendChild(noIdentRPS)
+
+            No = doc.CreateElement("DataEmissao", NFeNamespacte)
+
+            Dim DataEmi As String = rsRPS.Tables(0).Rows(0)("DATA_EMISSAO").ToString
+            '  If Val(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_SUB").ToString, 0)) > 0 Then
+            If Val(Funcoes.NNull(RpsOld, 0)) > 0 Then
+                sql = " Select DT_NOTA_FISCAL From TB_FATURAMENTO WHERE NR_RPS = '" & RpsOld & "'"
+                rsaux = Con.ExecutarQuery(sql)
+                For ln = 0 To rsaux.Tables(0).Rows.Count - 1
+                    DataEmi = rsaux.Tables(0).Rows(0)("DT_NOTA_FISCAL").ToString
+                Next
+                rsaux.Dispose()
+                noText = doc.CreateTextNode(Format(CDate(DataEmi), "yyyy-MM-dd") & "T" & Format(CDate(DataEmi), "HH:mm:ss"))
+            Else
+                noText = doc.CreateTextNode(Format(CDate(DataEmi), "yyyy-MM-dd") & "T" & Format(CDate(DataEmi), "HH:mm:ss"))
+            End If
+            noText = doc.CreateTextNode(Format(CDate(DataEmi), "yyyy-MM-dd") & "T" & Format(CDate(DataEmi), "HH:mm:ss"))
+            'noText = doc.CreateTextNode("2021-06-30T12:00:00")
+            No.AppendChild(noText)
+            noInfRps.AppendChild(No)
+
+
+            No = doc.CreateElement("NaturezaOperacao", NFeNamespacte)
+            noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("NAT_OPERACAO").ToString)
+            No.AppendChild(noText)
+            noInfRps.AppendChild(No)
+
+            No = doc.CreateElement("OptanteSimplesNacional", NFeNamespacte)
+            noText = doc.CreateTextNode(IIf(Funcoes.NNull(rsEmpresa.Tables(0).Rows(0)("SIMPLES").ToString, 0) = 0, 2, 1))
+            No.AppendChild(noText)
+            noInfRps.AppendChild(No)
+
+            No = doc.CreateElement("IncentivadorCultural", NFeNamespacte)
+            noText = doc.CreateTextNode(IIf(Funcoes.NNull(rsEmpresa.Tables(0).Rows(0)("INC_CULTURAL").ToString, 0) = 0, 2, 1))
+            No.AppendChild(noText)
+            noInfRps.AppendChild(No)
+
+            No = doc.CreateElement("Status", NFeNamespacte)
+            noText = doc.CreateTextNode("1")
+            No.AppendChild(noText)
+            noInfRps.AppendChild(No)
+
+            ' If Val(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_SUB").ToString, 0)) > 0 Then
+            If Val(Funcoes.NNull(RpsOld, 0)) > 0 Then
+                Dim noSubst As XmlElement
+                noSubst = doc.CreateElement("RpsSubstituido", NFeNamespacte)
+
+                No = doc.CreateElement("Numero", NFeNamespacte)
+                noText = doc.CreateTextNode("1")
+                noText = doc.CreateTextNode(RpsOld)
+                No.AppendChild(noText)
+                noSubst.AppendChild(No)
+
+                No = doc.CreateElement("Serie", NFeNamespacte)
+                noText = doc.CreateTextNode(rsRPS.Tables(0).Rows(0)("SERIE_RPS").ToString)
+                No.AppendChild(noText)
+                noSubst.AppendChild(No)
+
+                No = doc.CreateElement("Tipo", NFeNamespacte)
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("TIPO_RPS").ToString)
+                No.AppendChild(noText)
+                noSubst.AppendChild(No)
+
+                noInfRps.AppendChild(noSubst)
+            End If
+
+            Dim noServicos As XmlElement
+            Dim noValServ As XmlElement
+            noServicos = doc.CreateElement("Servico", NFeNamespacte)
+
+            Dim rsServicos As DataSet
+            Dim rsValImp As DataTable
+            sSql = "SELECT 
+SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
+SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_ISS,0)) - SUM(ISNULL(B.VL_IR_NF,0)) AS VL_LIQUIDO, 
+SUM(ISNULL(A.VL_ISS,0)) VL_ISS, 
+0 VL_PIS,
+0 VL_COFINS,
+SUM(ISNULL(B.VL_IR_NF,0)) VL_IR, 
+SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(B.VL_IR_NF,0)) AS VL_IMPOSTOS
+FROM TB_CONTA_PAGAR_RECEBER_ITENS A
+LEFT JOIN TB_FATURAMENTO B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
+WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & IDFatura & ")"
+
+
+
+            rsServicos = Con.ExecutarQuery(sSql)
+
+            For I = 0 To rsServicos.Tables(0).Rows.Count - 1
+                If Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(0).ToString, 0)) <> Val(Funcoes.NNull(rsServicos.Tables(0).Rows(0)(1).ToString, 0)) Then
+                    sSql = "SELECT COUNT(1) FROM TB_FATURAMENTO WHERE ID_CONTA_PAGAR_RECEBER ='" & rsRPS.Tables(0).Rows(0)("ID_CONTA_PAGAR_RECEBER").ToString & "' "
+                    sSql = sSql & " AND FL_RPS = 1 AND DT_CANCELAMENTO IS NULL"
+                    If Funcoes.NNull(Con.ExecutarQuery(sSql).Tables(0).Rows(0)(0), 0) = 1 Then
+                        erroValor = True
+                        Exit Sub
+                    End If
+                End If
+                noServicos = doc.CreateElement("Servico", NFeNamespacte)
+
+                noValServ = doc.CreateElement("Valores", NFeNamespacte)
+
+                No = doc.CreateElement("ValorServicos", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+
+                No = doc.CreateElement("ValorPis", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_PIS").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+
+
+                No = doc.CreateElement("ValorCofins", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_COFINS").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+                No = doc.CreateElement("ValorInss", NFeNamespacte)
+                Dim valInss As Double = Funcoes.NNull(0, 0)
+                noText = doc.CreateTextNode(Format(Double.Parse(valInss), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+
+                No = doc.CreateElement("ValorIr", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_IR").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+
+                Dim valCsll As Double = Funcoes.NNull(0, 0)
+                valCsll = FormatNumber(valCsll, 2)
+                No = doc.CreateElement("ValorCsll", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+                No = doc.CreateElement("IssRetido", NFeNamespacte)
+                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                    noText = doc.CreateTextNode("1")
+                Else
+                    noText = doc.CreateTextNode("2")
+                End If
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+                No = doc.CreateElement("ValorIss", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+
+                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                    No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
+                    No.AppendChild(noText)
+                    noValServ.AppendChild(No)
+                Else
+                    No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                    noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
+                    No.AppendChild(noText)
+                    noValServ.AppendChild(No)
+                End If
+
+                No = doc.CreateElement("BaseCalculo", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+                No = doc.CreateElement("Aliquota", NFeNamespacte)
+                noText = doc.CreateTextNode(Funcoes.aliquotaISS().ToString.Replace(",", "."))
+
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+                No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
+                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
+                Else
+                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                End If
+
+                No.AppendChild(noText)
+                noValServ.AppendChild(No)
+
+                noServicos.AppendChild(noValServ)
+
+                Dim dfinal As String
+
+                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+
+                dDescr &= "SENDO: "
+                dDescr &= Funcoes.obtemDescricao(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                dfinal = " Valor aproximado dos tributos R$ "
+                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
+                dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                dfinal = Funcoes.tiraCaracEspXML(dfinal)
+
+                dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                dDescr = dDescr.Trim & " " & dfinal
+
+                No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+
+
+                No.AppendChild(noText)
+                noServicos.AppendChild(No)
+
+
+                No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                No.AppendChild(noText)
+                noServicos.AppendChild(No)
+
+
+                dDescr = Funcoes.tiraCaracEspXML(dDescr)
+                No = doc.CreateElement("Discriminacao", NFeNamespacte)
+                noText = doc.CreateTextNode(dDescr)
+                No.AppendChild(noText)
+                noServicos.AppendChild(No)
+
+                No = doc.CreateElement("CodigoMunicipio", NFeNamespacte)
+                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0).Item("CIDADE_IBGE").ToString)
+                No.AppendChild(noText)
+                noServicos.AppendChild(No)
+
+                noInfRps.AppendChild(noServicos)
+            Next
+            rsServicos.Dispose()
+
+            Dim noPrestador As XmlElement
+            noPrestador = doc.CreateElement("Prestador", NFeNamespacte)
+            No = doc.CreateElement("Cnpj", NFeNamespacte)
+            noText = doc.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("CNPJ").ToString))
+            No.AppendChild(noText)
+            noPrestador.AppendChild(No)
+
+            No = doc.CreateElement("InscricaoMunicipal", NFeNamespacte)
+            noText = doc.CreateTextNode(Funcoes.obtemNumero(rsEmpresa.Tables(0).Rows(0)("IM").ToString))
+            No.AppendChild(noText)
+            noPrestador.AppendChild(No)
+            noInfRps.AppendChild(noPrestador)
+
+            Dim noTomador As XmlElement
+            Dim noIdentTomador As XmlElement
+            Dim noCPFCNPJ As XmlElement
+
+            noTomador = doc.CreateElement("Tomador", NFeNamespacte)
+            noIdentTomador = doc.CreateElement("IdentificacaoTomador", NFeNamespacte)
+
+            If Funcoes.NNull(Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString), 0) > 0 Then
+                noCPFCNPJ = doc.CreateElement("CpfCnpj", NFeNamespacte)
+                Dim docTomador As String = Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString)
+                If docTomador.Length < 14 Then
+                    No = doc.CreateElement("Cpf", NFeNamespacte)
+                Else
+                    No = doc.CreateElement("Cnpj", NFeNamespacte)
+                End If
+                noText = doc.CreateTextNode(docTomador)
+                No.AppendChild(noText)
+                noCPFCNPJ.AppendChild(No)
+                noIdentTomador.AppendChild(noCPFCNPJ)
+            End If
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IM_CLI").ToString, 1) <> "" Then
+                If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IM_CLI").ToString, 1).Trim.ToUpper <> "ISENTO" Then
+                    No = doc.CreateElement("InscricaoMunicipal", NFeNamespacte)
+                    noText = doc.CreateTextNode(Mid(Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("IM_CLI").ToString), 1, 15))
+                    No.AppendChild(noText)
+                    noIdentTomador.AppendChild(No)
+                End If
+            End If
+
+            noTomador.AppendChild(noIdentTomador)
+
+            No = doc.CreateElement("RazaoSocial", NFeNamespacte)
+            noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("CLIENTE").ToString))
+            No.AppendChild(noText)
+            noTomador.AppendChild(No)
+
+            Dim noEnderecoTom As XmlElement
+
+
+            noEnderecoTom = doc.CreateElement("Endereco", NFeNamespacte)
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("END_CLI").ToString, 1) <> "" Then
+                No = doc.CreateElement("Endereco", NFeNamespacte)
+                noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("END_CLI").ToString))
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+
+            No = doc.CreateElement("Numero", NFeNamespacte)
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUM_END_CLI").ToString, 1) <> "" Then
+                noText = doc.CreateTextNode(Mid(rsRPS.Tables(0).Rows(0)("NUM_END_CLI").ToString, 1, 10))
+            Else
+                noText = doc.CreateTextNode(".")
+            End If
+            No.AppendChild(noText)
+            noEnderecoTom.AppendChild(No)
+
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("COMP_CLI").ToString, 1) <> "" Then
+                No = doc.CreateElement("Complemento", NFeNamespacte)
+
+                noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("COMP_CLI").ToString))
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("BAIRRO_CLI").ToString, 1) <> "" Then
+                No = doc.CreateElement("Bairro", NFeNamespacte)
+
+                noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("BAIRRO_CLI").ToString))
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 1) <> "" Then
+                No = doc.CreateElement("CodigoMunicipio", NFeNamespacte)
+                noText = doc.CreateTextNode(Format(Long.Parse(Funcoes.obtemCodIBGEUF(rsRPS.Tables(0).Rows(0)("UF_CLI").ToString) & Format(Long.Parse(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 0)), "00000")), "0000000"))
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+
+            If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("UF_CLI").ToString, 1) <> "" Then
+                No = doc.CreateElement("Uf", NFeNamespacte)
+
+                noText = doc.CreateTextNode(rsRPS.Tables(0).Rows(0)("UF_CLI").ToString)
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+
+            If Funcoes.NNull(Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CEP_CLI").ToString), 1) <> "" Then
+                No = doc.CreateElement("Cep", NFeNamespacte)
+                noText = doc.CreateTextNode(Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CEP_CLI").ToString))
+                No.AppendChild(noText)
+                noEnderecoTom.AppendChild(No)
+            End If
+            If noEnderecoTom.ChildNodes.Count > 0 Then
+                noTomador.AppendChild(noEnderecoTom)
+            End If
+
+
+            Dim noContato As XmlElement
+            noContato = doc.CreateElement("Contato", NFeNamespacte)
+
+
+            If rsRPS.Tables(0).Rows(0)("TEL_CLI").ToString <> "" Then
+                No = doc.CreateElement("Telefone", NFeNamespacte)
+                noText = doc.CreateTextNode(Right(Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("TEL_CLI").ToString.Replace(" ", "")), 11))
+                No.AppendChild(noText)
+                noContato.AppendChild(No)
+            End If
+
+            If rsRPS.Tables(0).Rows(0)("EMAIL_CLI").ToString <> "" Then
+                No = doc.CreateElement("Email", NFeNamespacte)
+                noText = doc.CreateTextNode(rsRPS.Tables(0).Rows(0)("EMAIL_CLI").ToString)
+                No.AppendChild(noText)
+                noContato.AppendChild(No)
+            End If
+
+
+
+            noTomador.AppendChild(noContato)
+
+            noInfRps.AppendChild(noTomador)
+
+
+            noRPS.AppendChild(noInfRps)
+
+            noListaRPS.AppendChild(noRPS)
+            noLoteRPS.AppendChild(noListaRPS)
+
+            raiz.AppendChild(noLoteRPS)
+
+            doc.AppendChild(raiz)
+
+            Dim nomeArquivo As String = Funcoes.diretorioLoteRps & "NFsE_" & Format(loteNumero, "00000000") & ".xml"
+            doc.Save(nomeArquivo)
+
+            doc.Load(nomeArquivo)
+
+
+            Dim docAssinado As New XmlDocument
+            docAssinado.LoadXml("<?xml version=""1.0"" encoding=""utf-8""?>" & Funcoes.AssinarXML(Funcoes.tiraCaracEspXML(doc.OuterXml), "InfRps", Cod_Empresa))
+            docAssinado.Save(nomeArquivo)
+
+            If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
+
+
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & IDFatura & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',GETDATE(),'" & rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString & "','" & loteNumero & "') "
+                Con.ExecutarQuery(sSql)
+                Con.ExecutarQuery(sSql)
+
+
+                sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE = " & loteNumero & ", STATUS_NFE = 5 WHERE ID_FATURAMENTO =" & IDFatura
+
+
+                Con.ExecutarQuery(sSql)
+
+                sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_FATURAMENTO =" & IDFatura
+                Con.ExecutarQuery(sSql)
+
+                Exit Sub
+            Else
+
+                sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE = " & loteNumero & ", STATUS_NFE = 1 WHERE ID_FATURAMENTO =" & IDFatura
+
+                Con.ExecutarQuery(sSql)
+
+
+
+
+
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, NOME_ARQ_ENVIO, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
+                sSql = sSql & " VALUES (" & IDFatura & ",'" & Right(nomeArquivo, 100) & "',GETDATE(),'" & rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString & "','" & loteNumero & "') "
+                Con.ExecutarQuery(sSql)
+
+
+
+                Con.ExecutarQuery(sSql)
+            End If
+
+            Call EnviaXML(nomeArquivo, "LOTE-RPS", loteNumero, 1)
+
+
+
+
+
+        Catch ex As Exception
+            Err.Clear()
+        End Try
+    End Sub
     <WebMethod()> Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
         Dim Sql As String
         Dim Retorno_Sql As String
