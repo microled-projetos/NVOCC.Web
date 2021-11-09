@@ -39,6 +39,10 @@ Namespace NotaFiscal
         
         Private SubstituiNFePrefeituraOperationCompleted As System.Threading.SendOrPostCallback
         
+        Private DesBloqueioOperationCompleted As System.Threading.SendOrPostCallback
+        
+        Private StatusBloqueioOperationCompleted As System.Threading.SendOrPostCallback
+        
         Private useDefaultCredentialsSetExplicitly As Boolean
         
         '''<remarks/>
@@ -88,6 +92,12 @@ Namespace NotaFiscal
         
         '''<remarks/>
         Public Event SubstituiNFePrefeituraCompleted As SubstituiNFePrefeituraCompletedEventHandler
+        
+        '''<remarks/>
+        Public Event DesBloqueioCompleted As DesBloqueioCompletedEventHandler
+        
+        '''<remarks/>
+        Public Event StatusBloqueioCompleted As StatusBloqueioCompletedEventHandler
         
         '''<remarks/>
         <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/IntegraNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
@@ -194,6 +204,59 @@ Namespace NotaFiscal
             If (Not (Me.SubstituiNFePrefeituraCompletedEvent) Is Nothing) Then
                 Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg,System.Web.Services.Protocols.InvokeCompletedEventArgs)
                 RaiseEvent SubstituiNFePrefeituraCompleted(Me, New SubstituiNFePrefeituraCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+        
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DesBloqueio", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
+            Dim results() As Object = Me.Invoke("DesBloqueio", New Object() {Bl, Acao})
+            Return CType(results(0),String)
+        End Function
+        
+        '''<remarks/>
+        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String)
+            Me.DesBloqueioAsync(Bl, Acao, Nothing)
+        End Sub
+        
+        '''<remarks/>
+        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String, ByVal userState As Object)
+            If (Me.DesBloqueioOperationCompleted Is Nothing) Then
+                Me.DesBloqueioOperationCompleted = AddressOf Me.OnDesBloqueioOperationCompleted
+            End If
+            Me.InvokeAsync("DesBloqueio", New Object() {Bl, Acao}, Me.DesBloqueioOperationCompleted, userState)
+        End Sub
+        
+        Private Sub OnDesBloqueioOperationCompleted(ByVal arg As Object)
+            If (Not (Me.DesBloqueioCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg,System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent DesBloqueioCompleted(Me, New DesBloqueioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
+            End If
+        End Sub
+        
+        '''<remarks/>
+        <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/StatusBloqueio", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
+        Public Sub StatusBloqueio(ByVal consulta As String)
+            Me.Invoke("StatusBloqueio", New Object() {consulta})
+        End Sub
+        
+        '''<remarks/>
+        Public Overloads Sub StatusBloqueioAsync(ByVal consulta As String)
+            Me.StatusBloqueioAsync(consulta, Nothing)
+        End Sub
+        
+        '''<remarks/>
+        Public Overloads Sub StatusBloqueioAsync(ByVal consulta As String, ByVal userState As Object)
+            If (Me.StatusBloqueioOperationCompleted Is Nothing) Then
+                Me.StatusBloqueioOperationCompleted = AddressOf Me.OnStatusBloqueioOperationCompleted
+            End If
+            Me.InvokeAsync("StatusBloqueio", New Object() {consulta}, Me.StatusBloqueioOperationCompleted, userState)
+        End Sub
+        
+        Private Sub OnStatusBloqueioOperationCompleted(ByVal arg As Object)
+            If (Not (Me.StatusBloqueioCompletedEvent) Is Nothing) Then
+                Dim invokeArgs As System.Web.Services.Protocols.InvokeCompletedEventArgs = CType(arg,System.Web.Services.Protocols.InvokeCompletedEventArgs)
+                RaiseEvent StatusBloqueioCompleted(Me, New System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState))
             End If
         End Sub
         
@@ -323,4 +386,35 @@ Namespace NotaFiscal
             End Get
         End Property
     End Class
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>  _
+    Public Delegate Sub DesBloqueioCompletedEventHandler(ByVal sender As Object, ByVal e As DesBloqueioCompletedEventArgs)
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0"),  _
+     System.Diagnostics.DebuggerStepThroughAttribute(),  _
+     System.ComponentModel.DesignerCategoryAttribute("code")>  _
+    Partial Public Class DesBloqueioCompletedEventArgs
+        Inherits System.ComponentModel.AsyncCompletedEventArgs
+        
+        Private results() As Object
+        
+        Friend Sub New(ByVal results() As Object, ByVal exception As System.Exception, ByVal cancelled As Boolean, ByVal userState As Object)
+            MyBase.New(exception, cancelled, userState)
+            Me.results = results
+        End Sub
+        
+        '''<remarks/>
+        Public ReadOnly Property Result() As String
+            Get
+                Me.RaiseExceptionIfNecessary
+                Return CType(Me.results(0),String)
+            End Get
+        End Property
+    End Class
+    
+    '''<remarks/>
+    <System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.4084.0")>  _
+    Public Delegate Sub StatusBloqueioCompletedEventHandler(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs)
 End Namespace

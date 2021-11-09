@@ -203,7 +203,7 @@
                                     <li><a style="font-size: 12px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Relatório Invoice</a></li>     
                                     <li><a style="font-size: 12px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
                                     <li><a style="font-size: 12px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
-                                    <li><a style="font-size: 12px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação</a></li>
+                                    <li><a style="font-size: 12px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
                                 </ul>
                             </li>
                             <li>

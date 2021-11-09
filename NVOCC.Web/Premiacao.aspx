@@ -5,14 +5,14 @@
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Premiação
+                    <h3 class="panel-title">Premiação Nacional
                     </h3>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active" id="tabprocessoExpectGrid">
                             <a href="#processoExpectGrid" id="linkprocessoExcepctGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Premiação
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Premiação Nacional - Rateamento
                             </a>
                         </li>
                     </ul>
@@ -21,15 +21,15 @@
                             <div class="row topMarg">
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Invoice.csv')">Exportar Grid - CSV</button>
-                                        <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="printPagamentosRecebimentos()">Imprimir</button>
+                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportEstimativaCSV('Premiacao.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="imprimirPremiacao()">Imprimir</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">Data Competência:</label>
-                                            <input id="txtDtCompentencia" class="form-control" type="text" required="required"/>
+                                            <input id="txtDtCompentencia" class="form-control competencia" type="text" required="required"/>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -39,9 +39,31 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" id="btnConsultarPremiacao" onclick="imprimirPremiacao()" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsultarPremiacao" onclick="listarpremiacao()" class="btn btn-primary">Consultar</button>
                                     </div>
-                                </div> 
+                                </div>
+                                <div class="table-responsive fixedDoubleHead topMarg">
+                                    <table id="grdPremiacao" class="table tablecont">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" scope="col">AGENTE</th>
+                                                <th class="text-center" scope="col">MBL</th>
+                                                <th class="text-center" scope="col">HBL</th>
+                                                <th class="text-center" scope="col">CNEE</th>
+                                                <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
+                                                <th class="text-center" scope="col">VALOR COMPRA</th>
+                                                <th class="text-center" scope="col">MOEDA</th>
+                                                <th class="text-center" scope="col">TAXA CONVERSÃO</th>
+                                                <th class="text-center" scope="col">PREMIAÇÃO</th>
+                                                <th class="text-center" scope="col">MOEDA</th>
+                                                <th class="text-center" scope="col">% RATEIO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="grdPremiacaoBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,22 +76,27 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="Content/js/papaparse.min.js"></script>    
+    <script src="Content/js/site.js"></script>    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 
     <script>
 
         //PagamentosRecebimentos
+        var dtInicial;
+        var nota;
 
         function imprimirPremiacao() {
-            var dtInicial = document.getElementById("txtDtCompentencia").value;
-            var nota = document.getElementById("txtQuinzena").value;
+            dtInicial = document.getElementById("txtDtCompentencia").value;
+            nota = document.getElementById("txtQuinzena").value;
             var posih = 3;
             var posiv = 25;
             var pcindicador = [];
             var idpc = "";
             var totalpremiacao = 0;
             var totalpc = 0;
+            dtInicial = dtInicial.toString().replace("/", "");
+            console.log(dtInicial);
             if (dtInicial != "") {
                 $.ajax({
                     type: "POST",
@@ -119,22 +146,69 @@
                                 }
                                 for (let z = 0; z < dado.length; z++) {
                                     if (idpc == dado[z]["IDAGENTE"]) {
-                                        doc.setFontSize(8);
-                                        doc.setFontStyle("normal");
-                                        posiv = posiv + 5;
-                                        doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
-                                        doc.text(dado[z]["MBL"], posih + 30, posiv);
-                                        doc.text(dado[z]["HBL"], posih + 65, posiv);
-                                        doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
-                                        doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
-                                        doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
-                                        doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
-                                        doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
-                                        doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
-                                        doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
-                                        doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
-                                        totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
-                                        totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                        if (posiv < pageHeight - 10) {
+                                            doc.setFontSize(8);
+                                            doc.setFontStyle("normal");
+                                            posiv = posiv + 5;
+                                            doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
+                                            doc.text(dado[z]["MBL"], posih + 30, posiv);
+                                            doc.text(dado[z]["HBL"], posih + 65, posiv);
+                                            doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
+                                            doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
+                                            doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
+                                            doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
+                                            doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
+                                            doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
+                                            doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
+                                            doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
+                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
+                                            totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                        } else {
+                                            doc.addPage();
+                                            doc.setFontSize(12);
+                                            doc.setFontStyle("bold");
+                                            doc.text("RATEAMENTO DA PREMIÇÃO", 120, 7);
+                                            doc.setFontSize(9);
+                                            doc.setFontStyle("normal");
+                                            doc.text("COMPETÊNCIA - " + dado[0]["DT_COMPETENCIA"].substr(0, 2) + "/" + dado[0]["DT_COMPETENCIA"].substr(2, dado[0]["DT_COMPETENCIA"].length) + " - QUINZENA -" + dado[0]["NR_QUINZENA"], 120, 12);
+                                            for (let x = 0; x < dado.length; x++) {
+                                                if (pcindicador.indexOf(dado[x]["IDAGENTE"]) == -1) {
+                                                    pcindicador.push(dado[x]["IDAGENTE"]);
+                                                }
+                                            }
+                                            console.log(pcindicador);
+                                            doc.setFontSize(8);
+                                            doc.text("AGENTE", posih, posiv);
+                                            doc.text("MBL", posih + 30, posiv);
+                                            doc.text("HBL", posih + 65, posiv);
+                                            doc.text("CNEE", posih + 95, posiv);
+                                            doc.text("TIPO ESTUF", posih + 130, posiv);
+                                            doc.text("VALOR COMPRA", posih + 153, posiv);
+                                            doc.text("MOEDA", posih + 180, posiv);
+                                            doc.text("TX. CONVERSAO", posih + 200, posiv);
+                                            doc.text("PREMIACAO", posih + 230, posiv);
+                                            doc.text("MOEDA", posih + 255, posiv);
+                                            doc.text("% RATEIO", posih + 275, posiv);
+                                            doc.setFontStyle("normal");
+                                            posih = 3;
+                                            posiv = 25;
+                                            doc.setFontSize(8);
+                                            doc.setFontStyle("normal");
+                                            posiv = posiv + 5;
+                                            doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
+                                            doc.text(dado[z]["MBL"], posih + 30, posiv);
+                                            doc.text(dado[z]["HBL"], posih + 65, posiv);
+                                            doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
+                                            doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
+                                            doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
+                                            doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
+                                            doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
+                                            doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
+                                            doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
+                                            doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
+                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
+                                            totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                        }
                                     } else {
                                         if (z == dado.length - 1) {
                                             doc.setFontStyle("bold");
@@ -161,6 +235,47 @@
             } else {
 
             }
+        }
+
+        function listarpremiacao() {
+            dtInicial = document.getElementById("txtDtCompentencia").value;
+            nota = document.getElementById("txtQuinzena").value;
+            dtInicial = dtInicial.toString().replace("/", "");
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/listarPremiacao",
+                data: '{dtCompetencia:"' + dtInicial + '",quinzena: "' + nota + '"}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#grdPremiacaoBody").empty();
+                    $("#grdPremiacaoBody").append("<tr><td colspan='14'><div class='loader text-center'></div></td></tr>");
+                },
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    $("#grdPremiacaoBody").empty();
+                    if (dado != null) {
+                        for (let i = 0; i < dado.length; i++) {
+                            $("#grdPremiacaoBody").append("<tr>" +
+                                "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["HBL"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CNEE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_COMPRA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA_COMPRA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_CAMBIO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["VL_PREMIACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA_PREMIACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PC_RATEIO"] + "</td></tr> ");
+                        }
+                    }
+                    else {
+                        $("#grdPremiacaoBody").append("<tr><td colspan='14'><div class='loader text-center'></div></td></tr>");
+                    }
+                }
+            });
         }
 
         function exportCSV(filename) {
@@ -374,53 +489,12 @@
 
         }
 
-
-        function EstimativaPagamentosRecebimentos() {
-            $("#modalEstimativaPagamentoRecebimento").modal('show');
-            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
-            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
-            if (dtInicial != "" && dtFinal != "") {
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{filterby: "' + ddlDataFilter.value +'", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                        $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                        if (dado != null) {
-                            for (let i = 0; i < dado.length; i++) {
-                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] + "'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
-                            }
-                        }
-                        else {
-                            $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                        }
-                    }
-                })
-            } else {
-
-            }
-        }
-
         function exportEstimativaCSV(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#grdEstimativaPagamentoRecebimento tr");
+            var rows = document.querySelectorAll("#grdPremiacao tr");
 
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdEstimativaPagamentoRecebimento td, #grdEstimativaPagamentoRecebimento th");
+                var row = [], cols = rows[i].querySelectorAll("#grdPremiacao td, #grdPremiacao th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);
