@@ -1012,6 +1012,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Else
             Dim Con As New Conexao_sql
             Con.Conectar()
+
+            Dim Rastreio As New RastreioService
+            Rastreio.trackingbl(txtID_Master.Text)
             Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
@@ -1020,9 +1023,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     Session("ID_BL") = txtID_Master.Text
                     Response.Redirect("RastreioBL.aspx")
 
-                    'Else
-                    '    divErroMaster.Visible = True
-                    '    lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                Else
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "BL não cadastrada no Logcomex."
                 End If
             End If
 
