@@ -344,7 +344,7 @@ Partial Class FrmUF
         Me.cbPais.Size = New System.Drawing.Size(123, 24)
         Me.cbPais.TabIndex = 10
         Me.cbPais.Tag = "requerido"
-        Me.cbPais.ValueMember = "SIGLA"
+        Me.cbPais.ValueMember = "ID_PAIS"
         '
         'Label1
         '

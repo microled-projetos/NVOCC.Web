@@ -81,9 +81,9 @@
 
                                 <br />
                                 <br />
-                                <div id="divgrid" visible="false" runat="server">
+                                <div id="DivGrid1"  runat="server" class="DivGrid">
                                 <div class="row" >
-                                    <div class="table-responsive tableFixHead">
+                                    <div id="DivGrid" class="DivGrid table-responsive tableFixHead">
                                         <asp:GridView ID="dgvTaxas" DataKeyNames="ID_BL,ID_BL_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -93,9 +93,9 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnClick="SalvaPosicao()"/>
                                                     </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao"  />
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
@@ -108,7 +108,7 @@
                                                 
                                                 <asp:TemplateField HeaderText="Abater ISS" HeaderStyle-ForeColor="#4e81ad">
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbISS" runat="server" autoPostBack="true" />
+                                                        <asp:CheckBox ID="ckbISS" runat="server" autoPostBack="true" OnClick="SalvaPosicao()" />
                                                     </ItemTemplate>                                                  
                                                 </asp:TemplateField>
                                                 <asp:TemplateField Visible="False">
@@ -159,7 +159,7 @@
                                     <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="text-align: left">VALOR:</label>
-                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control moeda"></asp:TextBox>
+                                                <asp:TextBox ID="txtValor" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -192,6 +192,8 @@
                 </div>
             </div>
         </div>
+                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
+
     </div>
     <asp:SqlDataSource ID="dsTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_BL_TAXAS]
@@ -217,4 +219,29 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CONTA_BANCARIA] ORDER BY ID_CONTA_BAN
      </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+     <script type="text/javascript">
+ 
+      function SalvaPosicao() {
+          var posicao = document.getElementById('DivGrid').scrollTop;
+            if (posicao) {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+            }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+            }
+      };
+     
+    
+  Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            document.getElementById('DivGrid').scrollTop = valor;
+        };
+
+     </script> 
 </asp:Content>

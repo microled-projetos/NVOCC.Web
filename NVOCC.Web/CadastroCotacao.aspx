@@ -71,6 +71,21 @@
                                         <asp:TextBox ID="txtNumeroCotacao" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                      </div>
+                                 <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbLTL" runat="server" CssClass="form-control" text="&nbsp;&nbsp;LTL" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbDtaHub" runat="server" CssClass="form-control" text="&nbsp;&nbsp;DTA HUB" ></asp:Checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group"> <label class="control-label" style="color:white">X</label>
+                                        <asp:Checkbox ID="ckbTranspDedicado" runat="server" CssClass="form-control" text="&nbsp;&nbsp;TRANSPORTE DEDICADO" ></asp:Checkbox>
+                                    </div>
+                                </div>
                                 </div>
                             <div class="row">
                                  <div class="col-sm-4">
@@ -303,6 +318,8 @@
                             </div>
                                 <div class="col-sm-2"  >
                                     <div class="form-group">
+                                        
+                                         <asp:TextBox ID="txtID_Vendedor" style="display:none" runat="server"  CssClass="form-control" MaxLength="18"></asp:TextBox>
                                         <label class="control-label">Vendedor:</label></label><label runat="server" style="color:red" >*</label>
                                        <asp:DropDownList ID="ddlVendedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
                                         </asp:DropDownList>
@@ -524,7 +541,7 @@
                                         <asp:TextBox ID="txtTTimeFreteMedia" enabled="false"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-3" id="divTTAereo" runat="server" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Transttime Trucking(Aéreo):</label>
                                         <asp:TextBox ID="txtTTimeFreteTruckingAereo" enabled="true"  runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
@@ -839,10 +856,20 @@
                                         <asp:TextBox ID="txtM3Mercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                                                   <div class="col-sm-4">
+                                                                </div>
+                           
+                           
+                                 <div class="row">    <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor da Carga:</label>
                                         <asp:TextBox ID="txtValorCargaMercadoria"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Moeda da Carga:</label><asp:label id="Label1" runat="server" style="color:red" >*</asp:label>
+                                         <asp:DropDownList ID="ddlMoedaCarga" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA" >
+                                        </asp:DropDownList>
                                     </div>
                                 </div>
                                 </div>
@@ -1544,8 +1571,11 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE FL_VENDEDOR = 1 
+        selectcommand="SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1)  OR ID_PARCEIRO = @ID_PARCEIRO
 union SELECT  0, ' Selecione' ORDER BY NM_RAZAO">
+           <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtID_Vendedor" DefaultValue ="0" />
+        </SelectParameters>
 </asp:SqlDataSource>  
     <asp:SqlDataSource ID="dsMotivoCancelamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_MOTIVO_CANCELAMENTO,NM_MOTIVO_CANCELAMENTO FROM TB_MOTIVO_CANCELAMENTO

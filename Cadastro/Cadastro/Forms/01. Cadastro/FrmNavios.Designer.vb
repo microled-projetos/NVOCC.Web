@@ -262,12 +262,14 @@ Partial Class FrmNavios
         '
         'cbPais
         '
+        Me.cbPais.DisplayMember = "DESCR"
         Me.cbPais.Enabled = False
         Me.cbPais.FormattingEnabled = True
         Me.cbPais.Location = New System.Drawing.Point(35, 99)
         Me.cbPais.Name = "cbPais"
         Me.cbPais.Size = New System.Drawing.Size(248, 24)
         Me.cbPais.TabIndex = 30
+        Me.cbPais.ValueMember = "ID_PAIS"
         '
         'Label2
         '

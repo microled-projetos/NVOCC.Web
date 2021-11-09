@@ -37,6 +37,16 @@ Partial Class FrmPortos
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
+        Me.ID_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CD_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.SIGLA_IATA = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.CD_SIGLA = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ID_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.NM_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -48,23 +58,11 @@ Partial Class FrmPortos
         Me.txtNome = New System.Windows.Forms.TextBox()
         Me.txtSiglaIATA = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.txtAgencia = New System.Windows.Forms.TextBox()
-        Me.txtBanco = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.chkAtivo = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtCodigo = New System.Windows.Forms.TextBox()
-        Me.ID_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CD_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_PORTO = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ID_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_CIDADE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.SIGLA_IATA = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.CD_SIGLA = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ID_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.NM_VIATRANSPORTE = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.pnControles.SuspendLayout()
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -240,214 +238,6 @@ Partial Class FrmPortos
         Me.dgvConsulta.Size = New System.Drawing.Size(624, 228)
         Me.dgvConsulta.TabIndex = 90
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.Label8)
-        Me.GroupBox1.Controls.Add(Me.Label6)
-        Me.GroupBox1.Controls.Add(Me.cbCidade)
-        Me.GroupBox1.Controls.Add(Me.cbTransporte)
-        Me.GroupBox1.Controls.Add(Me.txtCodSigla)
-        Me.GroupBox1.Controls.Add(Me.Label2)
-        Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.txtNome)
-        Me.GroupBox1.Controls.Add(Me.txtSiglaIATA)
-        Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Controls.Add(Me.txtAgencia)
-        Me.GroupBox1.Controls.Add(Me.txtBanco)
-        Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.chkAtivo)
-        Me.GroupBox1.Controls.Add(Me.Label4)
-        Me.GroupBox1.Controls.Add(Me.Label3)
-        Me.GroupBox1.Controls.Add(Me.txtCodigo)
-        Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(623, 132)
-        Me.GroupBox1.TabIndex = 89
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Detalhes:"
-        '
-        'Label8
-        '
-        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(483, 28)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(43, 13)
-        Me.Label8.TabIndex = 33
-        Me.Label8.Text = "Cidade:"
-        '
-        'Label6
-        '
-        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(232, 75)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(79, 13)
-        Me.Label6.TabIndex = 32
-        Me.Label6.Text = "Via Transporte:"
-        '
-        'cbCidade
-        '
-        Me.cbCidade.Enabled = False
-        Me.cbCidade.FormattingEnabled = True
-        Me.cbCidade.Location = New System.Drawing.Point(486, 44)
-        Me.cbCidade.Name = "cbCidade"
-        Me.cbCidade.Size = New System.Drawing.Size(121, 21)
-        Me.cbCidade.TabIndex = 31
-        Me.cbTransporte.DisplayMember = "NM_CIDADE"
-        Me.cbTransporte.ValueMember = "ID_CIDADE"
-        Me.cbTransporte.Tag = "requerido"
-        '
-        'cbTransporte
-        '
-        Me.cbTransporte.Enabled = False
-        Me.cbTransporte.FormattingEnabled = True
-        Me.cbTransporte.Location = New System.Drawing.Point(235, 91)
-        Me.cbTransporte.Name = "cbTransporte"
-        Me.cbTransporte.Size = New System.Drawing.Size(228, 21)
-        Me.cbTransporte.TabIndex = 30
-        Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
-        Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
-        Me.cbTransporte.Tag = "requerido"
-
-        '
-        'txtCodSigla
-        '
-        Me.txtCodSigla.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCodSigla.Enabled = False
-        Me.txtCodSigla.Location = New System.Drawing.Point(125, 92)
-        Me.txtCodSigla.MaxLength = 50
-        Me.txtCodSigla.Name = "txtCodSigla"
-        Me.txtCodSigla.Size = New System.Drawing.Size(85, 20)
-        Me.txtCodSigla.TabIndex = 29
-        Me.txtCodSigla.Tag = "requerido"
-        '
-        'Label2
-        '
-        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(122, 76)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(58, 13)
-        Me.Label2.TabIndex = 28
-        Me.Label2.Text = "Cód. Sigla:"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(122, 27)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(66, 13)
-        Me.Label1.TabIndex = 27
-        Me.Label1.Text = "Nome Porto:"
-        '
-        'txtNome
-        '
-        Me.txtNome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtNome.Enabled = False
-        Me.txtNome.Location = New System.Drawing.Point(125, 45)
-        Me.txtNome.MaxLength = 50
-        Me.txtNome.Name = "txtNome"
-        Me.txtNome.Size = New System.Drawing.Size(338, 20)
-        Me.txtNome.TabIndex = 26
-        Me.txtNome.Tag = "requerido"
-        '
-        'txtSiglaIATA
-        '
-        Me.txtSiglaIATA.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtSiglaIATA.Enabled = False
-        Me.txtSiglaIATA.Location = New System.Drawing.Point(17, 92)
-        Me.txtSiglaIATA.MaxLength = 50
-        Me.txtSiglaIATA.Name = "txtSiglaIATA"
-        Me.txtSiglaIATA.Size = New System.Drawing.Size(85, 20)
-        Me.txtSiglaIATA.TabIndex = 25
-        Me.txtSiglaIATA.Tag = "requerido"
-        '
-        'Label7
-        '
-        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(-126, 121)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(49, 13)
-        Me.Label7.TabIndex = 24
-        Me.Label7.Text = "Agência:"
-        '
-        'txtAgencia
-        '
-        Me.txtAgencia.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtAgencia.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtAgencia.Enabled = False
-        Me.txtAgencia.Location = New System.Drawing.Point(-123, 141)
-        Me.txtAgencia.MaxLength = 3
-        Me.txtAgencia.Name = "txtAgencia"
-        Me.txtAgencia.Size = New System.Drawing.Size(120, 20)
-        Me.txtAgencia.TabIndex = 23
-        Me.txtAgencia.Tag = "requerido"
-        '
-        'txtBanco
-        '
-        Me.txtBanco.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtBanco.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBanco.Enabled = False
-        Me.txtBanco.Location = New System.Drawing.Point(-123, 92)
-        Me.txtBanco.MaxLength = 3
-        Me.txtBanco.Name = "txtBanco"
-        Me.txtBanco.Size = New System.Drawing.Size(120, 20)
-        Me.txtBanco.TabIndex = 20
-        Me.txtBanco.Tag = "requerido"
-        '
-        'Label5
-        '
-        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(14, 76)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(60, 13)
-        Me.Label5.TabIndex = 17
-        Me.Label5.Text = "Sigla IATA:"
-        '
-        'chkAtivo
-        '
-        Me.chkAtivo.AutoSize = True
-        Me.chkAtivo.Enabled = False
-        Me.chkAtivo.Location = New System.Drawing.Point(486, 95)
-        Me.chkAtivo.Name = "chkAtivo"
-        Me.chkAtivo.Size = New System.Drawing.Size(50, 17)
-        Me.chkAtivo.TabIndex = 15
-        Me.chkAtivo.Text = "Ativo"
-        Me.chkAtivo.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(-126, 72)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(56, 13)
-        Me.Label4.TabIndex = 14
-        Me.Label4.Text = "Nº Banco:"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(14, 27)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(60, 13)
-        Me.Label3.TabIndex = 3
-        Me.Label3.Text = "Cód. Porto:"
-        '
-        'txtCodigo
-        '
-        Me.txtCodigo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCodigo.Enabled = False
-        Me.txtCodigo.Location = New System.Drawing.Point(17, 45)
-        Me.txtCodigo.MaxLength = 50
-        Me.txtCodigo.Name = "txtCodigo"
-        Me.txtCodigo.Size = New System.Drawing.Size(85, 20)
-        Me.txtCodigo.TabIndex = 0
-        Me.txtCodigo.Tag = "requerido"
-        '
         'ID_PORTO
         '
         Me.ID_PORTO.DataPropertyName = "ID_PORTO"
@@ -522,6 +312,186 @@ Partial Class FrmPortos
         Me.FL_ATIVO.Name = "FL_ATIVO"
         Me.FL_ATIVO.ReadOnly = True
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label8)
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me.cbCidade)
+        Me.GroupBox1.Controls.Add(Me.cbTransporte)
+        Me.GroupBox1.Controls.Add(Me.txtCodSigla)
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Controls.Add(Me.txtNome)
+        Me.GroupBox1.Controls.Add(Me.txtSiglaIATA)
+        Me.GroupBox1.Controls.Add(Me.Label7)
+        Me.GroupBox1.Controls.Add(Me.Label5)
+        Me.GroupBox1.Controls.Add(Me.chkAtivo)
+        Me.GroupBox1.Controls.Add(Me.Label4)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.txtCodigo)
+        Me.GroupBox1.Location = New System.Drawing.Point(12, 12)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(623, 132)
+        Me.GroupBox1.TabIndex = 89
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Detalhes:"
+        '
+        'Label8
+        '
+        Me.Label8.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(483, 28)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(43, 13)
+        Me.Label8.TabIndex = 33
+        Me.Label8.Text = "Cidade:"
+        '
+        'Label6
+        '
+        Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(232, 75)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(79, 13)
+        Me.Label6.TabIndex = 32
+        Me.Label6.Text = "Via Transporte:"
+        '
+        'cbCidade
+        '
+        Me.cbCidade.DisplayMember = "NM_CIDADE"
+        Me.cbCidade.Enabled = False
+        Me.cbCidade.FormattingEnabled = True
+        Me.cbCidade.Location = New System.Drawing.Point(486, 44)
+        Me.cbCidade.Name = "cbCidade"
+        Me.cbCidade.Size = New System.Drawing.Size(121, 21)
+        Me.cbCidade.TabIndex = 31
+        Me.cbCidade.ValueMember = "ID_CIDADE"
+        '
+        'cbTransporte
+        '
+        Me.cbTransporte.DisplayMember = "NM_VIATRANSPORTE"
+        Me.cbTransporte.Enabled = False
+        Me.cbTransporte.FormattingEnabled = True
+        Me.cbTransporte.Location = New System.Drawing.Point(235, 91)
+        Me.cbTransporte.Name = "cbTransporte"
+        Me.cbTransporte.Size = New System.Drawing.Size(228, 21)
+        Me.cbTransporte.TabIndex = 30
+        Me.cbTransporte.Tag = "requerido"
+        Me.cbTransporte.ValueMember = "ID_VIATRANSPORTE"
+        '
+        'txtCodSigla
+        '
+        Me.txtCodSigla.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCodSigla.Enabled = False
+        Me.txtCodSigla.Location = New System.Drawing.Point(125, 92)
+        Me.txtCodSigla.MaxLength = 50
+        Me.txtCodSigla.Name = "txtCodSigla"
+        Me.txtCodSigla.Size = New System.Drawing.Size(85, 20)
+        Me.txtCodSigla.TabIndex = 29
+        Me.txtCodSigla.Tag = "requerido"
+        '
+        'Label2
+        '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(122, 76)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(58, 13)
+        Me.Label2.TabIndex = 28
+        Me.Label2.Text = "Cód. Sigla:"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(122, 27)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(66, 13)
+        Me.Label1.TabIndex = 27
+        Me.Label1.Text = "Nome Porto:"
+        '
+        'txtNome
+        '
+        Me.txtNome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtNome.Enabled = False
+        Me.txtNome.Location = New System.Drawing.Point(125, 45)
+        Me.txtNome.MaxLength = 50
+        Me.txtNome.Name = "txtNome"
+        Me.txtNome.Size = New System.Drawing.Size(338, 20)
+        Me.txtNome.TabIndex = 26
+        Me.txtNome.Tag = "requerido"
+        '
+        'txtSiglaIATA
+        '
+        Me.txtSiglaIATA.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtSiglaIATA.Enabled = False
+        Me.txtSiglaIATA.Location = New System.Drawing.Point(17, 92)
+        Me.txtSiglaIATA.MaxLength = 50
+        Me.txtSiglaIATA.Name = "txtSiglaIATA"
+        Me.txtSiglaIATA.Size = New System.Drawing.Size(85, 20)
+        Me.txtSiglaIATA.TabIndex = 25
+        Me.txtSiglaIATA.Tag = "requerido"
+        '
+        'Label7
+        '
+        Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(-126, 121)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(49, 13)
+        Me.Label7.TabIndex = 24
+        Me.Label7.Text = "Agência:"
+        '
+        'Label5
+        '
+        Me.Label5.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(14, 76)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(60, 13)
+        Me.Label5.TabIndex = 17
+        Me.Label5.Text = "Sigla IATA:"
+        '
+        'chkAtivo
+        '
+        Me.chkAtivo.AutoSize = True
+        Me.chkAtivo.Enabled = False
+        Me.chkAtivo.Location = New System.Drawing.Point(486, 95)
+        Me.chkAtivo.Name = "chkAtivo"
+        Me.chkAtivo.Size = New System.Drawing.Size(50, 17)
+        Me.chkAtivo.TabIndex = 15
+        Me.chkAtivo.Text = "Ativo"
+        Me.chkAtivo.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(-126, 72)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(56, 13)
+        Me.Label4.TabIndex = 14
+        Me.Label4.Text = "Nº Banco:"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(14, 27)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(60, 13)
+        Me.Label3.TabIndex = 3
+        Me.Label3.Text = "Cód. Porto:"
+        '
+        'txtCodigo
+        '
+        Me.txtCodigo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCodigo.Enabled = False
+        Me.txtCodigo.Location = New System.Drawing.Point(17, 45)
+        Me.txtCodigo.MaxLength = 50
+        Me.txtCodigo.Name = "txtCodigo"
+        Me.txtCodigo.Size = New System.Drawing.Size(85, 20)
+        Me.txtCodigo.TabIndex = 0
+        Me.txtCodigo.Tag = "requerido"
+        '
         'FrmPortos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -538,7 +508,7 @@ Partial Class FrmPortos
         Me.Controls.Add(Me.dgvConsulta)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FrmPortos"
-        Me.Text = "FrmPortos"
+        Me.Text = "Portos"
         Me.pnControles.ResumeLayout(False)
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -566,8 +536,6 @@ Partial Class FrmPortos
     Friend WithEvents txtNome As TextBox
     Friend WithEvents txtSiglaIATA As TextBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents txtAgencia As TextBox
-    Friend WithEvents txtBanco As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents chkAtivo As CheckBox
     Friend WithEvents Label4 As Label

@@ -90,19 +90,20 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
 
 
             dgvTaxas.DataBind()
-            divgrid.Visible = True
+            ' divgrid.Visible = True
 
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_ALIQUOTA_ISS,3)VL_ALIQUOTA_ISS FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
+            Dim ds As DataSet = Con.ExecutarQuery("select convert(decimal(18,2),ISNULL(VL_ALIQUOTA_ISS,0))VL_ALIQUOTA_ISS FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ddlFornecedor.SelectedValue)
             If ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS") > 0 Then
                 lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
+                lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
+                lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
             Else
                 lbl_ISS.Text = 3
             End If
-            lbl_ISS.Text = lbl_ISS.Text.Replace(".", "")
-            lbl_ISS.Text = lbl_ISS.Text.Replace(",", ".")
+
         Else
             lblErro.Text = "É necessário informar o fornecedor e data de vencimento"
             divErro.Visible = True
@@ -114,17 +115,35 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim valor As Decimal = CType(linha.FindControl("lblValor"), Label).Text
-            Dim valor2 As Decimal = txtValor.Text
+            Dim valor As Double = CType(linha.FindControl("lblValor"), Label).Text
+            Dim valor2 As Double = txtValor.Text
             Dim checkISS As CheckBox = linha.FindControl("ckbISS")
             If check.Checked Then
+                'If checkISS.Checked Then
+                '    Dim iss As Double = valor / 100
+                '    iss = iss * lbl_ISS.Text
+
+
+                '    valor = valor - iss
+
+                '    valor = valor * 100
+                '    valor = Math.Truncate(valor)
+                '    valor = valor / 100
+                'End If
+
+                'txtValor.Text = valor2 + valor
+                'txtValor.Text = FormatNumber(txtValor.Text, 2)
+
                 If checkISS.Checked Then
-                    Dim iss As Decimal = (valor / 100) * lbl_ISS.Text
+                    Dim iss As Decimal = valor / 100
+                    iss = iss * lbl_ISS.Text
                     valor = valor - iss
 
                 End If
 
                 txtValor.Text = valor2 + valor
+                txtValor.Text = FormatCurrency(txtValor.Text)
+
             End If
         Next
 
@@ -192,7 +211,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             txtVencimento.Text = ""
             dgvTaxas.DataBind()
 
-
+            'Dim finaliza As New FinalizaCotacao
+            'finaliza.Finalizar()
         End If
 
     End Sub

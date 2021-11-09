@@ -32,8 +32,8 @@
 
                 <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
-                            <ContentTemplate>
+                       <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                            <ContentTemplate>--%>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
                                     <asp:Label ID="lblmsgSuccess" runat="server"></asp:Label>
@@ -74,7 +74,7 @@
                                      </div>
                                                                  </div>
                                                                  <div class="col-sm-2">  
-                      <div class="linha-colorida">Data de Emissao NF</div>
+                      <div class="linha-colorida">Data de Emissao ND</div>
                                 <div class="col-sm-6">
                                      <div class="form-group">
                                         <label class="control-label">De:</label>
@@ -92,7 +92,7 @@
                                                                                                                                                                                  
                                
                                                              
-                                                                <div class="col-sm-2"><div class="linha-colorida">Cliente</div><br />
+                                                                <div class="col-sm-3"><div class="linha-colorida">Cliente</div><br />
                                      <div class="form-group"> 
                               <asp:DropDownList ID="ddlCliente" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_PARCEIRO_CLIENTE" DataTextField="NM_CLIENTE" DataSourceID="dsClientes">
                                                 </asp:DropDownList>
@@ -100,12 +100,12 @@
                                      </div>
                                               <div class="col-sm-2"><div class="linha-colorida">Banco</div><br />
                                      <div class="form-group"> 
-                              <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="Codigo" DataTextField="COD_BANCO" DataSourceID="dsBanco">
+                              <asp:DropDownList ID="ddlBanco" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTA_BANCARIA" DataSourceID="dsBanco" DataValueField="NR_BANCO">                                 
                                                 </asp:DropDownList>
                            </div>
                                      </div>
                                          
-                       <div class="col-sm-2">
+                       <div class="col-sm-1">
                            <div style="color:white">x</div><br />
                            <div class="form-group">
                                <asp:Button runat="server" Text="Pesquisar" ID="btnPesquisar" CssClass="btn btn-success" />
@@ -136,7 +136,7 @@
                                                                       <br />
 
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." Visible="false" allowpaging="true" PageSize="100">
+                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." allowpaging="true" PageSize="100">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
@@ -145,7 +145,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField >
                                                 <ItemTemplate>
-                                                    <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
+                                                    <asp:CheckBox ID="ckSelecionar" runat="server"></asp:CheckBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="Vencimento" SortExpression="DT_VENCIMENTO" />
@@ -155,14 +155,6 @@
                                             <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
                                             <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
                                             <asp:BoundField DataField="VL_BOLETO" HeaderText="Valor do Boleto" SortExpression="VL_BOLETO" />
-
-                                            <asp:TemplateField HeaderText="" Visible="false">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
-                                                </ItemTemplate>
-                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                            </asp:TemplateField>
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
@@ -174,19 +166,19 @@
                                 <div class="col-sm-2">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Enviar Remessa" ID="btnEnviarRemessa" CssClass="btn btn-success" />
+                                            <asp:Button runat="server" Text="Gerar Remessa" ID="btnEnviarRemessa" CssClass="btn btn-success" />
                                         </div>
                                     </div>
                                 </div>
                                 </div>
 
-                            </ContentTemplate>
+                          <%--  </ContentTemplate>
                             <Triggers>
-                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvFaturamento" />
-                                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
-                                <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
+                                <asp:PostBackTrigger ControlID="btnPesquisar" />
+                                  <asp:PostBackTrigger ControlID="btnEnviarRemessa" />                                         
+
                             </Triggers>
-                        </asp:UpdatePanel>
+                        </asp:UpdatePanel>--%>
                     </div>
 
                 </div>
@@ -196,16 +188,13 @@
         </div>
 
     </div>
-    <asp:TextBox ID="txtResultado" runat="server" Style="display: none" CssClass="form-control"></asp:TextBox>
-    <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT * FROM [dbo].[View_Boletos_Remessa] ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
-
+        SelectCommand="SELECT * FROM [dbo].[View_Faturamento] WHERE NOSSONUMERO IS NOT NULL AND FL_ENVIADO_REM = 0 AND COD_BANCO = 0 ORDER BY DT_VENCIMENTO,NR_PROCESSO"></asp:SqlDataSource>
     <asp:SqlDataSource ID="dsBanco" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT DISTINCT COD_BANCO Codigo, COD_BANCO FROM TB_FATURAMENTO WHERE COD_BANCO IS NOT NULL union SELECT  0, ' Selecione' ORDER BY COD_BANCO"></asp:SqlDataSource>
-
+        SelectCommand="SELECT NR_BANCO,NM_CONTA_BANCARIA FROM TB_CONTA_BANCARIA
+union SELECT  '0', ' Selecione' ORDER BY NR_BANCO"></asp:SqlDataSource>
      <asp:SqlDataSource ID="dsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT DISTINCT ID_PARCEIRO_CLIENTE, NM_CLIENTE FROM TB_FATURAMENTO WHERE NM_CLIENTE IS NOT NULL union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE"></asp:SqlDataSource>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">   
 </asp:Content>

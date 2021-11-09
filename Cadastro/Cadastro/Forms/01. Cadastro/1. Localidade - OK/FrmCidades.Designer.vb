@@ -24,7 +24,7 @@ Partial Class FrmCidades
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCidades))
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.pbCarregando = New System.Windows.Forms.PictureBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
@@ -41,6 +41,7 @@ Partial Class FrmCidades
         Me.btnExcluir = New System.Windows.Forms.Button()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtIBGE = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.cbPais = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -52,7 +53,6 @@ Partial Class FrmCidades
         Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.btnSair = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel2.SuspendLayout()
         CType(Me.pbCarregando, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
@@ -238,8 +238,8 @@ Partial Class FrmCidades
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsulta.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -294,12 +294,21 @@ Partial Class FrmCidades
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtIBGE.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtIBGE.Enabled = False
-        Me.txtIBGE.Location = New System.Drawing.Point(350, 52)
+        Me.txtIBGE.Location = New System.Drawing.Point(300, 52)
         Me.txtIBGE.MaxLength = 30
         Me.txtIBGE.Name = "txtIBGE"
         Me.txtIBGE.Size = New System.Drawing.Size(110, 23)
         Me.txtIBGE.TabIndex = 5
         Me.txtIBGE.Tag = "requerido"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(297, 34)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(39, 16)
+        Me.Label5.TabIndex = 12
+        Me.Label5.Text = "IBGE:"
         '
         'Label2
         '
@@ -323,13 +332,13 @@ Partial Class FrmCidades
         Me.cbPais.Size = New System.Drawing.Size(137, 24)
         Me.cbPais.TabIndex = 9
         Me.cbPais.Tag = "requerido"
-        Me.cbPais.ValueMember = "SIGLA"
+        Me.cbPais.ValueMember = "ID_PAIS"
         '
         'Label1
         '
         Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(471, 32)
+        Me.Label1.Location = New System.Drawing.Point(417, 32)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(28, 16)
         Me.Label1.TabIndex = 8
@@ -342,12 +351,12 @@ Partial Class FrmCidades
         Me.cbUF.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbUF.Enabled = False
         Me.cbUF.FormattingEnabled = True
-        Me.cbUF.Location = New System.Drawing.Point(475, 51)
+        Me.cbUF.Location = New System.Drawing.Point(416, 51)
         Me.cbUF.Name = "cbUF"
-        Me.cbUF.Size = New System.Drawing.Size(56, 24)
+        Me.cbUF.Size = New System.Drawing.Size(124, 24)
         Me.cbUF.TabIndex = 7
         Me.cbUF.Tag = "requerido"
-        Me.cbUF.ValueMember = "SIGLA"
+        Me.cbUF.ValueMember = "ID_ESTADO"
         '
         'Label3
         '
@@ -367,7 +376,7 @@ Partial Class FrmCidades
         Me.txtCidade.Location = New System.Drawing.Point(20, 52)
         Me.txtCidade.MaxLength = 30
         Me.txtCidade.Name = "txtCidade"
-        Me.txtCidade.Size = New System.Drawing.Size(313, 23)
+        Me.txtCidade.Size = New System.Drawing.Size(274, 23)
         Me.txtCidade.TabIndex = 0
         Me.txtCidade.Tag = "requerido"
         '
@@ -424,15 +433,6 @@ Partial Class FrmCidades
         Me.btnSair.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
         Me.ToolTip1.SetToolTip(Me.btnSair, "Fechar o formulário.")
         Me.btnSair.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(347, 34)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(39, 16)
-        Me.Label5.TabIndex = 12
-        Me.Label5.Text = "IBGE:"
         '
         'FrmCidades
         '

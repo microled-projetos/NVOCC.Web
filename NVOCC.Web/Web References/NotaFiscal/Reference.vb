@@ -172,22 +172,22 @@ Namespace NotaFiscal
         
         '''<remarks/>
         <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SubstituiNFePrefeitura", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String) As String
-            Dim results() As Object = Me.Invoke("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino})
+        Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal id_faturamento As String) As String
+            Dim results() As Object = Me.Invoke("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino, id_faturamento})
             Return CType(results(0),String)
         End Function
         
         '''<remarks/>
-        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String)
-            Me.SubstituiNFePrefeituraAsync(RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino, Nothing)
+        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal id_faturamento As String)
+            Me.SubstituiNFePrefeituraAsync(RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino, id_faturamento, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal userState As Object)
+        Public Overloads Sub SubstituiNFePrefeituraAsync(ByVal RpsOld As String, ByVal RpsNew As String, ByVal CodEmpresa As String, ByVal BancoDestino As String, ByVal StringConexaoDestino As String, ByVal id_faturamento As String, ByVal userState As Object)
             If (Me.SubstituiNFePrefeituraOperationCompleted Is Nothing) Then
                 Me.SubstituiNFePrefeituraOperationCompleted = AddressOf Me.OnSubstituiNFePrefeituraOperationCompleted
             End If
-            Me.InvokeAsync("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino}, Me.SubstituiNFePrefeituraOperationCompleted, userState)
+            Me.InvokeAsync("SubstituiNFePrefeitura", New Object() {RpsOld, RpsNew, CodEmpresa, BancoDestino, StringConexaoDestino, id_faturamento}, Me.SubstituiNFePrefeituraOperationCompleted, userState)
         End Sub
         
         Private Sub OnSubstituiNFePrefeituraOperationCompleted(ByVal arg As Object)

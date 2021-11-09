@@ -6,7 +6,7 @@ Public Class FrmPortos
 
     Private Coluna As Integer
     Private Sub Consultar()
-        Me.dgvConsulta.DataSource = Banco.List("SELECT ID_PORTO,CD_PORTO,NM_PORTO,A.ID_CIDADE,B.NM_CIDADE,SIGLA_IATA,CD_SIGLA,A.ID_VIATRANSPORTE,C.NM_VIATRANSPORTE,FL_ATIVO FROM TB_PORTO A left join TB_CIDADE B ON B.ID_CIDADE = A.ID_CIDADE left join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE")
+        Me.dgvConsulta.DataSource = Banco.List("SELECT ID_PORTO,CD_PORTO,NM_PORTO,isnull(A.ID_CIDADE,0)ID_CIDADE,B.NM_CIDADE,SIGLA_IATA,CD_SIGLA,A.ID_VIATRANSPORTE,C.NM_VIATRANSPORTE,FL_ATIVO FROM TB_PORTO A left join TB_CIDADE B ON B.ID_CIDADE = A.ID_CIDADE left join TB_VIATRANSPORTE C ON C.ID_VIATRANSPORTE = A.ID_VIATRANSPORTE")
     End Sub
     Private Sub ConsultarCidade()
         cbCidade.DataSource = Banco.List("SELECT ID_CIDADE,NM_CIDADE FROM TB_CIDADE")
@@ -48,11 +48,82 @@ Public Class FrmPortos
     End Sub
 
     Private Sub btnExcluir_Click(sender As Object, e As EventArgs) Handles btnExcluir.Click
-
+        If Not String.IsNullOrEmpty(txtID.Text) AndAlso MessageBox.Show("Deseja realmente excluir o registro selecionado?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes AndAlso Banco.Execute("DELETE FROM TB_PORTO WHERE ID_PORTO = " + txtID.Text) Then
+            Consultar()
+            Dim Tela As Control = Me
+            Geral.LimparCampos(Tela)
+        End If
     End Sub
 
     Private Sub btnSalvar_Click(sender As Object, e As EventArgs) Handles btnSalvar.Click
+        Dim Ds As DataTable = New DataTable()
+        Dim Tela As Control = Me
+        Dim Cidade As String
+        If Not Geral.ValidarCampos(Tela) Then
+            Return
+        End If
+        If Operators.CompareString(txtID.Text, String.Empty, TextCompare:=False) = 0 Then
+            Ds = Banco.List("SELECT ID_PORTO FROM [TB_PORTO] where NM_PORTO = '" & txtNome.Text & "' and CD_PORTO ='" & txtCodigo.Text & "'")
 
+            If Ds.Rows.Count > 0 Then
+                MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+
+                Try
+
+                    If cbCidade.SelectedValue = 0 Then
+                        Cidade = 0
+                    Else
+                        Cidade = cbCidade.SelectedValue
+                    End If
+
+                    If Banco.Execute("INSERT INTO TB_PORTO (CD_PORTO,NM_PORTO,ID_CIDADE,SIGLA_IATA,CD_SIGLA,ID_VIATRANSPORTE,FL_ATIVO) VALUES ('" & txtCodigo.Text & "','" & txtNome.Text & "'," & Cidade & ",'" & txtSiglaIATA.Text & "','" & txtCodSigla.Text & "'," & cbTransporte.SelectedValue & ",'" & Conversions.ToString(chkAtivo.Checked) & "')") Then
+                        Consultar()
+                        Geral.Mensagens(Me, 1)
+                    Else
+                        Geral.Mensagens(Me, 4)
+                    End If
+
+                Catch ex3 As Exception
+                    ProjectData.SetProjectError(ex3)
+                    Dim ex2 As Exception = ex3
+                    Geral.Mensagens(Me, 4)
+                    ProjectData.ClearProjectError()
+                End Try
+            End If
+        Else
+            Ds = Banco.List("SELECT ID_PORTO FROM [TB_PORTO] where NM_PORTO = '" & txtNome.Text & "' and CD_PORTO ='" & txtCodigo.Text & "' and FL_ATIVO = 1 AND ID_PORTO <> " & txtID.Text)
+
+            If Ds.Rows.Count > 0 Then
+                MessageBox.Show("Este registro já existe!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Else
+
+                Try
+
+                    If cbCidade.SelectedValue = 0 Then
+                        Cidade = 0
+                    Else
+                        Cidade = cbCidade.SelectedValue
+                    End If
+                    If Banco.Execute("UPDATE TB_PORTO SET CD_PORTO = '" & txtCodigo.Text & "', NM_PORTO = '" & txtNome.Text & "',SIGLA_IATA = '" & txtSiglaIATA.Text & "', FL_ATIVO = '" & Conversions.ToString(chkAtivo.Checked) & "' ,CD_SIGLA = '" & txtCodSigla.Text & "',ID_VIATRANSPORTE = " & cbTransporte.SelectedValue & ",ID_CIDADE = " & Cidade & " WHERE ID_PORTO = " & txtID.Text) Then
+                        Consultar()
+                        Geral.Mensagens(Me, 2)
+                    Else
+                        Geral.Mensagens(Me, 5)
+                    End If
+
+                Catch ex4 As Exception
+                    ProjectData.SetProjectError(ex4)
+                    Dim ex As Exception = ex4
+                    Geral.Mensagens(Me, 5)
+                    ProjectData.ClearProjectError()
+                End Try
+            End If
+        End If
+        LimparCampos(Me)
+        SetaControles()
+        Tela = Me
+        Geral.HabilitarCampos(Tela, Habilita:=False)
     End Sub
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
@@ -81,7 +152,6 @@ Public Class FrmPortos
             dgvConsulta.CurrentCell = dgvConsulta.Rows(0).Cells(0)
             MostraDados()
         End If
-
     End Sub
 
     Private Sub btnProximo_Click(sender As System.Object, e As System.EventArgs) Handles btnProximo.Click
@@ -149,5 +219,16 @@ Public Class FrmPortos
             End If
         End If
     End Sub
+
+    Private Sub FrmPortos_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Me.Close()
+        End If
+    End Sub
+
+    Private Sub FrmPortos_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+        Me.Dispose()
+    End Sub
+
 
 End Class

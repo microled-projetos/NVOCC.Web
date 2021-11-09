@@ -23,7 +23,7 @@ Partial Class FrmContaFinanceiro
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmContaFinanceiro))
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
         Me.btnExcluir = New System.Windows.Forms.Button()
@@ -221,8 +221,8 @@ Partial Class FrmContaFinanceiro
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle4.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID_CONTA_BANCARIA, Me.NM_CONTA_BANCARIA, Me.ID_TIPO_CONTA_BANCARIA, Me.NM_TIPO_CONTA_BANCARIA, Me.NR_BANCO, Me.NR_AGENCIA, Me.DG_AGENCIA, Me.NR_CONTA, Me.FL_ATIVO})
@@ -480,7 +480,7 @@ Partial Class FrmContaFinanceiro
         Me.Controls.Add(Me.dgvConsulta)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FrmContaFinanceiro"
-        Me.Text = "FrmContaFinanceiro"
+        Me.Text = "Contas - Financeiro"
         Me.pnControles.ResumeLayout(False)
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)

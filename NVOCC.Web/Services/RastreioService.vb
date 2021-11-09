@@ -20,7 +20,7 @@ Public Class RastreioService
             .DefaultRequestHeaders.Add("x-api-key", "7b86d436a5d89ac4c8be11553b432bad")
         End With
 
-        jsonString = "{
+        jsonString = "{            
             ""bl_number"": """ & blNumber & """,
             ""reference"": ANVB """",
             ""consignee_cnpj"": """ & cnpjConsignatario & """,
@@ -29,7 +29,7 @@ Public Class RastreioService
             }
             }"
         Dim content As New StringContent(jsonString, Encoding.UTF8, "application/json")
-        Dim response As HttpResponseMessage = Await client.PostAsync("", content)
+            Dim response As HttpResponseMessage = Await client.PostAsync("", content)
 
         Dim result As String = Await response.Content.ReadAsStringAsync()
 
@@ -64,6 +64,7 @@ Public Class RastreioService
         request.AddJsonBody(Jstr)
 
         Dim response = rest.Execute(request)
+
 
         Dim Content = response.Content
 

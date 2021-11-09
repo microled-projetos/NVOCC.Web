@@ -1,12 +1,8 @@
 ﻿Imports System.Xml
-Imports System.Xml.Schema
-Imports System.Security.Cryptography.Xml
-Imports System.IO
-Imports System.Security.Cryptography
-Imports System.Security.Cryptography.X509Certificates
 Imports System.Net
 Imports System.Web.Services
 Imports System.ComponentModel
+Imports Oracle.ManagedDataAccess.Client
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -113,10 +109,44 @@ Public Class WsNvocc
 
 
     <WebMethod()>
-    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String) As String
+    Public Function SubstituiNFePrefeitura(ByVal RpsOld As String, ByVal RpsNew As String, CodEmpresa As String, BancoDestino As String, StringConexaoDestino As String, id_faturamento As String) As String
+        Call montaLoteRPSSUB(RpsOld, RpsNew, id_faturamento)
 
-        Return "00000000RPS NAO ENCONTRADA NO BANCO DE DADOS"
     End Function
+    <WebMethod()> Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
+        Dim Sql As String
+        Dim Retorno_Sql As String
+        Dim Lote As String
+        Dim Comando_Proc As New OracleCommand()
+        Dim ConOracle As New Conexao_oracle
+        ConOracle.Conectar()
+
+        Sql = "SELECT nvl(max(Autonum),0) lote FROM sgipa.tb_bl Where numero='" & Bl & "' and flag_ativo=1 and ultima_saida is null "
+        Dim rsNumero As DataTable = ConOracle.Consultar(Sql)
+        Lote = rsNumero.Rows(0)("lote").ToString
+
+        If Lote <> "0" Then
+
+            Comando_Proc.Connection = ConOracle.Con_ORA
+            Comando_Proc.CommandType = CommandType.StoredProcedure
+            Comando_Proc.CommandText = "PROC_CHRONOS_BLOQUEIO"
+            Comando_Proc.Parameters.Add("@ID_LOTE", SqlDbType.BigInt).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@ID_LOTE").Value = Lote
+            Comando_Proc.Parameters.Add("@V_Motivo", SqlDbType.VarChar).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@V_Motivo").Value = "38"
+            Comando_Proc.Parameters.Add("@ACAO", SqlDbType.VarChar).Direction = ParameterDirection.Input
+            Comando_Proc.Parameters("@ACAO").Value = Acao
+            Comando_Proc.Parameters.Add("@Errocode", SqlDbType.VarChar).Direction = ParameterDirection.Output
+            Comando_Proc.Parameters("@Errocode").Size = 32660
+            Comando_Proc.ExecuteNonQuery()
+            Retorno_Sql = Comando_Proc.Parameters("@Errocode").Value
+            Comando_Proc = Nothing
+            Return Retorno_Sql
+        Else
+            Return "Bl não localizado"
+        End If
+    End Function
+
     Public Sub montaLoteRPS(ByVal IDFatura As Long, Optional ByVal Reprocessamento As Boolean = False, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()
@@ -133,7 +163,7 @@ Public Class WsNvocc
 
             Else
 
-                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE = 0 AND IDFATURA = " & IDFatura
+                sSql = "SELECT * FROM VW_FILA_LOTE_RPS WHERE STATUS_NFE IN (0,4) AND IDFATURA = " & IDFatura
             End If
             rsRPSs = Con.ExecutarQuery(sSql)
             If rsRPSs.Tables(0).Rows.Count <= 0 Then
@@ -147,13 +177,19 @@ Public Class WsNvocc
 
 
             Dim loteNumero As Long
-            'loteNumero = IDFatura 'chamar ws aqui
 
-            Dim ConOracle As New Conexao_oracle
-            ConOracle.Conectar()
-            sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
-            Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
-            loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            If Reprocessamento Then
+                sSql = "SELECT NR_LOTE FROM VW_FILA_LOTE_RPS WHERE IDFATURA =" & IDFatura
+                Dim rsNumero As DataSet = Con.ExecutarQuery(sSql)
+                loteNumero = rsNumero.Tables(0).Rows(0)("NR_LOTE").ToString
+            Else
+
+                Dim ConOracle As New Conexao_oracle
+                ConOracle.Conectar()
+                sSql = "SELECT SEQ_LOTE_NFSE.NEXTVAL FROM DUAL "
+                Dim rsNumero As DataTable = ConOracle.Consultar(sSql)
+                loteNumero = rsNumero.Rows(0)("NEXTVAL").ToString
+            End If
 
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
@@ -521,7 +557,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dfinal As String
 
-                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & FATURA & " | Processo: " & PROCESSO & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
 
                 dDescr &= "SENDO: "
                 dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
@@ -659,7 +695,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
             If Funcoes.NNull(rsRPS.Rows(0)("UF_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("Uf", NFeNamespacte)
-
                 noText = doc.CreateTextNode(rsRPS.Rows(0)("UF_CLI").ToString)
                 No.AppendChild(noText)
                 noEnderecoTom.AppendChild(No)
@@ -938,7 +973,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     GRAVARLOG(loteNumero, "DEU CERTO")
 
                 Catch ex As Exception
-                    GRAVARLOG(loteNumero, ex.Message)
                     Err.Clear()
 
                     Try
@@ -947,13 +981,14 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                         retCodErro = uri(0)("ns4:Codigo").InnerText
                         If retCodErro = "A02" Then
+                            GRAVARLOG(loteNumero, "A02")
                             GoTo saida
                         End If
 
                         If retCodErro = "E4" Then
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
-
+                            GRAVARLOG(loteNumero, "E4")
                             GoTo saida
                         End If
                         GRAVARLOG(loteNumero, retCodErro)

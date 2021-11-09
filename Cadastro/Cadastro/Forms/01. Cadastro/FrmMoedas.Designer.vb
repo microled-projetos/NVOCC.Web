@@ -23,7 +23,7 @@ Partial Class FrmMoedas
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMoedas))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnNovo = New System.Windows.Forms.Button()
         Me.btnExcluir = New System.Windows.Forms.Button()
@@ -37,23 +37,21 @@ Partial Class FrmMoedas
         Me.btnAnterior = New System.Windows.Forms.Button()
         Me.btnPrimeiro = New System.Windows.Forms.Button()
         Me.dgvConsulta = New System.Windows.Forms.DataGridView()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.txtAgencia = New System.Windows.Forms.TextBox()
-        Me.txtBanco = New System.Windows.Forms.TextBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.chkAtivo = New System.Windows.Forms.CheckBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtCodigo = New System.Windows.Forms.TextBox()
-        Me.txtSigla = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtNome = New System.Windows.Forms.TextBox()
         Me.ID_MOEDA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.CD_MOEDA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.NM_MOEDA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.SIGLA_MOEDA = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.FL_ATIVO = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtNome = New System.Windows.Forms.TextBox()
+        Me.txtSigla = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.chkAtivo = New System.Windows.Forms.CheckBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtCodigo = New System.Windows.Forms.TextBox()
         Me.pnControles.SuspendLayout()
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
@@ -215,8 +213,8 @@ Partial Class FrmMoedas
         '
         Me.dgvConsulta.AllowUserToAddRows = False
         Me.dgvConsulta.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.BackColor = System.Drawing.Color.AliceBlue
-        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.AliceBlue
+        Me.dgvConsulta.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle2
         Me.dgvConsulta.BackgroundColor = System.Drawing.Color.White
         Me.dgvConsulta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvConsulta.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ID_MOEDA, Me.CD_MOEDA, Me.NM_MOEDA, Me.SIGLA_MOEDA, Me.FL_ATIVO})
@@ -229,14 +227,48 @@ Partial Class FrmMoedas
         Me.dgvConsulta.Size = New System.Drawing.Size(623, 228)
         Me.dgvConsulta.TabIndex = 80
         '
+        'ID_MOEDA
+        '
+        Me.ID_MOEDA.DataPropertyName = "ID_MOEDA"
+        Me.ID_MOEDA.HeaderText = "ID"
+        Me.ID_MOEDA.Name = "ID_MOEDA"
+        Me.ID_MOEDA.ReadOnly = True
+        '
+        'CD_MOEDA
+        '
+        Me.CD_MOEDA.DataPropertyName = "CD_MOEDA"
+        Me.CD_MOEDA.HeaderText = "Código"
+        Me.CD_MOEDA.Name = "CD_MOEDA"
+        Me.CD_MOEDA.ReadOnly = True
+        '
+        'NM_MOEDA
+        '
+        Me.NM_MOEDA.DataPropertyName = "NM_MOEDA"
+        Me.NM_MOEDA.HeaderText = "Descrição"
+        Me.NM_MOEDA.Name = "NM_MOEDA"
+        Me.NM_MOEDA.ReadOnly = True
+        Me.NM_MOEDA.Width = 200
+        '
+        'SIGLA_MOEDA
+        '
+        Me.SIGLA_MOEDA.DataPropertyName = "SIGLA_MOEDA"
+        Me.SIGLA_MOEDA.HeaderText = "Sigla"
+        Me.SIGLA_MOEDA.Name = "SIGLA_MOEDA"
+        Me.SIGLA_MOEDA.ReadOnly = True
+        '
+        'FL_ATIVO
+        '
+        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
+        Me.FL_ATIVO.HeaderText = "Ativo"
+        Me.FL_ATIVO.Name = "FL_ATIVO"
+        Me.FL_ATIVO.ReadOnly = True
+        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Controls.Add(Me.txtNome)
         Me.GroupBox1.Controls.Add(Me.txtSigla)
         Me.GroupBox1.Controls.Add(Me.Label7)
-        Me.GroupBox1.Controls.Add(Me.txtAgencia)
-        Me.GroupBox1.Controls.Add(Me.txtBanco)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.chkAtivo)
         Me.GroupBox1.Controls.Add(Me.Label4)
@@ -249,6 +281,37 @@ Partial Class FrmMoedas
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Detalhes:"
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(122, 27)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(58, 13)
+        Me.Label1.TabIndex = 27
+        Me.Label1.Text = "Descrição:"
+        '
+        'txtNome
+        '
+        Me.txtNome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtNome.Enabled = False
+        Me.txtNome.Location = New System.Drawing.Point(125, 45)
+        Me.txtNome.MaxLength = 50
+        Me.txtNome.Name = "txtNome"
+        Me.txtNome.Size = New System.Drawing.Size(355, 20)
+        Me.txtNome.TabIndex = 26
+        Me.txtNome.Tag = "requerido"
+        '
+        'txtSigla
+        '
+        Me.txtSigla.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtSigla.Enabled = False
+        Me.txtSigla.Location = New System.Drawing.Point(17, 92)
+        Me.txtSigla.MaxLength = 50
+        Me.txtSigla.Name = "txtSigla"
+        Me.txtSigla.Size = New System.Drawing.Size(85, 20)
+        Me.txtSigla.TabIndex = 25
+        Me.txtSigla.Tag = "requerido"
+        '
         'Label7
         '
         Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -258,30 +321,6 @@ Partial Class FrmMoedas
         Me.Label7.Size = New System.Drawing.Size(49, 13)
         Me.Label7.TabIndex = 24
         Me.Label7.Text = "Agência:"
-        '
-        'txtAgencia
-        '
-        Me.txtAgencia.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtAgencia.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtAgencia.Enabled = False
-        Me.txtAgencia.Location = New System.Drawing.Point(-123, 141)
-        Me.txtAgencia.MaxLength = 3
-        Me.txtAgencia.Name = "txtAgencia"
-        Me.txtAgencia.Size = New System.Drawing.Size(120, 20)
-        Me.txtAgencia.TabIndex = 23
-        Me.txtAgencia.Tag = "requerido"
-        '
-        'txtBanco
-        '
-        Me.txtBanco.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtBanco.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtBanco.Enabled = False
-        Me.txtBanco.Location = New System.Drawing.Point(-123, 92)
-        Me.txtBanco.MaxLength = 3
-        Me.txtBanco.Name = "txtBanco"
-        Me.txtBanco.Size = New System.Drawing.Size(120, 20)
-        Me.txtBanco.TabIndex = 20
-        Me.txtBanco.Tag = "requerido"
         '
         'Label5
         '
@@ -334,73 +373,6 @@ Partial Class FrmMoedas
         Me.txtCodigo.TabIndex = 0
         Me.txtCodigo.Tag = "requerido"
         '
-        'txtSigla
-        '
-        Me.txtSigla.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtSigla.Enabled = False
-        Me.txtSigla.Location = New System.Drawing.Point(17, 92)
-        Me.txtSigla.MaxLength = 50
-        Me.txtSigla.Name = "txtSigla"
-        Me.txtSigla.Size = New System.Drawing.Size(85, 20)
-        Me.txtSigla.TabIndex = 25
-        Me.txtSigla.Tag = "requerido"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(122, 27)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(58, 13)
-        Me.Label1.TabIndex = 27
-        Me.Label1.Text = "Descrição:"
-        '
-        'txtNome
-        '
-        Me.txtNome.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtNome.Enabled = False
-        Me.txtNome.Location = New System.Drawing.Point(125, 45)
-        Me.txtNome.MaxLength = 50
-        Me.txtNome.Name = "txtNome"
-        Me.txtNome.Size = New System.Drawing.Size(355, 20)
-        Me.txtNome.TabIndex = 26
-        Me.txtNome.Tag = "requerido"
-        '
-        'ID_MOEDA
-        '
-        Me.ID_MOEDA.DataPropertyName = "ID_MOEDA"
-        Me.ID_MOEDA.HeaderText = "ID"
-        Me.ID_MOEDA.Name = "ID_MOEDA"
-        Me.ID_MOEDA.ReadOnly = True
-        '
-        'CD_MOEDA
-        '
-        Me.CD_MOEDA.DataPropertyName = "CD_MOEDA"
-        Me.CD_MOEDA.HeaderText = "Código"
-        Me.CD_MOEDA.Name = "CD_MOEDA"
-        Me.CD_MOEDA.ReadOnly = True
-        '
-        'NM_MOEDA
-        '
-        Me.NM_MOEDA.DataPropertyName = "NM_MOEDA"
-        Me.NM_MOEDA.HeaderText = "Descrição"
-        Me.NM_MOEDA.Name = "NM_MOEDA"
-        Me.NM_MOEDA.ReadOnly = True
-        Me.NM_MOEDA.Width = 200
-        '
-        'SIGLA_MOEDA
-        '
-        Me.SIGLA_MOEDA.DataPropertyName = "SIGLA_MOEDA"
-        Me.SIGLA_MOEDA.HeaderText = "Sigla"
-        Me.SIGLA_MOEDA.Name = "SIGLA_MOEDA"
-        Me.SIGLA_MOEDA.ReadOnly = True
-        '
-        'FL_ATIVO
-        '
-        Me.FL_ATIVO.DataPropertyName = "FL_ATIVO"
-        Me.FL_ATIVO.HeaderText = "Ativo"
-        Me.FL_ATIVO.Name = "FL_ATIVO"
-        Me.FL_ATIVO.ReadOnly = True
-        '
         'FrmMoedas
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -417,7 +389,7 @@ Partial Class FrmMoedas
         Me.Controls.Add(Me.dgvConsulta)
         Me.Controls.Add(Me.GroupBox1)
         Me.Name = "FrmMoedas"
-        Me.Text = "FrmMoedas"
+        Me.Text = "Moedas"
         Me.pnControles.ResumeLayout(False)
         CType(Me.dgvConsulta, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
@@ -442,8 +414,6 @@ Partial Class FrmMoedas
     Friend WithEvents dgvConsulta As DataGridView
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents txtAgencia As TextBox
-    Friend WithEvents txtBanco As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents chkAtivo As CheckBox
     Friend WithEvents Label4 As Label

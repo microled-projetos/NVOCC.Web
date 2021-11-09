@@ -115,7 +115,7 @@
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
-                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                    <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" OnSorting="dgvFaturamento_Sorting" EmptyDataText="Nenhum registro encontrado."  PageSize="100">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
@@ -169,6 +169,14 @@
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
                            <asp:LinkButton ID="lkBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Imprimir Boleto</asp:LinkButton>
+
+                                    </div>
+                                        </div>
+                                         </div>
+                                 <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+                           <asp:LinkButton ID="lkExcluirBoleto" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="javascript:return confirm('Deseja realmente excluir o boleto desta fatura?');">Excluir Boleto</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -413,49 +421,97 @@
                                                 </div>      
                                        </div>     </center>
                                 </asp:Panel>
+                        
                                 <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender5" runat="server" PopupControlID="pnlSubstituirNota" TargetControlID="TextBox3" CancelControlID="btnFecharSubstituicao"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlSubstituirNota" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">SUBSTITUIR NOTA</h5>
+                                                            <h5 class="modal-title">SUBSTITUIR NOTA  <asp:label runat="server" ID="lblProcessoSubs"/></h5>
                                                         </div>
                                                         <div class="modal-body" style="padding-left: 50px;">                                       
 <div class="alert alert-danger" id="divErroSubstituir" runat="server" visible="false">
                                     <asp:Label ID="lblErroSubstituir" runat="server"></asp:Label>
-                                </div>
-                                                           
-                                  <div class="form-group">
-                                                                        <h5>  
-                                           <asp:label runat="server" ID="lblProcessoSubs"/><br/>                                          
-                                           <asp:label runat="server" ID="lblClienteSubs"/></h5>
-                                         </div>      
+                                </div>    
+                                                            
                                                             <div class="row">
-                                <div class="col-sm-offset-4 col-sm-2">
+                                <div class="col-sm-8">
                                      <div class="form-group">
-                                        <label class="control-label">Número da Nota:</label><br />
-                                   <asp:label runat="server" ID="lblNumeroNota"/>
+                                        <label class="control-label">Razão Social:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtRazaoSocial" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">CNPJ:</label><br />
+                                          <asp:TextBox ID="txtCNPJSub" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-6">
+                                     <div class="form-group">
+                                        <label class="control-label">Endereço:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtEndereco" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
                                                                 <div class="col-sm-2">
                                      <div class="form-group">
-                                        <label class="control-label">Data de Emissão:</label><br />
-                                   <asp:label runat="server" ID="lblDataEmissao"/>
+                                        <label class="control-label">Nº:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtNumEndereco" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
-                       </div>                      
-                                                            <div class="row">
-                                <div class="col-sm-offset-4 col-sm-2">
+                                                                <div class="col-sm-4">
                                      <div class="form-group">
-                                        <label class="control-label">Novo Número:</label></label><label runat="server" style="color:red" >*</label>
-                               <asp:TextBox ID="txtNovoNumeroNota" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <label class="control-label">Bairro:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtBairro" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
-                                                                <div class="col-sm-2">
+                                                                <div class="col-sm-4">
                                      <div class="form-group">
-                                        <label class="control-label">Nova Data:</label></label><label runat="server" style="color:red" >*</label>
-                               <asp:TextBox ID="txtNovaEmissaoNota" runat="server" CssClass="form-control data"></asp:TextBox>
+                                        <label class="control-label">Complemento:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtComplem" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">Cidade:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtCidade" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">Estado:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtEstado" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">CEP:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtCEP" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">I.E.:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-4">
+                                     <div class="form-group">
+                                        <label class="control-label">I.M.:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtInscMunicipal" runat="server" CssClass="form-control"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-6">
+                                     <div class="form-group">
+                                        <label class="control-label">Data de Emissão:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtDataEmissao" runat="server" CssClass="form-control data"></asp:TextBox>
+                           </div>
+                                     </div>
+                                                                <div class="col-sm-6">
+                                     <div class="form-group">
+                                        <label class="control-label">Código Verificação:</label></label><label runat="server" style="color:red" >*</label>
+                               <asp:TextBox ID="txtCodVerificacao" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
                                      </div>
                        </div>                      
@@ -471,8 +527,10 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkBoleto" CancelControlID="btnFecharBoleto"></ajaxToolkit:ModalPopupExtender>
+                                
+                                
+                                <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender6" runat="server" PopupControlID="pnlBanco" TargetControlID="lkboleto" CancelControlID="btnFecharBoleto"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="pnlBanco" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content" >
@@ -496,8 +554,7 @@
                                                        
                                                                         
                                <div class="modal-footer">
-<%--                                                   OnClientClick="javascript:return confirm('Deseja realmente cancelar esta fatura?');"         --%>
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnImprimirBoleto" text="Imprimir"/>
+                                                            <asp:linkButton runat="server" CssClass="btn btn-success" ID="btnImprimirBoleto" OnClientClick="javascript:return confirm('Deseja realmente gerar um novo boleto?');">Imprimir</asp:linkButton>
                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharBoleto" text="Close" />
                                                         </div>
                                                     
