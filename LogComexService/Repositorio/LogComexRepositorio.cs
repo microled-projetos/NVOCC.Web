@@ -22,7 +22,7 @@ namespace LogComexService.Repositorio
             string tokenGerado = await response.Content.ReadAsStringAsync();
 
             return tokenGerado;
-        }
+      }
 
         public async Task<string> AtualizarRastreamento(string url, string apiKey, string token)
         {

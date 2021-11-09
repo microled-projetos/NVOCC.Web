@@ -1,4 +1,6 @@
-﻿Public Class CadastrarMaster
+﻿Imports Newtonsoft.Json
+
+Public Class CadastrarMaster
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -9,9 +11,6 @@
         End If
 
 
-        ''CHAMA SERVIÇO DE RASTREIO
-        'Dim rastreio As New RastreioService
-        'rastreio.PostAsyncBl("COSU6279259300", "61064838016560", "andre.rodrigues@abainfra.com.br", "185")
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -102,7 +101,53 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
         End If
 
+
+        Dim cnpj As String = ""
+        Dim NR_BL As String = ""
+        Dim rastreio As New RastreioService
+        Dim idBl As String = Request.QueryString("id")
+        Dim token_bl As String = ""
+
+
+
+        If Not String.IsNullOrEmpty(idBl) Then
+
+            ds = Con.ExecutarQuery(" select NR_BL, isnull(BL_TOKEN, '') as BL_TOKEN from tb_bl where ID_BL =  " & idBl)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                NR_BL = ds.Tables(0).Rows(0).Item("NR_BL")
+                token_bl = ds.Tables(0).Rows(0).Item("BL_TOKEN")
+
+
+                If String.IsNullOrEmpty(token_bl) Then
+                    ds = Con.ExecutarQuery("select CNPJ from TB_PARCEIRO where ID_PARCEIRO IN (select ID_PARCEIRO_TRANSPORTADOR from tb_bl where ID_BL =" & idBl & ") ")
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        cnpj = ds.Tables(0).Rows(0).Item("CNPJ")
+                    End If
+
+                    Dim tokenAPi = rastreio.GetDadosJsonBL(NR_BL, cnpj, "andre.rodrigues@abainfra.com.br", "185")
+
+                    Dim token_bl_format As String = tokenAPi
+
+                    If token_bl_format <> Nothing Then
+
+                        Con.ExecutarQuery(" UPDATE TB_BL SET BL_TOKEN = '" & token_bl_format & "' WHERE ID_BL = " & idBl)
+
+                        Dim trackingBL As String = rastreio.AtualizarRastreamentoLogComex(token_bl_format)
+
+                        Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
+
+                    End If
+
+                End If
+
+            End If
+
+        End If
+
         Con.Fechar()
+
+
     End Sub
 
     Sub CarregaCampos()
