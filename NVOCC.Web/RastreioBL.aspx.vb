@@ -145,6 +145,8 @@ Public Class RastreioBL
     Protected Sub btnAtualizar_Click(sender As Object, e As EventArgs) Handles btnAtualizar.Click
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Dim Rastreio As New RastreioService
+        Rastreio.trackingbl(Session("ID_BL"))
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & Session("ID_BL"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
