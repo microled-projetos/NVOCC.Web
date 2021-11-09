@@ -95,6 +95,57 @@ Public Class RastreioService
 
     End Function
 
+    Sub trackingbl(idBl As String)
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+        Dim cnpj As String = ""
+        Dim NR_BL As String = ""
+        Dim token_bl As String = ""
+
+
+
+        If Not String.IsNullOrEmpty(idBl) Then
+
+            ds = Con.ExecutarQuery(" select NR_BL, isnull(BL_TOKEN, '') as BL_TOKEN from tb_bl where ID_BL =  " & idBl)
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                NR_BL = ds.Tables(0).Rows(0).Item("NR_BL")
+                token_bl = ds.Tables(0).Rows(0).Item("BL_TOKEN")
+
+
+                If String.IsNullOrEmpty(token_bl) Then
+                    ds = Con.ExecutarQuery("select CNPJ from TB_PARCEIRO where ID_PARCEIRO IN (select ID_PARCEIRO_TRANSPORTADOR from tb_bl where ID_BL =" & idBl & ") ")
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        cnpj = ds.Tables(0).Rows(0).Item("CNPJ")
+                    End If
+
+                    Dim tokenAPi = GetDadosJsonBL(NR_BL, cnpj, "andre.rodrigues@abainfra.com.br", "185")
+
+                    Dim token_bl_format As String = tokenAPi
+
+                    If token_bl_format <> Nothing Then
+
+                        Con.ExecutarQuery(" UPDATE TB_BL SET BL_TOKEN = '" & token_bl_format & "' WHERE ID_BL = " & idBl)
+
+                        Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl_format)
+
+                        Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
+
+                    End If
+                Else
+                    Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl)
+
+                    Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
+                End If
+
+            End If
+
+        End If
+    End Sub
+
+
 End Class
 Public Class blTracking
     Public Property bl_number As String
