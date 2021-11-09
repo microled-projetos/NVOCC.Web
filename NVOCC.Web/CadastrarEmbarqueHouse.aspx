@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarEmbarqueHouse.aspx.vb" Inherits="NVOCC.Web.CadastrarEmbarqueHouse" %>
+﻿<%@ Page Title="" Language="vb" enableEventValidation="False" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarEmbarqueHouse.aspx.vb" Inherits="NVOCC.Web.CadastrarEmbarqueHouse" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="col-lg-12 col-md-12 col-sm-12">

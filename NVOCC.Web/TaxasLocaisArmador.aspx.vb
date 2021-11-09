@@ -219,6 +219,8 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         divExcluir_Erro.Visible = False
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Pesquisa()
+
         If e.CommandName = "visualizar" Then
 
             Dim id As String = e.CommandArgument
@@ -492,5 +494,8 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
             'Response.Redirect(url)
         End If
     End Sub
+    Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
+        Pesquisa()
 
+    End Sub
 End Class
