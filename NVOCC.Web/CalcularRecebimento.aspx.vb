@@ -501,8 +501,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             ddlFornecedor.SelectedValue = 0
             dgvTaxas.DataBind()
             mpeND.Show()
-            Dim finaliza As New FinalizaCotacao
-            finaliza.Finalizar()
+            'Dim finaliza As New FinalizaCotacao
+            'finaliza.Finalizar()
         End If
 
 
@@ -752,30 +752,62 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         If e.CommandName = "bloquear" Then
             ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
-                Using Status = New NotaFiscal.WsNvocc
 
-                    resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B")
+                Try
+                    Using Status = New NotaFiscal.WsNvocc
 
-                End Using
+                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B")
+
+                    End Using
+
+
+                Catch ex As Exception
+
+                    divErro.Visible = True
+                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                    Exit Sub
+
+                End Try
+
+
             End If
 
         ElseIf e.CommandName = "desbloquear" Then
             ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
-                Using Status = New NotaFiscal.WsNvocc
 
-                    resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L")
+                Try
+                    Using Status = New NotaFiscal.WsNvocc
 
-                End Using
+                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L")
+
+                    End Using
+
+
+                Catch ex As Exception
+
+                    divErro.Visible = True
+                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                    Exit Sub
+
+                End Try
+
+
+
             End If
         End If
 
-        If resultado = "Bl não localizado" Then
+        If resultado = "BL não localizado!" Then
             divErro.Visible = True
             lblErro.Text = resultado
+
+        ElseIf resultado = "False" Then
+            divErro.Visible = True
+            lblErro.Text = resultado
+
         Else
             divSuccess.Visible = True
-            lblSuccess.Text = resultado
+            lblSuccess.Text = "Ação realizada com sucesso!"
         End If
 
 

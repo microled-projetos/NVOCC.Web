@@ -107,32 +107,61 @@ Public Class Faturamento
 
 
         If ddlFiltro.SelectedValue = 1 Then
-            filtro &= " AND convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
-
+            If filtro = "" Then
+                filtro &= " WHERE convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+            Else
+                filtro &= " AND convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+            End If
         ElseIf ddlFiltro.SelectedValue = 2 Then
-            filtro &= " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+
+            If filtro = "" Then
+                filtro &= " WHERE NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
+            End If
 
         ElseIf ddlFiltro.SelectedValue = 3 Then
-            filtro &= " AND PARCEIRO_EMPRESA LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE PARCEIRO_EMPRESA LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND PARCEIRO_EMPRESA LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 4 Then
-            filtro &= " AND REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND REFERENCIA_CLIENTE LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 5 Then
-            filtro &= " AND NR_NOTA_DEBITO LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE NR_NOTA_DEBITO LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND NR_NOTA_DEBITO LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 6 Then
-            filtro &= " AND NR_RPS LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE NR_RPS LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND NR_RPS LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 7 Then
-            filtro &= " AND NR_NOTA_FISCAL LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE NR_NOTA_FISCAL LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND NR_NOTA_FISCAL LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 8 Then
-            filtro &= " AND NR_RECIBO LIKE '%" & txtPesquisa.Text & "%'"
-
+            If filtro = "" Then
+                filtro &= " WHERE NR_RECIBO LIKE '%" & txtPesquisa.Text & "%'"
+            Else
+                filtro &= " AND NR_RECIBO LIKE '%" & txtPesquisa.Text & "%'"
+            End If
         ElseIf ddlFiltro.SelectedValue = 9 Then
-            filtro &= " AND convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
-
+            If filtro = "" Then
+                filtro &= " WHERE convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+            Else
+                filtro &= " AND convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+            End If
         End If
 
 

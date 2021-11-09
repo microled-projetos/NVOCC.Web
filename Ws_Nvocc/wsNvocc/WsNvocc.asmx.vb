@@ -3,6 +3,8 @@ Imports System.Net
 Imports System.Web.Services
 Imports System.ComponentModel
 Imports Oracle.ManagedDataAccess.Client
+Imports System.Data.OleDb
+
 
 ' Para permitir que esse serviço da web seja chamado a partir do script, usando ASP.NET AJAX, remova os comentários da linha a seguir.
 ' <System.Web.Script.Services.ScriptService()> _
@@ -700,24 +702,28 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         Lote = rsNumero.Rows(0)("lote").ToString
 
         If Lote <> "0" Then
+            ConOracle.Conectar()
+            Using Comando_Proc
 
-            Comando_Proc.Connection = ConOracle.Con_ORA
-            Comando_Proc.CommandType = CommandType.StoredProcedure
-            Comando_Proc.CommandText = "PROC_CHRONOS_BLOQUEIO"
-            Comando_Proc.Parameters.Add("@ID_LOTE", SqlDbType.BigInt).Direction = ParameterDirection.Input
-            Comando_Proc.Parameters("@ID_LOTE").Value = Lote
-            Comando_Proc.Parameters.Add("@V_Motivo", SqlDbType.VarChar).Direction = ParameterDirection.Input
-            Comando_Proc.Parameters("@V_Motivo").Value = "38"
-            Comando_Proc.Parameters.Add("@ACAO", SqlDbType.VarChar).Direction = ParameterDirection.Input
-            Comando_Proc.Parameters("@ACAO").Value = Acao
-            Comando_Proc.Parameters.Add("@Errocode", SqlDbType.VarChar).Direction = ParameterDirection.Output
-            Comando_Proc.Parameters("@Errocode").Size = 32660
-            Comando_Proc.ExecuteNonQuery()
-            Retorno_Sql = Comando_Proc.Parameters("@Errocode").Value
+                Comando_Proc.Connection = ConOracle.Con_ORA
+                Comando_Proc.CommandType = CommandType.StoredProcedure
+                Comando_Proc.CommandText = "PROC_CHRONOS_BLOQUEIO"
+                Comando_Proc.Parameters.Add("@ID_LOTE", OracleDbType.Int32).Direction = ParameterDirection.Input
+                Comando_Proc.Parameters("@ID_LOTE").Value = Lote
+                Comando_Proc.Parameters.Add("@V_Motivo", OracleDbType.Varchar2).Direction = ParameterDirection.Input
+                Comando_Proc.Parameters("@V_Motivo").Value = "38"
+                Comando_Proc.Parameters.Add("@ACAO", OracleDbType.Varchar2).Direction = ParameterDirection.Input
+                Comando_Proc.Parameters("@ACAO").Value = Acao
+                Retorno_Sql = Comando_Proc.Parameters.Add("@Errocode", OracleDbType.Varchar2).Direction = ParameterDirection.Output
+                Comando_Proc.Parameters("@Errocode").Size = 32660
+                Comando_Proc.ExecuteNonQuery()
+
+
+            End Using
             Comando_Proc = Nothing
             Return Retorno_Sql
         Else
-            Return "Bl não localizado"
+            Return "BL não localizado!"
         End If
     End Function
 
