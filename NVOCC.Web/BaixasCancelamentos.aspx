@@ -144,7 +144,7 @@
                                                         <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
+                                               <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
@@ -153,6 +153,26 @@
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
+                                                  <asp:BoundField DataField="BLOQUEADO" HeaderText="Bloqueado" SortExpression="BLOQUEADO" />
+                                                        <asp:TemplateField HeaderText=""  >
+                                            <ItemTemplate>
+                                                <asp:linkButton ID="btnBloquear" title="bloquear" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="bloquear"
+                                OnClientClick="javascript:return confirm('Deseja realmente bloquear este parceiro?');"  CommandArgument='<%# Eval("ID_BL") %>' Autopostback="true" ><i class="glyphicon glyphicon-ban-circle"></i></span></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText=""  >
+                                            <ItemTemplate>
+                                                <asp:linkButton ID="btnDesbloquear" title="desbloquear" runat="server"  CssClass="btn btn-success btn-sm" CommandName="desbloquear"
+                                OnClientClick="javascript:return confirm('Deseja realmente desbloquear este parceiro?');"  CommandArgument='<%# Eval("ID_BL") %>' Autopostback="true" ><i class="glyphicon glyphicon-ok"></i></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                                <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>

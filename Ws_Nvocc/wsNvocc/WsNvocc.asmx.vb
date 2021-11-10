@@ -734,7 +734,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         Dim ConOracle As New Conexao_oracle
         ConOracle.Conectar()
         Con.Conectar()
-        '--abrir conexao do sql abridno um dataset/datatale com o o select enviado de parametro, fazer loop,
+        '--abrir conexao do sql abrindo um dataset/datatale com o o select enviado de parametro, fazer loop,
         Dim rsNumero As DataTable
         Dim dsConsulta As DataSet = Con.ExecutarQuery(consulta)
         If dsConsulta.Tables(0).Rows.Count > 0 Then

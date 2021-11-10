@@ -81,7 +81,7 @@ Public Class TaxasLocaisArmador
 
                     ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A
 INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & "
+WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & " AND VL_TAXA_COMPRA < " & txtValorTaxaLocal.Text & "
 AND (CASE 
 WHEN B.ID_TIPO_COMEX = 1 THEN 
 ID_PORTO_DESTINO
@@ -92,9 +92,11 @@ END) = " & ddlPortoTaxa.SelectedValue & "
 
                     If ds.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In ds.Tables(0).Rows
-                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocal.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocal.Text & ",VL_TAXA_VENDA =  CASE WHEN ISNULL(VL_TAXA_VENDA,0) = 0 THEN " & txtValorTaxaLocal.Text & " WHEN VL_TAXA_VENDA < " & txtValorTaxaLocal.Text & " THEN " & txtValorTaxaLocal.Text & " ELSE VL_TAXA_VENDA END WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                         Next
                     End If
+
+                    DeletaTaxaIgualTarifario(Request.QueryString("id"), ddlComexTaxa.SelectedValue, ddlDespesaTaxa.SelectedValue, ddlViaTransporte.SelectedValue, ddlPortoTaxa.SelectedValue)
 
                     txtValorTaxaLocal.Text = txtValorTaxaLocal.Text.Replace(".", ",")
 
@@ -122,6 +124,55 @@ END) = " & ddlPortoTaxa.SelectedValue & "
         Con.Fechar()
     End Sub
 
+    'Sub DeletaTaxaIgualTarifario(ID_TRANSPORTADOR As String, ID_TIPO_COMEX As String, ID_ITEM_DESPESA As String, ID_VIATRANSPORTE As String, ID_PORTO As String)
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
+    '    Dim ds As DataSet = Con.ExecutarQuery("SELECT a.ID_FRETE_TRANSPORTADOR,A.ID_ITEM_DESPESA, COUNT(*)QTD, MIN(ID_TABELA_FRETE_TAXA)ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B On A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR WHERE  b.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " And (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & "   And ID_TIPO_COMEX = " & ID_TIPO_COMEX & " And ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " And ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA & " Group BY A.ID_FRETE_TRANSPORTADOR, a.ID_ITEM_DESPESA, a.ID_MOEDA_COMPRA, a.ID_MOEDA_VENDA, a.ID_BASE_CALCULO_TAXA ORDER BY QTD DESC")
+    '    If ds.Tables(0).Rows.Count > 0 Then
+    '        For Each linha As DataRow In ds.Tables(0).Rows
+    '            If linha.Item("QTD") > 1 Then
+    '                Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+    '            End If
+    '        Next
+    '    End If
+    'End Sub
+    Sub DeletaTaxaIgualTarifario(ID_TRANSPORTADOR As String, ID_TIPO_COMEX As String, ID_ITEM_DESPESA As String, ID_VIATRANSPORTE As String, ID_PORTO As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds1 As DataSet
+        Dim ds2 As DataSet
+
+        ds1 = Con.ExecutarQuery("SELECT a.ID_FRETE_TRANSPORTADOR,A.ID_ITEM_DESPESA, COUNT(*)QTD FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B On A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR WHERE  b.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " And (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & "   And ID_TIPO_COMEX = " & ID_TIPO_COMEX & " And ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " And ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA & " Group BY A.ID_FRETE_TRANSPORTADOR, a.ID_ITEM_DESPESA, a.ID_MOEDA_COMPRA, a.ID_MOEDA_VENDA, a.ID_BASE_CALCULO_TAXA ORDER BY QTD DESC")
+        If ds1.Tables(0).Rows.Count > 0 Then
+            For Each linha1 As DataRow In ds1.Tables(0).Rows
+                If linha1.Item("QTD") > 1 Then
+
+                    ds2 = Con.ExecutarQuery("SELECT  ID_TABELA_FRETE_TAXA, VL_TAXA_VENDA FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR WHERE  B.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " AND (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & " AND ID_TIPO_COMEX =  " & ID_TIPO_COMEX & " AND ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " AND ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA & " ORDER BY VL_TAXA_VENDA DESC")
+
+                    If ds2.Tables(0).Rows.Count > 0 Then
+                        For contador As Integer = 1 To ds2.Tables(0).Rows.Count - 1
+                            Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_TABELA_FRETE_TAXA = " & ds2.Tables(0).Rows(contador).Item("ID_TABELA_FRETE_TAXA"))
+                        Next
+                    End If
+                End If
+            Next
+        End If
+
+
+
+
+
+        '        ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
+        'INNER JOIN (SELECT  MIN(VL_TAXA_VENDA)VL_TAXA_VENDA FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
+        'WHERE  B.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " AND (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & "   AND ID_TIPO_COMEX =  " & ID_TIPO_COMEX & " AND ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " AND ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA & "
+        'GROUP BY A.ID_FRETE_TRANSPORTADOR, A.ID_ITEM_DESPESA,A.ID_MOEDA_COMPRA,A.ID_MOEDA_VENDA,A.ID_BASE_CALCULO_TAXA) C ON C.VL_TAXA_VENDA = A.VL_TAXA_VENDA
+        'WHERE  B.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " AND (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & "   AND ID_TIPO_COMEX =  " & ID_TIPO_COMEX & " AND ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " AND ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA)
+        '        If ds.Tables(0).Rows.Count > 0 Then
+        '            For Each linha As DataRow In ds.Tables(0).Rows
+        '                Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+        '            Next
+        '        End If
+    End Sub
     Sub Pesquisa()
         msgerro.Text = ""
         Dim FILTRO As String = ""
@@ -157,6 +208,7 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO
             dgvTaxas.DataBind()
         End If
+
     End Sub
     Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged
 
@@ -220,7 +272,7 @@ WHERE ID_PORTO = " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = "
 
                     ds = Con.ExecutarQuery("SELECT ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A
 INNER JOIN TB_FRETE_TRANSPORTADOR B ON A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR
-WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & "
+WHERE B.ID_TRANSPORTADOR = " & Request.QueryString("id") & "  AND VL_TAXA_COMPRA < " & txtValorTaxaLocalNovo.Text & "
 AND (CASE 
 WHEN B.ID_TIPO_COMEX = 1 THEN 
 ID_PORTO_DESTINO
@@ -231,9 +283,13 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
 
                     If ds.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In ds.Tables(0).Rows
-                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocalNovo.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                            ' Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocalNovo.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
+                            Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocalNovo.Text & ",VL_TAXA_VENDA =  CASE WHEN ISNULL(VL_TAXA_VENDA,0) = 0 THEN " & txtValorTaxaLocalNovo.Text & " WHEN VL_TAXA_VENDA < " & txtValorTaxaLocalNovo.Text & " THEN " & txtValorTaxaLocalNovo.Text & " ELSE VL_TAXA_VENDA END WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                         Next
                     End If
+
+                    DeletaTaxaIgualTarifario(Request.QueryString("id"), ddlComexTaxaNovo.SelectedValue, ddlDespesaTaxaNovo.SelectedValue, ddlViaTransporteNovo.SelectedValue, ddlPortoTaxaNovo.SelectedValue)
+
 
                     txtValorTaxaLocalNovo.Text = txtValorTaxaLocalNovo.Text.Replace(".", ",")
 
@@ -295,10 +351,6 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         Dim Con As New Conexao_sql
         Con.Conectar()
         Pesquisa()
-<<<<<<< HEAD
-
-=======
->>>>>>> f5abd860a0d9ad59f1d16bebc435bb893a7be2bc
         If e.CommandName = "visualizar" Then
 
             Dim id As String = e.CommandArgument
@@ -589,11 +641,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
             'Response.Redirect(url)
         End If
     End Sub
-    Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
-        Pesquisa()
 
-<<<<<<< HEAD
-=======
     Private Sub btnDesmarcar_Click(sender As Object, e As EventArgs) Handles btnDesmarcar.Click
         AtualizaGridAjuste()
         For i As Integer = 0 To Me.dgvAjustaTaxa.Rows.Count - 1
@@ -638,6 +686,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
 
                 Dim Profit As Decimal = VL_TAXA_VENDA - VL_TAXA_COMPRA
                 Dim ValorNovoVenda As Decimal = lblValorNovo.Text + Profit
+                ValorNovoVenda = FormatNumber(ValorNovoVenda, 2)
 
                 Dim ds As DataSet = Con.ExecutarQuery("Select NR_COTACAO,ID_STATUS_COTACAO,ID_COTACAO,NR_PROCESSO_GERADO,ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = (SELECT ID_COTACAO FROM TB_COTACAO_TAXA WHERE ID_COTACAO_TAXA = " & ID & " )")
                 If ds.Tables(0).Rows.Count > 0 Then
@@ -647,7 +696,11 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
 
                         Con.ExecutarQuery("UPDATE [dbo].[TB_COTACAO_TAXA]  SET VL_TAXA_COMPRA = " & lblValorNovo.Text.ToString.Replace(",", ".") & ", VL_TAXA_VENDA = " & ValorNovoVenda.ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID)
 
-                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL]  (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & ",0,'OP')")
+                        ''EMAIL INTERNO
+                        'Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL]  (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & ",0,'OP')")
+
+                        ''EMAIL CLIENTE
+                        'Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL] (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & "," & ds.Tables(0).Rows(0).Item("ID_CLIENTE") & ",'OP')")
 
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateTaxas(ds.Tables(0).Rows(0).Item("ID_COTACAO"), ID, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
@@ -736,7 +789,5 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
 
     Private Sub dgvTaxas_Load(sender As Object, e As EventArgs) Handles dgvTaxas.Load
         Pesquisa()
-
->>>>>>> f5abd860a0d9ad59f1d16bebc435bb893a7be2bc
     End Sub
 End Class
