@@ -123,19 +123,6 @@ END) = " & ddlPortoTaxa.SelectedValue & "
 
         Con.Fechar()
     End Sub
-
-    'Sub DeletaTaxaIgualTarifario(ID_TRANSPORTADOR As String, ID_TIPO_COMEX As String, ID_ITEM_DESPESA As String, ID_VIATRANSPORTE As String, ID_PORTO As String)
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
-    '    Dim ds As DataSet = Con.ExecutarQuery("SELECT a.ID_FRETE_TRANSPORTADOR,A.ID_ITEM_DESPESA, COUNT(*)QTD, MIN(ID_TABELA_FRETE_TAXA)ID_TABELA_FRETE_TAXA FROM TB_TABELA_FRETE_TAXA A INNER JOIN TB_FRETE_TRANSPORTADOR B On A.ID_FRETE_TRANSPORTADOR = B.ID_FRETE_TRANSPORTADOR WHERE  b.ID_TRANSPORTADOR = " & ID_TRANSPORTADOR & " And (CASE  WHEN B.ID_TIPO_COMEX = 1 THEN  ID_PORTO_DESTINO WHEN  B.ID_TIPO_COMEX = 2 THEN  ID_PORTO_ORIGEM  END) = " & ID_PORTO & "   And ID_TIPO_COMEX = " & ID_TIPO_COMEX & " And ID_VIATRANSPORTE = " & ID_VIATRANSPORTE & " And ID_ITEM_DESPESA  = " & ID_ITEM_DESPESA & " Group BY A.ID_FRETE_TRANSPORTADOR, a.ID_ITEM_DESPESA, a.ID_MOEDA_COMPRA, a.ID_MOEDA_VENDA, a.ID_BASE_CALCULO_TAXA ORDER BY QTD DESC")
-    '    If ds.Tables(0).Rows.Count > 0 Then
-    '        For Each linha As DataRow In ds.Tables(0).Rows
-    '            If linha.Item("QTD") > 1 Then
-    '                Con.ExecutarQuery("DELETE FROM TB_TABELA_FRETE_TAXA WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
-    '            End If
-    '        Next
-    '    End If
-    'End Sub
     Sub DeletaTaxaIgualTarifario(ID_TRANSPORTADOR As String, ID_TIPO_COMEX As String, ID_ITEM_DESPESA As String, ID_VIATRANSPORTE As String, ID_PORTO As String)
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -288,7 +275,6 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
 
                     If ds.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In ds.Tables(0).Rows
-                            ' Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocalNovo.Text & " WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                             Con.ExecutarQuery("UPDATE TB_TABELA_FRETE_TAXA SET VL_TAXA_COMPRA = " & txtValorTaxaLocalNovo.Text & ",VL_TAXA_VENDA =  CASE WHEN ISNULL(VL_TAXA_VENDA,0) = 0 THEN " & txtValorTaxaLocalNovo.Text & " WHEN VL_TAXA_VENDA < " & txtValorTaxaLocalNovo.Text & " THEN " & txtValorTaxaLocalNovo.Text & " ELSE VL_TAXA_VENDA END WHERE ID_TABELA_FRETE_TAXA = " & linha.Item("ID_TABELA_FRETE_TAXA"))
                         Next
                     End If
