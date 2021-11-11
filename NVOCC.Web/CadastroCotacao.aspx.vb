@@ -88,29 +88,29 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-            'If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Then
-            '    btnGravar.Enabled = False
-            '    btnSalvarFrete.Visible = False
-            '    btnSalvarTaxa.Visible = False
-            '    btnSalvarMercadoria.Visible = False
-            '    btnNovaMercadoria.Enabled = False
-            '    btnNovaTaxa.Enabled = False
-            '    btnImportar.Visible = False
-            '    dgvMercadoria.Columns(8).Visible = False
-            '    dgvTaxas.Columns(10).Visible = False
+            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                btnGravar.Enabled = False
+                btnSalvarFrete.Visible = False
+                btnSalvarTaxa.Visible = False
+                btnSalvarMercadoria.Visible = False
+                btnNovaMercadoria.Enabled = False
+                btnNovaTaxa.Enabled = False
+                btnImportar.Visible = False
+                dgvMercadoria.Columns(8).Visible = False
+                dgvTaxas.Columns(10).Visible = False
 
-            'Else
-            '    btnGravar.Enabled = True
-            '    btnSalvarFrete.Visible = True
-            '    btnSalvarTaxa.Visible = True
-            '    btnSalvarMercadoria.Visible = True
-            '    btnNovaMercadoria.Enabled = True
-            '    btnNovaTaxa.Enabled = True
-            '    btnImportar.Visible = True
-            '    dgvMercadoria.Columns(8).Visible = True
-            '    dgvTaxas.Columns(10).Visible = True
+            Else
+                btnGravar.Enabled = True
+                btnSalvarFrete.Visible = True
+                btnSalvarTaxa.Visible = True
+                btnSalvarMercadoria.Visible = True
+                btnNovaMercadoria.Enabled = True
+                btnNovaTaxa.Enabled = True
+                btnImportar.Visible = True
+                dgvMercadoria.Columns(8).Visible = True
+                dgvTaxas.Columns(10).Visible = True
 
-            'End If
+            End If
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO")) Then
@@ -1010,32 +1010,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                         'SEPARA E ENVIA EMAIL CASO COTAÇÃO ESTEJA APROVADA
                         If ddlStatusCotacao.SelectedValue = 9 Then
-                            Dim reaprovamento As Boolean = False
+
                             ddlStatusCotacao.Enabled = False
 
-                            If Session("ID_STATUS") = 10 Then
-                                reaprovamento = True
-                            Else
-                                reaprovamento = False
-                            End If
-
-
-                            If NumeroProcesso(reaprovamento) = False Then
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
-                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
-
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
-                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
-
-                                ddlStatusCotacao.Enabled = True
-
-                                diverro.Visible = True
-                                lblmsgErro.Text = "Já existe processo para esta cotação!"
-                                Exit Sub
+                            If Session("ID_STATUS") <> 10 Then
+                                NumeroProcesso()
                             End If
 
 
@@ -1066,13 +1045,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     Session("ID_CLIENTE") = ddlCliente.SelectedValue
                     Session("ID_STATUS") = ddlStatusCotacao.SelectedValue
 
-                    'If (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 13) And txtProcessoCotacao.Text <> "" Then
-                    '    Session("ID_STATUS") = 13
-                    '    ddlStatusCotacao.SelectedValue = 13
-                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                    '    Dim RotinaUpdate As New RotinaUpdate
-                    '    RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
-                    'End If
+                    If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                        'Session("ID_STATUS") = 13
+                        'ddlStatusCotacao.SelectedValue = 13
+                        'Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                    End If
 
                     VerificaEstufagem()
                     VerificaTransporte()
@@ -1263,12 +1242,12 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 AtualizaFreteMercadoria()
 
-                'If Session("ID_STATUS") = 9 Or Session("ID_STATUS") = 13 Then
-                '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                '    Dim RotinaUpdate As New RotinaUpdate
-                '    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
-                '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
-                'End If
+                If Session("ID_STATUS") = 10 Then
+                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                    Dim RotinaUpdate As New RotinaUpdate
+                    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                End If
 
             End If
 
@@ -1618,23 +1597,23 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     mpeNovoMercadoria.Show()
                     AtualizaFreteMercadoria()
 
-                    'If Session("ID_STATUS") = 9 Or Session("ID_STATUS") = 13 Then
-                    '    Session("ID_STATUS") = 13
-                    '    ddlStatusCotacao.SelectedValue = 13
-                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                    '    CalculaCotacao()
-                    '    Dim RotinaUpdate As New RotinaUpdate
-                    '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
-                    '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                    If Session("ID_STATUS") = 10 Then
+                        'Session("ID_STATUS") = 13
+                        'ddlStatusCotacao.SelectedValue = 13
+                        'Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        CalculaCotacao()
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
-                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-                    '    If ds2.Tables(0).Rows.Count > 0 Then
-                    '        For Each linha As DataRow In ds2.Tables(0).Rows
-                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
-                    '        Next
-                    '    End If
+                        Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                        If ds2.Tables(0).Rows.Count > 0 Then
+                            For Each linha As DataRow In ds2.Tables(0).Rows
+                                RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                            Next
+                        End If
 
-                    'End If
+                    End If
 
                 End If
 
@@ -1686,23 +1665,23 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
                     AtualizaFreteMercadoria()
 
-                    'If Session("ID_STATUS") = 9 Or Session("ID_STATUS") = 13 Then
-                    '    Session("ID_STATUS") = 13
-                    '    ddlStatusCotacao.SelectedValue = 13
-                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                    '    CalculaCotacao()
-                    '    Dim RotinaUpdate As New RotinaUpdate
-                    '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
-                    '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                    If Session("ID_STATUS") = 10 Then
+                        'Session("ID_STATUS") = 13
+                        'ddlStatusCotacao.SelectedValue = 13
+                        'Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        CalculaCotacao()
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
-                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-                    '    If ds2.Tables(0).Rows.Count > 0 Then
-                    '        For Each linha As DataRow In ds2.Tables(0).Rows
-                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
-                    '        Next
-                    '    End If
+                        Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                        If ds2.Tables(0).Rows.Count > 0 Then
+                            For Each linha As DataRow In ds2.Tables(0).Rows
+                                RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                            Next
+                        End If
 
-                    'End If
+                    End If
 
                 End If
 
@@ -3226,13 +3205,15 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddl
                     dgvTaxas.DataBind()
                     divSuccessTaxa.Visible = True
 
-                    'If Session("ID_STATUS") = 9 Or Session("ID_STATUS") = 13 Then
-                    '    Session("ID_STATUS") = 13
-                    '    ddlStatusCotacao.SelectedValue = 13
-                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                    '    Dim RotinaUpdate As New RotinaUpdate
-                    '    RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
-                    'End If
+                    If Session("ID_STATUS") = 10 Then
+                        'Session("ID_STATUS") = 13
+                        'ddlStatusCotacao.SelectedValue = 13
+                        'Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        CalculaCotacao()
+
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
+                    End If
 
                 End If
 
@@ -3285,13 +3266,15 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     Con.Fechar()
                     dgvTaxas.DataBind()
 
-                    'If Session("ID_STATUS") = 9 Or Session("ID_STATUS") = 13 Then
-                    '    Session("ID_STATUS") = 13
-                    '    ddlStatusCotacao.SelectedValue = 13
-                    '    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
-                    '    Dim RotinaUpdate As New RotinaUpdate
-                    '    RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
-                    'End If
+                    If Session("ID_STATUS") = 10 Then
+                        'Session("ID_STATUS") = 13
+                        'ddlStatusCotacao.SelectedValue = 13
+                        'Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = 13, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                        CalculaCotacao()
+
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
+                    End If
 
                 End If
 
@@ -3957,7 +3940,7 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
         End If
     End Sub
 
-    Function NumeroProcesso(Optional reaprovamento As Boolean = False) As Boolean
+    Sub NumeroProcesso()
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
@@ -3970,74 +3953,48 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
         Dim OB_OPERACIONAL_INTERNA As String = ""
         Dim HBL As String = "0"
 
-        If reaprovamento = True Then
-
-            ds = Con.ExecutarQuery("SELECT ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-            PROCESSO_FINAL = ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO")
-            ds = Con.ExecutarQuery("SELECT ID_BL FROM TB_BL WHERE GRAU='C' AND ID_COTACAO = " & txtID.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
-                ID_BL_OLD = ds.Tables(0).Rows(0).Item("ID_BL")
 
 
-                'SALVA OBS DO CLIENTE, DO AGENTE, DO COMERCIAL E DO OPERACIONAL CADASTRADO NA BL ANTIGA PARA O NOVO BL
-                ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,'0')HBL,ISNULL(OB_CLIENTE,'')OB_CLIENTE, ISNULL(OB_AGENTE_INTERNACIONAL,'')OB_AGENTE_INTERNACIONAL, ISNULL(OB_COMERCIAL,'')OB_COMERCIAL, ISNULL(OB_OPERACIONAL_INTERNA,'')OB_OPERACIONAL_INTERNA  FROM TB_BL WHERE ID_BL = " & ID_BL_OLD)
-                If ds.Tables(0).Rows.Count > 0 Then
-                    OB_CLIENTE = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
-                    OB_AGENTE_INTERNACIONAL = ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")
-                    OB_COMERCIAL = ds.Tables(0).Rows(0).Item("OB_COMERCIAL")
-                    OB_OPERACIONAL_INTERNA = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")
-                    HBL = ds.Tables(0).Rows(0).Item("HBL")
-                End If
+        ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
+        Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
+        Dim ano_atual = Now.Year.ToString.Substring(2)
+        Dim SIGLA_PROCESSO As String
+        Dim mes_atual As String
+        If Now.Month < 10 Then
+            mes_atual = "0" & Now.Month.ToString
+        Else
+            mes_atual = Now.Month.ToString
+        End If
 
-                'DELETA BL ANTIGO
-                Con.ExecutarQuery("DELETE FROM TB_BL WHERE GRAU = 'C' AND ID_BL = " & ID_BL_OLD)
-            End If
-
-        ElseIf reaprovamento = False Then
-
-                ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Processo_" & Now.Year.ToString & " NRSEQUENCIALPROCESSO")
-            Dim NRSEQUENCIALPROCESSO As Integer = ds.Tables(0).Rows(0).Item("NRSEQUENCIALPROCESSO")
-            Dim ano_atual = Now.Year.ToString.Substring(2)
-            Dim SIGLA_PROCESSO As String
-            Dim mes_atual As String
-            If Now.Month < 10 Then
-                mes_atual = "0" & Now.Month.ToString
-            Else
-                mes_atual = Now.Month.ToString
-            End If
-
-            ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
+        ds = Con.ExecutarQuery("Select A.ID_SERVICO,(SELECT SIGLA_PROCESSO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)SIGLA_PROCESSO
                             from TB_COTACAO A Where A.ID_COTACAO = " & txtID.Text)
 
-            SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
+        SIGLA_PROCESSO = ds.Tables(0).Rows(0).Item("SIGLA_PROCESSO")
 
 
-            PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
+        PROCESSO_FINAL = SIGLA_PROCESSO & NRSEQUENCIALPROCESSO.ToString.PadLeft(4, "0") & "-" & mes_atual & "/" & ano_atual
 
-            Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
+        Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALPROCESSO = '" & NRSEQUENCIALPROCESSO & "', ANOSEQUENCIALPROCESSO = year(getdate()) ")
 
-            Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET NR_PROCESSO_GERADO = '" & PROCESSO_FINAL & "' WHERE ID_COTACAO = " & txtID.Text)
 
-        End If
 
         txtProcessoCotacao.Text = PROCESSO_FINAL
 
-        ds = Con.ExecutarQuery("SELECT COUNT(ID_COTACAO)QTD FROM TB_BL WHERE GRAU='C' AND DT_CANCELAMENTO IS NULL AND ID_COTACAO = " & txtID.Text)
 
-        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
-            Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,VL_CARGA ) 
+        Dim dsBL As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL (NR_PROCESSO,GRAU,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_PARCEIRO_TRANSPORTADOR,ID_COTACAO,DT_ABERTURA,VL_PROFIT_DIVISAO,ID_PROFIT_DIVISAO,VL_FRETE,ID_MOEDA_FRETE,ID_PARCEIRO_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,VL_CARGA ) 
 SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE,ID_AGENTE_INTERNACIONAL,ID_INCOTERM,ID_TIPO_ESTUFAGEM,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_TIPO_CARGA,ID_TRANSPORTADOR,ID_COTACAO,GETDATE(),VL_DIVISAO_FRETE,ID_TIPO_DIVISAO_FRETE,VL_TOTAL_FRETE_VENDA,ID_MOEDA_FRETE,ID_VENDEDOR,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_TIPO_PAGAMENTO,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR, CASE WHEN ID_PARCEIRO_IMPORTADOR IS NULL THEN ID_CLIENTE WHEN ID_PARCEIRO_IMPORTADOR = 0 THEN ID_CLIENTE ELSE ID_PARCEIRO_IMPORTADOR END ID_PARCEIRO_IMPORTADOR, (SELECT (ISNULL(SUM(VL_CARGA),0))
         FROM TB_COTACAO_MERCADORIA B WHERE A.ID_COTACAO = B.ID_COTACAO ) FROM TB_COTACAO A WHERE A.ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
-            ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
+        ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
-            'TAXAS COMPRAS
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,ID_COTACAO_TAXA ) 
+        'TAXAS COMPRAS
+        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,ID_COTACAO_TAXA ) 
 SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_CALCULADO,VL_TAXA_COMPRA_MIN,OB_TAXAS," & ID_BL & ",FL_TAXA_TRANSPORTADOR,'P',ID_FORNECEDOR,'COTA',ID_COTACAO_TAXA FROM TB_COTACAO_TAXA
  WHERE VL_TAXA_COMPRA IS NOT NULL AND VL_TAXA_COMPRA <> 0 AND ID_COTACAO = " & txtID.Text)
 
-            'TAXAS VENDA
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_COTACAO_TAXA) 
+        'TAXAS VENDA
+        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_COTACAO_TAXA) 
  SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA_VENDA,VL_TAXA_VENDA,VL_TAXA_VENDA_CALCULADO,VL_TAXA_VENDA_MIN,OB_TAXAS," & ID_BL & ",FL_TAXA_TRANSPORTADOR,'R',
  
  CASE 
@@ -4065,21 +4022,21 @@ CASE
 
 FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND  ID_COTACAO = " & txtID.Text)
 
-            Dim FL_PROFIT_FRETE As Integer = 0
-            If ddlDivisaoProfit.SelectedValue <> 0 Then
-                Dim dsProfit As DataSet = Con.ExecutarQuery("SELECT isnull(FL_PROFIT_FRETE,0)FL_PROFIT_FRETE FROM [dbo].TB_TIPO_DIVISAO_PROFIT WHERE ID_TIPO_DIVISAO_PROFIT = " & ddlDivisaoProfit.SelectedValue)
-                FL_PROFIT_FRETE = dsProfit.Tables(0).Rows(0).Item("FL_PROFIT_FRETE")
-            End If
+        Dim FL_PROFIT_FRETE As Integer = 0
+        If ddlDivisaoProfit.SelectedValue <> 0 Then
+            Dim dsProfit As DataSet = Con.ExecutarQuery("SELECT isnull(FL_PROFIT_FRETE,0)FL_PROFIT_FRETE FROM [dbo].TB_TIPO_DIVISAO_PROFIT WHERE ID_TIPO_DIVISAO_PROFIT = " & ddlDivisaoProfit.SelectedValue)
+            FL_PROFIT_FRETE = dsProfit.Tables(0).Rows(0).Item("FL_PROFIT_FRETE")
+        End If
 
 
 
-            Dim ID_BASE_CALCULO As Integer
+        Dim ID_BASE_CALCULO As Integer
 
-            If ddlEstufagem.SelectedValue = 1 Then
+        If ddlEstufagem.SelectedValue = 1 Then
 
-                ID_BASE_CALCULO = 5 'VALOR FIXO
-                'FRETE COMPRA
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
+            ID_BASE_CALCULO = 5 'VALOR FIXO
+            'FRETE COMPRA
+            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & ",
  
  ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
@@ -4109,15 +4066,15 @@ end ID_ORIGEM_PAGAMENTO
  
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
-            ElseIf ddlEstufagem.SelectedValue = 2 Then
+        ElseIf ddlEstufagem.SelectedValue = 2 Then
 
-                ID_BASE_CALCULO = 13 'POR TON / M³
-            Else
-                ID_BASE_CALCULO = 0
-            End If
+            ID_BASE_CALCULO = 13 'POR TON / M³
+        Else
+            ID_BASE_CALCULO = 0
+        End If
 
-            'FRETE VENDA
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
+        'FRETE VENDA
+        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
 
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_VENDA_MIN," & ID_BL & ",'R',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & " ,
 
@@ -4151,92 +4108,37 @@ end ID_ORIGEM_PAGAMENTO
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
 
-            Dim dsCarga As DataSet
-            If ddlEstufagem.SelectedValue = 1 Then
+        Dim dsCarga As DataSet
+        If ddlEstufagem.SelectedValue = 1 Then
 
-                dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
+            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
  WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
-                If dsCarga.Tables(0).Rows.Count > 0 Then
-                    Dim QT_CONTAINER As Integer
-                    For Each linha As DataRow In dsCarga.Tables(0).Rows
-                        QT_CONTAINER = linha.Item("QT_CONTAINER")
+            If dsCarga.Tables(0).Rows.Count > 0 Then
+                Dim QT_CONTAINER As Integer
+                For Each linha As DataRow In dsCarga.Tables(0).Rows
+                    QT_CONTAINER = linha.Item("QT_CONTAINER")
 
-                        For i As Integer = 1 To QT_CONTAINER Step 1
-                            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+                    For i As Integer = 1 To QT_CONTAINER Step 1
+                        Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
         WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
-                        Next
                     Next
-                Else
-                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+                Next
+            Else
+                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
  WHERE ID_COTACAO =  " & txtID.Text)
-                End If
+            End If
 
 
-            ElseIf ddlEstufagem.SelectedValue = 2 Then
+        ElseIf ddlEstufagem.SelectedValue = 2 Then
 
-                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) 
+            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) 
 SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & " FROM TB_COTACAO_MERCADORIA
  WHERE ID_COTACAO =  " & txtID.Text)
 
-            End If
-
-
-        Else
-
-            Return False
-
         End If
 
-        If reaprovamento = True Then
 
-            'PASSA OBS DO CLIENTE, DO AGENTE, DO COMERCIAL E DO OPERACIONAL CADASTRADO NA BL ANTIGA PARA O NOVO BL
-            If OB_CLIENTE <> "" Then
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = '" & OB_CLIENTE & "' WHERE  ID_BL = " & ID_BL)
-            End If
-            If OB_AGENTE_INTERNACIONAL <> "" Then
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_AGENTE_INTERNACIONAL = '" & OB_AGENTE_INTERNACIONAL & "' WHERE  ID_BL = " & ID_BL)
-            End If
-            If OB_COMERCIAL <> "" Then
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_COMERCIAL = '" & OB_COMERCIAL & "' WHERE ID_BL = " & ID_BL)
-            End If
-            If OB_OPERACIONAL_INTERNA <> "" Then
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_OPERACIONAL_INTERNA = '" & OB_OPERACIONAL_INTERNA & "' WHERE ID_BL = " & ID_BL)
-            End If
-
-            'INSERE NR_BL ANTIGO NO REGISTRO NOVO
-            Con.ExecutarQuery("UPDATE TB_BL SET NR_BL = '" & HBL & "' WHERE ID_BL = " & ID_BL)
-
-            'DELETA TAXAS ANTIGAS QUE VIERAM DA COTAÇÃO
-            Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL = " & ID_BL_OLD & " AND CD_ORIGEM_INF = 'COTA' ")
-
-            'ALTERA ID_BL DAS TAXAS ANTIGAS QUE NAO VIERAM DA COTACAO PARA O NOVO O ID_BL
-            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD & " AND CD_ORIGEM_INF = 'OPER' ")
-
-            'ALTERA ID_BL DA REFERENCIA DO CLIENTE PARA O NOVO BL
-            Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD)
-
-            If ddlEstufagem.SelectedValue = 1 Then
-
-                'DELETA CARGAS ANTIGAS QUE VIERAM DA COTAÇÃO
-                Con.ExecutarQuery("DELETE FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL_OLD & " AND ID_MERCADORIA in (SELECT OLD.ID_MERCADORIA FROM TB_CARGA_BL OLD
-INNER JOIN TB_CARGA_BL NEW ON NEW.ID_MERCADORIA = OLD.ID_MERCADORIA 
-WHERE OLD.ID_BL = " & ID_BL_OLD & " AND NEW.ID_BL = " & ID_BL & ")")
-
-                'ALTERA CARGAS ANTIGAS QUE NAO VIERAM DA COTACAO PARA O NOVO O ID_BL
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & ID_BL & " WHERE ID_BL = " & ID_BL_OLD)
-
-            ElseIf ddlEstufagem.SelectedValue = 2 Then
-
-                'DELETA CARGAS 
-                Con.ExecutarQuery("DELETE FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL_OLD)
-
-            End If
-
-        End If
-
-        Return True
-
-    End Function
+    End Sub
 
     Private Sub btnImportar_Click(sender As Object, e As EventArgs) Handles btnImportar.Click
         ImportaTaxas()

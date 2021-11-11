@@ -172,7 +172,7 @@
     <asp:SqlDataSource ID="dsMoedaFrete" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_MOEDA_FRETE as Id, A.ID_MOEDA,B.NM_MOEDA, A.DT_CAMBIO, A.VL_TXOFICIAL 
 FROM [dbo].[TB_MOEDA_FRETE] A 
-LEFT JOIN TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA" 
+LEFT JOIN TB_MOEDA B ON B.ID_MOEDA = A.ID_MOEDA order by A.DT_CAMBIO DESC" 
         DeleteCommand="DELETE FROM [dbo].[TB_MOEDA_FRETE] WHERE ID_MOEDA_FRETE = @Id">  
         <DeleteParameters>
                     <asp:Parameter Name="ID" Type="Int32" />

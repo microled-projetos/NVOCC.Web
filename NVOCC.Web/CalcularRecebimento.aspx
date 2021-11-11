@@ -151,6 +151,27 @@
                                                         <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                        <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                      <asp:BoundField DataField="BLOQUEADO" HeaderText="Bloqueado" SortExpression="BLOQUEADO" />
+                                                        <asp:TemplateField HeaderText=""  >
+                                            <ItemTemplate>
+                                                <asp:linkButton ID="btnBloquear" title="bloquear" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="bloquear"
+                                OnClientClick="javascript:return confirm('Deseja realmente bloquear este parceiro?');"  CommandArgument='<%# Eval("ID_BL") %>' Autopostback="true" ><i class="glyphicon glyphicon-ban-circle"  style="font-size:medium"></i></span></asp:linkButton>
+                                       
+                                                <asp:linkButton ID="btnDesbloquear" title="desbloquear" runat="server"  CssClass="btn btn-success btn-sm" CommandName="desbloquear"
+                                OnClientClick="javascript:return confirm('Deseja realmente desbloquear este parceiro?');"  CommandArgument='<%# Eval("ID_BL") %>' Autopostback="true" ><i class="glyphicon glyphicon-ok"   style="font-size:medium"></i></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
+                                                        <asp:TemplateField Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblFLAG_BLOQUEIO_MANUAL" runat="server" Text='<%# Eval("FLAG_BLOQUEIO_MANUAL") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
