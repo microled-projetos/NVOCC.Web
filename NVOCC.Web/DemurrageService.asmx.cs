@@ -55,14 +55,14 @@ namespace ABAINFRA.Web
             parceiroTransportador = DBS.List(SQL);
             return JsonConvert.SerializeObject(parceiroTransportador);
         }
-
+        
 
         [WebMethod]
         public string ListarDemurrageContainer(string armador)
         {
             string SQL;
-
-
+            
+            
             SQL = "SELECT ID_TABELA_DEMURRAGE, NM_TIPO_CONTAINER, FORMAT(DT_VALIDADE_INICIAL,'dd/MM/yyyy') AS DT_VALIDADE_INICIAL_FORMAT ";
             SQL += "FROM TB_TABELA_DEMURRAGE ";
             SQL += "JOIN TB_TIPO_CONTAINER ";
@@ -325,8 +325,8 @@ namespace ABAINFRA.Web
                 SQL += "ID_MOEDA, FL_ESCALONADA, FL_INICIO_CHEGADA, QT_DIAS_01 ,VL_VENDA_01 ,QT_DIAS_02 ,VL_VENDA_02 ,QT_DIAS_03 ,VL_VENDA_03 ,QT_DIAS_04, ";
                 SQL += "VL_VENDA_04 ,QT_DIAS_05 ,VL_VENDA_05 ,QT_DIAS_06 ,VL_VENDA_06 ,QT_DIAS_07 ,VL_VENDA_07 ,QT_DIAS_08 ,VL_VENDA_08) ";
                 SQL += "VALUES( '" + dados.ID_PARCEIRO_TRANSPORTADOR + "','" + dados.ID_TIPO_CONTAINER + "', ";
-                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '" + dados.FL_INICIO_CHEGADA + "', ";
-                SQL += "'" + qtdias01 + "','" + vlVenda01.ToString().Replace(',', '.') + "', '" + qtdias02 + "','" + vlVenda02.ToString().Replace(',', '.') + "', ";
+                SQL += "'" + dados.DT_VALIDADE_INICIAL + "','" + dados.QT_DIAS_FREETIME + "','" + dados.ID_MOEDA + "','" + dados.FL_ESCALONADA + "', '"+dados.FL_INICIO_CHEGADA+"', ";
+                SQL += "'" + qtdias01 + "','" + vlVenda01.ToString().Replace(',','.') + "', '" + qtdias02 + "','" + vlVenda02.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias03 + "','" + vlVenda03.ToString().Replace(',', '.') + "', '" + qtdias04 + "','" + vlVenda04.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias05 + "','" + vlVenda05.ToString().Replace(',', '.') + "', '" + qtdias06 + "','" + vlVenda06.ToString().Replace(',', '.') + "', ";
                 SQL += "'" + qtdias07 + "','" + vlVenda07.ToString().Replace(',', '.') + "', '" + qtdias08 + "','" + vlVenda08.ToString().Replace(',', '.') + "') ";
@@ -594,8 +594,8 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
-            SQL += "" + idFilter + " ";
-            SQL += "" + Ativo + " ";
+            SQL += ""+ idFilter + " ";
+            SQL += ""+ Ativo + " ";
             SQL += "" + Finalizado + " ";
             SQL += "ORDER BY PFCL.DT_CHEGADA";
             listTable = DBS.List(SQL);
@@ -616,7 +616,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '"+idCont+"'";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -643,13 +643,13 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm)
+        public string atualizarContainer(int idCont, string dtStatus, int dsStatus ,int qtDias, string dsObs, string qtDiasConfirm)
         {
             if (dsStatus.ToString() != "")
             {
                 string SQL;
                 string flagF;
-                SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + dsStatus + "' ";
+                SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '"+dsStatus+"' ";
                 DataTable flFinaliza = new DataTable();
                 flFinaliza = DBS.List(SQL);
                 flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
@@ -672,8 +672,8 @@ namespace ABAINFRA.Web
                 {
                     flagF = "1";
                 }
-                else
-                {
+				else
+				{
                     if (faturaCompra != "" && faturaVenda != "")
                     {
                         flagF = "1";
@@ -682,10 +682,10 @@ namespace ABAINFRA.Web
                     {
                         flagF = "0";
                     }
-                }
+				}
 
-                SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', FL_DEMURRAGE_FINALIZADA = " + flagF + " WHERE ID_CNTR_BL = '" + idCont + "' ";
+                SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+dsStatus+"', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '"+ qtDiasConfirm + "', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', FL_DEMURRAGE_FINALIZADA = "+flagF+" WHERE ID_CNTR_BL = '" + idCont + "' ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "1";
 
@@ -705,7 +705,7 @@ namespace ABAINFRA.Web
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '"+idCont+"' ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -727,7 +727,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_MOEDA M ON DFCL.ID_MOEDA_DEMURRAGE_VENDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_MOEDA M2 ON DFCL.ID_MOEDA_DEMURRAGE_COMPRA = M2.ID_MOEDA ";
-            SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' AND (PFCL.DT_CHEGADA IS NOT NULL OR PFCL.DT_CHEGADA != '') ";
+            SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' AND (PFCL.DT_CHEGADA IS NOT NULL OR PFCL.DT_CHEGADA != '') "; 
             SQL += "AND (PFCL.QT_DIAS_FREETIME IS NOT NULL OR PFCL.QT_DIAS_FREETIME != '') ";
             SQL += "AND (PFCL.DT_DEVOLUCAO_CNTR IS NOT NULL OR PFCL.DT_DEVOLUCAO_CNTR != '') ";
             if (tipoCalculo == "1")
@@ -802,7 +802,7 @@ namespace ABAINFRA.Web
 
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
-
+                    
                     if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
                     {
                         if (diasDemurrage <= d1)
@@ -907,7 +907,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
             SQL += "LEFT JOIN TB_CNTR_DEMURRAGE CD ON PFCL.ID_CNTR_BL = CD.ID_CNTR_BL ";
             SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
-            SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = '" + transportador + "' ";
+            SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = '"+ transportador + "' ";
             SQL += "AND PFCL.DT_DEVOLUCAO_CNTR >= TBD.DT_VALIDADE_INICIAL ";
 
             DataTable listTable = new DataTable();
@@ -1007,13 +1007,13 @@ namespace ABAINFRA.Web
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if (listTable != null)
+            if(listTable != null)
             {
                 SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_CALCULO_DEMURRAGE_VENDA = NULL, ";
                 SQL += "ID_MOEDA_DEMURRAGE_VENDA = NULL, VL_TAXA_DEMURRAGE_VENDA = NULL, ";
                 SQL += "VL_DEMURRAGE_VENDA = NULL, DT_CAMBIO_DEMURRAGE_VENDA = NULL, ";
                 SQL += "VL_CAMBIO_DEMURRAGE_VENDA = NULL, VL_DESCONTO_DEMURRAGE_VENDA = NULL, ";
-                SQL += "VL_DEMURRAGE_VENDA_BR = NULL WHERE ID_CNTR_BL = " + idCont + " ";
+                SQL += "VL_DEMURRAGE_VENDA_BR = NULL WHERE ID_CNTR_BL = "+ idCont +" ";
                 string zerar = DBS.ExecuteScalar(SQL);
             }
         }
@@ -1033,7 +1033,7 @@ namespace ABAINFRA.Web
                 SQL += "ID_MOEDA_DEMURRAGE_COMPRA = NULL, VL_TAXA_DEMURRAGE_COMPRA = NULL, ";
                 SQL += "VL_DEMURRAGE_COMPRA = NULL, DT_CAMBIO_DEMURRAGE_COMPRA = NULL, ";
                 SQL += "VL_CAMBIO_DEMURRAGE_COMPRA = NULL, VL_DESCONTO_DEMURRAGE_COMPRA = NULL, ";
-                SQL += "VL_DEMURRAGE_COMPRA_BR = NULL WHERE ID_CNTR_BL = '" + idCont + "' ";
+                SQL += "VL_DEMURRAGE_COMPRA_BR = NULL WHERE ID_CNTR_BL = '"+idCont+"' ";
                 string zerar = DBS.ExecuteScalar(SQL);
             }
         }
@@ -1074,7 +1074,7 @@ namespace ABAINFRA.Web
                 listTable = DBS.List(SQL);
                 string faturaCompra = listTable.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = listTable.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
-
+                
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
                     somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
@@ -1085,7 +1085,7 @@ namespace ABAINFRA.Web
                     SQL += "VL_DEMURRAGE_VENDA, DT_CAMBIO_DEMURRAGE_VENDA, VL_CAMBIO_DEMURRAGE_VENDA, VL_DESCONTO_DEMURRAGE_VENDA, VL_DEMURRAGE_VENDA_BR ) VALUES ";
                     SQL += "(" + idCont + ",'" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "','" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', ";
                     SQL += "'" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "','" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "'," + somaDias + ", ";
-                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + "," + vlTaxa.ToString().Replace(",", ".") + "," + vlDemurr.ToString().Replace(",", ".") + ",null,null,null,null)";
+                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + "," + vlTaxa.ToString().Replace(",", ".") + "," + vlDemurr.ToString().Replace(",",".") + ",null,null,null,null)";
                     calcular = DBS.ExecuteScalar(SQL);
 
                     string flagF;
@@ -1110,7 +1110,7 @@ namespace ABAINFRA.Web
                         }
                     }
 
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = " + flagF + " WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+idStatus+"' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = "+flagF+" WHERE ID_CNTR_BL = "+ idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
 
                 }
@@ -1263,7 +1263,7 @@ namespace ABAINFRA.Web
                             flagF = "0";
                         }
                     }
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = " + flagF + " WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = "+flagF+" WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1301,7 +1301,7 @@ namespace ABAINFRA.Web
                     SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
                     SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + somaDias + ", ";
                     SQL += "DT_CALCULO_DEMURRAGE_VENDA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_VENDA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_VENDA = " + vlTaxa.ToString().Replace(",", ".") + ", ";
-                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
+                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null WHERE ID_CNTR_BL = "+ idCont + "";
                     calcular = DBS.ExecuteScalar(SQL);
 
                     string flagF;
@@ -1326,7 +1326,7 @@ namespace ABAINFRA.Web
                         }
                     }
 
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
 
                 }
@@ -1454,7 +1454,7 @@ namespace ABAINFRA.Web
                     SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
                     SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + somaDias + ", ";
                     SQL += "DT_CALCULO_DEMURRAGE_VENDA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_VENDA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_VENDA = 0, ";
-                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
+                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",",".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
                     calcular = DBS.ExecuteScalar(SQL);
 
                     string flagF;
@@ -1478,7 +1478,7 @@ namespace ABAINFRA.Web
                             flagF = "0";
                         }
                     }
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1557,7 +1557,7 @@ namespace ABAINFRA.Web
                         }
                     }
 
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
                 else
@@ -1584,7 +1584,7 @@ namespace ABAINFRA.Web
                     {
                         if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
                         {
-                            if (demurrage - d1 <= 0)
+                            if(demurrage - d1 <= 0)
                             {
                                 vlDemurr = demurrage * (decimal)listTable.Rows[0]["VL_VENDA_01"];
                             }
@@ -1679,13 +1679,13 @@ namespace ABAINFRA.Web
                             }
                         }
                     }
-
+                    
                     SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
                     SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_COMPRA, ID_MOEDA_DEMURRAGE_COMPRA, VL_TAXA_DEMURRAGE_COMPRA, ";
                     SQL += "VL_DEMURRAGE_COMPRA, DT_CAMBIO_DEMURRAGE_COMPRA, VL_CAMBIO_DEMURRAGE_COMPRA, VL_DESCONTO_DEMURRAGE_COMPRA, VL_DEMURRAGE_COMPRA_BR ) VALUES ";
                     SQL += "(" + idCont + "," + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "," + listTable.Rows[0]["DT_FINAL_FREETIME"] + ", ";
                     SQL += "" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "," + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "," + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] + ", ";
-                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + ",0,'" + vlDemurr.ToString().Replace(",", ".") + "',null,null,null,null)";
+                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + ",0,'" + vlDemurr.ToString().Replace(",",".") + "',null,null,null,null)";
                     calcular = DBS.ExecuteScalar(SQL);
 
                     string flagF;
@@ -1710,7 +1710,7 @@ namespace ABAINFRA.Web
                         }
                     }
 
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1731,7 +1731,7 @@ namespace ABAINFRA.Web
                 SQL += "LEFT JOIN TB_PARCEIRO P ON TBD.ID_PARCEIRO_TRANSPORTADOR = P.ID_PARCEIRO ";
                 SQL += "LEFT JOIN TB_MOEDA M ON TBD.ID_MOEDA = M.ID_MOEDA ";
                 SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
-                SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = '" + transportador + "' ";
+                SQL += "AND TBD.ID_PARCEIRO_TRANSPORTADOR = '"+ transportador + "' ";
 
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
@@ -1771,7 +1771,7 @@ namespace ABAINFRA.Web
                             flagF = "0";
                         }
                     }
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
                 else
@@ -1897,7 +1897,7 @@ namespace ABAINFRA.Web
                     SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
                     SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] + ", ";
                     SQL += "DT_CALCULO_DEMURRAGE_COMPRA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_COMPRA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_COMPRA = 0, ";
-                    SQL += "VL_DEMURRAGE_COMPRA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_COMPRA = null, VL_CAMBIO_DEMURRAGE_COMPRA = null, VL_DESCONTO_DEMURRAGE_COMPRA = null, VL_DEMURRAGE_COMPRA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
+                    SQL += "VL_DEMURRAGE_COMPRA = " + vlDemurr.ToString().Replace(",",".") + ", DT_CAMBIO_DEMURRAGE_COMPRA = null, VL_CAMBIO_DEMURRAGE_COMPRA = null, VL_DESCONTO_DEMURRAGE_COMPRA = null, VL_DEMURRAGE_COMPRA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
                     calcular = DBS.ExecuteScalar(SQL);
 
                     string flagF;
@@ -1922,7 +1922,7 @@ namespace ABAINFRA.Web
                         }
                     }
 
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+ idStatus + "',DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = " + idCont + " ";
                     string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
             }
@@ -1939,8 +1939,6 @@ namespace ABAINFRA.Web
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' ";
-            SQL += "AND (DFCL.ID_DEMURRAGE_FATURA_PAGAR IS NULL OR DFCL.ID_DEMURRAGE_FATURA_PAGAR = '') ";
-            SQL += "AND (DFCL.ID_DEMURRAGE_FATURA_RECEBER IS NULL OR DFCL.ID_DEMURRAGE_FATURA_RECEBER = '') ";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -1954,13 +1952,13 @@ namespace ABAINFRA.Web
             switch (filtroFatura)
             {
                 case "1":
-                    filtroFatura = "AND C.NR_PROCESSO = '" + txtFiltro + "' ";
+                    filtroFatura = "AND C.NR_PROCESSO = '"+ txtFiltro + "' ";
                     break;
                 case "2":
-                    filtroFatura = "AND C.NM_CLIENTE = '" + txtFiltro + "' ";
+                    filtroFatura = "AND C.NM_CLIENTE = '"+ txtFiltro + "' ";
                     break;
                 case "3":
-                    filtroFatura = "AND C.NM_TRANSPORTADOR = '" + txtFiltro + "' ";
+                    filtroFatura = "AND C.NM_TRANSPORTADOR = '"+ txtFiltro + "' ";
                     break;
                 default:
                     filtroFatura = "";
@@ -2042,7 +2040,7 @@ namespace ABAINFRA.Web
                 listTable = DBS.List(SQL);
             }
 
-
+            
             return JsonConvert.SerializeObject(listTable);
         }
 
@@ -2059,7 +2057,7 @@ namespace ABAINFRA.Web
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if (listTable != null)
+            if(listTable != null)
             {
                 return "OK";
             }
@@ -2074,8 +2072,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             DataTable listTable = new DataTable();
-            if (check == 1)
-            {
+            if (check == 1) {
                 SQL = "SELECT PFCL.ID_CNTR_BL, PFCL.NR_CNTR, PFCL.NM_TIPO_CONTAINER, ";
                 SQL += "M.NM_MOEDA ,ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(DFCL.VL_TAXA_DEMURRAGE_VENDA, 'c', 'pt-br')), 'R$', ''), '') AS TAXA_DEMURRAGE, FORMAT(DFCL.DT_INICIAL_DEMURRAGE,'dd/MM/yyyy') as DT_INICIAL_DEMURRAGE, ";
                 SQL += "FORMAT(DFCL.DT_FINAL_DEMURRAGE,'dd/MM/yyyy') AS DT_FINAL_DEMURRAGE,DFCL.QT_DIAS_DEMURRAGE,REPLACE(FORMAT(DFCL.VL_DEMURRAGE_VENDA,'C','PT-BR'),'R$','') AS VL_DEMURRAGE ";
@@ -2105,7 +2102,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod(EnableSession = true)]
+        [WebMethod (EnableSession = true)]
         public void processarFatura(string processo, int check)
         {
             DateTime myDateTime = DateTime.Now;
@@ -2121,8 +2118,6 @@ namespace ABAINFRA.Web
                 SQL = "INSERT INTO TB_DEMURRAGE_FATURA (ID_BL, CD_PR, DT_LANCAMENTO, ID_USUARIO_LANCAMENTO) ";
                 SQL += "VALUES (" + idbl + ",'R','" + sqlFormattedDate + "','" + Session["ID_USUARIO"] + "') ";
                 string processarFatura = DBS.ExecuteScalar(SQL);
-
-
             }
             else
             {
@@ -2135,7 +2130,7 @@ namespace ABAINFRA.Web
                 string processarFatura = DBS.ExecuteScalar(SQL);
 
             }
-
+            
         }
 
         [WebMethod]
@@ -2198,12 +2193,12 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON B.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_MOEDA_FRETE_ARMADOR MF ON B.ID_PARCEIRO_TRANSPORTADOR = MF.ID_ARMADOR ";
-            SQL += "WHERE A.ID_DEMURRAGE_FATURA = " + idFatura + " ";
+            SQL += "WHERE A.ID_DEMURRAGE_FATURA = "+idFatura+" ";
 
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);
         }
-
+        
         [WebMethod]
         public string listarFaturasAtualizacaoCambial(int idFatura, int check)
         {
@@ -2233,7 +2228,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string atualizacaoCambialFatura(int idFatura, string dtVencimento, string idContaBancaria)
+        public string atualizacaoCambialFatura(int idFatura, string dtVencimento,string idContaBancaria)
         {
             string SQL;
             DataTable listTable = new DataTable();
@@ -2283,7 +2278,7 @@ namespace ABAINFRA.Web
                 return "ok";
             }
 
-
+            
         }
 
         [WebMethod]
@@ -2301,8 +2296,8 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod(EnableSession = true)]
-        public string cancelarFatura(int idFatura, string motivoCancelamento)
+        [WebMethod (EnableSession = true)]
+        public string cancelarFatura(int idFatura,string motivoCancelamento)
         {
             string flagF;
             string SQL;
@@ -2314,14 +2309,14 @@ namespace ABAINFRA.Web
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            if (listTable != null)
+            if(listTable != null)
             {
-                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
-                SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
+                SQL = "UPDATE TB_CONTA_PAGAR_RECEBER SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '"+Session["ID_USUARIO"]+"', ";
+                SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '"+idFatura+"' ";
                 string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
-                SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
+                SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '"+idFatura+"' ";
                 string updateFatura = DBS.ExecuteScalar(SQL);
 
                 SQL = "SELECT C.ID_CNTR_BL FROM TB_DEMURRAGE_FATURA A ";
@@ -2361,7 +2356,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-        [WebMethod(EnableSession = true)]
+        [WebMethod (EnableSession = true)]
         public string exportarCC(int idFatura, string dtLiquidacao, int check, int dsStatus)
         {
             DateTime myDateTime = DateTime.Now;
@@ -2393,8 +2388,7 @@ namespace ABAINFRA.Web
             flFinaliza = DBS.List(SQL);
             flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
 
-            if (check == 1)
-            {
+            if (check == 1) {
                 SQL = "SELECT ID_BL FROM TB_DEMURRAGE_FATURA ";
                 SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                 DataTable listTable2 = new DataTable();
@@ -2405,7 +2399,7 @@ namespace ABAINFRA.Web
                 SQL += "join TB_AMR_CNTR_BL b on a.ID_BL = b.ID_BL ";
                 SQL += "JOIN TB_BL C ON C.ID_BL = b.ID_BL ";
                 SQL += "JOIN TB_CNTR_BL D ON b.ID_CNTR_BL = D.ID_CNTR_BL ";
-                SQL += "WHERE A.ID_BL = '" + idbl + "' AND D.FL_DEMURRAGE_FINALIZADA = 0 ";
+                SQL += "WHERE A.ID_BL = '"+idbl+"' AND D.FL_DEMURRAGE_FINALIZADA = 0 ";
                 DataTable listarContainers = new DataTable();
                 listarContainers = DBS.List(SQL);
                 int qtdRows = listarContainers.Rows.Count;
@@ -2417,8 +2411,7 @@ namespace ABAINFRA.Web
                 SQL += "'" + idUsuario + "','" + dtLiquidacao + "','" + Session["ID_USUARIO"] + "','" + cdpr + "','" + idFatura + "','DEM') SELECT SCOPE_IDENTITY()";
                 string insertConta = DBS.ExecuteScalar(SQL);
 
-                for (i = 0; i < qtdRows; i++)
-                {
+                for (i = 0; i < qtdRows; i++) {
                     SQL = "SELECT ID_MOEDA_DEMURRAGE_VENDA,VL_DEMURRAGE_VENDA ";
                     SQL += ",ID_PARCEIRO_CLIENTE,FORMAT(DT_CAMBIO_DEMURRAGE_VENDA,'yyyy-MM-dd') AS DT_CAMBIO_DEMURRAGE_VENDA ";
                     SQL += ",VL_CAMBIO_DEMURRAGE_VENDA,VL_DEMURRAGE_VENDA_BR ";
@@ -2451,9 +2444,9 @@ namespace ABAINFRA.Web
 
                     SQL = "INSERT INTO TB_CONTA_PAGAR_RECEBER_ITENS (ID_CONTA_PAGAR_RECEBER, ID_BL, ID_ITEM_DESPESA, ID_DESTINATARIO_COBRANCA, ";
                     SQL += "ID_MOEDA, ID_PARCEIRO_EMPRESA, VL_TAXA_CALCULADO, DT_CAMBIO,VL_CAMBIO,VL_LANCAMENTO,VL_DESCONTO,VL_LIQUIDO, FL_INTEGRA_PA) VALUES ";
-                    SQL += "('" + insertConta + "','" + idbl + "','" + idItemD + "','1','" + idMoedaVenda + "', ";
-                    SQL += "'" + parceiroCliente + "','" + vlDemurrageVenda + "','" + dtCambioVenda + "','" + vlCambioDemuVenda + "','" + vlDemuVendaBR + "' ";
-                    SQL += ",'" + vlDescDemuVenda + "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
+                    SQL += "('"+ insertConta + "','"+ idbl + "','"+ idItemD + "','1','" + idMoedaVenda + "', ";
+                    SQL += "'" + parceiroCliente + "','" + vlDemurrageVenda + "','"+ dtCambioVenda + "','"+ vlCambioDemuVenda + "','"+ vlDemuVendaBR + "' ";
+                    SQL += ",'"+ vlDescDemuVenda + "','"+ vlDemuLiquidVenda + "','"+ flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
@@ -2488,7 +2481,7 @@ namespace ABAINFRA.Web
                     }
                 }
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
+                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+dsStatus+"', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
                 string updtDsStatus = DBS.ExecuteScalar(SQL);
             }
             else
@@ -2527,10 +2520,10 @@ namespace ABAINFRA.Web
                     DataTable vlDemurrage = new DataTable();
                     vlDemurrage = DBS.List(SQL);
                     int idMoedaCompra = (int)vlDemurrage.Rows[0]["ID_MOEDA_DEMURRAGE_COMPRA"];
-                    string vlDemurrageCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlDemurrageCompra= vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
                     int parceiroTransportador = (int)vlDemurrage.Rows[0]["ID_PARCEIRO_TRANSPORTADOR"];
                     string dtCambioCompra = vlDemurrage.Rows[0]["DT_CAMBIO_DEMURRAGE_COMPRA"].ToString();
-                    string vlCambioDemuCompra = vlDemurrage.Rows[0]["VL_CAMBIO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
+                    string vlCambioDemuCompra = vlDemurrage.Rows[0]["VL_CAMBIO_DEMURRAGE_COMPRA"].ToString().Replace(",",".");
                     string vlDemuCompraBR = vlDemurrage.Rows[0]["VL_DEMURRAGE_COMPRA_BR"].ToString().Replace(",", ".");
                     string vlDescDemuCompra = vlDemurrage.Rows[0]["VL_DESCONTO_DEMURRAGE_COMPRA"].ToString().Replace(",", ".");
                     string vlDemuLiquidCompra = vlDemurrage.Rows[0]["VL_DEMURRAGE_LIQUIDO_COMPRA"].ToString().Replace(",", ".");
@@ -2585,7 +2578,7 @@ namespace ABAINFRA.Web
                     }
                 }
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
+                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '"+dsStatus+"', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
                 string updtDsStatus = DBS.ExecuteScalar(SQL);
             }
             return JsonConvert.SerializeObject("OK");
@@ -2715,7 +2708,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_COMPRA = MD.ID_MOEDA ";
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
             SQL += "AND DF.CD_PR = 'P' ";
-
+         
             DataTable imprimirDados = new DataTable();
             imprimirDados = DBS.List(SQL);
             return JsonConvert.SerializeObject(imprimirDados);
@@ -3296,7 +3289,7 @@ namespace ABAINFRA.Web
                     DataTable cntr = new DataTable();
                     cntr = DBS.List(SQL);
                     string cntrbl = cntr.Rows[0]["ID_CNTR_BL"].ToString();
-
+                    
 
                     SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 1, FL_DEMURRAGE_FINALIZADA = 0 WHERE ID_CNTR_BL = '" + cntrbl + "' ";
                     string atualizaStatus = DBS.ExecuteScalar(SQL);
@@ -3361,8 +3354,8 @@ namespace ABAINFRA.Web
                     }
                 }
 
-                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' ";
+                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '"+dsStatus+"', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCont + "' ";
             }
 
@@ -3396,8 +3389,8 @@ namespace ABAINFRA.Web
                     }
                 }
 
-                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = '" + dtDevolucao + "', ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' ";
+                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = '" + dtDevolucao + "', ID_STATUS_DEMURRAGE = '"+dsStatus+"', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '"+flagF+"' ";
                 SQL += "WHERE ID_CNTR_BL = '" + idCont + "' ";
             }
             string attDevolu = DBS.ExecuteScalar(SQL);
@@ -3924,7 +3917,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarDemurrageVenda()
+        public string listarDemurrageVenda() 
         {
             string SQL;
 
@@ -3953,24 +3946,24 @@ namespace ABAINFRA.Web
             SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
 
             if (dados.BLHOUSE != "")
-            {
+			{
                 SQL += "AND BL.NR_BL LIKE '" + dados.BLHOUSE + "%' ";
 
-            }
+			}
 
-            if (dados.DTRECEBIMENTOMBLINICIO != "")
-            {
-                if (dados.DTRECEBIMENTOMBLFIM != "")
-                {
+            if(dados.DTRECEBIMENTOMBLINICIO != "")
+			{
+                if(dados.DTRECEBIMENTOMBLFIM != "")
+				{
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' AND M.DT_RECEBIMENTO_MBL <= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
-                }
-                else
-                {
+				}
+				else
+				{
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' ";
                 }
-            }
-            else
-            {
+			}
+			else
+			{
                 if (dados.DTRECEBIMENTOMBLFIM != "")
                 {
                     SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
@@ -4072,13 +4065,13 @@ namespace ABAINFRA.Web
                 }
             }
 
-            if (dados.AGENTE != "")
-            {
+            if(dados.AGENTE != "")
+			{
                 SQL += "AND P2.NM_RAZAO LIKE '" + dados.AGENTE + "%' ";
             }
 
-            if (dados.CDRASTREAMENTOHBL != "")
-            {
+            if(dados.CDRASTREAMENTOHBL != "")
+			{
                 SQL += "AND BL.CD_RASTREAMENTO_HBL LIKE '" + dados.CDRASTREAMENTOHBL + "%' ";
             }
 
@@ -4093,7 +4086,7 @@ namespace ABAINFRA.Web
             }
 
             if (dados.FATURA != "")
-            {
+			{
                 SQL += "AND BL.NR_FATURA_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
             }
 
@@ -4151,7 +4144,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
-
+        
 
         [WebMethod]
         public string BuscarCourrier(int id)
@@ -4192,7 +4185,7 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string editarCourrier(CourrierInfo dadosEdit)
         {
-            string SQL;
+            string SQL;            
             SQL = "UPDATE TB_BL SET ";
             if (dadosEdit.DT_RECEBIMENTO_HBL == "")
             {
@@ -4220,7 +4213,7 @@ namespace ABAINFRA.Web
                 SQL += "DT_RETIRADA_PERSONAL = '" + dadosEdit.DT_RETIRADA_PERSONAL + "', ";
             }
             SQL += "NM_RETIRADO_POR_COURRIER = '" + dadosEdit.NM_RETIRADO_POR_COURRIER + "', ";
-            SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER + "', ";
+            SQL += "NR_FATURA_COURRIER = '" + dadosEdit.NR_FATURA_COURRIER+ "', ";
             SQL += "FL_TROCA = '" + dadosEdit.FL_TROCA + "' ";
             SQL += "WHERE ID_BL = '" + dadosEdit.ID_BL + "' ";
 
@@ -4254,10 +4247,10 @@ namespace ABAINFRA.Web
             string editCourrierMaster = DBS.ExecuteScalar(SQL);
 
             return "1";
-
+            
         }
 
-
+        
 
         [WebMethod]
         public string listarInvoices(string dataI, string dataF, string nota, string filter)
@@ -4301,7 +4294,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(AF.DT_FECHAMENTO,'dd/MM/yyyy'),'') AS DT_FECHAMENTO, ";
             SQL += "ISNULL(AI.DS_OBSERVACAO,'') AS OBS ";
             SQL += "from TB_ACCOUNT_INVOICE AI ";
-            SQL += "JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
+            SQL += "JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
             SQL += "LEFT JOIN TB_ACCOUNT_TIPO_EMISSOR ATE ON AI.ID_ACCOUNT_TIPO_EMISSOR = ATE.ID_ACCOUNT_TIPO_EMISSOR ";
             SQL += "LEFT JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_ACCOUNT_TIPO_FATURA ATF ON AI.ID_ACCOUNT_TIPO_FATURA = ATF.ID_ACCOUNT_TIPO_FATURA ";
@@ -4309,7 +4302,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_ACCOUNT_INVOICE_ITENS AII ON AII.ID_ACCOUNT_INVOICE = AI.ID_ACCOUNT_INVOICE ";
             SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO_ITENS AFI ON AI.ID_ACCOUNT_INVOICE = AFI.ID_ACCOUNT_INVOICE ";
             SQL += "LEFT JOIN TB_ACCOUNT_FECHAMENTO AF ON AFI.ID_ACCOUNT_FECHAMENTO = AF.ID_ACCOUNT_FECHAMENTO ";
-            SQL += "WHERE AI.DT_VENCIMENTO >= '" + dataI + "' AND AI.DT_VENCIMENTO <= '" + dataF + "' ";
+            SQL += "WHERE AI.DT_VENCIMENTO >= '"+dataI+"' AND AI.DT_VENCIMENTO <= '"+dataF+"' ";
             SQL += "" + nota + "";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -4377,26 +4370,26 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
-            SQL += "JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
-            SQL += "JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += "LEFT JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
+            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
             SQL += "LEFT JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
             SQL += "LEFT JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
-            for (int i = 0; i < invoices.Length; i++)
-            {
-                if (i == 0)
-                {
+            for (int i = 0; i< invoices.Length; i++)
+			{
+                if(i == 0)
+				{
                     SQL += " WHERE AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-                else
-                {
+				}
+				else
+				{
                     SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
-                }
-            }
+				}
+			}
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-
+            
             return JsonConvert.SerializeObject(listTable);
         }
 
@@ -4405,8 +4398,8 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            switch (filter)
-            {
+			switch (filter)
+			{
                 case "1":
                     text = " WHERE C.NR_BL LIKE '" + text + "%' ";
                     break;
@@ -4440,7 +4433,7 @@ namespace ABAINFRA.Web
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS C ON A.ID_BL = C.ID_BL ";
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
             SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
-            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' AND A.ID_BL_MASTER = '" + blmaster + "' ";
+            SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' AND A.ID_BL_MASTER = '"+ blmaster+"' ";
 
 
             DataTable listTable = new DataTable();
@@ -4460,7 +4453,7 @@ namespace ABAINFRA.Web
             SQL += "INNER JOIN TB_CONTA_PAGAR_RECEBER E ON C.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER ";
             SQL += "LEFT JOIN TB_ITEM_DESPESA D ON C.ID_ITEM_DESPESA = D.ID_ITEM_DESPESA ";
             SQL += "WHERE E.DT_CANCELAMENTO IS NULL AND E.CD_PR = 'P' ";
-            SQL += "AND B.ID_BL = '" + blmaster + "' AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
+            SQL += "AND B.ID_BL = '"+blmaster+ "' AND ISNULL(E.TP_EXPORTACAO ,'') = '' ";
             SQL += "GROUP BY D.NM_ITEM_DESPESA, A.ID_BL_MASTER, A.NR_PROCESSO, A.VL_M3, C.VL_LIQUIDO, B.NR_BL, D.ID_ITEM_DESPESA ";
             SQL += "ORDER BY D.NM_ITEM_DESPESA ";
 
@@ -4476,7 +4469,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
 
-            SQL = "SELECT ID_BL_MASTER, ID_BL, NR_PROCESSO as PROCESSO, M3 AS CUBAGEM, RATEIO_TOTAL, RATEIO_NF AS RATEIONF, RATEIO_ISS AS RATEIOISS, NF_LIQUIDO AS NFLIQUIDO FROM FN_RATEIO_TOTAIS(" + blmaster + ")";
+           SQL = "SELECT ID_BL_MASTER, ID_BL, NR_PROCESSO as PROCESSO, M3 AS CUBAGEM, RATEIO_TOTAL, RATEIO_NF AS RATEIONF, RATEIO_ISS AS RATEIOISS, NF_LIQUIDO AS NFLIQUIDO FROM FN_RATEIO_TOTAIS("+blmaster+")";
 
 
             DataTable listTable = new DataTable();
@@ -4496,9 +4489,9 @@ namespace ABAINFRA.Web
 
             email.IsBodyHtml = true;
             email.Priority = MailPriority.Normal;
-            SmtpClient smtp = new SmtpClient("smtp.office365.com", 587);
+            SmtpClient smtp = new SmtpClient("smtp.office365.com",587);
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("thiago.amaro@abainfra.com.br", "ta!@#253*");
+            smtp.Credentials = new NetworkCredential("thiago.amaro@abainfra.com.br","ta!@#253*");
             smtp.EnableSsl = true;
             smtp.Send(email);
         }
@@ -6353,74 +6346,12 @@ namespace ABAINFRA.Web
             dataI = diaI + '/' + mesI + '/' + anoI;
             dataF = diaF + '/' + mesF + '/' + anoF;
 
-            SQL = "SELECT FL_REL_COTACOES_COMPLETO, CPF FROM TB_USUARIO WHERE ID_USUARIO = 3 ";
-            DataTable listTable2 = new DataTable();
-            listTable2 = DBS.List(SQL);
-            int flagCompleto = Convert.ToInt32(listTable2.Rows[0]["FL_REL_COTACOES_COMPLETO"]);
-            string cpf = listTable2.Rows[0]["CPF"].ToString();
-
-            if (flagCompleto == 1)
-            {
-                switch (filter)
-                {
-                    case "1":
-                        nota = "AND NM_VENDEDOR LIKE '" + nota + "%' ";
-                        break;
-                    case "2":
-                        nota = "AND INSIDE LIKE '" + nota + "%' ";
-                        break;
-                    case "3":
-                        nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
-                        break;
-                    case "4":
-                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
-                        break;
-                    default:
-                        nota = "";
-                        break;
-                }
-
-            }
-            else
-            {
-                switch (filter)
-                {
-                    case "2":
-                        nota = "AND INSIDE LIKE '" + nota + "%' ";
-                        break;
-                    case "3":
-                        nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
-                        break;
-                    case "4":
-                        nota = "AND NM_STATUS_COTACAO LIKE '" + nota + "%' ";
-                        break;
-                    default:
-                        nota = "";
-                        break;
-                }
-            }
-
             SQL = "select ISNULL(FORMAT(DT_SOLICITACAO,'dd/MM/yyyy'),'') AS SOLICITACAO, ISNULL(INSIDE,'') AS INSIDE, ";
             SQL += "ISNULL(NR_COTACAO, '') AS NR_COTACAO, ISNULL(MODAL, '') AS MODAL, ISNULL(CD_INCOTERM, '') AS INCOTERM, ";
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
-            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "') ";
+            SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', '" + Session["ID_USUARIO"] +"') ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += "" + nota + "";
-            if (flagCompleto == 0)
-            {
-                SQL2 = "SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE CPF = '" + cpf.Replace(".", "").Replace("-", "") + "' ";
-                DataTable listTable3 = new DataTable();
-                listTable3 = DBS.List(SQL2);
-                if (listTable3 != null)
-                {
-                    string vendedor = listTable3.Rows[0]["ID_PARCEIRO"].ToString();
-                    SQL += " AND ID_VENDEDOR = '" + vendedor + "' ";
-                }
-                else
-                {
-                    SQL += " AND ID_VENDEDOR IS NULL ";
-                }
-            }
             SQL += "ORDER BY DT_SOLICITACAO ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
