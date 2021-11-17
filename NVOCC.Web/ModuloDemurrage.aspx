@@ -130,16 +130,22 @@
                                         </div>
                                     </div>
                                     <div class="row topMarg">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Quantidade Dias de FreeTime</label>
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2 col-sm-offset-1">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Quantidade Dias de FreeTime Confirmado</label>
                                                 <input id="qtDiasFreeTimeConfirm" class="form-control" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-sm-offset-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Quant. Dias de Demurrage Compra</label>
+                                                <input id="qtDiasDemurrageCompra" class="form-control" type="text"/>
                                             </div>
                                         </div>
                                     </div>
@@ -236,7 +242,7 @@
                     </div>
 
                     <div class="modal fade bd-example-modal-lg" id="modalCaluclo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="modalCalculoTitle"></h5>
@@ -284,7 +290,8 @@
                                                     <th class="text-center" scope="col">Free Time</th>
                                                     <th class="text-center" scope="col">Data Limite</th>
                                                     <th class="text-center" scope="col">Data Devolução</th>
-                                                    <th class="text-center" scope="col">Dias Demurrage</th>
+                                                    <th class="text-center" scope="col">Dias Demu Venda</th>
+                                                    <th class="text-center" scope="col">Dias Demu Compra</th>
                                                     <th class="text-center" scope="col">Moeda Demu Compra</th>
                                                     <th class="text-center" scope="col">Valor Demu Compra</th>
                                                     <th class="text-center" scope="col">Moeda Demu Venda</th>
@@ -821,6 +828,7 @@
                                                 <button type="button" id="btnAtualizacaoCambial" onclick="listarAtualizacaoCambial()" class="btn btn-primary">Atualização Cambial</button>           
                                                 <button type="button" id="btnImprimirFatura" class="btn btn-primary" onclick="imprimirFatura()">Imprimir Fatura</button>                
                                                 <button type="button" id="btnExportarContaCorrente" class="btn btn-primary" onclick="exportarCC()">Exportar Conta Corrente</button>
+                                                <button type="button" id="btnImprimirRecibo" class="btn btn-primary" onclick="ImprimirRecibo()">Imprimir Recibo</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1270,7 +1278,8 @@
                                     <th class="text-center" scope="col">FreeTime</th>
                                     <th class="text-center" scope="col">FreeTime Confirmado</th>
                                     <th class="text-center" scope="col">Data Devolução</th>
-                                    <th class="text-center" scope="col">Qtd Dias Demurrage</th>
+                                    <th class="text-center" scope="col">Dias DEM Venda</th>
+                                    <th class="text-center" scope="col">Dias DEM Compra</th>
                                     <th class="text-center" scope="col">Status</th>
                                     <th class="text-center" scope="col">Observação</th>
                                     <th class="text-center" scope="col">Id Fatura Compra</th>
@@ -1873,6 +1882,8 @@
                             document.getElementById('dtStatus').value = dado[0]['DATA_STATUS_DEMURRAGE'];
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
                             document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
+                            document.getElementById('qtDiasDemurrageCompra').value = dado[0]['QT_DIAS_DEMURRAGE_COMPRA'];
+
                             if (dado[0]['DS_OBSERVACAO'] == null) {
                                 document.getElementById('obsInfoCont').value = "";
                             }
@@ -1902,11 +1913,12 @@
             var qtDiasFreeTime = document.getElementById("qtDiasFreeTime").value;
             var obsInfoCont = document.getElementById("obsInfoCont").value;
             var qtDiasFreeTimeConfirm = document.getElementById("qtDiasFreeTimeConfirm").value;
+            var qtDiasDemurrageCompra = document.getElementById("qtDiasDemurrageCompra").value;
             if (dsStatus != "") {
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/atualizarContainer",
-                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm+'" }',
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra +'" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
@@ -1973,7 +1985,7 @@
                                         for (let i = 0; i < dado.length; i++) {
                                             $("#grdCalculoDemurrageBody").append("<tr><td class='text-center'><div><input type='checkbox' class='teste' value='" + dado[i]["ID_CNTR"] + "' name='checks'/></div></td><td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_TIPO_CONTAINER"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_FREETIME"] + "</td><td class='text-center'>" + dado[i]["DT_FINAL_FREETIME"] + "</td>" +
-                                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["COMPRA"] + "</td>" +
+                                                "<td class='text-center'>" + dado[i]["DT_DEVOLUCAO_CNTR"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td><td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td><td class='text-center'>" + dado[i]["COMPRA"] + "</td>" +
                                                 "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td><td class='text-center'>" + dado[i]["VENDA"] + "</td><td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td></tr>");
                                         }
                                     }
@@ -2716,29 +2728,30 @@
                             doc.text(dado[0]["VL_M3"], 129, 75);
 
                             doc.setFontStyle("bold");
-                            doc.text("CONTEINER", 14, 90);
-                            doc.text("TIPO", 40, 90);
-                            doc.text("FREETIME", 66, 85);
-                            doc.text("INICIO", 56, 90);
-                            doc.text("FINAL", 70, 90);
-                            doc.text("DIAS", 82, 90);
-                            doc.text("DEMURRAGE", 100, 85);
-                            doc.text("INICIO", 92, 90);
-                            doc.text("FINAL", 106, 90);
-                            doc.text("DIAS", 118, 90);
-                            doc.text("MOEDA", 127, 90);
-                            doc.text("DIÁRIA", 141, 85);
-                            doc.text("COMPRA", 140, 90);
-                            doc.text("TOTAL", 157, 85);
-                            doc.text("COMPRA", 156, 90);
-                            doc.text("DIÁRIA", 172, 85);
-                            doc.text("VENDA", 172, 90);
-                            doc.text("TOTAL", 185, 85);
-                            doc.text("VENDA", 185, 90);
+                            doc.text("CONTEINER", 7, 90);
+                            doc.text("TIPO", 29, 90);
+                            doc.text("FREETIME", 53, 85);
+                            doc.text("INICIO", 42, 90);
+                            doc.text("FINAL", 56, 90);
+                            doc.text("DIAS", 69, 90);
+                            doc.text("DEMURRAGE", 93, 85);
+                            doc.text("INICIO", 79, 90);
+                            doc.text("FINAL",93, 90);
+                            doc.text("DIAS C", 106, 90);
+                            doc.text("DIAS V", 119, 90);
+                            doc.text("MOEDA", 132, 90);
+                            doc.text("DIÁRIA", 148, 85);
+                            doc.text("COMPRA", 147, 90);
+                            doc.text("TOTAL", 163, 85);
+                            doc.text("COMPRA", 163, 90);
+                            doc.text("DIÁRIA", 178, 85);
+                            doc.text("VENDA", 178, 90);
+                            doc.text("TOTAL", 193, 85);
+                            doc.text("VENDA", 193, 90);
                             doc.setFontStyle("normal");
 
                             doc.setLineWidth(0.2);
-                            doc.line(11.7, 91.5, 200.5, 91.5);
+                            doc.line(5, 91.5, 205.5, 91.5);
                             
 
                             $.ajax({
@@ -2753,54 +2766,43 @@
                                     if (dado != null) {
                                         for (let i = 0; i < dado.length; i++) {
                                             lineH = lineH + 5;
-                                            doc.line(11.7, lineH, 200.5, lineH);
-                                            
-                                            doc.addImage(bg, 'png', 12, positionbg, 22, 4);
-                                            doc.text(dado[i]["NR_CNTR"], 13, position);
-                                            doc.addImage(bg, 'png', 35, positionbg, 18, 4);
-                                            doc.text(dado[i]["NM_TIPO_CONTAINER"], 36, position);
-                                            doc.addImage(bg, 'png', 54, positionbg, 13, 4);
-                                            doc.text(dado[i]["INICIALFT"], 55, position);
-                                            doc.addImage(bg, 'png', 68, positionbg, 13, 4);
-                                            doc.text(dado[i]["FINALFT"], 69, position);
-                                            doc.addImage(bg, 'png', 82, positionbg, 7, 4);
-                                            doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 84, position);
-                                            doc.addImage(bg, 'png', 90, positionbg, 13, 4);
-                                            doc.text(dado[i]["INICIALDEM"].substr(0, 8), 91, position);
-                                            doc.addImage(bg, 'png', 104, positionbg, 13, 4);
-                                            doc.text(dado[i]["FINALDEM"], 105, position);
-                                            doc.addImage(bg, 'png', 118, positionbg, 7, 4);
-                                            doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 120, position);
-                                            doc.addImage(bg, 'png', 126, positionbg, 12, 4);
-                                            doc.text(dado[i]["SIGLA_MOEDA"], 129, position);
-                                            doc.addImage(bg, 'png', 139, positionbg, 14, 4);
-                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"], 141, position);
-                                            doc.addImage(bg, 'png', 154, positionbg, 16, 4);
-                                            doc.text(dado[i]["VL_DEMURRAGE_COMPRA"], 156, position);
-                                            doc.addImage(bg, 'png', 171, positionbg, 12, 4);
-                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"], 172, position);
-                                            doc.addImage(bg, 'png', 184, positionbg, 16, 4);
-                                            doc.text(dado[i]["VL_DEMURRAGE_VENDA"], 184, position);
+                                            doc.line(5, lineH, 205.5, lineH);
+                                            doc.addImage(bg, 'png', 5, positionbg, 200, 4);
+                                            doc.text(dado[i]["NR_CNTR"], 6, position);
+                                            doc.text(dado[i]["NM_TIPO_CONTAINER"], 27, position);
+                                            doc.text(dado[i]["INICIALFT"], 40, position);
+                                            doc.text(dado[i]["FINALFT"], 55, position);
+                                            doc.text(dado[i]["QT_DIAS_FREETIME"].toString(), 70, position);
+                                            doc.text(dado[i]["INICIALDEM"].substr(0, 8), 78, position);
+                                            doc.text(dado[i]["FINALDEM"], 92, position);
+                                            doc.text(dado[i]["QT_DIAS_DEMURRAGE_COMPRA"].toString(), 110, position);
+                                            doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 122, position);
+                                            doc.text(dado[i]["SIGLA_MOEDA"], 134, position);
+                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"], 148, position);
+                                            doc.text(dado[i]["VL_DEMURRAGE_COMPRA"], 163, position);
+                                            doc.text(dado[i]["VL_TAXA_DEMURRAGE_VENDA"], 178, position);                                            
+                                            doc.text(dado[i]["VL_DEMURRAGE_VENDA"], 192, position);
                                             position = position + 5;
                                             positionbg = positionbg + 5;
                                             lineV = lineV + 5;
                                             total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA"].toString().replace(".", ""));
                                             totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA"].toString().replace(".", ""));
                                         }
-                                        doc.line(11.7, 91.5, 11.7, lineV - 5);
-                                        doc.line(34.5, 91.5, 34.5, lineV - 5);
-                                        doc.line(53.5, 91.5, 53.5, lineV - 5);
+                                        doc.line(5, 91.5, 5, lineV - 5);
+                                        doc.line(26, 91.5, 26, lineV - 5);
+                                        doc.line(38.5, 91.5, 38.5, lineV - 5);
+                                        doc.line(52.5, 91.5, 52.5, lineV - 5);
                                         doc.line(67.5, 91.5, 67.5, lineV - 5);
-                                        doc.line(81.5, 91.5, 81.5, lineV - 5);
-                                        doc.line(89.5, 91.5, 89.5, lineV - 5);
-                                        doc.line(103.5, 91.5, 103.5, lineV - 5);
+                                        doc.line(76.5, 91.5, 76.5, lineV - 5);
+                                        doc.line(90.5, 91.5, 90.5, lineV - 5);
+                                        doc.line(104.5, 91.5, 104.5, lineV - 5);
                                         doc.line(117.5, 91.5, 117.5, lineV - 5);
-                                        doc.line(125.5, 91.5, 125.5, lineV - 5);
-                                        doc.line(138.5, 91.5, 138.5, lineV - 5);
-                                        doc.line(153.5, 91.5, 153.5, lineV - 5);
-                                        doc.line(170.5, 91.5, 170.5, lineV - 5);
-                                        doc.line(183.5, 91.5, 183.5, lineV - 5);
-                                        doc.line(200.5, 91.5, 200.5, lineV - 5);
+                                        doc.line(129.5, 91.5, 129.5, lineV - 5);
+                                        doc.line(144.5, 91.5, 144.5, lineV - 5);
+                                        doc.line(160.5, 91.5, 160.5, lineV - 5);
+                                        doc.line(176.5, 91.5, 176.5, lineV - 5);
+                                        doc.line(190.5, 91.5, 190.5, lineV - 5);
+                                        doc.line(205.5, 91.5, 205.5, lineV - 5);
                                         doc.setFontStyle("bold");
                                         doc.text("TOTAL COMPRA: ", 162, position+10);
                                         doc.setFontStyle("normal");
@@ -3392,7 +3394,7 @@
                                                 doc.addImage(bg, 'png', 104, positionbgC, 13, 4);
                                                 doc.text(dado[i]["FINALDEM"], 105, positionC);
                                                 doc.addImage(bg, 'png', 118, positionbgC, 7, 4);
-                                                doc.text(dado[i]["QT_DIAS_DEMURRAGE"].toString(), 120, positionC);
+                                                doc.text(dado[i]["QT_DIAS_DEMURRAGE_COMPRA"].toString(), 120, positionC);
                                                 doc.addImage(bg, 'png', 126, positionbgC, 12, 4);
                                                 doc.text(dado[i]["SIGLA_MOEDA"].toString(), 129, positionC);
                                                 doc.addImage(bg, 'png', 139, positionbgC, 14, 4);
@@ -4139,6 +4141,7 @@
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
@@ -4164,6 +4167,7 @@
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
@@ -4188,6 +4192,7 @@
                                     freetime +
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
@@ -4298,6 +4303,18 @@
             // Download CSV file
             downloadCSVEstimativa(csv.join("\n"), filename);
         }
+
+        function ImprimirRecibo() {
+            if (idFatura != 0) {
+                var ID = idFatura;
+                console.log(ID);
+
+                window.open('ReciboDemurrage.aspx?id=' + ID, '_blank');
+            } else {
+                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
+
                 
     </script>
 

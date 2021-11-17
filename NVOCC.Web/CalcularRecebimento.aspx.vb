@@ -331,7 +331,16 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                 End If
 
 
-                grid()
+                dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
+WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+                dgvTaxas.DataBind()
+
+
+                dsTaxas.SelectParameters("ID_BL").DefaultValue = txtID_BL.Text
+                dsTaxas.SelectParameters("ID_PARCEIRO_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
+                dgvTaxas.DataBind()
+
+                divConteudo.Visible = True
 
             End If
         End If
@@ -340,48 +349,7 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
     End Sub
 
 
-    Sub grid()
-        Dim sqlGrid As String = "SELECT * FROM [dbo].[View_BL_TAXAS]
-WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
 
-        Using Status = New NotaFiscal.WsNvocc
-
-            Status.StatusBloqueio(sqlGrid)
-
-        End Using
-
-        dsTaxas.SelectCommand = sqlGrid
-        dgvTaxas.DataBind()
-
-        For Each linha As GridViewRow In dgvTaxas.Rows
-            Dim ID_PARCEIRO_ARMAZEM_DESCARGA As String = CType(linha.FindControl("lblID_PARCEIRO_ARMAZEM_DESCARGA"), Label).Text
-            Dim FLAG_BLOQUEIO_MANUAL As String = CType(linha.FindControl("lblFLAG_BLOQUEIO_MANUAL"), Label).Text
-            Dim btnDesbloquear As LinkButton = CType(linha.FindControl("btnDesbloquear"), LinkButton)
-            Dim btnBloquear As LinkButton = CType(linha.FindControl("btnBloquear"), LinkButton)
-
-            If ID_PARCEIRO_ARMAZEM_DESCARGA = 74 And linha.RowIndex = 0 Then
-                If FLAG_BLOQUEIO_MANUAL = "True" Then
-                    btnBloquear.Visible = False
-                    btnDesbloquear.Visible = True
-
-                ElseIf FLAG_BLOQUEIO_MANUAL = "False" Then
-                    btnDesbloquear.Visible = False
-                    btnBloquear.Visible = True
-
-                End If
-            Else
-                btnBloquear.Visible = False
-                btnDesbloquear.Visible = False
-            End If
-
-        Next
-
-        'dsTaxas.SelectParameters("ID_BL").DefaultValue = txtID_BL.Text
-        'dsTaxas.SelectParameters("ID_PARCEIRO_EMPRESA").DefaultValue = ddlFornecedor.SelectedValue
-        'dgvTaxas.DataBind()
-
-        divConteudo.Visible = True
-    End Sub
     Private Sub btnCalcularRecebimento_Click(sender As Object, e As EventArgs) Handles btnCalcularRecebimento.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -513,8 +481,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
             ddlFornecedor.SelectedValue = 0
             dgvTaxas.DataBind()
             mpeND.Show()
-            Dim finaliza As New FinalizaCotacao
-            finaliza.Finalizar()
+            'Dim finaliza As New FinalizaCotacao
+            'finaliza.Finalizar()
         End If
 
 
@@ -749,80 +717,6 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
         VerificaTaxas()
         lblSuccess.Text = "Atualização de valor realizada com sucesso!"
         divSuccess.Visible = True
-
-
-    End Sub
-
-    Private Sub dgvTaxas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxas.RowCommand
-        divSuccess.Visible = False
-        divErro.Visible = False
-        Dim ds As DataSet
-        Dim ID As String = e.CommandArgument
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim resultado As String
-        If e.CommandName = "bloquear" Then
-            ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                Try
-                    Using Status = New NotaFiscal.WsNvocc
-
-                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B")
-
-                    End Using
-
-
-                Catch ex As Exception
-
-                    divErro.Visible = True
-                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
-                    Exit Sub
-
-                End Try
-
-
-            End If
-
-        ElseIf e.CommandName = "desbloquear" Then
-            ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                Try
-                    Using Status = New NotaFiscal.WsNvocc
-
-                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L")
-
-                    End Using
-
-
-                Catch ex As Exception
-
-                    divErro.Visible = True
-                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
-                    Exit Sub
-
-                End Try
-
-
-
-            End If
-        End If
-
-        If resultado = "BL não localizado!" Then
-            divErro.Visible = True
-            lblErro.Text = resultado
-
-        ElseIf resultado = "False" Then
-            divErro.Visible = True
-            lblErro.Text = resultado
-
-        Else
-            divSuccess.Visible = True
-            lblSuccess.Text = "Ação realizada com sucesso!"
-        End If
-
-        grid()
 
 
     End Sub

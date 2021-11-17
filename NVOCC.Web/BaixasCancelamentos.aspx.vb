@@ -186,17 +186,11 @@
                 lblFaturaBaixa.Text &= "Nº Fatura: " & fatura & "<br/>"
                 lblClienteBaixa.Text &= "Fornecedor: " & fornecedor & "<br/>"
             End If
-
-
         Next
     End Sub
 
 
     Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
-        CarregaGridReceber()
-    End Sub
-
-    Sub CarregaGridReceber()
         Dim Con As New Conexao_sql
         lblFaturaCancelamento.Text = ""
         lblProcessoCancelamento.Text = ""
@@ -210,10 +204,7 @@
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
             Dim processo As String = CType(linha.FindControl("lblProcesso"), Label).Text
             Dim fornecedor As String = CType(linha.FindControl("lblFornecedor"), Label).Text
-            Dim FLAG_BLOQUEIO_MANUAL As String = CType(linha.FindControl("lblFLAG_BLOQUEIO_MANUAL"), Label).Text
-            Dim ID_PARCEIRO_ARMAZEM_DESCARGA As String = CType(linha.FindControl("lblID_PARCEIRO_ARMAZEM_DESCARGA"), Label).Text
-            Dim btnDesbloquear As LinkButton = CType(linha.FindControl("btnDesbloquear"), LinkButton)
-            Dim btnBloquear As LinkButton = CType(linha.FindControl("btnBloquear"), LinkButton)
+
             If check.Checked Then
                 lblProcessoCancelamento.Text &= "Nº Processo: " & processo & "<br/>"
                 lblClienteCancelamento.Text &= "Fornecedor: " & fornecedor & "<br/>"
@@ -222,23 +213,9 @@
                 lblProcessoBaixa.Text &= "Nº Processo: " & processo & "<br/>"
                 lblClienteBaixa.Text &= "Fornecedor: " & fornecedor & "<br/>"
             End If
-
-            If ID_PARCEIRO_ARMAZEM_DESCARGA = 74 Then
-                If FLAG_BLOQUEIO_MANUAL = "True" Then
-                    btnBloquear.Visible = False
-                    btnDesbloquear.Visible = True
-
-                ElseIf FLAG_BLOQUEIO_MANUAL = "False" Then
-                    btnDesbloquear.Visible = False
-                    btnBloquear.Visible = True
-
-                End If
-            Else
-                btnBloquear.Visible = False
-                btnDesbloquear.Visible = False
-            End If
         Next
     End Sub
+
     Private Sub btnpesquisar_Click(sender As Object, e As EventArgs) Handles btnpesquisar.Click
         divErro.Visible = False
         divSuccess.Visible = False
@@ -270,79 +247,8 @@
         End If
         dsReceber.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         dgvTaxasReceber.DataBind()
-        CarregaGridReceber()
 
         dsPagar.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         dgvTaxasPagar.DataBind()
-    End Sub
-
-    Private Sub dgvTaxasReceber_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxasReceber.RowCommand
-        divSuccess.Visible = False
-        divErro.Visible = False
-        Dim ds As DataSet
-        Dim ID As String = e.CommandArgument
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim resultado As String
-        If e.CommandName = "bloquear" Then
-            ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                Try
-                    Using Status = New NotaFiscal.WsNvocc
-
-                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "B")
-
-                    End Using
-
-
-                Catch ex As Exception
-
-                    divErro.Visible = True
-                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
-                    Exit Sub
-
-                End Try
-
-
-            End If
-
-        ElseIf e.CommandName = "desbloquear" Then
-            ds = Con.ExecutarQuery("SELECT ISNULL(NR_BL,0)NR_BL FROM [dbo].[TB_BL] WHERE ID_BL = " & ID)
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                Try
-                    Using Status = New NotaFiscal.WsNvocc
-
-                        resultado = Status.DesBloqueio(ds.Tables(0).Rows(0).Item("NR_BL"), "L")
-
-                    End Using
-
-
-                Catch ex As Exception
-
-                    divErro.Visible = True
-                    lblErro.Text = "Não foi possivel completar a ação: " & ex.Message
-                    Exit Sub
-
-                End Try
-
-
-
-            End If
-        End If
-
-        If resultado = "BL não localizado!" Then
-            divErro.Visible = True
-            lblErro.Text = resultado
-
-        ElseIf resultado = "False" Then
-            divErro.Visible = True
-            lblErro.Text = resultado
-
-        Else
-            divSuccess.Visible = True
-            lblSuccess.Text = "Ação realizada com sucesso!"
-        End If
     End Sub
 End Class
