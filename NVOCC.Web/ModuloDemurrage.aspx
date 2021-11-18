@@ -142,7 +142,7 @@
                                                 <input id="qtDiasFreeTimeConfirm" class="form-control" type="text"/>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 col-sm-offset-1">
+                                        <div class="col-sm-3 col-sm-offset-1" id="divDemurrageCompra">
                                             <div class="form-group">
                                                 <label class="control-label">Quant. Dias de Demurrage Compra</label>
                                                 <input id="qtDiasDemurrageCompra" class="form-control" type="text"/>
@@ -1268,8 +1268,8 @@
                                 <tr>
                                     <th class="text-center" scope="col">#</th>
                                     <th class="text-center" scope="col">Nº Processo</th>
-                                    <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">Tipo Container</th>
+                                    <th class="text-center" scope="col">Nº Container</th>
                                     <th class="text-center" scope="col">MBL</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Transportador</th>
@@ -1883,6 +1883,11 @@
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
                             document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
                             document.getElementById('qtDiasDemurrageCompra').value = dado[0]['QT_DIAS_DEMURRAGE_COMPRA'];
+                            if (dado[0]['QT_DIAS_DEMURRAGE_COMPRA'] == null) {
+                                document.getElementById('divDemurrageCompra').style = 'display:none'
+                            } else {
+                                document.getElementById('divDemurrageCompra').display = 'display:block'
+                            }
 
                             if (dado[0]['DS_OBSERVACAO'] == null) {
                                 document.getElementById('obsInfoCont').value = "";

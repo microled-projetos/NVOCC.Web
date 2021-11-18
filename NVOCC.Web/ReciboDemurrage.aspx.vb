@@ -23,23 +23,23 @@
                 ds = Con.ExecutarQuery("SELECT (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = D.ID_PARCEIRO_CLIENTE)NM_CLIENTE,(SELECT ID_CIDADE FROM TB_PARCEIRO WHERE ID_PARCEIRO = D.ID_PARCEIRO_CLIENTE)ID_CIDADE,
 SUM(C.VL_DEMURRAGE_VENDA)VL_DEMURRAGE_VENDA, SUM(C.VL_DEMURRAGE_VENDA_BR)VL_DEMURRAGE_VENDA_BR ,
 SUM(C.VL_DEMURRAGE_LIQUIDO_VENDA)VL_DEMURRAGE_LIQUIDO_VENDA,
-NR_BL,NR_PROCESSO, (SELECT NR_BL FROM TB_BL M WHERE M.ID_BL = D.ID_BL_MASTER)NR_BL_MASTER,(SELECT top 1 NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL = D.ID_BL_MASTER)NR_REFERENCIA_CLIENTE
+NR_BL,NR_PROCESSO, (SELECT NR_BL FROM TB_BL M WHERE M.ID_BL = D.ID_BL_MASTER)NR_BL_MASTER,(SELECT top 1 NR_REFERENCIA_CLIENTE FROM VW_REFERENCIA_CLIENTE WHERE ID_BL = D.ID_BL_MASTER)NR_REFERENCIA_CLIENTE,A.DT_LANCAMENTO,A.NR_RECIBO
 FROM TB_DEMURRAGE_FATURA A
 INNER JOIN TB_DEMURRAGE_FATURA_ITENS B ON A.ID_DEMURRAGE_FATURA = B.ID_DEMURRAGE_FATURA
 INNER JOIN TB_CNTR_DEMURRAGE C ON B.ID_CNTR_DEMURRAGE = C.ID_CNTR_DEMURRAGE
 LEFT  JOIN TB_BL D ON A.ID_BL = D.ID_BL
 WHERE A.ID_DEMURRAGE_FATURA = " & ID & "
-GROUP BY ID_PARCEIRO_CLIENTE,NR_BL,NR_PROCESSO,ID_BL_MASTER")
+GROUP BY ID_PARCEIRO_CLIENTE,NR_BL,NR_PROCESSO,ID_BL_MASTER,A.DT_LANCAMENTO,A.NR_RECIBO")
                 If ds.Tables(0).Rows.Count > 0 Then
 
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_RECIBO")) Then
-                    '    lblEmissao.Text = ds.Tables(0).Rows(0).Item("DT_RECIBO")
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_LANCAMENTO")) Then
+                        lblEmissao.Text = ds.Tables(0).Rows(0).Item("DT_LANCAMENTO")
+                    End If
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
-                    '    lblNumeroRecibo.Text = ds.Tables(0).Rows(0).Item("NR_RECIBO")
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
+                        lblNumeroRecibo.Text = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+                    End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CLIENTE")) Then
                         lblEmpresa.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE")

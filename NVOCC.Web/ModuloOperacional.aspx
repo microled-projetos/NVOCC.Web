@@ -809,31 +809,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="Content/js/papaparse.min.js"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#corpoEmail'), {
-            toolbar: {
-                items: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'link',
-                    'bulletedList',
-                    'numberedList',
-                    '|',
-                    'indent',
-                    'outdent',
-                    '|',
-                    'blockQuote',
-                    'insertTable',
-                    'mediaEmbed',
-                    'undo',
-                    'redo',
-                    'HtmlEmbed'
-                ]
-            },
-
-        })
-
     </script>
     <script>
 
@@ -1376,27 +1351,24 @@
             values = [];
             var master = document.getElementById("nrMasterBLemail").textContent;
             var corpo = document.getElementById("corpoEmail").value;
-            let doc = new DOMParser().parseFromString(corpo, "text/html");
             for (let i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
             }
-            console.log(doc);
             if (values.length > 0) {
-                /*for (let i = 0; i < values.length; i++) {
+                for (let i = 0; i < values.length; i++) {
                     $.ajax({
                         type: "POST",
                         url: "Gerencial.asmx/enviarEmail",
-                        data: '{house:"' + values[i] + '",corpo:"' + corpo + '"}',
+                        data: '{house:"' + values[i] + '",corpo:"' + corpo.replace(new RegExp('\r?\n', 'g'), '<br>') + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (dado) {
-                            ;
                             if (dado.d == "ok") {
                                 $("#msgSuccessDemu").fadeIn(500).delay(1000).fadeOut(500);
                             }
                         }
                     })
-                }*/
+                }
                 $("#modalMontagemEmail").modal("hide");
             }
         }
