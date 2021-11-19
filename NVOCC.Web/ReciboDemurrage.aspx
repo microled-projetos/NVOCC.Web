@@ -60,7 +60,7 @@
                             </td>
                         </tr>
                     </table>
-                    <br /><br />
+                    <br />
                     <table style="border-style: solid; border-width: thin;">
                         <tr>
                             <td>RECEBEMOS DE <asp:Label ID="lblEmpresa" runat="server" /><br />

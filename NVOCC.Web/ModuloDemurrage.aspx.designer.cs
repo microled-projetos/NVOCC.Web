@@ -11,169 +11,187 @@ namespace ABAINFRA.Web
 {
 
 
-	public partial class ModuloDemurrage
-	{
+    public partial class ModuloDemurrage
+    {
 
-		/// <summary>
-		/// Controle ddlFiltro.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlFiltro;
+        /// <summary>
+        /// Controle ddlFiltro.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFiltro;
 
-		/// <summary>
-		/// Controle chkFinalizado.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkFinalizado;
+        /// <summary>
+        /// Controle chkFinalizado.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFinalizado;
 
-		/// <summary>
-		/// Controle chkAtivo.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkAtivo;
+        /// <summary>
+        /// Controle chkAtivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkAtivo;
 
-		/// <summary>
-		/// Controle dsStatus.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList dsStatus;
+        /// <summary>
+        /// Controle dsStatus.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList dsStatus;
 
-		/// <summary>
-		/// Controle ddlStatusDevolucao.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlStatusDevolucao;
+        /// <summary>
+        /// Controle ddlStatusDevolucao.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusDevolucao;
 
-		/// <summary>
-		/// Controle ddlTransportador.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlTransportador;
+        /// <summary>
+        /// Controle ddlTransportador.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTransportador;
 
-		/// <summary>
-		/// Controle ddlStatusCalculoSelecionado.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlStatusCalculoSelecionado;
+        /// <summary>
+        /// Controle ddlStatusCalculoSelecionado.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusCalculoSelecionado;
 
-		/// <summary>
-		/// Controle ddlParceiroTransportador.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlParceiroTransportador;
+        /// <summary>
+        /// Controle ddlStatusCalculoSelecionadoCompra.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusCalculoSelecionadoCompra;
 
-		/// <summary>
-		/// Controle ddlTipoContainer.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlTipoContainer;
+        /// <summary>
+        /// Controle ddlParceiroTransportador.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlParceiroTransportador;
 
-		/// <summary>
-		/// Controle ddlMoeda.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlMoeda;
+        /// <summary>
+        /// Controle ddlTipoContainer.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoContainer;
 
-		/// <summary>
-		/// Controle checkEsc.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox checkEsc;
+        /// <summary>
+        /// Controle ddlMoeda.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMoeda;
 
-		/// <summary>
-		/// Controle checkInicioFreetime.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox checkInicioFreetime;
+        /// <summary>
+        /// Controle checkEsc.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox checkEsc;
 
-		/// <summary>
-		/// Controle ddlFaturaFiltro.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlFaturaFiltro;
+        /// <summary>
+        /// Controle checkInicioFreetime.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox checkInicioFreetime;
 
-		/// <summary>
-		/// Controle chkFaturaF.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkFaturaF;
+        /// <summary>
+        /// Controle ddlFaturaFiltro.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFaturaFiltro;
 
-		/// <summary>
-		/// Controle chkFaturaA.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.CheckBox chkFaturaA;
+        /// <summary>
+        /// Controle chkFaturaF.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFaturaF;
 
-		/// <summary>
-		/// Controle ddlContaBancaria.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlContaBancaria;
+        /// <summary>
+        /// Controle chkFaturaA.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkFaturaA;
 
-		/// <summary>
-		/// Controle ddlStatusFaturaContaCorrente.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList ddlStatusFaturaContaCorrente;
+        /// <summary>
+        /// Controle ddlContaBancaria.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlContaBancaria;
 
-		/// <summary>
-		/// Controle DropDownList1.
-		/// </summary>
-		/// <remarks>
-		/// Campo gerado automaticamente.
-		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-		/// </remarks>
-		protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
-	}
+        /// <summary>
+        /// Controle ddlStatusFaturaContaCorrente.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusFaturaContaCorrente;
+
+        /// <summary>
+        /// Controle ddlStatusFaturaContaCorrenteCompra.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatusFaturaContaCorrenteCompra;
+
+        /// <summary>
+        /// Controle DropDownList1.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+    }
 }
