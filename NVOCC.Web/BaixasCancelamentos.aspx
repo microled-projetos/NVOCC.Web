@@ -1,17 +1,10 @@
-﻿<%@ Page Title="" Language="vb" enableEventValidation="true" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
      <style>
          #imgFundo {
             display: none;
         }
-          th {
-    color: #337ab7;
-}
-          .ImageButton{
-              padding-left:25px;
-              padding-right:25px;
-          }
          </style>
     <div class="row principal">
         <div class="panel panel-primary">
@@ -70,10 +63,10 @@
                                         </div>
                                     </div>
                                     
-                                                                            <div class="col-sm-offset-2 col-sm-4">
+                                                                            <div class="col-sm-offset-4 col-sm-2">
 
                                         <div class="form-group">
-                                            <br /><asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" />
+                                            <br />
                                                                                         <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
 
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
@@ -151,7 +144,6 @@
                                                         <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                               <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
@@ -160,56 +152,6 @@
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
-
-
-
-
-
-
-
-                                               <%-- <asp:TemplateField HeaderText="Bloqueio FCA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_FCA" runat="server" Text='<%# Eval("FL_BLOQUEIO_FCA") %>'  />
-                                                        <asp:ImageButton ID="btnBloquearFCA" runat="server" CssClass="ImageButton" ToolTip="bloquear" Autopostback="true" src="Content/imagens/bloquear.png" CommandName="BloquearFCA" CommandArgument='<%# Eval("ID_BL") %>'  />
-                                                        <asp:ImageButton ID="btnDesbloquearFCA" runat="server" CssClass="ImageButton" ToolTip="desbloquear" Autopostback="true" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFCA" CommandArgument='<%# Eval("ID_BL") %>' />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>--%>
-
-
-
-                                                
-
-                                                <asp:TemplateField HeaderText="Bloqueio Financeiro">
-                                                    <ItemTemplate>
-                                                       <asp:Label ID="lblFL_BLOQUEIO_FINANCEIRO" runat="server" Text='<%# Eval("FL_BLOQUEIO_FINANCEIRO") %>' />
-                                                 <asp:ImageButton ID="btnBloquearFinanceiro" runat="server" ToolTip="bloquear" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearFinanceiro" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />                                                
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-
-
-                                                <asp:TemplateField HeaderText="Bloqueio Documental">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_DOCUMENTAL" runat="server" Text='<%# Eval("FL_BLOQUEIO_DOCUMENTAL") %>'  />
-                                                 <asp:ImageButton ID="btnBloquearDocumental" ToolTip="bloquear" runat="server" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearDocumental" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />                                              
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-                                                
-                                                <asp:TemplateField Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                              
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -289,56 +231,6 @@
                                 </asp:Panel>
 
 
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="PanelCambio" TargetControlID="btnCambio" CancelControlID="btnFecharCambio"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="PanelCambio" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" >
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">ATUALIZAÇÃO DE CAMBIO</h5>
-                                                        </div>
-                                                        <div class="modal-body">                                       
-                                            <h5>
-                                                <asp:label runat="server" ID="lblProcessoCambio"  />
-                                                <asp:label runat="server" ID="lblFaturaCambio"  />                                          
-                                            <asp:label runat="server" ID="lblClienteCambio" /></h5>
-                        
-                                          
-                                                            <div class="row">
-                                        <div class="col-sm-offset-2 col-sm-2" runat="server">
-
-                                        <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Data Cambio:</label>
-                                            <asp:TextBox ID="txtDataCambio" runat="server" CssClass="form-control data"></asp:TextBox>
-                                        </div>
-                                            </div>
-                                         <div class="col-sm-3" runat="server">
-                                            <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Valor Cambio:</label>
-                                            <asp:TextBox ID="txtValorCambio" runat="server" CssClass="form-control"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                       <div class="col-sm-3" runat="server">
-
-                                        <div class="form-group">
-                                            <label class="control-label" style="text-align: left">Moeda:</label>
-                                            <asp:DropDownList ID="ddlMoeda" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
-                                        </div>
-                                            </div>
-                                            </div>                </div>
-                                       
-                                                                                       
-                                                                        
-                                                        <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharCambio" text="Fechar" />
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnAtualizaCambio" text="Atualizar Fatura" />
-                                                        </div>
-                                                  </div>    
-                                                </div>
-      
-                                         </center>
-                                </asp:Panel>
-
-
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxasPagar" />
@@ -360,8 +252,6 @@
     <asp:SqlDataSource ID="dsReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"></asp:SqlDataSource>
 
-     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>

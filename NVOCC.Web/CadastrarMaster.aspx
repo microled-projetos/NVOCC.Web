@@ -1,11 +1,6 @@
-﻿<%@ Page Title="" Language="vb" validateRequest="false" AutoEventWireup="false" MasterPageFile="~/Site.Master" EnableEventValidation="False" CodeBehind="CadastrarMaster.aspx.vb" Inherits="NVOCC.Web.CadastrarMaster" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" EnableEventValidation="False" CodeBehind="CadastrarMaster.aspx.vb" Inherits="NVOCC.Web.CadastrarMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-        th {
-    color: #337ab7;
-}
-    </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
 
         <div class="row principal">
@@ -580,130 +575,6 @@
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </asp:Panel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                     <ajaxToolkit:ModalPopupExtender id="mpeAjusta" runat="server" PopupControlID="pnlAjusta" TargetControlID="Button4" ></ajaxToolkit:ModalPopupExtender>
-           <asp:Button runat="server" Text="teste" id="Button4" style="display:none" CssClass="btn btn-success" />
-
-                                
-        <asp:Panel ID="pnlAjusta" runat="server" CssClass="modalPopup" style="display:none" >     
-                    <asp:UpdatePanel ID="UpdatePanel16" runat="server" UpdateMode="conditional" ChildrenAsTriggers="false">
-                                    <ContentTemplate>
-                                   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">ATUALIZA TAXAS</h5>
-                                                        </div>
-                                                          <div class="modal-body">   
-   <div class="alert alert-success" ID="divSuccessAjusta" runat="server" visible="false">
-                                        <asp:label ID="lblSuccessAjusta" runat="server"></asp:label>
-                                    </div>
-                                                            
-                                    <div class="alert alert-danger" ID="divErroAjusta" runat="server" visible="false">
-                                        <asp:label ID="lblErroAjusta" runat="server"></asp:label>
-                                    </div>
-                                    <asp:TextBox ID="txtMsg" runat="server" style="display:none" CssClass="form-control"></asp:TextBox>
-<div class="row">
-    <div class="col-sm-6">
-                                        <div class="form-group">
-                                           <asp:Label runat="server" ID="lblPorto" CssClass="control-label" style="display:none"/>
-                                            <asp:Button runat="server" Text="Marcar Todos" ID="btnMarcar" CssClass="btn btn-primary" />
-                                            <asp:Button runat="server" Text="Desmarcar Todos" ID="btnDesmarcar" CssClass="btn btn-warning" />
-                                        </div>
-                                    </div>                                
-                                </div>
- <div class="table-responsive tableFixHead">
-<asp:GridView ID="dgvAjustaTaxa" DataKeyNames="id_cotacao_taxa" DataSourceID="dsAjustaTaxa" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado." >
-                                            <Columns>
-                                                <asp:TemplateField HeaderText="ID" Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblid_cotacao_taxa" runat="server" Text='<%# Eval("id_cotacao_taxa") %>'  /> <asp:Label ID="lblID_BL" runat="server" Text='<%# Eval("ID_BL") %>' style="display:none" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField>
-                                                    <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"/>
-                                                    </ItemTemplate>
-                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="NR_COTACAO" HeaderText="COTAÇÃO" SortExpression="NR_COTACAO" />
-                                                <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:TemplateField HeaderText="ARMADOR" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblARMADOR" runat="server" Text='<%# Eval("ARMADOR") %>'  />
-                                                        <asp:Label ID="lblID_TRANSPORTADOR" runat="server" Text='<%# Eval("ID_TRANSPORTADOR") %>' style="display:none" />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="DESPESA" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblITEM_DESPESA" runat="server" Text='<%# Eval("NM_ITEM_DESPESA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="PORTO" HeaderText="PORTO" SortExpression="PORTO" />
-                                                <asp:BoundField DataField="DT_EMBARQUE" HeaderText="EMBARQUE" SortExpression="DT_EMBARQUE" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="DT_CHEGADA" HeaderText="CHEGADA" SortExpression="DT_CHEGADA" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="REGRA" HeaderText="REGRA" SortExpression="REGRA" />
-                                               
-                                                <asp:TemplateField HeaderText="COMPRA(COTAÇÃO)" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblVL_TAXA_COMPRA" runat="server" Text='<%# Eval("VL_TAXA_COMPRA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="VENDA(COTAÇÃO)" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblVL_TAXA_VENDA" runat="server" Text='<%# Eval("VL_TAXA_VENDA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="TAXA LOCAL" >
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblvl_taxa_local_compra" runat="server" Text='<%# Eval("vl_taxa_local_compra") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                                <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="VALIDADE INICIAL" SortExpression="DT_VALIDADE_INICIAL" DataFormatString="{0:dd/MM/yyyy}" />                                          
-                                            </Columns>
-                                            <HeaderStyle CssClass="headerStyle" />
-                                        </asp:GridView>
-                                        
-        </div>
-                                                           
-                            </div>                         
-                                                        <div class="modal-footer">                   
-                                   <asp:Button runat="server" CssClass="btn btn-success btnn" ID="btnAjustar" text="Ajustar" />
-                                   <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharAjustaTaxa" text="Close" />
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>                
-                                        </ContentTemplate>
-                                     <Triggers>  
-                                         <asp:AsyncPostBackTrigger ControlID="btnAjustar" />
-                                         <asp:AsyncPostBackTrigger ControlID="btnGravar_BasicoMaritimo" />
-                                         <asp:AsyncPostBackTrigger ControlID="btnMarcar" />
-                                         <asp:AsyncPostBackTrigger ControlID="btnDesmarcar" />
-                                         <asp:AsyncPostBackTrigger ControlID="btnFecharAjustaTaxa" />
-                                         </Triggers>                                </asp:UpdatePanel> 
-
-        </asp:Panel> 
-
-
-
-
-
 
 
                                 </div>
@@ -1915,13 +1786,6 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
                SelectCommand="SELECT ID_STATUS_FRETE_AGENTE, NM_STATUS_FRETE_AGENTE FROM TB_STATUS_FRETE_AGENTE 
 union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE">
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="dsAjustaTaxa" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="select id_cotacao_taxa,ID_BL,A.ID_TRANSPORTADOR, (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA A INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO <> 12 AND A.ID_TRANSPORTADOR = @ID ">
-           <SelectParameters>
-            <asp:ControlParameter Name="ID" Type="Int32" ControlID="ddlTransportador_BasicoMaritimo" />
-            </SelectParameters>
-
-</asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

@@ -5,13 +5,6 @@
         #imgFundo {
             display: none;
         }
-         th {
-    color: #337ab7;
-}
-          .ImageButton{
-              padding-left:25px;
-              padding-right:25px;
-          }
          </STYLE>
     <div class="row principal">
         <div class="panel panel-primary">
@@ -158,45 +151,6 @@
                                                         <asp:Label ID="lblMoeda" runat="server" Text='<%# Eval("ID_MOEDA") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                        <asp:TemplateField Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-
-
-                                                     <%-- <asp:TemplateField HeaderText="Bloqueio FCA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_FCA" runat="server" Text='<%# Eval("FL_BLOQUEIO_FCA") %>'  />
-                                                        <asp:ImageButton ID="btnBloquearFCA" runat="server" CssClass="ImageButton" ToolTip="bloquear" Autopostback="true" src="Content/imagens/bloquear.png" CommandName="BloquearFCA" CommandArgument='<%# Eval("ID_BL") %>'  />
-                                                        <asp:ImageButton ID="btnDesbloquearFCA" runat="server" CssClass="ImageButton" ToolTip="desbloquear" Autopostback="true" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFCA" CommandArgument='<%# Eval("ID_BL") %>' />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>--%>
-
-
-
-                                                
-
-                                                <asp:TemplateField HeaderText="Bloqueio Financeiro">
-                                                    <ItemTemplate>
-                                                       <asp:Label ID="lblFL_BLOQUEIO_FINANCEIRO" runat="server" Text='<%# Eval("FL_BLOQUEIO_FINANCEIRO") %>' />
-                                                 <asp:ImageButton ID="btnBloquearFinanceiro" runat="server" ToolTip="bloquear" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearFinanceiro" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />                                                
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-
-
-                                                <asp:TemplateField HeaderText="Bloqueio Documental">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_DOCUMENTAL" runat="server" Text='<%# Eval("FL_BLOQUEIO_DOCUMENTAL") %>'  />
-                                                 <asp:ImageButton ID="btnBloquearDocumental" ToolTip="bloquear" runat="server" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearDocumental" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />                                              
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
                                                     </Columns>
                                                     <HeaderStyle CssClass="headerStyle" />
                                                 </asp:GridView>
