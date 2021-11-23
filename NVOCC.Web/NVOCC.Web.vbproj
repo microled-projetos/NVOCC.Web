@@ -334,8 +334,10 @@
     <Content Include="Content\fonts\fa-solid-900.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\imagens\bg.png" />
+    <Content Include="Content\imagens\Bloquear.png" />
     <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
     <Content Include="Content\imagens\CABECALHO.png" />
+    <Content Include="Content\imagens\Desbloquear.png" />
     <Content Include="Content\imagens\FCA.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Fundo_FCA.png" />

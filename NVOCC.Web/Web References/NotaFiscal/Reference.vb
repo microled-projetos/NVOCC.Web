@@ -209,22 +209,22 @@ Namespace NotaFiscal
         
         '''<remarks/>
         <System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DesBloqueio", RequestNamespace:="http://tempuri.org/", ResponseNamespace:="http://tempuri.org/", Use:=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle:=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)>  _
-        Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String) As String
-            Dim results() As Object = Me.Invoke("DesBloqueio", New Object() {Bl, Acao})
+        Public Function DesBloqueio(ByVal Bl As String, ByVal Acao As String, ByVal MotivoBloqueio As String, ByVal MotivoLiberacao As String, ByVal usuario As String) As String
+            Dim results() As Object = Me.Invoke("DesBloqueio", New Object() {Bl, Acao, MotivoBloqueio, MotivoLiberacao, usuario})
             Return CType(results(0),String)
         End Function
         
         '''<remarks/>
-        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String)
-            Me.DesBloqueioAsync(Bl, Acao, Nothing)
+        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String, ByVal MotivoBloqueio As String, ByVal MotivoLiberacao As String, ByVal usuario As String)
+            Me.DesBloqueioAsync(Bl, Acao, MotivoBloqueio, MotivoLiberacao, usuario, Nothing)
         End Sub
         
         '''<remarks/>
-        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String, ByVal userState As Object)
+        Public Overloads Sub DesBloqueioAsync(ByVal Bl As String, ByVal Acao As String, ByVal MotivoBloqueio As String, ByVal MotivoLiberacao As String, ByVal usuario As String, ByVal userState As Object)
             If (Me.DesBloqueioOperationCompleted Is Nothing) Then
                 Me.DesBloqueioOperationCompleted = AddressOf Me.OnDesBloqueioOperationCompleted
             End If
-            Me.InvokeAsync("DesBloqueio", New Object() {Bl, Acao}, Me.DesBloqueioOperationCompleted, userState)
+            Me.InvokeAsync("DesBloqueio", New Object() {Bl, Acao, MotivoBloqueio, MotivoLiberacao, usuario}, Me.DesBloqueioOperationCompleted, userState)
         End Sub
         
         Private Sub OnDesBloqueioOperationCompleted(ByVal arg As Object)
