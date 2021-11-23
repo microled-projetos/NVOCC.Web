@@ -287,24 +287,32 @@
                                         </div>
                                         
                                          <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Pagamento:</label>
                                                 <asp:DropDownList ID="ddlTipoPagamento_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Tipo de Carga:</label>
-                                                <asp:DropDownList ID="ddlTipoCarga_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
-                                                </asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
+                                        
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Estufagem:</label>
                                                 <asp:DropDownList ID="ddlEstufagem_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem" AutoPostBack="True">
+                                                </asp:DropDownList>
+                                            </div>
+                                        </div>
+                                             <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+
+                                            </div>
+                                        </div>
+                                             <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label class="control-label">Tipo de Carga:</label>
+                                                <asp:DropDownList ID="ddlTipoCarga_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
@@ -352,13 +360,13 @@
                                         <asp:TextBox ID="txtValorDivisaoProfit_BasicoMaritimo"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                        <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label"></label>
-                                                <asp:CheckBox ID="ckbFreeHand_BasicoMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
-
-                                            </div>
-                                        </div>
+                                         <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Profit Calculado:</label>
+                                        <asp:TextBox ID="txtProfitCalculado_BasicoMaritimo" enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                        
                                     </div>
                                     <div class="row" id="divMercadoriaBL_Maritimo" runat="server" style="display:none">
                                         <div class="col-sm-12">
@@ -1459,7 +1467,7 @@ VENDAS:
                                                         <asp:TextBox ID="txtRefAuxiliar_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                       <div class="col-sm-3">
+                                       <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Tipo Divisão Profit:</label>
                                          <asp:DropDownList ID="ddlDivisaoProfit_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_DIVISAO_PROFIT" DataTextField="NM_TIPO_DIVISAO_PROFIT" DataSourceID="dsDivisaoProfit">
@@ -1467,10 +1475,16 @@ VENDAS:
                                     </div>
 
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Valor Divisão Profit:</label>
                                         <asp:TextBox ID="txtValorDivisaoProfit_BasicoAereo"   runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                    </div>
+                                </div>
+                                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="control-label">Profit Calculado:</label>
+                                        <asp:TextBox ID="txtProfitCalculado_BasicoAereo" enabled="false" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
 </div>

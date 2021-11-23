@@ -557,6 +557,20 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                     dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
                                     dgvFaturamento.DataBind()
 
+                                ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
+
+                                    Dim ERRO As String = ""
+                                    ds = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                    If ds.Tables(0).Rows.Count > 0 Then
+                                        If Not IsDBNull(ds.Tables(0).Rows(0).Item("CRITICA")) Then
+                                            ERRO = ds.Tables(0).Rows(0).Item("CRITICA")
+                                        End If
+                                    End If
+                                    lblmsgErro.Text = "Não foi possivel completar a ação!: " & ERRO
+                                    divErro.Visible = True
+                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                    dgvFaturamento.DataBind()
+
                                 Else
                                     lblmsgErro.Text = "Não foi possivel completar a ação!"
                                     divErro.Visible = True
