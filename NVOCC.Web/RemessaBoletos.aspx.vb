@@ -187,9 +187,9 @@ Public Class RemessaBoletos
                                 seqLote = seqLote + 1
                                 seqRem = seqRem + 1
                             End If
-                            Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_ENVIADO_REM = 1, DT_ENVIO_REM = GETDATE(), ARQ_REM ='" & NomeStream & "', USUARIO_REM ='" & Session("ID_USUARIO") & "' WHERE ID_FATURAMENTO = " & ID)
+                            ' Con.ExecutarQuery("UPDATE TB_FATURAMENTO SET FL_ENVIADO_REM = 1, DT_ENVIO_REM = GETDATE(), ARQ_REM ='" & NomeStream & "', USUARIO_REM ='" & Session("ID_USUARIO") & "' WHERE ID_FATURAMENTO = " & ID)
 
-                            ConOracle.ExecuteScalar("UPDATE TB_BANCO_BOLETO SET SEQ_ARQUIVO =  " & SEQ_ARQUIVO & "WHERE AUTONUM = 1")
+                            ' ConOracle.ExecuteScalar("UPDATE TB_BANCO_BOLETO SET SEQ_ARQUIVO =  " & SEQ_ARQUIVO & "WHERE AUTONUM = 1")
                         End If
                     Next i
                     seqLote = seqLote + 1
