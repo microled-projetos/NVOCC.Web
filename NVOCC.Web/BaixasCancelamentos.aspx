@@ -1,17 +1,10 @@
-﻿<%@ Page Title="" Language="vb" enableEventValidation="true" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="BaixasCancelamentos.aspx.vb" Inherits="NVOCC.Web.BaixasCancelamentos" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
      <style>
          #imgFundo {
             display: none;
         }
-          th {
-    color: #337ab7;
-}
-          .ImageButton{
-              padding-left:25px;
-              padding-right:25px;
-          }
          </style>
     <div class="row principal">
         <div class="panel panel-primary">
@@ -151,7 +144,6 @@
                                                         <asp:Label ID="lblLiquidacao" runat="server" Text='<%# Eval("DT_LIQUIDACAO") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                               <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
@@ -160,56 +152,6 @@
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
-
-
-
-
-
-
-
-                                                <asp:TemplateField HeaderText="Bloqueio FCA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_FCA" runat="server" Text='<%# Eval("FL_BLOQUEIO_FCA") %>'  />
-                                                        <asp:ImageButton ID="btnBloquearFCA" runat="server" CssClass="ImageButton" ToolTip="bloquear" Autopostback="true" src="Content/imagens/bloquear.png" CommandName="BloquearFCA" CommandArgument='<%# Eval("ID_BL") %>'  />
-                                                        <asp:ImageButton ID="btnDesbloquearFCA" runat="server" CssClass="ImageButton" ToolTip="desbloquear" Autopostback="true" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFCA" CommandArgument='<%# Eval("ID_BL") %>' />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-                                                
-
-                                                <asp:TemplateField HeaderText="Bloqueio Financeiro">
-                                                    <ItemTemplate>
-                                                       <asp:Label ID="lblFL_BLOQUEIO_FINANCEIRO" runat="server" Text='<%# Eval("FL_BLOQUEIO_FINANCEIRO") %>' />
-                                                 <asp:ImageButton ID="btnBloquearFinanceiro" runat="server" ToolTip="bloquear" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearFinanceiro" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFinanceiro" CommandArgument='<%# Eval("ID_BL") %>' />                                                
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-
-
-                                                <asp:TemplateField HeaderText="Bloqueio Documental">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_DOCUMENTAL" runat="server" Text='<%# Eval("FL_BLOQUEIO_DOCUMENTAL") %>'  />
-                                                 <asp:ImageButton ID="btnBloquearDocumental" ToolTip="bloquear" runat="server" CssClass="ImageButton" src="Content/imagens/bloquear.png" CommandName="BloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />
-                                                 <asp:ImageButton ID="btnDesbloquearDocumental" runat="server" ToolTip="desbloquear" CssClass="ImageButton" src="Content/imagens/desbloquear.png" CommandName="DesbloquearDocumental" CommandArgument='<%# Eval("ID_BL") %>' />                                              
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-
-
-
-                                                
-                                                <asp:TemplateField Visible="False">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblID_PARCEIRO_ARMAZEM_DESCARGA" runat="server" Text='<%# Eval("ID_PARCEIRO_ARMAZEM_DESCARGA") %>'  />
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                              
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
