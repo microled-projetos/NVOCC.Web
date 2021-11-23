@@ -35,6 +35,11 @@
             numero = dt.Rows(0)("NEXTVAL").ToString
             numeroFinal = numero.ToString.PadLeft(6, "0")
 
+        ElseIf Tipo_Doc = 4 Then
+            'NR_RECIBO_DEMURRAGE
+            ds = Con.ExecutarQuery("SELECT NEXT VALUE FOR Seq_Recibo_Demurrage NR_RECIBO")
+            numero = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+            numeroFinal = numero.ToString.PadLeft(6, "0")
 
         End If
 

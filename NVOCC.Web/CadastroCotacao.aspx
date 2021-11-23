@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group"> <label class="control-label" style="color:white">X</label>
-                                        <asp:Checkbox ID="ckbTranspDedicado" runat="server" CssClass="form-control" text="&nbsp;&nbsp;TRANSPORTE DEDICADO" ></asp:Checkbox>
+                                        <asp:Checkbox ID="ckbTranspDedicado" runat="server" CssClass="form-control" text="&nbsp;&nbsp;TRANSP. DEDICADO" ></asp:Checkbox>
                                     </div>
                                 </div>
                                 </div>

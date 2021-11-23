@@ -574,6 +574,7 @@ union Select 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             dgvCargaMaritimo.DataBind()
         End If
         Con.Fechar()
+
     End Sub
 
     Private Sub dgvTaxaMaritimoCompras_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxaMaritimoCompras.RowCommand
@@ -754,6 +755,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 End If
             End If
             Con.Fechar()
+            GridTaxaMaritimoCompras()
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -938,6 +941,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 End If
             End If
             Con.Fechar()
+            GridTaxaMaritimoVendas()
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1104,6 +1109,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 dgvTaxaAereoVendas.DataBind()
             End If
         End If
+        GridTaxaAereoVendas()
+
         Con.Fechar()
     End Sub
 
@@ -1271,6 +1278,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 dgvTaxaAereoCompras.DataBind()
             End If
         End If
+
+        GridTaxaAereoCompras()
+
         Con.Fechar()
     End Sub
 
@@ -1361,6 +1371,7 @@ WHERE ID_CARGA_BL = " & ID)
             divSuccess_CargaAereo1.Visible = True
             dgvCargaAereo.DataBind()
         End If
+
         Con.Fechar()
     End Sub
 
@@ -2494,7 +2505,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoMaritimo.Text & ") where id_bl= " & txtID_BasicoMaritimo.Text)
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In dsTaxa.Tables(0).Rows
                             Dim Calcula As New CalculaBL
@@ -2543,7 +2554,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
 
 
-                    Dim dsTaxa As DataSet = Con.ExecutarQuery("Select CONVERT(VARCHAR,ID_BL_TAXA)ID_BL_TAXA,ID_BL FROM [FN_TAXAS_BL](" & txtID_BasicoMaritimo.Text & ") where id_bl= " & txtID_BasicoMaritimo.Text)
+                    Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND  ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
                     If dsTaxa.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In dsTaxa.Tables(0).Rows
                             Dim Calcula As New CalculaBL
@@ -4085,61 +4096,71 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
 
     End Function
 
+    Sub GridTaxaMaritimoCompras()
+        For Each linha As GridViewRow In dgvTaxaMaritimoCompras.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-    'Private Sub dgvTaxaMaritimoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoCompras.Load
-    '    For Each linha As GridViewRow In dgvTaxaMaritimoCompras.Rows
-    '        Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
-    '        Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            'If ORIGEM = "COTAÇÃO" Then
+            '    btnExcluir.Visible = False
+            'Else
+            '    btnExcluir.Visible = True
 
-    '        If ORIGEM = "COTAÇÃO" Then
-    '            btnExcluir.Visible = False
-    '        Else
-    '            btnExcluir.Visible = True
+            'End If
+        Next
 
-    '        End If
-    '    Next
+    End Sub
+    Private Sub dgvTaxaMaritimoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoCompras.Load
+        GridTaxaMaritimoCompras()
+    End Sub
 
-    'End Sub
+    Sub GridTaxaMaritimoVendas()
+        For Each linha As GridViewRow In dgvTaxaMaritimoVendas.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-    'Private Sub dgvTaxaMaritimoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoVendas.Load
-    '    For Each linha As GridViewRow In dgvTaxaMaritimoVendas.Rows
-    '        Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
-    '        Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            'If ORIGEM = "COTAÇÃO" Then
+            '    btnExcluir.Visible = False
+            'Else
+            '    btnExcluir.Visible = True
 
-    '        If ORIGEM = "COTAÇÃO" Then
-    '            btnExcluir.Visible = False
-    '        Else
-    '            btnExcluir.Visible = True
+            'End If
+        Next
+    End Sub
+    Private Sub dgvTaxaMaritimoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoVendas.Load
+        GridTaxaMaritimoVendas()
+    End Sub
+    Sub GridTaxaAereoCompras()
+        For Each linha As GridViewRow In dgvTaxaAereoCompras.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-    '        End If
-    '    Next
-    'End Sub
+            'If ORIGEM = "COTAÇÃO" Then
+            '    btnExcluir.Visible = False
+            'Else
+            '    btnExcluir.Visible = True
 
-    'Private Sub dgvTaxaAereoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoCompras.Load
-    '    For Each linha As GridViewRow In dgvTaxaAereoCompras.Rows
-    '        Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
-    '        Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
+            'End If
+        Next
+    End Sub
+    Private Sub dgvTaxaAereoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoCompras.Load
+        GridTaxaAereoCompras()
+    End Sub
 
-    '        If ORIGEM = "COTAÇÃO" Then
-    '            btnExcluir.Visible = False
-    '        Else
-    '            btnExcluir.Visible = True
+    Sub GridTaxaAereoVendas()
+        For Each linha As GridViewRow In dgvTaxaAereoVendas.Rows
+            Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
+            Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-    '        End If
-    '    Next
-    'End Sub
+            'If ORIGEM = "COTAÇÃO" Then
+            '    btnExcluir.Visible = False
+            'Else
+            '    btnExcluir.Visible = True
 
-    'Private Sub dgvTaxaAereoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoVendas.Load
-    '    For Each linha As GridViewRow In dgvTaxaAereoVendas.Rows
-    '        Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
-    '        Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
-
-    '        If ORIGEM = "COTAÇÃO" Then
-    '            btnExcluir.Visible = False
-    '        Else
-    '            btnExcluir.Visible = True
-
-    '        End If
-    '    Next
-    'End Sub
+            'End If
+        Next
+    End Sub
+    Private Sub dgvTaxaAereoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoVendas.Load
+        GridTaxaAereoVendas()
+    End Sub
 End Class

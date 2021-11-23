@@ -143,7 +143,7 @@ erro:
         Return Valor
     End Function
 
-    Public Function criaDetalhePSantander(NHeaderLote As Long, NSeqRegistro As Long, NossoNum As String, NNossoDoc As String, DtVencimento As Date, DtEmissao As Date, VALOR As Double, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String, COD_MOV As String, agencia As String, DIG_agencia As String, Conta As String, dig_conta As String, especie_titulo As String, cod_mora As String, COD_PROTESTO As String, N_DIAS_PROTESTO As String, COD_BAIXA As String, N_DIAS_BAIXA As String, vlr_mora As Double) As String
+    Public Function criaDetalhePSantander(NHeaderLote As Long, NSeqRegistro As Long, NossoNum As String, NNossoDoc As String, DtVencimento As Date, DtEmissao As Date, VALOR As STRING, cod_banco As String, CNPJ_CEDENTE As String, NOME_CEDENTE As String, cod_trans As String, COD_MOV As String, agencia As String, DIG_agencia As String, Conta As String, dig_conta As String, especie_titulo As String, cod_mora As String, COD_PROTESTO As String, N_DIAS_PROTESTO As String, COD_BAIXA As String, N_DIAS_BAIXA As String, vlr_mora As Double) As String
         On Error GoTo erro
         Dim strS As String
 
@@ -174,7 +174,7 @@ erro:
         strS = strS & Strings.StrDup(1, " ")
         strS = strS & Mid(NNossoDoc & Strings.StrDup(15, " "), 1, 15)
         strS = strS & Format(DtVencimento, "ddmmyyyy").Replace("/", "")
-        strS = strS & Right(Strings.StrDup(15, "0") & Format(VALOR, "#.00").Replace(",", ".").Replace(".", ""), 15) '& Replace(PPonto(Format(VALOR, "#.00")), ".", ""), 15)
+        strS = strS & Right(Strings.StrDup(15, "0") & VALOR.Replace(",", ".").Replace(".", ""), 15) '& Replace(PPonto(Format(VALOR, "#.00")), ".", ""), 15)
         strS = strS & Right(Strings.StrDup(4, "0") & NNull(agencia, 0), 4)
         strS = strS & Microsoft.VisualBasic.Right(Strings.StrDup(1, "0") & NNull(DIG_agencia, 0), 1)
         strS = strS & Strings.StrDup(1, " ")

@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\ABAINFRA.Web 08112021\publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web 11112021\Publicacao 19112021\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -334,8 +334,10 @@
     <Content Include="Content\fonts\fa-solid-900.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\imagens\bg.png" />
+    <Content Include="Content\imagens\Bloquear.png" />
     <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
     <Content Include="Content\imagens\CABECALHO.png" />
+    <Content Include="Content\imagens\Desbloquear.png" />
     <Content Include="Content\imagens\FCA.png" />
     <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Fundo_FCA.png" />
@@ -510,6 +512,7 @@
     <Content Include="ProcessosBL.aspx.cs" />
     <Content Include="ProcessosBL.aspx.designer.cs" />
     <Content Include="RastreioBL.aspx" />
+    <Content Include="ReciboDemurrage.aspx" />
     <Content Include="ReciboPagamento.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
     <Content Include="ContratosFirmados.aspx" />
@@ -1001,6 +1004,13 @@
     </Compile>
     <Compile Include="RastreioBL.aspx.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReciboDemurrage.aspx.designer.vb">
+      <DependentUpon>ReciboDemurrage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReciboDemurrage.aspx.vb">
+      <DependentUpon>ReciboDemurrage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ReciboPagamento.aspx.designer.vb">

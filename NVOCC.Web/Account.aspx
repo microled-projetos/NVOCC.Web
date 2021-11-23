@@ -1166,7 +1166,7 @@ union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 AND ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE)
-union SELECT 0, 'Todos os Agentes' FROM [dbo].[TB_PARCEIRO] ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
+union SELECT 0, 'Todos os Agentes' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTipoEmissor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_ACCOUNT_TIPO_EMISSOR, NM_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_TIPO_EMISSOR
