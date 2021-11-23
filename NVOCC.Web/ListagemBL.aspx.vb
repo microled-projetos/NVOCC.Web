@@ -862,16 +862,16 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
 
             ElseIf txtInicioPrevEmbarque_House.Text <> "" And txtFimPrevEmbarque_House.Text <> "" Then
-                sql &= "AND DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "
+                sql &= "AND DT_PREVISAO_EMBARQUE_MASTER BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "
 
             ElseIf txtInicioEmbarque_House.Text <> "" And txtFimEmbarque_House.Text <> "" Then
-                sql &= "AND DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicioEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_House.Text & "',103) "
+                sql &= "AND DT_EMBARQUE_MASTER BETWEEN CONVERT(date,'" & txtInicioEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_House.Text & "',103) "
 
             ElseIf txtInicioPrevChegada_House.Text <> "" And txtFimPrevChegada_House.Text <> "" Then
-                sql &= "AND DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtInicioPrevChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevChegada_House.Text & "',103) "
+                sql &= "AND DT_PREVISAO_CHEGADA_MASTER BETWEEN CONVERT(date,'" & txtInicioPrevChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevChegada_House.Text & "',103) "
 
             ElseIf txtInicioChegada_House.Text <> "" And txtFimChegada_House.Text <> "" Then
-                sql &= "AND DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicioChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimChegada_House.Text & "',103) "
+                sql &= "AND DT_CHEGADA_MASTER BETWEEN CONVERT(date,'" & txtInicioChegada_House.Text & "',103) AND CONVERT(date,'" & txtFimChegada_House.Text & "',103) "
 
             End If
 

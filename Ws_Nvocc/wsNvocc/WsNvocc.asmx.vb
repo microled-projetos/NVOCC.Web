@@ -659,6 +659,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_FATURAMENTO =" & IDFatura
                 Con.ExecutarQuery(sSql)
 
+                sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,CRITICA,DATA_ENVIO) "
+                sSql = sSql & " VALUES ( " & IDFatura & " , 'ERRO DE VALIDACAO - " & Funcoes.tiraCaracEspXML(msgValidacao) & "', GETDATE()) "
+                Con.ExecutarQuery(sSql)
+
                 Exit Sub
             Else
 
@@ -934,6 +938,8 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                 Con.ExecutarQuery(sSql)
 
 
+                GRAVAERRO(rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString, 0, "ENCONTRADA DIVERGENCIA DE VALORES")
+
                 Exit Sub
             End If
 
@@ -961,24 +967,27 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             GRAVARLOG(IDFatura, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd")
             If Not Funcoes.validaXMLXSD(nomeArquivo, Funcoes.diretorioXSD & "\servico_enviar_lote_rps_envio_v03.xsd", "http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd") Then
 
-                GRAVARLOG(IDFatura, "ANTES DE INSERIR LOG DE ERRO DA VALIDACAO")
+                GRAVARLOG(IDFatura, "ERRO DE VALIDACAO")
+
                 sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO, CRITICA, DATA_ENVIO, NUMERO_RPS, LOTE_RPS) "
                 sSql = sSql & " VALUES (" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString & ",'" & Mid(Funcoes.tiraCaracEspXML(msgValidacao), 1, 2000) & "',GETDATE(),'" & rsRPSs.Tables(0).Rows(0)("NUMERO_RPS").ToString & "','" & loteNumero & "') "
                 Con.ExecutarQuery(sSql)
 
-                GRAVARLOG(IDFatura, "APOS DE INSERIR LOG DE ERRO DA VALIDACAO")
                 sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
 
 
                 Con.ExecutarQuery(sSql)
-                GRAVARLOG(IDFatura, "APOS ALTERAR STATUS DO FATURAMENTO")
+
+
 
                 sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_FATURAMENTO =" & loteNumero
                 Con.ExecutarQuery(sSql)
-                GRAVARLOG(IDFatura, "ANTES DE INSERIR LOG DE ERRO DA VALIDACAO")
+
+                GRAVAERRO(IDFatura, 0, Funcoes.tiraCaracEspXML(msgValidacao))
+
                 Exit Sub
             Else
-                GRAVARLOG(IDFatura, "ENTROU NO ELSE DA VALIDACAO")
+                GRAVARLOG(IDFatura, "VALIDACAO DEU CERTO")
                 sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 1 WHERE ID_FATURAMENTO =" & rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString
                 Con.ExecutarQuery(sSql)
 
@@ -1012,6 +1021,28 @@ WHERE ID_FATURAMENTO = " & IDFatura)
         Con.Fechar()
     End Sub
 
+    Sub GRAVAERRO(ID_FATURAMENTO As String, LOTE As String, CRITICA As String)
+        Con.Conectar()
+        Dim sSql As String = ""
+        If CRITICA.Length > 200 Then
+            CRITICA = CRITICA.Substring(1, 200)
+        End If
+
+        If ID_FATURAMENTO <> "0" Then
+
+            sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,CRITICA,DATA_ENVIO) "
+            sSql = sSql & " VALUES (" & ID_FATURAMENTO & ", '" & CRITICA & "', GETDATE()) "
+
+        ElseIf LOTE <> "0" Then
+            sSql = "INSERT INTO TB_LOG_NFSE (ID_FATURAMENTO,CRITICA,DATA_ENVIO) "
+            sSql = sSql & " VALUES ((SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & LOTE & " ), '" & CRITICA & "', GETDATE()) "
+
+        End If
+
+        Con.ExecutarQuery(sSql)
+
+        Con.Fechar()
+    End Sub
     Public Sub montaInfRps(ByVal numeroLote As Long, Optional ByVal NFeNamespacte As String = "", Optional ByVal rsRPS As DataTable = Nothing, Optional Cod_Empresa As Integer = 1)
 
         Con.Conectar()
@@ -1294,8 +1325,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
             If Funcoes.NNull(Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString), 0) > 0 Then
                 noCPFCNPJ = doc.CreateElement("CpfCnpj", NFeNamespacte)
                 Dim docTomador As String = Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString)
-                If docTomador.Length < 14 Then
-                    No = doc.CreateElement("Cpf", NFeNamespacte)
+                If docTomador.Length <14 Then
+                    No= doc.CreateElement("Cpf", NFeNamespacte)
                 Else
                     No = doc.CreateElement("Cnpj", NFeNamespacte)
                 End If
@@ -1513,7 +1544,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
+                        GRAVAERRO(0, loteNumero, retProtocolo)
+
                     Catch ex2 As Exception
                         GRAVARLOG(loteNumero, ex.Message)
 
@@ -1528,7 +1560,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =  (SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                         Con.ExecutarQuery(sSql)
 
-                        'frmProcessamento.lstValida.Items.Add("Retorno Prefeitura:" & retProtocolo)
+                        GRAVAERRO(0, loteNumero, retProtocolo)
 
                     End Try
                 End Try
@@ -1579,6 +1611,13 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         retNFSE = uri(0)("ns4:Mensagem").InnerText
                         retCodErro = uri(0)("ns4:Codigo").InnerText
 
+                        GRAVAERRO(0, loteNumero, retCodErro & " - " & retNFSE)
+
+                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
+                        sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
+                        Con.ExecutarQuery(sSql)
+
+
                         If retCodErro = "A02" Then
                             GoTo saida
                         End If
@@ -1586,13 +1625,10 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                         If retCodErro = "E4" Then
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
-
                             GoTo saida
                         End If
 
-                        sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5"
-                        sSql = sSql & " WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
-                        Con.ExecutarQuery(sSql)
+
 
                         sSql = "UPDATE TB_LOTE_NFSE SET PROTOCOLO = NULL"
                         sSql = sSql & " , CRITICA ='" & retCodErro & " - " & Mid(retNFSE, 1, 1980) & "' "
@@ -1647,24 +1683,29 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Catch ex As Exception
                     Err.Clear()
-
+                    GRAVARLOG(loteNumero, "DEU ERRO")
                     Try
                         uri = docRetorno.GetElementsByTagName("ns4:MensagemRetorno")
                         retNFSE = uri(0)("ns4:Mensagem").InnerText
 
                         retCodErro = uri(0)("ns4:Codigo").InnerText
+
+
+                        GRAVAERRO(0, loteNumero, retCodErro & " - " & retNFSE)
+
+
                         If retCodErro = "A02" Then
-                            GRAVARLOG(loteNumero, "A02")
+                            sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 5 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
+                            Con.ExecutarQuery(sSql)
                             GoTo saida
                         End If
 
                         If retCodErro = "E4" Then
                             sSql = "UPDATE TB_FATURAMENTO SET STATUS_NFE = 4 WHERE ID_FATURAMENTO =(SELECT ID_FATURAMENTO FROM  TB_FATURAMENTO where NR_LOTE = " & loteNumero & " ) "
                             Con.ExecutarQuery(sSql)
-                            GRAVARLOG(loteNumero, "E4")
                             GoTo saida
                         End If
-                        GRAVARLOG(loteNumero, retCodErro)
+
                     Catch ex1 As Exception
                         GRAVARLOG(loteNumero, ex1.Message)
                         Err.Clear()
