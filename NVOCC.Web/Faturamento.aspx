@@ -47,25 +47,6 @@
 
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
-                        <div class="col-sm-2">
-
-                           <div class="form-group">
-
-                               <%--<asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 15px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
-                                   <asp:ListItem Value="2" Selected="True">&nbsp;Liquidados desde:</asp:ListItem>
-                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
-                               </asp:CheckBoxList>--%>
-
-                               <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 15px; text-align: justify" RepeatLayout="Table" RepeatColumns="2" >
-                                                <asp:ListItem Value="1" Selected="True">&nbsp;A Faturar</asp:ListItem>
-                                                <asp:ListItem Value="2">&nbsp;Faturados</asp:ListItem><asp:ListItem Value="5">&nbsp;Cancelados</asp:ListItem>
-                                                <asp:ListItem Value="3">&nbsp;À Vista</asp:ListItem>
-                                                <asp:ListItem Value="4">&nbsp;A Prazo</asp:ListItem>
-                                                
-                                            </asp:RadioButtonList>
-                           </div>
-                       </div>
                        <div class="col-sm-2" style="padding-top: 20px;">
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
@@ -101,7 +82,26 @@
                            </div>
                                </div>
                        </div>
-                      
+                                              <div class="col-sm-2">
+
+                           <div class="form-group">
+
+                               <%--<asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 15px; text-align: justify" runat="server" RepeatDirection="vertical">
+                                   <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
+                                   <asp:ListItem Value="2" Selected="True">&nbsp;Liquidados desde:</asp:ListItem>
+                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
+                               </asp:CheckBoxList>--%>
+
+                               <asp:RadioButtonList ID="rdStatus" runat="server" Style="padding: 0px; font-size: 15px; text-align: justify" RepeatLayout="Table" RepeatColumns="2" >
+                                                <asp:ListItem Value="1" Selected="True">&nbsp;A Faturar</asp:ListItem>
+                                                <asp:ListItem Value="2">&nbsp;Faturados</asp:ListItem><asp:ListItem Value="5">&nbsp;Cancelados</asp:ListItem>
+                                                <asp:ListItem Value="3">&nbsp;À Vista</asp:ListItem>
+                                                <asp:ListItem Value="4">&nbsp;A Prazo</asp:ListItem>
+                                                
+                                            </asp:RadioButtonList>
+                           </div>
+                       </div>
+
                         <div class="col-sm-1" style="padding-top: 27px;display: none">
                            <div class="form-group">
                                <asp:TextBox ID="txtDataCheckLiquidados" Style="font-size: 15px;" runat="server" width="100px"  CssClass="data"></asp:TextBox>

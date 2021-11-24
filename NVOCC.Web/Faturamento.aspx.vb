@@ -1618,8 +1618,6 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
     End Sub
 
     Private Sub lkBoletoRemessa_Click(sender As Object, e As EventArgs) Handles lkBoletoRemessa.Click
-        ' ArquivoRemessa()
-
         Response.Redirect("RemessaBoletos.aspx")
     End Sub
 

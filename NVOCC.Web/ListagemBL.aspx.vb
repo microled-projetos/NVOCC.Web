@@ -778,7 +778,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= " NAVIO LIKE '%" & txtNavio_Embarque.Text & "%' "
 
             ElseIf txtNavioTransb_Embarque.Text <> "" Then
-                sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
+                sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
 
             ElseIf txtPrevInicialEmbarque_Embarque.Text <> "" And txtPrevFimEmbarque_Embarque.Text <> "" Then
                 sql &= " DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "

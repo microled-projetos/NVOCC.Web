@@ -905,9 +905,9 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Apenas cotações com número de processo gerado podem ser colocadas em update!"
 
 
-        ElseIf ddlAgente.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-            diverro.Visible = True
-            lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
+            'ElseIf ddlAgente.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
+            '    diverro.Visible = True
+            '    lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
 
         Else
 
@@ -957,11 +957,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 Else
 
-                    If ddlTipoPagamento_Frete.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-                        lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
-                        diverro.Visible = True
-                        Exit Sub
-                    End If
+                    'If ddlTipoPagamento_Frete.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
+                    '    lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                    '    diverro.Visible = True
+                    '    Exit Sub
+                    'End If
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("transporte") = ddlServico.SelectedValue
@@ -1020,14 +1020,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 Else
 
-                    Dim d1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_PARCEIRO = " & txtID.Text)
-                    If d1.Tables(0).Rows.Count > 1 Then
-                        If ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-                            lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
-                            diverro.Visible = True
-                            Exit Sub
-                        End If
-                    End If
+                    'Dim d1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_PARCEIRO = " & txtID.Text)
+                    'If d1.Tables(0).Rows.Count > 1 Then
+                    '    If ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And ddlStatusCotacao.SelectedValue = 9 Then
+                    '        lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                    '        diverro.Visible = True
+                    '        Exit Sub
+                    '    End If
+                    'End If
 
 
 

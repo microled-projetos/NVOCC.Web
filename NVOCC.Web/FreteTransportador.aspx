@@ -158,6 +158,18 @@
 		                                        <asp:LinkButton ID="lbSelecionar" runat="server" CausesValidation="False" CommandName="Select" CommandArgument='<%# Eval("id") %>'  Style="display: none;"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:TemplateField ShowHeader="False" >
+                                    <EditItemTemplate>
+                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="True" CommandName="Update" Text="Atualizar" CssClass="btn btn-success" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"/>
+                                        &nbsp;<asp:Button ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btn btn-danger" />
+                                    </EditItemTemplate>
+                                    <ItemTemplate>
+                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="Edit" Text="Selecionar"  CssClass="btn btn-primary" OnClientClick="SalvaPosicao()" CommandArgument='<%# Eval("id") %>'/>
+                                    </ItemTemplate>
+                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+
+                                    <ControlStyle  />
+                                </asp:TemplateField>
                                         <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" ReadOnly="true" />
                                         <asp:BoundField DataField="ID_TARIFARIO_FRETE_TRANSPORTADOR" HeaderText="#" SortExpression="ID_TARIFARIO_FRETE_TRANSPORTADOR" ReadOnly="true" Visible="False" />
                                         <asp:BoundField DataField="DT_VALIDADE_INICIAL" HeaderText="Validade Inicial" ReadOnly="true" DataFormatString="{0:dd/MM/yyyy}" SortExpression="DT_VALIDADE_INICIAL"/>
@@ -172,18 +184,7 @@
                                         <asp:BoundField DataField="QT_DIAS_FREETIME_NOR" HeaderText="FreeTime(NOR)" ReadOnly="true" SortExpression="QT_DIAS_FREETIME_NOR" />
                                         <asp:BoundField DataField="QT_DIAS_TRANSITTIME_MEDIA" HeaderText="TTime(Média)" SortExpression="QT_DIAS_TRANSITTIME_MEDIA" />
                                         <asp:BoundField DataField="Ativo" HeaderText="Ativo" SortExpression="Ativo" ReadOnly="true"/>
-                                        <asp:TemplateField ShowHeader="False" >
-                                    <EditItemTemplate>
-                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="True" CommandName="Update" Text="Atualizar" CssClass="btn btn-success" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"/>
-                                        &nbsp;<asp:Button ID="btnCancelar" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancelar" CssClass="btn btn-danger" />
-                                    </EditItemTemplate>
-                                    <ItemTemplate>
-                                        <asp:Button ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="Edit" Text="Selecionar"  CssClass="btn btn-primary" OnClientClick="SalvaPosicao()" CommandArgument='<%# Eval("id") %>'/>
-                                    </ItemTemplate>
-                                                                                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-
-                                    <ControlStyle  />
-                                </asp:TemplateField>
+                                        
                                     </Columns>
                                     <HeaderStyle CssClass="headerStyle" />
                                 </asp:GridView>
