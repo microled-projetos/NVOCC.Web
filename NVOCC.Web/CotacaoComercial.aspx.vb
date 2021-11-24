@@ -1883,10 +1883,21 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
-                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
-                    NumeroProcesso()
+                If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
+                    Exit Sub
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                    Exit Sub
+                Else
+                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
+                        NumeroProcesso()
+                    End If
                 End If
 
                 Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)

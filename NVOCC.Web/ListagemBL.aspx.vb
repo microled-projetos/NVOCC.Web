@@ -772,7 +772,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= " DESTINO LIKE '%" & txtDestino_Embarque.Text & "%' "
 
             ElseIf txtTipoFrete_Embarque.Text <> "" Then
-                sql &= " TIPO_FRETE LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
+                sql &= " TIPO_PAGAMENTO LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
 
             ElseIf txtNavio_Embarque.Text <> "" Then
                 sql &= " NAVIO LIKE '%" & txtNavio_Embarque.Text & "%' "
@@ -781,16 +781,16 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
 
             ElseIf txtPrevInicialEmbarque_Embarque.Text <> "" And txtPrevFimEmbarque_Embarque.Text <> "" Then
-                sql &= "DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
+                sql &= " DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
 
             ElseIf txtInicialEmbarque_Embarque.Text <> "" And txtFimEmbarque_Embarque.Text <> "" Then
-                sql &= "DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
+                sql &= " DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
 
             ElseIf txtPrevInicialChegada_Embarque.Text <> "" And txtPrevFimChegada_Embarque.Text <> "" Then
-                sql &= "DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
+                sql &= " DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
 
             ElseIf txtInicialChegada_Embarque.Text <> "" And txtFimChegada_Embarque.Text <> "" Then
-                sql &= "DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
+                sql &= " DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
 
             End If
 
@@ -859,7 +859,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= "AND NAVIO LIKE '%" & txtNavio_House.Text & "%' "
 
             ElseIf txtNavioTransb_House.Text <> "" Then
-                sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
+                sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' OR NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
 
             ElseIf txtInicioPrevEmbarque_House.Text <> "" And txtFimPrevEmbarque_House.Text <> "" Then
                 sql &= "AND DT_PREVISAO_EMBARQUE_MASTER BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "

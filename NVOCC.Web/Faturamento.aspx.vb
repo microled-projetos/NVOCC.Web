@@ -60,57 +60,47 @@ Public Class Faturamento
         Dim filtro As String = ""
 
 
+        If rdStatus.SelectedValue = 1 Then
+            'A Faturar
 
-        Dim filtro2 As String = ""
+            filtro &= " WHERE DT_LIQUIDACAO IS NULL"
 
-        If ckStatus.Items.FindByValue(1).Selected And ckStatus.Items.FindByValue(2).Selected And ckStatus.Items.FindByValue(3).Selected Then
-            ''Todos os Status
-            If filtro = "" Then
 
-                filtro &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103) or (DT_LIQUIDACAO IS NULL) or DT_CANCELAMENTO Is Not NULL"
+        ElseIf rdStatus.SelectedValue = 2 Then
+            'Faturados
 
-            Else
 
-                filtro &= " and CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103) or (DT_LIQUIDACAO IS NULL) or DT_CANCELAMENTO Is Not NULL"
+            filtro &= " WHERE DT_LIQUIDACAO IS NOT NULL"
 
-            End If
 
-        Else
+        ElseIf rdStatus.SelectedValue = 3 Then
+            'À vista
 
-            If ckStatus.Items.FindByValue(1).Selected Then
-                ''Não liquidados
-                If filtro = "" Then
-                    filtro &= " WHERE DT_LIQUIDACAO IS NULL"
-                Else
-                    filtro2 &= " OR DT_LIQUIDACAO IS NULL"
-                End If
-            End If
-            If ckStatus.Items.FindByValue(2).Selected Then
-                'Liquidados desde...
-                If filtro = "" Then
-                    filtro &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
-                Else
-                    filtro &= " OR CONVERT(DATE,DT_LIQUIDACAO,103) >= CONVERT(DATE,'" & txtDataCheckLiquidados.Text & "',103)"
-                End If
-            End If
-            If ckStatus.Items.FindByValue(3).Selected Then
-                ''Cancelados
-                If filtro = "" Then
-                    filtro &= " WHERE DT_CANCELAMENTO Is Not NULL"
-                Else
-                    filtro2 &= " Or (DT_CANCELAMENTO Is Not NULL)"
-                End If
+            filtro &= " WHERE ID_TIPO_FATURAMENTO = 1"
 
-            End If
+
+        ElseIf rdStatus.SelectedValue = 4 Then
+            'A Prazo
+
+
+            filtro &= " WHERE ID_TIPO_FATURAMENTO = 2"
+
+
+        ElseIf rdStatus.SelectedValue = 5 Then
+
+            'Cancelados
+
+            filtro &= " WHERE DT_CANCELAMENTO IS NOT NULL"
+
 
         End If
 
 
         If ddlFiltro.SelectedValue = 1 Then
             If filtro = "" Then
-                filtro &= " WHERE convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+                filtro &= " WHERE CONVERT(DATE,DT_VENCIMENTO,103)  BETWEEN CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) AND CONVERT(DATE,'" & txtDataFimBusca.Text & "',103) "
             Else
-                filtro &= " AND convert(date,DT_VENCIMENTO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+                filtro &= " AND CONVERT(DATE,DT_VENCIMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) AND CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
             End If
         ElseIf ddlFiltro.SelectedValue = 2 Then
 
@@ -158,14 +148,14 @@ Public Class Faturamento
             End If
         ElseIf ddlFiltro.SelectedValue = 9 Then
             If filtro = "" Then
-                filtro &= " WHERE convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+                filtro &= " WHERE CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) AND CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
             Else
-                filtro &= " AND convert(date,DT_LIQUIDACAO,103)  >= convert(date,'" & txtPesquisa.Text & "',103)"
+                filtro &= " AND CONVERT(DATE,DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) AND CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
             End If
         End If
 
 
-        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro & filtro2
+        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] " & filtro
         dgvFaturamento.DataBind()
 
 
@@ -175,22 +165,25 @@ Public Class Faturamento
         lkNotasFiscais.Visible = True
     End Sub
     Private Sub ddlFiltro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltro.SelectedIndexChanged
-        If ddlFiltro.SelectedValue <> 0 Then
-            ckStatus.Items.FindByValue(1).Selected = False
-            ckStatus.Items.FindByValue(2).Selected = False
-            ckStatus.Items.FindByValue(3).Selected = False
-
-
-        End If
         If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
-            txtPesquisa.CssClass = "form-control data"
-            txtPesquisa.Text = Now.Date.AddDays(-1)
-            txtPesquisa.Text = FinalSemana(txtPesquisa.Text)
-
+            divBusca.Attributes.CssStyle.Add("display", "none")
+            divDatasBusca.Attributes.CssStyle.Add("display", "block")
+            txtDataInicioBusca.Text = Now.Date.AddDays(-1)
+            txtDataInicioBusca.Text = FinalSemana(txtDataInicioBusca.Text)
+            txtDataFimBusca.Text = Now.Date
         Else
-            txtPesquisa.CssClass = "form-control"
+            divBusca.Attributes.CssStyle.Add("display", "block")
+            divDatasBusca.Attributes.CssStyle.Add("display", "none")
             txtPesquisa.Text = ""
         End If
+        'If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
+        '    txtPesquisa.CssClass = "form-control data"
+        '    txtPesquisa.Text = Now.Date.AddDays(-1)
+        '    txtPesquisa.Text = FinalSemana(txtPesquisa.Text)
+        'Else
+        '    txtPesquisa.CssClass = "form-control"
+        '    txtPesquisa.Text = ""
+        'End If
     End Sub
 
     Private Sub btnBaixarFatura_Click(sender As Object, e As EventArgs) Handles btnBaixarFatura.Click
@@ -560,10 +553,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
 
                                     Dim ERRO As String = ""
-                                    ds = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
-                                    If ds.Tables(0).Rows.Count > 0 Then
-                                        If Not IsDBNull(ds.Tables(0).Rows(0).Item("CRITICA")) Then
-                                            ERRO = ds.Tables(0).Rows(0).Item("CRITICA")
+                                    Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                    If DS1.Tables(0).Rows.Count > 0 Then
+                                        If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                            ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
                                         End If
                                     End If
                                     lblmsgErro.Text = "Não foi possivel completar a ação!: " & ERRO
@@ -789,7 +782,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 SERIE_RPS = dt.Rows(0)("SERIE").ToString
                             End If
 
-                            Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,NR_RPS,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,SERIE_RPS,ID_PARCEIRO_CLIENTE) SELECT ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,'" & RPSNova & "',NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,'" & SERIE_RPS & "',ID_PARCEIRO_CLIENTE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text & "    SELECT SCOPE_IDENTITY() as ID_FATURAMENTO")
+                            Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,NR_RPS,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,SERIE_RPS,ID_PARCEIRO_CLIENTE) SELECT ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,'" & RPSNova & "',NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,'" & SERIE_RPS & "',ID_PARCEIRO_CLIENTE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text & "  SELECT SCOPE_IDENTITY() as ID_FATURAMENTO")
                             Dim NOVO_FATURAMENTO As String = dsInsert.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
 
@@ -931,7 +924,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     Dim Con As New Conexao_sql
                     Con.Conectar()
-                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     If ds2.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
@@ -947,8 +940,34 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         AtualizaGrid()
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
                     Else
-                        divErro.Visible = True
-                        lblmsgErro.Text = "Numero da nota não encontrado!"
+
+
+                        ds2 = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                        If ds2.Tables(0).Rows.Count > 0 Then
+                            If ds2.Tables(0).Rows(0).Item("STATUS_NFE") <> 2 Then
+
+                                Dim ERRO As String = ""
+                                Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                If DS1.Tables(0).Rows.Count > 0 Then
+                                    If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                        ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
+                                    End If
+                                End If
+                                lblmsgErro.Text = "Não foi possivel completar a ação: " & ERRO
+                                divErro.Visible = True
+                                Exit Sub
+
+                            Else
+                                lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                divErro.Visible = True
+                                Exit Sub
+                            End If
+
+                        End If
+
+
+
+
                     End If
                     Con.Fechar()
                 Catch ex As Exception
@@ -957,9 +976,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
 
                 End Try
-
-
-
 
 
 
@@ -1049,7 +1065,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                    txtNR_NOTA.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                    If ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") <> "PENDENTE" And ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") <> "SEM RECEITA" Then
+                        txtNR_NOTA.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                    End If
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_SERVICO")) Then
@@ -1554,7 +1572,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         If check.Checked Then
 
 
-                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,convert(date, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,convert(date, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
+                            Dim dsFatura As DataSet = Con.ExecutarQuery("SELECT NOSSONUMERO,CONVERT(DATE, DT_VENCIMENTO_BOLETO,103)DT_VENCIMENTO_BOLETO,VL_BOLETO,CONVERT(DATE, DT_EMISSAO_BOLETO,103)DT_EMISSAO_BOLETO, CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,CEP,CIDADE,(SELECT SIGLA_ESTADO FROM TB_ESTADO C WHERE C.NM_ESTADO = ESTADO) AS UF,COD_BANCO, NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & ID)
 
 
 
@@ -1624,4 +1642,8 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
+    Private Sub lkRelatorioFaturamento_Click(sender As Object, e As EventArgs) Handles lkRelatorioFaturamento.Click
+        Dim sql As String = dsFaturamento.SelectCommand
+
+    End Sub
 End Class

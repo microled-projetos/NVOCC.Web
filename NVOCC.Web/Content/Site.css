@@ -1174,7 +1174,7 @@ input[type=file] {
 #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
 #msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail,
 #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail, #msgSuccessDespCli, #msgSuccessDespRec, #msgSuccessServCli, #msgSuccessServNota, #msgSuccessServNotite, #msgSuccessServREC, #msgSuccessCreditCli, #msgSuccessCreditRec,
-#msgSuccessDebitCli, #msgSuccessDebitRec, #msgSuccessPAFornec, #msgSuccessPARec, #msgSuccessExportDelete, #msgErrorExportDelete,
+#msgSuccessDebitCli, #msgSuccessDebitRec, #msgSuccessPAFornec, #msgSuccessPARec, #msgSuccessExportDelete, #msgErrorExportDelete, #msgExportErrFatura,
 #msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
 #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
 #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
@@ -1182,7 +1182,6 @@ input[type=file] {
 #listTaxaFCLexpo, #msgSuccess, #msgErr, msgSuccessDelete, msgErrDelete, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
     display: none;
 }
-
 
 #tblModuloOperacionalBody td:first-child {
     position: -webkit-sticky; /* for Safari */

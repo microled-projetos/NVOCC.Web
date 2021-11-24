@@ -938,8 +938,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                 Con.ExecutarQuery(sSql)
 
 
-                GRAVAERRO(rsRPSs.Tables(0).Rows(0)("IDFATURA").ToString, 0, "ENCONTRADA DIVERGENCIA DE VALORES")
-
                 Exit Sub
             End If
 
@@ -983,7 +981,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                 sSql = "UPDATE TB_LOTE_NFSE SET CRITICA ='" & Funcoes.tiraCaracEspXML(msgValidacao) & "' WHERE ID_FATURAMENTO =" & loteNumero
                 Con.ExecutarQuery(sSql)
 
-                GRAVAERRO(IDFatura, 0, Funcoes.tiraCaracEspXML(msgValidacao))
 
                 Exit Sub
             Else

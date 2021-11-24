@@ -24,8 +24,9 @@ namespace ABAINFRA.Web
                 CarregarStatus();
                 CarregarContaBancaria();
                 CarregarFiltroFatura();
-/*                CarregarArmador();
-*/            }
+                /*                CarregarArmador();
+                */
+            }
         }
 
         private void CarregarListaFiltros()
@@ -42,7 +43,7 @@ namespace ABAINFRA.Web
 
         }
 
-       
+
         protected void CarregarParceiroTransportador()
         {
             SQL = "SELECT * FROM tb_parceiro where FL_TRANSPORTADOR = 1";
@@ -103,7 +104,7 @@ namespace ABAINFRA.Web
             DataTable statusDemurrage = new DataTable();
 
             //SELECT DE DROP DE EDIÇÃO DE CNTR
-            SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_DEVOLUCAO = 1 AND FL_ATIVO = 1 ";           
+            SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_DEVOLUCAO = 1 AND FL_ATIVO = 1 ";
             statusDemurrage = DBS.List(SQL);
             Session["statusDemurrage"] = statusDemurrage;
             dsStatus.DataSource = Session["statusDemurrage"];
