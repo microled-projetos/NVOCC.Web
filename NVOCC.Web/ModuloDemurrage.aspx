@@ -797,6 +797,9 @@
                                         <div class="alert alert-danger text-center" id="msgExportErrFatura">
                                             Fatura já exportada.
                                         </div>
+                                        <div class="alert alert-danger text-center" id="msgDemuFinalErrFatura">
+                                            Fatura já finalizada.
+                                        </div>
                                         <div class="alert alert-success text-center" id="msgSuccessCancelar">
                                             Fatura cancelada com sucesso.
                                         </div>
@@ -825,7 +828,7 @@
                                             <div class="btnFaturaFunc">
                                                 <button type="button" id="btnNovaFatura" onclick="limparCampos()" class="btn btn-primary" data-toggle="modal" data-target="#modalNovaFatura">Nova</button>
                                                 <button type="button" id="btnExcluirFatura" onclick="confirmExcluirFatura()" class="btn btn-primary">Excluir</button>
-                                                <button type="button" id="btnCancelarFatura" onclick="infoCancelar()" class="btn btn-primary">Cancelar</button>
+                                                <button type="button" id="btnCancelarFatura" onclick="infoCancelar()" class="btn btn-primary">Cancelar Exportação Fatura</button>
                                             </div>
                                         </div>
                                         <div class="boxFaturaFuncSec">
@@ -3442,11 +3445,11 @@
                                                 doc.addImage(bg, 'png', 126, positionbgC, 12, 4);
                                                 doc.text(dado[i]["SIGLA_MOEDA"].toString(), 129, positionC);
                                                 doc.addImage(bg, 'png', 139, positionbgC, 14, 4);
-                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"].toString(), 141, positionC);
+                                                doc.text(dado[i]["VL_TAXA_DEMURRAGE_COMPRA"].toFixed(2), 141, positionC);
                                                 doc.addImage(bg, 'png', 154, positionbgC, 16, 4);
-                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_COMPRA"].toString(), 156, positionC);
+                                                doc.text(dado[i]["VL_CAMBIO_DEMURRAGE_COMPRA"].toFixed(5), 156, positionC);
                                                 doc.addImage(bg, 'png', 171, positionbgC, 16, 4);
-                                                doc.text(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString(), 173, positionC);
+                                                doc.text(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toFixed(2), 173, positionC);
                                                 positionC = positionC + 5;
                                                 positionbgC = positionbgC + 5;
 
@@ -3596,55 +3599,70 @@
 
         function listarAtualizacaoCambial() {
             if (idFatura != 0) {
-                $("#modalAtualizacaoCambial").modal("show");
                 $.ajax({
                     type: "POST",
-                    url: "DemurrageService.asmx/infoAtualizacao",
-                    data: '{idFatura: "' + idFatura + '"}',
+                    url: "DemurrageService.asmx/infoAtualizacaoCambial",
+                    data: '{idFatura: "' + idFatura + '",check: "' + vlCheck + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
                         var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        if (dado != null) {
-                            document.getElementById("idFaturaAtualizacaoCambial").value = dado[0]["ID_DEMURRAGE_FATURA"];
-                            document.getElementById("nrProcessoFaturaAtualizacaoCambial").value = dado[0]["NR_PROCESSO"];
-                            document.getElementById("nmClienteFaturaAtualizacaoCambial").value = dado[0]["CLIENTE"];
-                            document.getElementById("dtCambioAtualizacao").value = dataAtual = ano + '-' + mes + '-' + dia;
-                            document.getElementById("vlCambioAtualizacao").value = dado[0]["VL_TAXA"];
-                            document.getElementById("dtVencimentoAtualizacaoCambial").value = dataAtual = ano + '-' + mes + '-' + dia;
+                        if (dado != "1") {
+                            $("#modalAtualizacaoCambial").modal("show");
                             $.ajax({
                                 type: "POST",
-                                url: "DemurrageService.asmx/listarFaturasAtualizacaoCambial",
-                                data: '{idFatura: "' + dado[0]["ID_DEMURRAGE_FATURA"] + '",check: "' + vlCheck + '"}',
+                                url: "DemurrageService.asmx/infoAtualizacao",
+                                data: '{idFatura: "' + idFatura + '"}',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (dado) {
                                     var dado = dado.d;
                                     dado = $.parseJSON(dado);
                                     if (dado != null) {
-                                        $("#grdAtualizacaoCambialBody").empty();
-                                        for (let i = 0; i < dado.length; i++) {
-                                            $("#grdAtualizacaoCambialBody").append("<tr id='r" + dado[i]["ID_CNTR_BL"] + "s' data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFaturaItens(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td>" +
-                                                "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_MOEDA"] + "</td><td class='text-center vlDemurrage'>" + dado[i]["VL_DEMURRAGE"] + "</td>" +
-                                                "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td></tr> ");
-                                        }
+                                        document.getElementById("idFaturaAtualizacaoCambial").value = dado[0]["ID_DEMURRAGE_FATURA"];
+                                        document.getElementById("nrProcessoFaturaAtualizacaoCambial").value = dado[0]["NR_PROCESSO"];
+                                        document.getElementById("nmClienteFaturaAtualizacaoCambial").value = dado[0]["CLIENTE"];
+                                        document.getElementById("dtCambioAtualizacao").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                        document.getElementById("vlCambioAtualizacao").value = dado[0]["VL_TAXA"];
+                                        document.getElementById("dtVencimentoAtualizacaoCambial").value = dataAtual = ano + '-' + mes + '-' + dia;
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "DemurrageService.asmx/listarFaturasAtualizacaoCambial",
+                                            data: '{idFatura: "' + dado[0]["ID_DEMURRAGE_FATURA"] + '",check: "' + vlCheck + '"}',
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (dado) {
+                                                var dado = dado.d;
+                                                dado = $.parseJSON(dado);
+                                                if (dado != null) {
+                                                    $("#grdAtualizacaoCambialBody").empty();
+                                                    for (let i = 0; i < dado.length; i++) {
+                                                        $("#grdAtualizacaoCambialBody").append("<tr id='r" + dado[i]["ID_CNTR_BL"] + "s' data-id='" + dado[i]["ID_CNTR_BL"] + "'><td class='text-center'><div class='btn btn-primary select' onclick='setIdFaturaItens(" + dado[i]["ID_CNTR_BL"] + ")'>Selecionar</div></td>" +
+                                                            "<td class='text-center'>" + dado[i]["NR_CNTR"] + "</td><td class='text-center'>" + dado[i]["NM_MOEDA"] + "</td><td class='text-center vlDemurrage'>" + dado[i]["VL_DEMURRAGE"] + "</td>" +
+                                                            "<td class='text-center desconto'>" + dado[i]["DESCONTO"] + "</td></tr> ");
+                                                    }
+                                                }
+                                                else {
+                                                    $("#grdAtualizacaoCambialBody").empty();
+                                                    $("#grdAtualizacaoCambialBody").append("<tr id='msgEmptyWeek'><td colspan='8' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
+                                                }
+                                            }
+                                        })
                                     }
                                     else {
-                                        $("#grdAtualizacaoCambialBody").empty();
-                                        $("#grdAtualizacaoCambialBody").append("<tr id='msgEmptyWeek'><td colspan='8' class='alert alert-light text-center'>Tabela vazia.</td></tr>");
                                     }
                                 }
                             })
-                        }
-                        else {
+                        } else {
+                            $("#msgExportErrFatura").fadeIn(500).delay(1000).fadeOut(500);
                         }
                     }
                 })
-            } else {
-                $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
-            }
+                
+        }else {
+            $("#msgSelectErrFatura").fadeIn(500).delay(1000).fadeOut(500);
         }
+    }
 
         function atualizacaoCambial() {
             if (idFatura != 0) {
@@ -3708,7 +3726,7 @@
                     dataType: "json",
                     success: function (dado) {
                         var dado = dado.d;
-                        if (dado != "null") {
+                        if (dado == "0") {
                             if (atualizaCambio != 1) {
                                 if (vlCheck == 1) {
                                     document.getElementById('divStatusContaCorrente').style = 'display:block';
@@ -3745,8 +3763,12 @@
                             } else {
                                 $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
                             }
-                        } else {
+                        } else if (dado == "1") {
+                            $("#msgCambioErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else if (dado == "2") {
                             $("#msgExportErrFatura").fadeIn(500).delay(1000).fadeOut(500);
+                        } else {
+                            $("#msgDemuFinalErrFatura").fadeIn(500).delay(1000).fadeOut(500);
                         }
                     }
                 })

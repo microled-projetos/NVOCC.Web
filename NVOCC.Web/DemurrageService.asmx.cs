@@ -2304,6 +2304,34 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string infoAtualizacaoCambial(int idFatura, int check)
+        {
+            string SQL;
+            
+            if (check == 1)
+            {
+                SQL = "select DT_EXPORTACAO_DEMURRAGE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                DataTable listTableV = new DataTable();
+                listTableV = DBS.List(SQL);
+                if(listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" && listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] != null)
+				{
+                    return "1";
+				}
+            }
+			else
+			{
+                SQL = "select DT_EXPORTACAO_DEMURRAGE_COMPRA FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
+                DataTable listTableC = new DataTable();
+                listTableC = DBS.List(SQL);
+                if (listTableC.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"].ToString() != "" && listTableC.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"] != null)
+                {
+                    return "1";
+                }
+            }
+            return "0";
+        }
+
+        [WebMethod]
         public string infoCancelar(int idFatura)
         {
             string SQL;
@@ -2422,39 +2450,47 @@ namespace ABAINFRA.Web
             string SQL;
             if (check == 1)
             {
-                SQL = "select cd_pr,FORMAT(dt_lancamento,'yyyy-MM-dd hh:mm:ss') AS DT_LANCAMENTO, ID_USUARIO_LANCAMENTO,FORMAT(dt_vencimento,'yyyy-MM-dd') as DT_VENCIMENTO, ID_CONTA_BANCARIA, ";
-                SQL += "DT_EXPORTACAO_DEMURRAGE, DT_CANCELAMENTO ";
-                SQL += "from tb_demurrage_fatura ";
-                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
+                SQL = "select b.ID_CNTR_BL, b.ID_BL, a.ID_DEMURRAGE_FATURA, c.FL_DEMURRAGE_FINALIZADA, ID_CONTA_BANCARIA,DT_EXPORTACAO_DEMURRAGE, DT_CANCELAMENTO from tb_demurrage_fatura a ";
+                SQL += "inner join TB_AMR_CNTR_BL b on a.ID_BL = b.ID_BL ";
+                SQL += "inner join TB_CNTR_BL c on b.ID_CNTR_BL = c.ID_CNTR_BL ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '"+idFatura+"' ";
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
-                if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "")
+                if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "" || listTable.Rows[0]["ID_CONTA_BANCARIA"] == null)
                 {
-                    return "null";
+                    return "1";
                 }
-                if (listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" || listTable.Rows[0]["DT_CANCELAMENTO"] == null || listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" || listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] == null)
+                if ((listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" && listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] != null) || (listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" && listTable.Rows[0]["DT_CANCELAMENTO"] != null))
                 {
-                    return "null";
+                    return "2";
                 }
+                if(listTable.Rows[0]["FL_DEMURRAGE_FINALIZADA"].ToString() == "1")
+				{
+                    return "3";
+				}
 			}
 			else
 			{
-                SQL = "select cd_pr,FORMAT(dt_lancamento,'yyyy-MM-dd hh:mm:ss') AS DT_LANCAMENTO, ID_USUARIO_LANCAMENTO,FORMAT(dt_vencimento,'yyyy-MM-dd') as DT_VENCIMENTO, ID_CONTA_BANCARIA, ";
-                SQL += "DT_EXPORTACAO_DEMURRAGE_COMPRA, DT_CANCELAMENTO ";
-                SQL += "from tb_demurrage_fatura ";
-                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "'";
+                SQL = "select b.ID_CNTR_BL, b.ID_BL, a.ID_DEMURRAGE_FATURA, c.FL_DEMURRAGE_FINALIZADA, ID_CONTA_BANCARIA,DT_EXPORTACAO_DEMURRAGE_COMPRA, DT_CANCELAMENTO from tb_demurrage_fatura a ";
+                SQL += "inner join TB_AMR_CNTR_BL b on a.ID_BL = b.ID_BL ";
+                SQL += "inner join TB_CNTR_BL c on b.ID_CNTR_BL = c.ID_CNTR_BL ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
-                if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "")
+                if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "" || listTable.Rows[0]["ID_CONTA_BANCARIA"] == null)
                 {
-                    return "null";
+                    return "1";
                 }
-                if (listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"].ToString() != "" || listTable.Rows[0]["DT_CANCELAMENTO"] == null || listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" || listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"] == null)
+                if ((listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"].ToString() != "" && listTable.Rows[0]["DT_EXPORTACAO_DEMURRAGE_COMPRA"] != null) || (listTable.Rows[0]["DT_CANCELAMENTO"].ToString() != "" && listTable.Rows[0]["DT_CANCELAMENTO"] != null))
                 {
-                    return "null";
+                    return "2";
+                }
+                if (listTable.Rows[0]["FL_DEMURRAGE_FINALIZADA"].ToString() == "1")
+                {
+                    return "3";
                 }
             }
-            return "ok";
+            return "0";
         }
 
         [WebMethod(EnableSession = true)]
@@ -2820,12 +2856,12 @@ namespace ABAINFRA.Web
             SQL = "SELECT ISNULL(A.NR_CNTR,'') AS NR_CNTR, ISNULL(A.NM_TIPO_CONTAINER,'') AS NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
             SQL += "ISNULL(FORMAT(B.DT_FINAL_FREETIME,'dd/MM/yy'),'') AS FINALFT, ISNULL(A.QT_DIAS_FREETIME,'') AS QT_DIAS_FREETIME, ";
             SQL += "ISNULL(FORMAT(B.DT_INICIAL_DEMURRAGE,'dd/MM/yy'),'') AS INICIALDEM, ISNULL(FORMAT(B.DT_FINAL_DEMURRAGE,'dd/MM/yy'),'') AS FINALDEM, ";
-            SQL += "ISNULL(B.QT_DIAS_DEMURRAGE,'') AS QT_DIAS_DEMURRAGE,ISNULL(B.QT_DIAS_DEMURRAGE_COMPRA,'') AS QT_DIAS_DEMURRAGE_COMPRA, ISNULL(MD.SIGLA_MOEDA,'') AS SIGLA_MOEDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_TAXA_DEMURRAGE_COMPRA,'C','PT-BR')),'R$',''),'') AS VL_TAXA_DEMURRAGE_COMPRA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_CAMBIO_DEMURRAGE_COMPRA,'C','PT-BR')),'R$',''),'') AS VL_CAMBIO_DEMURRAGE_COMPRA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(B.VL_DEMURRAGE_LIQUIDO_COMPRA,'C','PT-BR')),'R$',''),'') AS VL_DEMURRAGE_LIQUIDO_COMPRA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DESCONTO_DEMURRAGE_COMPRA,'C','PT-BR')),'R$',''),'') AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DEMURRAGE_COMPRA_BR, 'C', 'PT-BR')), 'R$', ''),'') AS VL_DEMURRAGE_COMPRA_BR ";
+            SQL += "ISNULL(B.QT_DIAS_DEMURRAGE_COMPRA,'') AS QT_DIAS_DEMURRAGE_COMPRA, ISNULL(MD.SIGLA_MOEDA,'') AS SIGLA_MOEDA, ";
+            SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_COMPRA,0) AS VL_TAXA_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_COMPRA,0) AS VL_CAMBIO_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_COMPRA,0) AS VL_DEMURRAGE_LIQUIDO_COMPRA, ";
+            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DESCONTO_DEMURRAGE_COMPRA, 'C','PT-BR')),'R$',''),'') AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(B.VL_DEMURRAGE_COMPRA_BR,0) AS VL_DEMURRAGE_COMPRA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
             SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL ";
