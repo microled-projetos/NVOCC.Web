@@ -471,30 +471,30 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
     End Sub
 
-    Sub CARGA()
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        Dim ds As DataSet
-        Dim NM_TIPO_CARGA As String = ""
-        ds = Con.ExecutarQuery("SELECT ISNULL(NM_TIPO_CARGA,'')NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = (SELECT ID_TIPO_CARGA  FROM TB_COTACAO WHERE ID_COTACAO = " & Request.QueryString("c") & " )")
-        If ds.Tables(0).Rows.Count > 0 Then
-            NM_TIPO_CARGA = ds.Tables(0).Rows(0).Item("NM_TIPO_CARGA").ToString
-            lblTipoCarga.Text = NM_TIPO_CARGA
-            ds = Con.ExecutarQuery("SELECT sum(VL_CARGA)VL_CARGA,ID_MOEDA_CARGA, (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = ID_MOEDA_CARGA)MOEDA_CARGA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA_CARGA")
-            Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
-            tabela &= "<th style='padding-right:10px;padding-right:10px'>Valor</th>"
-            tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
+    'Sub CARGA()
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
+    '    Dim ds As DataSet
+    '    Dim NM_TIPO_CARGA As String = ""
+    '    ds = Con.ExecutarQuery("SELECT ISNULL(NM_TIPO_CARGA,'')NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = (SELECT ID_TIPO_CARGA  FROM TB_COTACAO WHERE ID_COTACAO = " & Request.QueryString("c") & " )")
+    '    If ds.Tables(0).Rows.Count > 0 Then
+    '        NM_TIPO_CARGA = ds.Tables(0).Rows(0).Item("NM_TIPO_CARGA").ToString
+    '        lblTipoCarga.Text = NM_TIPO_CARGA
+    '        ds = Con.ExecutarQuery("SELECT sum(VL_CARGA)VL_CARGA,ID_MOEDA_CARGA, (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = ID_MOEDA_CARGA)MOEDA_CARGA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA_CARGA")
+    '        Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
+    '        tabela &= "<th style='padding-right:10px;padding-right:10px'>Valor</th>"
+    '        tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
 
-            For Each linha As DataRow In ds.Tables(0).Rows
-                tabela &= "<tr><td style='padding-right:10px'>" & linha("MOEDA_CARGA") & "</td>"
-                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CARGA") & "</td></tr>"
-            Next
+    '        For Each linha As DataRow In ds.Tables(0).Rows
+    '            tabela &= "<tr><td style='padding-right:10px'>" & linha("MOEDA_CARGA") & "</td>"
+    '            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linha("VL_CARGA") & "</td></tr>"
+    '        Next
 
-            tabela &= "</table>"
-            divCarga.InnerHtml = tabela
-        End If
+    '        tabela &= "</table>"
+    '        divCarga.InnerHtml = tabela
+    '    End If
 
-    End Sub
+    'End Sub
 
     Sub CONTAINER()
         Dim Con As New Conexao_sql

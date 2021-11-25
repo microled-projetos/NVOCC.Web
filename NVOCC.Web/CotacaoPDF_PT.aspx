@@ -66,9 +66,9 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <strong>Peso bruto:</strong> <asp:label runat="server" ID="lblPesoBruto" class="control-label" /><br />
 <strong>Volume m3:</strong> <asp:label runat="server" ID="lblM3" class="control-label" /><br /> 
 <strong>Peso taxado:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br />
-<strong>Tipo Carga:</strong> <asp:label runat="server" ID="lblTipoCarga" class="control-label" /><br />
+<%--<strong>Tipo Carga:</strong> <asp:label runat="server" ID="lblTipoCarga" class="control-label" /><br />
     <div id="divCarga" style="font-family:Arial;font-size:10px;" runat="server"></div>
-     </div>
+     </div>--%>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERM" class="control-label" /></div>
 <strong>Origem: </strong><asp:label runat="server" ID="lblOrigem" class="control-label" /><br />
 <strong>Destino: </strong><asp:label runat="server" ID="lblDestino" class="control-label" /><br />

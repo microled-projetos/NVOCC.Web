@@ -133,7 +133,7 @@
                             </li>
                             <li>
                                 <a href="#" id="MnRelatorioCotacao" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub">                                  
+                                <ul class="dropdown-sub" style="top: 60%!important">                                  
                                     <li><a style="font-size: 13px;" href="RelacaoCotacao.aspx" runat="server" id="mnRelacaoCotacao">Relação das Cotações</a></li>                              
                                 </ul>
                             </li>

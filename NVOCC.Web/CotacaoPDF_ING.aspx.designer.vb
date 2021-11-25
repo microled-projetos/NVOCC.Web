@@ -122,24 +122,6 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblPesoTaxado As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTipoCarga.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblTipoCarga As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle divCarga.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divCarga As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle lblINCOTERM.
     '''</summary>
     '''<remarks>

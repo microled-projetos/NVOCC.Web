@@ -88,29 +88,29 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
-                btnGravar.Enabled = False
-                btnSalvarFrete.Visible = False
-                btnSalvarTaxa.Visible = False
-                btnSalvarMercadoria.Visible = False
-                btnNovaMercadoria.Enabled = False
-                btnNovaTaxa.Enabled = False
-                btnImportar.Visible = False
-                dgvMercadoria.Columns(8).Visible = False
-                dgvTaxas.Columns(10).Visible = False
+            'If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+            '    btnGravar.Enabled = False
+            '    btnSalvarFrete.Visible = False
+            '    btnSalvarTaxa.Visible = False
+            '    btnSalvarMercadoria.Visible = False
+            '    btnNovaMercadoria.Enabled = False
+            '    btnNovaTaxa.Enabled = False
+            '    btnImportar.Visible = False
+            '    dgvMercadoria.Columns(8).Visible = False
+            '    dgvTaxas.Columns(10).Visible = False
 
-            Else
-                btnGravar.Enabled = True
-                btnSalvarFrete.Visible = True
-                btnSalvarTaxa.Visible = True
-                btnSalvarMercadoria.Visible = True
-                btnNovaMercadoria.Enabled = True
-                btnNovaTaxa.Enabled = True
-                btnImportar.Visible = True
-                dgvMercadoria.Columns(8).Visible = True
-                dgvTaxas.Columns(10).Visible = True
+            'Else
+            '    btnGravar.Enabled = True
+            '    btnSalvarFrete.Visible = True
+            '    btnSalvarTaxa.Visible = True
+            '    btnSalvarMercadoria.Visible = True
+            '    btnNovaMercadoria.Enabled = True
+            '    btnNovaTaxa.Enabled = True
+            '    btnImportar.Visible = True
+            '    dgvMercadoria.Columns(8).Visible = True
+            '    dgvTaxas.Columns(10).Visible = True
 
-            End If
+            'End If
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO")) Then
@@ -1064,10 +1064,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     Session("ID_CLIENTE") = ddlCliente.SelectedValue
                     Session("ID_STATUS") = ddlStatusCotacao.SelectedValue
 
-                    If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
-                    End If
+                    'If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                    'End If
 
                     VerificaEstufagem()
                     VerificaTransporte()
@@ -1258,11 +1258,11 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 AtualizaFreteMercadoria()
 
-                If Session("ID_STATUS") = 10 Then
-                    Dim RotinaUpdate As New RotinaUpdate
-                    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
-                    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
-                End If
+                'If Session("ID_STATUS") = 10 Then
+                '    Dim RotinaUpdate As New RotinaUpdate
+                '    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                'End If
 
             End If
 
@@ -1612,20 +1612,20 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                     mpeNovoMercadoria.Show()
                     AtualizaFreteMercadoria()
 
-                    If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
-                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                    'If Session("ID_STATUS") = 10 Then
+                    '    CalculaCotacao()
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
+                    '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
-                        Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-                        If ds2.Tables(0).Rows.Count > 0 Then
-                            For Each linha As DataRow In ds2.Tables(0).Rows
-                                RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
-                            Next
-                        End If
+                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                    '    If ds2.Tables(0).Rows.Count > 0 Then
+                    '        For Each linha As DataRow In ds2.Tables(0).Rows
+                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                    '        Next
+                    '    End If
 
-                    End If
+                    'End If
 
                 End If
 
@@ -1677,20 +1677,20 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
                     AtualizaFreteMercadoria()
 
-                    If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
-                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                    'If Session("ID_STATUS") = 10 Then
+                    '    CalculaCotacao()
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text)
+                    '    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
-                        Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-                        If ds2.Tables(0).Rows.Count > 0 Then
-                            For Each linha As DataRow In ds2.Tables(0).Rows
-                                RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
-                            Next
-                        End If
+                    '    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                    '    If ds2.Tables(0).Rows.Count > 0 Then
+                    '        For Each linha As DataRow In ds2.Tables(0).Rows
+                    '            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                    '        Next
+                    '    End If
 
-                    End If
+                    'End If
 
                 End If
 
@@ -3214,12 +3214,12 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddl
                     dgvTaxas.DataBind()
                     divSuccessTaxa.Visible = True
 
-                    If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                    'If Session("ID_STATUS") = 10 Then
+                    '    CalculaCotacao()
 
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
-                    End If
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
+                    'End If
 
                 End If
 
@@ -3272,12 +3272,12 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     Con.Fechar()
                     dgvTaxas.DataBind()
 
-                    If Session("ID_STATUS") = 10 Then
-                        CalculaCotacao()
+                    'If Session("ID_STATUS") = 10 Then
+                    '    CalculaCotacao()
 
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
-                    End If
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
+                    'End If
 
                 End If
 
