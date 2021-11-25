@@ -938,12 +938,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 txtObsOperacional.Text = "'" & txtObsOperacional.Text & "'"
             End If
 
-            'If txtProcessoCotacao.Text = "" Then
-            '    txtProcessoCotacao.Text = "NULL"
-            'Else
-            '    PROCESSO = txtProcessoCotacao.Text
-            '    txtProcessoCotacao.Text = "'" & txtProcessoCotacao.Text & "'"
-            'End If
 
             txtObsCliente.Text = txtObsCliente.Text.Replace(vbNewLine, "<br/>")
 

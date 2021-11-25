@@ -1898,7 +1898,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
                     NumeroProcesso()
                 End If
-                '  End If
+                ' End If
 
                 Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
 
