@@ -73,7 +73,7 @@
                                                                             <div class="col-sm-offset-2 col-sm-4">
 
                                         <div class="form-group">
-                                            <br /><asp:Button runat="server" Visible="false" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" />
+                                            <br /><asp:Button runat="server" Visible="True" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" />
                                                                                         <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
 
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />

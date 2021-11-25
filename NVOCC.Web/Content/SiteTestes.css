@@ -1,0 +1,1342 @@
+﻿
+html {
+    position: relative;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+   background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-position: top left !important;
+    background-position: top left !important;
+
+}
+
+
+.navbar-inverse {
+    background-color: #222;
+    border-color: #e77817;
+}
+
+.fundo {
+    opacity: 0.4;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-position: top left !important;
+}
+
+body > .container-fluid {
+    padding: 70px 32px 0px 32px;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+code {
+    font-size: 80%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: right;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-vertical-center {
+    vertical-align: middle;
+}
+
+.linha-colorida {
+    margin-top: 10px;
+    background-color: #c8daf4;
+    font-size: 12px;
+    width: 100%;
+    margin-right: 15px;
+    font-weight: 600;
+    padding: 4px;
+}
+
+input[type="text"]:focus {
+    background-color: #FAFAD2;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.navbar-brand {
+    height: 45px;
+    padding: 0;
+    margin-top: 7px;
+    padding-left: 7px;
+    margin-right: 18px !important;
+    display: inline-block;
+}
+
+.destacar-texto {
+    font-weight: bold;
+    color: red;
+    background-color: #FFF68F;
+}
+
+.form-group {
+    margin-bottom: 8px;
+}
+
+    .form-group label {
+        margin-bottom: 3px;
+    }
+
+    .form-group hr {
+        margin-bottom: 4px;
+    }
+
+.no-gutter {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+    .no-gutter > [class*="col-"] {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+.control-label {
+    font-size: 12px;
+}
+
+input[type=submit] {
+    font-size: 13px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.menu {
+    border-top: 15px solid white !important;
+    border-bottom: 15px solid white !important;
+}
+
+.dropdown > a  {
+
+    color: white !important;
+}
+
+.navbar-custom {
+    background-color: white;
+}
+
+.navbar-default .navbar-nav > li > a {
+   color: white;
+}
+
+    .navbar-default .navbar-nav > li > a:hover {
+        color: white;
+    }
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+    background-color: #003663;
+    color: white
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+    background-color: transparent;
+    color: white;
+}
+
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+    color: #000000;
+}
+
+    .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover .panel-title {
+        background-color: #ffffff;
+    }
+
+        .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+            background-color: #ffffff;
+        }
+
+
+.dropdown-sub {
+    display: none;
+    position: absolute;
+    list-style: none;
+}
+
+    .dropdown-sub li {
+        color: #000000;
+        padding: 5px 0;
+        margin: 2px 0 0;
+
+    }
+        .dropdown-sub li:hover {
+            background-color: #f2f2f2;
+            color: white;
+        }
+        .dropdown-sub a {
+            text-decoration: none;
+
+        }
+
+.dropdown-menu > li:hover > .dropdown-sub {
+    display: block;
+}
+
+.dropdown-menu > li > a > .dropdown-sub {
+    position: absolute;
+    display: block;
+    padding: 20px 9px 20px 10px;
+}
+
+/*.dropdown-menu .dropdown-sub {
+    top: 0;
+    left: 100%;
+}*/
+
+.dropdown-sub {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    min-height: 30px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    color: black;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+    .dropdown-sub a {
+        color: black;
+        position: relative;
+        padding: 20px 9px 20px 10px;
+    }
+
+.panel-body h4 {
+    padding-top: 10px;
+    color: gray;
+}
+
+.sw-btn-prev {
+    margin-right: 6px;
+}
+
+.invisivel {
+    display: none;
+}
+
+.updateModal {
+    position: fixed;
+    top: -22px;
+    left: -142px;
+    right: 0px; /* IE não le isso */
+    bottom: -22px; /* IE não le isso */
+    padding: 0px;
+    background-color: Gray;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+    overflow: auto;
+    z-index: 999;
+    /* Para o IE */
+    height: expression(document.body.clientHeight + "px");
+    width: expression(document.body.clientWidth + "px");
+}
+
+.updateModalBox {
+    padding: 4px;
+    background-color: #ffffff;
+    border: 1px solid #B2B2B2;
+    background-image: url('../imagens/carregando1.gif');
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -35px;
+    margin-left: -100px;
+    height: 141px;
+    padding-top: 20px;
+    width: 290px;
+    border-radius: 8px;
+}
+
+.control-label {
+    white-space: nowrap;
+}
+
+.modal-xl {
+    width: 90%;
+    max-width: 1200px;
+}
+
+.modal-md {
+    width: 70%;
+    max-width: 800px;
+}
+
+.select2-results__options {
+    font-size: 11px !important;
+}
+
+.select2-selection__rendered {
+    padding-top: 2px;
+    font-size: 11px !important;
+}
+
+.pagination-ys {
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius: 4px;
+}
+
+    .pagination-ys table > tbody > tr > td {
+        display: inline;
+    }
+
+        .pagination-ys table > tbody > tr > td > a,
+        .pagination-ys table > tbody > tr > td > span {
+            position: relative;
+            float: left;
+            padding: 8px 12px;
+            line-height: 1.42857143;
+            text-decoration: none;
+            color: #dd4814;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            margin-left: -1px;
+        }
+
+        .pagination-ys table > tbody > tr > td > span {
+            position: relative;
+            float: left;
+            padding: 8px 12px;
+            line-height: 1.42857143;
+            text-decoration: none;
+            margin-left: -1px;
+            z-index: 2;
+            color: #aea79f;
+            background-color: #f5f5f5;
+            border-color: #dddddd;
+            cursor: default;
+        }
+
+        .pagination-ys table > tbody > tr > td:first-child > a,
+        .pagination-ys table > tbody > tr > td:first-child > span {
+            margin-left: 0;
+            border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+
+        .pagination-ys table > tbody > tr > td:last-child > a,
+        .pagination-ys table > tbody > tr > td:last-child > span {
+            border-bottom-right-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+        .pagination-ys table > tbody > tr > td > a:hover,
+        .pagination-ys table > tbody > tr > td > span:hover,
+        .pagination-ys table > tbody > tr > td > a:focus,
+        .pagination-ys table > tbody > tr > td > span:focus {
+            color: #97310e;
+            background-color: #eeeeee;
+            border-color: #dddddd;
+        }
+
+#tbAtosConcessorios {
+    font-size: 11px;
+}
+
+.form-control {
+    padding: 6px 6px !important;
+}
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 20px 9px 20px 12px;
+}
+
+.navbar-header {
+    padding-top: 6px;
+}
+
+table .campo-acao {
+    width: 12px !important;
+    padding: 4px !important;
+}
+
+.input-100-p {
+    width: 100%;
+}
+
+.caret {
+    margin-left: 6px !important;
+}
+
+fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: .7em .7em .7em .7em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+    text-align: center;
+}
+
+legend.scheduler-border {
+    font-size: 12px !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width: auto;
+    padding: 0 10px;
+    border-bottom: none;
+    margin: 0px !important;
+}
+
+.textoComLinhaContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 8px;
+    padding-top: 6px;
+}
+
+.textoComLinhaTitulo {
+    flex-grow: 0;
+}
+
+.textoComLinhaDivisor {
+    flex-grow: 1;
+    height: 1px;
+    padding-top: 1px;
+    margin-top: 2px;
+    margin-left: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.campo-data {
+    font-stretch: condensed;
+}
+
+.gridViewHeader {
+    background-color: #337ab7;
+    color: #FFFFFF;
+}
+
+
+.mr-1 {
+    margin-right: 10px;
+}
+
+.mr-2 {
+    margin-right: 20px;
+}
+
+.mr-3 {
+    margin-right: 30px;
+}
+
+.mr-4 {
+    margin-right: 40px;
+}
+
+.mr-5 {
+    margin-right: 50px;
+}
+
+.ml-1 {
+    margin-left: 10px;
+}
+
+.ml-2 {
+    margin-left: 20px;
+}
+
+.ml-3 {
+    margin-left: 30px;
+}
+
+.ml-4 {
+    margin-left: 40px;
+}
+
+.ml-5 {
+    margin-left: 50px;
+}
+
+.table.dataTable tfoot th, table.dataTable tfoot td {
+    padding: 10px 10px 6px 18px !important;
+    background-color: silver !important;
+}
+
+.coluna-data-ordenacao {
+    display: none;
+    color: transparent;
+    background-color: transparent;
+    width: 0px;
+}
+
+.sem-quebra {
+    white-space: nowrap !important;
+}
+
+
+
+.btn-primary {
+    background: #003663 !important;
+    border-color: #003663 !important;
+}
+
+.panel-heading {
+    background: #003663 !important;
+    border-color: #003663 !important;
+}
+
+.btn-warning {
+    background: #e77817 !important;
+    border-color: #e77817 !important;
+}
+
+.align {
+    vertical-align: middle;
+    color: blue;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7d7d7d;
+    border-radius: 15px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #525252;
+    }
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 0px;
+    box-shadow: inset 7px -1px 12px #f0f0f0;
+}
+
+.tableFixHead {
+    overflow-y: auto;
+    max-height: 650px;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+    .tableFixHead thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: beige;
+ }
+
+/* Just common table stuff. Really. */
+table {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+th {
+    padding: 0px 
+}
+
+
+
+th {
+    position: sticky !important;
+    top: 0;
+    background-color: #e6eefa;
+}
+
+.table > tbody > tr > td {
+    font-size: 12px !important;
+}
+
+.table tbody tr td {
+    font-size: 12px !important;
+}
+
+.btnTaxa {
+    padding: 2px 10px !important;
+    background-color: dodgerblue !important;
+    border-radius: 3px !important;
+    color: white !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+}
+
+    .btnTaxa:hover {
+        background-color: Highlight !important;
+    }
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+    .flex div {
+        cursor: pointer;
+    }
+
+.boxCancel, .boxSalvar, .boxCadastrar, #MainContent_divmsgSuccess, #MainContent_divmsgErr, #MainContent_msgErr {
+    display: none;
+}
+
+.popErr {
+    display: block;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.topMarg {
+    margin-top: 20px !important;
+}
+
+/*#msgErrDadoCalc, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess, #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+    display: none;
+}*/
+
+#MainContent_txtParceiroFCLimpo, #MainContent_txtParceiroLCLimpo, #MainContent_txtParceiroFCLexpo, #MainContent_txtParceiroLCLexpo, #MainContent_txtParceiroAereoImpo, #MainContent_txtParceiroAereoExpo {
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    background-color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: default;
+}
+
+.pad {
+    margin-left: 5px;
+}
+
+.boxContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+#modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle, #modalListarContainerWeekTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle, #modalListarProcessosContainerWeekTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle, #modalDeleteDocumentoArquivadoTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalCadastrarConteinerTitle,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalDeleteProcessoWeekFCATitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalInsideWeekTitle, #modalDeleteProcessoContainerFCATitle, #modalProcessosContainerTitle, #modalAdicionarProcessoTitle, #modalEditarProcessoFCATitle, #modalEditarProcessoPartnerTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/*.bindBL, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL, #msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
+#msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail, #msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail,
+#msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
+#msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
+#msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
+    display: none;
+}*/
+
+#tblModuloOperacionalBody td:first-child {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
+
+#tblModuloOperacionalHead th:first-child {
+    left: 0;
+    z-index: 1;
+}
+
+#btnCancelEdit, #btnSalvarEditContainer, #btnEditarContainer {
+    display: none;
+}
+
+.tablecont {
+    max-height: 300px !important;
+    overflow-y: scroll !important;
+}
+
+.erroNrContainer {
+    font-size: 10px;
+    color: red;
+    display: none;
+}
+
+#infoSomaProcessoFCA, #infoSomaProcessoPartner {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+    #infoSomaProcessoFCA tr, #infoSomaProcessoPartner tr {
+        background-color: #e6eefa;
+    }
+
+.modal-header {
+    padding: 25px 25px 25px 25px;
+    border-bottom: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: space-between;
+}
+
+#boxPesoFCA, #boxVolumeFCA, #boxPesoPartner, #boxVolumePartner {
+    padding: 7px;
+    margin-left: 20px;
+    border-radius: 3px;
+}
+
+.loader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.required {
+    color: red;
+}
+.noborder {
+    border: none;
+    box-shadow: none;
+}
+
+    .noborder:active {
+        background: white;
+        border: none;
+    }
+
+    .noborder[disabled] {
+        background: white;
+    }
+
+.margBot {
+    margin-bottom: 2px !important;
+}
+
+#MainContent_checkEsc, #MainContent_checkInicioFreetime {
+    margin: 0 !important;
+}
+
+input[type=checkbox] {
+    margin-top: 0px !important;
+}
+
+input[type=file] {
+    display: none
+}
+
+
+#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/*#msgErrUpdate, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek {
+    display: none;
+}*/
+
+.errorVerified {
+    color: red;
+    font-weight: bold;
+    background-color: rgba(255,0,0,0.3);
+}
+
+.verified {
+    color: green;
+    font-weight: bold;
+    background-color: rgba(0,255,0,0.3);
+}
+
+
+#boxTableImport table tbody td, #boxTableImport table thead th {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white;
+    cursor: default;
+}
+
+
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white !important;
+    font-weight: bold;
+    cursor: default !important;
+}
+
+#grdModuloDemurrage td:first-child {
+    display: flex;
+}
+
+#grdModuloDemurrage .pad {
+    padding: 3px 6px;
+}
+
+#obsInfoCont {
+    width: 800px;
+}
+
+.functionBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.functionFaturaBar {
+    display: flex;
+}
+
+.boxFaturaFuncSec {
+    margin-left: 20px;
+}
+
+.btnBoxFunc, .btnFaturaFunc, .btnFaturaFuncSec {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.btnDemuFunc {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.demuFunc {
+    margin-left: 5px;
+}
+
+.oFunc {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#faturado, #nFaturado {
+    color: rgba(255,0,0,0.7);
+    display: none;
+}
+
+.tableModalFix {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .tableModalFix thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+.colorir {
+    background: rgba(0,0,255,0.4);
+}
+
+.flexdivbtn {
+    display: flex;
+    align-items: normal;
+}
+
+#btnProximo {
+    display: none;
+}
+
+
+.table tbody tr td {
+    padding-left: 8px !important;
+    margin: 0px !important;
+    font-size: 12px !important;
+    padding-right: 2px !important;
+}
+/*CSS A PARTIR DAQUI*/
+
+.required {
+    color: red;
+}
+
+.noborder {
+    border: none;
+    box-shadow: none;
+}
+
+    .noborder:active {
+        background: white;
+        border: none;
+    }
+
+    .noborder[disabled] {
+        background: white;
+    }
+
+.margBot {
+    margin-bottom: 2px !important;
+}
+
+#MainContent_checkEsc, #MainContent_checkInicioFreetime {
+    margin: 0 !important;
+}
+
+input[type=checkbox] {
+    margin-top: 0px !important;
+}
+
+input[type=file] {
+    display: none
+}
+
+.errorVerified {
+    color: red;
+    font-weight: bold;
+    background-color: rgba(255,0,0,0.3);
+}
+
+.verified {
+    color: green;
+    font-weight: bold;
+    background-color: rgba(0,255,0,0.3);
+}
+
+
+#boxTableImport table tbody td, #boxTableImport table thead th {
+   padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white;
+    cursor: default;
+}
+
+.noboxP {
+    border: none;
+    box-shadow: none;
+    background-color: rgb(220,220,220);
+    cursor: default;
+}
+
+
+.nobox {
+    border: none;
+    box-shadow: none;
+    background-color: white !important;
+    font-weight: bold;
+    cursor: default !important;
+}
+
+#grdModuloDemurrage .pad {
+    padding: 3px 6px;
+}
+
+#obsInfoCont {
+    width: 800px;
+}
+
+.functionBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.functionFaturaBar {
+    display: flex;
+}
+
+.boxFaturaFuncSec {
+    margin-left: 20px;
+}
+
+.btnBoxFunc, .btnFaturaFunc, .btnFaturaFuncSec {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.btnDemuFunc {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.demuFunc {
+    margin-left: 5px;
+}
+
+.oFunc {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#faturado, #nFaturado {
+    color: rgba(255,0,0,0.7);
+    display: none;
+}
+
+.tableModalFix {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .tableModalFix thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+.colorir {
+    background: rgba(0,0,255,0.4);
+}
+
+.flexdivbtn {
+    display: flex;
+    align-items: normal;
+}
+
+#btnProximo {
+    display: none;
+}
+
+#grdPrint th, #grdPrint td {
+    padding: .3em;
+    border: 1px solid #999;
+}
+
+.flexdiv {
+    font-size: 10px;
+}
+
+#containerCourrier > tr {
+    padding: 5px 10px !important;
+}
+
+#modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+/*#msgErrUpdate, #msgDeleteErr, #msgDeleteSucess, #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek {
+    display: none;
+}*/
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.flexdiv {
+    display: flex;
+    align-items: flex-end;
+}
+
+.popErr {
+    display: block;
+    text-align: center;
+}
+
+/*#msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess, #msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu, #msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol {
+    display: none;
+}*/
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.flexdiv {
+    display: flex;
+    align-items: flex-end;
+}
+
+.popErr {
+    display: block;
+    text-align: center;
+}
+
+.divisor {
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.listaProcessos {
+    width: 30%;
+}
+
+.caixaEmail {
+    width: 70%;
+}
+
+
+#containerCourrier > tr{
+    padding: 5px 10px !important;
+}
+
+#boxPesoFCA, #boxVolumeFCA, #boxPesoPartner, #boxVolumePartner, #boxPesoFCATOTAL, #boxPesoPartnerTotal, #boxVolumePartnerTotal, #boxVolumeFCATOTAL, #boxMercadoriaPartnerTotal, #boxMercadoriaFCATOTAL {
+    padding: 7px;
+    margin-left: 20px;
+    border-radius: 3px;
+}
+
+
+#modalFiltroAvancadoTitle, #modalRemoverEmailTitle, #modalReenvioEmailTitle, #modalCancelamentoEmailTitle, #modalReativarEmailTitle, #modalCaixaAgendamentoTitle, #modalCalculoTitle, #modalPrintTitle, #modalNovaFaturaTitle, #modalEstimativaTitle, #modalExportarContaCorrenteTitle, #modalCancelarTitle,
+#modalAtualizacaoCambialTitle, #modalFaturaTitle, #modalCalculoTitleSelecionados, #modalEditContInfoTitle, #modalDevolucaoTitle, #modalListarContainerWeekTitle,
+#modalDeleteFCLimpoTitle, #modalDeleteLCLimpoTitle, #modalDeleteFCLexpoTitle, #modalDeleteLCLexpoTitle, #modalDeleteImpoAereoTitle, #modalListarProcessosContainerWeekTitle,
+#modalDeleteExpoAereoTitle, #modalDemurrageTitle, #modalImportExcelTitle, #modalExportGridAtualTitle, #modalDeleteDemurrageTitle, #modalDeleteDocumentoArquivadoTitle,
+#modalDemurrageTitle, #modalWeekTitle, #modalContainerTitle, #modalContainerEditTitle, #modalContainerPartnerInsideEdit, #modalCadastrarConteinerTitle,
+#modalContainerPartnerEditTitle, #modalContainerPartnerTitle, #modalFCLimpoTitle, #modalLCLimpoTitle, #modalFCLexpoTitle, #modalDeleteProcessoWeekFCATitle,
+#modalLCLexpoTitle, #modalAereoImpoTitle, #modalInsideWeekTitle, #modalDeleteProcessoContainerFCATitle, #modalProcessosContainerTitle, #modalAdicionarProcessoTitle, #modalEditarProcessoFCATitle, #modalEditarProcessoPartnerTitle, #modalAereoExpoTitle, #modalExcluirFaturaTitle, #modalTabelaDemurrageTitle {
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.bindBL, #msgErrDespCli, #msgErrTabelaDemurrage, #msgSuccessTabelaDemurrage, #msgExistsTabelaDemurrage, #msgErrDeleteDemurrage, #msgSuccesDeleteDemurrage, #msgErrDespRec, #msgErrServCli, #msgErrServNota, #msgErrServNotite, #msgErrServRec, #msgErrExportPARec, #msgErrExportPACli, #cancelSelectionBL, #SelectionContainer, #msgSuccessRegContBl, #msgSuccessBindContBlFCA, #msgErrBindContBlFCA, #selectionBL,
+#msgSuccessRemoveBlFCACont, #msgErrDadoCalc, #msgCambioErrFatura, #msgSuccessRemoveBlFCA, #msgSuccessRegContBlFCA, #msgErrRegContBlFCA, #msgErr2RegContBlFCA, #msgSuccessEditBlFCA,
+#msgErrExportCreditREC, #msgErrExportCreditCli, #msgErrExportDebitREC, #msgErrExportDebitCli, #msgSuccessCancelEmail, #msgErrRemoveEmail, #msgSuccessUploadArquivo, #msgErrUploadArquivo, #msgErrDiretorio, #msgErrAnexo, #msgSuccessRemoveEmail,
+#msgErrReenvioEmail, #msgSuccessReenvioEmail, #msgSuccessAgendEmail, #msgSuccessDespCli, #msgSuccessDespRec, #msgSuccessServCli, #msgSuccessServNota, #msgSuccessServNotite, #msgSuccessServREC, #msgSuccessCreditCli, #msgSuccessCreditRec,
+#msgSuccessDebitCli, #msgSuccessDebitRec, #msgSuccessPAFornec, #msgSuccessPARec, #msgSuccessExportDelete, #msgErrorExportDelete, #msgExportErrFatura, #msgDemuFinalErrFatura,
+#msgErrSelectEmail, #msgErrorCancelEmail, #msgErrExportDadoConta, #msgSelectErrFatura, #msgSelectErrFaturaProcessar, #msgSelectErrFaturaItens, #msgErrEditCont, #msgErrDados, #msgErrExportDado, #msgErrUpdate, #msgDeleteErr, #msgDeleteSucess,
+#msgErrTable, #msgErrSelect, #msgErrSelectCalc, #msgSuccessProcess, #msgExportSuccess, #msgExportErr, #msgErrCancelar, #msgSuccessCancelar, #msgUpdtSuccess, #msgSuccessUpdate, #msgErrExistDemu, #msgSuccessDeletDemu, #msgErrDeletDemu, #msgSuccessDemu,
+#msgErrDemu, #msgSuccessContEditPartner, #msgErrContEditPartner, #msgSuccessContEditFCA, #msgErrContEditFCA, #msgSuccessfclimpo, #msgErrfclimpo, #msgSuccesslclimpo, #msgErrlclimpo, #msgSuccessfclexpo, #msgerrselectcont, #msgerrselectblfca,
+#msgErrfclexpo, #msgSuccesslclexpo, #msgErrlclexpo, #msgSuccessimpoaereo, #msgErrimpoaereo, #msgSuccessexpoaereo, #msgErrexpoaereo, #btnCancelFCLimpo, #btnEditarFCLimpo, #btnSalvarFCLimpo, #btnSalvarFCLimpo, #listTaxaFCLimpo, #listTaxaLCLimpo,
+#listTaxaFCLexpo, #msgSuccess, #msgErr, msgSuccessDelete, msgErrDelete, #listTaxaLCLexpo, #listTaxaAereoImpo, #listTaxaAereoExpo, #msgSuccessWeek, #msgErrWeek, #msgErrContWeek, #msgSuccessContWeek, #msgErrSelectDevol, #msgSuccessDelete, #msgErrDelete {
+    display: none;
+}
+
+#tblModuloOperacionalBody td:first-child {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
+
+#tblModuloOperacionalHead th:first-child {
+    left: 0;
+    z-index: 1;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.flexdiv {
+    display: flex;
+    align-items: flex-end;
+}
+
+.popErr {
+    display: block;
+    text-align: center;
+}
+
+.divisor{
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.listaProcessos{
+    width: 30%;
+}
+
+.caixaEmail{
+    width: 70%;
+}
+.tablecont > tbody > tr > td {
+    vertical-align: middle;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    padding: 2px 10px !important;
+    text-overflow: ellipsis !important;
+}
+
+@media screen and (max-height: 1365px) {
+
+    .tableFixHead {
+        overflow-y: auto !important;
+        /*        max-height: 300px;
+*/
+    }
+
+        .tableFixHead thead th {
+            position: sticky !important;
+            top: 0;
+            background-color: #e6eefa;
+        }
+
+    .tablecont {
+        max-height: 300px !important;
+        overflow-y: scroll !important;
+    }
+}
+
+/*Mudanças CSS*/
+
+#tblModuloGerencialBody tr td {
+    padding: 10px 2px !important;
+}
+
+#tblListaProcessoHouseBody tr td {
+    padding: 10px 2px !important;
+}
+
+.tablecont > tbody > tr > td {
+    vertical-align: middle;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.table > tbody > tr > td {
+    font-size: 11px !important;
+    padding: 5px;
+    white-space: nowrap;
+}
+
+
+.boxImpo, .boxExpo, boxAereo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boxProcImpo, .boxTeusImpo, .boxCntrImpo, .boxProcExpo, .boxTeusExpo, .boxCntrExpo {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #7d7d7d;
+    border-radius: 15px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #525252;
+    }
+
+::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 0px;
+    box-shadow: inset 7px -1px 12px #f0f0f0;
+}
+
+.fixedDoubleHead {
+    overflow-y: auto !important;
+    max-height: 300px;
+}
+
+    .fixedDoubleHead thead {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }
+
+#grdPagamentoRecebimento thead {
+    border: 1px solid #ccc;
+    position: sticky !important;
+    background-color: #e6eefa;
+}
+
+/*.tablefixheadupload {
+    overflow-y: auto !important;
+    max-height: 200px;
+}
+
+    .tablefixheadupload thead th {
+        position: sticky !important;
+        top: 0;
+        background-color: #e6eefa;
+    }*/
+
+.sorter:hover {
+    background-color: #d5dde9;
+}

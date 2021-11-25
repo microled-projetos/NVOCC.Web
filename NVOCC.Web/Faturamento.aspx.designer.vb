@@ -86,6 +86,15 @@ Partial Public Class Faturamento
     Protected WithEvents ddlFiltro As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle txtPesquisa.
     '''</summary>
     '''<remarks>
@@ -95,13 +104,31 @@ Partial Public Class Faturamento
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ckStatus.
+    '''Controle divDatasBusca.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
+    Protected WithEvents divDatasBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDataInicioBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataInicioBusca As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtDataFimBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFimBusca As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle rdStatus.
@@ -615,6 +642,24 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkReciboPagamento As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRelatorioFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRelatorioFaturamento As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkGridCSV.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkGridCSV As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharDesmosntrativos.

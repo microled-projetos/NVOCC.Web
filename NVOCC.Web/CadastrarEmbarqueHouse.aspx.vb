@@ -750,11 +750,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     End If
 
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
-                    '    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
-                    '        btnSalvar_TaxaMaritimo.Visible = False
-                    '    End If
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                        If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                            btnSalvar_TaxaMaritimo.Visible = False
+                        End If
+                    End If
 
 
 
@@ -936,11 +936,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     End If
 
 
-                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
-                    '    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
-                    '        btnSalvar_TaxaMaritimo.Visible = False
-                    '    End If
-                    'End If
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                        If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                            btnSalvar_TaxaMaritimo.Visible = False
+                        End If
+                    End If
 
 
                     lblTipoEmpresa_Maritimo.Text = "Parceiro:"
@@ -1108,11 +1108,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     btnSalvar_TaxaAereo.Visible = False
                 End If
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
-                '    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
-                '        btnSalvar_TaxaAereo.Visible = False
-                '    End If
-                'End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                        btnSalvar_TaxaAereo.Visible = False
+                    End If
+                End If
 
                 mpeTaxaAereo.Show()
 
@@ -1277,11 +1277,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                 End If
 
 
-                'If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
-                '    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
-                '        btnSalvar_TaxaAereo.Visible = False
-                '    End If
-                'End If
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF")) Then
+                    If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
+                        btnSalvar_TaxaAereo.Visible = False
+                    End If
+                End If
 
                 mpeTaxaAereo.Show()
 
@@ -4177,12 +4177,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-            'If ORIGEM = "COTAÇÃO" Then
-            '    btnExcluir.Visible = False
-            'Else
-            '    btnExcluir.Visible = True
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
 
-            'End If
+            End If
         Next
 
     End Sub
@@ -4195,12 +4195,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-            'If ORIGEM = "COTAÇÃO" Then
-            '    btnExcluir.Visible = False
-            'Else
-            '    btnExcluir.Visible = True
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
 
-            'End If
+            End If
         Next
     End Sub
     Private Sub dgvTaxaMaritimoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaMaritimoVendas.Load
@@ -4211,12 +4211,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-            'If ORIGEM = "COTAÇÃO" Then
-            '    btnExcluir.Visible = False
-            'Else
-            '    btnExcluir.Visible = True
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
 
-            'End If
+            End If
         Next
     End Sub
     Private Sub dgvTaxaAereoCompras_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoCompras.Load
@@ -4228,12 +4228,12 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Dim ORIGEM As String = CType(linha.FindControl("lblORIGEM"), Label).Text
             Dim btnExcluir As LinkButton = CType(linha.FindControl("btnExcluir"), LinkButton)
 
-            'If ORIGEM = "COTAÇÃO" Then
-            '    btnExcluir.Visible = False
-            'Else
-            '    btnExcluir.Visible = True
+            If ORIGEM = "COTAÇÃO" Then
+                btnExcluir.Visible = False
+            Else
+                btnExcluir.Visible = True
 
-            'End If
+            End If
         Next
     End Sub
     Private Sub dgvTaxaAereoVendas_Load(sender As Object, e As EventArgs) Handles dgvTaxaAereoVendas.Load

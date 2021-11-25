@@ -64,7 +64,10 @@ Issuance date: <asp:label runat="server" ID="lblDataAtual" class="control-label"
 <div class="linha-colorida2">Cargo Details</div>
 <strong>Gross weight:</strong> <asp:label runat="server" ID="lblPesoBruto" class="control-label" /><br />
 <strong>Measurement CBM:</strong> <asp:label runat="server" ID="lblM3" class="control-label" /><br /> 
-<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /></div>
+<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br />
+<strong>Cargo type:</strong> <asp:label runat="server" ID="lblTipoCarga" class="control-label" /><br />
+    <div id="divCarga" style="font-family:Arial;font-size:10px;" runat="server"></div>
+     </div></div>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERM" class="control-label" /></div>
 <strong>Origin: </strong><asp:label runat="server" ID="lblOrigem" class="control-label" /><br />
 <strong>Destination: </strong><asp:label runat="server" ID="lblDestino" class="control-label" /><br />
@@ -106,7 +109,7 @@ Tel No.-+55 13 3213-6670<br/>
              
           
                     <br/><br/>
-    <asp:label runat="server" ID="lblTexto" class="control-label" />     </div> 
+    <asp:label runat="server" ID="lblTexto" class="control-label" />     
     </form>
     
 </body>

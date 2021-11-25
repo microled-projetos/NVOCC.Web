@@ -47,10 +47,6 @@
 
                                 Filtro:
                    <div class="row linhabotao text-center" style="margin-left: 0px; border: ridge 1px; padding-top: 20px; padding-bottom: 20px; margin-right: 5px;">
-<<<<<<< HEAD
-=======
-
->>>>>>> 865a9bfa77b5d8a1b2e6cfabd7e4fec38e3ab395
                        <div class="col-sm-2" style="padding-top: 20px;">
                            <div class="form-group">
                                <asp:DropDownList ID="ddlFiltro" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
@@ -66,25 +62,26 @@
                                    <asp:ListItem Value="9">Data Liquidação</asp:ListItem>
                                </asp:DropDownList>
                            </div>
+                           </div>
 
-                       </div>
-                       <div class="col-sm-2" style="padding-top: 20px;">
-                           <div class="form-group">
+
+                       <div class="col-sm-2" style="padding-top: 20px;display: block" runat="server" ID="divBusca"  >
+                           <div class="form-group" >
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                       </div>
-                       <div class="col-sm-2">
-
-                           <div class="form-group">
-
-                               <asp:CheckBoxList ID="ckStatus" Style="padding: 0px; font-size: 15px; text-align: justify" runat="server" RepeatDirection="vertical">
-                                   <asp:ListItem Value="1" Selected="True">&nbsp;Não liquidados</asp:ListItem>
-                                   <asp:ListItem Value="2" Selected="True">&nbsp;Liquidados desde:</asp:ListItem>
-                                   <asp:ListItem Value="3">&nbsp;Cancelados</asp:ListItem>
-                               </asp:CheckBoxList>
                            </div>
+                       <div runat="server" ID="divDatasBusca"  style="display: none">
+                        <div class="col-sm-1" style="padding-top: 20px;">                        
+                               <div class="form-group">
+                               <asp:TextBox ID="txtDataInicioBusca" runat="server"  CssClass="form-control data"></asp:TextBox>
+                           </div>
+                               </div>
+                           <div class="col-sm-1" style="padding-top: 20px;">                        
+                               <div class="form-group">
+                               <asp:TextBox ID="txtDataFimBusca" runat="server" CssClass="form-control data"></asp:TextBox>
+                           </div>
+                               </div>
                        </div>
-<<<<<<< HEAD
                                               <div class="col-sm-2">
 
                            <div class="form-group">
@@ -106,9 +103,6 @@
                        </div>
 
                         <div class="col-sm-1" style="padding-top: 27px;display: none">
-=======
-                        <div class="col-sm-1" style="padding-top: 27px;">
->>>>>>> 865a9bfa77b5d8a1b2e6cfabd7e4fec38e3ab395
                            <div class="form-group">
                                <asp:TextBox ID="txtDataCheckLiquidados" Style="font-size: 15px;" runat="server" width="100px"  CssClass="data"></asp:TextBox>
 
@@ -143,7 +137,7 @@
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
                                     <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" OnSorting="dgvFaturamento_Sorting" EmptyDataText="Nenhum registro encontrado."  PageSize="100">
-                                        <Columns>
+                                                                               <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_FATURAMENTO") %>' />
@@ -165,12 +159,16 @@
                                             <asp:BoundField DataField="DT_RPS" HeaderText="Data RPS" SortExpression="DT_RPS" />
                                             <asp:BoundField DataField="NR_RECIBO" HeaderText="Recibo" SortExpression="NR_RECIBO" />
                                             <asp:BoundField DataField="DT_RECIBO" HeaderText="Data Recibo" SortExpression="DT_RECIBO" />
-                                            <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nota Fiscal" SortExpression="NR_NOTA_FISCAL" />
-                                            <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data Nota Fiscal" SortExpression="DT_NOTA_FISCAL" />
+                                            <asp:BoundField DataField="NR_NOTA_FISCAL" HeaderText="Nº NF" SortExpression="NR_NOTA_FISCAL" />
+                                            <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="Data NF" SortExpression="DT_NOTA_FISCAL" />
+                                            <asp:BoundField DataField="VL_NF" HeaderText="Valor NF" SortExpression="VL_NF" />
+                                            <asp:BoundField DataField="VL_ISS_RETIDO" HeaderText="ISS Retido" SortExpression="VL_ISS_RETIDO" />
                                             <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="Data de Liquidação" SortExpression="DT_LIQUIDACAO" />
                                             <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
                                             <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
 											<asp:BoundField DataField="ARQ_REM" HeaderText="Remessa" SortExpression="ARQ_REM" />
+                                            <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
+                                            <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias" SortExpression="QT_DIAS_FATURAMENTO" />
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -180,6 +178,7 @@
                                             </asp:TemplateField>
                                            
                                         </Columns>
+
                                         <HeaderStyle CssClass="headerStyle" />
                                     </asp:GridView>
                                 </div>
@@ -393,7 +392,21 @@
                                                                                      <asp:LinkButton ID="lkReciboPagamento" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Recibo de Pagamento</asp:LinkButton>
                                         </div>
                                          </div>
-                                   </div>      
+                                   </div> 
+                                <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">
+                                                                                     <asp:LinkButton ID="lkRelatorioFaturamento" Visible="false" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Relatório de Faturamento</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div>    
+                                <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">
+                                                                                     <asp:LinkButton ID="lkGridCSV" Visible="True" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Exportar Grid em CSV</asp:LinkButton>
+                                        </div>
+                                         </div>
+                                   </div>   
                                 </div>  
                              </div>
                                <div class="modal-footer">
@@ -743,6 +756,7 @@
                                 <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
                                 <asp:AsyncPostBackTrigger ControlID="ddlFiltro" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvFaturamento" />
+                                 <asp:PostBackTrigger ControlID="lkGridCSV" />
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
@@ -812,7 +826,8 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
             console.log(ID);
 
-            window.open('CONtent/BOLETOS/BOLETO_'+ ID +'.pdf', '_blank');
+            window.open('CONtent/BOLETOS/BOLETO_' + ID + '.pdf', '_blank');
+
         }
 
 

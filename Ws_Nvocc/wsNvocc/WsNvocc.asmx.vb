@@ -757,27 +757,12 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     AUTONUM = rsNumero.Rows(0)("AUTONUM").ToString
                     If Lote = "0" Then
                         'Caso nao gravar bloqueado = 0 pra todos os tipos de bloqueio do NVOCC
-                        Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FCA = 0, FL_BLOQUEIO_DOCUMENTAL = 0 ,FL_BLOQUEIO_FINANCEIRO = 0  WHERE ID_BL = " & linha.Item("ID_BL").ToString())
+                        Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 0 ,FL_BLOQUEIO_FINANCEIRO = 0  WHERE ID_BL = " & linha.Item("ID_BL").ToString())
                     Else
+
+                        Con.ExecutarQuery("UPDATE TB_BL SET AUTONUM_SGIPA = " & AUTONUM & " WHERE ISNULL(AUTONUM_SGIPA,0) = 0 AND ID_BL = " & linha.Item("ID_BL").ToString())
+
                         'Caso sim consultar todos os tipos de bloqueio para atualizar NVOCC
-
-
-                        'BLOQUEIO FCA
-                        Sql = "SELECT AUTONUM,STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM =(SELECT NVL(MAX(AUTONUM),0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO WHERE BL = '" & AUTONUM & "' AND COD_MOTIVO_BLOQUEIO = 39)"
-                        rsNumero = ConOracle.Consultar(Sql)
-                        If rsNumero.Rows.Count > 0 Then
-                            STATUS = rsNumero.Rows(0)("STATUS").ToString
-                            If STATUS = "L" Then
-                                ' if se lote = 0 gravar na tb_bl como liberado se for = 1 gravar como bloqueado
-                                Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FCA = 0 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
-                            Else
-                                Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FCA = 1 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
-                            End If
-                        Else
-                            Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FCA = 0 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
-                        End If
-
-
 
                         'BLOQUEIO FINANCEIRO
                         Sql = "SELECT AUTONUM,STATUS FROM SGIPA.TB_HIST_BLOQUEIO WHERE AUTONUM =(SELECT NVL(MAX(AUTONUM),0)AUTONUM FROM SGIPA.TB_HIST_BLOQUEIO WHERE BL = '" & AUTONUM & "' AND COD_MOTIVO_BLOQUEIO = 40)"
@@ -808,7 +793,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                                 Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 1 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
                             End If
                         Else
-                            Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FINANCEIRO = 0 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
+                            Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 0 WHERE ID_BL = " & linha.Item("ID_BL").ToString())
                         End If
 
 
@@ -816,7 +801,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Else
                     'Caso nao gravar bloqueado = 0 pra todos os tipos de bloqueio do NVOCC
-                    Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_FCA = 0, FL_BLOQUEIO_DOCUMENTAL = 0 ,FL_BLOQUEIO_FINANCEIRO = 0  WHERE ID_BL = " & linha.Item("ID_BL").ToString())
+                    Con.ExecutarQuery("UPDATE TB_BL SET FL_BLOQUEIO_DOCUMENTAL = 0 ,FL_BLOQUEIO_FINANCEIRO = 0  WHERE ID_BL = " & linha.Item("ID_BL").ToString())
                 End If
 
             Next

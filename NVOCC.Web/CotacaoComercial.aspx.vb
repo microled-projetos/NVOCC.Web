@@ -1737,7 +1737,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 9 Then
                 FILTRO = " ANALISTA_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
-
+            ElseIf ddlConsultas.SelectedValue = 10 Then
+                FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO
