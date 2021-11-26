@@ -73,14 +73,7 @@
                                         </div>
                        
                  
-                       <div class="col-sm-4" runat="server" visible="false">
-                                      <asp:Label ID="Label5" runat="server">DEMONSTRATIVOS:</asp:Label><br />
-                                        <div style="border: ridge 1px;">
 
-                      <button type="button" id="btnPagamentosRecebimentos" class="btn btnn"  data-toggle="modal" onclick="PagamentosRecebimentos()">Pagamentos e Recebimentos</button> 
-                            <button type="button" id="btnEstimativaPagamentosRecebimentos" class="btn btnn" data-toggle="modal" onclick="EstimativaPagamentosRecebimentos()">Estimativa Pagamentos e Recebimentos</button>             </div>
-                                
-</div>
     </div>
     
     <br /><br /><br />
@@ -114,6 +107,8 @@
 
                            </div>
                        </div>
+
+
                        <div class="col-sm-2" style="border: ridge 1px;">
                                                 <div class="form-group">
                                                     <label class="control-label">Via Transporte:</label>
@@ -133,7 +128,7 @@
                                                 </div>
                                             </div>
                                           
-
+                       
                         
                    </div> 
                     
@@ -174,6 +169,7 @@
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="QT_TAXAS_RECEBER" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBIDAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="QT_TAXAS_RECEBIDAS" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER_ABERTA" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="QT_TAXAS_RECEBER_ABERTA" />
+                                           
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

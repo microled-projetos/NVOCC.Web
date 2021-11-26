@@ -122,6 +122,15 @@ Partial Public Class BaixasCancelamentos
     Protected WithEvents btnpesquisar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnCSV.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCSV As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnCambio.
     '''</summary>
     '''<remarks>

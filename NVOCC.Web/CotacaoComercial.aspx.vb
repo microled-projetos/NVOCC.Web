@@ -1841,10 +1841,17 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione o registro que deseja excluir!"
             Else
-                Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-                lblmsgSuccess.Text = "Registro deletado!"
-                divSuccess.Visible = True
-                GRID()
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE ID_STATUS_COTACAO NOT IN (7,8,9,10,11,12 ,14) AND ID_COTACAO = " & txtID.Text)
+
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "O status dessa cotação não permite a sua remoção!"
+                Else
+                    Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                    lblmsgSuccess.Text = "Registro deletado!"
+                    divSuccess.Visible = True
+                    GRID()
+                End If
             End If
         End If
 

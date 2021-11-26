@@ -7,11 +7,10 @@ html {
 
 body {
     font-family: 'Roboto', sans-serif;
-   background-attachment: fixed !important;
+    background-attachment: fixed !important;
     background-repeat: no-repeat !important;
     background-position: top left !important;
     background-position: top left !important;
-
 }
 
 
@@ -130,8 +129,7 @@ input[type=submit] {
     border-bottom: 15px solid white !important;
 }
 
-.dropdown > a  {
-
+.dropdown > a {
     color: white !important;
 }
 
@@ -140,7 +138,7 @@ input[type=submit] {
 }
 
 .navbar-default .navbar-nav > li > a {
-   color: white;
+    color: white;
 }
 
     .navbar-default .navbar-nav > li > a:hover {
@@ -171,49 +169,25 @@ input[type=submit] {
         }
 
 
-.dropdown-sub {
-    display: none;
-    position: absolute;
-    list-style: none;
+.dropdown-sub li {
+    color: #000000;
+    padding: 5px 0;
+    margin: 2px 0 0;
 }
 
-    .dropdown-sub li {
-        color: #000000;
-        padding: 5px 0;
-        margin: 2px 0 0;
-
-    }
-        .dropdown-sub li:hover {
-            background-color: #f2f2f2;
-            color: white;
-        }
-        .dropdown-sub a {
-            text-decoration: none;
-
-        }
 
 .dropdown-menu > li:hover > .dropdown-sub {
     display: block;
 }
 
-.dropdown-menu > li > a > .dropdown-sub {
-    position: absolute;
-    display: block;
-    padding: 20px 9px 20px 10px;
-}
 
-/*.dropdown-menu .dropdown-sub {
-    top: 0;
-    left: 100%;
-}*/
 
 .dropdown-sub {
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    z-index: 1000;
     display: none;
-    float: left;
+    position: relative;
+    top: -30px;
+    list-style: none;
+    left: 100%;
     min-width: 160px;
     min-height: 30px;
     padding: 5px 0;
@@ -233,8 +207,8 @@ input[type=submit] {
 
     .dropdown-sub a {
         color: black;
-        position: relative;
         padding: 20px 9px 20px 10px;
+        text-decoration: none;
     }
 
 .panel-body h4 {
@@ -251,6 +225,7 @@ input[type=submit] {
 }
 
 .updateModal {
+    display: inline-block;
     position: fixed;
     top: -22px;
     left: -142px;
@@ -555,7 +530,7 @@ legend.scheduler-border {
         position: sticky !important;
         top: 0;
         background-color: beige;
- }
+    }
 
 /* Just common table stuff. Really. */
 table {
@@ -566,7 +541,7 @@ table {
 
 
 th {
-    padding: 0px 
+    padding: 0px
 }
 
 
@@ -747,6 +722,7 @@ input[type=number]::-webkit-inner-spin-button {
 .required {
     color: red;
 }
+
 .noborder {
     border: none;
     box-shadow: none;
@@ -964,7 +940,7 @@ input[type=file] {
 
 
 #boxTableImport table tbody td, #boxTableImport table thead th {
-   padding: 8px;
+    padding: 8px;
     border-bottom: 1px solid #ccc;
 }
 
@@ -1148,7 +1124,7 @@ input[type=file] {
 }
 
 
-#containerCourrier > tr{
+#containerCourrier > tr {
     padding: 5px 10px !important;
 }
 
@@ -1214,18 +1190,19 @@ input[type=file] {
     text-align: center;
 }
 
-.divisor{
+.divisor {
     width: 100%;
     flex-wrap: nowrap;
 }
 
-.listaProcessos{
+.listaProcessos {
     width: 30%;
 }
 
-.caixaEmail{
+.caixaEmail {
     width: 70%;
 }
+
 .tablecont > tbody > tr > td {
     vertical-align: middle;
     white-space: nowrap !important;

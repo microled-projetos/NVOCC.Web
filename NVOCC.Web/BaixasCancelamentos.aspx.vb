@@ -340,17 +340,19 @@
         End Using
 
         dsReceber.SelectCommand = sql
-
+        Session("CSVReceber") = sql
         dgvTaxasReceber.DataBind()
         CarregaGridReceber()
 
 
+        sql = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        dsPagar.SelectCommand = sql
+        Session("CSVPagar") = sql
 
-        dsPagar.SelectCommand = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'P' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         dgvTaxasPagar.DataBind()
     End Sub
     Private Sub btnpesquisar_Click(sender As Object, e As EventArgs) Handles btnpesquisar.Click
-        filtro()
+        Filtro()
     End Sub
 
     Private Sub dgvTaxasReceber_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxasReceber.RowCommand
@@ -591,5 +593,33 @@
         '    ModalPopupExtender2.Hide()
 
         'End If
+    End Sub
+
+    Private Sub btnCSV_Click(sender As Object, e As EventArgs) Handles btnCSV.Click
+        Dim sql As String = ""
+        If Request.QueryString("t") = "p" Then
+
+            If Session("CSVPagar") <> "" Then
+                sql = Session("CSVPagar")
+
+            Else
+                sql = dsReceber.SelectCommand
+
+            End If
+
+        ElseIf Request.QueryString("t") = "r" Then
+            If Session("CSVReceber") <> "" Then
+                sql = Session("CSVReceber")
+
+            Else
+                sql = dsReceber.SelectCommand
+
+            End If
+
+        End If
+
+        If sql <> "" Then
+            Classes.Excel.exportaExcel(sql, "NVOCC", "BaixasCancelamentos")
+        End If
     End Sub
 End Class

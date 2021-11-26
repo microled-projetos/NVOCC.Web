@@ -12,6 +12,7 @@
               padding-left:25px;
               padding-right:25px;
           }
+          
          </style>
     <div class="row principal">
         <div class="panel panel-primary">
@@ -70,14 +71,13 @@
                                         </div>
                                     </div>
                                     
-                                                                            <div class="col-sm-offset-2 col-sm-4">
+                                                                            <div class="col-sm-4">
 
-                                        <div class="form-group">
-                                            <br /><asp:Button runat="server" Visible="false" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" />
-                                                                                        <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
-
+                                        <div class="form-group"><br />
+                                            <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="false" />
+                                            <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
-
                                         </div>
                                     </div>
 
@@ -120,6 +120,7 @@
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />                                    
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
+                                                 
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
@@ -152,6 +153,8 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
+                                                <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
+                                            <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias" SortExpression="QT_DIAS_FATURAMENTO" />
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
@@ -160,11 +163,6 @@
                                                 <asp:BoundField DataField="VL_TAXA_BR" HeaderText="Valor lançamento(R$)" SortExpression="VL_TAXA_BR" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
                                                 <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
-
-
-
-
-
 
 
                                                <%-- <asp:TemplateField HeaderText="Bloqueio FCA">
@@ -346,6 +344,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasPagar" />
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
+                                <asp:PostBackTrigger ControlID="btnCSV" /> 
                             </Triggers>
                         </asp:UpdatePanel>
 
