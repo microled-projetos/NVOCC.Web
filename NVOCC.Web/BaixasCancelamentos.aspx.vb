@@ -520,79 +520,79 @@
 
         Dim Con As New Conexao_sql
         Con.Conectar()
-        'If txtDataCambio.Text = "" Then
-        '    lblErro.Text = "É necessário informar a data para prosseguir!"
-        '    divErro.Visible = True
-        '    Exit Sub
-        'ElseIf txtValorCambio.Text = "" Then
-        '    lblErro.Text = "É necessário informar o valor para prosseguir!"
-        '    divErro.Visible = True
-        '    Exit Sub
-        'Else
-        '    If Request.QueryString("t") = "p" Then
+        If txtDataCambio.Text = "" Then
+            lblErro.Text = "É necessário informar a data para prosseguir!"
+            divErro.Visible = True
+            Exit Sub
+        ElseIf txtValorCambio.Text = "" Then
+            lblErro.Text = "É necessário informar o valor para prosseguir!"
+            divErro.Visible = True
+            Exit Sub
+        Else
+            If Request.QueryString("t") = "p" Then
 
-        '        For Each linha As GridViewRow In dgvTaxasPagar.Rows
-        '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-        '            If check.Checked Then
-        '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-
-
-        '                'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-        '                '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-        '                '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-        '                '        ValorCambio = ValorCambio + spread
-        '                '    End If
-
-        '                'End If
-
-        '                Dim valorCambioFinal As String = txtValorCambio.Text
-        '                valorCambioFinal = valorCambioFinal.Replace(".", "")
-        '                valorCambioFinal = valorCambioFinal.Replace(",", ".")
-
-        '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " ,  VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_CAMBIO = " & valorCambioFinal & "  WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
-
-        '            End If
-        '        Next
-
-        '        dgvTaxasPagar.DataBind()
-
-        '    ElseIf Request.QueryString("t") = "r" Then
-
-        '        For Each linha As GridViewRow In dgvTaxasReceber.Rows
-        '            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-        '            If check.Checked Then
-        '                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-
-        '                'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-        '                '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-        '                '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-        '                '        ValorCambio = ValorCambio + spread
-        '                '    End If
-
-        '                'End If
-
-        '                Dim valorCambioFinal As String = txtValorCambio.Text
-        '                valorCambioFinal = valorCambioFinal.Replace(".", "")
-        '                valorCambioFinal = valorCambioFinal.Replace(",", ".")
-
-        '                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " ,  VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & ", VL_CAMBIO = " & valorCambioFinal & " WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
-        '            End If
-        '        Next
-
-        '        Filtro()
-
-        '    End If
+                For Each linha As GridViewRow In dgvTaxasPagar.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
 
 
-        '    Con.Fechar()
-        '    lblSuccess.Text = "Atualização de câmbio realizada com sucesso!"
-        '    divSuccess.Visible = True
-        '    txtDataCambio.Text = ""
-        '    txtValorCambio.Text = ""
-        '    ddlMoeda.SelectedValue = 0
-        '    ModalPopupExtender2.Hide()
+                        'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                        '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
+                        '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                        '        ValorCambio = ValorCambio + spread
+                        '    End If
 
-        'End If
+                        'End If
+
+                        Dim valorCambioFinal As String = txtValorCambio.Text
+                        valorCambioFinal = valorCambioFinal.Replace(".", "")
+                        valorCambioFinal = valorCambioFinal.Replace(",", ".")
+
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " ,  VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_CAMBIO = " & valorCambioFinal & "  WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
+
+                    End If
+                Next
+
+                dgvTaxasPagar.DataBind()
+
+            ElseIf Request.QueryString("t") = "r" Then
+
+                For Each linha As GridViewRow In dgvTaxasReceber.Rows
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    If check.Checked Then
+                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+                        'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+                        '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
+                        '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
+                        '        ValorCambio = ValorCambio + spread
+                        '    End If
+
+                        'End If
+
+                        Dim valorCambioFinal As String = txtValorCambio.Text
+                        valorCambioFinal = valorCambioFinal.Replace(".", "")
+                        valorCambioFinal = valorCambioFinal.Replace(",", ".")
+
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & ", VL_CAMBIO = " & valorCambioFinal & " WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                    End If
+                Next
+
+                Filtro()
+
+            End If
+
+
+            Con.Fechar()
+            lblSuccess.Text = "Atualização de câmbio realizada com sucesso!"
+            divSuccess.Visible = True
+            txtDataCambio.Text = ""
+            txtValorCambio.Text = ""
+            ddlMoeda.SelectedValue = 0
+            ModalPopupExtender2.Hide()
+
+        End If
     End Sub
 
     Private Sub btnCSV_Click(sender As Object, e As EventArgs) Handles btnCSV.Click

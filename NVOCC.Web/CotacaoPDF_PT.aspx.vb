@@ -99,11 +99,19 @@ FROM  TB_COTACAO A
                 Session("MOEDA_CNTR") = ds.Tables(0).Rows(0).Item("MOEDA")
             End If
 
+            CARGA()
+
             If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
                 CONTAINER()
                 detalhesCarga.Visible = False
+                divCargaFCL.Visible = True
+                divCargaLCL.Visible = False
+
             Else
                 detalhesCarga.Visible = True
+                divCargaFCL.Visible = False
+                divCargaLCL.Visible = True
+                lblTipoCargaFCL.Text = ""
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_CLIENTE")) Then
@@ -243,8 +251,6 @@ FROM  TB_COTACAO A
             lblINCOTERM.Text = SubstituiCaracteresEspeciais(lblINCOTERM.Text)
             lblObsCliente.Text = SubstituiCaracteresEspeciais(lblObsCliente.Text)
 
-            CARGA()
-
             TAXAS()
 
         End If
@@ -270,12 +276,13 @@ FROM  TB_COTACAO A
         ds = Con.ExecutarQuery("SELECT ISNULL(NM_TIPO_CARGA,'')NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = (SELECT ID_TIPO_CARGA  FROM TB_COTACAO WHERE ID_COTACAO = " & Request.QueryString("c") & " )")
         If ds.Tables(0).Rows.Count > 0 Then
             NM_TIPO_CARGA = ds.Tables(0).Rows(0).Item("NM_TIPO_CARGA").ToString
-            lblTipoCarga.Text = NM_TIPO_CARGA
+            lblTipoCargaFCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA
+            lblTipoCargaLCL.Text = "<br/><strong>Tipo:</strong>" & NM_TIPO_CARGA
             ds = Con.ExecutarQuery("SELECT sum(VL_CARGA)VL_CARGA,ID_MOEDA_CARGA, (SELECT SIGLA_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = ID_MOEDA_CARGA)MOEDA_CARGA FROM TB_COTACAO_MERCADORIA  WHERE ID_COTACAO = " & Request.QueryString("c") & " AND ISNULL(ID_MOEDA_CARGA,0) <>  0  group by ID_MOEDA_CARGA")
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
-                tabela &= "<th style='padding-right:10px;padding-right:10px'>Valor</th>"
-                tabela &= "<th style='padding-left:10px;padding-right:10px'>Moeda</th></tr>"
+                tabela &= "<th style='padding-right:10px;padding-right:10px'>Moeda</th>"
+                tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor</th></tr>"
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     tabela &= "<tr><td style='padding-right:10px'>" & linha("MOEDA_CARGA") & "</td>"
@@ -283,7 +290,8 @@ FROM  TB_COTACAO A
                 Next
 
                 tabela &= "</table>"
-                divCarga.InnerHtml = tabela
+                divCargaFCL.InnerHtml = tabela
+                divCargaLCL.InnerHtml = tabela
             End If
         End If
 

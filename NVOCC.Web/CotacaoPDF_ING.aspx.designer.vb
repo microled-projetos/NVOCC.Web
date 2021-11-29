@@ -122,22 +122,22 @@ Partial Public Class CotacaoPDF_ING
     Protected WithEvents lblPesoTaxado As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle lblTipoCarga.
+    '''Controle lblTipoCargaLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lblTipoCarga As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblTipoCargaLCL As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle divCarga.
+    '''Controle divCargaLCL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divCarga As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents divCargaLCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle lblINCOTERM.
@@ -219,6 +219,24 @@ Partial Public Class CotacaoPDF_ING
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblValorFrequencia As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTipoCargaFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTipoCargaFCL As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divCargaFCL.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCargaFCL As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle divConteudoDinamico.

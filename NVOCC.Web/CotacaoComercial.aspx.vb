@@ -62,7 +62,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,ID_TIPO_ESTUFAGEM,ID_SERVICO,NR_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
                     lkCalcular.Visible = False
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
@@ -1841,7 +1841,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione o registro que deseja excluir!"
             Else
-                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE ID_STATUS_COTACAO NOT IN (7,8,9,10,11,12 ,14) AND ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE ID_STATUS_COTACAO NOT IN (7,8,9,10,11,12,14,15) AND ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro.Visible = True
@@ -1908,7 +1908,12 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 End If
                 ' End If
 
-                Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                Else
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 15, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                End If
+
 
                 ds = Con.ExecutarQuery("SELECT EMAIL_FECHAMENTO_COTACAO FROM 
 TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")

@@ -79,7 +79,7 @@ FROM  TB_COTACAO A
             ddlStatusFreteAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_FRETE_AGENTE").ToString()
 
             If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 Then
-                Dim sql As String = "SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO IN(7,8,9, " & ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString() & ")
+                Dim sql As String = "SELECT ID_STATUS_COTACAO, NM_STATUS_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO IN(7,8,15, " & ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString() & ")
 union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 Dim ds1 As DataSet = Con.ExecutarQuery(sql)
                 If ds1.Tables(0).Rows.Count > 0 Then
@@ -88,7 +88,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+            If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
                 btnGravar.Enabled = False
                 btnSalvarFrete.Visible = False
                 btnSalvarTaxa.Visible = False

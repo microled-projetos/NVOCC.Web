@@ -149,58 +149,13 @@ Partial Public Class RastreioBL
     Protected WithEvents total_cntrs As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle m_container.
+    '''Controle divCNTR.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents m_container As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle m_lacre.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents m_lacre As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle m_pes.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents m_pes As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle m_tara.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents m_tara As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle m_peso_bruto.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents m_peso_bruto As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle m_volume_m3.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents m_volume_m3 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents divCNTR As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle consignatario.

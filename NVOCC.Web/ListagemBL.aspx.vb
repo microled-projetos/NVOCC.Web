@@ -1185,4 +1185,37 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
+
+    Private Sub lkTrackingHBL_Click(sender As Object, e As EventArgs) Handles lkTrackingHBL.Click
+        divSuccessHouse.Visible = False
+        divErroHouse.Visible = False
+
+        Session("ID_BL") = 0
+        Session("NR_BL") = 0
+        Session("TRAKING_BL") = 0
+        If txtIDHouse.Text = "" Then
+            divErroHouse.Visible = True
+            lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim Rastreio As New RastreioService
+            Rastreio.trackingbl(txtIDHouse.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                    Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                    Session("ID_BL") = txtIDHouse.Text
+                    Response.Redirect("RastreioHBL.aspx")
+
+                Else
+                    divErroHouse.Visible = True
+                    lblErroHouse.Text = "BL não cadastrada no Logcomex."
+                End If
+            End If
+
+        End If
+    End Sub
 End Class
