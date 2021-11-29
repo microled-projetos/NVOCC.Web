@@ -67,19 +67,19 @@ WHERE A.ID_STATUS_COTACAO = 8")
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = True
-                    ' lkUpdate.Visible = True
+                    lkUpdate.Visible = True
                 ElseIf ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Then
                     lkCalcular.Visible = False
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = False
-                    '  lkUpdate.Visible = False
+                    lkUpdate.Visible = False
                 Else
                     lkCalcular.Visible = True
                     lkAprovar.Visible = True
                     lkRejeitar.Visible = True
                     lkCancelar.Visible = True
-                    '  lkUpdate.Visible = False
+                    lkUpdate.Visible = False
                 End If
                 txtServico.Text = ds.Tables(0).Rows(0).Item("ID_SERVICO")
                 txtEstufagem.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
