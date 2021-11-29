@@ -35,8 +35,11 @@ from TB_BL_TAXA
 WHERE ID_BL=" & Request.QueryString("id") & ")")
                 If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
                     'MARITIMO
+                    '  btnGravar_BasicoMaritimo.Enabled = False
                     btnSalvar_CNTRMaritimo.Visible = False
                     btnNovoCNTRMaritimo.Enabled = False
+                    '  btnNovaTaxasMaritimo.Enabled = False
+                    ' btnSalvar_TaxasMaritimo.Visible = False
                     btnDesvincular.Visible = False
                     btnVincular.Visible = False
                     dgvContainer.Columns(7).Visible = False
@@ -48,7 +51,9 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
 
                     'AEREO
-
+                    '  btnGravar_BasicoAereo.Enabled = False
+                    'btnNovaTaxaAereo.Enabled = False
+                    ' btnSalvar_TaxaAereo.Visible = False
                     'dgvTaxasAereo.Columns(9).Visible = False
                     'dgvTaxasAereo.Columns(10).Visible = False
 
@@ -249,10 +254,9 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                         btnSalvar_CNTRMaritimo.Visible = False
                         btnVincular.Visible = False
                         btnDesvincular.Visible = False
-                        Session("DT_CHEGADA") = ds.Tables(0).Rows(0).Item("DT_CHEGADA")
+
                         PermissoesEspeciais()
-                    Else
-                        Session("DT_CHEGADA") = ""
+
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_PREVISAO_EMBARQUE")) Then
@@ -261,9 +265,6 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EMBARQUE")) Then
                         txtEmbarque_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("DT_EMBARQUE")
-                        Session("DT_EMBARQUE") = ds.Tables(0).Rows(0).Item("DT_EMBARQUE")
-                    Else
-                        Session("DT_EMBARQUE") = ""
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")) Then
@@ -440,10 +441,9 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                         btnLimpar_BasicoAereo.Visible = False
                         btnNovaTaxaAereo.Visible = False
                         btnSalvar_TaxaAereo.Visible = False
-                        Session("DT_CHEGADA") = ds.Tables(0).Rows(0).Item("DT_CHEGADA")
+
                         PermissoesEspeciais()
-                    Else
-                        Session("DT_CHEGADA") = ""
+
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_PREVISAO_EMBARQUE")) Then
@@ -452,9 +452,6 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EMBARQUE")) Then
                         txtEmbarque_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("DT_EMBARQUE")
-                        Session("DT_EMBARQUE") = ds.Tables(0).Rows(0).Item("DT_EMBARQUE")
-                    Else
-                        Session("DT_EMBARQUE") = ""
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")) Then
@@ -709,9 +706,6 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                     divErro_TaxasMaritimo1.Visible = True
                     lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
-
-
-
                 Else
 
                     Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
@@ -725,12 +719,11 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
                         divErro_TaxasMaritimo1.Visible = True
                         lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
                     Else
-
-
                         Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
                         lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
                         divSuccess_TaxasMaritimo1.Visible = True
                         dgvTaxasMaritimo.DataBind()
+
                     End If
 
                 End If
@@ -871,10 +864,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                     divErro_TaxaAereo1.Visible = True
                     lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
-
-
                 Else
-
 
                     Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
 from TB_BL_TAXA A 
@@ -892,6 +882,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
                         lblSuccess_TaxaAereo1.Text = "Registro deletado!"
                         divSuccess_TaxaAereo1.Visible = True
                         dgvTaxasAereo.DataBind()
+
                     End If
 
                 End If
@@ -1556,18 +1547,6 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         AtualizaHouse(1)
                         NumeroProcesso()
 
-                        If Session("DT_CHEGADA") <> "" Then
-                            If txtChegada_BasicoMaritimo.Text <> Session("DT_CHEGADA") Then
-                                AtualizaGridAjuste()
-                            End If
-                        End If
-
-                        If Session("DT_EMBARQUE") <> "" Then
-                            If txtEmbarque_BasicoMaritimo.Text <> Session("DT_EMBARQUE") Then
-                                AtualizaGridAjuste()
-                            End If
-                        End If
-
                         txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
                         txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("',103)", "")
                         txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("NULL", "")
@@ -1624,9 +1603,9 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("NULL", "")
 
                         Con.Fechar()
-                            divSuccess_BasicoMaritimo.Visible = True
-                        Else
-                            divErro_BasicoMaritimo.Visible = True
+                        divSuccess_BasicoMaritimo.Visible = True
+                    Else
+                        divErro_BasicoMaritimo.Visible = True
                         lblErro_BasicoMaritimo.Text = "Já existe BL cadastrada com este número!"
                     End If
                 End If
@@ -1652,17 +1631,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Week(1)
                     End If
                     AtualizaHouse(1)
-                    If Session("DT_CHEGADA") <> "" Then
-                        If txtChegada_BasicoMaritimo.Text <> Session("DT_CHEGADA") Then
-                            AtualizaGridAjuste()
-                        End If
-                    End If
 
-                    If Session("DT_EMBARQUE") <> "" Then
-                        If txtEmbarque_BasicoMaritimo.Text <> Session("DT_EMBARQUE") Then
-                            AtualizaGridAjuste()
-                        End If
-                    End If
 
                     txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("CONVERT(varchar,'", "")
                     txtPrevisaoChegada_BasicoMaritimo.Text = txtPrevisaoChegada_BasicoMaritimo.Text.Replace("',103)", "")
@@ -2225,103 +2194,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxasMaritimo.Text & " and DT_CANCELAMENTO is null
 
     End Sub
 
-    Private Sub btnDesmarcar_Click(sender As Object, e As EventArgs) Handles btnDesmarcar.Click
-        AtualizaGridAjuste()
-        For i As Integer = 0 To Me.dgvAjustaTaxa.Rows.Count - 1
-            Dim ckbSelecionar = CType(Me.dgvAjustaTaxa.Rows(i).FindControl("ckbSelecionar"), CheckBox)
-            ckbSelecionar.Checked = False
-        Next
-    End Sub
-
-    Private Sub btnMarcar_Click(sender As Object, e As EventArgs) Handles btnMarcar.Click
-        AtualizaGridAjuste()
-        For i As Integer = 0 To Me.dgvAjustaTaxa.Rows.Count - 1
-            Dim ckbSelecionar = CType(Me.dgvAjustaTaxa.Rows(i).FindControl("ckbSelecionar"), CheckBox)
-            ckbSelecionar.Checked = True
-        Next
-
-    End Sub
-    Sub AtualizaGridAjuste()
-
-
-        If ddlServico_BasicoMaritimo.SelectedValue = 1 Then
-            'AGENCIAMENTO DE IMPORTACAO MARITIMA
-            lblPorto.Text = ddlDestino_BasicoMaritimo.SelectedValue
-
-        ElseIf ddlServico_BasicoMaritimo.SelectedValue = 4 Then
-            'AGENCIAMENTO DE EXPORTACAO MARITIMA
-            lblPorto.Text = ddlOrigem_BasicoMaritimo.SelectedValue
-
-        ElseIf ddlServico_BasicoMaritimo.SelectedValue = 5 Then
-            'AGENCIAMENTO DE EXPORTAÇÃO AEREO        
-            lblPorto.Text = ddlOrigem_BasicoMaritimo.SelectedValue
-
-        ElseIf ddlServico_BasicoMaritimo.SelectedValue = 2 Then
-            'AGENCIAMENTO DE IMPORTACAO AEREO
-            lblPorto.Text = ddlDestino_BasicoMaritimo.SelectedValue
-
-        End If
-
-        dsAjustaTaxa.SelectCommand = "select id_cotacao_taxa,ID_BL,A.ID_TRANSPORTADOR,  (select nr_cotacao from tb_cotacao where nr_processo_gerado = NR_PROCESSO)NR_COTACAO,ARMADOR,NR_PROCESSO,NM_ITEM_DESPESA,PORTO,DT_EMBARQUE,DT_CHEGADA,REGRA,VL_TAXA_COMPRA,VL_TAXA_VENDA,vl_taxa_local_compra,DT_VALIDADE_INICIAL from VW_AJUSTA_TAXA A 
-INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO <> 12 AND A.ID_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & " AND A.ID_PORTO = " & lblPorto.Text & " AND A.ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & " AND NR_PROCESSO IN (select NR_PROCESSO from TB_BL where ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & ") "
-
-        dgvAjustaTaxa.DataBind()
-        If dgvAjustaTaxa.Rows.Count > 0 Then
-            mpeAjusta.Show()
-        End If
-
-    End Sub
-
-    Private Sub btnAjustar_Click(sender As Object, e As EventArgs) Handles btnAjustar.Click
-        divErroAjusta.Visible = False
-        divSuccessAjusta.Visible = False
-        lblErroAjusta.Text = ""
-        Dim Con As New Conexao_sql
-        Con.Conectar()
-        For Each linha As GridViewRow In dgvAjustaTaxa.Rows
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            If check.Checked Then
-                Dim ID As String = CType(linha.FindControl("lblid_cotacao_taxa"), Label).Text
-                Dim VL_TAXA_COMPRA As String = CType(linha.FindControl("lblVL_TAXA_COMPRA"), Label).Text
-                Dim VL_TAXA_VENDA As String = CType(linha.FindControl("lblVL_TAXA_VENDA"), Label).Text
-                Dim ITEM_DESPESA As String = CType(linha.FindControl("lblITEM_DESPESA"), Label).Text
-                Dim ARMADOR As String = CType(linha.FindControl("lblARMADOR"), Label).Text
-                Dim ID_TRANSPORTADOR As String = CType(linha.FindControl("lblID_TRANSPORTADOR"), Label).Text
-                Dim ID_BL As String = CType(linha.FindControl("lblID_BL"), Label).Text
-                Dim Taxa_Local_Compra As String = CType(linha.FindControl("lblvl_taxa_local_compra"), Label).Text
-
-                Dim Profit As Decimal = VL_TAXA_VENDA - VL_TAXA_COMPRA
-                Dim ValorNovoVenda As Decimal = Taxa_Local_Compra + Profit
-                ValorNovoVenda = FormatNumber(ValorNovoVenda, 2)
-
-                Dim ds As DataSet = Con.ExecutarQuery("Select NR_COTACAO,ID_STATUS_COTACAO,ID_COTACAO,NR_PROCESSO_GERADO,ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = (SELECT ID_COTACAO FROM TB_COTACAO_TAXA WHERE ID_COTACAO_TAXA = " & ID & " )")
-                If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 12 Then
-
-                        txtMsg.Text = "Prezado(a),<br><br>Informamos que houve alteração de valores na taxa <strong>" & ITEM_DESPESA & "</strong> do armador <strong>" & ARMADOR & "</strong>:<br/><br/>Cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " -  Processo " & ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") & " <br/><br/>Valor compra antigo: " & VL_TAXA_COMPRA & " <br/>Valor compra novo: " & Taxa_Local_Compra & " <br/><br/>Valor venda antigo: " & VL_TAXA_VENDA & " <br/>Valor venda novo: " & ValorNovoVenda & " <br/>"
-
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_COTACAO_TAXA]  SET VL_TAXA_COMPRA = " & Taxa_Local_Compra.ToString.Replace(",", ".") & ", VL_TAXA_VENDA = " & ValorNovoVenda.ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID)
-
-                        ''EMAIL INTERNO
-                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL]  (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & ",0,'OP')")
-
-                        Dim RotinaUpdate As New RotinaUpdate
-                        RotinaUpdate.UpdateTaxas(ds.Tables(0).Rows(0).Item("ID_COTACAO"), ID, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
-
-                    Else
-                        divErroAjusta.Visible = True
-                        lblErroAjusta.Text &= "Cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " com status de <strong>'Finalizada(Com pagamento)'</strong> não permite ajustes! <br/>"
-                    End If
-
-                End If
-            End If
-
-        Next
-
-        AtualizaGridAjuste()
-        Con.Fechar()
-    End Sub
-
     Sub AtualizaHouse(tipo As Integer)
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -2514,9 +2386,5 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                 End If
             End If
         End If
-    End Sub
-
-    Private Sub btnFecharAjustaTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharAjustaTaxa.Click
-        mpeAjusta.Hide()
     End Sub
 End Class
