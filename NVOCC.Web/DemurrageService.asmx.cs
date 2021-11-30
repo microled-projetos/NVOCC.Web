@@ -556,29 +556,31 @@ namespace ABAINFRA.Web
             }
             else
             {
-                switch (Ativo)
-                {
-                    case "1":
-                        Ativo = "AND (DT_EXPORTACAO_DEMURRAGE_PAGAR IS NULL OR DT_EXPORTACAO_DEMURRAGE_RECEBER IS NULL) ";
-                        break;
-                    default:
-                        Ativo = "";
-                        break;
-                }
-
                 switch (Finalizado)
                 {
                     case "1":
-                        Finalizado = "AND DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL AND DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL ";
+                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
                         break;
                     default:
                         Finalizado = "";
                         break;
                 }
+
+                switch (Ativo)
+                {
+                    case "1":
+                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+
+
+                        break;
+                    default:
+                        Ativo = "";
+                        break;
+                }
             }
 
-            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, PFCL.NR_PROCESSO, ISNULL(LEFT(P.NM_RAZAO,10),'') AS CLIENTE, ";
-            SQL += "ISNULL(LEFT(P2.NM_RAZAO,10), '') AS TRANSPORTADOR, ISNULL(FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy'), '') AS DT_CHEGADA, ";
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL += "ISNULL(P2.NM_RAZAO, '') AS TRANSPORTADOR, ISNULL(FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy'), '') AS DT_CHEGADA, ";
             SQL += "ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME), '') AS QT_DIAS_FREETIME, ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME_CONFIRMA),'') AS QT_DIAS_FREETIME_CONFIRMA, ISNULL(FORMAT(DFCL.DT_FINAL_FREETIME, 'dd/MM/yyyy'), '') AS FINAL_FREETIME, ";
             SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'), '') AS DEVOLUCAO_CNTR, ";
             SQL += "DFCL.QT_DIAS_DEMURRAGE,ISNULL(DFCL.QT_DIAS_DEMURRAGE_COMPRA,'')QT_DIAS_DEMURRAGE_COMPRA, ";
@@ -594,6 +596,7 @@ namespace ABAINFRA.Web
             SQL += "INNER JOIN TB_BL B ON PFCL.ID_BL_MASTER = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
             SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
@@ -741,7 +744,6 @@ namespace ABAINFRA.Web
                 SQL += "AND (DFCL.ID_DEMURRAGE_FATURA_PAGAR IS NULL OR DFCL.ID_DEMURRAGE_FATURA_PAGAR = '') ";
                 SQL += "AND DFCL.QT_DIAS_DEMURRAGE_COMPRA > 0 ";
             }
-            SQL += "AND PFCL.FL_DEMURRAGE_FINALIZADA = 0 ";
             SQL += "ORDER BY PFCL.NR_CNTR ";
 
             DataTable listTable = new DataTable();
@@ -3541,7 +3543,7 @@ namespace ABAINFRA.Web
                 SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
                 SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                 SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-                SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+                SQL += "WHERE PFCL.ID_CNTR_BL in (" + idCont + ") ";
                 DataTable faturas = new DataTable();
                 faturas = DBS.List(SQL);
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
@@ -3565,7 +3567,7 @@ namespace ABAINFRA.Web
 
                 SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
                 SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' ";
-                SQL += "WHERE ID_CNTR_BL = '" + idCont + "' ";
+                SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
             }
 
             else
@@ -3576,7 +3578,7 @@ namespace ABAINFRA.Web
                 SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
                 SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                 SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
-                SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+                SQL += "WHERE PFCL.ID_CNTR_BL in (" + idCont + ") ";
                 DataTable faturas = new DataTable();
                 faturas = DBS.List(SQL);
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
@@ -3600,7 +3602,7 @@ namespace ABAINFRA.Web
 
                 SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = '" + dtDevolucao + "', ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
                 SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' ";
-                SQL += "WHERE ID_CNTR_BL = '" + idCont + "' ";
+                SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
             }
             string attDevolu = DBS.ExecuteScalar(SQL);
             return "1";
@@ -4317,7 +4319,7 @@ namespace ABAINFRA.Web
                     idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
                     break;
                 case "3":
-                    idFilter = "AND CLIENTE LIKE '" + Filter + "%' ";
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
                     break;
                 case "4":
                     idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";

@@ -1809,12 +1809,12 @@
             var dtDevolucao = document.getElementById('dtDevolucao').value;
             if (dsStatus != "") {
                 if (values.length > 0) {
-                    for (var c = 0; c < values.length; c++) {
+                    
                         $("#modalDevolucao").modal("hide");
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/atualizarDevolucao",
-                            data: '{idCont:"' + values[c] + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
+                            data: '{idCont:"' + values + '",dtStatus:"' + dtStatus + '",dsStatus:"' + dsStatus + '",dtDevolucao:"' + dtDevolucao + '" }',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (dado) {
@@ -1864,7 +1864,7 @@
                                 consultaFiltrada();
                             }
                         })
-                    }
+                    
                 }
                 else {
                     values = [];
@@ -3454,16 +3454,15 @@
                                                 positionbgC = positionbgC + 5;
 
                                                 if (dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString() != "") {
-                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(".", "").replace(",", "."));
+                                                    total = total + parseFloat(dado[i]["VL_DEMURRAGE_COMPRA_BR"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString() != "") {
-                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(".", "").replace(",", "."));
+                                                    desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_COMPRA"].toString().replace(",", "."));
                                                 }
                                                 if (dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString() != "") {
 
-                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(".", "").replace(",", "."));
+                                                    totalliquido = totalliquido + parseFloat(dado[i]["VL_DEMURRAGE_LIQUIDO_COMPRA"].toString().replace(",", "."));
                                                 }
-
                                             }
                                             doc.setFontStyle("bold");
                                             doc.text("TOTAL DAS DESPESAS: ", 155, positionC + 10);

@@ -15,7 +15,6 @@ using System.Configuration;
 using Newtonsoft.Json;
 using ABAINFRA.Web.Classes;
 
-
 namespace ABAINFRA.Web
 {
     /// <summary>
@@ -47,7 +46,7 @@ namespace ABAINFRA.Web
                 SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 1 ";
                 SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 1 ";
                 SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_ESTUFAGEM = 1 ";
-                SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+                SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
                 DataTable fclimpo = new DataTable();
                 
@@ -71,7 +70,7 @@ namespace ABAINFRA.Web
             SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 1 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 1 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_ESTUFAGEM = 2 ";
-            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+            SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
             DataTable lclimpo = new DataTable();
             lclimpo = DBS.List(SQL);
@@ -93,7 +92,7 @@ namespace ABAINFRA.Web
             SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 1 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 2 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_ESTUFAGEM = 1 ";
-            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+            SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
             DataTable fclexpo = new DataTable();
 
@@ -117,7 +116,7 @@ namespace ABAINFRA.Web
             SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 1 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 2 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_ESTUFAGEM = 2 ";
-            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+            SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
             DataTable lclexpo = new DataTable();
 
@@ -140,7 +139,7 @@ namespace ABAINFRA.Web
             SQL += "WHERE TB_TAXA_CLIENTE.ID_PARCEIRO = '" + Id + "' ";
             SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 2 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 1 ";
-            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+            SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
             DataTable aereoImpo = new DataTable();
 
@@ -163,7 +162,7 @@ namespace ABAINFRA.Web
             SQL += "WHERE TB_TAXA_CLIENTE.ID_PARCEIRO = '" + Id + "' ";
             SQL += "AND TB_TAXA_CLIENTE.ID_VIATRANSPORTE = 2 ";
             SQL += "AND TB_TAXA_CLIENTE.ID_TIPO_COMEX = 2 ";
-            SQL += "ORDER BY ID_TAXA_CLIENTE ASC ";
+            SQL += "ORDER BY TB_ITEM_DESPESA.NM_ITEM_DESPESA ASC ";
 
             DataTable aereoExpo = new DataTable();
 

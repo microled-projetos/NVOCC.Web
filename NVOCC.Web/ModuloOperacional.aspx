@@ -809,14 +809,20 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script src="Content/js/papaparse.min.js"></script>
     <script>
-    </script>
+</script>
     <script>
 
         $(document).ready(function () {
             listarProcessosOperacional();
+            $("#tblModuloOperacional").tablesorter({
+                dateFormat: "ddmmyyyy",
+                headers: {
+                    0: { sorter: "shortDate" }
+                }
+            });
         });
-       
-         
+
+
 
         var id = 0;
         var idEmailCaixa = 0;
@@ -865,7 +871,7 @@
                 dadosFiltro[i].value = "";
             }
             listarProcessosOperacional();
-     }
+        }
 
         function listarProcessosOperacional() {
             var dadosFiltro = {
@@ -927,12 +933,7 @@
                                 "<td class='text-center' title='" + dado[i]["NAVIO"] + "' style='max-width: 10ch;'><div>" + dado[i]["NAVIO"] + "</div></td><td class='text-center' title='" + dado[i]["TERMO"] + "' style='max-width: 25ch;'><div>" + dado[i]["TERMO"] + "</div></td></tr> ");
 
                         }
-                        $("#tblModuloOperacional").tablesorter({
-                            dateFormat: "ddmmyyyy",
-                            headers: {
-                                0: {sorter: "shortDate"}
-                            }
-                        });
+                        $("#tblModuloOperacional").trigger("update"); 
                     }
 
                     else {
@@ -958,7 +959,7 @@
                         dado = $.parseJSON(dado);
                         if (dado != null) {
                             document.getElementById("nrProcessoWeek").textContent = dado[0]["NR_PROCESSO"];
-                            document.getElementById('dtRedestinacao').value = dado[0]["DT_REDESTINACAO"].substr(0,10);
+                            document.getElementById('dtRedestinacao').value = dado[0]["DT_REDESTINACAO"].substr(0, 10);
                             document.getElementById("dtDesconsolidacao").value = dado[0]["DT_DESCONSOLIDACAO"];
                             document.getElementById("MainContent_ddlWeek").value = dado[0]["ID_WEEK"];
                             document.getElementById("dsTermo").value = dado[0]["TERMO"];
@@ -1354,6 +1355,8 @@
             for (let i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
             }
+            console.log(corpo.replace(new RegExp('\r?\n', 'g'), '<br>'));
+            console.log(values)
             if (values.length > 0) {
                 for (let i = 0; i < values.length; i++) {
                     $.ajax({
@@ -1718,10 +1721,10 @@
                     var cols = rows[i].querySelectorAll("#tblModuloOperacional td, #tblModuloOperacional th");
                 }
                 for (var j = 0; j < cols.length; j++)
-                    row.push(cols[j].innerText);     
+                    row.push(cols[j].innerText);
                 console.log(row);
-                    csv.push(row.join(";"));
-                }
+                csv.push(row.join(";"));
+            }
             // Download CSV file
             downloadCSVAtual(csv.join("\n"), filename);
         }
