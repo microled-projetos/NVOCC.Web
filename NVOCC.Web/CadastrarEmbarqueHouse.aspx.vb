@@ -506,14 +506,26 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                 divErro_CargaMaritimo1.Visible = True
             Else
                 ds = Con.ExecutarQuery("SELECT ID_CNTR_BL FROM TB_CARGA_BL Where ID_CARGA_BL = " & ID)
+
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
+
                 If ds.Tables(0).Rows.Count > 0 Then
                     Con.ExecutarQuery("DELETE From TB_AMR_CNTR_BL Where ID_CNTR_BL = " & ds.Tables(0).Rows(0).Item("ID_CNTR_BL") & " AND ID_BL = " & txtID_BasicoMaritimo.Text)
                 End If
+
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
+
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                    Next
+
+                End If
 
                 lblSuccess_CargaMaritimo1.Text = "Registro deletado!"
                 divSuccess_CargaMaritimo1.Visible = True
@@ -600,6 +612,24 @@ union Select 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             lblSuccess_CargaMaritimo1.Text = "Registro duplicado!"
             divSuccess_CargaMaritimo1.Visible = True
             dgvCargaMaritimo.DataBind()
+
+
+            Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
+(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text & ") WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
+
+
+            Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoMaritimo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
+            If dsTaxa.Tables(0).Rows.Count > 0 Then
+                For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                Next
+
+            End If
+
+
         End If
         Con.Fechar()
 
@@ -1329,10 +1359,24 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 divErro_CargaAereo1.Visible = True
             Else
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
+
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
 (SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
 (SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text)
+
+
+                Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoAereo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
+                If dsTaxa.Tables(0).Rows.Count > 0 Then
+                    For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                        Dim Calcula As New CalculaBL
+                        Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                    Next
+
+                End If
+
+
+
                 lblSuccess_CargaAereo1.Text = "Registro deletado!"
                 divSuccess_CargaAereo1.Visible = True
                 dgvCargaAereo.DataBind()
@@ -1398,6 +1442,21 @@ WHERE ID_CARGA_BL = " & ID)
             lblSuccess_CargaAereo1.Text = "Registro duplicado!"
             divSuccess_CargaAereo1.Visible = True
             dgvCargaAereo.DataBind()
+
+            Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
+(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text)
+
+
+            Dim dsTaxa As DataSet = Con.ExecutarQuery("SELECT ID_BL_TAXA FROM TB_BL_TAXA A WHERE  ID_BASE_CALCULO_TAXA IS NOT NULL AND VL_TAXA IS NOT NULL AND VL_TAXA <> 0 AND ID_BASE_CALCULO_TAXA <> 1 AND ID_MOEDA <> 0 AND ISNULL(ID_BL_TAXA_MASTER,0) = 0 AND ISNULL(ID_BL_MASTER,0) = 0  AND ID_BL = " & txtID_BasicoAereo.Text & " And ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)")
+            If dsTaxa.Tables(0).Rows.Count > 0 Then
+                For Each linha As DataRow In dsTaxa.Tables(0).Rows
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String = Calcula.Calcular(linha.Item("ID_BL_TAXA").ToString())
+                Next
+
+            End If
         End If
 
         Con.Fechar()

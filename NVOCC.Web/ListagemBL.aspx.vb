@@ -407,6 +407,14 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                 Exit Sub
 
             Else
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = 
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
+(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
+
+
+
                 CalculoProfit()
 
                 Dim i As Integer = 0
