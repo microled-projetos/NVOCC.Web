@@ -97,7 +97,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnNovaTaxa.Enabled = False
                 btnImportar.Visible = False
                 dgvMercadoria.Columns(8).Visible = False
-                dgvTaxas.Columns(10).Visible = False
+                ' dgvTaxas.Columns(10).Visible = False
 
             Else
                 btnGravar.Enabled = True
@@ -108,7 +108,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnNovaTaxa.Enabled = True
                 btnImportar.Visible = True
                 dgvMercadoria.Columns(8).Visible = True
-                dgvTaxas.Columns(10).Visible = True
+                ' dgvTaxas.Columns(10).Visible = True
 
             End If
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
@@ -362,7 +362,7 @@ union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
         divErroTaxa.Visible = False
         divSuccessTaxa.Visible = False
         txtObsTaxa.Text = ""
-
+        btnSalvarTaxa.Visible = True
         mpeNovoTaxa.Hide()
     End Sub
 
@@ -602,10 +602,29 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
                 lblDeleteErroTaxas.Text = "Usuário não tem permissão para realizar exclusões"
                 divDeleteErroTaxas.Visible = True
             Else
-                Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
-                lblDeleteTaxas.Text = "Registro deletado!"
-                divDeleteTaxas.Visible = True
-                dgvTaxas.DataBind()
+                Dim finaliza As New FinalizaCotacao
+                If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
+                    lblDeleteErroTaxas.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
+                    divDeleteErroTaxas.Visible = True
+                Else
+
+                    Dim ID_BASE_CALCULO_TAXA As String = 0
+                    Dim ID_ITEM_DESPESA As String = 0
+
+                    ds = Con.ExecutarQuery("SELECT ID_BASE_CALCULO_TAXA,ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO_TAXA =" & ID)
+                    If ds.Tables(0).Rows.Count > 0 Then
+                        ID_ITEM_DESPESA = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                        ID_BASE_CALCULO_TAXA = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
+                    End If
+                    Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
+                    lblDeleteTaxas.Text = "Registro deletado!"
+                    divDeleteTaxas.Visible = True
+                    dgvTaxas.DataBind()
+                    If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text, ID_BASE_CALCULO_TAXA, ID_ITEM_DESPESA)
+                    End If
+                End If
             End If
 
         ElseIf e.CommandName = "visualizar" Then
@@ -688,6 +707,11 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_TAXAS")) Then
                     txtObsTaxa.Text = ds.Tables(0).Rows(0).Item("OB_TAXAS")
+                End If
+
+                Dim finaliza As New FinalizaCotacao
+                If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
+                    btnSalvarTaxa.Visible = False
                 End If
 
                 mpeNovoTaxa.Show()
