@@ -46,16 +46,16 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
                     dgvContainer.Columns(8).Visible = False
                     dgvContainer.Columns(7).Visible = False
                     dgvContainer.Columns(8).Visible = False
-                    dgvTaxasMaritimo.Columns(9).Visible = False
-                    dgvTaxasMaritimo.Columns(10).Visible = False
+                    'dgvTaxasMaritimo.Columns(9).Visible = False
+                    'dgvTaxasMaritimo.Columns(10).Visible = False
 
 
                     'AEREO
                     '  btnGravar_BasicoAereo.Enabled = False
                     'btnNovaTaxaAereo.Enabled = False
                     ' btnSalvar_TaxaAereo.Visible = False
-                    dgvTaxasAereo.Columns(9).Visible = False
-                    dgvTaxasAereo.Columns(10).Visible = False
+                    'dgvTaxasAereo.Columns(9).Visible = False
+                    'dgvTaxasAereo.Columns(10).Visible = False
 
                 End If
 
@@ -708,10 +708,23 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
                 Else
 
-                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                    lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
-                    divSuccess_TaxasMaritimo1.Visible = True
-                    dgvTaxasMaritimo.DataBind()
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErro_TaxasMaritimo1.Visible = True
+                        lblErro_TaxasMaritimo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                    Else
+                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                        lblSuccess_TaxasMaritimo1.Text = "Registro deletado!"
+                        divSuccess_TaxasMaritimo1.Visible = True
+                        dgvTaxasMaritimo.DataBind()
+
+                    End If
 
                 End If
             End If
@@ -853,10 +866,24 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
                 Else
 
-                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                    lblSuccess_TaxaAereo1.Text = "Registro deletado!"
-                    divSuccess_TaxaAereo1.Visible = True
-                    dgvTaxasAereo.DataBind()
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+from TB_BL_TAXA A 
+INNER JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
+INNER JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
+WHERE  DT_CANCELAMENTO IS NULL and ID_BL_TAXA_MASTER in (select ID_BL_TAXA
+from TB_BL_TAXA 
+WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErro_TaxaAereo1.Visible = True
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: a taxa já foi enviada para contas a pagar/receber!"
+                    Else
+
+                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                        lblSuccess_TaxaAereo1.Text = "Registro deletado!"
+                        divSuccess_TaxaAereo1.Visible = True
+                        dgvTaxasAereo.DataBind()
+
+                    End If
 
                 End If
             End If

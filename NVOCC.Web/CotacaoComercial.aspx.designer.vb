@@ -95,15 +95,6 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lkDuplicar As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkRemover.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lkRemover As Global.System.Web.UI.WebControls.LinkButton
-
-    '''<summary>
     '''Controle lkImprimir.
     '''</summary>
     '''<remarks>
@@ -156,6 +147,15 @@ Partial Public Class CotacaoComercial
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkRejeitar As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRemover.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRemover As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkUpdate.

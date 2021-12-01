@@ -49,15 +49,16 @@
                                       <asp:LinkButton ID="lkInserir" runat="server"  CssClass="btn  btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-plus"></i>&nbsp;Inserir</asp:LinkButton>
                                        <asp:LinkButton ID="lkAlterar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-pencil"></i>&nbsp;Alterar</asp:LinkButton>
                                        <asp:LinkButton ID="lkDuplicar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');"><i  class="glyphicon glyphicon-duplicate"  ></i>&nbsp;Duplicar</asp:LinkButton>
-                                       <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
+                                       
                                        <asp:LinkButton ID="lkImprimir"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-file-alt"></i>&nbsp;Imprimir/Enviar</asp:LinkButton> 
                                     <%--  <asp:LinkButton ID="lkEnviar"  runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Enviar</asp:LinkButton> --%>
                                      
                                      <asp:LinkButton ID="lkFiltrar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-search"></i>&nbsp;Filtrar</asp:LinkButton>
                                        <asp:LinkButton ID="lkCalcular" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="fa fa-calculator"></i>&nbsp;Calcular</asp:LinkButton>
                                       <asp:LinkButton ID="lkAprovar" runat="server" UseSubmitBehavior="false" OnClientClick="desabilitaButtonOnClick()" CssClass="lkAprovar btn btnn btn-default btn-sm" style="font-size:15px" ><i class="fa fa-check-circle"></i>&nbsp;Aprovar</asp:LinkButton>
-                                      <asp:LinkButton ID="lkCancelar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
-                                      <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
+                                      <asp:LinkButton ID="lkCancelar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" OnClientClick="javascript:return confirm('Deseja realmente cancelar este registro?');"><i class="glyphicon glyphicon-ban-circle"></i>&nbsp;Cancelar</asp:LinkButton>
+                                      <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" OnClientClick="javascript:return confirm('Deseja realmente rejeitar este registro?');"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
+                                     <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                      <asp:LinkButton ID="lkUpdate" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Em Update</asp:LinkButton>
                             </div>
                <br />
@@ -77,6 +78,7 @@
                                              <asp:ListItem Value="7">Nome do vendedor</asp:ListItem>
                                              <asp:ListItem Value="8">Número processo</asp:ListItem>
                                              <asp:ListItem Value="9">Nome Inside</asp:ListItem>
+                                            <asp:ListItem Value="10">Cliente Final</asp:ListItem>
                                         </asp:DropDownList>      </div> </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">
@@ -175,8 +177,7 @@
                                         <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO"/>
                                         <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico"/>
                                         <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente"/>
-<%--                                        <asp:BoundField DataField="COR"  SortExpression="COR" ItemStyle-CssClass="none" />--%>
-                                                        
+                                        <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL"/>                                                                      
                                     </Columns>
                                     <HeaderStyle  CssClass="headerStyle" />
                                 </asp:GridView>
@@ -221,7 +222,7 @@ A.ID_CLIENTE_FINAL,
 ID_CLIENTE ,
             (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_CLIENTE )AS CLIENTE,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_AGENTE_INTERNACIONAL and FL_AGENTE_INTERNACIONAL = 1) AGENTE,
-
+(SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL ) CLIENTE_FINAL,
 A.ID_TIPO_ESTUFAGEM,
 (SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM) TIPO_ESTUFAGEM,
 

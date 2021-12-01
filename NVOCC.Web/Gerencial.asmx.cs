@@ -1015,14 +1015,13 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT A.AUTONUM AS IDEMAIL, ISNULL(B.NR_PROCESSO,'') AS PROCESSO, ISNULL(E.NMTIPOAVISO,'') AS NMTIPOAVISO , ISNULL(FORMAT(A.DT_GERACAO,'dd/MM/yyyy'),'') AS DT_GERACAO, ";
             SQL += "ISNULL(FORMAT(A.DT_START, 'dd/MM/yyyy'), '') AS PREVISAO, ISNULL(FORMAT(A.DT_ENVIO, 'dd/MM/yyyy'), '') AS DT_ENVIO, ";
-            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO, ISNULL(F.CRITICA,'') AS OCORRENCIA ";
+            SQL += "ISNULL(D.NM_RAZAO, '') AS CLIENTE, ISNULL(A.IDARMAZEM,'') AS IDARMAZEM, ISNULL(C.NM_RAZAO, '') AS PARCEIRO, isnull((SELECT TOP 1 CRITICA FROM TB_GER_LOG GL WHERE GL.AUTONUM_EMAIL = A.AUTONUM ORDER BY GL.DT_CRITICA DESC),'') AS OCORRENCIA ";
             SQL += "FROM TB_GER_EMAIL A ";
             SQL += "LEFT JOIN TB_BL B ON A.IDPROCESSO = B.ID_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO C ON A.IDPARCEIRO = C.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO D ON A.IDCLIENTE = D.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_BL M ON B.ID_BL_MASTER = M.ID_BL ";
             SQL += "LEFT JOIN TB_TIPOAVISO E ON A.IDTIPOAVISO = E.IDTIPOAVISO ";
-            SQL += "LEFT JOIN TB_GER_LOG F ON A.AUTONUM = F.AUTONUM_EMAIL ";
             SQL += "WHERE A.AUTONUM IS NOT NULL ";
             SQL += "AND E.ORIGEM = 'OP' ";
             SQL += "" + filtro + " ";
@@ -1872,23 +1871,24 @@ namespace ABAINFRA.Web
         public string listarPremiacao(string dtCompetencia, string quinzena)
         {
             string SQL;
-            SQL = "SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE DT_COMPETENCIA = '"+ dtCompetencia + "' and NR_QUINZENA = '"+ quinzena + "' ";
+            SQL = "SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE DT_COMPETENCIA = '" + dtCompetencia + "' and NR_QUINZENA = '" + quinzena + "' ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
-            string idPremiacao = listTable.Rows[0]["ID_CABECALHO_COMISSAO_NACIONAL"].ToString();
             if (listTable != null)
             {
+                string idPremiacao = listTable.Rows[0]["ID_CABECALHO_COMISSAO_NACIONAL"].ToString();
+           
                 SQL = "SELECT ID_PARCEIRO_INDICADOR AS IDAGENTE, DT_COMPETENCIA, NR_QUINZENA, NM_AGENTE AS AGENTE, NR_MASTER AS MBL, NR_HOUSE AS HBL, NM_CLIENTE AS CNEE, NM_TIPO_ESTUFAGEM AS ESTUFAGEM, ";
-                SQL += "VL_COMPRA, MOEDA_COMPRA, VL_CAMBIO, VL_PREMIACAO, MOEDA_PREMIACAO, PC_RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO("+idPremiacao+") ORDER BY NM_AGENTE";
+                SQL += "VL_COMPRA, MOEDA_COMPRA, VL_CAMBIO, VL_PREMIACAO, MOEDA_PREMIACAO, PC_RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO(" + idPremiacao + ") ORDER BY NM_AGENTE";
                 DataTable listTable2 = new DataTable();
                 listTable2 = DBS.List(SQL);
 
                 return JsonConvert.SerializeObject(listTable2);
-			}
-			else
-			{
+            }
+            else
+            {
                 return null;
-			}
+            }
         }
     }
 }

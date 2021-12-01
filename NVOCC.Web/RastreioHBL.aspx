@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="RastreioBL.aspx.vb" Inherits="NVOCC.Web.RastreioBL" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="RastreioHBL.aspx.vb" Inherits="NVOCC.Web.RastreioHBL" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <%--    COLOCAR SEU CODIGO AQUI--%>
@@ -121,10 +121,10 @@
                     <h6>ITENS</h6>
                 </div>
                 <div class="row">
-                     <div id="divCNTR" runat="server" class="col-lg-12">
+                      <div id="divCNTR" runat="server" class="col-lg-12">
                     </div>
-                    <%-- <div class="col-lg-12">
-                       <table>
+                   <%-- <div class="col-lg-12">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>CONTAINER</th>

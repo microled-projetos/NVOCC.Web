@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ABAINFRA.Web 11112021\Publicacao 19112021\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\ABAINFRA.Web 30112021\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -511,6 +511,7 @@
     <Content Include="ProcessosBL.aspx" />
     <Content Include="ProcessosBL.aspx.cs" />
     <Content Include="ProcessosBL.aspx.designer.cs" />
+    <Content Include="RastreioHBL.aspx" />
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboDemurrage.aspx" />
     <Content Include="ReciboPagamento.aspx" />
@@ -998,6 +999,13 @@
     <Compile Include="OUTLOOK.aspx.vb">
       <DependentUpon>OUTLOOK.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RastreioHBL.aspx.designer.vb">
+      <DependentUpon>RastreioHBL.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RastreioHBL.aspx.vb">
+      <DependentUpon>RastreioHBL.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RastreioBL.aspx.designer.vb">
       <DependentUpon>RastreioBL.aspx</DependentUpon>

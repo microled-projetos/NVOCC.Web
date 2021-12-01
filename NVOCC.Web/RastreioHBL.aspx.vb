@@ -1,5 +1,5 @@
 ﻿Imports Newtonsoft.Json
-Public Class RastreioBL
+Public Class RastreioHBL
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -10,7 +10,7 @@ Public Class RastreioBL
         '    Dim X As String = ex.Message
         'End Try
         nr_bl.Text = Session("NR_BL")
-        Dim data = DeserializarNewtonsoft()
+        Dim data = DeserializarNewtonsoft(Session("TRAKING_BL"))
 
         'Transporte e Logistica
         pais_procedencia.Text = data.transport.origin_country
@@ -45,45 +45,11 @@ Public Class RastreioBL
         teus.Text = data.commodity.teus
         cntrs.Text = data.commodity.c40
         total_cntrs.Text = data.commodity.fcl_total
-        'ITENS MERCADORIA
-        'm_container.Text = data.fcl(0).container_number
-        'm_lacre.Text = data.fcl(0).seal_number
-        'm_pes.Text = data.fcl(0).feet
-        'm_peso_bruto.Text = data.fcl(0).gross_weight_decimal
-        'm_tara.Text = data.fcl(0).tare_container
-        'm_volume_m3.Text = data.fcl(0).volume_m3
 
 
 
-        Dim tabela1 As String = "<table class='table'>"
-        tabela1 &= "<thead>"
-        tabela1 &= "<tr>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>CONTAINER</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>LACRE</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>PES</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>TARA</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>PESO BRUTO</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>VOLUME(M3)</th>"
-        tabela1 &= "<th style='padding-left:10px;padding-right:10px'>HISTORICO</th>"
-        tabela1 &= "</tr>"
-        tabela1 &= "</thead>"
-        tabela1 &= "<tbody>"
-        For Each item As Itens In data.fcl()
 
 
-            tabela1 &= "<tr>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.container_number & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.seal_number & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.feet & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.gross_weight_decimal & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.tare_container & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.volume_m3 & "</td>"
-            tabela1 &= "<td style='padding-left:10px;padding-right:10px'></td>"
-            tabela1 &= "</tr>"
-        Next
-        tabela1 &= "</tbody>"
-        tabela1 &= "</table>"
-        divCNTR.InnerHtml = tabela1
 
 
 
@@ -126,7 +92,7 @@ Public Class RastreioBL
         tabela &= "<tr>"
         tabela &= "</thead>"
         tabela &= "<tbody>"
-        For Each item As Documentos In data.documents()
+        For Each item As Documentos In data.documents
             tabela &= "<tr>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'><a href=" & item.url & ">Baixar Arquivo</a></td>"
             tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.created_at & "</td>"
@@ -173,12 +139,90 @@ Public Class RastreioBL
         tb_folloup &= "</table>"
         followup.InnerHtml = tb_folloup
 
+
+
+
+
+        'ITENS MERCADORIA
+        Dim contador As Integer = 0
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("select NR_CNTR from TB_CNTR_BL WHERE ID_CNTR_BL IN (select ID_CNTR_BL from TB_CARGA_BL where ID_BL =" & Session("ID_BL") & ")")
+        If ds.Tables(0).Rows.Count > 0 Then
+            volume_m3.Text = data.commodity.unit_quantity
+            peso_bruto.Text = data.commodity.gross_weight_kg
+            ' teus.Text = data.commodity.teus
+            cntrs.Text = data.commodity.c40
+            total_cntrs.Text = data.commodity.fcl_total
+            Dim Container As String = ""
+            Dim tabela1 As String = "<table Class='table'>"
+            tabela1 &= "<thead>"
+            tabela1 &= "<tr>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>CONTAINER</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>LACRE</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>PES</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>TARA</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>PESO BRUTO</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>VOLUME(M3)</th>"
+            tabela1 &= "<th style='padding-left:10px;padding-right:10px'>HISTORICO</th>"
+            tabela1 &= "</tr>"
+            tabela1 &= "</thead>"
+            tabela1 &= "<tbody>"
+
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+
+                If Not IsDBNull(linha.Item("NR_CNTR")) Then
+
+                    Container = linha.Item("NR_CNTR")
+                    Dim ds2 As DataSet = Con.ExecutarQuery("Select TRAKING_BL FROM [TB_BL] WHERE ID_BL =(Select ID_BL_MASTER FROM [TB_BL] WHERE ID_BL = " & Session("ID_BL") & " )")
+
+                    If ds2.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds2.Tables(0).Rows(0).Item("TRAKING_BL")) Then
+
+
+                            Dim CNTR = DeserializarNewtonsoft(ds2.Tables(0).Rows(0).Item("TRAKING_BL"))
+
+
+                            For Each item As Itens In CNTR.fcl()
+
+                                If item.container_number = Container Then
+                                    contador = contador + 1
+
+                                    tabela1 &= "<tr>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.container_number & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.seal_number & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.feet & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.gross_weight_decimal & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.tare_container & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.volume_m3 & "</td>"
+                                    tabela1 &= "<td style='padding-left:10px;padding-right:10px'></td>"
+                                    tabela1 &= "</tr>"
+                                End If
+
+                            Next
+
+
+                        End If
+
+                    End If
+
+                End If
+
+            Next
+
+            tabela1 &= "</tbody>"
+            tabela1 &= "</table>"
+            divCNTR.InnerHtml = tabela1
+            total_cntrs.Text = contador
+            cntrs.Text = contador
+        End If
+
     End Sub
-    Private Function DeserializarNewtonsoft() As BL
-        Dim Json = Session("TRAKING_BL")
+    Private Function DeserializarNewtonsoft(tracking As String) As BL
+        Dim Json = tracking
         Return JsonConvert.DeserializeObject(Of BL)(Json)
     End Function
-
     Protected Sub btnAtualizar_Click(sender As Object, e As EventArgs) Handles btnAtualizar.Click
         Dim Con As New Conexao_sql
         Con.Conectar()

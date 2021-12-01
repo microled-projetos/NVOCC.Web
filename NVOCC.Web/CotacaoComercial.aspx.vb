@@ -62,24 +62,24 @@ WHERE A.ID_STATUS_COTACAO = 8")
             Con.Conectar()
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO,ID_TIPO_ESTUFAGEM,ID_SERVICO,NR_COTACAO FROM TB_COTACAO WHERE ID_COTACAO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
-                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Then
+                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
                     lkCalcular.Visible = False
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = True
-                    ' lkUpdate.Visible = True
+                    lkUpdate.Visible = True
                 ElseIf ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Then
                     lkCalcular.Visible = False
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = False
-                    '  lkUpdate.Visible = False
+                    lkUpdate.Visible = False
                 Else
                     lkCalcular.Visible = True
                     lkAprovar.Visible = True
                     lkRejeitar.Visible = True
                     lkCancelar.Visible = True
-                    '  lkUpdate.Visible = False
+                    lkUpdate.Visible = False
                 End If
                 txtServico.Text = ds.Tables(0).Rows(0).Item("ID_SERVICO")
                 txtEstufagem.Text = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
@@ -1737,7 +1737,8 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 FILTRO = " NR_PROCESSO_GERADO LIKE '%" & txtPesquisa.Text & "%' "
             ElseIf ddlConsultas.SelectedValue = 9 Then
                 FILTRO = " ANALISTA_COTACAO LIKE '%" & txtPesquisa.Text & "%' "
-
+            ElseIf ddlConsultas.SelectedValue = 10 Then
+                FILTRO = " CLIENTE_FINAL LIKE '%" & txtPesquisa.Text & "%' "
             End If
 
             Dim sql As String = "select * from [dbo].[View_Filtro_Cotacao] WHERE " & FILTRO
@@ -1840,10 +1841,17 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione o registro que deseja excluir!"
             Else
-                Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-                lblmsgSuccess.Text = "Registro deletado!"
-                divSuccess.Visible = True
-                GRID()
+                ds = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE ID_STATUS_COTACAO NOT IN (7,8,9,10,11,12,14,15) AND ID_COTACAO = " & txtID.Text)
+
+                If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "O status dessa cotação não permite a sua remoção!"
+                Else
+                    Con.ExecutarQuery("DELETE FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                    lblmsgSuccess.Text = "Registro deletado!"
+                    divSuccess.Visible = True
+                    GRID()
+                End If
             End If
         End If
 
@@ -1883,13 +1891,29 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ID_STATUS_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
+                'If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
+                '    divErro.Visible = True
+                '    lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
+                '    Exit Sub
+
+                'ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 Then
+                '    divErro.Visible = True
+                '    lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                '    Exit Sub
+                'Else
                 If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
                     NumeroProcesso()
                 End If
+                ' End If
 
-                Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                Else
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 15, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                End If
+
 
                 ds = Con.ExecutarQuery("SELECT EMAIL_FECHAMENTO_COTACAO FROM 
 TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")

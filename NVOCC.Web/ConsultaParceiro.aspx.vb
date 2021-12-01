@@ -129,7 +129,7 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
         Dim FILTRO As String = ""
 
         If txtConsulta.Text = "" Then
-            dsParceiros.SelectCommand = "SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"
+            dsParceiros.SelectCommand = "SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO #FILTRO ORDER BY NM_RAZAO"
             dgvParceiros.DataBind()
         Else
             If ddlConsulta.SelectedValue = 1 Then
@@ -159,6 +159,8 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
                 dsParceiros.SelectCommand = dsParceiros.SelectCommand.Replace("#FILTRO", FILTRO)
                 dgvParceiros.DataBind()
             End If
+
+            dsParceiros.SelectCommand = "SELECT ID_PARCEIRO as Id, CNPJ , UPPER(NM_RAZAO) RazaoSocial, CPF, CASE WHEN ISNULL(FL_ATIVO,0) = 0 THEN 'Não' WHEN ISNULL(FL_ATIVO,0) = 1 THEN 'Sim' end Ativo  FROM TB_PARCEIRO " & FILTRO & " ORDER BY NM_RAZAO"
         End If
     End Sub
     Private Sub txtConsulta_TextChanged(sender As Object, e As EventArgs) Handles txtConsulta.TextChanged

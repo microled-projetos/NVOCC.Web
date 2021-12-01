@@ -407,6 +407,14 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
                 Exit Sub
 
             Else
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 = 
+(SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
+(SELECT SUM(ISNULL(VL_PESO_BRUTO,0))VL_PESO_BRUTO FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text & " ; UPDATE TB_BL SET QT_MERCADORIA =
+(SELECT SUM(ISNULL(QT_MERCADORIA,0))QT_MERCADORIA FROM TB_CARGA_BL WHERE ID_BL =  " & txtIDHouse.Text & ") WHERE ID_BL =  " & txtIDHouse.Text)
+
+
+
                 CalculoProfit()
 
                 Dim i As Integer = 0
@@ -772,25 +780,25 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= " DESTINO LIKE '%" & txtDestino_Embarque.Text & "%' "
 
             ElseIf txtTipoFrete_Embarque.Text <> "" Then
-                sql &= " TIPO_FRETE LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
+                sql &= " TIPO_PAGAMENTO LIKE '%" & txtTipoFrete_Embarque.Text & "%' "
 
             ElseIf txtNavio_Embarque.Text <> "" Then
                 sql &= " NAVIO LIKE '%" & txtNavio_Embarque.Text & "%' "
 
             ElseIf txtNavioTransb_Embarque.Text <> "" Then
-                sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
+                sql &= " NAVIO_1T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_Embarque.Text & "%' OR NAVIO_3T LIKE '%" & txtNavioTransb_Embarque.Text & "%'  "
 
             ElseIf txtPrevInicialEmbarque_Embarque.Text <> "" And txtPrevFimEmbarque_Embarque.Text <> "" Then
-                sql &= "DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
+                sql &= " DT_PREVISAO_EMBARQUE BETWEEN CONVERT(date,'" & txtPrevInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimEmbarque_Embarque.Text & "',103) "
 
             ElseIf txtInicialEmbarque_Embarque.Text <> "" And txtFimEmbarque_Embarque.Text <> "" Then
-                sql &= "DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
+                sql &= " DT_EMBARQUE BETWEEN CONVERT(date,'" & txtInicialEmbarque_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimEmbarque_Embarque.Text & "',103) "
 
             ElseIf txtPrevInicialChegada_Embarque.Text <> "" And txtPrevFimChegada_Embarque.Text <> "" Then
-                sql &= "DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
+                sql &= " DT_PREVISAO_CHEGADA BETWEEN CONVERT(date,'" & txtPrevInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtPrevFimChegada_Embarque.Text & "',103) "
 
             ElseIf txtInicialChegada_Embarque.Text <> "" And txtFimChegada_Embarque.Text <> "" Then
-                sql &= "DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
+                sql &= " DT_CHEGADA BETWEEN CONVERT(date,'" & txtInicialChegada_Embarque.Text & "',103) AND CONVERT(date,'" & txtFimChegada_Embarque.Text & "',103) "
 
             End If
 
@@ -859,7 +867,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 sql &= "AND NAVIO LIKE '%" & txtNavio_House.Text & "%' "
 
             ElseIf txtNavioTransb_House.Text <> "" Then
-                sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' O NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
+                sql &= "AND NAVIO_1T LIKE '%" & txtNavioTransb_House.Text & "%' OR  NAVIO_2T LIKE '%" & txtNavioTransb_House.Text & "%' OR NAVIO_3T LIKE '%" & txtNavioTransb_House.Text & "%'  "
 
             ElseIf txtInicioPrevEmbarque_House.Text <> "" And txtFimPrevEmbarque_House.Text <> "" Then
                 sql &= "AND DT_PREVISAO_EMBARQUE_MASTER BETWEEN CONVERT(date,'" & txtInicioPrevEmbarque_House.Text & "',103) AND CONVERT(date,'" & txtFimPrevEmbarque_House.Text & "',103) "
@@ -1183,6 +1191,39 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         Else
             ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
+        End If
+    End Sub
+
+    Private Sub lkTrackingHBL_Click(sender As Object, e As EventArgs) Handles lkTrackingHBL.Click
+        divSuccessHouse.Visible = False
+        divErroHouse.Visible = False
+
+        Session("ID_BL") = 0
+        Session("NR_BL") = 0
+        Session("TRAKING_BL") = 0
+        If txtIDHouse.Text = "" Then
+            divErroHouse.Visible = True
+            lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
+        Else
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            Dim Rastreio As New RastreioService
+            Rastreio.trackingbl(txtIDHouse.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                    Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                    Session("ID_BL") = txtIDHouse.Text
+                    Response.Redirect("RastreioHBL.aspx")
+
+                Else
+                    divErroHouse.Visible = True
+                    lblErroHouse.Text = "BL não cadastrada no Logcomex."
+                End If
+            End If
+
         End If
     End Sub
 End Class

@@ -502,6 +502,7 @@
                                         <asp:LinkButton ID="lkBLHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="fa fa-file"></i>&nbsp;Emissão BL</asp:LinkButton>
                                         <asp:LinkButton ID="lkFollowUpHouse" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-list"></i>&nbsp;FollowUp</asp:LinkButton>
                                          <asp:LinkButton ID="lkConferir" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-check"></i>&nbsp;Conferir</asp:LinkButton>    
+                                        <asp:LinkButton ID="lkTrackingHBL" runat="server" CssClass="btn btnn btn-default btn-sm" Style="font-size: 15px"><i class="glyphicon glyphicon-map-marker"></i>&nbsp;Tracking HBL</asp:LinkButton>
                                     </div>
                                     <br />
                                     <br />
@@ -788,6 +789,7 @@
                                     <asp:AsyncPostBackTrigger ControlID="lkDuplicarHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkBLHouse" />
                                     <asp:AsyncPostBackTrigger ControlID="lkFollowUpHouse" />
+                                    <asp:AsyncPostBackTrigger ControlID="lkTrackingHBL" />
                                 </Triggers>
                             </asp:UpdatePanel>
 

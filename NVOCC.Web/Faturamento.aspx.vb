@@ -931,7 +931,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     Dim Con As New Conexao_sql
                     Con.Conectar()
-                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM View_Faturamento WHERE ID_FATURAMENTO =" & txtID.Text)
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,COD_VER_NFSE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text)
 
                     If ds2.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(ds2.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
@@ -947,8 +947,33 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         AtualizaGrid()
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ImprimirNota()", True)
                     Else
-                        divErro.Visible = True
-                        lblmsgErro.Text = "Numero da nota não encontrado!"
+
+
+                        ds2 = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                        If ds2.Tables(0).Rows.Count > 0 Then
+                            If ds2.Tables(0).Rows(0).Item("STATUS_NFE") <> 2 Then
+
+                                Dim ERRO As String = ""
+                                Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                If DS1.Tables(0).Rows.Count > 0 Then
+                                    If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                        ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
+                                    End If
+                                End If
+                                lblmsgErro.Text = "Não foi possivel completar a ação: " & ERRO
+                                divErro.Visible = True
+                                Exit Sub
+
+                            Else
+                                lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                divErro.Visible = True
+                                Exit Sub
+                            End If
+
+                        End If
+
+
+
                     End If
                     Con.Fechar()
                 Catch ex As Exception
@@ -1049,7 +1074,9 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                    txtNR_NOTA.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                    If ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") <> "PENDENTE" And ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL") <> "SEM RECEITA" Then
+                        txtNR_NOTA.Text = ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")
+                    End If
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_SERVICO")) Then

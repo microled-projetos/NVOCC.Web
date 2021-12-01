@@ -245,7 +245,7 @@ namespace ABAINFRA.Web
             ddlTipoItemFCLimpo.DataBind();
             ddlTipoItemFCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1";
+            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1 ORDER BY NM_ITEM_DESPESA";
 
             DataTable itemDespesaFCLexpo = new DataTable();
             itemDespesaFCLexpo = DBS.List(SQL);
@@ -254,7 +254,7 @@ namespace ABAINFRA.Web
             ddlTipoItemFCLexpo.DataBind();
             ddlTipoItemFCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1";
+            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1 ORDER BY NM_ITEM_DESPESA";
 
             DataTable itemDespesa = new DataTable();
             itemDespesa = DBS.List(SQL);
@@ -263,7 +263,7 @@ namespace ABAINFRA.Web
             ddlTipoItemLCLimpo.DataBind();
             ddlTipoItemLCLimpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1";
+            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1 ORDER BY NM_ITEM_DESPESA";
 
             DataTable itemDespesaLCLexpo = new DataTable();
             itemDespesaLCLexpo = DBS.List(SQL);
@@ -272,7 +272,7 @@ namespace ABAINFRA.Web
             ddlTipoItemLCLexpo.DataBind();
             ddlTipoItemLCLexpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1";
+            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1 ORDER BY NM_ITEM_DESPESA";
 
             DataTable itemDespesaAereoImpo = new DataTable();
             itemDespesaAereoImpo = DBS.List(SQL);
@@ -281,7 +281,7 @@ namespace ABAINFRA.Web
             ddlTipoItemAereoImpo.DataBind();
             ddlTipoItemAereoImpo.Items.Insert(0, new ListItem("Selecione", ""));
 
-            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1";
+            SQL = "SELECT ID_ITEM_DESPESA, NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_ATIVO = 1 ORDER BY NM_ITEM_DESPESA";
 
             DataTable itemDespesaAereoExpo = new DataTable();
             itemDespesaAereoExpo = DBS.List(SQL);
