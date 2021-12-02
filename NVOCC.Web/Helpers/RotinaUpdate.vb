@@ -769,62 +769,60 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
         If ID_COTACAO = "" Or NR_PROCESSO = "" Then
             Exit Sub
         Else
-            'Dim Con As New Conexao_sql
-            'Con.Conectar()
-
-            'Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
-            'Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
-
-            'Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
-
-
-
-
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim dsProcesso As DataSet
+
             Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
             Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
-            dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA FROM TB_BL_TAXA A WHERE A.CD_ORIGEM_INF='COTA' AND A.ID_ITEM_DESPESA <> 14 AND A.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND A.ID_BL = " & ID_BL)
 
-            If dsProcesso.Tables(0).Rows.Count > 0 Then
-                Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
-
-            Else
-                If ID_ITEM_DESPESA <> "" And ID_BASE_CALCULO_TAXA <> "" Then
-
-                    dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA,isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO,isnull(A.ID_BL_MASTER,0)ID_BL_MASTER 
-            FROM TB_BL_TAXA A
-            LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
-            LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER  
-            WHERE ISNULL(CD_ORIGEM_INF,'COTA') = 'COTA' AND A.ID_ITEM_DESPESA = " & ID_ITEM_DESPESA & " AND isnull(A.ID_COTACAO_TAXA,0) = 0 and A.ID_BASE_CALCULO_TAXA = " & ID_BASE_CALCULO_TAXA & " AND A.ID_BL = " & ID_BL)
-
-                    If dsProcesso.Tables(0).Rows.Count > 0 Then
+            Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
 
 
-                        For Each linha As DataRow In dsProcesso.Tables(0).Rows
+            'Dim Con As New Conexao_sql
+            'Con.Conectar()
+            'Dim dsProcesso As DataSet
+            'Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
+            'Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
+            'dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA FROM TB_BL_TAXA A WHERE A.CD_ORIGEM_INF='COTA' AND A.ID_ITEM_DESPESA <> 14 AND A.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND A.ID_BL = " & ID_BL)
 
-                            If linha.Item("ID_BL_MASTER").ToString = 0 Then
+            'If dsProcesso.Tables(0).Rows.Count > 0 Then
+            '    Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
+
+            'Else
+            '    If ID_ITEM_DESPESA <> "" And ID_BASE_CALCULO_TAXA <> "" Then
+
+            '        dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA,isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO,isnull(A.ID_BL_MASTER,0)ID_BL_MASTER 
+            'FROM TB_BL_TAXA A
+            'LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
+            'LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER  
+            'WHERE ISNULL(CD_ORIGEM_INF,'COTA') = 'COTA' AND A.ID_ITEM_DESPESA = " & ID_ITEM_DESPESA & " AND isnull(A.ID_COTACAO_TAXA,0) = 0 and A.ID_BASE_CALCULO_TAXA = " & ID_BASE_CALCULO_TAXA & " AND A.ID_BL = " & ID_BL)
+
+            '        If dsProcesso.Tables(0).Rows.Count > 0 Then
 
 
-                                If linha.Item("ID_CONTA_PAGAR_RECEBER").ToString = 0 Or Not IsDBNull(linha.Item("DT_CANCELAMENTO")) Then
+            '            For Each linha As DataRow In dsProcesso.Tables(0).Rows
+
+            '                If linha.Item("ID_BL_MASTER").ToString = 0 Then
 
 
-                                    Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL_TAXA = " & linha.Item("ID_BL_TAXA") & " AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
+            '                    If linha.Item("ID_CONTA_PAGAR_RECEBER").ToString = 0 Or Not IsDBNull(linha.Item("DT_CANCELAMENTO")) Then
 
 
-                                End If
-                            End If
-
-                        Next
+            '                        Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL_TAXA = " & linha.Item("ID_BL_TAXA") & " AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
 
 
+            '                    End If
+            '                End If
 
-                    End If
+            '            Next
 
-                End If
 
-            End If
+
+            '        End If
+
+            '    End If
+
+            'End If
 
         End If
 
