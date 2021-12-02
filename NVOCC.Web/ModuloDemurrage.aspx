@@ -3267,9 +3267,11 @@
                                                 positionbgV = positionbgV + 5;
                                                 lineV = lineV + 5;
                                                 lineH = lineH + 5;
+                                                console.log(dado[i]["VL_DEMURRAGE_VENDA_BR"]);
                                                 if (dado[i]["VL_DEMURRAGE_VENDA_BR"].toString() != "") {
                                                     totalv = totalv + parseFloat(dado[i]["VL_DEMURRAGE_VENDA_BR"].toString().replace(",", "."));
                                                 }
+                                                console.log(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"]);
                                                 if (dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString() != "") {
                                                     desconto = desconto + parseFloat(dado[i]["VL_DESCONTO_DEMURRAGE_VENDA"].toString().replace(",", "."));
                                                 }

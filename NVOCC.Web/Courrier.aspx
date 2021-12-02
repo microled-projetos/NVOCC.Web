@@ -363,9 +363,15 @@
         var idblC;
         $(document).ready(function () {
             listarCourrier();
+            $("#courrierExport").tablesorter({
+                dateFormat: "ddmmyyyy",
+                headers: {
+                    0: { sorter: "shortDate" }
+                }
+            });
         });
 
-       
+        
 
         function BuscarCourrier(id) {
             idblC = id;
@@ -560,7 +566,7 @@
                             } else {
                                 checked = "";
                             }
-                            if (dado[i]["CD_RASTREAMENTO_MBL"] != "" && dado[i]["DT_RECEBIMENTO_MBL"] !== "" && dado[i]["CD_RASTREAMENTO_HBL"] !== "" && dado[i]["DT_RECEBIMENTO_HBL"] !== "") {
+                            if (dado[i]["CD_RASTREAMENTO_MBL"] != "" && dado[i]["CD_RASTREAMENTO_HBL"] != "") {
                                 $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
                                     "<td class='text-center' style='" + bg +"'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center' style='" + bg +"'> " + dado[i]["MASTER"] + "</td > " +
@@ -596,12 +602,7 @@
                                     "</tr>");
                             }
                         }
-                        $("#courrierExport").tablesorter({
-                            dateFormat: "ddmmyyyy",
-                            headers: {
-                                0: { sorter: "shortDate" }
-                            }
-                        });
+                        $("table").trigger("update"); 
                     }
                     else {
                         $("#containerCourrier").empty();
