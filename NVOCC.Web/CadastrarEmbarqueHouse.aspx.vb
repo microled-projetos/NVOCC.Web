@@ -666,11 +666,19 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
                     Else
 
+                        Dim finaliza As New FinalizaCotacao
+                        If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                            divErro_TaxaMaritimo1.Visible = True
+                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
+                        Else
 
-                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                        lblSuccess_TaxaMaritimo1.Text = "Registro deletado!"
-                        divSuccess_TaxaMaritimo1.Visible = True
-                        dgvTaxaMaritimoCompras.DataBind()
+                            Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                            lblSuccess_TaxaMaritimo1.Text = "Registro deletado!"
+                            divSuccess_TaxaMaritimo1.Visible = True
+                            dgvTaxaMaritimoCompras.DataBind()
+                        End If
+
+
                     End If
                 End If
 
@@ -786,7 +794,10 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                         End If
                     End If
 
-
+                    Dim finaliza As New FinalizaCotacao
+                    If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                        btnSalvar_TaxaMaritimo.Visible = False
+                    End If
 
                     lblTipoEmpresa_Maritimo.Text = "Fornecedor:"
                     mpeTaxaMaritimo.Show()
@@ -851,11 +862,19 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
                     Else
 
+                        Dim finaliza As New FinalizaCotacao
+                        If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                            divErro_TaxaMaritimo1.Visible = True
+                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
+                        Else
+                            Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                            lblSuccess_TaxaMaritimo1.Text = "Registro deletado!"
+                            divSuccess_TaxaMaritimo1.Visible = True
+                            dgvTaxaMaritimoVendas.DataBind()
 
-                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                        lblSuccess_TaxaMaritimo1.Text = "Registro deletado!"
-                        divSuccess_TaxaMaritimo1.Visible = True
-                        dgvTaxaMaritimoVendas.DataBind()
+                        End If
+
+
                     End If
                 End If
 
@@ -975,6 +994,12 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
 
                     lblTipoEmpresa_Maritimo.Text = "Parceiro:"
 
+                    Dim finaliza As New FinalizaCotacao
+                    If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                        btnSalvar_TaxaMaritimo.Visible = False
+                    End If
+
+
                     mpeTaxaMaritimo.Show()
 
                 End If
@@ -1033,12 +1058,19 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     divErro_TaxaAereo1.Visible = True
                     lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
                 Else
+                    Dim finaliza As New FinalizaCotacao
+                    If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                        divErro_TaxaAereo1.Visible = True
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
+                    Else
 
+                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                        lblSuccess_TaxaAereo1.Text = "Registro deletado!"
+                        divSuccess_TaxaAereo1.Visible = True
+                        dgvTaxaAereoVendas.DataBind()
 
-                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                    lblSuccess_TaxaAereo1.Text = "Registro deletado!"
-                    divSuccess_TaxaAereo1.Visible = True
-                    dgvTaxaAereoVendas.DataBind()
+                    End If
+
                 End If
             End If
 
@@ -1144,6 +1176,11 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     End If
                 End If
 
+                Dim finaliza As New FinalizaCotacao
+                If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                    btnSalvar_TaxaAereo.Visible = False
+                End If
+
                 mpeTaxaAereo.Show()
 
             End If
@@ -1201,11 +1238,21 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
                 Else
 
+                    Dim finaliza As New FinalizaCotacao
+                    If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                        divErro_TaxaAereo1.Visible = True
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
+                    Else
 
-                    Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
-                    lblSuccess_TaxaAereo1.Text = "Registro deletado!"
-                    divSuccess_TaxaAereo1.Visible = True
-                    dgvTaxaAereoCompras.DataBind()
+
+                        Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
+                        lblSuccess_TaxaAereo1.Text = "Registro deletado!"
+                        divSuccess_TaxaAereo1.Visible = True
+                        dgvTaxaAereoCompras.DataBind()
+                    End If
+
+
+
                 End If
             End If
 
@@ -1311,6 +1358,13 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     If ds.Tables(0).Rows(0).Item("CD_ORIGEM_INF") = "COTA" Then
                         btnSalvar_TaxaAereo.Visible = False
                     End If
+                End If
+
+
+
+                Dim finaliza As New FinalizaCotacao
+                If finaliza.TaxaBloqueada(ID, "BL") = True Then
+                    btnSalvar_TaxaAereo.Visible = False
                 End If
 
                 mpeTaxaAereo.Show()
