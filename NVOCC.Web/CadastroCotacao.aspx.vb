@@ -1052,12 +1052,23 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     If ddlStatusCotacao.SelectedValue <> Session("ID_STATUS") Then
 
                         'SEPARA E ENVIA EMAIL CASO COTAÇÃO ESTEJA APROVADA
-                        If ddlStatusCotacao.SelectedValue = 9 Then
+                        If ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15 Then
 
                             ddlStatusCotacao.Enabled = False
 
                             If Session("ID_STATUS") <> 10 Then
                                 NumeroProcesso()
+                            Else
+
+
+                                Dim RotinaUpdate As New RotinaUpdate
+                                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                                If ds2.Tables(0).Rows.Count > 0 Then
+                                    For Each linha As DataRow In ds2.Tables(0).Rows
+                                        RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                                    Next
+                                End If
+
                             End If
 
 
