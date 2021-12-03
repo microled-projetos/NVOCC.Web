@@ -28,8 +28,11 @@
                 'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
                 gridReceber.Visible = True
-                btnCambio.Visible = True
-
+                If rdStatus.SelectedValue = 1 Then
+                    btnCambio.Visible = True
+                Else
+                    btnCambio.Visible = False
+                End If
             End If
         End If
         Con.Fechar()
@@ -320,6 +323,7 @@
 
             End If
 
+            btnAtualizaCambio.Visible = False
 
         ElseIf rdStatus.SelectedValue = 1 Then
 
@@ -332,7 +336,7 @@
 
             End If
 
-
+            btnAtualizaCambio.Visible = True
         End If
         Dim sql As String = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         Using Status = New NotaFiscal.WsNvocc

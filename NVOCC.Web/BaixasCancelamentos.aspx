@@ -347,6 +347,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
                                 <asp:PostBackTrigger ControlID="btnCSV" /> 
+                                <asp:PostBackTrigger ControlID="btnpesquisar" /> 
                             </Triggers>
                         </asp:UpdatePanel>
 
