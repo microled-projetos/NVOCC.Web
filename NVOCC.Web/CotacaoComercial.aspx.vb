@@ -73,7 +73,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
                     lkAprovar.Visible = False
                     lkRejeitar.Visible = False
                     lkCancelar.Visible = False
-                    lkUpdate.Visible = False
+                    lkUpdate.Visible = True
                 Else
                     lkCalcular.Visible = True
                     lkAprovar.Visible = True
@@ -1891,7 +1891,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 'If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                 '    divErro.Visible = True
@@ -1910,8 +1910,17 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 9, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+
                 Else
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 15, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+
+                    Dim RotinaUpdate As New RotinaUpdate
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                    If ds2.Tables(0).Rows.Count > 0 Then
+                        For Each linha As DataRow In ds2.Tables(0).Rows
+                            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
+                        Next
+                    End If
                 End If
 
 
@@ -2221,17 +2230,17 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione um registro!"
             Else
-                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_CONTA_PAGAR_RECEBER where DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER in (select distinct ID_CONTA_PAGAR_RECEBER from TB_CONTA_PAGAR_RECEBER_ITENS where id_Bl = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text & " ))")
-                If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Não foi possivel completar a ação: O house desta já enviado para conta corrente!"
-                Else
-                    Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                'Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_CONTA_PAGAR_RECEBER where DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER in (select distinct ID_CONTA_PAGAR_RECEBER from TB_CONTA_PAGAR_RECEBER_ITENS where id_Bl = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text & " ))")
+                'If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+                '    divErro.Visible = True
+                '    lblmsgErro.Text = "Não foi possivel completar a ação: O house desta já enviado para conta corrente!"
+                'Else
+                Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                     divSuccess.Visible = True
                     lblmsgSuccess.Text = "Item atualizado para 'Em update' com sucesso!"
                     GRID()
 
-                End If
+                'End If
 
 
 

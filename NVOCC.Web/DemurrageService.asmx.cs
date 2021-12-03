@@ -2277,11 +2277,11 @@ namespace ABAINFRA.Web
             DataTable listTable = new DataTable();
             string vlDemur = vlDemurrage.Replace(".", "");
             double vlDemuDolar = Convert.ToDouble(vlDemur);
-            double vlDemu = vlDemuDolar * vlCambio;
+            double vlDemu = Trunc2(vlDemuDolar) * vlCambio;
             string descontor = descontoBRL.Replace(".", "");
             double desconto = Convert.ToDouble(descontor);
-            double valorLiquido = vlDemu - desconto;
-            double valorDemurrageConvertido = vlDemu * vlCambio;
+            double valorLiquido = Trunc2(vlDemu) - Trunc2(desconto);
+            double valorDemurrageConvertido = Trunc2(vlDemu) * vlCambio;
 
             if (check == 1)
             {
@@ -2836,7 +2836,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_VENDA,0) AS VL_TAXA_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_VENDA,0) AS VL_CAMBIO_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_VENDA,0) AS VL_DEMURRAGE_LIQUIDO_VENDA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DESCONTO_DEMURRAGE_VENDA,'C','PT-BR')),'R$',''),'') AS VL_DESCONTO_DEMURRAGE_VENDA, ";
+            SQL += "ISNULL(B.VL_DESCONTO_DEMURRAGE_VENDA,0) AS VL_DESCONTO_DEMURRAGE_VENDA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_VENDA_BR,0) AS VL_DEMURRAGE_VENDA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
@@ -2862,7 +2862,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_TAXA_DEMURRAGE_COMPRA,0) AS VL_TAXA_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_CAMBIO_DEMURRAGE_COMPRA,0) AS VL_CAMBIO_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_LIQUIDO_COMPRA,0) AS VL_DEMURRAGE_LIQUIDO_COMPRA, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(B.VL_DESCONTO_DEMURRAGE_COMPRA, 'C','PT-BR')),'R$',''),'') AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(B.VL_DESCONTO_DEMURRAGE_COMPRA,0) AS VL_DESCONTO_DEMURRAGE_COMPRA, ";
             SQL += "ISNULL(B.VL_DEMURRAGE_COMPRA_BR,0) AS VL_DEMURRAGE_COMPRA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
@@ -6617,7 +6617,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', 3) ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "',  " + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";

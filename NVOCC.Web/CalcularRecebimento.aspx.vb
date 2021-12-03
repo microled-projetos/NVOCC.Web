@@ -751,19 +751,22 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                                     Exit Sub
                                 Else
                                     If lblSpread.Text <> "" And lblSpread.Text > 0 Then
+
                                         If lblAcordo.Text = "CAMBIO PTAX + SPREAD" Then
                                             Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
                                             ValorCambio = ValorCambio + spread
                                         End If
 
-                                        If lblAcordo.Text = "TAXA ABERTURA PTAX + SPREAD" Then
+                                        If lblAcordo.Text = "TAXA ABERTURA + SPREAD" Then
                                             ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
                                             Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
                                             ValorCambio = ValorCambio + spread
                                         End If
-                                        If lblAcordo.Text = "TAXA ABERTURA PTAX" Then
+
+                                        If lblAcordo.Text = "TAXA ABERTURA" Then
                                             ValorCambio = CType(linhaMoedas.FindControl("txtValorAbertuda"), TextBox).Text
                                         End If
+
                                     End If
                                     Dim valorCambioFinal As String = ValorCambio
                                     valorCambioFinal = valorCambioFinal.Replace(".", "")

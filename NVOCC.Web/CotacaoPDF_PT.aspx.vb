@@ -282,7 +282,7 @@ FROM  TB_COTACAO A
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"
                 tabela &= "<th style='padding-right:10px;padding-right:10px'>Moeda</th>"
-                tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor</th></tr>"
+                tabela &= "<th style='padding-left:10px;padding-right:10px'>Valor da Mercadoria</th></tr>"
 
                 For Each linha As DataRow In ds.Tables(0).Rows
                     tabela &= "<tr><td style='padding-right:10px'>" & linha("MOEDA_CARGA") & "</td>"
