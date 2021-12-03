@@ -21,12 +21,14 @@
                 'btnBaixarPagamento.Visible = True
                 gridPagar.Visible = True
                 gridReceber.Visible = False
+                btnCambio.Visible = False
 
             ElseIf Request.QueryString("t") = "r" Then
                 lblTipo.Text = "CONTAS A RECEBER"
                 'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
                 gridReceber.Visible = True
+                btnCambio.Visible = True
 
             End If
         End If
@@ -514,6 +516,7 @@
     End Sub
 
     Private Sub btnAtualizaCambio_Click(sender As Object, e As EventArgs) Handles btnAtualizaCambio.Click
+        lblErro.Text = ""
         divErro.Visible = False
         divSuccess.Visible = False
 
@@ -529,64 +532,193 @@
             divErro.Visible = True
             Exit Sub
         Else
-            If Request.QueryString("t") = "p" Then
-
-                For Each linha As GridViewRow In dgvTaxasPagar.Rows
-                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                    If check.Checked Then
-                        Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
-
-
-                        'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                        '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-                        '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                        '        ValorCambio = ValorCambio + spread
-                        '    End If
-
-                        'End If
-
-                        Dim valorCambioFinal As String = txtValorCambio.Text
-                        valorCambioFinal = valorCambioFinal.Replace(".", "")
-                        valorCambioFinal = valorCambioFinal.Replace(",", ".")
-
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " ,  VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_CAMBIO = " & valorCambioFinal & "  WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
-
-                    End If
-                Next
-
-                dgvTaxasPagar.DataBind()
-
-            ElseIf Request.QueryString("t") = "r" Then
+            If Request.QueryString("t") = "r" Then
 
                 For Each linha As GridViewRow In dgvTaxasReceber.Rows
                     Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                     If check.Checked Then
+                        Dim SPREAD As Decimal = 0
+                        Dim ID_SERVICO As Integer = 0
+                        Dim ID_TIPO_ESTUFAGEM As Integer = 0
                         Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                        Dim liquidacao As String = CType(linha.FindControl("lblLiquidacao"), Label).Text
+                        Dim Processo As String = CType(linha.FindControl("lblProcesso"), Label).Text
+                        Dim ID_BL As String = CType(linha.FindControl("lblID_BL"), Label).Text
+                        Dim ID_PARCEIRO_EMPRESA As String = CType(linha.FindControl("lblID_PARCEIRO_EMPRESA"), Label).Text
+                        Dim ValorCambio As Decimal = txtValorCambio.Text
+                        If liquidacao = "" Then
+                            Dim dsProcesso As DataSet = Con.ExecutarQuery("SELECT ID_SERVICO,ID_TIPO_ESTUFAGEM FROM TB_BL WHERE ID_BL =" & ID_BL)
+                            If dsProcesso.Tables(0).Rows.Count > 0 Then
+                                If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("ID_SERVICO")) Then
+                                    ID_SERVICO = dsProcesso.Tables(0).Rows(0).Item("ID_SERVICO")
+                                End If
+                                If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+                                    ID_TIPO_ESTUFAGEM = dsProcesso.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
+                                End If
+                            End If
 
-                        'If lblSpread.Text <> "" And lblSpread.Text > 0 Then
-                        '    If lblAcordo.Text = "CAMBIO DO ARMADOR + SPREAD" Then
-                        '        Dim spread As Decimal = (ValorCambio / 100) * lblSpread.Text
-                        '        ValorCambio = ValorCambio + spread
-                        '    End If
 
-                        'End If
 
-                        Dim valorCambioFinal As String = txtValorCambio.Text
-                        valorCambioFinal = valorCambioFinal.Replace(".", "")
-                        valorCambioFinal = valorCambioFinal.Replace(",", ".")
 
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] SET DT_CAMBIO = CONVERT(DATE,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & ", VL_CAMBIO = " & valorCambioFinal & " WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
+                            Dim dsAcordo As DataSet = Con.ExecutarQuery("SELECT 
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL,
+ISNULL(ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,0)ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL,
+ISNULL(ID_ACORDO_CAMBIO_AEREO_IMPO,0)ID_ACORDO_CAMBIO_AEREO_IMPO,
+ISNULL(ID_ACORDO_CAMBIO_AEREO_EXPO,0)ID_ACORDO_CAMBIO_AEREO_EXPO,
+
+
+ISNULL(SPREAD_AEREO_EXPO,0)SPREAD_AEREO_EXPO,
+ISNULL(SPREAD_AEREO_IMPO,0)SPREAD_AEREO_IMPO,
+ISNULL(SPREAD_MARITIMO_EXPO_FCL,0)SPREAD_MARITIMO_EXPO_FCL,
+ISNULL(SPREAD_MARITIMO_EXPO_LCL,0)SPREAD_MARITIMO_EXPO_LCL,
+ISNULL(SPREAD_MARITIMO_IMPO_FCL,0)SPREAD_MARITIMO_IMPO_FCL,
+ISNULL(SPREAD_MARITIMO_IMPO_LCL,0)SPREAD_MARITIMO_IMPO_LCL,
+ISNULL(VL_ALIQUOTA_ISS,0)VL_ALIQUOTA_ISS, ISNULL(VL_ALIQUOTA_PIS,0)VL_ALIQUOTA_PIS, ISNULL(VL_ALIQUOTA_COFINS,0)VL_ALIQUOTA_COFINS
+
+FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
+                            Dim ID_ACORDO As Integer = 0
+                            If ID_SERVICO = 1 And ID_TIPO_ESTUFAGEM = 1 Then
+                                ' AGENCIAMENTO DE IMPORTACAO MARITIMA + FCL
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_FCL")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_FCL")
+
+                            ElseIf ID_SERVICO = 1 And ID_TIPO_ESTUFAGEM = 2 Then
+                                ' AGENCIAMENTO DE IMPORTACAO MARITIMA + LCL
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_IMPO_LCL")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_MARITIMO_IMPO_LCL")
+
+                            ElseIf ID_SERVICO = 4 And ID_TIPO_ESTUFAGEM = 1 Then
+                                ' AGENCIAMENTO DE EXPORTACAO MARITIMA + FCL
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_FCL")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_FCL")
+
+                            ElseIf ID_SERVICO = 4 And ID_TIPO_ESTUFAGEM = 2 Then
+                                ' AGENCIAMENTO DE EXPORTACAO MARITIMA + LCL
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_MARITIMO_EXPO_LCL")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_MARITIMO_EXPO_LCL")
+
+                            ElseIf ID_SERVICO = 2 Then
+                                'AEREO IMPO
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_IMPO")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_AEREO_IMPO")
+
+                            ElseIf ID_SERVICO = 5 Then
+                                'AEREO EXPO
+                                ID_ACORDO = dsAcordo.Tables(0).Rows(0).Item("ID_ACORDO_CAMBIO_AEREO_EXPO")
+                                SPREAD = dsAcordo.Tables(0).Rows(0).Item("SPREAD_AEREO_EXPO")
+
+                            End If
+
+
+                            If ID_ACORDO = 1 Or ID_ACORDO = 3 Or ID_ACORDO = 5 Then
+
+                                SPREAD = 0
+
+                            End If
+
+
+
+                            If SPREAD > 0 Then
+                                If ID_ACORDO = 2 Or ID_ACORDO = 4 Or ID_ACORDO = 11 Then
+                                    Dim CalculoSPREAD As Decimal = (ValorCambio / 100) * SPREAD
+                                    ValorCambio = ValorCambio + CalculoSPREAD
+                                End If
+                            End If
+
+
+
+                            Dim valorCambioFinal As String = ValorCambio
+                            valorCambioFinal = valorCambioFinal.Replace(".", "")
+                            valorCambioFinal = valorCambioFinal.Replace(",", ".")
+
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] Set DT_CAMBIO = CONVERT(Date,'" & txtDataCambio.Text & "',103), VL_LANCAMENTO = VL_TAXA_CALCULADO * " & valorCambioFinal & " , VL_LIQUIDO = VL_TAXA_CALCULADO * " & valorCambioFinal & ", VL_CAMBIO = " & valorCambioFinal & " WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
+
+
+                            Dim dsConsulta As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER_ITENS,VL_LIQUIDO FROM [TB_CONTA_PAGAR_RECEBER_ITENS] WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID)
+
+                            If dsConsulta.Tables(0).Rows.Count > 0 Then
+
+                                For Each linha2 As DataRow In dsConsulta.Tables(0).Rows
+
+                                    'IMPOSTOS
+                                    Dim ISS As Decimal
+                                    Dim PIS As Decimal
+                                    Dim COFINS As Decimal
+                                    Dim valor As Decimal = linha2.Item("VL_LIQUIDO")
+
+
+                                    If dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS").ToString() > 0 Then
+                                        ISS = dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS").ToString()
+                                    Else
+                                        ISS = Session("VL_ALIQUOTA_ISS")
+                                    End If
+                                    ISS = (valor / 100) * ISS
+
+                                    If dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS").ToString() > 0 Then
+                                        PIS = dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_PIS").ToString()
+                                    Else
+                                        PIS = Session("VL_ALIQUOTA_PIS")
+                                    End If
+                                    PIS = (valor / 100) * PIS
+
+
+                                    If dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS").ToString() > 0 Then
+                                        COFINS = dsAcordo.Tables(0).Rows(0).Item("VL_ALIQUOTA_COFINS").ToString()
+                                    Else
+                                        COFINS = Session("VL_ALIQUOTA_COFINS")
+                                    End If
+                                    COFINS = (valor / 100) * COFINS
+
+
+                                    Dim Desconto As Decimal = COFINS + ISS + PIS
+
+                                    Dim desconto_final As String = Desconto.ToString
+                                    desconto_final = desconto_final.Replace(".", "")
+                                    desconto_final = desconto_final.Replace(",", ".")
+
+                                    Dim COFINS_final As String = COFINS.ToString
+                                    COFINS_final = COFINS_final.Replace(".", "")
+                                    COFINS_final = COFINS_final.Replace(",", ".")
+
+
+                                    Dim PIS_final As String = PIS.ToString
+                                    PIS_final = PIS_final.Replace(".", "")
+                                    PIS_final = PIS_final.Replace(",", ".")
+
+
+                                    Dim ISS_final As String = ISS.ToString
+                                    ISS_final = ISS_final.Replace(".", "")
+                                    ISS_final = ISS_final.Replace(",", ".")
+
+
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER_ITENS] Set VL_ISS = " & ISS_final & ", VL_PIS = " & PIS_final & ", VL_COFINS = " & COFINS_final & " WHERE ID_MOEDA = " & ddlMoeda.SelectedValue & " AND ID_CONTA_PAGAR_RECEBER =" & ID & " AND ID_CONTA_PAGAR_RECEBER_ITENS =  " & linha2.Item("ID_CONTA_PAGAR_RECEBER_ITENS").ToString())
+                                Next
+                            End If
+
+                            Filtro()
+                            lblSuccess.Text = "Atualização de câmbio realizada com sucesso!"
+                            divSuccess.Visible = True
+
+                        Else
+                            Filtro()
+                            'ERRO
+                            lblErro.Text &= "PROCESSO " & Processo & " JÁ LIQUIDADO! <br/>"
+                            divErro.Visible = True
+                        End If
+
                     End If
                 Next
 
-                Filtro()
+
 
             End If
 
 
             Con.Fechar()
-            lblSuccess.Text = "Atualização de câmbio realizada com sucesso!"
-            divSuccess.Visible = True
+
             txtDataCambio.Text = ""
             txtValorCambio.Text = ""
             ddlMoeda.SelectedValue = 0
