@@ -793,18 +793,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             Dim NOVO_FATURAMENTO As String = dsInsert.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'SUBSTITUIÇÃO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
-
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & RPSNova & "' WHERE ID_NUMERACAO = 5")
-
-
-                            Using GeraRps = New NotaFiscal.WsNvocc
-
-                                Dim consulta = GeraRps.SubstituiNFePrefeitura(RPSSubstituida, RPSNova, 1, "SQL", "NVOCC", NOVO_FATURAMENTO)
-
-                            End Using
-
-
                             Con.ExecutarQuery("update F 
                             set 
                             F.NM_CLIENTE = '" & txtRazaoSocial.Text & "',
@@ -836,6 +824,19 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             FROM TB_FATURAMENTO F
                             INNER JOIN TB_PARCEIRO P on P.ID_PARCEIRO = F.ID_PARCEIRO_CLIENTE
                            AND F.ID_FATURAMENTO = " & NOVO_FATURAMENTO)
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'SUBSTITUIÇÃO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
+
+                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & RPSNova & "' WHERE ID_NUMERACAO = 5")
+
+
+                            Using GeraRps = New NotaFiscal.WsNvocc
+
+                                Dim consulta = GeraRps.SubstituiNFePrefeitura(RPSSubstituida, RPSNova, 1, "SQL", "NVOCC", NOVO_FATURAMENTO)
+
+                            End Using
+
+
 
 
                             txtID.Text = ""

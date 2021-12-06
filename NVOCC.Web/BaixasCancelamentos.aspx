@@ -75,7 +75,7 @@
 
                                         <div class="form-group"><br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="False" />
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="false" />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
                                         </div>
@@ -142,6 +142,7 @@
                                                 <asp:TemplateField HeaderText="Nº Processo" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblProcesso" runat="server" Text='<%# Eval("NR_PROCESSO") %>' />
+                                                        <asp:Label ID="lblID_BL" runat="server" Text='<%# Eval("ID_BL") %>' VISIBLE="false" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                <asp:BoundField DataField="NM_TIPO_ESTUFAGEM" HeaderText="Estufagem" SortExpression="NM_TIPO_ESTUFAGEM" />
@@ -158,6 +159,7 @@
                                                 <asp:TemplateField HeaderText="Empresa" SortExpression="NM_PARCEIRO_EMPRESA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblFornecedor" runat="server" Text='<%# Eval("NM_PARCEIRO_EMPRESA") %>' />
+                                                        <asp:Label ID="lblID_PARCEIRO_EMPRESA" runat="server" Text='<%# Eval("ID_PARCEIRO_EMPRESA") %>' VISIBLE="false" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO" />
@@ -345,6 +347,7 @@
                                 <asp:AsyncPostBackTrigger EventName="Load" ControlID="dgvTaxasReceber" />
                                 <asp:AsyncPostBackTrigger ControlID="btnCancelar" />
                                 <asp:PostBackTrigger ControlID="btnCSV" /> 
+                                <asp:PostBackTrigger ControlID="btnpesquisar" /> 
                             </Triggers>
                         </asp:UpdatePanel>
 
