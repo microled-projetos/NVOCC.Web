@@ -28,11 +28,11 @@
                 'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
                 gridReceber.Visible = True
-                If rdStatus.SelectedValue = 1 Then
-                    btnCambio.Visible = True
-                Else
-                    btnCambio.Visible = False
-                End If
+                'If rdStatus.SelectedValue = 1 Then
+                '    btnCambio.Visible = True
+                'Else
+                '    btnCambio.Visible = False
+                'End If
             End If
         End If
         Con.Fechar()
