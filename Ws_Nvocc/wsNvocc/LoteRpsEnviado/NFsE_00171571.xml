@@ -1,0 +1,67 @@
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+  <LoteRps Id="_10171571">
+    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10171571</NumeroLote>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+      <Rps>
+        <InfRps Id="_20171571">
+          <IdentificacaoRps>
+            <Numero>081914</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </IdentificacaoRps>
+          <DataEmissao>2021-12-06T03:29:21</DataEmissao>
+          <NaturezaOperacao>1</NaturezaOperacao>
+          <OptanteSimplesNacional>2</OptanteSimplesNacional>
+          <IncentivadorCultural>2</IncentivadorCultural>
+          <Status>1</Status>
+          <RpsSubstituido>
+            <Numero>081909</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </RpsSubstituido>
+          <Servico>
+            <Valores>
+              <ValorServicos>721.15</ValorServicos>
+              <ValorPis>0.00</ValorPis>
+              <ValorCofins>0.00</ValorCofins>
+              <ValorInss>0.00</ValorInss>
+              <ValorIr>0.00</ValorIr>
+              <ValorCsll>0.00</ValorCsll>
+              <IssRetido>2</IssRetido>
+              <ValorIss>21.63</ValorIss>
+              <ValorIssRetido>0.00</ValorIssRetido>
+              <BaseCalculo>721.15</BaseCalculo>
+              <Aliquota>0.03</Aliquota>
+              <ValorLiquidoNfse>721.15</ValorLiquidoNfse>
+            </Valores>
+            <ItemListaServico>1006</ItemListaServico>
+            <CodigoTributacaoMunicipio>523200001</CodigoTributacaoMunicipio>
+            <Discriminacao>***Valor que levamos a debito, conforme nossa Fatura n 081914 | Processo: M3171-08/21 | S/Ref:  | MASTER: ONEYSH1AW9968700 | HOUSE: SINODG9968700 | SENDO:  DESCONSOLIDACAO - R$ 721,15  Valor aproximado dos tributos R$ 88,34 (12,25%) conforme LEI 12741/2012</Discriminacao>
+            <CodigoMunicipio>3548500</CodigoMunicipio>
+          </Servico>
+          <Prestador>
+            <Cnpj>00639367000311</Cnpj>
+            <InscricaoMunicipal>1831854</InscricaoMunicipal>
+          </Prestador>
+          <Tomador>
+            <IdentificacaoTomador />
+            <RazaoSocial>AGROTEC S. A. </RazaoSocial>
+            <Endereco>
+              <Endereco>KM 4-SUPERCARRETERA CAMINO A HERNANDARIAS DEPTO ALTO</Endereco>
+              <Numero>.</Numero>
+              <Complemento>PARAGUAY</Complemento>
+              <Bairro>PARANA</Bairro>
+              <CodigoMunicipio>0099999</CodigoMunicipio>
+              <Uf>EX</Uf>
+              <Cep>70000000</Cep>
+            </Endereco>
+            <Contato />
+          </Tomador>
+        </InfRps>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+</EnviarLoteRpsEnvio>

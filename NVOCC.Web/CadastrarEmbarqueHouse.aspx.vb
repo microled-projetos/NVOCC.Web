@@ -2668,7 +2668,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Else
 
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL where ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "  AND ID_BL = " & txtID_BasicoMaritimo.Text)
-                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 And ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
                     divErro_CargaMaritimo2.Visible = True
                     lblErro_CargaMaritimo2.Text = "Container vinculado em outra carga desta mesma BL."
 
@@ -2720,7 +2720,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
             Else
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_CARGA_BL)QTD FROM TB_CARGA_BL where ID_CNTR_BL = " & ddlNumeroCNTR_CargaMaritimo.SelectedValue & "  AND ID_BL = " & txtID_BasicoMaritimo.Text & " AND ID_CARGA_BL <> " & txtID_CargaMaritimo.Text)
-                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+                If ds.Tables(0).Rows(0).Item("QTD") > 0 And ddlNumeroCNTR_CargaMaritimo.SelectedValue <> 0 Then
                     divErro_CargaMaritimo2.Visible = True
                     lblErro_CargaMaritimo2.Text = "Container vinculado em outra carga desta mesma BL."
 

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:ConsultarLoteRpsResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns4="http://www.ginfes.com.br/tipos_v03.xsd" xmlns:ns3="http://www.ginfes.com.br/servico_consultar_lote_rps_resposta_v03.xsd">
+  <ns3:ListaNfse>
+    <ns3:CompNfse>
+      <ns4:Nfse>
+        <ns4:InfNfse>
+          <ns4:Numero>8984</ns4:Numero>
+          <ns4:CodigoVerificacao>KC5IX7F0J</ns4:CodigoVerificacao>
+          <ns4:DataEmissao>2021-12-06T16:24:21</ns4:DataEmissao>
+          <ns4:IdentificacaoRps>
+            <ns4:Numero>81939</ns4:Numero>
+            <ns4:Serie>E</ns4:Serie>
+            <ns4:Tipo>1</ns4:Tipo>
+          </ns4:IdentificacaoRps>
+          <ns4:DataEmissaoRps>2021-11-19</ns4:DataEmissaoRps>
+          <ns4:NaturezaOperacao>1</ns4:NaturezaOperacao>
+          <ns4:RegimeEspecialTributacao>0</ns4:RegimeEspecialTributacao>
+          <ns4:OptanteSimplesNacional>2</ns4:OptanteSimplesNacional>
+          <ns4:IncentivadorCultural>2</ns4:IncentivadorCultural>
+          <ns4:Competencia>2021-11-19</ns4:Competencia>
+          <ns4:Servico>
+            <ns4:Valores>
+              <ns4:ValorServicos>721.15</ns4:ValorServicos>
+              <ns4:ValorDeducoes>0</ns4:ValorDeducoes>
+              <ns4:ValorPis>0</ns4:ValorPis>
+              <ns4:ValorCofins>0</ns4:ValorCofins>
+              <ns4:ValorInss>0</ns4:ValorInss>
+              <ns4:ValorIr>0</ns4:ValorIr>
+              <ns4:ValorCsll>0</ns4:ValorCsll>
+              <ns4:IssRetido>2</ns4:IssRetido>
+              <ns4:ValorIss>21.63</ns4:ValorIss>
+              <ns4:ValorIssRetido>0</ns4:ValorIssRetido>
+              <ns4:BaseCalculo>721.15</ns4:BaseCalculo>
+              <ns4:Aliquota>3</ns4:Aliquota>
+              <ns4:ValorLiquidoNfse>721.15</ns4:ValorLiquidoNfse>
+            </ns4:Valores>
+            <ns4:ItemListaServico>1006</ns4:ItemListaServico>
+            <ns4:CodigoTributacaoMunicipio>523200001</ns4:CodigoTributacaoMunicipio>
+            <ns4:Discriminacao>***Valor que levamos a debito, conforme nossa Fatura n 081939 | Processo: M3171-08/21 | S/Ref:  | MASTER: ONEYSH1AW9968700 | HOUSE: SINODG9968700 | SENDO:  DESCONSOLIDACAO - R$ 721,15  Valor aproximado dos tributos R$ 88,34 (12,25%) conforme LEI 12741/2012</ns4:Discriminacao>
+            <ns4:CodigoMunicipio>3548500</ns4:CodigoMunicipio>
+          </ns4:Servico>
+          <ns4:ValorCredito>0</ns4:ValorCredito>
+          <ns4:PrestadorServico>
+            <ns4:IdentificacaoPrestador>
+              <ns4:Cnpj>00639367000311</ns4:Cnpj>
+              <ns4:InscricaoMunicipal>1831854</ns4:InscricaoMunicipal>
+            </ns4:IdentificacaoPrestador>
+            <ns4:RazaoSocial>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</ns4:RazaoSocial>
+            <ns4:Endereco>
+              <ns4:Endereco>RUA QUINZE DE NOVEMBRO</ns4:Endereco>
+              <ns4:Numero>46</ns4:Numero>
+              <ns4:Complemento>0001 / 48</ns4:Complemento>
+              <ns4:Bairro>CENTRO</ns4:Bairro>
+              <ns4:CodigoMunicipio>3548500</ns4:CodigoMunicipio>
+              <ns4:Uf>SP</ns4:Uf>
+              <ns4:Cep>11010150</ns4:Cep>
+            </ns4:Endereco>
+            <ns4:Contato>
+              <ns4:Telefone>1337977850</ns4:Telefone>
+              <ns4:Email>xml@abainfra.com.br</ns4:Email>
+            </ns4:Contato>
+          </ns4:PrestadorServico>
+          <ns4:TomadorServico>
+            <ns4:IdentificacaoTomador>
+              <ns4:CpfCnpj />
+            </ns4:IdentificacaoTomador>
+            <ns4:RazaoSocial>AGROTEC S. A.</ns4:RazaoSocial>
+            <ns4:Endereco>
+              <ns4:Endereco>KM 4-SUPERCARRETERA CAMINO A HERNANDARIAS DEPTO ALTO</ns4:Endereco>
+              <ns4:Numero>.</ns4:Numero>
+              <ns4:Complemento>PARAGUAY</ns4:Complemento>
+              <ns4:Bairro>PARANA</ns4:Bairro>
+              <ns4:CodigoMunicipio>99999</ns4:CodigoMunicipio>
+              <ns4:Uf>EX</ns4:Uf>
+              <ns4:Cep>70000000</ns4:Cep>
+            </ns4:Endereco>
+          </ns4:TomadorServico>
+          <ns4:OrgaoGerador>
+            <ns4:CodigoMunicipio>3548500</ns4:CodigoMunicipio>
+            <ns4:Uf>SP</ns4:Uf>
+          </ns4:OrgaoGerador>
+        </ns4:InfNfse>
+      </ns4:Nfse>
+      <ns4:NfseSubstituicao>
+        <ns4:SubstituicaoNfse>
+          <ns4:NfseSubstituidora>8979</ns4:NfseSubstituidora>
+        </ns4:SubstituicaoNfse>
+      </ns4:NfseSubstituicao>
+    </ns3:CompNfse>
+  </ns3:ListaNfse>
+</ns3:ConsultarLoteRpsResposta>

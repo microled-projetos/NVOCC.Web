@@ -1781,6 +1781,7 @@ saida:
         Try
             Dim raizCo As XmlElement
             Dim docCo As New XmlDocument
+            GRAVARLOG(numeroLote, "CHAMA ROTINA DE CONSULTA NF")
 
             rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
 
@@ -1816,8 +1817,10 @@ saida:
             docCo.Save(nomeArquivo)
 
             docCo.Load(nomeArquivo)
+            GRAVARLOG(numeroLote, "1")
 
             Funcoes.AssinarDocumentoXML(nomeArquivo, "ConsultarLoteRpsEnvio", Cod_Empresa)
+            GRAVARLOG(numeroLote, "2")
 
             docCo.Load(nomeArquivo)
 
@@ -1832,10 +1835,12 @@ saida:
             Else
 
             End If
-            GRAVARLOG(Cod_Empresa, "CHAMA ROTINA DA PREFEITURA PARA CONSULTA")
+            GRAVARLOG(Cod_Empresa, "3")
 
+            GRAVARLOG(numeroLote, "CHAMA ROTINA DE CONSULTA NF")
 
             Call EnviaXML(nomeArquivo, "CONSULTA-RPS", numeroLote, Cod_Empresa)
+            GRAVARLOG(numeroLote, "4")
 
 
         Catch ex As Exception
