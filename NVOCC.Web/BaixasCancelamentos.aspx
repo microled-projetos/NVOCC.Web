@@ -27,7 +27,7 @@
                         <br />
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
-
+                                <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
@@ -75,7 +75,7 @@
 
                                         <div class="form-group"><br />
                                             <asp:Button runat="server" Text="Gerar CSV" ID="btnCSV" CssClass="btn btn-info" />
-                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="false" />
+                                            <asp:Button runat="server" Text="Atualizar Cambio" ID="btnCambio" CssClass="btn btn-warning" Visible="true" />
                                             <asp:Button runat="server" Text="Baixar Fatura" ID="btnBaixar" CssClass="btn btn-primary" />
                                             <asp:Button runat="server" Text="Cancelar Fatura" ID="btnCancelar" CssClass="btn btn-danger" />
                                         </div>
@@ -288,8 +288,8 @@
                                          </center>
                                 </asp:Panel>
 
-
-                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="PanelCambio" TargetControlID="btnCambio" CancelControlID="btnFecharCambio"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Button runat="server" CssClass="btn btn-success" ID="Button1" Style="display: none;" />
+                                <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender2" runat="server" PopupControlID="PanelCambio" TargetControlID="Button1" CancelControlID="btnFecharCambio"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="PanelCambio" runat="server" CssClass="modalPopup" Style="display: none;">
                                     <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content" >

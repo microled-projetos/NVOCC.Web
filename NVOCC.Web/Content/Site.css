@@ -12,8 +12,6 @@ body {
     background-position: top left !important;
     background-position: top left !important;
 }
-
-
 .navbar-inverse {
     background-color: #222;
     border-color: #e77817;
@@ -173,6 +171,7 @@ input[type=submit] {
     display: none;
     position: absolute;
     list-style: none;
+    
 }
 
     .dropdown-sub li {
@@ -205,7 +204,8 @@ input[type=submit] {
     left: 100%;
 }
 
-.dropdown-sub {
+
+    .dropdown-sub {
     position: absolute;
     top: 100%;
     left: 0;
@@ -234,6 +234,37 @@ input[type=submit] {
         position: relative;
         padding: 20px 9px 20px 10px;
     }
+
+
+
+
+/*teste*/
+.menu1 ul ul ul {
+    top: 0px;
+    position: absolute;
+    min-width: 160px;
+    min-height: 30px;
+}
+
+.menu1 ul li {
+    float: left;
+    min-width: 100px;
+    position: relative;
+}
+
+.menu2 {
+    width: 160px;
+    min-height: 30px;
+}
+
+.dropdown-menu > li > a {
+    width: 200px;
+}
+
+/*teste*/
+
+
+
 
 .panel-body h4 {
     padding-top: 10px;
