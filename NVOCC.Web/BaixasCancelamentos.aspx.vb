@@ -24,6 +24,8 @@
                 btnCambio.Visible = False
 
             ElseIf Request.QueryString("t") = "r" Then
+                divErro.Visible = False
+                divSuccess.Visible = False
                 lblTipo.Text = "CONTAS A RECEBER"
                 'btnBaixarRecebimento.Visible = True
                 gridPagar.Visible = False
@@ -188,6 +190,7 @@
             Dim fornecedor As String = CType(linha.FindControl("lblFornecedor"), Label).Text
 
             If check.Checked Then
+
                 lblFaturaCancelamento.Text &= "Nº Fatura: " & fatura & "<br/>"
                 lblClienteCancelamento.Text &= "Fornecedor: " & fornecedor & "<br/>"
 
@@ -230,6 +233,8 @@
         lblFaturaBaixa.Text = ""
         lblProcessoBaixa.Text = ""
         lblClienteBaixa.Text = ""
+
+
         For Each linha As GridViewRow In dgvTaxasReceber.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -250,6 +255,7 @@
             Dim btnBloquearDocumental As ImageButton = CType(linha.FindControl("btnBloquearDocumental"), ImageButton)
 
             If check.Checked Then
+                txtID.Text = ID
                 lblProcessoCancelamento.Text &= "Nº Processo: " & processo & "<br/>"
                 lblClienteCancelamento.Text &= "Fornecedor: " & fornecedor & "<br/>"
 
@@ -756,6 +762,32 @@ FROM TB_PARCEIRO WHERE ID_PARCEIRO = " & ID_PARCEIRO_EMPRESA)
 
         If sql <> "" Then
             Classes.Excel.exportaExcel(sql, "NVOCC", "BaixasCancelamentos")
+        End If
+    End Sub
+
+    Private Sub btnCambio_Click(sender As Object, e As EventArgs) Handles btnCambio.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+        Dim contador As Integer = 0
+
+        For Each linha As GridViewRow In dgvTaxasReceber.Rows
+            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+            If check.Checked Then
+                contador = contador + 1
+
+            End If
+        Next
+        If contador > 1 Then
+            btnCambio.Visible = False
+            lblErro.Text = "Selecione apenas uma fatura para atualização de câmbio!"
+            divErro.Visible = True
+            Exit Sub
+        ElseIf contador = 1 And rdStatus.SelectedValue = 1 Then
+            btnCambio.Visible = True
+
+            dsMoeda.SelectCommand = "SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA in (SELECT DISTINCT ID_MOEDA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & txtID.Text & ") union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"
+            ModalPopupExtender2.Show()
         End If
     End Sub
 End Class
