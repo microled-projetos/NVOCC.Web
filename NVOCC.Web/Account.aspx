@@ -581,7 +581,9 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
+                                                 <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="TAXA" SortExpression="NM_ITEM_DESPESA" />
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        
+                                                <asp:TemplateField HeaderText="VALOR COMPRA" SortExpression="VL_COMPRA">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblValorCompra" runat="server" Text='<%# Eval("VL_COMPRA") %>'  />
                                                     </ItemTemplate>
