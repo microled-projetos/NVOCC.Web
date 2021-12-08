@@ -1594,6 +1594,8 @@ namespace ABAINFRA.Web
             SQL = "SELECT ID_ATENDIMENTO_NEGADO, ISNULL(FORMAT(A.DT_ATENDIMENTO_NEGADO,'dd/MM/yyyy'),'') AS ATENDIMENTO, ";
             SQL += "ISNULL(B.NM_RAZAO, '') AS INSIDE, ISNULL(C.NM_SERVICO, '') AS SERVICO, ";
             SQL += "ISNULL(D.NM_TIPO_ESTUFAGEM, '') AS ESTUFAGEM, ISNULL(E.NM_INCOTERM, '') AS INCOTERM, ";
+            SQL += "ISNULL(M.NM_TIPO_CARGA,'') AS CARGA, ISNULL(A.QT_PESO,0) AS PESO, ISNULL(A.QT_METRAGEM,0) AS METRAGEM, ISNULL(L.NM_MERCADORIA,'') AS MERCADORIA, ";
+            SQL += "ISNULL(A.QT_CARGA,0) AS QTCARGA, ";
             SQL += "ISNULL(F.NM_RAZAO, '') AS CLIENTE, ";
             SQL += "ISNULL(H.NM_PORTO, '') AS ORIGEM, ";
             SQL += "ISNULL(I.NM_PORTO, '') AS DESTINO, ";
@@ -1609,6 +1611,8 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PORTO I ON A.ID_PORTO_DESTINO = I.ID_PORTO ";
             SQL += "LEFT JOIN TB_PARCEIRO J ON A.ID_VENDEDOR = J.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_COTACAO K ON A.ID_STATUS = K.ID_STATUS_COTACAO ";
+            SQL += "LEFT JOIN TB_MERCADORIA L ON A.ID_MERCADORIA = L.ID_MERCADORIA ";
+            SQL += "LEFT JOIN TB_TIPO_CARGA M ON A.ID_TIPO_CARGA = M.ID_TIPO_CARGA ";
             SQL += "WHERE ID_ATENDIMENTO_NEGADO IS NOT NULL ";
             SQL += "" + filter + "";
             if (dataI != "")
@@ -1679,13 +1683,29 @@ namespace ABAINFRA.Web
                 return JsonConvert.SerializeObject("0");
             }
 
-            if (dados.ID_STATUS == "")
+            if (dados.ID_STATUS.ToString() == "0")
             {
                 return JsonConvert.SerializeObject("0");
             }
+
+            if (dados.QT_CARGA == "")
+            {
+                dados.QT_CARGA = "0";
+            }
+            if (dados.QT_PESO == "")
+            {
+                dados.QT_PESO = "0";
+            }
+            if (dados.QT_METRAGEM == "")
+            {
+                dados.QT_METRAGEM = "0";
+            }
+
+
+
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, DS_OBS) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "','" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "','" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "','" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "','" + dados.ID_STATUS + "','" + dados.DS_OBS + "')";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, ID_TIPO_CARGA, QT_CARGA, ID_MERCADORIA, QT_PESO, QT_METRAGEM, DS_OBS) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "','" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "','" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "','" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "'," + dados.ID_STATUS + "," + dados.ID_TIPO_CARGA + "," + dados.QT_CARGA + "," + dados.ID_MERCADORIA + "," + dados.QT_PESO + "," + dados.QT_METRAGEM.ToString().Replace(",",".") +",'" + dados.DS_OBS + "')";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");

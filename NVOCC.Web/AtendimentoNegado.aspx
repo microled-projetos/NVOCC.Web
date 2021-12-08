@@ -86,6 +86,11 @@
                                             <th class="text-center" scope="col">DESTINO</th>
                                             <th class="text-center" scope="col">VENDEDOR</th>
                                             <th class="text-center" scope="col">STATUS</th>
+                                            <th class="text-center" scope="col">TIPO CARGA</th>
+                                            <th class="text-center" scope="col">QUANTIDADE</th>
+                                            <th class="text-center" scope="col">TIPO EMBALAGEM</th>
+                                            <th class="text-center" scope="col">PESO</th>
+                                            <th class="text-center" scope="col">METRAGEM</th>
                                             <th class="text-center" scope="col">OBSERVAÇÃO</th>
                                         </tr>
                                     </thead>
@@ -184,6 +189,40 @@
                                                         <label class="control-label">STATUS<span style="color:red">*</span></label>
                                                         <asp:DropDownList ID="ddlStatus" CssClass="form-control" runat="server" DataValueField="ID_STATUS_COTACAO" DataTextField="NM_STATUS_COTACAO">
                                                         </asp:DropDownList> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">TIPO DE CARGA<span style="color:red">*</span></label>
+                                                        <asp:DropDownList ID="ddlTipoCarga" CssClass="form-control" runat="server" DataValueField="ID_TIPO_CARGA" DataTextField="NM_TIPO_CARGA">
+                                                        </asp:DropDownList> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">QUANTIDADE<span style="color:red">*</span></label>
+                                                        <input type="text" id="qtdAtendimentoRejeitado" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">TIPO DE EMBALAGEM<span style="color:red">*</span></label>
+                                                        <asp:DropDownList ID="ddlTipoEmbalagem" CssClass="form-control" runat="server" DataValueField="ID_MERCADORIA" DataTextField="NM_MERCADORIA">
+                                                        </asp:DropDownList> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">PESO<span style="color:red">*</span></label>
+                                                        <input type="text" class="form-control peso" id="qtdPeso"  />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">METRAGEM<span style="color:red">*</span></label>
+                                                        <input type="text" class="form-control" id="qtdMetragem" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -322,6 +361,11 @@
                                 "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["VENDEDOR"] + "'>" + dado[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["STATUS"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CARGA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTCARGA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MERCADORIA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PESO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["METRAGEM"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["OBS"] + "'>" + dado[i]["OBS"] + "</td>" +
                                 "</tr>");
                         }
@@ -345,6 +389,11 @@
                 "ID_PORTO_DESTINO": document.getElementById("MainContent_ddlDestino").value,
                 "ID_INCOTERM": document.getElementById("MainContent_ddlIncoterm").value,
                 "ID_STATUS": document.getElementById("MainContent_ddlStatus").value,
+                "ID_TIPO_CARGA": document.getElementById("MainContent_ddlTipoCarga").value,
+                "QT_CARGA": document.getElementById("qtdAtendimentoRejeitado").value,
+                "ID_MERCADORIA": document.getElementById("MainContent_ddlTipoEmbalagem").value,
+                "QT_PESO": document.getElementById("qtdPeso").value,
+                "QT_METRAGEM": document.getElementById("qtdMetragem").value,
                 "DS_OBS": document.getElementById("dsObservacao").value
             }
             $.ajax({
@@ -359,6 +408,16 @@
                     if (dado != "0") {
                         $("#modalCadastroDeclinio").hide();
                         $("#msgSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#qtdMetragem").val("");
+                        $("#qtdPeso").val("");
+                        $("#qtdAtendimentoRejeitado").val("");
+                        $("#MainContent_ddlTipoEmbalagem").val("0");
+                        $("#MainContent_ddlTipoCarga").val("0");
+                        $("#MainContent_ddlTipoServico").val("0");
+                        $("#MainContent_ddlTipoEstufagem").val("0");
+                        $("#MainContent_ddlOrigem").val("0");
+                        $("#MainContent_ddlDestino").val("0");
+                        $("#MainContent_ddlIncoterm").val("0");
                         listarAtendimentos();
                     }
                     else {
