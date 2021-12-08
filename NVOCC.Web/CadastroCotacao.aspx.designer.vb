@@ -1715,6 +1715,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents btnImportar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle btnSelecionarTudo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSelecionarTudo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle btnDeletarTaxas.
     '''</summary>
     '''<remarks>

@@ -1299,7 +1299,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 divSuccessFrete.Visible = True
                 Con.Fechar()
-                ImportaTaxas()
+                'ImportaTaxas()
                 If divDeleteTaxas.Visible = True And lblDeleteTaxas.Text = "Ação realizada com sucesso!" Then
                     divInfoFrete.Visible = True
                     lblInfoFrete.Text = "Registros importados automaticamente, favor revisar as taxas da cotação!"
@@ -4178,6 +4178,9 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
     End Sub
 
     Private Sub btnImportar_Click(sender As Object, e As EventArgs) Handles btnImportar.Click
+        divDeleteTaxas.Visible = False
+        divDeleteErroTaxas.Visible = False
+        divinfo.Visible = False
         ImportaTaxas()
         dgvTaxas.DataBind()
     End Sub
@@ -4468,11 +4471,10 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             divDeleteErroTaxas.Visible = True
 
         Else
-            ds = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
-
-                For Each linha As DataRow In ds.Tables(0).Rows
-                    Dim ID As String = linha.Item("ID_COTACAO_TAXA")
+            For Each linha As GridViewRow In dgvTaxas.Rows
+                Dim check As CheckBox = linha.FindControl("ckSelecionar")
+                Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+                If check.Checked Then
                     Dim finaliza As New FinalizaCotacao
                     If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
                         lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber!"
@@ -4496,10 +4498,20 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                             RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text, ID_BASE_CALCULO_TAXA, ID_ITEM_DESPESA)
                         End If
                     End If
+                End If
+            Next
 
-                Next
-            End If
 
         End If
+    End Sub
+
+    Private Sub btnSelecionarTudo_Click(sender As Object, e As EventArgs) Handles btnSelecionarTudo.Click
+        divDeleteTaxas.Visible = False
+        divDeleteErroTaxas.Visible = False
+        divinfo.Visible = False
+        For i As Integer = 0 To Me.dgvTaxas.Rows.Count - 1
+            Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckSelecionar"), CheckBox)
+            ckbSelecionar.Checked = True
+        Next
     End Sub
 End Class

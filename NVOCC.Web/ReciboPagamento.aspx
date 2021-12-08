@@ -20,6 +20,11 @@
                 padding-left:10px;
                 padding-right:10px;
             }
+            th{
+                font-weight:bold;
+                text-align:left;
+                padding-left:10px;
+            }
             #DivImpressao{
                 display: none;
             }
@@ -32,6 +37,7 @@
            
             #DivImpressao{
                 display: block;
+                font-family:Arial;
             }
            
         }
@@ -40,9 +46,7 @@
 <body>
     <form id="form1" runat="server">
         <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
-        <table border="1">
-            <tr>
-                <td>
+       
                     <table>
                         <tr>
                             <td>
@@ -128,17 +132,14 @@
                     </div>
                     <br />
                     <br />
-                    <div id="div2" runat="server" style="float: right;">
+                    <div id="div2" runat="server" style="float: right;"> <br /> <br />
                         <strong>_____________________________________________________________________________________________________________________________</strong><br />
                         <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>
 
                     </div>
                     <br />
                     <br />
-                </td>
-            </tr>
-        </table>
-
+                
     </div>
     </form>
 </body>

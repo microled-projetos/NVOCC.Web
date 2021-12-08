@@ -20,7 +20,11 @@
                 padding-left:10px;
                 padding-right:10px;
             }
-
+            th{
+                font-weight:bold;
+                text-align:left;
+                padding-left:10px;
+            }
             #DivImpressao{
                 display: none;
             }
@@ -33,6 +37,7 @@
            
             #DivImpressao{
                 display: block;
+                 font-family:Arial;
             }
            
         }
