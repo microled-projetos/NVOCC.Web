@@ -25,7 +25,8 @@
     </style> <asp:UpdatePanel ID="UpdatePanel12" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
     <div id="divGrid" class="divGrid">
-
+        
+        <asp:TextBox ID="txtID" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
         <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
         <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
        
@@ -282,8 +283,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>      
-        function ImprimirND() {
-            window.print();
+        function ND() {
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+
+            window.open('ImprimirND.aspx?id=' + ID, '_blank');
+
         }
     </script>
 </asp:Content>

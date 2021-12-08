@@ -25,7 +25,7 @@
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportRelacaoCotacao" class="btn btn-primary" onclick="exportRelacaoCotacaoCSV('Relacao_Cotacao.csv')">Exportar Grid - CSV</button>
-                                        <button type="button" id="btnPrintRelacaoCotacao" class="btn btn-primary" onclick="PrintRelacaoCotacao()">Imprimir</button>
+                                        <button type="button" id="btnPrintRelacaoCotacao" class="btn btn-primary" onclick="createPDF()">Imprimir</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -64,7 +64,7 @@
                                         </div>
                                     </div>
                                 </div> 
-                                <div class="table-responsive fixedDoubleHead topMarg">
+                                <div id="tableRelCot" class="table-responsive fixedDoubleHead topMarg">
                                     <table id="grdRelacaoCotacao" class="table tablecont">
                                         <thead>
                                             <tr>
@@ -79,6 +79,15 @@
                                                 <th class="text-center" scope="col">DESTINO</th>
                                                 <th class="text-center" scope="col">VENDEDOR</th>
                                                 <th class="text-center" scope="col">STATUS DA COTAÇÃO</th>
+                                                <th class="text-center" scope="col">VALOR VENDA</th>
+                                                <th class="text-center" scope="col">TIPO CARGA</th>
+                                                <th class="text-center" scope="col">VALOR CARGA</th>
+                                                <th class="text-center" scope="col">PESO</th>
+                                                <th class="text-center" scope="col">METRAGEM</th>
+                                                <th class="text-center" scope="col">QUANTIDADE</th>
+                                                <th class="text-center" scope="col">EMBALAGEM</th>
+                                                <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
+                                                <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdRelacaoCotacaoBody">
@@ -115,7 +124,7 @@
                     dataType: "json",
                     beforeSend: function () {
                         $("#grdRelacaoCotacaoBody").empty();
-                        $("#grdRelacaoCotacaoBody").append("<tr><td colspan='11'><div class='loader'></div></td></tr>");
+                        $("#grdRelacaoCotacaoBody").append("<tr><td colspan='13'><div class='loader'></div></td></tr>");
                     },
                     success: function (dado) {
                         var dado = dado.d;
@@ -123,14 +132,24 @@
                         $("#grdRelacaoCotacaoBody").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdRelacaoCotacaoBody").append("<tr><td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td><td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td><td class='text-center'>" + dado[i]["MODAL"] + "</td><td class='text-center'>" + dado[i]["INCOTERM"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["SUB_CLIENTE"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td><td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td></tr>");
+                                $("#grdRelacaoCotacaoBody").append("<tr style='word-break: break-word'>" +
+                                    "<td class='text-center'> " + dado[i]["SOLICITACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["INSIDE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VENDEDOR"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["STATUS_COTACAO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["MOTIVO"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["OBS_MOTIVO"] + "</td></tr > ");
                             }
                         }
                         else {
-                            $("#grdRelacaoCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='11' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdRelacaoCotacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='13' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })
@@ -177,6 +196,26 @@
             downloadLink.click();
         }
 
+        function createPDF() {
+            var sTable = document.getElementById('tableRelCot').innerHTML;
+
+            var win = window.open('', '', 'height=700', 'width=700');
+            var style = "<style>";
+            style = style + "table {width: 100%;font: 14px Calibri;}";
+            style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+            style = style + "padding: 2px 3px;text-align: center;}";
+            style = style + "</style>";
+            win.document.write('<html><head>');
+            win.document.write('<title>PDF</title>');
+            win.document.write(style);
+            win.document.write('</head>');
+            win.document.write('<body>');
+            win.document.write(sTable);
+            win.document.write('</body></html>');
+            win.document.close();
+            win.print();
+        }
+
         function PrintRelacaoCotacao() {
             $("#modalRelacaoCotacao").modal('show');
             var dtInicial = document.getElementById("txtDtInicialRelacaoCotacao").value;
@@ -208,117 +247,126 @@
                             doc.setFontStyle("bold");
                             doc.text("RELAÇÃO DAS COTAÇÕES ABERTAS ENTRE " + diaI + "/" + mesI + "/" + anoI + " E " + diaF + "/" + mesF + "/" + anoF, 65, 10);
                             doc.setFontSize(7);
-                            doc.text("SOLICITAÇÃO", 5, 20);
+                            doc.text("SOLICITAÇÃO", 3, 20);
                             doc.setLineWidth(0.2);
-                            doc.line(4, 17, 295, 17);
-                            doc.line(4, 17, 4, 21);
-                            doc.line(4, 21, 295, 21);
+                            doc.line(2, 17, 295, 17);
+                            doc.line(2, 17, 2, 21);
+                            doc.line(2, 21, 295, 21);
                             doc.line(295, 17, 295, 21);
 
-                            doc.line(23, 17, 23, 21);
-                            doc.line(48, 17, 48, 21);
-                            doc.line(68, 17, 68, 21);
-                            doc.line(81, 17, 81, 21);
-                            doc.line(98, 17, 98, 21);
-                            doc.line(168, 17, 168, 21);
-                            doc.line(196, 17, 196, 21);
-                            doc.line(220, 17, 220, 21);
-                            doc.line(241, 17, 241, 21);
-                            doc.line(268, 17, 268, 21);
+                            doc.line(21, 17, 21, 21);
+                            doc.line(46, 17, 46, 21);
+                            doc.line(64, 17, 64, 21);
+                            doc.line(76, 17, 76, 21);
+                            doc.line(94, 17, 94, 21);
+                            doc.line(124, 17, 124, 21);
+                            doc.line(152, 17, 152, 21);
+                            doc.line(176, 17, 176, 21);
+                            doc.line(197, 17, 197, 21);
+                            doc.line(224, 17, 224, 21);
+                            doc.line(253, 17, 253, 21);
 
-                            doc.text("INSIDE", 24, 20);
-                            doc.text("NR COTAÇÃO", 49, 20);
-                            doc.text("MODAL", 70, 20);
-                            doc.text("INCOTERM", 83, 20);
-                            doc.text("CLIENTE", 100, 20);
-                            doc.text("SUB CLIENTE", 170, 20);
-                            doc.text("ORIGEM", 198, 20);
-                            doc.text("DESTINO", 222, 20);
-                            doc.text("VENDEDOR", 243, 20);
-                            doc.text("STATUS COTAÇÃO", 270, 20);
+                            doc.text("INSIDE", 22, 20);
+                            doc.text("NR COTAÇÃO", 47, 20);
+                            doc.text("MODAL", 65, 20);
+                            doc.text("INCOTERM", 78, 20);
+                            doc.text("CLIENTE", 95, 20);
+                            doc.text("SUB CLIENTE", 125, 20);
+                            doc.text("ORIGEM", 153, 20);
+                            doc.text("DESTINO", 177, 20);
+                            doc.text("VENDEDOR", 198, 20);
+                            doc.text("STATUS COTAÇÃO", 225, 20);
+                            doc.text("MOTIVO CANCEL.", 254, 20);
                             for (let i = 0; i < dado.length; i++) {
                                 if (position >= pageHeight - 10) {
-                                    doc.line(4, 21, 4, positionLineF);
-                                    doc.line(23, 21, 23, positionLineF);
-                                    doc.line(48, 21, 48, positionLineF);
-                                    doc.line(68, 21, 68, positionLineF);
-                                    doc.line(81, 21, 81, positionLineF);
-                                    doc.line(98, 21, 98, positionLineF);
-                                    doc.line(168, 21, 168, positionLineF);
-                                    doc.line(196, 21, 196, positionLineF);
-                                    doc.line(220, 21, 220, positionLineF);
-                                    doc.line(241, 21, 241, positionLineF);
-                                    doc.line(268, 21, 268, positionLineF);
+                                    doc.line(2, 21, 2, positionLineF);
+                                    doc.line(21, 21, 21, positionLineF);
+                                    doc.line(46, 21, 46, positionLineF);
+                                    doc.line(64, 21, 64, positionLineF);
+                                    doc.line(76, 21, 76, positionLineF);
+                                    doc.line(94, 21, 94, positionLineF);
+                                    doc.line(124, 21, 124, positionLineF);
+                                    doc.line(152, 21, 152, positionLineF);
+                                    doc.line(176, 21, 176, positionLineF);
+                                    doc.line(197, 21, 197, positionLineF);
+                                    doc.line(224, 21, 224, positionLineF);
+                                    doc.line(253, 21, 253, positionLineF);
+                                    doc.line(2, positionLineF, 295, positionLineF);
                                     doc.line(295, 21, 295, positionLineF);
-                                    doc.line(4, positionLineF, 295, positionLineF);
+
                                     doc.addPage();
                                     doc.setFontSize(15);
                                     doc.setFontStyle("bold");
                                     doc.text("RELAÇÃO DAS COTAÇÕES ABERTAS ENTRE " + diaI + "/" + mesI + "/" + anoI + " E " + diaF + "/" + mesF + "/" + anoF, 65, 10);
                                     doc.setFontSize(7);
-                                    doc.text("SOLICITAÇÃO", 5, 20);
+                                    doc.text("SOLICITAÇÃO", 3, 20);
                                     doc.setLineWidth(0.2);
-                                    doc.line(4, 17, 295, 17);
-                                    doc.line(4, 17, 4, 21);
-                                    doc.line(4, 21, 295, 21);
+                                    doc.line(2, 17, 295, 17);
+                                    doc.line(2, 17, 2, 21);
+                                    doc.line(2, 21, 295, 21);
                                     doc.line(295, 17, 295, 21);
 
-                                    doc.line(23, 17, 23, 21);
-                                    doc.line(48, 17, 48, 21);
-                                    doc.line(68, 17, 68, 21);
-                                    doc.line(81, 17, 81, 21);
-                                    doc.line(98, 17, 98, 21);
-                                    doc.line(168, 17, 168, 21);
-                                    doc.line(196, 17, 196, 21);
-                                    doc.line(220, 17, 220, 21);
-                                    doc.line(241, 17, 241, 21);
-                                    doc.line(268, 17, 268, 21);
+                                    doc.line(21, 17, 21, 21);
+                                    doc.line(46, 17, 46, 21);
+                                    doc.line(64, 17, 64, 21);
+                                    doc.line(76, 17, 76, 21);
+                                    doc.line(94, 17, 94, 21);
+                                    doc.line(124, 17, 124, 21);
+                                    doc.line(152, 17, 152, 21);
+                                    doc.line(176, 17, 176, 21);
+                                    doc.line(197, 17, 197, 21);
+                                    doc.line(224, 17, 224, 21);
+                                    doc.line(253, 17, 253, 21);
 
-                                    doc.text("INSIDE", 24, 20);
-                                    doc.text("NR COTAÇÃO", 49, 20);
-                                    doc.text("MODAL", 70, 20);
-                                    doc.text("INCOTERM", 83, 20);
-                                    doc.text("CLIENTE", 100, 20);
-                                    doc.text("SUB CLIENTE", 170, 20);
-                                    doc.text("ORIGEM", 198, 20);
-                                    doc.text("DESTINO", 222, 20);
-                                    doc.text("VENDEDOR", 243, 20);
-                                    doc.text("STATUS COTAÇÃO", 270, 20);
+                                    doc.text("INSIDE", 22, 20);
+                                    doc.text("NR COTAÇÃO", 47, 20);
+                                    doc.text("MODAL", 65, 20);
+                                    doc.text("INCOTERM", 78, 20);
+                                    doc.text("CLIENTE", 95, 20);
+                                    doc.text("SUB CLIENTE", 125, 20);
+                                    doc.text("ORIGEM", 153, 20);
+                                    doc.text("DESTINO", 177, 20);
+                                    doc.text("VENDEDOR", 199, 20);
+                                    doc.text("STATUS COTAÇÃO", 225, 20);
+                                    doc.text("MOTIVO CANCEL.", 254, 20);
                                     position = 20;
                                     positionLineF = 21;
                                     
                                 } else {
-                                    doc.line(4, positionLineF, 295, positionLineF);
+                                    doc.setFontSize(7)
+                                    doc.line(2, positionLineF, 295, positionLineF);
                                     positionLineF = positionLineF + 5;
                                     position = position + 5;
                                     doc.setFontStyle("normal");
-                                    doc.text(dado[i]["SOLICITACAO"], 5, position);
-                                    doc.text(dado[i]["INSIDE"], 24, position);
-                                    doc.text(dado[i]["NR_COTACAO"], 49, position);
-                                    doc.text(dado[i]["MODAL"].substring(0, 15), 70, position);
-                                    doc.text(dado[i]["INCOTERM"].substring(0, 15), 83, position);
-                                    doc.text(dado[i]["CLIENTE"].substring(0, 40), 100, position);
-                                    doc.text(dado[i]["SUB_CLIENTE"].substring(0, 15), 170, position);
-                                    doc.text(dado[i]["ORIGEM"].substring(0, 15), 198, position);
-                                    doc.text(dado[i]["DESTINO"].substring(0, 15), 222, position);
-                                    doc.text(dado[i]["VENDEDOR"].substring(0, 15), 243, position);
-                                    doc.text(dado[i]["STATUS_COTACAO"].substring(0, 15), 270, position);
-                                    
+                                    doc.text(dado[i]["SOLICITACAO"], 3, position);
+                                    doc.text(dado[i]["INSIDE"], 22, position);
+                                    doc.text(dado[i]["NR_COTACAO"], 47, position);
+                                    doc.text(dado[i]["MODAL"].substring(0, 15), 65, position);
+                                    doc.text(dado[i]["INCOTERM"].substring(0, 15), 78, position);
+                                    doc.text(dado[i]["CLIENTE"].substring(0, 15), 95, position);
+                                    doc.text(dado[i]["SUB_CLIENTE"].substring(0, 15), 125, position);
+                                    doc.text(dado[i]["ORIGEM"].substring(0, 15), 153, position);
+                                    doc.text(dado[i]["DESTINO"].substring(0, 15), 177, position);
+                                    doc.text(dado[i]["VENDEDOR"].substring(0, 15), 198, position);
+                                    doc.text(dado[i]["STATUS_COTACAO"].substring(0, 15), 225, position);
+                                    doc.setFontSize(6)
+                                    doc.text(dado[i]["MOTIVO"], 254, position);                                    
                                 }
                             }
-                            doc.line(4, 21, 4, positionLineF);
-                            doc.line(23, 21, 23, positionLineF);
-                            doc.line(48, 21, 48, positionLineF);
-                            doc.line(68, 21, 68, positionLineF);
-                            doc.line(81, 21, 81, positionLineF);
-                            doc.line(98, 21, 98, positionLineF);
-                            doc.line(168, 21, 168, positionLineF);
-                            doc.line(196, 21, 196, positionLineF);
-                            doc.line(220, 21, 220, positionLineF);
-                            doc.line(241, 21, 241, positionLineF);
-                            doc.line(268, 21, 268, positionLineF);
+                            doc.line(2, 21, 2, positionLineF);
+                            doc.line(21, 21, 21, positionLineF);
+                            doc.line(46, 21, 46, positionLineF);
+                            doc.line(64, 21, 64, positionLineF);
+                            doc.line(76, 21, 76, positionLineF);
+                            doc.line(94, 21, 94, positionLineF);
+                            doc.line(124, 21, 124, positionLineF);
+                            doc.line(152, 21, 152, positionLineF);
+                            doc.line(176, 21, 176, positionLineF);
+                            doc.line(197, 21, 197, positionLineF);
+                            doc.line(224, 21, 224, positionLineF);
+                            doc.line(253, 21, 253, positionLineF);
+                            doc.line(2, positionLineF, 295, positionLineF);
                             doc.line(295, 21, 295, positionLineF);
-                            doc.line(4, positionLineF, 295, positionLineF);
                             doc.output("dataurlnewwindow");
                         }
                         else {

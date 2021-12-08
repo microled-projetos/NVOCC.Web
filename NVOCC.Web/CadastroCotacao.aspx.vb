@@ -363,6 +363,13 @@ union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
         divSuccessTaxa.Visible = False
         txtObsTaxa.Text = ""
         btnSalvarTaxa.Visible = True
+        ddlMoedaVendaTaxa.Enabled = True
+        txtValorTaxaVenda.Enabled = True
+        txtValorTaxaVendaMin.Enabled = True
+        ddlMoedaCompraTaxa.Enabled = True
+        txtValorTaxaCompra.Enabled = True
+        txtValorTaxaCompraMin.Enabled = True
+
         mpeNovoTaxa.Hide()
     End Sub
 
@@ -710,10 +717,19 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
                 End If
 
                 Dim finaliza As New FinalizaCotacao
-                If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
-                    btnSalvarTaxa.Visible = False
+                If finaliza.TaxaBloqueada(ID, "COTACAO", "R") = True Then
+                    ddlMoedaVendaTaxa.Enabled = False
+                    txtValorTaxaVenda.Enabled = False
+                    txtValorTaxaVendaMin.Enabled = False
+                    txtValorTaxaVendaCalc.Enabled = False
                 End If
 
+                If finaliza.TaxaBloqueada(ID, "COTACAO", "P") = True Then
+                    ddlMoedaCompraTaxa.Enabled = False
+                    txtValorTaxaCompra.Enabled = False
+                    txtValorTaxaCompraMin.Enabled = False
+                    txtValorTaxaCompraCalc.Enabled = False
+                End If
                 mpeNovoTaxa.Show()
 
             End If
@@ -4074,8 +4090,8 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
 
             ID_BASE_CALCULO = 5 'VALOR FIXO
             'FRETE COMPRA
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
- SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & ",
+            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF)
+ SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P', " & FL_PROFIT_FRETE & ",
  
  ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
  
@@ -4083,24 +4099,7 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA,
- 1,'COTA',
-
-
- CASE 
- WHEN ID_SERVICO in (1,2) and ID_TIPO_PAGAMENTO = 1
- THEN 1
-
-WHEN ID_SERVICO  in (1,2) and ID_TIPO_PAGAMENTO = 2
-THEN 2
-
- WHEN ID_SERVICO in (4,5) and ID_TIPO_PAGAMENTO = 1
- THEN 2
-
-WHEN ID_SERVICO  in (4,5) and ID_TIPO_PAGAMENTO = 2
-THEN 1
-
-ELSE 0
-end ID_ORIGEM_PAGAMENTO
+ 1,'COTA'
  
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
@@ -4451,6 +4450,56 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                     txtFreeTimeMercadoria.Text = 0
                 End If
             End If
+        End If
+    End Sub
+
+    Private Sub btnDeletarTaxas_Click(sender As Object, e As EventArgs) Handles btnDeletarTaxas.Click
+        divDeleteTaxas.Visible = False
+        divDeleteErroTaxas.Visible = False
+        divinfo.Visible = False
+
+        Dim ds As DataSet
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            lblDeleteErroTaxas.Text = "Usuário não tem permissão para realizar exclusões"
+            divDeleteErroTaxas.Visible = True
+
+        Else
+            ds = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+            If ds.Tables(0).Rows.Count > 0 Then
+
+                For Each linha As DataRow In ds.Tables(0).Rows
+                    Dim ID As String = linha.Item("ID_COTACAO_TAXA")
+                    Dim finaliza As New FinalizaCotacao
+                    If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
+                        lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber!"
+                        divDeleteErroTaxas.Visible = True
+                    Else
+
+                        Dim ID_BASE_CALCULO_TAXA As String = 0
+                        Dim ID_ITEM_DESPESA As String = 0
+
+                        ds = Con.ExecutarQuery("SELECT ID_BASE_CALCULO_TAXA,ID_ITEM_DESPESA FROM TB_COTACAO_TAXA WHERE ID_COTACAO_TAXA =" & ID)
+                        If ds.Tables(0).Rows.Count > 0 Then
+                            ID_ITEM_DESPESA = ds.Tables(0).Rows(0).Item("ID_ITEM_DESPESA")
+                            ID_BASE_CALCULO_TAXA = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA")
+                        End If
+                        Con.ExecutarQuery("DELETE From TB_COTACAO_TAXA Where ID_COTACAO_TAXA = " & ID)
+                        lblDeleteTaxas.Text = "Registros deletados!"
+                        divDeleteTaxas.Visible = True
+                        dgvTaxas.DataBind()
+                        If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                            Dim RotinaUpdate As New RotinaUpdate
+                            RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text, ID_BASE_CALCULO_TAXA, ID_ITEM_DESPESA)
+                        End If
+                    End If
+
+                Next
+            End If
+
         End If
     End Sub
 End Class

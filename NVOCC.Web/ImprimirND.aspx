@@ -1,27 +1,26 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="EmissaoNDFaturamento.aspx.vb" Inherits="NVOCC.Web.EmissaoNDFaturamento" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="ImprimirND.aspx.vb" Inherits="NVOCC.Web.ImprimirND" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <script src="Content/js/jquery.min.js"></script>
-
     <title>NotaDebito</title>
-<script>             
+    <script src="Content/js/jquery.min.js"></script>
+    <script>             
     $(window).load(function () {
         window.print();
     });
-</script>
+    </script>
     <style>
         table{
-            width:780px;
+            width:770px;
         }
             td{
                 padding-left:10px;
                 padding-right:10px;
-
             }
+
             #DivImpressao{
                 display: none;
             }
@@ -38,22 +37,17 @@
            
         }
     </style> 
-   
-    
 </head>
 <body>
-     
-    <form id="form1" runat="server" style="font-size:10px">
-        <div id="DivImpressao" class="DivImpressao" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:780px">
+    <form id="form1" runat="server">
+       <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
                
-                   
         <table border="1">
             <tr>
-                <td>
-                  
-    <div style="text-align: center;">
-        <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
-                    
+                <td >
+                    <center>
+    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
+                    <div style="text-align: center;">
                         R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                         SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                         FONE:+55 13 3797-7850 - FAX:<br />
@@ -61,8 +55,9 @@
                     </div>
                 </td>
                 <td>
-                   <div style="text-align: center;"> <img src="Content/imagens/FCA-Log - Copia.png" /><br />
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div>
+                    <center>
+    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
 
                 </td>
             </tr>
@@ -77,7 +72,7 @@
         </table>
         <table  style="border-style:solid;border-width: thin;">
             <tr>
-                <td>
+                <td style="padding-left:10px">
                     <strong>CLIENTE</strong>&nbsp;<asp:Label ID="lblEmpresa" runat="server" />
                     <br />
                 </td>
@@ -112,8 +107,6 @@
                     <br />
                 </td>
                 <td>
-                    <strong>FAX:</strong>&nbsp;<asp:Label ID="lblFax" runat="server" />
-                    <br />
                 </td>
             </tr>
         </table>
@@ -227,7 +220,9 @@
             <strong>No aguardo do seu contato,&nbsp;<asp:Label ID="lblUsuario" runat="server" /></strong>
             <div style="float: right;">Impresso &nbsp;<asp:Label ID="lblDataImpressao" runat="server" /></div>
         </div>
-            </div>
+
+
+    </div>
     </form>
 </body>
 </html>

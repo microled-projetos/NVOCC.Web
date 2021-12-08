@@ -1214,6 +1214,7 @@
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
                                                          <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
+                                                        <asp:button runat="server" Text="Deletar Taxas" id="btnDeletarTaxas" CssClass="btn btn-danger" visible="false"/>
                                                     </div>
                                                 </div>
                             </div>
@@ -1267,7 +1268,7 @@
                         <asp:AsyncPostBackTrigger  ControlID="btnFecharFrete" />
       <asp:AsyncPostBackTrigger ControlID="btnImportar" />
      
-
+      <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxas" />
      </Triggers>   
      </asp:UpdatePanel>
 

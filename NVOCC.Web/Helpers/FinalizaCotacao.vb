@@ -14,7 +14,7 @@
         Con.Fechar()
     End Sub
 
-    Function TaxaBloqueada(ID As String, Tipo As String) As Boolean
+    Function TaxaBloqueada(ID As String, Tipo As String, Optional CD_PR As String = "") As Boolean
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -30,13 +30,18 @@
 
         Dim ds As DataSet
         If Tipo = "COTACAO" Then
-            ds = Con.ExecutarQuery("SELECT * FROM View_Taxa_Bloqueada WHERE ID_COTACAO_TAXA = " & ID)
+
+            If CD_PR <> "" Then
+                ds = Con.ExecutarQuery("SELECT * FROM View_Taxa_Bloqueada WHERE CD_PR= '" & CD_PR & "' AND ID_COTACAO_TAXA = " & ID)
+            Else
+                ds = Con.ExecutarQuery("SELECT * FROM View_Taxa_Bloqueada WHERE ID_COTACAO_TAXA = " & ID)
+            End If
+
             If ds.Tables(0).Rows.Count > 0 Then
                 Return True
             Else
                 Return False
             End If
-
 
         ElseIf Tipo = "BL" Then
             ds = Con.ExecutarQuery("SELECT * FROM View_Taxa_Bloqueada WHERE ID_BL_TAXA = " & ID)

@@ -1,53 +1,38 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="DebitNote.aspx.vb" Inherits="NVOCC.Web.DebitNote" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="DebitNote_old.aspx.vb" Inherits="NVOCC.Web.DebitNote_old" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>DebitNote</title>
-    <script src="Content/js/jquery.min.js"></script>
-    <script>             
-    $(window).load(function () {
-        window.print();
-    });
-    </script>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        table{
-            width:770px;
+        #DivImpressao, #imgFundo {
+            display: none;
         }
-            td{
-                padding-left:10px;
-                padding-right:10px;
-            }
-            #DivImpressao{
-                display: none;
-            }
-            
-            @media print {
+        @media print {
 
             @page {
             }
 
-           
+             #imgFundo {
+                display: none;
+            }
             #DivImpressao{
                 display: block;
             }
-           
+            td{               
+                padding-left:10px;
+                padding-right:10px;
+                margin:0;
+            }
         }
-    </style> 
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-                 <div style="display:none">
+    </style>
+     <div style="display:none">
     <asp:Label ID="lblIDINVOICE"  runat="server"/>
         <asp:Label ID="lblID_BL"  runat="server"/>
         <asp:Label ID="lblID_BL_MASTER"  runat="server"/>
         <asp:Label ID="lblGrau"  runat="server"/>
         </div>
-    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
-                
+    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
+                <table border="1">
+                    <tr>
+                        <td>
         <table border="1">
             <tr>
                 <td>
@@ -149,10 +134,20 @@
 
            <br />
             <br />
-
+</td>
+                    </tr>
+</table>
 
     </div>
-        </div>
-    </form>
-</body>
-</html>
+
+
+ 
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        $(window).load(function () {
+            window.print();
+        });
+    </script>
+</asp:Content>

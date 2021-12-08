@@ -17,10 +17,8 @@ Public Class GeraPDF
             Dim Linguagem As String = Request.QueryString("l")
             If Linguagem = "p" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_PT.aspx?c=" & cotacao
-
             ElseIf Linguagem = "i" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_ING.aspx?c=" & cotacao
-
             End If
 
             Dim html As String = obj.DownloadString(url)

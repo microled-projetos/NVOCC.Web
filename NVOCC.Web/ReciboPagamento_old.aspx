@@ -1,45 +1,31 @@
-﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="ReciboPagamento.aspx.vb" Inherits="NVOCC.Web.ReciboPagamento" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="ReciboPagamento_old.aspx.vb" Inherits="NVOCC.Web.ReciboPagamento_old" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>ReciboPagamento</title>
-     <script src="Content/js/jquery.min.js"></script>
-    <script>             
-    $(window).load(function () {
-        window.print();
-    });
-    </script>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        table{
-            width:770px;
+        #DivImpressao, #imgFundo {
+            display: none;
         }
-            td{
-                padding-left:10px;
-                padding-right:10px;
-            }
-            #DivImpressao{
-                display: none;
-            }
-            
-            @media print {
+        @media print {
 
             @page {
             }
 
-           
-            #DivImpressao{
+            #imgFundo {
+                display: none;
+            }
+
+            #DivImpressao {
                 display: block;
             }
-           
+             td,th,tr{
+                padding-left:10px;
+                padding-right:10px;
+
+            }
+
         }
-    </style> 
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:770px">
+    </style>
+    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
         <table border="1">
             <tr>
                 <td>
@@ -140,6 +126,12 @@
         </table>
 
     </div>
-    </form>
-</body>
-</html>
+
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>             
+        $(window).load(function () {
+            window.print();
+        });
+    </script>
+</asp:Content>
