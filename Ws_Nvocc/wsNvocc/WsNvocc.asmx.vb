@@ -574,7 +574,6 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
             If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("CodigoMunicipio", NFeNamespacte)
-                'noText = doc.CreateTextNode(Format(Long.Parse(Funcoes.obtemCodIBGEUF(rsRPS.Tables(0).Rows(0)("UF_CLI").ToString) & Format(Long.Parse(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 0)), "00000")), "0000000"))
                 noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString))
 
                 No.AppendChild(noText)
