@@ -152,6 +152,9 @@ Public Class WsNvocc
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
 
+            sSql = "UPDATE TB_FATURAMENTO SET NR_NOTA_ORIGINAL = (SELECT NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE NR_RPS = '" & RpsOld & "') WHERE ID_FATURAMENTO = " & IDFatura
+            Con.ExecutarQuery(sSql)
+
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)

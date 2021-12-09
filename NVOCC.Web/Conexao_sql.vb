@@ -5,8 +5,21 @@ Public Class Conexao_sql
     Public Sub Conectar()
         Try
 
+            ' If System.Web.HttpContext.Current.Session("Logado") = "False" Or System.Web.HttpContext.Current.Session("Logado") = Nothing Then
 
             ObjCon = New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString)
+
+            'Else
+
+            '    Dim SQL As String = ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.Substring(0, ConfigurationManager.ConnectionStrings("NVOCC").ConnectionString.IndexOf("User"))
+
+            '    SQL = SQL & "User ID=" & System.Web.HttpContext.Current.Session("USER") & ";Password=Ab@2022#Log;"
+
+            '    ObjCon = New SqlClient.SqlConnection(SQL)
+
+            'End If
+
+
 
         Catch ex As Exception
             Throw ex

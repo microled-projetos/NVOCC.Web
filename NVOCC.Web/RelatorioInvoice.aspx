@@ -108,7 +108,7 @@
         var mes = String(data.getMonth() + 1).padStart(2, '0');
         var ano = data.getFullYear();
 
-        
+
         var arrayInvoice = [];
 
         function validaDat(data) {
@@ -245,7 +245,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/imprimirInvoice",
-                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice)}),
+                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice) }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -294,9 +294,9 @@
                         doc.text("P. CHEGADA", 261, 27);
                         doc.text("CHEGADA", 278, 27);
                         for (let i = 0; i < dado.length; i++) {
-                            if (position >= pageHeight -10 ) {
+                            if (position >= pageHeight - 10) {
                                 doc.line(3, 28, 3, positionv);
-                                doc.line(49, 28, 51, positionv);
+                                doc.line(49, 28, 49, positionv);
                                 doc.line(67, 28, 67, positionv);
                                 doc.line(102, 28, 102, positionv);
                                 doc.line(132, 28, 132, positionv);
@@ -357,10 +357,10 @@
                                 doc.text(dado[i]["NR_INVOICE"], 4, position);
                                 doc.text(dado[i]["NR_PROCESSO"], 50, position);
                                 doc.text(dado[i]["HBL"], 68, position);
-                                doc.text(dado[i]["MBL"].substring(0, 15), 103, position);
+                                doc.text(dado[i]["MBL"].substring(0, 20), 103, position);
                                 doc.text(dado[i]["CLIENTE"].substring(0, 12), 133, position);
                                 doc.text(dado[i]["AGENTE"].substring(0, 12), 161, position);
-                                doc.text(dado[i]["ORIGEM"].substring(0,12), 186, position);
+                                doc.text(dado[i]["ORIGEM"].substring(0, 12), 186, position);
                                 doc.text(dado[i]["DESTINO"], 201, position);
                                 doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 214, position);
                                 doc.text(dado[i]["DT_EMBARQUE"], 243, position);
@@ -404,7 +404,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{filterby: "' + ddlDataFilter.value +'", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    data: '{filterby: "' + ddlDataFilter.value + '", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     beforeSend: function () {

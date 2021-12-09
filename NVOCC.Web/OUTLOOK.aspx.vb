@@ -49,7 +49,7 @@ Public Class OUTLOOK
                 ds = Con.ExecutarQuery("select isnull(EMAIL_CONTATO,'')EMAIL_CONTATO,isnull(NM_CONTATO,'')NM_CONTATO from TB_CONTATO where ID_CONTATO = (select ID_CONTATO from TB_COTACAO where ID_COTACAO = " & ID_COTACAO & ")")
 
                 If ds.Tables(0).Rows.Count > 0 Then
-                    txtDestinatario.Text = ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
+                    txtDestinatario.Text = "juliane@microled.com.br" 'ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
                     Nome = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
                 End If
                 txtMsg.Text = "Prezado(a) " & Nome & ", segue sua proposta visando uma oportunidade de embarque."

@@ -202,7 +202,7 @@
                                      <div class="col-sm-12">
                                     <div class="form-group">
                                            
-                                        <asp:LinkButton ID="lkAvisoEmbarque" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px">Aviso de Embarque</asp:LinkButton>
+                                        <asp:LinkButton ID="lkAvisoEmbarque" runat="server" CssClass="btn btnn btn-default btn-block" Style="font-size: 15px" Visible="true">Aviso de Embarque</asp:LinkButton>
 
 
                                     </div>
