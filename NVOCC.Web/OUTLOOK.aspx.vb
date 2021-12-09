@@ -91,17 +91,17 @@ Public Class OUTLOOK
         End If
     End Sub
 
-    Private Sub ButtonUpload_Click(sender As Object, e As EventArgs) Handles ButtonUpload.Click
-        If (FileUpload1.HasFile) Then
-            Dim fileName As String = FileUpload1.FileName
-            Dim SaveTo As String = "C \\ Uploads \\ "
-            SaveTo += fileName
-            FileUpload1.SaveAs(SaveTo)
-            '  LabelMessage.Text = "Enviar foi bem sucedida "
-        Else
-            ' LabelMessage.Text = "Selecione um arquivo para upload "
-        End If
-    End Sub
+    'Private Sub ButtonUpload_Click(sender As Object, e As EventArgs) Handles ButtonUpload.Click
+    '    If (FileUpload1.HasFile) Then
+    '        Dim fileName As String = FileUpload1.FileName
+    '        Dim SaveTo As String = "C \\ Uploads \\ "
+    '        SaveTo += fileName
+    '        FileUpload1.SaveAs(SaveTo)
+    '        '  LabelMessage.Text = "Enviar foi bem sucedida "
+    '    Else
+    '        ' LabelMessage.Text = "Selecione um arquivo para upload "
+    '    End If
+    'End Sub
 
     Function SeparaEmail(ByVal email As String) As Boolean
         divSuccess.Visible = False

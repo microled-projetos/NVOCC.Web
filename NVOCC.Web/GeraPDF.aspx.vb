@@ -45,8 +45,19 @@ Public Class GeraPDF
 
 
 
-            Dim fs_ As New FileStream(Server.MapPath("/Content/CotacaoPDF.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
-            '   Dim fs_ As New FileStream(AppContext.BaseDirectory & "/Content/CotacaoPDF.pdf", FileMode.Create, FileAccess.Write, FileShare.None)
+
+            'limpa diretorio de boletos
+            Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/cotacoes"))
+            For Each file As FileInfo In di.GetFiles()
+                file.Delete()
+            Next
+            For Each dir As DirectoryInfo In di.GetDirectories()
+                dir.Delete(True)
+            Next
+
+
+            Dim fs_ As New FileStream(Server.MapPath("/Content/cotacoes/CotacaoPDF_" & cotacao & ".pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
+            ' Dim fs_ As New FileStream(Server.MapPath("/Content/CotacaoPDF.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
             Using stamper = New PdfStamper(reader, fs_)
                 Dim contador As Integer = reader.NumberOfPages
                 Dim layer As New PdfLayer("WatermarkLayer", stamper.Writer)
@@ -81,8 +92,8 @@ Public Class GeraPDF
 
 
             ElseIf funcao = "i" Then
-                Response.Redirect("~/" & "content/CotacaoPDF.pdf")
-
+                Response.Redirect("~/" & "content/cotacoes/CotacaoPDF_" & cotacao & ".pdf")
+                ' Response.Redirect("~/" & "content/CotacaoPDF.pdf")
             End If
 
             fs.Close()
