@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd">
+  <LoteRps Id="_10171904">
+    <NumeroLote xmlns="http://www.ginfes.com.br/tipos_v03.xsd">10171904</NumeroLote>
+    <Cnpj xmlns="http://www.ginfes.com.br/tipos_v03.xsd">00639367000311</Cnpj>
+    <InscricaoMunicipal xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1831854</InscricaoMunicipal>
+    <QuantidadeRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">1</QuantidadeRps>
+    <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+      <Rps>
+        <InfRps Id="_20171904">
+          <IdentificacaoRps>
+            <Numero>082235</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </IdentificacaoRps>
+          <DataEmissao>2021-11-22T08:29:04</DataEmissao>
+          <NaturezaOperacao>1</NaturezaOperacao>
+          <OptanteSimplesNacional>2</OptanteSimplesNacional>
+          <IncentivadorCultural>2</IncentivadorCultural>
+          <Status>1</Status>
+          <RpsSubstituido>
+            <Numero>080705</Numero>
+            <Serie>E</Serie>
+            <Tipo>1</Tipo>
+          </RpsSubstituido>
+          <Servico>
+            <Valores>
+              <ValorServicos>28.29</ValorServicos>
+              <ValorPis>0.00</ValorPis>
+              <ValorCofins>0.00</ValorCofins>
+              <ValorInss>0.00</ValorInss>
+              <ValorIr>0.00</ValorIr>
+              <ValorCsll>0.00</ValorCsll>
+              <IssRetido>2</IssRetido>
+              <ValorIss>0.85</ValorIss>
+              <ValorIssRetido>0.00</ValorIssRetido>
+              <BaseCalculo>28.29</BaseCalculo>
+              <Aliquota>0.03</Aliquota>
+              <ValorLiquidoNfse>28.29</ValorLiquidoNfse>
+            </Valores>
+            <ItemListaServico>1006</ItemListaServico>
+            <CodigoTributacaoMunicipio>523200001</CodigoTributacaoMunicipio>
+            <Discriminacao>***Valor que levamos a debito, conforme nossa Fatura n 082235 | Processo: M3245-09/21 | S/Ref:  | MASTER: SZX101607300 | HOUSE: FCA20210342 | SENDO:  DESCONSOLIDACAO - R$ 28,29  Valor aproximado dos tributos R$ 3,47 (12,25%) conforme LEI 12741/2012</Discriminacao>
+            <CodigoMunicipio>3548500</CodigoMunicipio>
+          </Servico>
+          <Prestador>
+            <Cnpj>00639367000311</Cnpj>
+            <InscricaoMunicipal>1831854</InscricaoMunicipal>
+          </Prestador>
+          <Tomador>
+            <IdentificacaoTomador>
+              <CpfCnpj>
+                <Cnpj>00422413000407</Cnpj>
+              </CpfCnpj>
+            </IdentificacaoTomador>
+            <RazaoSocial>DPR TELECOMUNICACOES LTDA </RazaoSocial>
+            <Endereco>
+              <Endereco>R YASHICA</Endereco>
+              <Numero>65</Numero>
+              <Complemento>PREDIO 2 E 3</Complemento>
+              <Bairro>JARDIM GONCALVES</Bairro>
+              <CodigoMunicipio>353552205</CodigoMunicipio>
+              <Uf>SP</Uf>
+              <Cep>18016440</Cep>
+            </Endereco>
+            <Contato />
+          </Tomador>
+        </InfRps>
+      </Rps>
+    </ListaRps>
+  </LoteRps>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="#_20171904">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+          <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>G8lwjmWWQiYYnccWz9g3vawNrDc=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>DsSeQbUnUMEm11szaMJC0GgiLz52q1wL49DI95LH1TIkeUkgBvfQMzL/zPJ8nmUzC+qhxhb9jrFmSeX+70dd8C8T46fzgYNZmH9b/wy9hGyc+03S+D+8j/cNpIq+1sfc1/KKOsRHZtI9kd5k71rs6l6hvY7WhgGtUjBCrVLbIgHIPPGCoSVFaxgtLR/9TpjldrsfLPPbwg46qJ2lE0pm5cIHxxTo5BM4b8S5N8+zNgt1+HBRXhd1kEwWspF1Q3X2O8HViCBTH2Ry5RU8jEmDFJC2IvWbs0wrOHOhkDrLjby3kmyeQIHk4ziWzJZyyH0u08+Al1bFNRM+Te0sBExonA==</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>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</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</EnviarLoteRpsEnvio>
