@@ -1,32 +1,11 @@
 ﻿Imports System.Runtime.InteropServices
-Imports Microsoft.Office.Interop.Outlook
+Imports System.Net.Mail
+Imports Attachment = System.Net.Mail.Attachment
+
 Public Class OUTLOOK
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
-        'Dim Con As New Conexao_sql
-        'Con.Conectar()
-        'Dim ID_COTACAO As String = Request.QueryString("c")
-        'Dim Nome As String = ""
-        'Dim Email As String = ""
-        'Dim ds As DataSet = Con.ExecutarQuery("select isnull(EMAIL_CONTATO,'')EMAIL_CONTATO,isnull(NM_CONTATO,'')NM_CONTATO from TB_CONTATO where ID_CONTATO = (select ID_CONTATO from TB_COTACAO where ID_COTACAO = " & ID_COTACAO & ")")
-
-        'If ds.Tables(0).Rows.Count > 0 Then
-        '    Email = ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
-        '    Nome = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
-        'End If
-
-        'Dim app As Application = New Application()
-        'Dim mail As MailItem = CType(app.CreateItem(OlItemType.olMailItem), MailItem)
-        'mail.[To] = Email
-        'mail.Subject = "COTAÇÃO"
-        'mail.Body = "Prezado(a) " & Nome & ", segue sua proposta visando uma oportunidade de embarque."
-        'mail.Importance = OlImportance.olImportanceNormal
-        'mail.Attachments.Add(Server.MapPath("/Content/CotacaoPDF.pdf"), OlAttachmentType.olByValue, Type.Missing, Type.Missing)
-        'mail.Display(True)
-        'Response.Redirect("CotacaoComercial.aspx")
-
 
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
 
@@ -46,16 +25,28 @@ Public Class OUTLOOK
             If Not Page.IsPostBack Then
                 Dim Nome As String = ""
                 Dim ID_COTACAO As String = Request.QueryString("c")
-                ds = Con.ExecutarQuery("select isnull(EMAIL_CONTATO,'')EMAIL_CONTATO,isnull(NM_CONTATO,'')NM_CONTATO from TB_CONTATO where ID_CONTATO = (select ID_CONTATO from TB_COTACAO where ID_COTACAO = " & ID_COTACAO & ")")
+
+
+                ds = Con.ExecutarQuery("SELECT NR_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO)
+                txtCotacao.Text = ID_COTACAO
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_COTACAO")) Then
+                        lblCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO")
+                        txtCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO").Substring(0, ds.Tables(0).Rows(0).Item("NR_COTACAO").IndexOf("/"))
+                    End If
+                End If
+
+
+                ds = Con.ExecutarQuery("select isnull(lower(EMAIL_CONTATO),'')EMAIL_CONTATO,isnull(NM_CONTATO,'')NM_CONTATO from TB_CONTATO where ID_CONTATO = (select ID_CONTATO from TB_COTACAO where ID_COTACAO = " & ID_COTACAO & ")")
 
                 If ds.Tables(0).Rows.Count > 0 Then
-                    txtDestinatario.Text = "juliane@microled.com.br" 'ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
+                    txtDestinatario.Text = "juliane@microled.com.br" 'ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString() '
                     Nome = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
                 End If
                 txtMsg.Text = "Prezado(a) " & Nome & ", segue sua proposta visando uma oportunidade de embarque."
                 txtAssunto.Text = "COTAÇÃO"
-
-                ds = Con.ExecutarQuery("SELECT isnull(EMAIL,'')EMAIL FROM TB_USUARIO where ID_USUARIO = " & Session("ID_USUARIO"))
+                lblAnexo.Text = "CotacaoPDF_" & txtCotacao.Text & ".pdf"
+                ds = Con.ExecutarQuery("SELECT isnull(lower(EMAIL),'')EMAIL FROM TB_USUARIO where ID_USUARIO = " & Session("ID_USUARIO"))
 
                 If ds.Tables(0).Rows.Count > 0 Then
                     txtCC.Text = ds.Tables(0).Rows(0).Item("EMAIL").ToString()
@@ -79,29 +70,18 @@ Public Class OUTLOOK
             lblerro.Text = "Email de destinatário é invalido!"
             lblerro.Visible = True
         Else
-            Dim email As New EmailService
-            Dim retorno As String = email.EnviarEmail(txtDestinatario.Text, txtAssunto.Text, txtMsg.Text, txtCC.Text, "Content/CotacaoPDF.pdf")
-            If retorno = "" Then
+
+            If processaFila() = False Then
+                divSuccess.Visible = False
                 divErro.Visible = True
-                lblerro.Text = "Erro ao enviar e-mail"
             Else
+                divErro.Visible = False
                 divSuccess.Visible = True
-                lblSuccess.Text = retorno
+                lblSuccess.Text = "Email enviado com sucesso!"
             End If
         End If
     End Sub
 
-    'Private Sub ButtonUpload_Click(sender As Object, e As EventArgs) Handles ButtonUpload.Click
-    '    If (FileUpload1.HasFile) Then
-    '        Dim fileName As String = FileUpload1.FileName
-    '        Dim SaveTo As String = "C \\ Uploads \\ "
-    '        SaveTo += fileName
-    '        FileUpload1.SaveAs(SaveTo)
-    '        '  LabelMessage.Text = "Enviar foi bem sucedida "
-    '    Else
-    '        ' LabelMessage.Text = "Selecione um arquivo para upload "
-    '    End If
-    'End Sub
 
     Function SeparaEmail(ByVal email As String) As Boolean
         divSuccess.Visible = False
@@ -122,4 +102,125 @@ Public Class OUTLOOK
         Next
         Return erro
     End Function
+
+
+    Function processaFila() As Boolean
+        Dim sSql As String
+        Dim anexos As Attachment()
+        Dim envia As Boolean = False
+        Dim critica As String = ""
+        Dim rsParam As DataSet = Nothing
+        Dim rsEmail As DataTable = Nothing
+        Dim rsAnexos As DataTable = Nothing
+        Dim enderecos As String = ""
+        Dim dirEmail As String = ""
+        Dim arqExc As List(Of String) = Nothing
+        Dim indExc As Long
+        Dim nomeArq As String
+        Dim validaEnd As String
+
+        Dim ends() As String
+        Dim Mail As New MailMessage
+        Dim smtp As New SmtpClient()
+
+        Try
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+
+            sSql = "SELECT EMAIL_REMETENTE, END_SMTP, SENHA_REMETENTE, DOMINIO_REMETENTE, EXIGE_SSL, PORTA_SMTP, DIR_EMAIL_GER AS DIR_EMAIL "
+            sSql = sSql & " FROM TB_PARAMETROS "
+            rsParam = Con.ExecutarQuery(sSql)
+            If rsParam.Tables(0).Rows.Count > 0 Then
+
+
+                dirEmail = Server.MapPath("/Content/cotacoes/CotacaoPDF_" & txtCotacao.Text & ".pdf")
+
+
+
+                Mail = New MailMessage
+                Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+                Try
+                    Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+                Catch ex As Exception
+                    critica = "Endereço de envio dos e-mails inválido [" & rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString & "] "
+                    lblerro.Text = critica
+                    lblerro.Visible = True
+                    Return False
+                End Try
+
+
+
+                Try
+                    smtp = New SmtpClient(rsParam.Tables(0).Rows(0)("END_SMTP").ToString)
+                    If rsParam.Tables(0).Rows(0)("EXIGE_SSL").ToString = "1" Then
+                        smtp.EnableSsl = True
+                    Else
+                        smtp.EnableSsl = False
+                    End If
+                    smtp.Credentials = New System.Net.NetworkCredential(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("SENHA_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("DOMINIO_REMETENTE").ToString)
+                    smtp.Port = rsParam.Tables(0).Rows(0)("PORTA_SMTP").ToString
+                Catch ex As Exception
+                    critica = "Configurações de envio de e-mail inválidas, contate o suporte!" & Err.Description
+                    lblerro.Text = critica
+                    lblerro.Visible = True
+                    Return False
+
+                End Try
+
+                'ASSUNTO
+                If txtAssunto.Text <> "" Then
+                    Mail.Subject = txtAssunto.Text
+                Else
+                    Mail.Subject = ""
+                End If
+
+                'CORPO
+                If txtMsg.Text <> "" Then
+                    Mail.Body = txtMsg.Text
+                Else
+                    Mail.Body = ""
+                End If
+
+                'Mail.IsBodyHtml = True
+
+                enderecos = txtDestinatario.Text
+                Mail.To.Add(enderecos)
+
+                nomeArq = Server.MapPath("/Content/cotacoes/CotacaoPDF_" & txtCotacao.Text & ".pdf")
+
+                Dim anexo As New Attachment(nomeArq)
+                Mail.Attachments.Add(anexo)
+
+                Try
+
+                    smtp.Send(Mail)
+
+
+                Catch ex As Exception
+                    critica = "Ocorreu um erro ao enviar o e-mail! Erro:  " & Err.Description
+                    lblerro.Text = critica
+                    lblerro.Visible = True
+                    Err.Clear()
+                    Return False
+
+                End Try
+            Else
+                critica = "Não foi possível acessar As configurações para envio de e-mails, contate o suporte!"
+                lblerro.Text = critica
+                lblerro.Visible = True
+                Return False
+
+            End If
+        Catch ex As Exception
+            critica = "Ocorreu um erro ao realizar o envio de e-mails, contate o suporte!" & vbCrLf & "Erro:  " & Err.Description
+            lblerro.Text = critica
+            lblerro.Visible = True
+            Return False
+
+        End Try
+
+        Return True
+
+    End Function
+
 End Class

@@ -3,14 +3,14 @@
      <div class="col-lg-6 col-lg-offset-3 col-md-12 col-sm-12">
      <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">EMAIL COTAÇÃO
+                    <h3 class="panel-title">EMAIL COTAÇÃO - <asp:label ID="lblCotacao" runat="server"  /> 
                     </h3>
                 </div>
                 <div class="panel-body">
 
                     
                      <div class="tab-content">
-                      
+                       <asp:TextBox ID="txtCotacao" runat="server" CssClass="form-control" style="display:none"></asp:TextBox>
                     
                   <div class="alert alert-success" id="divSuccess" runat="server" visible="false">                                       
                       <asp:label ID="lblSuccess" runat="server"  /> 
@@ -63,7 +63,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label">Anexo:</label>
-                            
+                             <asp:label ID="lblAnexo" runat="server"  /> 
                         </div>
                     </div>
                 </div>        

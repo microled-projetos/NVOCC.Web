@@ -14,6 +14,24 @@ Option Explicit On
 Partial Public Class OUTLOOK
 
     '''<summary>
+    '''Controle lblCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCotacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCotacao As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -93,6 +111,15 @@ Partial Public Class OUTLOOK
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtAssunto As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle lblAnexo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblAnexo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtMsg.
