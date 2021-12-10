@@ -14,6 +14,24 @@ Option Explicit On
 Partial Public Class OUTLOOK
 
     '''<summary>
+    '''Controle lblCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblCotacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle txtCotacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCotacao As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle divSuccess.
     '''</summary>
     '''<remarks>
@@ -95,22 +113,13 @@ Partial Public Class OUTLOOK
     Protected WithEvents txtAssunto As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle FileUpload1.
+    '''Controle lblAnexo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents FileUpload1 As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
-    '''Controle ButtonUpload.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ButtonUpload As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblAnexo As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle txtMsg.

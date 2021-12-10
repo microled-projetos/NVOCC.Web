@@ -1,30 +1,52 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="ReciboProvisorioServico.aspx.vb" Inherits="NVOCC.Web.ReciboProvisorioServico" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="ReciboProvisorioServico.aspx.vb" Inherits="NVOCC.Web.ReciboProvisorioServico" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>ReciboProvisorioServico</title>
+     <script src="Content/js/jquery.min.js"></script>
+    <script>             
+    $(window).load(function () {
+        window.print();
+    });
+    </script>
     <style>
-        #DivImpressao, #imgFundo {
-            display: none;
+        table{
+            width:780px;
         }
-        @media print {
+            td{
+                padding-left:10px;
+                padding-right:10px;
+            }
+            th{
+                font-weight:bold;
+                text-align:left;
+                padding-left:10px;
+            }
+            #DivImpressao{
+                display: none;
+            }
+            
+            @media print {
 
             @page {
             }
 
-            #imgFundo {
-                display: none;
-            }
+           
             #DivImpressao{
                 display: block;
+                font-family:Arial;
             }
-            td{
-                padding-left:5px;
-                padding-right:5px
-            }
+           
         }
     </style> 
-    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
-                <table border="1">
-                    <tr>
-                        <td>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:780px">
+                
         <table  style="border-style:solid;border-width: thin;">
             <tr>               
                 <td>
@@ -166,17 +188,9 @@
         </div>
            <br />
             <br />
-</td>
-                    </tr>
-</table>
+
 
     </div>
-
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <script>             
-        $(window).load(function () {
-            window.print();
-        });
-    </script>
-</asp:Content>
+    </form>
+</body>
+</html>

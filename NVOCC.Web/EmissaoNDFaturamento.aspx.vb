@@ -1,4 +1,5 @@
 ﻿Public Class EmissaoNDFaturamento
+
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -45,6 +46,7 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")) Then
                         lblFatura.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
+                        '  lblTitulo.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ORIGEM")) Then
@@ -204,6 +206,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE isnu
 
                     Con.Fechar()
                 End If
+
             End If
         End If
 

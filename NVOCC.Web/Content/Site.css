@@ -248,7 +248,7 @@ input[type=submit] {
 
 .menu1 ul li {
     float: left;
-    min-width: 100px;
+    min-width: 80px;
     position: relative;
 }
 

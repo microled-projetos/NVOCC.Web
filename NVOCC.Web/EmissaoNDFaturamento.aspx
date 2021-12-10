@@ -1,36 +1,65 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="EmissaoNDFaturamento.aspx.vb" Inherits="NVOCC.Web.EmissaoNDFaturamento" %>
+﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="EmissaoNDFaturamento.aspx.vb" Inherits="NVOCC.Web.EmissaoNDFaturamento" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <script src="Content/js/jquery.min.js"></script>
+
+    <title>NotaDebito</title>
+<script>             
+    $(window).load(function () {
+        window.print();
+    });
+</script>
     <style>
-        #DivImpressao, #imgFundo {
-            display: none;
+        table{
+            width:780px;
         }
-        @media print {
+            td{
+                padding-left:10px;
+                padding-right:10px;
+
+            }
+            th{
+                font-weight:bold;
+                text-align:left;
+                padding-left:10px;
+            }
+            #DivImpressao{
+                display: none;
+            }
+            
+            @media print {
 
             @page {
             }
 
-            #divGrid, #imgFundo {
-                display: none;
-            }
+           
             #DivImpressao{
                 display: block;
+                 font-family:Arial;
             }
-            td{
-                padding-left:10px;
-            }
+           
         }
     </style> 
-    <div id="DivImpressao" class="DivImpressao table-content" style="font-size: 10px; margin-bottom: 10px;">
-                <table border="1">
-                    <tr>
-                        <td>
+   
+    
+</head>
+<body>
+     
+    <form id="form1" runat="server" style="font-size:10px">
+        <div id="DivImpressao" class="DivImpressao" style="font-size: 10px; margin-bottom: 10px;margin-top: 30px;max-width:780px">
+               
+                   
         <table border="1">
             <tr>
                 <td>
-                    <center>
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br /></center>
-                    <div style="text-align: center;">
+                  
+    <div style="text-align: center;">
+        <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong><br />
+                    
                         R QUINZE DE NOVEMBRO, 46/48 - CENTRO<br />
                         SANTOS - SÃO PAULO - BRASIL - CEP:11010150<br />
                         FONE:+55 13 3797-7850 - FAX:<br />
@@ -38,9 +67,8 @@
                     </div>
                 </td>
                 <td>
-                    <center>
-    <img src="Content/imagens/FCA-Log - Copia.png" /><br />
-    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></center>
+                   <div style="text-align: center;"> <img src="Content/imagens/FCA-Log - Copia.png" /><br />
+    <strong>FCA COMERCIO EXTERIOR E LOGISTICA LTDA.</strong>&nbsp;<br /></div>
 
                 </td>
             </tr>
@@ -183,7 +211,6 @@
             <br />
         <div id="divConteudoDinamico" runat="server" style="border-style:solid;border-width: thin;" >
         </div>
-<%--        <div style="float: right;"><asp:Label ID="lbltotal" runat="server" /></div>--%>
            <br />
             <br />
         <div>
@@ -206,17 +233,7 @@
             <strong>No aguardo do seu contato,&nbsp;<asp:Label ID="lblUsuario" runat="server" /></strong>
             <div style="float: right;">Impresso &nbsp;<asp:Label ID="lblDataImpressao" runat="server" /></div>
         </div>
-</td>
-                    </tr>
-</table>
-
-    </div>
-
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <script>             
-        $(window).load(function () {
-            window.print();
-        });
-    </script>
-</asp:Content>
+            </div>
+    </form>
+</body>
+</html>

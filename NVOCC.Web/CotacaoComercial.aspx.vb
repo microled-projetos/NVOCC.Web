@@ -2090,11 +2090,11 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
 
 
             Dim ID_BASE_CALCULO As Integer
-            If txtEstufagem.Text = 1 Then
-                ID_BASE_CALCULO = 5
-                'FRETE COMPRA
-                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
- SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & ",  
+        If txtEstufagem.Text = 1 Then
+            ID_BASE_CALCULO = 5
+            'FRETE COMPRA
+            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,FL_TAXA_TRANSPORTADOR,CD_ORIGEM_INF)
+ SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_COMPRA_MIN," & ID_BL & ",'P', " & FL_PROFIT_FRETE & ",  
  
  ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
  
@@ -2102,36 +2102,19 @@ from TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA,
- 1,'COTA',
-
-
- CASE 
- WHEN ID_SERVICO in (1,2) and ID_TIPO_PAGAMENTO = 1
- THEN 1
-
-WHEN ID_SERVICO  in (1,2) and ID_TIPO_PAGAMENTO = 2
-THEN 2
-
- WHEN ID_SERVICO in (4,5) and ID_TIPO_PAGAMENTO = 1
- THEN 2
-
-WHEN ID_SERVICO  in (4,5) and ID_TIPO_PAGAMENTO = 2
-THEN 1
-
-ELSE 0
-end ID_ORIGEM_PAGAMENTO
+ 1,'COTA'
 
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
-            ElseIf txtEstufagem.Text = 2 Then
-                ID_BASE_CALCULO = 13
-            Else
-                ID_BASE_CALCULO = 0
-            End If
+        ElseIf txtEstufagem.Text = 2 Then
+            ID_BASE_CALCULO = 13
+        Else
+            ID_BASE_CALCULO = 0
+        End If
 
 
 
-            'FRETE VENDA
-            Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
+        'FRETE VENDA
+        Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
  SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_VENDA_MIN," & ID_BL & ",'R',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & " ,
  
 CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
@@ -2230,17 +2213,17 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione um registro!"
             Else
-                'Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_CONTA_PAGAR_RECEBER where DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER in (select distinct ID_CONTA_PAGAR_RECEBER from TB_CONTA_PAGAR_RECEBER_ITENS where id_Bl = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text & " ))")
-                'If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
-                '    divErro.Visible = True
-                '    lblmsgErro.Text = "Não foi possivel completar a ação: O house desta já enviado para conta corrente!"
-                'Else
-                Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_BL_TAXA where id_item_despesa <> 14 and isnull(CD_ORIGEM_INF,'COTA') ='COTA' and isnull(ID_COTACAO_TAXA,0) = 0 and ID_BL_MASTER IS NULL and ID_BL = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_COTACAO = " & txtID.Text & " )")
+                If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Necessário comunicar o T.I: Processo sem ID_COTAÇÃO_TAXA "
+                Else
+                    Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                     divSuccess.Visible = True
                     lblmsgSuccess.Text = "Item atualizado para 'Em update' com sucesso!"
                     GRID()
 
-                'End If
+                End If
 
 
 

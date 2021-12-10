@@ -1214,6 +1214,8 @@
                                                     <div class="form-group">
                                                         <asp:button runat="server" Text="Nova Taxa" id="btnNovaTaxa" CssClass="btn btn-primary" />
                                                          <asp:button runat="server" Text="Importar Taxas" id="btnImportar" CssClass="btn btn-success" />
+                                                        <asp:button runat="server" Text="Selecionar Tudo" id="btnSelecionarTudo" CssClass="btn btn-warning" />
+                                                        <asp:button runat="server" Text="Deletar Taxas" id="btnDeletarTaxas" CssClass="btn btn-danger" visible="true" OnClientClick="javascript:return confirm('Deseja realmente excluir?');" />
                                                     </div>
                                                 </div>
                             </div>
@@ -1230,7 +1232,16 @@
                             <div class="table-responsive">
                                 <asp:GridView ID="dgvTaxas" DataKeyNames="ID_COTACAO_TAXA" DataSourceID="dsTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server"  AutoGenerateColumns="false"   style="max-height:400px; overflow:auto;" AllowSorting="true" OnSorting="dgvTaxas_Sorting" EmptyDataText="Nenhum registro encontrado.">
                                     <Columns>
-                                        <asp:BoundField DataField="ID_COTACAO_TAXA" HeaderText="#"  SortExpression="ID_COTACAO_TAXA"  Visible="false" />
+                                         <asp:TemplateField >
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="ckSelecionar" runat="server" AutoPostBack="true"></asp:CheckBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                         <asp:TemplateField HeaderText="ID" Visible="False">
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_COTACAO_TAXA") %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                         <asp:BoundField DataField="NM_TIPO_ITEM_DESPESA" HeaderText="Item Despesa"  SortExpression="NM_TIPO_ITEM_DESPESA"/>
                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="Origem de Pagamento"  SortExpression="NM_ORIGEM_PAGAMENTO" />
                                         <asp:BoundField DataField="DECLARADO" HeaderText="Declarado"   SortExpression="DECLARADO"/>
@@ -1267,7 +1278,7 @@
                         <asp:AsyncPostBackTrigger  ControlID="btnFecharFrete" />
       <asp:AsyncPostBackTrigger ControlID="btnImportar" />
      
-
+      <asp:AsyncPostBackTrigger ControlID="btnDeletarTaxas" /> <asp:AsyncPostBackTrigger ControlID="btnSelecionarTudo" />
      </Triggers>   
      </asp:UpdatePanel>
 

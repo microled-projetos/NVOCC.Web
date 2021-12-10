@@ -138,7 +138,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENT
 
 
                     Con.Fechar()
-            End If
+                End If
             End If
 
         End If

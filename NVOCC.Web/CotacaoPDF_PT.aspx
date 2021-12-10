@@ -83,7 +83,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 
 </div>
                  <br />
-<div class="linha-colorida2">Quotation Details</div>
+<div class="linha-colorida2">Detalhes da Cota&ccedil;&atilde;o</div>
 <div class="row linha-colorida1">Frete</div>
 <div id="divConteudofrete" style="font-family:Arial;font-size:10px;" runat="server">
 </div><div class="col-sm-4"><asp:label runat="server" Style="text-align:left"   ID="lblfretesCalc" class="control-label" /></div>
@@ -97,11 +97,11 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <div id="divTaxaDestino" style="font-family:Arial;font-size:10px;" runat="server">
 </div> 
 <div style="text-align:right;font-weight:bold">Sub Total: <asp:label runat="server" ID="lblTotalTaxasDestino" class="control-label moeda" /></div>
-<div class="linha-colorida2">TOTAL CHARGES</div>
+<div class="linha-colorida2">CUSTOS TOTAIS</div>
 <div><strong>TOTAL TAXAS:</strong> <asp:label runat="server" ID="lblTotalFinalTaxas" class="control-label" /></div>
 <div><strong>TOTAL FRETE:</strong> <asp:label runat="server" ID="lblTotalFinalFrete" class="control-label" /></div>
                  <div style="color:red;text-align:right;font-weight:bold">TOTAL FINAL: <asp:label runat="server" ID="lblTotalFinal" class="control-label" /></div>
-<div class="linha-colorida2">Remarks</div>
+<div class="linha-colorida2">Observa&ccedil;&otilde;es</div>
 <div style="color:red">"Com rela&ccedil;&atilde;o ao Imposto sobre Opera&ccedil;&otilde;es Financeiras, informamos que o mesmo ser&aacute; atualizado de acordo com a taxa de convers&atilde;o do dia
 do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia da proposta."</div>
 <br/>

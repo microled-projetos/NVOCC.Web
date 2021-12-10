@@ -17,10 +17,8 @@ Public Class GeraPDF
             Dim Linguagem As String = Request.QueryString("l")
             If Linguagem = "p" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_PT.aspx?c=" & cotacao
-
             ElseIf Linguagem = "i" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_ING.aspx?c=" & cotacao
-
             End If
 
             Dim html As String = obj.DownloadString(url)
@@ -43,12 +41,34 @@ Public Class GeraPDF
             Documento.Close()
 
             Dim reader As New PdfReader(Server.MapPath("/Content/PDFAuxiliar.pdf"))
-            '            Dim reader As New PdfReader(AppContext.BaseDirectory & "/Content/PDFAuxiliar.pdf")
+            'Dim reader As New PdfReader(AppContext.BaseDirectory & "/Content/PDFAuxiliar.pdf")
 
 
 
-            Dim fs_ As New FileStream(Server.MapPath("/Content/CotacaoPDF.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
-            '   Dim fs_ As New FileStream(AppContext.BaseDirectory & "/Content/CotacaoPDF.pdf", FileMode.Create, FileAccess.Write, FileShare.None)
+
+            'limpa diretorio de cotacoes
+            Dim di As System.IO.DirectoryInfo = New DirectoryInfo(Server.MapPath("/Content/cotacoes"))
+            For Each file As FileInfo In di.GetFiles()
+                If file.LastAccessTime < DateTime.Now.AddDays(-1) Then
+                    file.Delete()
+                End If
+            Next
+
+
+
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & cotacao)
+            Dim NR_COTACAO As String = cotacao
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_COTACAO")) Then
+                    NR_COTACAO = ds.Tables(0).Rows(0).Item("NR_COTACAO").Substring(0, ds.Tables(0).Rows(0).Item("NR_COTACAO").IndexOf("/"))
+                End If
+            End If
+
+
+            Dim fs_ As New FileStream(Server.MapPath("/Content/cotacoes/CotacaoPDF_" & NR_COTACAO & ".pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
+            ' Dim fs_ As New FileStream(Server.MapPath("/Content/CotacaoPDF.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
             Using stamper = New PdfStamper(reader, fs_)
                 Dim contador As Integer = reader.NumberOfPages
                 Dim layer As New PdfLayer("WatermarkLayer", stamper.Writer)
@@ -83,13 +103,13 @@ Public Class GeraPDF
 
 
             ElseIf funcao = "i" Then
-                Response.Redirect("~/" & "content/CotacaoPDF.pdf")
-
+                Response.Redirect("~/" & "content/cotacoes/CotacaoPDF_" & NR_COTACAO & ".pdf")
+                ' Response.Redirect("~/" & "content/CotacaoPDF.pdf")
             End If
 
             fs.Close()
             fs_.Close()
-
+            Con.Fechar()
         Catch ex As Exception
             'stamper.Close()
 

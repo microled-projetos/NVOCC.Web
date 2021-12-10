@@ -2,7 +2,7 @@
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("Logado") = "False" Or Session("Logado") = Nothing Then 
+        If Session("Logado") = "False" Or Session("Logado") = Nothing Then
 
             Response.Redirect("Login.aspx")
 
@@ -21,7 +21,7 @@
 
 
         If Request.QueryString("id") <> "" Then
-            lblIDINVOICE.text = Request.QueryString("id")
+            lblIDINVOICE.Text = Request.QueryString("id")
             ds = Con.ExecutarQuery("SELECT A.ID_BL,A.ID_ACCOUNT_TIPO_INVOICE,(SELECT B.ID_BL_MASTER FROM TB_BL B WHERE B.ID_BL = A.ID_BL)ID_BL_MASTER,(SELECT C.NM_RAZAO FROM TB_PARCEIRO C WHERE C.ID_PARCEIRO = A.ID_PARCEIRO_AGENTE)PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE A WHERE A.ID_ACCOUNT_INVOICE = " & Request.QueryString("id"))
             If ds.Tables(0).Rows.Count > 0 Then
 

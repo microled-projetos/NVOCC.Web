@@ -57,7 +57,7 @@
                         Session("Logado") = "True"
                         Session("ID_USUARIO") = ds.Tables(0).Rows(0).Item("ID_USUARIO").ToString()
                         Session("Externo") = Externo
-
+                        Session("USER") = txtUsuario.Text
                         'Verifica se é usuario externo 
                         If Externo = True Then
                             If ddlEmpresa.SelectedValue = 0 Then

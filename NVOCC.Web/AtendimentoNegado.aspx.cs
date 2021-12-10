@@ -22,6 +22,8 @@ namespace ABAINFRA.Web
 			Incoterm();
 			TipoServico();
 			TipoEstufagem();
+			TipoCarga();
+			TipoEmbalagem();
 		}
 
 		private void Porto()
@@ -60,7 +62,7 @@ namespace ABAINFRA.Web
 			Session["status"] = listTable;
 			ddlStatus.DataSource = Session["status"];
 			ddlStatus.DataBind();
-			ddlStatus.Items.Insert(0, new ListItem("Selecione", ""));
+			ddlStatus.Items.Insert(0, new ListItem("Selecione", "0"));
 		}
 
 		private void Inside()
@@ -112,6 +114,32 @@ namespace ABAINFRA.Web
 			ddlTipoEstufagem.DataSource = Session["estufagem"];
 			ddlTipoEstufagem.DataBind();
 			ddlTipoEstufagem.Items.Insert(0, new ListItem("Selecione", ""));
+		}
+
+		private void TipoCarga()
+		{
+			SQL = "SELECT ID_TIPO_CARGA, NM_TIPO_CARGA FROM TB_TIPO_CARGA ORDER BY NM_TIPO_CARGA";
+
+			DataTable listTable = new DataTable();
+			listTable = DBS.List(SQL);
+
+			Session["carga"] = listTable;
+			ddlTipoCarga.DataSource = Session["carga"];
+			ddlTipoCarga.DataBind();
+			ddlTipoCarga.Items.Insert(0, new ListItem("Selecione", "0"));
+		}
+		
+		private void TipoEmbalagem()
+		{
+			SQL = "SELECT ID_MERCADORIA, NM_MERCADORIA FROM TB_MERCADORIA ORDER BY NM_MERCADORIA";
+
+			DataTable listTable = new DataTable();
+			listTable = DBS.List(SQL);
+
+			Session["embalagem"] = listTable;
+			ddlTipoEmbalagem.DataSource = Session["embalagem"];
+			ddlTipoEmbalagem.DataBind();
+			ddlTipoEmbalagem.Items.Insert(0, new ListItem("Selecione", "0"));
 		}
 	}
 }

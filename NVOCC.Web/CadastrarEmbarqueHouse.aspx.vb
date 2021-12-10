@@ -3931,7 +3931,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Session("ddlOrigem_BasicoMaritimo") = ddlOrigem_BasicoMaritimo.SelectedValue
             Session("ddlDestino_BasicoMaritimo") = ddlDestino_BasicoMaritimo.SelectedValue
             Session("ddlAgente_BasicoMaritimo") = ddlAgente_BasicoMaritimo.SelectedValue
-            Session("ddlTipoPagamento_BasicoMaritimo") = ddlTipoPagamento_BasicoMaritimo.SelectedValue
+            Session("ddlTipoPagamento_BasicoMaritimo") = 0 'ddlTipoPagamento_BasicoMaritimo.SelectedValue
             Session("ddlEstufagem_BasicoMaritimo") = ddlEstufagem_BasicoMaritimo.SelectedValue
 
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_STATUS_FRETE_AGENTE,ID_COTACAO FROM TB_BL WHERE ID_BL =  " & txtID_BasicoMaritimo.Text)
@@ -3962,7 +3962,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             Session("ddlOrigem_BasicoAereo") = ddlOrigem_BasicoAereo.SelectedValue
             Session("ddlDestino_BasicoAereo") = ddlDestino_BasicoAereo.SelectedValue
             Session("ddlAgente_BasicoAereo") = ddlAgente_BasicoAereo.SelectedValue
-            Session("ddlTipoPagamento_BasicoAereo") = ddlTipoPagamento_BasicoAereo.SelectedValue
+            Session("ddlTipoPagamento_BasicoAereo") = 0 'ddlTipoPagamento_BasicoAereo.SelectedValue
             Session("ddlEstufagem_BasicoAereo") = ddlEstufagem_BasicoAereo.SelectedValue
 
             Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_STATUS_FRETE_AGENTE,ID_COTACAO FROM TB_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text)

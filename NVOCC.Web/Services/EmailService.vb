@@ -18,7 +18,7 @@ Public Class EmailService
             anexo = "'" & anexo & "'"
         End If
 
-        Dim Comando As String = "EXECUTE [dbo].[PROC_EMAIL]"
+        Dim Comando As String = "EXECUTE PROC_EMAIL"
         Comando &= " @from_name = 'FCA-Log' ,"
         Comando &= " @to_names  = '" & toName & "',"
         Comando &= " @subject  = '" & subject & "',"

@@ -17,6 +17,11 @@ namespace ABAINFRA.Web.Classes
         private string id_porto_destino;
         private string id_incoterm;
         private string id_status;
+        private string id_tipo_carga;
+        private string qt_carga;
+        private string id_mercadoria;
+        private string qt_peso;
+        private string qt_metragem;
         private string ds_obs;
 
 
@@ -30,6 +35,11 @@ namespace ABAINFRA.Web.Classes
         public string ID_PORTO_DESTINO { get => id_porto_destino; set => id_porto_destino = value; }
         public string ID_INCOTERM { get => id_incoterm; set => id_incoterm = value; }
         public string ID_STATUS { get => id_status; set => id_status = value; }
+        public string ID_TIPO_CARGA { get => id_tipo_carga; set => id_tipo_carga = value; }
+        public string QT_CARGA { get => qt_carga; set => qt_carga = value; }
+        public string ID_MERCADORIA { get => id_mercadoria; set => id_mercadoria = value; }
+        public string QT_PESO { get => qt_peso; set => qt_peso = value; }
+        public string QT_METRAGEM { get => qt_metragem; set => qt_metragem = value; }
         public string DS_OBS { get => ds_obs; set => ds_obs = value; }
     }
 }

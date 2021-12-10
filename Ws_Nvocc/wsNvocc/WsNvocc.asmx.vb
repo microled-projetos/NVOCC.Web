@@ -152,6 +152,9 @@ Public Class WsNvocc
             sSql = "UPDATE TB_FATURAMENTO SET NR_LOTE =  " & loteNumero & " WHERE ID_FATURAMENTO = " & IDFatura
             Con.ExecutarQuery(sSql)
 
+            sSql = "UPDATE TB_FATURAMENTO SET NR_NOTA_ORIGINAL = (SELECT NR_NOTA_FISCAL FROM TB_FATURAMENTO WHERE NR_RPS = '" & RpsOld & "') WHERE ID_FATURAMENTO = " & IDFatura
+            Con.ExecutarQuery(sSql)
+
             sSql = "INSERT INTO TB_LOTE_NFSE (ID_FATURAMENTO, DT_ENVIO_LOTE, NUMERO_RPS) "
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)
@@ -574,7 +577,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
             If Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 1) <> "" Then
                 No = doc.CreateElement("CodigoMunicipio", NFeNamespacte)
-                noText = doc.CreateTextNode(Format(Long.Parse(Funcoes.obtemCodIBGEUF(rsRPS.Tables(0).Rows(0)("UF_CLI").ToString) & Format(Long.Parse(Funcoes.NNull(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString, 0)), "00000")), "0000000"))
+                noText = doc.CreateTextNode(Funcoes.tiraCaracEspXML(rsRPS.Tables(0).Rows(0)("IBGE_CLI").ToString))
+
                 No.AppendChild(noText)
                 noEnderecoTom.AppendChild(No)
             End If

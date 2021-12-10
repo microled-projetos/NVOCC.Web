@@ -85,5 +85,23 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+
+		/// <summary>
+		/// Controle ddlTipoCarga.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlTipoCarga;
+
+		/// <summary>
+		/// Controle ddlTipoEmbalagem.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList ddlTipoEmbalagem;
 	}
 }

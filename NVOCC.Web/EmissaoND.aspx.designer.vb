@@ -23,6 +23,15 @@ Partial Public Class EmissaoND
     Protected WithEvents UpdatePanel12 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
+    '''Controle txtID.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtID As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtID_BL.
     '''</summary>
     '''<remarks>
