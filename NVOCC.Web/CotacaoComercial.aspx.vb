@@ -2213,17 +2213,17 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
                 divErro.Visible = True
                 lblmsgErro.Text = "Selecione um registro!"
             Else
-                'Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_CONTA_PAGAR_RECEBER where DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER in (select distinct ID_CONTA_PAGAR_RECEBER from TB_CONTA_PAGAR_RECEBER_ITENS where id_Bl = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_BL_MASTER IS NOT NULL AND ID_COTACAO = " & txtID.Text & " ))")
-                'If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
-                '    divErro.Visible = True
-                '    lblmsgErro.Text = "Não foi possivel completar a ação: O house desta já enviado para conta corrente!"
-                'Else
-                Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
+                Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT count(*)qtd FROM TB_BL_TAXA where id_item_despesa <> 14 and isnull(CD_ORIGEM_INF,'COTA') ='COTA' and isnull(ID_COTACAO_TAXA,0) = 0 and ID_BL_MASTER IS NULL and ID_BL = (SELECT ID_BL FROM [TB_BL] WHERE GRAU = 'C' AND ID_COTACAO = " & txtID.Text & " )")
+                If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Necessário comunicar o T.I: Processo sem ID_COTAÇÃO_TAXA "
+                Else
+                    Con.ExecutarQuery("UPDATE TB_COTACAO Set ID_STATUS_COTACAO = 10, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                     divSuccess.Visible = True
                     lblmsgSuccess.Text = "Item atualizado para 'Em update' com sucesso!"
                     GRID()
 
-                'End If
+                End If
 
 
 
