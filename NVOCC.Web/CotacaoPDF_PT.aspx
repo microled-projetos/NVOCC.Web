@@ -83,7 +83,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 
 </div>
                  <br />
-<div class="linha-colorida2">Detalhes da cota&ccedil;&atilde;o</div>
+<div class="linha-colorida2">Detalhes da Cota&ccedil;&atilde;o</div>
 <div class="row linha-colorida1">Frete</div>
 <div id="divConteudofrete" style="font-family:Arial;font-size:10px;" runat="server">
 </div><div class="col-sm-4"><asp:label runat="server" Style="text-align:left"   ID="lblfretesCalc" class="control-label" /></div>
