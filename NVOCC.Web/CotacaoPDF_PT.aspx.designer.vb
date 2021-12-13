@@ -408,4 +408,13 @@ Partial Public Class CotacaoPDF_PT
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblAnalista As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle lblTelefoneAnalista.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTelefoneAnalista As Global.System.Web.UI.WebControls.Label
 End Class

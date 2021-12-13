@@ -104,7 +104,7 @@ do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia d
 <br/><br/>  
 <asp:label runat="server" ID="lblAnalista" class="control-label" /><br/>
 FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA<br/>
-Tel No.-+55 13 3213-6670<br/>
+Tel No.<asp:label runat="server" ID="lblTelefoneAnalista" class="control-label" /><br/>
 <asp:label runat="server" ID="Label1" Text="www.fcalog.com.br" class="control-label" /><br/>
 </div>
              

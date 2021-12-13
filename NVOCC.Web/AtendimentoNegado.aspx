@@ -79,18 +79,18 @@
                                             <th class="text-center" scope="col">DATA SOLICITAÇÃO</th>
                                             <th class="text-center" scope="col">INSIDE</th>
                                             <th class="text-center" scope="col">SERVICO</th>
-                                            <th class="text-center" scope="col">ESTUFAGEM</th>
-                                            <th class="text-center" scope="col">INCOTERM</th>
                                             <th class="text-center" scope="col">CLIENTE PRINCIPAL</th>
                                             <th class="text-center" scope="col">ORIGEM</th>
                                             <th class="text-center" scope="col">DESTINO</th>
                                             <th class="text-center" scope="col">VENDEDOR</th>
-                                            <th class="text-center" scope="col">STATUS</th>
+                                            <th class="text-center" scope="col">INCOTERM</th>
+                                            <th class="text-center" scope="col">ESTUFAGEM</th>
                                             <th class="text-center" scope="col">TIPO CARGA</th>
-                                            <th class="text-center" scope="col">QUANTIDADE</th>
                                             <th class="text-center" scope="col">TIPO EMBALAGEM</th>
+                                            <th class="text-center" scope="col">QUANTIDADE</th>
                                             <th class="text-center" scope="col">PESO</th>
                                             <th class="text-center" scope="col">METRAGEM</th>
+                                            <th class="text-center" scope="col">STATUS</th>
                                             <th class="text-center" scope="col">OBSERVAÇÃO</th>
                                         </tr>
                                     </thead>
@@ -180,7 +180,6 @@
                                                     <div class="form-group">
                                                         <label class="control-label">INCOTERM</label>
                                                         <asp:DropDownList ID="ddlIncoterm" CssClass="form-control" runat="server" DataValueField="ID_INCOTERM" DataTextField="NM_INCOTERM">
-
                                                         </asp:DropDownList> 
                                                     </div>
                                                 </div>
@@ -202,26 +201,35 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">QUANTIDADE<span style="color:red">*</span></label>
+                                                        <label class="control-label">QUANTIDADE<span style="color:red"></span></label>
                                                         <input type="text" id="qtdAtendimentoRejeitado" class="form-control"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">TIPO DE EMBALAGEM<span style="color:red">*</span></label>
+                                                        <label class="control-label">TIPO DE EMBALAGEM<span style="color:red"></span></label>
                                                         <asp:DropDownList ID="ddlTipoEmbalagem" CssClass="form-control" runat="server" DataValueField="ID_MERCADORIA" DataTextField="NM_MERCADORIA">
                                                         </asp:DropDownList> 
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-4" id="boxTpContainer">
+                                                    <div class="form-group">
+                                                        <label class="control-label">TIPO DE CONTAINER<span style="color:red">*</span></label>
+                                                        <asp:DropDownList ID="ddlTipoContainer" CssClass="form-control" runat="server" DataValueField="ID_TIPO_CONTAINER" DataTextField="NM_TIPO_CONTAINER">
+                                                        </asp:DropDownList> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">PESO<span style="color:red">*</span></label>
+                                                        <label class="control-label">PESO<span style="color:red"></span></label>
                                                         <input type="text" class="form-control peso" id="qtdPeso"  />
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label class="control-label">METRAGEM<span style="color:red">*</span></label>
+                                                        <label class="control-label">METRAGEM<span style="color:red"></span></label>
                                                         <input type="text" class="form-control" id="qtdMetragem" />
                                                     </div>
                                                 </div>
@@ -288,6 +296,15 @@
             listarAtendimentos();
         });
 
+        $("#MainContent_ddlTipoEmbalagem").change(function () {
+            if (this.value == 22) {
+                $("#boxTpContainer").show();
+            } else {
+                $("#boxTpContainer").hide();
+                $("#MainContent_ddlTipoContainer").val(0);
+            }
+        })
+
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
@@ -351,21 +368,21 @@
                             $("#atendimentoDeclinioBody").append("<tr><td class='text-center'>" +
                                 "<div class='btn btn-primary' data-toggle='modal' data-target='#modalDeleteDeclinio' title='Deleter Atendimento' data-id='" + dado[i]["ID_ATENDIMENTO_NEGADO"] + "' onclick='setId(" + dado[i]["ID_ATENDIMENTO_NEGADO"] + ")'><i class='fas fa-trash'></i></div>" +
                                 "</td>"+
-                                "<td class='text-center'>" + dado[i]["ATENDIMENTO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["DT_SOLICITACAO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["INSIDE"] + "</td >" +
                                 "<td class='text-center'>" + dado[i]["SERVICO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["VENDEDOR"] + "'>" + dado[i]["VENDEDOR"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["STATUS"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CARGA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["QTCARGA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MERCADORIA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["QTCARGA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PESO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["METRAGEM"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["STATUS"] + "</td>" +
                                 "<td class='text-center' style='max-width: 25ch' title='" + dado[i]["OBS"] + "'>" + dado[i]["OBS"] + "</td>" +
                                 "</tr>");
                         }
@@ -394,39 +411,47 @@
                 "ID_MERCADORIA": document.getElementById("MainContent_ddlTipoEmbalagem").value,
                 "QT_PESO": document.getElementById("qtdPeso").value,
                 "QT_METRAGEM": document.getElementById("qtdMetragem").value,
-                "DS_OBS": document.getElementById("dsObservacao").value
+                "DS_OBS": document.getElementById("dsObservacao").value,
+                "ID_TIPO_CONTAINER": document.getElementById("MainContent_ddlTipoContainer").value
             }
-            $.ajax({
-                type: "POST",
-                url: "Gerencial.asmx/CadastrarAtendimento",
-                data: JSON.stringify({ dados: (dados) }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != "0") {
-                        $("#modalCadastroDeclinio").hide();
-                        $("#msgSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                        $("#qtdMetragem").val("");
-                        $("#qtdPeso").val("");
-                        $("#qtdAtendimentoRejeitado").val("");
-                        $("#MainContent_ddlTipoEmbalagem").val("0");
-                        $("#MainContent_ddlTipoCarga").val("0");
-                        $("#MainContent_ddlTipoServico").val("0");
-                        $("#MainContent_ddlTipoEstufagem").val("0");
-                        $("#MainContent_ddlOrigem").val("0");
-                        $("#MainContent_ddlDestino").val("0");
-                        $("#MainContent_ddlIncoterm").val("0");
-                        listarAtendimentos();
+            var idcont = document.getElementById("MainContent_ddlTipoContainer").value;
+            var mercadoria = document.getElementById("MainContent_ddlTipoEmbalagem").value;
+            if (mercadoria == 22 && idcont != 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CadastrarAtendimento",
+                    data: JSON.stringify({ dados: (dados) }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != "0") {
+                            $("#modalCadastroDeclinio").hide();
+                            $("#msgSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                            $("#qtdMetragem").val("");
+                            $("#qtdPeso").val("");
+                            $("#qtdAtendimentoRejeitado").val("");
+                            $("#MainContent_ddlTipoEmbalagem").val("0");
+                            $("#MainContent_ddlTipoCarga").val("0");
+                            $("#MainContent_ddlTipoServico").val("0");
+                            $("#MainContent_ddlTipoEstufagem").val("0");
+                            $("#MainContent_ddlOrigem").val("0");
+                            $("#MainContent_ddlDestino").val("0");
+                            $("#MainContent_ddlIncoterm").val("0");
+                            listarAtendimentos();
+                        }
+                        else {
+                            $("#modalCadastroDeclinio").hide();
+                            $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
+                            listarAtendimentos();
+                        }
                     }
-                    else {
-                        $("#modalCadastroDeclinio").hide();
-                        $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
-                        listarAtendimentos();
-                    }
-                }
-            })
+                })
+            } else {
+                $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
+                listarAtendimentos();
+            }
         }
 
         function deletarAtendimento() {

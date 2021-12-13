@@ -139,7 +139,7 @@
        <asp:AsyncPostBackTrigger ControlID="lkFiltrar" />
              <asp:PostBackTrigger ControlID="lkImprimir" />
                    <asp:AsyncPostBackTrigger ControlID="btnImprimir" />
-            <asp:PostBackTrigger ControlID="btnEnviar" />
+            <asp:AsyncPostBackTrigger ControlID="btnEnviar" />
     </Triggers>
    </asp:UpdatePanel> 
                             <br />
@@ -281,6 +281,17 @@ FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
             console.log(ID);
             window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=i', '_blank');
            
+        }
+
+        function EnviarCotacao() {
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            var Linguagem = document.getElementById('<%= ddlLinguagem.ClientID %>').value;
+
+            console.log(Linguagem);
+            console.log(ID);
+            window.open('GeraPDF.aspx?c=' + ID + '&l=' + Linguagem + '&f=e', '_blank');
+
         }
     </script>
 </asp:Content>

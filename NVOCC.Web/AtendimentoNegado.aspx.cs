@@ -24,6 +24,7 @@ namespace ABAINFRA.Web
 			TipoEstufagem();
 			TipoCarga();
 			TipoEmbalagem();
+			TipoContainer();
 		}
 
 		private void Porto()
@@ -140,6 +141,19 @@ namespace ABAINFRA.Web
 			ddlTipoEmbalagem.DataSource = Session["embalagem"];
 			ddlTipoEmbalagem.DataBind();
 			ddlTipoEmbalagem.Items.Insert(0, new ListItem("Selecione", "0"));
+		}
+
+		private void TipoContainer()
+		{
+			SQL = "SELECT ID_TIPO_CONTAINER, NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER ORDER BY NM_TIPO_CONTAINER";
+
+			DataTable listTable = new DataTable();
+			listTable = DBS.List(SQL);
+
+			Session["tpcontainer"] = listTable;
+			ddlTipoContainer.DataSource = Session["tpcontainer"];
+			ddlTipoContainer.DataBind();
+			ddlTipoContainer.Items.Insert(0, new ListItem("Selecione", "0"));
 		}
 	}
 }
