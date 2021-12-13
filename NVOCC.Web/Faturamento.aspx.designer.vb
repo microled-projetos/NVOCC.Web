@@ -86,6 +86,24 @@ Partial Public Class Faturamento
     Protected WithEvents ddlFiltro As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle Label5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtPesquisa.
     '''</summary>
     '''<remarks>
@@ -93,6 +111,33 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divDatasBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDatasBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDataInicioBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataInicioBusca As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtDataFimBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFimBusca As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ckStatus.
@@ -104,13 +149,31 @@ Partial Public Class Faturamento
     Protected WithEvents ckStatus As Global.System.Web.UI.WebControls.CheckBoxList
 
     '''<summary>
-    '''Controle txtDataCheckLiquidados.
+    '''Controle txtDataCheckInicial.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtDataCheckLiquidados As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents txtDataCheckInicial As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtDataCheckFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataCheckFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle btnPesquisar.
@@ -606,6 +669,15 @@ Partial Public Class Faturamento
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkReciboPagamento As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkRelatorioFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkRelatorioFaturamento As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle btnFecharDesmosntrativos.
