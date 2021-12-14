@@ -33,6 +33,7 @@ Public Class OUTLOOK
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_COTACAO")) Then
                         lblCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO")
                         txtCotacao.Text = ds.Tables(0).Rows(0).Item("NR_COTACAO").Substring(0, ds.Tables(0).Rows(0).Item("NR_COTACAO").IndexOf("/"))
+                        txtAssunto.Text = "COTAÇÃO - " & ds.Tables(0).Rows(0).Item("NR_COTACAO")
                     End If
                 End If
 
@@ -40,11 +41,11 @@ Public Class OUTLOOK
                 ds = Con.ExecutarQuery("select isnull(lower(EMAIL_CONTATO),'')EMAIL_CONTATO,isnull(NM_CONTATO,'')NM_CONTATO from TB_CONTATO where ID_CONTATO = (select ID_CONTATO from TB_COTACAO where ID_COTACAO = " & ID_COTACAO & ")")
 
                 If ds.Tables(0).Rows.Count > 0 Then
-                    txtDestinatario.Text = "juliane@microled.com.br" ' ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
+                    txtDestinatario.Text = ds.Tables(0).Rows(0).Item("EMAIL_CONTATO").ToString()
                     Nome = ds.Tables(0).Rows(0).Item("NM_CONTATO").ToString()
                 End If
                 txtMsg.Text = "Prezado(a) " & Nome & ", segue sua proposta visando uma oportunidade de embarque."
-                txtAssunto.Text = "COTAÇÃO"
+
                 lblAnexo.Text = "CotacaoPDF_" & txtCotacao.Text & ".pdf"
                 ds = Con.ExecutarQuery("SELECT isnull(lower(EMAIL),'')EMAIL FROM TB_USUARIO where ID_USUARIO = " & Session("ID_USUARIO"))
 
@@ -184,7 +185,29 @@ Public Class OUTLOOK
                 'Mail.IsBodyHtml = True
 
                 enderecos = txtDestinatario.Text
-                Mail.To.Add(enderecos)
+                Dim palavras As String() = enderecos.Split(New String() _
+          {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+                'exibe o resultado
+                For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+                    Mail.To.Add(palavras(i).ToString)
+
+                Next
+
+
+
+
+                enderecos = txtCC.Text
+                palavras = enderecos.Split(New String() _
+          {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+                'exibe o resultado
+                For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+                    Mail.Bcc.Add(palavras(i).ToString)
+                Next
+
+
+
 
                 nomeArq = Server.MapPath("/Content/cotacoes/CotacaoPDF_" & txtCotacao.Text & ".pdf")
 
