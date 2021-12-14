@@ -2008,9 +2008,9 @@ namespace ABAINFRA.Web
                             Finalizado = "";
                             break;
                     }
-				}
-				else
-				{
+                }
+                else
+                {
                     switch (Ativo)
                     {
                         case "1":
@@ -2172,7 +2172,7 @@ namespace ABAINFRA.Web
                 string processarFatura = DBS.ExecuteScalar(SQL);
                 return processarFatura;
             }
-            
+
         }
 
         [WebMethod]
@@ -2313,19 +2313,19 @@ namespace ABAINFRA.Web
         public string infoAtualizacaoCambial(int idFatura, int check)
         {
             string SQL;
-            
+
             if (check == 1)
             {
                 SQL = "select DT_EXPORTACAO_DEMURRAGE FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
                 DataTable listTableV = new DataTable();
                 listTableV = DBS.List(SQL);
-                if(listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" && listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] != null)
-				{
+                if (listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"].ToString() != "" && listTableV.Rows[0]["DT_EXPORTACAO_DEMURRAGE"] != null)
+                {
                     return "1";
-				}
+                }
             }
-			else
-			{
+            else
+            {
                 SQL = "select DT_EXPORTACAO_DEMURRAGE_COMPRA FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = " + idFatura + " ";
                 DataTable listTableC = new DataTable();
                 listTableC = DBS.List(SQL);
@@ -2394,9 +2394,9 @@ namespace ABAINFRA.Web
                 {
                     return null;
                 }
-			}
-			else
-			{
+            }
+            else
+            {
                 SQL = "select * from tb_demurrage_fatura a ";
                 SQL += "WHERE A.ID_DEMURRAGE_FATURA = " + idFatura + " ";
                 SQL += "AND A.DT_EXPORTACAO_DEMURRAGE_COMPRA IS NOT NULL ";
@@ -2452,14 +2452,14 @@ namespace ABAINFRA.Web
         }
         [WebMethod]
         public string infoExportFatura(int idFatura, int check)
-		{
+        {
             string SQL;
             if (check == 1)
             {
                 SQL = "select b.ID_CNTR_BL, b.ID_BL, a.ID_DEMURRAGE_FATURA, c.FL_DEMURRAGE_FINALIZADA, ID_CONTA_BANCARIA,DT_EXPORTACAO_DEMURRAGE, DT_CANCELAMENTO from tb_demurrage_fatura a ";
                 SQL += "inner join TB_AMR_CNTR_BL b on a.ID_BL = b.ID_BL ";
                 SQL += "inner join TB_CNTR_BL c on b.ID_CNTR_BL = c.ID_CNTR_BL ";
-                SQL += "WHERE ID_DEMURRAGE_FATURA = '"+idFatura+"' ";
+                SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
                 if (listTable.Rows[0]["ID_CONTA_BANCARIA"].ToString() == "" || listTable.Rows[0]["ID_CONTA_BANCARIA"] == null)
@@ -2470,13 +2470,13 @@ namespace ABAINFRA.Web
                 {
                     return "2";
                 }
-                if(listTable.Rows[0]["FL_DEMURRAGE_FINALIZADA"].ToString() == "1")
-				{
+                if (listTable.Rows[0]["FL_DEMURRAGE_FINALIZADA"].ToString() == "1")
+                {
                     return "3";
-				}
-			}
-			else
-			{
+                }
+            }
+            else
+            {
                 SQL = "select b.ID_CNTR_BL, b.ID_BL, a.ID_DEMURRAGE_FATURA, c.FL_DEMURRAGE_FINALIZADA, ID_CONTA_BANCARIA,DT_EXPORTACAO_DEMURRAGE_COMPRA, DT_CANCELAMENTO from tb_demurrage_fatura a ";
                 SQL += "inner join TB_AMR_CNTR_BL b on a.ID_BL = b.ID_BL ";
                 SQL += "inner join TB_CNTR_BL c on b.ID_CNTR_BL = c.ID_CNTR_BL ";
@@ -3476,9 +3476,9 @@ namespace ABAINFRA.Web
                 {
                     return JsonConvert.SerializeObject("2");
                 }
-			}
-			else
-			{
+            }
+            else
+            {
                 SQL = "SELECT DT_EXPORTACAO_DEMURRAGE_COMPRA FROM TB_DEMURRAGE_FATURA WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                 DataTable listTable = new DataTable();
                 listTable = DBS.List(SQL);
@@ -5072,15 +5072,28 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServico(string dataI, string dataF, string situacao)
+        public string listarTOTVSNotaServico(string dataI, string dataF, string situacao, string notai, string notaf)
         {
+
+            string nota;
+
+            if(notai.ToString() == "" && notaf.ToString() == ""){
+                nota = "";
+			}else if(notai.ToString() != "" && notaf.ToString() != ""){
+                nota = "AND NR_NOTA BETWEEN " + notai + " AND '"+notaf+"' ";
+			}else if(notai.ToString() != ""){
+                nota = "AND NR_NOTA  >= '" + notai + "' ";
+			}else{
+                nota = "AND NR_NOTA  <= '" + notaf + "' ";
+            }
+
             switch (situacao)
             {
                 case "0":
                     situacao = "";
                     break;
                 case "1":
-                    situacao = "WHERE DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
+                    situacao = "AND DT_EXPORTACAO_TOTVS_SERVICO IS NULL ";
                     break;
             }
 
@@ -5101,8 +5114,11 @@ namespace ABAINFRA.Web
             SQL += "FROM dbo.FN_NOTA_SERVICO(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ")";
+            SQL += "WHERE NR_NOTA IS NOT NULL ";
             SQL += "" + situacao + "";
+            SQL += "" + nota + "";
             SQL += "ORDER BY NR_NOTA ";
+
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -6621,7 +6637,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', "+Session["ID_USUARIO"]+") ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', " + Session["ID_USUARIO"] + ") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";

@@ -16,12 +16,15 @@
             border-color: #003663 !important;
             color: white !important;
         }
+         #imgFundo {
+                display: none;
+            }
     </style>
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading titulo">
                 <h4>NUMERO DA BL:<asp:Label runat="server" ID="nr_bl"></asp:Label>
-                    <asp:Button ID="btnAtualizar" runat="server" BackColor="White" ForeColor="Black" Text="ATUALIZAR"  CssClass="btn btn-default" />
+                    <asp:Button ID="btnAtualizar" runat="server" BackColor="White" ForeColor="Black" Text="ATUALIZAR" style="margin-left:50px" CssClass="btn btn-default" />
                 </h4>
             </div>
         </div>
@@ -122,42 +125,7 @@
                 </div>
                 <div class="row">
                      <div id="divCNTR" runat="server" class="col-lg-12">
-                    </div>
-                    <%-- <div class="col-lg-12">
-                       <table>
-                            <thead>
-                                <tr>
-                                    <th>CONTAINER</th>
-                                    <th>LACRE</th>
-                                    <th>PES</th>
-                                    <th>TARA</th>
-                                    <th>PESO BRUTO</th>
-                                    <th>VOLUME(M3)</th>
-                                    <th>HISTORICO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_container"></asp:Label></td>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_lacre"></asp:Label></td>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_pes"></asp:Label></td>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_tara"></asp:Label></td>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_peso_bruto"></asp:Label></td>
-                                    <td>
-                                        <asp:Label Font-Bold="true" runat="server" ID="m_volume_m3"></asp:Label></td>
-                                    <td>
-                                        <p></p>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-                    </div>--%>
+                    </div>                   
                 </div>
             </div>
         </div>
@@ -387,6 +355,11 @@
             </div>
         </div>
     </div>
+     <%--<div class="col-lg-6">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d64651538.95931257!2d-13.152485160994921!3d8.497748471632285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x31508e64e5c642c1%3A0x951daa7c349f366f!2sChina!3m2!1d35.86166!2d104.195397!4m5!1s0x9c59c7ebcc28cf%3A0x295a1506f2293e63!2sBrasil!3m2!1d-14.235004!2d-51.92528!5e0!3m2!1spt-BR!2sbr!4v1639505866851!5m2!1spt-BR!2sbr" width="900" height="400" style="border:5;" allowfullscreen="" loading="lazy"></iframe>
+
+         <br /> <br /> 
+         </div>--%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
 </asp:Content>
