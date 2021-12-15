@@ -523,6 +523,7 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
     <Content Include="RelatorioInvoice.aspx.designer.cs" />
@@ -1084,6 +1085,13 @@
     </Compile>
     <Compile Include="ContratosFirmados.aspx.vb">
       <DependentUpon>ContratosFirmados.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RelatorioFaturamento.aspx.designer.vb">
+      <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RelatorioFaturamento.aspx.vb">
+      <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.designer.vb">
