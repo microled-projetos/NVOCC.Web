@@ -32,7 +32,7 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
             Dim valores As Decimal = 0
             tabela &= "<table border='1' style='font-size:10px;'>"
             tabela &= "<tr><td><strong>Vencimento</strong></td>"
-            tabela &= "<td><strong>Processo</strong></td>"
+            tabela &= "<td style='width:100px !important'><strong>Processo</strong></td>"
             tabela &= "<td><strong>Cliente</strong></td>"
             tabela &= "<td><strong>Ref. Cliente</strong></td>"
             tabela &= "<td><strong>Valor Nota de Deb.</strong></td>"

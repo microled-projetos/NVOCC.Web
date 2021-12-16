@@ -166,7 +166,7 @@
                                             <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="Data de Cancelamento" SortExpression="DT_CANCELAMENTO" />
                                             <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
                                             <asp:BoundField DataField="ARQ_REM" HeaderText="Remessa" SortExpression="ARQ_REM" />
-                                            <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
+                                            <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

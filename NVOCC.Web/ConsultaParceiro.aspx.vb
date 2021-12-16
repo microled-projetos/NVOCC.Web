@@ -17,7 +17,6 @@
             Response.Redirect("Default.aspx")
 
         End If
-
         Con.Fechar()
     End Sub
     Private Sub dgvParceiros_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvParceiros.RowCommand
@@ -79,10 +78,11 @@ WHERE A.ID_TIPO_USUARIO = 1 AND A.ID_USUARIO  =" & Session("ID_USUARIO"))
 
 
         'verifica se o usuario tem permissão de alterações de parceiro
-        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-            dgvParceiros.Columns(6).Visible = False
-        End If
+        'ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        'If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+        '    dgvParceiros.Columns(6).Visible = False
+        'End If
+
 
 
         'verifica se o usuario tem permissão de acesso ao cadastro de Email x Eventos

@@ -88,7 +88,8 @@ Public Class Faturamento
 
             If ckStatus.Items.FindByValue(2).Selected Then
                 'Faturados
-                FiltroCheck &= " AND DT_LIQUIDACAO IS NOT NULL"
+                ' FiltroCheck &= " AND DT_LIQUIDACAO IS NOT NULL"
+                FiltroCheck &= " AND NR_NOTA_DEBITO IS NOT NULL"
                 Session("filtros") &= ", Faturados"
             End If
         End If
