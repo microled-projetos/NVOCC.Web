@@ -102,10 +102,14 @@
                                 <div class="row">
                                     
                                 </div>
-                                <div class="row" style="display: flex; margin:auto; margin-top:10px;">
-                                    <div style="margin: auto">
+                                <div class="row" style="display: flex; margin:auto; margin-top:10px; flex-direction: column; align-items:center ">
+                                    <div>
                                         <button type="button" id="btnExportEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="exportEstimativaCSV('Pagamento_Recebimento_Estimativa.csv')">Exportar Grid - CSV</button>
-                                            <button type="button" id="btnPrintEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="PrintEstimativaPagamentosRecebimentos()">Imprimir</button>
+                                        <button type="button" id="btnPrintEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="PrintEstimativaPagamentosRecebimentos()">Imprimir</button>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <button type="button" id="btnExportContaPrevisibilidadeProcesso" class="btn btn-primary" onclick="exportContaPrevisibilidadeProcesso('PrevisibilidadeProcesso.csv')">GERAR CSV PREVISIBILIDADE</button>
+                                        <button type="button" id="btnPrintContaConferencia" class="btn btn-primary" onclick="exportContaConferenciaProcesso('ContaConferencia.csv')">GERAR CSV CONFERÊNCIA PREVISIBILIDADE</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -293,6 +297,116 @@
             } else {
 
             }
+        }
+
+        function exportContaPrevisibilidadeProcesso(file) {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/ContaPrevisibilidadeProcesso",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        var previProcesso = [["PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR20;CNTR40;ORIGEM;DESTINO;STATUS COTACAO;DATA STATUS COTACAO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;A RECEBER BRL;A PAGAR BRL;SALDO BRL"]];
+                        for (let i = 0; i < dado.length; i++) {
+                            previProcesso.push([dado[i]]);
+                        }
+                        exportContaPrevisibilidadeProcessoCSV(file, previProcesso.join("\n"));
+                    }
+                }
+            })
+        }
+
+        function exportContaConferenciaProcesso(file) {
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/ContaConferenciaProcesso",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        var confProcesso = [["PROCESSO;PROCEDENCIA;ITEM;VALOR BRL;ESTUFAGEM MASTER;ESTUFAGEM HOUSE;PAGAMENTO MASTER;PAGAMENTO HOUSE;PAGAMENTO TAXA;ORIGEM;DECLARADO;FREEHAND;STATUS FRETE;DIVISAO PROFIT"]];
+                        for (let i = 0; i < dado.length; i++) {
+                            confProcesso.push([dado[i]]);
+                        }
+                        exportContaConferenciaProcessoCSV(file, confProcesso.join("\n"));
+                    }
+                }
+            })
+        }
+
+        function exportContaPrevisibilidadeProcessoCSV(file, array)  {
+                var csvFile;
+
+                var downloadLink;
+
+
+                // CSV file
+                csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
+
+                // Download link
+                downloadLink = document.createElement("a");
+
+
+                // File name
+                downloadLink.download = file;
+
+
+                // Create a link to the file
+                downloadLink.href = window.URL.createObjectURL(csvFile);
+
+
+                // Hide download link
+                downloadLink.style.display = "none";
+
+
+
+                // Add the link to DOM
+                document.body.appendChild(downloadLink);
+
+
+
+                // Click download link
+                downloadLink.click();
+            }
+
+        function exportContaConferenciaProcessoCSV(file, array) {
+            var csvFile;
+
+            var downloadLink;
+
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
+
+            // Download link
+            downloadLink = document.createElement("a");
+
+
+            // File name
+            downloadLink.download = file;
+
+
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+
+
+            // Hide download link
+            downloadLink.style.display = "none";
+
+
+
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+
+
+
+            // Click download link
+            downloadLink.click();
         }
 
         function exportCSV(filename) {

@@ -192,6 +192,8 @@
                                        <li><a id="mnTOTVSPA" runat="server" href="integracaoTOTVSPA.aspx">PA</a></li>
                                        <li><a id="mnTOTVSDebit" runat="server" href="integracaoTOTVSDebit.aspx">Invoice Debit</a></li>
                                        <li><a id="mnTOTVSCredit"  runat="server" href="integracaoTOTVSCredit.aspx">Invoice Credit</a></li>
+                                       <li><a id="mnTOTVSDemurrageRA"  runat="server" href="integracaoTOTVSDemurrageRA.aspx">Demurrage RA</a></li>
+                                       <li><a id="mnTOTVSDemurragePA"  runat="server" href="integracaoTOTVSDemurrage.aspx">Demurrage PA</a></li>
                                 </ul>
                             </li>
                             <li>

@@ -212,6 +212,10 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnDemonstrativoRateio.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2054 And linha.Item("Acessar").ToString() = 0 Then
                         mnPremiacao.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2055 And linha.Item("Acessar").ToString() = 0 Then
+                        mnTOTVSDemurrageRA.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2056 And linha.Item("Acessar").ToString() = 0 Then
+                        mnTOTVSDemurragePA.Visible = False
                     End If
 
 
@@ -251,7 +255,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False And mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnCaixaSaida.Visible = False Then
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False And mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnCaixaSaida.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False Then
                 MenuFinanceiro.Visible = False
             End If
 
