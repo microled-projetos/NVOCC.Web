@@ -24,6 +24,20 @@ Public Class CadastrarParceiro
             Response.Redirect("Default.aspx")
 
         End If
+
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 And Request.QueryString("id") = "" Then
+            btnGravar.Visible = False
+            btnLimpar.Visible = False
+        End If
+
+        ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 4 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 And Request.QueryString("id") <> "" Then
+            btnGravar.Visible = False
+            btnLimpar.Visible = False
+        End If
+
         Con.Fechar()
     End Sub
 

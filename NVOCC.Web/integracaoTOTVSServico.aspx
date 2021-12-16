@@ -75,6 +75,18 @@
                                         <input type="radio" id="naoExportadosServ" name="exportServ" value="2" checked>
                                         <label for="compra">Registros Não Exportados</label><br>
                                     </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Nº Nota Servico Inicial</label>
+                                            <input id="txtNotaServicoInicio" class="form-control" type="text" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Nº Nota Servico Final</label>
+                                            <input id="txtNotaServicoFim" class="form-control" type="text" />
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <button type="button" id="btnConsultarServico" style="margin-left: 10px" onclick="TOTVSNotaServico()" class="btn btn-primary">Consultar</button>
                                     </div>
@@ -199,7 +211,8 @@
 
         function TOTVSNotaServico() {
             $("#modalServico").modal("show");
-
+            var notai = document.getElementById("txtNotaServicoInicio").value;
+            var notaf = document.getElementById("txtNotaServicoFim").value;
             var exporta = document.getElementById("todosServ");
             var dataI = document.getElementById("txtDtEmissaoInicialServ").value;
             var dataF = document.getElementById("txtDtEmissaoFinalServ").value;
@@ -212,7 +225,7 @@
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaServico",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", notai: "' + notai +'", notaf: "' + notaf +'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {

@@ -1815,9 +1815,10 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
             lblmsgErro.Text = "Selecione o registro que deseja enviar!"
 
         Else
-            Dim url As String = ""
-            url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=e"
-            Response.Redirect(url)
+            'Dim url As String = ""
+            'url = "GeraPDF.aspx?c=" & txtID.Text & "&l=" & ddlLinguagem.SelectedValue & "&f=e"
+            'Response.Redirect(url)
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "EnviarCotacao()", True)
 
         End If
     End Sub

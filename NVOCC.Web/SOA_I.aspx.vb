@@ -83,20 +83,18 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 tabela &= "<td>" & linhadados("TP_SERVICO") & "</td>"
                 tabela &= "<td>" & linhadados("ORIGEM") & "</td>"
                 tabela &= "<td>" & linhadados("DESTINO") & "</td>"
-                tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
 
                 If linhadados("GRAU") = "M" Then
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL") & "</td>"
-                ElseIf linhadados("GRAU") = "C" Then
-                    tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
-                End If
-
-                tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
-
-                If linhadados("GRAU") = "M" Then
                     tabela &= "<td></td>"
+                    tabela &= "<td></td>"
+
                 ElseIf linhadados("GRAU") = "C" Then
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
+                    tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL") & "</td>"
+                    tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
                 End If
 
                 tabela &= "<td>" & linhadados("NR_INVOICE") & "</td>"

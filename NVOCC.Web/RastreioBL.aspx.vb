@@ -3,12 +3,7 @@ Public Class RastreioBL
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        ' Dim teste As New RastreioService
-        'Try
-        '    teste.PostAsyncBl(Session("NR_BL"), "", "", "")
-        'Catch ex As Exception
-        '    Dim X As String = ex.Message
-        'End Try
+
         nr_bl.Text = Session("NR_BL")
         Dim data = DeserializarNewtonsoft()
 
@@ -20,10 +15,11 @@ Public Class RastreioBL
         porto_descarga.Text = data.transport.landing_terminal
         porto_destino.Text = data.transport.destination_port
         porto_origem.Text = data.transport.origin_port
+
         'Principal
         status.Text = data.tracking.status_description
         bl.Text = data.references.bill_of_lading
-        consig_informado.Text = data.tracking.consignee_info
+        consig_informado.Text = data.tracking.consignee_info '
         fluxo.Text = data.references.transaction
         navio.Text = data.transport.vessel_name
         imo.Text = data.transport.vessel_imo
@@ -36,25 +32,19 @@ Public Class RastreioBL
         identificador_token.Text = data.references.tracking_token
         situacao.Text = "Ativo"
         eta.Text = data.dates.eta
+
         'ADUANA
-        'ce.Text = data.aduana.ce_number
+        ce.Text = data.aduana.ce_number
         manifesto.Text = data.aduana.manifest
-        'Mercadoria
+
+        'MERCADORIA
         volume_m3.Text = data.commodity.unit_quantity
         peso_bruto.Text = data.commodity.gross_weight_kg
         teus.Text = data.commodity.teus
         cntrs.Text = data.commodity.c40
         total_cntrs.Text = data.commodity.fcl_total
+
         'ITENS MERCADORIA
-        'm_container.Text = data.fcl(0).container_number
-        'm_lacre.Text = data.fcl(0).seal_number
-        'm_pes.Text = data.fcl(0).feet
-        'm_peso_bruto.Text = data.fcl(0).gross_weight_decimal
-        'm_tara.Text = data.fcl(0).tare_container
-        'm_volume_m3.Text = data.fcl(0).volume_m3
-
-
-
         Dim tabela1 As String = "<table class='table'>"
         tabela1 &= "<thead>"
         tabela1 &= "<tr>"
@@ -86,17 +76,13 @@ Public Class RastreioBL
         divCNTR.InnerHtml = tabela1
 
 
-
-
-
-
         'ENVOLVIDOS
         consignatario.Text = data.logistics.forwarder_name
         armador.Text = data.logistics.carrier_name
         agente_carga.Text = data.logistics.forwarder_name
         agencia_maritima.Text = data.logistics.shipping_agency
-        armador_informado.Text = data.logistics.informed_carrier_name
-        agente_internacional.Text = data.logistics.forwarder_name_foreign
+        armador_informado.Text = data.logistics.informed_carrier_name '
+        agente_internacional.Text = data.logistics.forwarder_name_foreign '
 
         'IMPORTADOR
         'atividade.Text = data.consignee.activity

@@ -18,6 +18,7 @@ CONVERT(VARCHAR,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
 VL_FREQUENCIA,
 A.ID_ANALISTA_COTACAO,
 (SELECT NOME FROM TB_USUARIO WHERE ID_USUARIO = A.ID_ANALISTA_COTACAO )NOME_ANALISTA,
+(SELECT TELEFONE FROM TB_USUARIO WHERE ID_USUARIO = A.ID_ANALISTA_COTACAO )TELEFONE_ANALISTA,
 A.ID_INCOTERM,
 (SELECT NM_INCOTERM FROM TB_INCOTERM WHERE ID_INCOTERM = A.ID_INCOTERM )NOME_INCOTERM,
 A.ID_TIPO_ESTUFAGEM,
@@ -170,6 +171,9 @@ FROM  TB_COTACAO A
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("NOME_ANALISTA")) Then
                 lblAnalista.Text = ds.Tables(0).Rows(0).Item("NOME_ANALISTA").ToString
+            End If
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("TELEFONE_ANALISTA")) Then
+                lblTelefoneAnalista.Text = ds.Tables(0).Rows(0).Item("TELEFONE_ANALISTA").ToString
             End If
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_TOTAL_FRETE_VENDA_CALCULADO")) Then
                 Dim tabela As String = "<table class='subtotal table table-bordered' style='font-family:Arial;font-size:10px;'><tr>"

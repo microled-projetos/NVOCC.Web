@@ -23,7 +23,7 @@ namespace ABAINFRA.Web.Classes
         private string qt_peso;
         private string qt_metragem;
         private string ds_obs;
-
+        private string id_tipo_container;
 
         public string DT_ATENDIMENTO_NEGADO { get => dt_atendimento_negado; set => dt_atendimento_negado = value; }
         public string ID_PARCEIRO_INSIDE { get => id_parceiro_inside; set => id_parceiro_inside = value; }
@@ -41,5 +41,6 @@ namespace ABAINFRA.Web.Classes
         public string QT_PESO { get => qt_peso; set => qt_peso = value; }
         public string QT_METRAGEM { get => qt_metragem; set => qt_metragem = value; }
         public string DS_OBS { get => ds_obs; set => ds_obs = value; }
+        public string ID_TIPO_CONTAINER { get => id_tipo_container; set => id_tipo_container = value; }
     }
 }

@@ -1371,3 +1371,12 @@ input[type=file] {
 .sorter:hover {
     background-color: #d5dde9;
 }
+
+
+#corpoEmail {
+    white-space: pre;
+}
+
+#boxTpContainer {
+    display: none;
+}

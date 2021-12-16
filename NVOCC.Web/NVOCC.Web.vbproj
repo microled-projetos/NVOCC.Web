@@ -50,9 +50,8 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 08122021\Publicacao 09122021\bin\ABAINFRA.Web.dll</HintPath>
+    <Reference Include="ABAINFRA.Web">
+      <HintPath>..\..\..\..\ABAINFRA.Web 14122021 (2)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -524,6 +523,7 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
     <Content Include="RelatorioInvoice.aspx.designer.cs" />
@@ -1085,6 +1085,13 @@
     </Compile>
     <Compile Include="ContratosFirmados.aspx.vb">
       <DependentUpon>ContratosFirmados.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="RelatorioFaturamento.aspx.designer.vb">
+      <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RelatorioFaturamento.aspx.vb">
+      <DependentUpon>RelatorioFaturamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="RelatorioVendedor.aspx.designer.vb">
