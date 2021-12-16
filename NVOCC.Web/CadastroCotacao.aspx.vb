@@ -3492,10 +3492,12 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
             If ds.Tables(0).Rows.Count > 1 Then
                 dsContato.SelectCommand = sql
                 ddlContato.DataBind()
-                sql = "SELECT ID_CONTATO FROM [dbo].[TB_CONTATO] WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue
-                ds = Con.ExecutarQuery(sql)
+                ddlContato.Attributes.CssStyle.Add("display", "block")
                 ddlContato.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CONTATO")
             Else
+                dsContato.SelectCommand = "SELECT  0, '  Selecione'"
+                ddlContato.DataBind()
+                ddlContato.Attributes.CssStyle.Add("display", "none")
                 ddlContato.SelectedValue = 0
             End If
 
@@ -3503,22 +3505,14 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
 union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             ds = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count = 1 Then
-                dsClienteFinal.SelectCommand = sql
+                dsClienteFinal.SelectCommand = "SELECT  0, '  Selecione'"
                 ddlClienteFinal.DataBind()
                 divClienteFinal.Attributes.CssStyle.Add("display", "none")
-
-            ElseIf ds.Tables(0).Rows.Count > 1 Then
+                ddlClienteFinal.SelectedValue = 0
+            Else
                 dsClienteFinal.SelectCommand = sql
                 ddlClienteFinal.DataBind()
                 divClienteFinal.Attributes.CssStyle.Add("display", "block")
-
-            Else
-
-                divClienteFinal.Attributes.CssStyle.Add("display", "block")
-                ddlClienteFinal.DataBind()
-
-                sql = "SELECT ID_CLIENTE_FINAL FROM [dbo].[TB_CLIENTE_FINAL] WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue
-                ds = Con.ExecutarQuery(sql)
                 ddlClienteFinal.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL")
             End If
 
@@ -3531,12 +3525,12 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             If ds.Tables(0).Rows.Count > 1 Then
                 dsVendedor.SelectCommand = sql
                 ddlVendedor.DataBind()
-
                 ddlVendedor.SelectedValue = ds1.Tables(0).Rows(0).Item("ID_VENDEDOR")
             Else
+                dsVendedor.SelectCommand = "SELECT ID_PARCEIRO, NM_RAZAO  FROM TB_PARCEIRO WHERE (FL_VENDEDOR = 1  AND FL_ATIVO = 1)  OR ID_PARCEIRO = " & ddlCliente.SelectedValue & " union SELECT  0, ' Selecione' ORDER BY NM_RAZAO" 'geral
                 ddlVendedor.DataBind()
-
             End If
+
             Session("ID_CLIENTE") = ddlCliente.SelectedValue
 
             GridHistoricoCotacao()
@@ -4531,5 +4525,9 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             Dim ckbSelecionar = CType(Me.dgvTaxas.Rows(i).FindControl("ckSelecionar"), CheckBox)
             ckbSelecionar.Checked = True
         Next
+    End Sub
+
+    Private Sub ddlContato_Load(sender As Object, e As EventArgs) Handles ddlContato.Load
+
     End Sub
 End Class
