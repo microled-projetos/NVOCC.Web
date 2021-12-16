@@ -3492,12 +3492,10 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
             If ds.Tables(0).Rows.Count > 1 Then
                 dsContato.SelectCommand = sql
                 ddlContato.DataBind()
-                ddlContato.Attributes.CssStyle.Add("display", "block")
                 ddlContato.SelectedValue = ds.Tables(0).Rows(0).Item("ID_CONTATO")
             Else
-                dsContato.SelectCommand = "SELECT  0, '  Selecione'"
+                dsContato.SelectCommand = "SELECT  0 as ID_CONTATO, '  Selecione' as NM_CONTATO"
                 ddlContato.DataBind()
-                ddlContato.Attributes.CssStyle.Add("display", "none")
                 ddlContato.SelectedValue = 0
             End If
 
@@ -3505,7 +3503,7 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
 union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             ds = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count = 1 Then
-                dsClienteFinal.SelectCommand = "SELECT  0, '  Selecione'"
+                dsClienteFinal.SelectCommand = "SELECT  0 as ID_CLIENTE_FINAL, '  Selecione' as NM_CLIENTE_FINAL"
                 ddlClienteFinal.DataBind()
                 divClienteFinal.Attributes.CssStyle.Add("display", "none")
                 ddlClienteFinal.SelectedValue = 0
