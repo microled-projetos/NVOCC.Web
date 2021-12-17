@@ -1675,8 +1675,5 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
-    Private Sub lkRelatorioFaturamento_Click(sender As Object, e As EventArgs) Handles lkRelatorioFaturamento.Click
-        Dim sql As String = dsFaturamento.SelectCommand
 
-    End Sub
 End Class
