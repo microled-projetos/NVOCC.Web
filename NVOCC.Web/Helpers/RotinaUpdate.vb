@@ -342,13 +342,17 @@ end ID_ORIGEM_PAGAMENTO
             Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
             Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
 
-            ''TAXAS COMPRA
+            ''TAXAS COMPRA COM VALOR ZERADO NA COTACAO
             dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,isnull(VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,isnull(VL_TAXA_COMPRA_CALCULADO,0)VL_TAXA_COMPRA_CALCULADO,isnull(VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA
  WHERE VL_TAXA_COMPRA IS NOT NULL AND VL_TAXA_COMPRA = 0 AND ID_COTACAO_TAXA =" & ID_COTACAO_TAXA)
 
             If dsCotacao.Tables(0).Rows.Count > 0 Then
 
-                dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO, isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -362,6 +366,8 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                             If linha.Item("ID_CONTA_PAGAR_RECEBER").ToString = 0 Or Not IsDBNull(linha.Item("DT_CANCELAMENTO")) Then
 
+                                System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Foi deletada do processo " & NR_PROCESSO & " a taxa:  " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & "<br/> "
+
                                 ' DELETE
                                 Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND CD_PR='P' AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
                             End If
@@ -372,12 +378,17 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
             Else
 
+                ''TAXAS COMPRA COM VALOR MAIOR QUE ZERO
                 dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,isnull(VL_TAXA_COMPRA,0)VL_TAXA_COMPRA,isnull(VL_TAXA_COMPRA_CALCULADO,0)VL_TAXA_COMPRA_CALCULADO,isnull(VL_TAXA_COMPRA_MIN,0)VL_TAXA_COMPRA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR,ID_FORNECEDOR FROM TB_COTACAO_TAXA
  WHERE VL_TAXA_COMPRA IS NOT NULL AND VL_TAXA_COMPRA <> 0 AND ID_COTACAO_TAXA =" & ID_COTACAO_TAXA)
 
                 If dsCotacao.Tables(0).Rows.Count > 0 Then
 
-                    dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                    dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO, isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -393,34 +404,51 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                     If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DECLARADO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo Divisão PROFIT alterado. <br/> "
+
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo TIPO PAGAMENTO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo ORIGEM PAGAMENTO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DESTINATARIO COBRANÇA alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BASE_CALCULO_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo BASE DE CALCULO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString <> linha.Item("ID_MOEDA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo MOEDA alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString <> linha.Item("VL_TAXA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString & " . <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
@@ -429,14 +457,20 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA_MIN").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString & " . <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo OBS alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo de PARCEIRO alterado. <br/> "
                                     End If
 
                                     Dim calculaBL As New CalculaBL
@@ -449,7 +483,11 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
                     Else
 
 
-                        dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                        dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO, isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -465,34 +503,50 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                         If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DECLARADO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo Divisão PROFIT alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo TIPO PAGAMENTO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo ORIGEM PAGAMENTO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DESTINATARIO COBRANÇA alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BASE_CALCULO_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo BASE DE CALCULO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString <> linha.Item("ID_MOEDA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_COMPRA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo MOEDA alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString <> linha.Item("VL_TAXA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString.Replace(",", ".") & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA").ToString & " . <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
@@ -501,14 +555,20 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString.Replace(",", ".") & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA_MIN").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_COMPRA_MIN").ToString & " . <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo OBS alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_FORNECEDOR").ToString & " WHERE  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo de PARCEIRO alterado. <br/> "
                                         End If
 
                                         Dim calculaBL As New CalculaBL
@@ -527,6 +587,20 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
                             Dim calculaBL As New CalculaBL
                             calculaBL.Calcular(dsInsert.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
 
+
+                            dsInfo = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = BL.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN CD_PR = 'P' THEN ' DE COMPRA'
+WHEN CD_PR = 'R' THEN ' DE VENDA'
+END TIPO
+FROM TB_BL_TAXA BL 
+WHERE BL.ID_BL_TAXA = " & dsInsert.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
+
+                            If dsInfo.Tables(0).Rows.Count > 0 Then
+                                System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Foi inserida no processo " & NR_PROCESSO & " a taxa: " & dsInfo.Tables(0).Rows(0).Item("TAXA").ToString & dsInfo.Tables(0).Rows(0).Item("TIPO").ToString & "<br/> "
+
+                            End If
+
                         End If
 
                     End If
@@ -539,10 +613,12 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
 
 
+            ''----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------''
 
 
 
-            ''TAXAS VENDA
+
+            ''TAXAS VENDA COM VALOR ZERADO NA COTACAO
             dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_VENDA,isnull(VL_TAXA_VENDA,0)VL_TAXA_VENDA,isnull(VL_TAXA_VENDA_CALCULADO,0)VL_TAXA_VENDA_CALCULADO,isnull(VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR, CASE 
  WHEN isnull(ID_DESTINATARIO_COBRANCA,0) <= 1 
  THEN (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ") 
@@ -562,7 +638,11 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
             If dsCotacao.Tables(0).Rows.Count > 0 Then
 
-                dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO, isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -576,6 +656,8 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                             If linha.Item("ID_CONTA_PAGAR_RECEBER").ToString = 0 Or Not IsDBNull(linha.Item("DT_CANCELAMENTO")) Then
 
+                                System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Foi deletada do processo " & NR_PROCESSO & " a taxa:  " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & "<br/> "
+
                                 ''' DELETE
                                 Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND CD_PR='R' AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
 
@@ -587,7 +669,7 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
             Else
 
 
-                ''TAXAS VENDA
+                ''TAXAS VENDA COM VALOR MAIOR QUE ZERO
                 dsCotacao = Con.ExecutarQuery("SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_VENDA,isnull(VL_TAXA_VENDA,0)VL_TAXA_VENDA,isnull(VL_TAXA_VENDA_CALCULADO,0)VL_TAXA_VENDA_CALCULADO,isnull(VL_TAXA_VENDA_MIN,0)VL_TAXA_VENDA_MIN,OB_TAXAS,FL_TAXA_TRANSPORTADOR, CASE 
  WHEN isnull(ID_DESTINATARIO_COBRANCA,0) <= 1 
  THEN (SELECT ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = " & ID_COTACAO & ") 
@@ -607,7 +689,11 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                 If dsCotacao.Tables(0).Rows.Count > 0 Then
 
-                    dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                    dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO,  isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -625,34 +711,50 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                     If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DECLARADO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo Divisão PROFIT alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo TIPO PAGAMENTO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo ORIGEM PAGAMENTO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DESTINATARIO COBRANÇA alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BASE_CALCULO_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo BASE DE CALCULO alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString <> linha.Item("ID_MOEDA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo MOEDA alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString <> linha.Item("VL_TAXA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString & " . <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
@@ -661,14 +763,20 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                     If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA_MIN").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString & " . <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo OBS alterado. <br/> "
                                     End If
 
                                     If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
                                         Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString & " WHERE ID_COTACAO_TAXA =" & ID_COTACAO_TAXA & " AND ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                        System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo de PARCEIRO alterado. <br/> "
                                     End If
 
 
@@ -680,7 +788,11 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                     Else
 
-                        dsProcesso = Con.ExecutarQuery("SELECT isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
+                        dsProcesso = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN A.CD_PR = 'P' THEN ' DE COMPRA'
+WHEN A.CD_PR = 'R' THEN ' DE VENDA'
+END TIPO, isnull(ID_BL_MASTER,0)ID_BL_MASTER,A.ID_BL_TAXA,A.ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,A.ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,A.ID_MOEDA,isnull(VL_TAXA,0)VL_TAXA,isnull(A.VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO,isnull(VL_TAXA_MIN,0)VL_TAXA_MIN,OB_TAXAS,A.ID_BL,FL_TAXA_TRANSPORTADOR,A.CD_PR,A.ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,
 isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO
 FROM TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
@@ -697,34 +809,50 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                         If dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString <> linha.Item("FL_DECLARADO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DECLARADO = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DECLARADO").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DECLARADO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString <> linha.Item("FL_DIVISAO_PROFIT").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_DIVISAO_PROFIT = '" & dsCotacao.Tables(0).Rows(0).Item("FL_DIVISAO_PROFIT").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo Divisão PROFIT alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString <> linha.Item("ID_TIPO_PAGAMENTO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_TIPO_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo TIPO PAGAMENTO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString <> linha.Item("ID_ORIGEM_PAGAMENTO").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_ORIGEM_PAGAMENTO = " & dsCotacao.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo ORIGEM PAGAMENTO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString <> linha.Item("ID_DESTINATARIO_COBRANCA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_DESTINATARIO_COBRANCA = " & dsCotacao.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo DESTINATARIO COBRANÇA alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString <> linha.Item("ID_BASE_CALCULO_TAXA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BASE_CALCULO_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo BASE DE CALCULO alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString <> linha.Item("ID_MOEDA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_MOEDA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MOEDA_VENDA").ToString & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo MOEDA alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString <> linha.Item("VL_TAXA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString.Replace(",", ".") & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA").ToString & " . <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_CALCULADO").ToString <> linha.Item("VL_TAXA_CALCULADO").ToString Then
@@ -733,14 +861,20 @@ LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGA
 
                                         If dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString <> linha.Item("VL_TAXA_MIN").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET VL_TAXA_MIN = " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString.Replace(",", ".") & " WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo VALOR alterado de " & linha.Item("VL_TAXA_MIN").ToString & " para " & dsCotacao.Tables(0).Rows(0).Item("VL_TAXA_VENDA_MIN").ToString & " . <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString <> linha.Item("OB_TAXAS").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET OB_TAXAS = '" & dsCotacao.Tables(0).Rows(0).Item("OB_TAXAS").ToString & "' WHERE   ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo OBS alterado. <br/> "
                                         End If
 
                                         If dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString <> linha.Item("ID_PARCEIRO_EMPRESA").ToString Then
                                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_PARCEIRO_EMPRESA = " & dsCotacao.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA").ToString & " WHERE  ID_BL_TAXA = " & linha.Item("ID_BL_TAXA").ToString)
+
+                                            System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Taxa " & linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & " teve o campo de PARCEIRO alterado. <br/> "
                                         End If
 
 
@@ -785,6 +919,20 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
 
                             Dim calculaBL As New CalculaBL
                             calculaBL.Calcular(dsInsert.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
+
+
+                            dsInfo = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = BL.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN CD_PR = 'P' THEN ' DE COMPRA'
+WHEN CD_PR = 'R' THEN ' DE VENDA'
+END TIPO
+FROM TB_BL_TAXA BL 
+WHERE BL.ID_BL_TAXA = " & dsInsert.Tables(0).Rows(0).Item("ID_BL_TAXA").ToString)
+
+                            If dsInfo.Tables(0).Rows.Count > 0 Then
+                                System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Foi inserida no processo " & NR_PROCESSO & " a taxa: " & dsInfo.Tables(0).Rows(0).Item("TAXA").ToString & dsInfo.Tables(0).Rows(0).Item("TIPO").ToString & "<br/> "
+
+                            End If
                         End If
 
                     End If
@@ -795,9 +943,6 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
 
         End If
     End Sub
-
-
-
 
     Sub UpdateCarga(ID_COTACAO As String, ID_COTACAO_MERCADORIA As String, NR_PROCESSO As String)
         If ID_COTACAO = "" Or NR_PROCESSO = "" Then
@@ -956,54 +1101,30 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
             Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
             Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
 
+
+
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = BL.ID_ITEM_DESPESA)TAXA, 
+CASE 
+WHEN CD_PR = 'P' THEN ' DE COMPRA'
+WHEN CD_PR = 'R' THEN ' DE VENDA'
+END TIPO
+FROM TB_BL_TAXA BL 
+WHERE 
+BL.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND BL.ID_BL =" & ID_BL & " AND  
+BL.CD_ORIGEM_INF='COTA' 
+AND BL.ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) 
+AND BL.ID_BL_MASTER IS NULL AND BL.ID_BL_TAXA_MASTER IS NULL")
+            If ds.Tables(0).Rows.Count > 0 Then
+                System.Web.HttpContext.Current.Session("InfoAtualizacao") = "Foram deletadas do processo " & NR_PROCESSO & " as taxas: <br/> "
+                For Each linha As DataRow In ds.Tables(0).Rows
+                    System.Web.HttpContext.Current.Session("InfoAtualizacao") &= linha.Item("TAXA").ToString & linha.Item("TIPO").ToString & "<br/> "
+                Next
+            End If
+
             Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
 
 
-            'Dim Con As New Conexao_sql
-            'Con.Conectar()
-            'Dim dsProcesso As DataSet
-            'Dim dsInfo As DataSet = Con.ExecutarQuery("SELECT C.ID_TIPO_ESTUFAGEM,A.ID_BL FROM TB_BL A INNER JOIN TB_COTACAO C ON A.NR_PROCESSO=C.NR_PROCESSO_GERADO AND A.ID_COTACAO = C.ID_COTACAO WHERE A.ID_COTACAO = " & ID_COTACAO & " AND A.NR_PROCESSO = '" & NR_PROCESSO & "'")
-            'Dim ID_BL As String = dsInfo.Tables(0).Rows(0).Item("ID_BL").ToString
-            'dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA FROM TB_BL_TAXA A WHERE A.CD_ORIGEM_INF='COTA' AND A.ID_ITEM_DESPESA <> 14 AND A.ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND A.ID_BL = " & ID_BL)
 
-            'If dsProcesso.Tables(0).Rows.Count > 0 Then
-            '    Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_COTACAO_TAXA = " & ID_COTACAO_TAXA & " AND ID_BL =" & ID_BL & " AND  CD_ORIGEM_INF='COTA' AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
-
-            'Else
-            '    If ID_ITEM_DESPESA <> "" And ID_BASE_CALCULO_TAXA <> "" Then
-
-            '        dsProcesso = Con.ExecutarQuery("SELECT A.ID_BL_TAXA,isnull(B.ID_CONTA_PAGAR_RECEBER,0)ID_CONTA_PAGAR_RECEBER,C.DT_CANCELAMENTO,isnull(A.ID_BL_MASTER,0)ID_BL_MASTER 
-            'FROM TB_BL_TAXA A
-            'LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON A.ID_BL_TAXA= B.ID_BL_TAXA
-            'LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER  
-            'WHERE ISNULL(CD_ORIGEM_INF,'COTA') = 'COTA' AND A.ID_ITEM_DESPESA = " & ID_ITEM_DESPESA & " AND isnull(A.ID_COTACAO_TAXA,0) = 0 and A.ID_BASE_CALCULO_TAXA = " & ID_BASE_CALCULO_TAXA & " AND A.ID_BL = " & ID_BL)
-
-            '        If dsProcesso.Tables(0).Rows.Count > 0 Then
-
-
-            '            For Each linha As DataRow In dsProcesso.Tables(0).Rows
-
-            '                If linha.Item("ID_BL_MASTER").ToString = 0 Then
-
-
-            '                    If linha.Item("ID_CONTA_PAGAR_RECEBER").ToString = 0 Or Not IsDBNull(linha.Item("DT_CANCELAMENTO")) Then
-
-
-            '                        Con.ExecutarQuery("DELETE FROM TB_BL_TAXA WHERE ID_BL_TAXA = " & linha.Item("ID_BL_TAXA") & " AND ID_BL =" & ID_BL & " AND ID_BL_TAXA NOT IN (SELECT  isnull(ID_BL_TAXA,0)ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON A.ID_CONTA_PAGAR_RECEBER =  B.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL) AND ID_BL_MASTER IS NULL AND ID_BL_TAXA_MASTER IS NULL")
-
-
-            '                    End If
-            '                End If
-
-            '            Next
-
-
-
-            '        End If
-
-            '    End If
-
-            'End If
 
         End If
 

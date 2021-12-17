@@ -1040,6 +1040,24 @@ Partial Public Class CadastroCotacao
     Protected WithEvents lblErroMercadoria As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle divInfoMercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoMercadoria As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoMercadoria.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoMercadoria As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtIDMercadoria.
     '''</summary>
     '''<remarks>
@@ -1749,6 +1767,24 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblDeleteTaxas As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divInfoTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divInfoTaxas As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle lblInfoTaxas.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblInfoTaxas As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle divDeleteErroTaxas.

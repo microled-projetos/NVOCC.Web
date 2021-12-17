@@ -599,9 +599,11 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
     Private Sub dgvTaxas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxas.RowCommand
         divDeleteTaxas.Visible = False
         divDeleteErroTaxas.Visible = False
+        divInfoTaxas.Visible = False
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
+        Session("InfoAtualizacao") = ""
         If e.CommandName = "Excluir" Then
 
 
@@ -640,6 +642,10 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
                         If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
                             Dim RotinaUpdate As New RotinaUpdate
                             RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text, ID_BASE_CALCULO_TAXA, ID_ITEM_DESPESA)
+                        End If
+                        If Session("InfoAtualizacao") <> "" Then
+                            divInfoTaxas.Visible = True
+                            lblInfoTaxas.Text = Session("InfoAtualizacao")
                         End If
                     End If
                 End If
@@ -767,6 +773,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
+        Session("InfoAtualizacao") = ""
         If e.CommandName = "Excluir" Then
 
 
@@ -948,7 +955,7 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
         Dim ds As DataSet
         Dim PROCESSO As String = ""
         Dim v As New VerificaData
-
+        Session("InfoAtualizacao") = ""
         txtAbertura.Text = txtAbertura.Text.Replace("-", "/")
 
         If txtAbertura.Text = "" Or ddlStatusCotacao.SelectedValue = 0 Or ddlUsuarioStatus.SelectedValue = 0 Or txtValidade.Text = "" Or ddlDestinatarioComercial.SelectedValue = 0 Or ddlAnalista.SelectedValue = 0 Or ddlCliente.SelectedValue = 0 Or ddlIncoterm.SelectedValue = 0 Or ddlEstufagem.SelectedValue = 0 Or ddlTipoBL.SelectedValue = 0 Or ddlServico.SelectedValue = 0 Or ddlVendedor.SelectedValue = 0 Then
@@ -1164,7 +1171,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     dgvHistoricoCotacao.DataBind()
 
 
-
+                    If Session("InfoAtualizacao") <> "" Then
+                        divinfo.Visible = True
+                        lblmsginfo.Text = Session("InfoAtualizacao")
+                    End If
                 End If
 
             End If
@@ -1180,7 +1190,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
         divSuccessFrete.Visible = False
         divInfoFrete.Visible = False
 
-
+        Session("InfoAtualizacao") = ""
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
@@ -1411,7 +1421,8 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
     Private Sub btnSalvarMercadoria_Click(sender As Object, e As EventArgs) Handles btnSalvarMercadoria.Click
         divErroMercadoria.Visible = False
         divSuccessMercadoria.Visible = False
-
+        divInfoMercadoria.Visible = False
+        Session("InfoAtualizacao") = ""
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -1701,6 +1712,11 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
 
                     End If
 
+                    If Session("InfoAtualizacao") <> "" Then
+                        divInfoMercadoria.Visible = True
+                        lblInfoMercadoria.Text = Session("InfoAtualizacao")
+                    End If
+
                 End If
 
 
@@ -1766,6 +1782,10 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
                     End If
 
+                    If Session("InfoAtualizacao") <> "" Then
+                        divInfoMercadoria.Visible = True
+                        lblInfoMercadoria.Text = Session("InfoAtualizacao")
+                    End If
                 End If
 
             End If
@@ -3156,7 +3176,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
     Private Sub btnSalvarTaxa_Click(sender As Object, e As EventArgs) Handles btnSalvarTaxa.Click
         divErroTaxa.Visible = False
         divSuccessTaxa.Visible = False
-
+        Session("InfoAtualizacao") = ""
 
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -3295,6 +3315,10 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddl
                         RotinaUpdate.UpdateTaxas(txtID.Text, ID_COTACAO_TAXA, txtProcessoCotacao.Text)
                     End If
 
+                    If Session("InfoAtualizacao") <> "" Then
+                        divInfoTaxas.Visible = True
+                        lblInfoTaxas.Text = Session("InfoAtualizacao")
+                    End If
                 End If
 
 
@@ -3353,6 +3377,10 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                         RotinaUpdate.UpdateTaxas(txtID.Text, txtIDTaxa.Text, txtProcessoCotacao.Text)
                     End If
 
+                    If Session("InfoAtualizacao") <> "" Then
+                        divInfoTaxas.Visible = True
+                        lblInfoTaxas.Text = Session("InfoAtualizacao")
+                    End If
                 End If
 
 
@@ -4470,11 +4498,12 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         divDeleteTaxas.Visible = False
         divDeleteErroTaxas.Visible = False
         divinfo.Visible = False
+        divInfoTaxas.Visible = False
 
         Dim ds As DataSet
         Dim Con As New Conexao_sql
         Con.Conectar()
-
+        Session("InfoAtualizacao") = ""
         ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
             lblDeleteErroTaxas.Text = "Usuário não tem permissão para realizar exclusões"
@@ -4507,6 +4536,10 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                             Dim RotinaUpdate As New RotinaUpdate
                             RotinaUpdate.DeletaTaxas(txtID.Text, ID, txtProcessoCotacao.Text, ID_BASE_CALCULO_TAXA, ID_ITEM_DESPESA)
                         End If
+                        If Session("InfoAtualizacao") <> "" Then
+                            divInfoTaxas.Visible = True
+                            lblInfoTaxas.Text = Session("InfoAtualizacao")
+                        End If
                     End If
                 End If
             Next
@@ -4525,7 +4558,4 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         Next
     End Sub
 
-    Private Sub ddlContato_Load(sender As Object, e As EventArgs) Handles ddlContato.Load
-
-    End Sub
 End Class

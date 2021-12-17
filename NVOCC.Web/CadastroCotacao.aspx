@@ -752,6 +752,9 @@
                                     <div class="alert alert-danger" ID="divErroMercadoria" runat="server" visible="false">
                                         <asp:label ID="lblErroMercadoria" runat="server"></asp:label>
                                     </div>
+                                                             <div class="alert alert-info" ID="divInfoMercadoria" runat="server" visible="false">
+                                        <asp:label ID="lblInfoMercadoria" runat="server"></asp:label>
+                                    </div>
 
                                    <div class="row">
                                 <div class="col-sm-3"  style="display:none">
@@ -1225,6 +1228,12 @@
                               <div class="alert alert-success" id="divDeleteTaxas" runat="server" visible="false">                                       
                       <asp:label ID="lblDeleteTaxas" runat="server"  /> 
                   </div>
+
+
+                                                    <div class="alert alert-info" id="divInfoTaxas" runat="server" visible="false">                                       
+                      <asp:label ID="lblInfoTaxas" runat="server"  /> 
+                  </div>
+
          <div class="alert alert-danger" id="divDeleteErroTaxas" runat="server" visible="false">                                       
                       <asp:label ID="lblDeleteErroTaxas" runat="server"  /> 
                   </div>
