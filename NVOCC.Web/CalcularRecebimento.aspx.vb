@@ -356,9 +356,7 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
 
         For Each linha As GridViewRow In dgvTaxas.Rows
             Dim ID_PARCEIRO_ARMAZEM_DESCARGA As String = CType(linha.FindControl("lblID_PARCEIRO_ARMAZEM_DESCARGA"), Label).Text
-            'Dim FL_BLOQUEIO_FCA As String = CType(linha.FindControl("lblFL_BLOQUEIO_FCA"), Label).Text
-            'Dim btnDesbloquearFCA As ImageButton = CType(linha.FindControl("btnDesbloquearFCA"), ImageButton)
-            'Dim btnBloquearFCA As ImageButton = CType(linha.FindControl("btnBloquearFCA"), ImageButton)
+
 
             Dim FL_BLOQUEIO_FINANCEIRO As String = CType(linha.FindControl("lblFL_BLOQUEIO_FINANCEIRO"), Label).Text
             Dim btnDesbloquearFinanceiro As ImageButton = CType(linha.FindControl("btnDesbloquearFinanceiro"), ImageButton)
@@ -369,17 +367,6 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             Dim btnBloquearDocumental As ImageButton = CType(linha.FindControl("btnBloquearDocumental"), ImageButton)
 
             If ID_PARCEIRO_ARMAZEM_DESCARGA = 74 And linha.RowIndex = 0 Then
-                'If FL_BLOQUEIO_FCA = "SIM" Then
-                '    btnBloquearFCA.Visible = False
-                '    btnDesbloquearFCA.Visible = True
-
-                'ElseIf FL_BLOQUEIO_FCA = "NÃO" Then
-                '    btnDesbloquearFCA.Visible = False
-                '    btnBloquearFCA.Visible = True
-
-                'End If
-
-
 
                 If FL_BLOQUEIO_DOCUMENTAL = "SIM" Then
                     btnBloquearDocumental.Visible = False
@@ -405,8 +392,6 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
 
             Else
 
-                'btnBloquearFCA.Visible = False
-                'btnDesbloquearFCA.Visible = False
                 btnBloquearFinanceiro.Visible = False
                 btnDesbloquearFinanceiro.Visible = False
                 btnBloquearDocumental.Visible = False

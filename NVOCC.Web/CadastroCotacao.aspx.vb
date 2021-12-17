@@ -831,12 +831,8 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
 
                             If Not IsDBNull(ds1.Tables(0).Rows(0).Item("VL_COMPRA")) Then
                                 txtFreteCompraMercadoriaUnitario.Text = ds1.Tables(0).Rows(0).Item("VL_COMPRA")
-                                'Dim valor As Double = ds1.Tables(0).Rows(0).Item("VL_COMPRA")
                                 If txtQtdContainerMercadoria.Text > 0 Then
-                                    'Dim qtd As Integer = txtQtdContainerMercadoria.Text
-                                    'Dim X As Double = valor * qtd
-                                    'Dim TOTAL As String = X.ToString("#,###.00")
-                                    'txtFreteCompraMercadoriaCalc.Text = TOTAL,                        
+
                                     txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
                                 Else
                                     txtFreteCompraMercadoriaCalc.Text = ds1.Tables(0).Rows(0).Item("VL_COMPRA")
@@ -1302,17 +1298,6 @@ ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_Frete.SelectedValue & " ,
 TRANSITTIME_TRUCKING_AEREO = " & txtTTimeFreteTruckingAereo.Text & " 
 WHERE ID_COTACAO = " & txtID.Text)
 
-                'If Session("ID_FRETE_TRANSPORTADOR") <> ddlFreteTransportador_Frete.SelectedValue Then
-                '    lblInfoFrete.Text = "É necessário excluir taxas da tabela de frete anterior e importar as da nova!"
-                '    divInfoFrete.Visible = True
-                '    Session("ID_FRETE_TRANSPORTADOR") = ddlFreteTransportador_Frete.SelectedValue
-                'End If
-
-                'If Session("ID_TRANSPORTADOR") <> ddlTransportadorFrete.SelectedValue Then
-                '    lblInfoFrete.Text = "É necessário excluir taxas do transportador anterior e importar as do novo!"
-                '    divInfoFrete.Visible = True
-                '    Session("ID_TRANSPORTADOR") = ddlTransportadorFrete.SelectedValue
-                'End If
 
                 txtVendaMinimaFCL.Text = txtVendaMinimaFCL.Text.Replace(".", ",")
                 txtCompraMinimaFCL.Text = txtCompraMinimaFCL.Text.Replace(".", ",")
@@ -1428,7 +1413,6 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
         ElseIf Session("estufagem") = 1 And txtQtdContainerMercadoria.Text = "" Then
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
-            ' RedFree.Visible = True
 
             lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
             divErroMercadoria.Visible = True
@@ -1436,7 +1420,6 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
         ElseIf Session("estufagem") = 1 And ddlTipoContainerMercadoria.SelectedValue = 0 Then
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
-            '  RedFree.Visible = True
 
             lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
             divErroMercadoria.Visible = True
@@ -1444,19 +1427,10 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
         ElseIf Session("estufagem") = 1 And ddlMercadoria.SelectedValue = 0 Then
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
-            ' RedFree.Visible = True
 
             lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
             divErroMercadoria.Visible = True
             mpeNovoMercadoria.Show()
-            'ElseIf Session("estufagem") = 1 And txtFreeTimeMercadoria.Text = "" Then
-            '    RedQTDContainer.Visible = True
-            '    RedContainer.Visible = True
-            '    RedFree.Visible = True
-
-            '    lblErroMercadoria.Text = "Preencha todos os campos obrigatórios"
-            '    divErroMercadoria.Visible = True
-            '    mpeNovoMercadoria.Show()
 
         ElseIf Session("estufagem") = 2 And ddlMercadoria.SelectedValue = 0 Then
             RedQTDMercadoria.Visible = True
@@ -3262,8 +3236,6 @@ VL_TAXA_VENDA_MIN,
 OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & "," & txtObsTaxa.Text & ")   Select SCOPE_IDENTITY() as ID_COTACAO_TAXA ")
                     Dim ID_COTACAO_TAXA = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO_TAXA").ToString()
 
-                    'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 1 WHERE ID_FORNECEDOR = (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
-                    'Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET FL_TAXA_TRANSPORTADOR = 0 WHERE ID_FORNECEDOR <> (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " )  AND ID_COTACAO = " & txtID.Text)
 
                     txtIDTaxa.Text = ""
                     ddlItemDespesaTaxa.SelectedValue = 0
@@ -3454,8 +3426,6 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_COMPRA")) Then
-                ' txtFreteCompra.Text = ds.Tables(0).Rows(0).Item("VL_COMPRA")
-                '  txtFreteVenda.Text = ds.Tables(0).Rows(0).Item("VL_COMPRA")
                 Session("VL_COMPRA") = ds.Tables(0).Rows(0).Item("VL_COMPRA")
             End If
 
@@ -3475,7 +3445,6 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
         If e.CommandName = "Selecionar" Then
             Dim ID As String = e.CommandArgument
             Dim url As String = ""
-            ' Response.Redirect("CotacaoPDF_PT.aspx?c=" & txtID.Text)
             url = "GeraPDF.aspx?c=" & ID & "&l=p&f=i"
             Response.Write("<script>")
             Response.Write("window.open('" & url & "','_blank')")
@@ -3547,7 +3516,6 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             divQtdMercadoria.Attributes.CssStyle.Add("display", "none")
             RedQTDContainer.Visible = True
             RedContainer.Visible = True
-            'RedFree.Visible = True
 
             RedQTDMercadoria.Visible = False
             RedPesoBruto.Visible = False
@@ -3939,12 +3907,9 @@ WHERE ID_COTACAO_TAXA =  " & dsVerificaExistencia.Tables(0).Rows(0).Item("ID_COT
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_COMPRA")) Then
                     txtFreteCompraMercadoriaUnitario.Text = ds.Tables(0).Rows(0).Item("VL_COMPRA")
-                    ' Dim valor As Double = ds.Tables(0).Rows(0).Item("VL_COMPRA")
+
                     If txtQtdContainerMercadoria.Text > 0 Then
-                        'Dim qtd As Integer = txtQtdContainerMercadoria.Text
-                        'Dim X As Double = valor * qtd
-                        'Dim TOTAL As String = X.ToString '("#,###.00")
-                        'txtFreteCompraMercadoriaCalc.Text = TOTAL
+
                         txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
                         txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
                     Else
@@ -4206,8 +4171,6 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
             txtNomeCliente.Text = "NULL"
         End If
 
-        'Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
-
         Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_RAZAO like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
 UNION
 SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (FL_EXPORTADOR= 1 OR FL_IMPORTADOR =1 OR FL_AGENTE = 1 OR FL_AGENTE_INTERNACIONAL =1 OR FL_COMISSARIA = 1 OR FL_INDICADOR = 1) and  (NM_FANTASIA like '%" & txtNomeCliente.Text & "%' or ID_PARCEIRO =  " & txtCodCliente.Text & ") 
@@ -4239,8 +4202,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         If txtNomeIndicador.Text = "" Then
             txtNomeIndicador.Text = "NULL"
         End If
-
-        ' Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE FL_INDICADOR =  1  and  (NM_RAZAO like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
         Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE  FL_INDICADOR =  1  and (NM_RAZAO like '%" & txtNomeIndicador.Text & "%' or ID_PARCEIRO =  " & txtCodIndicador.Text & ") 
 UNION
@@ -4275,7 +4236,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             txtNomeAgente.Text = "NULL"
         End If
 
-        ' Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL = 1 and (NM_RAZAO like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") union SELECT  0,'',' Selecione' ORDER BY NM_RAZAO"
         Dim Sql As String = "SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE  FL_AGENTE_INTERNACIONAL =  1  and (NM_RAZAO like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ")  
 UNION
 SELECT ID_PARCEIRO,NM_RAZAO, NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' as Descricao FROM TB_PARCEIRO WHERE FL_AGENTE_INTERNACIONAL =  1  and (NM_FANTASIA like '%" & txtNomeAgente.Text & "%' or ID_PARCEIRO =  " & txtCodAgente.Text & ") 
@@ -4301,10 +4261,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         If txtQtdContainerMercadoria.Text <> "" And txtFreteVendaMercadoriaUnitario.Text <> "" Then
 
             If txtQtdContainerMercadoria.Text > 0 And txtFreteVendaMercadoriaUnitario.Text <> 0 Then
-                'Dim valor As String = txtFreteVendaMercadoriaUnitario.Text
-                'Dim qtd As Integer = txtQtdContainerMercadoria.Text
-                'Dim X As Double = valor * qtd
-                'Dim TOTAL As String = X.ToString '("#,###.00")
                 txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
             Else
                 txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaUnitario.Text
@@ -4316,10 +4272,7 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         If txtQtdContainerMercadoria.Text <> "" And txtFreteCompraMercadoriaUnitario.Text <> "" Then
 
             If txtQtdContainerMercadoria.Text > 0 And txtFreteCompraMercadoriaUnitario.Text <> 0 Then
-                'Dim valor As String = txtFreteCompraMercadoriaUnitario.Text
-                'Dim qtd As Integer = txtQtdContainerMercadoria.Text
-                'Dim X As Double = valor * qtd
-                'Dim TOTAL As String = X.ToString '("#,###.00")
+
                 txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
 
             Else
@@ -4342,7 +4295,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
         Dim Sql As String = ""
         If ddlServico.SelectedValue = 1 Or ddlServico.SelectedValue = 2 Then
-            'Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_SHIPPER = 1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
 
             Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_SHIPPER =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
@@ -4355,7 +4307,6 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
 
         ElseIf ddlServico.SelectedValue = 4 Or ddlServico.SelectedValue = 5 Then
-            ' Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO end as Descricao FROM TB_PARCEIRO WHERE  ( FL_EXPORTADOR =1 ) and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ") union SELECT  0,'', ' Selecione' ORDER BY NM_RAZAO"
 
             Sql = "SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE FL_EXPORTADOR =  1  and (NM_RAZAO like '%" & txtNomeExportador.Text & "%' or ID_PARCEIRO =  " & txtCodExportador.Text & ")
 UNION
@@ -4444,12 +4395,8 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_COMPRA")) Then
                         txtFreteCompraMercadoriaUnitario.Text = ds.Tables(0).Rows(0).Item("VL_COMPRA")
-                        ' Dim valor As Double = ds.Tables(0).Rows(0).Item("VL_COMPRA")
+
                         If txtQtdContainerMercadoria.Text > 0 Then
-                            'Dim qtd As Integer = txtQtdContainerMercadoria.Text
-                            'Dim X As Double = valor * qtd
-                            'Dim TOTAL As String = X.ToString '("#,###.00")
-                            'txtFreteCompraMercadoriaCalc.Text = TOTAL
                             txtFreteCompraMercadoriaCalc.Text = txtFreteCompraMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
                             txtFreteVendaMercadoriaCalc.Text = txtFreteVendaMercadoriaUnitario.Text * txtQtdContainerMercadoria.Text
                         Else
@@ -4525,7 +4472,4 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         Next
     End Sub
 
-    Private Sub ddlContato_Load(sender As Object, e As EventArgs) Handles ddlContato.Load
-
-    End Sub
 End Class

@@ -7412,11 +7412,21 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        public static string fmtTotvs2(string campo)
+        {
+            if (string.IsNullOrEmpty(campo)) { return ";"; }
+            if (campo == "") { return ";"; }
+            return "'" + campo + "';";
+        }
+
         [WebMethod]
         public string ContaPrevisibilidadeProcesso()
         {
+            string dtstatuscot;
+            string dtembarque;
+            string dtprevisaochegada;
             string SQL;
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, ISNULL(STATUS_COTACAO,'') AS STATUS_COTACAO, ISNULL(DT_STATUS_COTACAO,'')AS DTSTATUSCOTACAO, ISNULL(DT_EMBARQUE,'') AS DTEMBARQUE, ISNULL(DT_PREVISAO_CHEGADA,'') DTPREVISAOCHEGADA, ISNULL(NM_PARCEIRO,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(ARECEBER_BR,0) AS ARECEBERBR, ISNULL(APAGAR_BR,0) AS APAGARBR, ISNULL(SALDO_BR,0) AS SALDOBR FROM FN_CONTAS_PREVISIBILIDADE_PROCESSO(90) ";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, ISNULL(STATUS_COTACAO,'') AS STATUS_COTACAO, DT_STATUS_COTACAO AS DTSTATUSCOTACAO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_PARCEIRO,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(ARECEBER_BR,0) AS ARECEBERBR, ISNULL(APAGAR_BR,0) AS APAGARBR, ISNULL(SALDO_BR,0) AS SALDOBR FROM FN_CONTAS_PREVISIBILIDADE_PROCESSO(90) ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -7425,9 +7435,35 @@ namespace ABAINFRA.Web
                 string[] previ = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
+                    if (listTable.Rows[i]["DTSTATUSCOTACAO"] == null)
+                    {
+                        dtstatuscot = "";
+                    }
+                    else
+                    {
+                        dtstatuscot = listTable.Rows[i]["DTSTATUSCOTACAO"].ToString();
+                    }
+
+                    if (listTable.Rows[i]["DTEMBARQUE"] == null)
+                    {
+                        dtembarque = "";
+                    }
+                    else
+                    {
+                        dtembarque = listTable.Rows[i]["DTEMBARQUE"].ToString();
+                    }
+
+                    if (listTable.Rows[i]["DTPREVISAOCHEGADA"] == null)
+                    {
+                        dtprevisaochegada = "";
+                    }
+                    else
+                    {
+                        dtprevisaochegada = listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString();
+                    }
                     previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["MASTER"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["HOUSE"].ToString() + ";";
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["MASTER"].ToString());
+                    previ[i] += fmtTotvs2(listTable.Rows[i]["HOUSE"].ToString());
                     previ[i] += listTable.Rows[i]["TPSERVICO"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["TPESTUFAGEM"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["TPPAGAMENTOHOUSE"].ToString() + ";";
@@ -7437,9 +7473,9 @@ namespace ABAINFRA.Web
                     previ[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["STATUS_COTACAO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["DTSTATUSCOTACAO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["DTEMBARQUE"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["DTPREVISAOCHEGADA"].ToString() + ";";
+                    previ[i] += dtstatuscot + ";";
+                    previ[i] += dtembarque + ";";
+                    previ[i] += dtprevisaochegada + ";";
                     previ[i] += listTable.Rows[i]["PARCEIRO"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["CNEE"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["INDICADOR"].ToString() + ";";
