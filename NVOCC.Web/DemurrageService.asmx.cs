@@ -559,7 +559,7 @@ namespace ABAINFRA.Web
                 switch (Finalizado)
                 {
                     case "1":
-                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
                         break;
                     default:
                         Finalizado = "";
@@ -569,7 +569,7 @@ namespace ABAINFRA.Web
                 switch (Ativo)
                 {
                     case "1":
-                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
 
 
                         break;
@@ -2500,7 +2500,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod(EnableSession = true)]
-        public string exportarCC(int idFatura, string dtLiquidacao, int check)
+        public string exportarCC(int idFatura, string dtLiquidacao, int check, int dsStatus)
         {
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -2526,6 +2526,10 @@ namespace ABAINFRA.Web
             string dtVencimento = listTable.Rows[0]["DT_VENCIMENTO"].ToString();
             int idConta = (int)listTable.Rows[0]["ID_CONTA_BANCARIA"];
             string flagF;
+            SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + dsStatus + "' ";
+            DataTable flFinaliza = new DataTable();
+            flFinaliza = DBS.List(SQL);
+            flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
 
             if (check == 1)
             {
@@ -2626,7 +2630,25 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + cntrBl + "' ";
+                if (dsStatus == 2)
+                {
+                    flagF = "1";
+                }
+                else
+                {
+                    if (faturaCompra != "" && faturaVenda != "")
+                    {
+                        flagF = "1";
+                    }
+                    else
+                    {
+                        flagF = "0";
+                    }
+                }
+
+
+
+                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
                 string updtDsStatus = DBS.ExecuteScalar(SQL);
             }
             else
@@ -2707,7 +2729,23 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + cntrBl + "' ";
+                if (dsStatus == 2)
+                {
+                    flagF = "1";
+                }
+                else
+                {
+                    if (faturaCompra != "" && faturaVenda != "")
+                    {
+                        flagF = "1";
+                    }
+                    else
+                    {
+                        flagF = "0";
+                    }
+                }
+
+                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatus + "', FL_DEMURRAGE_FINALIZADA = '" + flagF + "' WHERE ID_CNTR_BL = '" + cntrBl + "' ";
                 string updtDsStatus = DBS.ExecuteScalar(SQL);
             }
             return JsonConvert.SerializeObject("OK");
@@ -5034,7 +5072,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaServico(string dataI, string dataF, string situacao, string notai, string notaf)
+         public string listarTOTVSNotaServico(string dataI, string dataF, string situacao, string notai, string notaf)
         {
 
             string nota;
@@ -5086,6 +5124,7 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
 
         }
+
 
         [WebMethod]
         public string listarTOTVSNotaServicoIntegra(string dataI, string dataF, string situacao, string values)
@@ -7374,8 +7413,15 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        public static string fmtTotvs2(string campo)
+        {
+            if (string.IsNullOrEmpty(campo)) { return ";"; }
+            if (campo == "") { return ";"; }
+            return "'" + campo + "';";
+        }
+
         [WebMethod]
-        public string ContaPrevisibilidadeProcesso()
+         public string ContaPrevisibilidadeProcesso()
         {
             string dtstatuscot;
             string dtembarque;
@@ -7446,6 +7492,8 @@ namespace ABAINFRA.Web
 			}
         }
 
+
+
         [WebMethod]
         public string ContaConferenciaProcesso()
         {
@@ -7473,7 +7521,7 @@ namespace ABAINFRA.Web
                     conf[i] += listTable.Rows[i]["DECLARADO"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["FREEHAND"].ToString() + ";";
                     conf[i] += listTable.Rows[i]["STATUSFRETE"].ToString() + ";";
-                    conf[i] += listTable.Rows[i]["PROFIT"].ToString()+";";
+                    conf[i] += listTable.Rows[i]["PROFIT"].ToString() + ";";
                     
                 }
                 return JsonConvert.SerializeObject(conf);
@@ -7482,13 +7530,6 @@ namespace ABAINFRA.Web
             {
                 return JsonConvert.SerializeObject(null);
             }
-        }
-
-        public static string fmtTotvs2(string campo)
-        {
-            if (string.IsNullOrEmpty(campo)) { return ";"; }
-            if (campo == "") { return ";"; }
-            return "'" + campo + "';";
         }
 
         public static string fmtTotvs(string campo, int tam)
