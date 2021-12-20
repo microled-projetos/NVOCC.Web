@@ -202,7 +202,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
             If ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL") = 0 Then
                 divClienteFinal.Attributes.CssStyle.Add("display", "none")
             Else
-                dsClienteFinal.SelectCommand = "SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = " & ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL") & "
+                dsClienteFinal.SelectCommand = "SELECT ID_CLIENTE_FINAL,SUBSTRING(NM_CLIENTE_FINAL,0,50) +' ('+ NR_CNPJ +')' NM_CLIENTE_FINAL  FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = " & ds.Tables(0).Rows(0).Item("ID_CLIENTE_FINAL") & "
 union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
                 ddlClienteFinal.DataBind()
                 divClienteFinal.Attributes.CssStyle.Add("display", "block")
@@ -3468,7 +3468,7 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                 ddlContato.SelectedValue = 0
             End If
 
-            sql = "SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
+            sql = "SELECT ID_CLIENTE_FINAL,SUBSTRING(NM_CLIENTE_FINAL,0,50) +' ('+ NR_CNPJ +')' NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
 union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             ds = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count = 1 Then
