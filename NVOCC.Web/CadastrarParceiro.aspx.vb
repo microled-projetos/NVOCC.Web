@@ -277,6 +277,7 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
+
         ElseIf ddlTipoPessoa.SelectedValue = 0 Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
@@ -364,9 +365,18 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Informe a quantidade de dias de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
-        Else
-            Con.Conectar()
 
+        ElseIf txtInscEstadual.Text = "" Then
+            msgErro.Text = "Preencha todos os campos obrigatórios."
+            divmsg1.Visible = True
+            msgErro.Visible = True
+        Else
+
+            Con.Conectar()
+            txtInscEstadual.Text = txtInscEstadual.Text.Replace(".", String.Empty)
+            txtInscEstadual.Text = txtInscEstadual.Text.Replace(" ", String.Empty)
+            txtInscEstadual.Text = txtInscEstadual.Text.Replace("-", String.Empty)
+            txtInscEstadual.Text = txtInscEstadual.Text.Replace("/", String.Empty)
 
             If txtID.Text = "" Then
 
@@ -1378,4 +1388,6 @@ WHERE ID_PARCEIRO =" & ID)
         Next
         Return erro
     End Function
+
+
 End Class

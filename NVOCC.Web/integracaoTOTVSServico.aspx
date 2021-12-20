@@ -264,6 +264,8 @@
         }
 
         function exportTableToCSVServico(clif, notaf, notitef, recf) {
+            var notai = document.getElementById("txtNotaServicoInicio").value;
+            var notaf = document.getElementById("txtNotaServicoFim").value;
             var dataI = document.getElementById("txtDtEmissaoInicialServ").value;
             var dataF = document.getElementById("txtDtEmissaoFinalServ").value;
             var exporta = document.getElementById("todosServ");
@@ -284,7 +286,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarTOTVSNotaServico",
-                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", values:"'+values[x]+'"}',
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", values:"' + values[x] + '",notai: "' + notai + '", notaf: "' + notaf +'" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {

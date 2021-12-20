@@ -132,8 +132,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Inscrição Estadual:</label>
-                                        <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="form-control inteiro" MaxLength="18"></asp:TextBox>
+                                        <label class="control-label">Inscrição Estadual:</label><asp:label ID="Label1"  runat="server" style="color:red" >*</asp:label>
+                                        <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="form-control" MaxLength="18"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">

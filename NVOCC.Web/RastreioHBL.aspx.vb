@@ -218,6 +218,9 @@ Public Class RastreioHBL
             cntrs.Text = contador
         End If
 
+
+        mapa.Attributes.Add("src", "https://www.google.com/maps?saddr=[" & data.transport.origin_country & "]&daddr=[" & data.transport.destination_country & "]&z=2&output=embed")
+
     End Sub
     Private Function DeserializarNewtonsoft(tracking As String) As BL
         Dim Json = tracking

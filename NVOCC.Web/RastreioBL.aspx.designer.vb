@@ -86,6 +86,141 @@ Partial Public Class RastreioBL
     Protected WithEvents porto_destino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle status.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents status As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle bl.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents bl As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle consig_informado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents consig_informado As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle fluxo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents fluxo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle navio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents navio As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle imo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents imo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle conta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents conta As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle embarque.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents embarque As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle tipo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents tipo As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle tipo_carga.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents tipo_carga As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle data_operacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents data_operacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle viagem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents viagem As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle identificador_token.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents identificador_token As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle situacao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents situacao As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle eta.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ce.
     '''</summary>
     '''<remarks>
@@ -302,150 +437,6 @@ Partial Public Class RastreioBL
     Protected WithEvents eta2 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle status.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents status As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle bl.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents bl As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle consig_informado.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents consig_informado As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle fluxo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents fluxo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle navio.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents navio As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle imo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents imo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle conta.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents conta As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle embarque.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents embarque As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle tipo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents tipo As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle tipo_carga.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents tipo_carga As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle data_operacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents data_operacao As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle viagem.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents viagem As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle identificador_token.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents identificador_token As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle situacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents situacao As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle eta.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents eta As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle trakinglist.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents trakinglist As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
     '''Controle divConteudoDinamico.
     '''</summary>
     '''<remarks>
@@ -462,4 +453,22 @@ Partial Public Class RastreioBL
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents followup As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle mapa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mapa As Global.System.Web.UI.HtmlControls.HtmlIframe
+
+    '''<summary>
+    '''Controle trakinglist.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents trakinglist As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class
