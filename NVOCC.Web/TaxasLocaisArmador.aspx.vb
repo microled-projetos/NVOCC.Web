@@ -210,7 +210,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX
 Left Join TB_ITEM_DESPESA F ON F.ID_ITEM_DESPESA = A.ID_ITEM_DESPESA
 Left Join TB_BASE_CALCULO_TAXA E ON E.ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO
 Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA     
-        WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO
+        WHERE ID_TRANSPORTADOR =  " & Request.QueryString("id") & "  " & FILTRO & " ORDER BY B.NM_PORTO"
             dgvTaxas.DataBind()
         End If
 

@@ -366,7 +366,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf txtInscEstadual.Text = "" Then
+        ElseIf txtInscEstadual.Text = "" And ddlTipoPessoa.SelectedValue = 1 Then
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -1236,15 +1236,15 @@ WHERE ID_PARCEIRO =" & ID)
             btnConsultaCNPJ.Visible = False
         End If
 
-        If ddlTipoPessoa.SelectedValue = 3 Then
-            Dim FILTRO As String = " where ID_PAIS <> 12 "
-            dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("#FILTRO", FILTRO)
-            ddlCidade.DataBind()
+        'If ddlTipoPessoa.SelectedValue = 3 Then
+        '    Dim FILTRO As String = " where ID_PAIS <> 12 "
+        '    dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("#FILTRO", FILTRO)
+        '    ddlCidade.DataBind()
 
-        Else
-            dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("where ID_PAIS <> 12", "#FILTRO")
-            ddlCidade.DataBind()
-        End If
+        'Else
+        '    dsCidades.SelectCommand = dsCidades.SelectCommand.Replace("where ID_PAIS <> 12", "#FILTRO")
+        '    ddlCidade.DataBind()
+        'End If
     End Sub
 
     Private Sub ddlTipoPessoa_PreRender(sender As Object, e As EventArgs) Handles ddlTipoPessoa.PreRender

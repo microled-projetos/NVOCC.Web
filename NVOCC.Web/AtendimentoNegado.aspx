@@ -136,7 +136,7 @@
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">CLIENTE PRINCIPAL<span style="color:red">*</span></label>
-                                                        <select id="ddlClientePrincipal" class="form-control" onchange="ClienteFinal()" >
+                                                        <select id="ddlClientePrincipal" class="form-control">
                                                         </select>
                                                     </div>
                                                 </div>
@@ -416,42 +416,38 @@
             }
             var idcont = document.getElementById("MainContent_ddlTipoContainer").value;
             var mercadoria = document.getElementById("MainContent_ddlTipoEmbalagem").value;
-            if (mercadoria == 22 && idcont != 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "Gerencial.asmx/CadastrarAtendimento",
-                    data: JSON.stringify({ dados: (dados) }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        if (dado != "0") {
-                            $("#modalCadastroDeclinio").hide();
-                            $("#msgSuccess").fadeIn(500).delay(1000).fadeOut(500);
-                            $("#qtdMetragem").val("");
-                            $("#qtdPeso").val("");
-                            $("#qtdAtendimentoRejeitado").val("");
-                            $("#MainContent_ddlTipoEmbalagem").val("0");
-                            $("#MainContent_ddlTipoCarga").val("0");
-                            $("#MainContent_ddlTipoServico").val("0");
-                            $("#MainContent_ddlTipoEstufagem").val("0");
-                            $("#MainContent_ddlOrigem").val("0");
-                            $("#MainContent_ddlDestino").val("0");
-                            $("#MainContent_ddlIncoterm").val("0");
-                            listarAtendimentos();
-                        }
-                        else {
-                            $("#modalCadastroDeclinio").hide();
-                            $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
-                            listarAtendimentos();
-                        }
+            
+            $.ajax({
+                type: "POST",
+                url: "Gerencial.asmx/CadastrarAtendimento",
+                data: JSON.stringify({ dados: (dados) }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != "0") {
+                        $("#modalCadastroDeclinio").hide();
+                        $("#msgSuccess").fadeIn(500).delay(1000).fadeOut(500);
+                        $("#qtdMetragem").val("");
+                        $("#qtdPeso").val("");
+                        $("#qtdAtendimentoRejeitado").val("");
+                        $("#MainContent_ddlTipoEmbalagem").val("0");
+                        $("#MainContent_ddlTipoCarga").val("0");
+                        $("#MainContent_ddlTipoServico").val("0");
+                        $("#MainContent_ddlTipoEstufagem").val("0");
+                        $("#MainContent_ddlOrigem").val("0");
+                        $("#MainContent_ddlDestino").val("0");
+                        $("#MainContent_ddlIncoterm").val("0");
+                        listarAtendimentos();
                     }
-                })
-            } else {
-                $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
-                listarAtendimentos();
-            }
+                    else {
+                        $("#modalCadastroDeclinio").hide();
+                        $("#msgErr").fadeIn(500).delay(1000).fadeOut(500);
+                        listarAtendimentos();
+                    }
+                }
+            })
         }
 
         function deletarAtendimento() {

@@ -660,9 +660,29 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
                                 dgvFaturamento.DataBind()
                             Else
+                                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                                If ds2.Tables(0).Rows.Count > 0 Then
+                                    If ds2.Tables(0).Rows(0).Item("STATUS_NFE") <> 2 Then
 
-                                lblmsgErro.Text = "Não foi possivel completar a ação!"
-                                divErro.Visible = True
+                                        Dim ERRO As String = ""
+                                        Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                        If DS1.Tables(0).Rows.Count > 0 Then
+                                            If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                                ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
+                                            End If
+                                        End If
+                                        lblmsgErro.Text = "Não foi possivel completar a ação: " & ERRO
+                                        divErro.Visible = True
+                                        Exit Sub
+
+                                    Else
+                                        lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                        divErro.Visible = True
+                                        Exit Sub
+                                    End If
+
+                                End If
+
                             End If
 
                         End If

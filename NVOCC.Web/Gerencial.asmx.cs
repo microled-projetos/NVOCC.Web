@@ -1601,9 +1601,9 @@ namespace ABAINFRA.Web
             }
 
             string SQL;
-            SQL = "SELECT DT_SOLICITACAO, INSIDE, SERVICO, TIPO_ESTUFAGEM AS ESTUFAGEM, CD_INCOTERM AS INCOTERM, NM_CLIENTE AS CLIENTE, NM_ORIGEM AS ORIGEM, ";
+            SQL = "SELECT ID_ATENDIMENTO_NEGADO, format(DT_SOLICITACAO,'dd/MM/yyyy') as DT_SOLICITACAO, INSIDE, SERVICO, TIPO_ESTUFAGEM AS ESTUFAGEM, CD_INCOTERM AS INCOTERM, NM_CLIENTE AS CLIENTE, NM_ORIGEM AS ORIGEM, ";
             SQL += "NM_DESTINO AS DESTINO, NM_VENDEDOR AS VENDEDOR, NM_STATUS_COTACAO AS STATUS, DS_OBS AS OBS, QTCARGA, CARGA, PESO, METRAGEM, CASE WHEN IDMERCADORIA = 22 THEN MERCADORIA + ' - ' + TIPO_CONTAINER ELSE MERCADORIA END AS MERCADORIA ";
-            SQL += "FROM dbo.FN_ATENDIMENTO_NEGADO('"+dataI+"','"+dataF+ "'," + Session["ID_USUARIO"] + ") ";
+            SQL += "FROM dbo.FN_ATENDIMENTO_NEGADO('"+dataI+"','"+dataF+"',3) ";
             SQL += "WHERE ID_ATENDIMENTO_NEGADO IS NOT NULL ";
             SQL += "" + filter + "";
             DataTable listTable = new DataTable();
@@ -1636,6 +1636,11 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string CadastrarAtendimento(Atendimento dados)
         {
+
+            if (dados.ID_MERCADORIA == "22" && dados.ID_TIPO_CONTAINER == "0")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
             if (dados.DT_ATENDIMENTO_NEGADO == "")
             {
                 return JsonConvert.SerializeObject("0");
@@ -1675,14 +1680,21 @@ namespace ABAINFRA.Web
             }
             if (dados.ID_TIPO_CONTAINER.ToString() == "0")
             {
-                dados.ID_TIPO_CONTAINER = null;
+                dados.ID_TIPO_CONTAINER = "null";
             }
 
 
 
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, ID_TIPO_CARGA, QT_CARGA, ID_MERCADORIA, QT_PESO, QT_METRAGEM, DS_OBS, ID_TIPO_CONTAINER) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "','" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "','" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "','" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "'," + dados.ID_STATUS + "," + dados.ID_TIPO_CARGA + "," + dados.QT_CARGA + "," + dados.ID_MERCADORIA + "," + dados.QT_PESO + "," + dados.QT_METRAGEM.ToString().Replace(",",".") +",'" + dados.DS_OBS + "',"+dados.ID_TIPO_CONTAINER+")";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ";
+            SQL += "ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, ID_TIPO_CARGA, QT_CARGA, ";
+            SQL += "ID_MERCADORIA, QT_PESO, QT_METRAGEM, DS_OBS, ID_TIPO_CONTAINER) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "', ";
+            SQL += " '" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "', ";
+            SQL += " '" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "', ";
+            SQL += " '" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "'," + dados.ID_STATUS + ", ";
+            SQL += "" + dados.ID_TIPO_CARGA + "," + dados.QT_CARGA + "," + dados.ID_MERCADORIA + "," + dados.QT_PESO + ", ";
+            SQL += "" + dados.QT_METRAGEM.ToString().Replace(",",".") +",'" + dados.DS_OBS + "',"+dados.ID_TIPO_CONTAINER+")";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");

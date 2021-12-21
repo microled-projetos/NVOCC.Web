@@ -2880,13 +2880,17 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                     If txtValorVenda_TaxaAereo.Text > 0 Then
                         Dim empresa As Integer = 0
-                        If ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 1 Then
+                        If ddlDestinatarioCob_TaxaAereo.SelectedValue = 1 Then
                             'Cliente
-                            empresa = ddlCliente_BasicoMaritimo.SelectedValue
-                        ElseIf ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 2 Then
-                            'Agente
-                            empresa = ddlAgente_BasicoMaritimo.SelectedValue
+                            empresa = ddlCliente_BasicoAereo.SelectedValue
 
+                        ElseIf ddlDestinatarioCob_TaxaAereo.SelectedValue = 2 Then
+                            'Agente
+                            empresa = ddlAgente_BasicoAereo.SelectedValue
+
+                        ElseIf ddlDestinatarioCob_TaxaAereo.SelectedValue = 4 Then
+                            'Importador
+                            empresa = ddlImportador_BasicoAereo.SelectedValue
                         End If
 
                         'INSERE TAXA DE VENDA
@@ -3211,6 +3215,9 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         ElseIf ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 2 Then
                             'Agente
                             empresa = ddlAgente_BasicoMaritimo.SelectedValue
+                        ElseIf ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 4 Then
+                            'Importador
+                            empresa = ddlImportador_BasicoMaritimo.SelectedValue
 
                         End If
 
