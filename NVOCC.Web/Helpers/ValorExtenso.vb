@@ -43,14 +43,14 @@
                 ElseIf number = 0 Then
                     Return getDecimal(cent) + "centavos"
                 Else
-                    Return getInteger(number) + "Reais e " + getDecimal(cent) + "centavos"
+                    Return getInteger(number) + " Reais e " + getDecimal(cent) + "centavos"
                 End If
             Else
                 ' Caso seja 1 não coloca "Reais" mas sim "Real"
                 If number = 1 Then
                     Return "Um Real"
                 Else
-                    Return getInteger(number) + "Reais"
+                    Return getInteger(number) + " Reais"
                 End If
             End If
         Catch ex As Exception

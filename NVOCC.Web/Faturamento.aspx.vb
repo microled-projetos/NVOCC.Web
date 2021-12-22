@@ -34,7 +34,14 @@ Public Class Faturamento
 
                 txtDataCheckFim.Text = Now.Date
                 txtDataCheckInicial.Text = Now.Date.AddDays(-1)
-                txtDataCheckInicial.Text = FinalSemanaSubtrai(txtDataCheckInicial.Text)
+                ' txtDataCheckInicial.Text = FinalSemanaSubtrai(txtDataCheckInicial.Text)
+                Dim primeirodia As Date
+                If Month(Now.Date) <= 9 Then
+                    primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+                Else
+                    primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+                End If
+                txtDataCheckInicial.Text = primeirodia
                 AtualizaGrid()
                 If Not Page.IsPostBack Then
                     ddlBanco.SelectedValue = "1"
@@ -192,7 +199,7 @@ Public Class Faturamento
 
 
         dsFaturamento.SelectCommand = "SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
-NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO  FROM [dbo].[View_Faturamento] WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
+NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO FROM [dbo].[View_Faturamento] WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
         dgvFaturamento.DataBind()
 
         Session("RelFat") = " WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
@@ -205,8 +212,15 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
         If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
             divBusca.Attributes.CssStyle.Add("display", "none")
             divDatasBusca.Attributes.CssStyle.Add("display", "block")
-            txtDataInicioBusca.Text = Now.Date.AddDays(-1)
-            txtDataInicioBusca.Text = FinalSemana(txtDataInicioBusca.Text)
+            'txtDataInicioBusca.Text = Now.Date.AddDays(-1)
+            'txtDataInicioBusca.Text = FinalSemana(txtDataInicioBusca.Text)
+            Dim primeirodia As Date
+            If Month(Now.Date) <= 9 Then
+                primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+            Else
+                primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+            End If
+            txtDataInicioBusca.Text = primeirodia
             txtDataFimBusca.Text = Now.Date
         Else
             divBusca.Attributes.CssStyle.Add("display", "block")

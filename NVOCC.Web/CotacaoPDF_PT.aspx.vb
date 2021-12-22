@@ -523,15 +523,33 @@ WHERE FL_DECLARADO = 0 AND ID_DESTINATARIO_COBRANCA <> 3
 
 
 
+        Dim ExtensoEstrangeira As New ExtensoEstrangeira
+        Dim Extenso As New ValorExtenso
+        Dim ExtensoDolar As String = ""
+        Dim ExtensoReal As String = ""
+        Dim ExtensoEuro As String = ""
 
         'total final geral
-        ds = Con.ExecutarQuery("select moeda ,sum(valor) Valor from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
+        ds = Con.ExecutarQuery("select ID_MOEDA, moeda, sum(valor) Valor from [dbo].[View_Total_Cotacao] where ID_COTACAO = " & Request.QueryString("c") & " group by ID_MOEDA,MOEDA")
         If ds.Tables(0).Rows.Count > 0 Then
             For Each linha As DataRow In ds.Tables(0).Rows
                 If TotalFinal = "" Then
-                    TotalFinal &= linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
+                    TotalFinal &= linha("moeda") & " " & String.Format("{0:N}", linha("valor")) & " "
                 Else
-                    TotalFinal &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor"))
+                    TotalFinal &= " + " & linha("moeda") & " " & String.Format("{0:N}", linha("valor")) & " "
+                End If
+                If linha("ID_MOEDA") = 1 Then
+                    'dolar
+                    TotalFinal &= " (" & ExtensoEstrangeira.NumberToDolar(linha("valor")) & ") "
+
+                ElseIf linha("ID_MOEDA") = 124 Then
+                    'real
+                    TotalFinal &= " (" & Extenso.NumeroToExtenso(linha("valor")) & ") "
+
+                ElseIf linha("ID_MOEDA") = 164 Then
+                    'euro
+                    TotalFinal &= " (" & ExtensoEstrangeira.NumberToEuro(linha("valor")) & ") "
+
                 End If
             Next
         End If

@@ -158,6 +158,15 @@ Partial Public Class Financeiro
     Protected WithEvents ddlFiltro As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
     '''Controle Label3.
     '''</summary>
     '''<remarks>
@@ -174,6 +183,60 @@ Partial Public Class Financeiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtPesquisa As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divDatasBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDatasBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtDataInicioBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataInicioBusca As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtDataFimBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFimBusca As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divddlBusca.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divddlBusca As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle Label5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle ddlTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTipoFaturamento As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle Label4.
@@ -255,6 +318,15 @@ Partial Public Class Financeiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dgvFinanceiro As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle dsTipoFaturamento.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsTipoFaturamento As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsFinanceiro.

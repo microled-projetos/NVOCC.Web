@@ -82,23 +82,50 @@
                        <div class="col-sm-2">
                             <asp:Label ID="Label2" runat="server">FILTRO:</asp:Label>
                            <div class="form-group">
-                               <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" Font-Size="15px">
+                               <asp:DropDownList ID="ddlFiltro" runat="server" CssClass="form-control" Font-Size="15px" AutoPostBack="TRUE">
                                    <asp:ListItem Value="1">Número do Master</asp:ListItem>
-                                   <asp:ListItem Value="4">Número do House</asp:ListItem>
+                                   <asp:ListItem Value="3">Número do House</asp:ListItem>
                                    <asp:ListItem Value="2">Número do processo</asp:ListItem>
-                                   <asp:ListItem Value="3" Selected="True">Todos em aberto</asp:ListItem>
+                                   <asp:ListItem Value="5">Periodo de chegada</asp:ListItem>
+                                   <asp:ListItem Value="6">Tipo Faturamento</asp:ListItem>
+                                   <asp:ListItem Value="4" Selected="True">Todos em aberto</asp:ListItem>
 
                                </asp:DropDownList>
                            </div>
 
                        </div>
-                       <div class="col-sm-2" >
+                     
+                            <div runat="server" ID="divBusca">
+                                 <div class="col-sm-2" >
                            <div class="form-group">
                                                            <asp:Label ID="Label3" Style="color:white" runat="server">x</asp:Label>
 
                                <asp:TextBox ID="txtPesquisa" runat="server" CssClass="form-control"></asp:TextBox>
                            </div>
-                       </div>  
+                                </div>
+                           </div>
+                           <div runat="server" ID="divDatasBusca"  style="display: none">
+                        <div class="col-sm-1">                        
+                               <div class="form-group">De:
+                               <asp:TextBox ID="txtDataInicioBusca" runat="server"  CssClass="form-control data"></asp:TextBox>
+                           </div>
+                               </div>
+                           <div class="col-sm-1" >
+                               <div class="form-group">Até:                       
+                               <asp:TextBox ID="txtDataFimBusca" runat="server" CssClass="form-control data"></asp:TextBox>
+                           </div>
+                               </div>
+                       </div>
+                            <div runat="server" ID="divddlBusca"  style="display: none">
+                                    <div class="col-sm-2" >
+                           <div class="form-group">
+                                                           <asp:Label ID="Label5" Style="color:white" runat="server">x</asp:Label>
+
+                               <asp:DropDownList ID="ddlTipoFaturamento" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_FATURAMENTO" DataSourceID="dsTipoFaturamento" DataValueField="ID_TIPO_FATURAMENTO">                                             
+                                                </asp:DropDownList>
+                           </div>
+                                </div>
+                       </div> 
                        <div class="col-sm-1" >
                            <div class="form-group">
                                                            <asp:Label ID="Label4" Style="color:white" runat="server">X</asp:Label><br />
@@ -157,8 +184,7 @@
                                     <asp:GridView ID="dgvFinanceiro" DataKeyNames="ID_BL" CssClass="table table-hover table-sm grdViewTable" dgAlwayShowSelection="True" dgRowSelect="True" GridLines="None" CellSpacing="-1" runat="server" DataSourceID="dsFinanceiro" AutoGenerateColumns="False" Style="max-height: 600px; overflow: auto;" AllowSorting="True" EmptyDataText="Nenhum registro encontrado." HeaderStyle-HorizontalAlign="Center" Visible="false">
                                         <Columns>
                                             <asp:BoundField DataField="ID_BL" HeaderText="#" Visible="false" />
-                                                                                        <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
-
+                                            <asp:BoundField DataField="NR_PROCESSO" HeaderText="Processo" SortExpression="NR_PROCESSO" />
                                             <asp:BoundField DataField="NR_BL_MASTER" HeaderText="MBL" SortExpression="NR_BL_MASTER" />
                                             <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="Chegada" SortExpression="DT_CHEGADA_MASTER" />
                                             <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
@@ -169,7 +195,8 @@
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="QT_TAXAS_RECEBER" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBIDAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="QT_TAXAS_RECEBIDAS" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER_ABERTA" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="QT_TAXAS_RECEBER_ABERTA" />
-                                           
+                                            <asp:BoundField DataField="TIPO_FATURAMENTO" HeaderText="Tipo Faturamento" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
+                                            <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias Faturamento" SortExpression="QT_DIAS_FATURAMENTO" />
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
@@ -200,7 +227,9 @@
 
     </div>
 
-
+    <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_TIPO_FATURAMENTO, substring(NM_TIPO_FATURAMENTO,0,11)NM_TIPO_FATURAMENTO FROM TB_TIPO_FATURAMENTO"></asp:SqlDataSource>
+    
     <asp:SqlDataSource ID="dsFinanceiro" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [View_Financeiro] WHERE QT_TAXAS_PAGAR_ABERTA > 0 OR QT_TAXAS_RECEBER_ABERTA > 0 ORDER BY NR_PROCESSO"></asp:SqlDataSource>
                           <asp:TextBox ID="TextBox1" Style="display:none" runat="server"></asp:TextBox>
