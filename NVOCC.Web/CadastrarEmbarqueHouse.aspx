@@ -322,14 +322,20 @@
 
                                             </div>
                                         </div>
-                                             <div class="col-sm-3">
+                                             <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Carga:</label>
                                                 <asp:DropDownList ID="ddlTipoCarga_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3">
+                                             <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor da Carga:</label>
+                                                 <asp:TextBox ID="txtValorCarga_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Número CE:</label>
                                                 <asp:TextBox ID="txtCE_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1215,13 +1221,13 @@ VENDAS:
                                                         <asp:TextBox ID="txtProcesso_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Número do HBL:</label>
                                                         <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Serviço:</label>
                                                         <asp:DropDownList ID="ddlServico_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_SERVICO" DataSourceID="dsServicoAereo" DataValueField="ID_SERVICO"></asp:DropDownList>
@@ -1240,6 +1246,13 @@ VENDAS:
                                                 <asp:TextBox ID="txtTipoBLAereo" runat="server" CssClass="form-control" Enabled="false" ToolTip="Campo preenchido na cotação"></asp:TextBox>
                                             </div>
                                             </div>
+                                                <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label"></label>
+                                                <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
+
+                                            </div>
+                                        </div>
                                                 </div>
                                             <div class="row">
                                                 <div class="col-sm-2">
@@ -1248,7 +1261,7 @@ VENDAS:
                                                         <asp:TextBox ID="txtMBL_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-1">
+                                                <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label" style="color:white">:</label>
                                                 <asp:Button ID="btnVisualizarMBL_Aereo" runat="server" CssClass="btn btn-info btn-block" Text="Visualizar MBL" />
@@ -1261,13 +1274,7 @@ VENDAS:
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
-                                            <div class="form-group">
-                                                <label class="control-label"></label>
-                                                <asp:CheckBox ID="ckbFreeHand_BasicoAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Free Hand"></asp:CheckBox>
-
-                                            </div>
-                                        </div>
+                                                
                                                  <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Carga:</label>
@@ -1275,7 +1282,13 @@ VENDAS:
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Valor da Carga:</label>
+                                                 <asp:TextBox ID="txtValorCarga_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Incoterm:</label>
                                                         <asp:DropDownList ID="ddlIncoterm_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM">
