@@ -322,14 +322,14 @@
 
                                             </div>
                                         </div>
-                                             <div class="col-sm-2">
+                                             <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Tipo de Carga:</label>
                                                 <asp:DropDownList ID="ddlTipoCarga_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
                                                 </asp:DropDownList>
                                             </div>
                                         </div>
-                                             <div class="col-sm-2">
+                                             <div class="col-sm-2" style="display:none">
                                             <div class="form-group">
                                                 <label class="control-label">Valor da Carga:</label>
                                                  <asp:TextBox ID="txtValorCarga_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1275,14 +1275,14 @@ VENDAS:
                                                     </div>
                                                 </div>
                                                 
-                                                 <div class="col-sm-2">
+                                                 <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Tipo de Carga:</label>
                                                         <asp:DropDownList ID="ddlTipoCarga_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_CARGA" DataSourceID="dsCargas" DataValueField="ID_TIPO_CARGA">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                 <div class="col-sm-2">
+                                                 <div class="col-sm-3"  style="display:none">
                                             <div class="form-group">
                                                 <label class="control-label">Valor da Carga:</label>
                                                  <asp:TextBox ID="txtValorCarga_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
