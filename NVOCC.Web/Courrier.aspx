@@ -48,6 +48,9 @@
                                     <div class="alert alert-danger text-center" id="msgErrUpdate">
                                         Erro ao atualizar courrier.
                                     </div>
+                                    <div class="alert alert-danger text-center" id="msgErrCourrier">
+                                        BL sem Master Vinculado.
+                                    </div>
                                 </div>
                             </div>
                             <div class="row topMarg">
@@ -384,45 +387,52 @@
                 success: function (dado) {
                     var data = dado.d;
                     data = $.parseJSON(data);
-                    document.getElementById('nrprocesso').value = data.NR_PROCESSO;
-                    document.getElementById('nmcliente').value = data.NM_RAZAO;
-                    document.getElementById('idmbl').value = data.NR_BL_MASTER;
-                    document.getElementById('idhbl').value = data.NR_BL;
-                    document.getElementById('dtRecebimentoMBL').value = data.DT_RECEBIMENTO_MBL;
-                    document.getElementById('cdRastreamentoMBL').value = data.CD_RASTREAMENTO_MBL;
-                    document.getElementById('dtRecebimentoHBL').value = data.DT_RECEBIMENTO_HBL;
-                    document.getElementById('cdRastreamentoHBL').value = data.CD_RASTREAMENTO_HBL;
-                    document.getElementById('dtRetirada').value = data.DT_RETIRADA_COURRIER;
-                    document.getElementById('receptor').value = data.NM_RETIRADO_POR_COURRIER;
-                    document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;
-                    document.getElementById('dtRetiradaTerceiro').value = data.DT_RETIRADA_PERSONAL;
-                    if (data.FL_TROCA == "True") {
-                        document.getElementById('checkTroca').checked = true;
+                    if (data != "erro") {
+                        $("#modalEditCourrier").modal('show');
+                        document.getElementById('nrprocesso').value = data.NR_PROCESSO;
+                        document.getElementById('nmcliente').value = data.NM_RAZAO;
+                        document.getElementById('idmbl').value = data.NR_BL_MASTER;
+                        document.getElementById('idhbl').value = data.NR_BL;
+                        document.getElementById('dtRecebimentoMBL').value = data.DT_RECEBIMENTO_MBL;
+                        document.getElementById('cdRastreamentoMBL').value = data.CD_RASTREAMENTO_MBL;
+                        document.getElementById('dtRecebimentoHBL').value = data.DT_RECEBIMENTO_HBL;
+                        document.getElementById('cdRastreamentoHBL').value = data.CD_RASTREAMENTO_HBL;
+                        document.getElementById('dtRetirada').value = data.DT_RETIRADA_COURRIER;
+                        document.getElementById('receptor').value = data.NM_RETIRADO_POR_COURRIER;
+                        document.getElementById('nrFatura').value = data.NR_FATURA_COURRIER;
+                        document.getElementById('dtRetiradaTerceiro').value = data.DT_RETIRADA_PERSONAL;
+                        if (data.FL_TROCA == "True") {
+                            document.getElementById('checkTroca').checked = true;
+                        } else {
+                            document.getElementById('checkTroca').checked = false;
+                        }
+                        if (data.CD_RASTREAMENTO_HBL == "ORIGEM") {
+                            document.getElementById('dtRecebimentoHBL').disabled = true;
+                            document.getElementById('cdRastreamentoHBL').disabled = true;
+                            document.getElementById('dtRetirada').disabled = true;
+                            document.getElementById('dtRetiradaTerceiro').disabled = true;
+                            document.getElementById('receptor').disabled = true;
+                            document.getElementById("checkOrigem").checked = true;
+                            document.getElementById("checkDestino").checked = false;
+                        } else if (data.CD_RASTREAMENTO_HBL == "DESTINO") {
+                            document.getElementById('dtRecebimentoHBL').disabled = false;
+                            document.getElementById('cdRastreamentoHBL').disabled = false;
+                            document.getElementById('dtRetirada').disabled = false;
+                            document.getElementById('dtRetiradaTerceiro').disabled = false;
+                            document.getElementById('receptor').disabled = false;
+                            document.getElementById("checkDestino").checked = true;
+                            document.getElementById("checkOrigem").checked = false;
+                        } else {
+                            document.getElementById('dtRecebimentoHBL').disabled = false;
+                            document.getElementById('cdRastreamentoHBL').disabled = false;
+                            document.getElementById('dtRetirada').disabled = false;
+                            document.getElementById('dtRetiradaTerceiro').disabled = false;
+                            document.getElementById('receptor').disabled = false;
+                            document.getElementById("checkDestino").checked = false;
+                            document.getElementById("checkOrigem").checked = false;
+                        }
                     } else {
-                        document.getElementById('checkTroca').checked = false;
-                    }
-                    if (data.CD_RASTREAMENTO_HBL == "ORIGEM") {
-                        document.getElementById('dtRecebimentoHBL').disabled = true;
-                        document.getElementById('cdRastreamentoHBL').disabled = true;
-                        document.getElementById('dtRetirada').disabled = true;
-                        document.getElementById('dtRetiradaTerceiro').disabled = true;
-                        document.getElementById('receptor').disabled = true;
-                        document.getElementById("checkOrigem").checked = true;
-                    } else if (data.CD_RASTREAMENTO_HBL == "DESTINO") {
-                        document.getElementById('dtRecebimentoHBL').disabled = false;
-                        document.getElementById('cdRastreamentoHBL').disabled = false;
-                        document.getElementById('dtRetirada').disabled = false;
-                        document.getElementById('dtRetiradaTerceiro').disabled = false;
-                        document.getElementById('receptor').disabled = false;
-                        document.getElementById("checkDestino").checked = true;
-                    } else {
-                        document.getElementById('dtRecebimentoHBL').disabled = false;
-                        document.getElementById('cdRastreamentoHBL').disabled = false;
-                        document.getElementById('dtRetirada').disabled = false;
-                        document.getElementById('dtRetiradaTerceiro').disabled = false;
-                        document.getElementById('receptor').disabled = false;
-                        document.getElementById("checkDestino").checked = false;
-                        document.getElementById("checkOrigem").checked = false;
+                        $("#msgErrCourrier").fadeIn(500).delay(1000).fadeOut(500);
                     }
                 }
             })
@@ -567,24 +577,24 @@
                                 checked = "";
                             }
                             if (dado[i]["CD_RASTREAMENTO_MBL"] != "" && dado[i]["CD_RASTREAMENTO_HBL"] != "") {
-                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
-                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                    "<td class='text-center' style='" + bg +"'> " + dado[i]["MASTER"] + "</td > " +
-                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["HOUSE"] + "</td>" +
-                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
-                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_CHEGADA"] + "</td>" +
+                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
+                                    "<td class='text-center'> " + dado[i]["MASTER"] + "</td > " +
+                                    "<td class='text-center'>" + dado[i]["HOUSE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_PREVISAO_CHEGADA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_CHEGADA"] + "</td>" +
                                     "<td class='text-center' style='" + bg +"'>" + dado[i]["CD_RASTREAMENTO_MBL"] + "</td>" +
-                                    "<td class='text-center' style='" + bg +"'> " + dado[i]["DT_RECEBIMENTO_MBL"] + "</td> " +
+                                    "<td class='text-center'> " + dado[i]["DT_RECEBIMENTO_MBL"] + "</td> " +
                                     "<td class='text-center' title='" + dado[i]["CD_RASTREAMENTO_HBL"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["CD_RASTREAMENTO_HBL"] + "</td>" +
-                                    "<td class='text-center' style='" + bg +"'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td>" +
-                                    "<td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["AGENTE"] + "</td>" +
-                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch; word-break: break-all;"+bg+"'>" + dado[i]["CLIENTE"] + "</td>" +
-                                    "<td class='text-center' title='" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "' style='max-width: 14ch;"+bg+"'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td>" +
-                                    "<td class='text-center' style='" + bg + "'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td>" +
-                                    "<td class='text-center' style='" + bg + "'><input type='checkbox' name='' " + checked + " disabled='disable'></td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_RECEBIMENTO_HBL"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["AGENTE"] + "' style='max-width: 14ch;'>" + dado[i]["AGENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["CLIENTE"] + "' style='max-width: 14ch; word-break: break-all;'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' title='" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "' style='max-width: 14ch;'>" + dado[i]["NM_RETIRADO_POR_COURRIER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["DT_RETIRADA_PERSONAL"] + "</td>" +
+                                    "<td class='text-center'><input type='checkbox' name='' " + checked + " disabled='disable'></td>" +
                                     "</tr>");
                             } else {
-                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' data-toggle='modal' data-target='#modalEditCourrier' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
+                                $("#containerCourrier").append("<tr><td class='text-center'><div class='btn btn-primary' onclick='BuscarCourrier(" + dado[i]["ID_BL"] + ")'><i class='fas fa-edit'></i></div></td>" +
                                     "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'> " + dado[i]["MASTER"] + "</td > " +
                                     "<td class='text-center'>" + dado[i]["HOUSE"] + "</td>" +

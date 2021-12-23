@@ -4,6 +4,10 @@
         'Cria e seta valores iniciais para sessões
         Session("Logado") = "False"
         Session("ID_TIPO_USUARIO") = ""
+        Session("RefPeso") = ""
+        Session("RefVolume") = ""
+        Session("RefPesoSum") = ""
+        Session("RefVolumeSum") = ""
         msgErro.Visible = False
 
         'Se nao for postback verifica parametros da tela de login

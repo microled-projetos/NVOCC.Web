@@ -4342,23 +4342,30 @@ namespace ABAINFRA.Web
 
             DataTable carregarDados = new DataTable();
             carregarDados = DBS.List(SQL);
-            CourrierInfo resultado = new CourrierInfo();
+            if (carregarDados != null)
+            {
+                CourrierInfo resultado = new CourrierInfo();
 
-            resultado.NR_PROCESSO = carregarDados.Rows[0]["NR_PROCESSO"].ToString();
-            resultado.NM_RAZAO = carregarDados.Rows[0]["CLIENTE"].ToString();
-            resultado.NR_BL = carregarDados.Rows[0]["HOUSE"].ToString();
-            resultado.NR_BL_MASTER = carregarDados.Rows[0]["MASTER"].ToString();
-            resultado.DT_RECEBIMENTO_MBL = carregarDados.Rows[0]["DT_RECEBIMENTO_MBL"].ToString();
-            resultado.CD_RASTREAMENTO_MBL = carregarDados.Rows[0]["CD_RASTREAMENTO_MBL"].ToString();
-            resultado.DT_RECEBIMENTO_HBL = carregarDados.Rows[0]["DT_RECEBIMENTO_HBL"].ToString();
-            resultado.CD_RASTREAMENTO_HBL = carregarDados.Rows[0]["CD_RASTREAMENTO_HBL"].ToString();
-            resultado.DT_RETIRADA_COURRIER = carregarDados.Rows[0]["DT_RETIRADA_COURRIER"].ToString();
-            resultado.NM_RETIRADO_POR_COURRIER = carregarDados.Rows[0]["NM_RETIRADO_POR_COURRIER"].ToString();
-            resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
-            resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
-            resultado.FL_TROCA = carregarDados.Rows[0]["FL_TROCA"].ToString();
+                resultado.NR_PROCESSO = carregarDados.Rows[0]["NR_PROCESSO"].ToString();
+                resultado.NM_RAZAO = carregarDados.Rows[0]["CLIENTE"].ToString();
+                resultado.NR_BL = carregarDados.Rows[0]["HOUSE"].ToString();
+                resultado.NR_BL_MASTER = carregarDados.Rows[0]["MASTER"].ToString();
+                resultado.DT_RECEBIMENTO_MBL = carregarDados.Rows[0]["DT_RECEBIMENTO_MBL"].ToString();
+                resultado.CD_RASTREAMENTO_MBL = carregarDados.Rows[0]["CD_RASTREAMENTO_MBL"].ToString();
+                resultado.DT_RECEBIMENTO_HBL = carregarDados.Rows[0]["DT_RECEBIMENTO_HBL"].ToString();
+                resultado.CD_RASTREAMENTO_HBL = carregarDados.Rows[0]["CD_RASTREAMENTO_HBL"].ToString();
+                resultado.DT_RETIRADA_COURRIER = carregarDados.Rows[0]["DT_RETIRADA_COURRIER"].ToString();
+                resultado.NM_RETIRADO_POR_COURRIER = carregarDados.Rows[0]["NM_RETIRADO_POR_COURRIER"].ToString();
+                resultado.NR_FATURA_COURRIER = carregarDados.Rows[0]["NR_FATURA_COURRIER"].ToString();
+                resultado.DT_RETIRADA_PERSONAL = carregarDados.Rows[0]["DT_RETIRADA_PERSONAL"].ToString();
+                resultado.FL_TROCA = carregarDados.Rows[0]["FL_TROCA"].ToString();
 
-            return JsonConvert.SerializeObject(resultado);
+                return JsonConvert.SerializeObject(resultado);
+			}
+			else
+			{
+                return JsonConvert.SerializeObject("erro");
+			}
         }
 
         [WebMethod]
