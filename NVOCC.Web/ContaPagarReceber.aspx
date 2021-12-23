@@ -309,7 +309,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var previProcesso = [["PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR20;CNTR40;ORIGEM;DESTINO;STATUS COTACAO;DATA STATUS COTACAO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;A RECEBER BRL;A PAGAR BRL;SALDO BRL"]];
+                        var previProcesso = [["PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR20;CNTR40;ORIGEM;DESTINO;STATUS COTACAO;DATA STATUS COTACAO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;A RECEBER BRL;A PAGAR BRL;SALDO BRL"]];
                         for (let i = 0; i < dado.length; i++) {
                             previProcesso.push([dado[i]]);
                         }

@@ -34,7 +34,14 @@ Public Class Faturamento
 
                 txtDataCheckFim.Text = Now.Date
                 txtDataCheckInicial.Text = Now.Date.AddDays(-1)
-                txtDataCheckInicial.Text = FinalSemanaSubtrai(txtDataCheckInicial.Text)
+                ' txtDataCheckInicial.Text = FinalSemanaSubtrai(txtDataCheckInicial.Text)
+                Dim primeirodia As Date
+                If Month(Now.Date) <= 9 Then
+                    primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+                Else
+                    primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+                End If
+                txtDataCheckInicial.Text = primeirodia
                 AtualizaGrid()
                 If Not Page.IsPostBack Then
                     ddlBanco.SelectedValue = "1"
@@ -192,7 +199,7 @@ Public Class Faturamento
 
 
         dsFaturamento.SelectCommand = "SELECT ID_FATURAMENTO,DT_VENCIMENTO,NR_PROCESSO,NM_CLIENTE_REDUZIDO,REFERENCIA_CLIENTE,VL_NOTA_DEBITO,NR_NOTA_DEBITO,DT_NOTA_DEBITO,NR_RPS,DT_RPS,
-NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO  FROM [dbo].[View_Faturamento] WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
+NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,NOSSONUMERO,ARQ_REM,NM_TIPO_FATURAMENTO,DT_ENVIO_FATURAMENTO FROM [dbo].[View_Faturamento] WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
         dgvFaturamento.DataBind()
 
         Session("RelFat") = " WHERE CONVERT(DATE,DT_ENVIO_FATURAMENTO,103) BETWEEN CONVERT(DATE,'" & txtDataCheckInicial.Text & "',103) AND CONVERT(DATE,'" & txtDataCheckFim.Text & "',103) " & FiltroDrop & FiltroCheck
@@ -205,8 +212,15 @@ NR_RECIBO,DT_RECIBO,NR_NOTA_FISCAL,DT_NOTA_FISCAL,DT_LIQUIDACAO,DT_CANCELAMENTO,
         If ddlFiltro.SelectedValue = 1 Or ddlFiltro.SelectedValue = 9 Then
             divBusca.Attributes.CssStyle.Add("display", "none")
             divDatasBusca.Attributes.CssStyle.Add("display", "block")
-            txtDataInicioBusca.Text = Now.Date.AddDays(-1)
-            txtDataInicioBusca.Text = FinalSemana(txtDataInicioBusca.Text)
+            'txtDataInicioBusca.Text = Now.Date.AddDays(-1)
+            'txtDataInicioBusca.Text = FinalSemana(txtDataInicioBusca.Text)
+            Dim primeirodia As Date
+            If Month(Now.Date) <= 9 Then
+                primeirodia = "01/0" & Month(Now.Date) & "/" & Year(Now.Date)
+            Else
+                primeirodia = "01/" & Month(Now.Date) & "/" & Year(Now.Date)
+            End If
+            txtDataInicioBusca.Text = primeirodia
             txtDataFimBusca.Text = Now.Date
         Else
             divBusca.Attributes.CssStyle.Add("display", "block")
@@ -660,9 +674,29 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
                                 dgvFaturamento.DataBind()
                             Else
+                                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                                If ds2.Tables(0).Rows.Count > 0 Then
+                                    If ds2.Tables(0).Rows(0).Item("STATUS_NFE") <> 2 Then
 
-                                lblmsgErro.Text = "Não foi possivel completar a ação!"
-                                divErro.Visible = True
+                                        Dim ERRO As String = ""
+                                        Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                        If DS1.Tables(0).Rows.Count > 0 Then
+                                            If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                                ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
+                                            End If
+                                        End If
+                                        lblmsgErro.Text = "Não foi possivel completar a ação: " & ERRO
+                                        divErro.Visible = True
+                                        Exit Sub
+
+                                    Else
+                                        lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                        divErro.Visible = True
+                                        Exit Sub
+                                    End If
+
+                                End If
+
                             End If
 
                         End If

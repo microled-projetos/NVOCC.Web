@@ -100,22 +100,31 @@
 
         Dim filtro As String = ""
 
-        If ddlFiltro.SelectedValue <> 3 And txtPesquisa.Text = "" Then
+        If ddlFiltro.SelectedValue < 4 And txtPesquisa.Text = "" Then
             divErro.Visible = True
             lblmsgErro.Text = "É necessário preencher o campo de pesquisa!"
             dgvFinanceiro.Visible = False
         Else
-            If ddlFiltro.SelectedValue = 1 Then
+            If ddlFiltro.SelectedValue = 1 Then 'Número do Master
                 filtro &= " WHERE NR_BL_MASTER LIKE '%" & txtPesquisa.Text & "%'"
-            ElseIf ddlFiltro.SelectedValue = 2 Then
+
+            ElseIf ddlFiltro.SelectedValue = 2 Then 'Número do processo
 
                 filtro &= " WHERE NR_PROCESSO LIKE '%" & txtPesquisa.Text & "%'"
 
-            ElseIf ddlFiltro.SelectedValue = 3 Then
+            ElseIf ddlFiltro.SelectedValue = 3 Then 'Número do House 
+                filtro &= " WHERE NR_BL LIKE '%" & txtPesquisa.Text & "%'"
+
+            ElseIf ddlFiltro.SelectedValue = 4 Then 'Todos em aberto
+
                 filtro &= " WHERE (QT_TAXAS_PAGAR_ABERTA > 0 Or QT_TAXAS_RECEBER_ABERTA > 0)"
 
-            ElseIf ddlFiltro.SelectedValue = 4 Then
-                filtro &= " WHERE NR_BL LIKE '%" & txtPesquisa.Text & "%'"
+            ElseIf ddlFiltro.SelectedValue = 5 Then 'Periodo de chegada
+                filtro &= " WHERE CONVERT(DATE,DT_CHEGADA_MASTER,103) BETWEEN CONVERT(DATE,'" & txtDataInicioBusca.Text & "',103) AND CONVERT(DATE,'" & txtDataFimBusca.Text & "',103)"
+
+
+            ElseIf ddlFiltro.SelectedValue = 6 Then 'Tipo Faturamento
+                filtro &= " WHERE ID_TIPO_FATURAMENTO = " & ddlTipoFaturamento.SelectedValue
 
             End If
 
@@ -154,5 +163,22 @@
 
     Private Sub rdServico_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rdServico.SelectedIndexChanged
         AtualizaGrid()
+    End Sub
+
+    Private Sub ddlFiltro_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFiltro.SelectedIndexChanged
+        If ddlFiltro.SelectedValue = 5 Then
+            divBusca.Attributes.CssStyle.Add("display", "none")
+            divDatasBusca.Attributes.CssStyle.Add("display", "block")
+            divddlBusca.Attributes.CssStyle.Add("display", "none")
+
+        ElseIf ddlFiltro.SelectedValue = 6 Then
+            divBusca.Attributes.CssStyle.Add("display", "none")
+            divDatasBusca.Attributes.CssStyle.Add("display", "none")
+            divddlBusca.Attributes.CssStyle.Add("display", "block")
+        Else
+            divBusca.Attributes.CssStyle.Add("display", "block")
+            divDatasBusca.Attributes.CssStyle.Add("display", "none")
+            divddlBusca.Attributes.CssStyle.Add("display", "none")
+        End If
     End Sub
 End Class

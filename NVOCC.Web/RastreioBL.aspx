@@ -60,6 +60,86 @@
                 </div>
             </div>
         </div>
+           <!--PRINCIPAL -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>PRINCIPAL</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <article>
+                            <p>
+                                STATUS:
+                                <span class="badge badge-secondary">
+                                    <asp:Label Font-Bold="true" runat="server" ID="status"></asp:Label></span>
+                            </p>
+                            <p>
+                                Bl:
+                                <asp:Label Font-Bold="true" runat="server" ID="bl"></asp:Label>
+                            </p>
+                            <p>
+                                CONSIGNATARIO INFORMADO:
+                                <asp:Label Font-Bold="true" runat="server" ID="consig_informado"></asp:Label>
+                            </p>
+                            <p>
+                                FLUXO:
+                                <asp:Label Font-Bold="true" runat="server" ID="fluxo"></asp:Label>
+                            </p>
+                            <p>
+                                NAVIO:
+                                <asp:Label Font-Bold="true" runat="server" ID="navio"></asp:Label>
+                            </p>
+                            <p>
+                                IMO:
+                                <asp:Label Font-Bold="true" runat="server" ID="imo"></asp:Label>
+                            </p>
+                            <p>
+                                CONTA:
+                                <asp:Label Font-Bold="true" runat="server" ID="conta"></asp:Label>
+                            </p>
+
+                        </article>
+                    </div>
+                    <div class="col-lg-6">
+                        <article>
+                            <p>
+                                EMBARQUE:
+                                <asp:Label Font-Bold="true" runat="server" ID="embarque"></asp:Label>
+                            </p>
+                            <p>
+                                TIPO:
+                                <asp:Label Font-Bold="true" runat="server" ID="tipo"></asp:Label>
+                            </p>
+                            <p>
+                                TIPO CARGA:
+                                <asp:Label Font-Bold="true" runat="server" ID="tipo_carga"></asp:Label>
+                            </p>
+                            <p>
+                                DATA OPERACAO:
+                                <asp:Label Font-Bold="true" runat="server" ID="data_operacao"></asp:Label>
+                            </p>
+                            <p>
+                                VIAGEM:
+                                <asp:Label Font-Bold="true" runat="server" ID="viagem"></asp:Label>
+                            </p>
+                            <p>
+                                IDENTIFICADOR/TOKEN:
+                                <asp:Label Font-Bold="true" runat="server" ID="identificador_token"></asp:Label>
+                            </p>
+                            <p>
+                                SITUAÇÃO:
+                                <asp:Label Font-Bold="true" runat="server" ID="situacao"></asp:Label>
+                            </p>
+                            <p>
+                                ETA:
+                                <asp:Label Font-Bold="true" runat="server" ID="eta"></asp:Label>
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--ADUANA-->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -221,89 +301,38 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--PRINCIPAL -->
-    <div class="col-lg-6">
-        <div class="panel panel-primary">
+
+         <!-- DOCUMENTOS -->
+         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5>PRINCIPAL</h5>
+                <h5>DOCUMENTOS</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <article>
-                            <p>
-                                STATUS:
-                                <span class="badge badge-secondary">
-                                    <asp:Label Font-Bold="true" runat="server" ID="status"></asp:Label></span>
-                            </p>
-                            <p>
-                                Bl:
-                                <asp:Label Font-Bold="true" runat="server" ID="bl"></asp:Label>
-                            </p>
-                            <p>
-                                CONSIGNATARIO INFORMADO:
-                                <asp:Label Font-Bold="true" runat="server" ID="consig_informado"></asp:Label>
-                            </p>
-                            <p>
-                                FLUXO:
-                                <asp:Label Font-Bold="true" runat="server" ID="fluxo"></asp:Label>
-                            </p>
-                            <p>
-                                NAVIO:
-                                <asp:Label Font-Bold="true" runat="server" ID="navio"></asp:Label>
-                            </p>
-                            <p>
-                                IMO:
-                                <asp:Label Font-Bold="true" runat="server" ID="imo"></asp:Label>
-                            </p>
-                            <p>
-                                CONTA:
-                                <asp:Label Font-Bold="true" runat="server" ID="conta"></asp:Label>
-                            </p>
-
-                        </article>
+                    <div id="divConteudoDinamico" runat="server" class="col-lg-12">
                     </div>
-                    <div class="col-lg-6">
-                        <article>
-                            <p>
-                                EMBARQUE:
-                                <asp:Label Font-Bold="true" runat="server" ID="embarque"></asp:Label>
-                            </p>
-                            <p>
-                                TIPO:
-                                <asp:Label Font-Bold="true" runat="server" ID="tipo"></asp:Label>
-                            </p>
-                            <p>
-                                TIPO CARGA:
-                                <asp:Label Font-Bold="true" runat="server" ID="tipo_carga"></asp:Label>
-                            </p>
-                            <p>
-                                DATA OPERACAO:
-                                <asp:Label Font-Bold="true" runat="server" ID="data_operacao"></asp:Label>
-                            </p>
-                            <p>
-                                VIAGEM:
-                                <asp:Label Font-Bold="true" runat="server" ID="viagem"></asp:Label>
-                            </p>
-                            <p>
-                                IDENTIFICADOR/TOKEN:
-                                <asp:Label Font-Bold="true" runat="server" ID="identificador_token"></asp:Label>
-                            </p>
-                            <p>
-                                SITUAÇÃO:
-                                <asp:Label Font-Bold="true" runat="server" ID="situacao"></asp:Label>
-                            </p>
-                            <p>
-                                ETA:
-                                <asp:Label Font-Bold="true" runat="server" ID="eta"></asp:Label>
-                            </p>
-                        </article>
+                </div>
+            </div>
+        </div>
+
+         <!-- FOLLOWUP -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5>FOLLOW UP</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="followup" runat="server" class="col-lg-12">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- MAPA -->
+       <div class="col-lg-6">
+                       <iframe  width="900" height="400" runat="server" id="mapa"></iframe>
+         </div>
+
     <!--WORKFLOW -->
     <div class="col-lg-6">
         <div class="panel panel-primary">
@@ -327,39 +356,8 @@
         </div>
     </div>
     
-    <!-- DOCUMENTOS -->
-    <div class="col-lg-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h5>DOCUMENTOS</h5>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div id="divConteudoDinamico" runat="server" class="col-lg-12">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- FOLLOWUP -->
-    <div class="col-lg-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h5>FOLLOW UP</h5>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div id="followup" runat="server" class="col-lg-12">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-     <%--<div class="col-lg-6">
-    <iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d64651538.95931257!2d-13.152485160994921!3d8.497748471632285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x31508e64e5c642c1%3A0x951daa7c349f366f!2sChina!3m2!1d35.86166!2d104.195397!4m5!1s0x9c59c7ebcc28cf%3A0x295a1506f2293e63!2sBrasil!3m2!1d-14.235004!2d-51.92528!5e0!3m2!1spt-BR!2sbr!4v1639505866851!5m2!1spt-BR!2sbr" width="900" height="400" style="border:5;" allowfullscreen="" loading="lazy"></iframe>
-
-         <br /> <br /> 
-         </div>--%>
+   
+  
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">    
 </asp:Content>

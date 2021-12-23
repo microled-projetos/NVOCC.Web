@@ -194,6 +194,15 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents txtCPF As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle Label1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle txtInscEstadual.
     '''</summary>
     '''<remarks>

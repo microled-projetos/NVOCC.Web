@@ -211,8 +211,8 @@
 
     Private Sub dgvTaxasReceber_Load(sender As Object, e As EventArgs) Handles dgvTaxasReceber.Load
         Using Status = New NotaFiscal.WsNvocc
-
-            Status.StatusBloqueio(dsReceber.SelectCommand)
+            Dim SQL As String = "SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'R' AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74 AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC"
+            Status.StatusBloqueio(SQL)
 
         End Using
 
@@ -344,7 +344,7 @@
 
             btnAtualizaCambio.Visible = True
         End If
-        Dim sql As String = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R' " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+        Dim sql As String = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R'  AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74  " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         Using Status = New NotaFiscal.WsNvocc
 
             Status.StatusBloqueio(sql)

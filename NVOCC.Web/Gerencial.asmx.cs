@@ -383,6 +383,69 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
+        [WebMethod]
+        public string CarregaFiltroIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+        {
+            string SQL;
+            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
+            string periodoi;
+            string periodof;
+            string anof;
+
+            if (anoF != "")
+            {
+                anof = anoF;
+            }
+            else
+            {
+                anof = anoI;
+            }
+
+            if (mesI != "")
+            {
+                periodoi = anoI + mesI;
+            }
+            else
+            {
+                periodoi = anoI + "01";
+            }
+
+            if (mesF != "")
+            {
+                periodof = anof + mesF;
+            }
+            else
+            {
+                periodof = anof + "12";
+            }
+
+
+            SQL += " AND A.ANO+A.MES >=" + periodoi + " AND A.ANO+A.MES <=" + periodof;
+
+
+            if (tipo == "1")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM ='FCL' ";
+            }
+            else if (tipo == "2")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM ='LCL' ";
+            }
+            else if (tipo == "3")
+            {
+                SQL += " AND A.NM_TIPO_ESTUFAGEM IN('FCL','LCL') ";
+            }
+            else if (tipo == "4")
+            {
+                SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
+            }
+
+            if (embarque == "0")
+            {
+                SQL += " AND ID_BL_MASTER IS NOT NULL ";
+            }
+            return SQL;
+        }
 
         [WebMethod]
         public string ProcessosIndicador(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
@@ -390,7 +453,31 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT NM_RAZAO AS VENDEDOR, ";
-            SQL += "COUNT(NR_PROCESSO) AS PROC_TOTAL, ";
+            SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " AND ";
+            SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'M') TOTAL_PROC_IMP, ";
+            SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
+            SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'E') TOTAL_PROC_EXP, ";
+            SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
+            SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'A') TOTAL_PROC_AR, ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_IMP, ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_EXP, ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_IMP, ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) ";
+            SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_EXP, ";
+            SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
             SQL += "SUM(ISNULL(CNTR_IMP, 0)) +SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_TOTAL, ";
             SQL += "SUM(ISNULL(TEUS_IMP, 0)) +SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_TOTAL, ";
             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
@@ -403,15 +490,15 @@ namespace ABAINFRA.Web
             SQL += "FROM( ";
             SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_EXP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
             SQL += ") X ";
-            SQL += "GROUP BY MES, ANO, NM_RAZAO ";
+            SQL += "GROUP BY NM_RAZAO ";
 
             DataTable processosIndicador = new DataTable();
 
@@ -1601,9 +1688,9 @@ namespace ABAINFRA.Web
             }
 
             string SQL;
-            SQL = "SELECT DT_SOLICITACAO, INSIDE, SERVICO, TIPO_ESTUFAGEM AS ESTUFAGEM, CD_INCOTERM AS INCOTERM, NM_CLIENTE AS CLIENTE, NM_ORIGEM AS ORIGEM, ";
+            SQL = "SELECT ID_ATENDIMENTO_NEGADO, format(DT_SOLICITACAO,'dd/MM/yyyy') as DT_SOLICITACAO, INSIDE, SERVICO, TIPO_ESTUFAGEM AS ESTUFAGEM, CD_INCOTERM AS INCOTERM, NM_CLIENTE AS CLIENTE, NM_ORIGEM AS ORIGEM, ";
             SQL += "NM_DESTINO AS DESTINO, NM_VENDEDOR AS VENDEDOR, NM_STATUS_COTACAO AS STATUS, DS_OBS AS OBS, QTCARGA, CARGA, PESO, METRAGEM, CASE WHEN IDMERCADORIA = 22 THEN MERCADORIA + ' - ' + TIPO_CONTAINER ELSE MERCADORIA END AS MERCADORIA ";
-            SQL += "FROM dbo.FN_ATENDIMENTO_NEGADO('"+dataI+"','"+dataF+ "'," + Session["ID_USUARIO"] + ") ";
+            SQL += "FROM dbo.FN_ATENDIMENTO_NEGADO('"+dataI+"','"+dataF+"',3) ";
             SQL += "WHERE ID_ATENDIMENTO_NEGADO IS NOT NULL ";
             SQL += "" + filter + "";
             DataTable listTable = new DataTable();
@@ -1636,6 +1723,11 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string CadastrarAtendimento(Atendimento dados)
         {
+
+            if (dados.ID_MERCADORIA == "22" && dados.ID_TIPO_CONTAINER == "0")
+			{
+                return JsonConvert.SerializeObject("0");
+            }
             if (dados.DT_ATENDIMENTO_NEGADO == "")
             {
                 return JsonConvert.SerializeObject("0");
@@ -1675,14 +1767,21 @@ namespace ABAINFRA.Web
             }
             if (dados.ID_TIPO_CONTAINER.ToString() == "0")
             {
-                dados.ID_TIPO_CONTAINER = null;
+                dados.ID_TIPO_CONTAINER = "null";
             }
 
 
 
             string SQL;
 
-            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, ID_TIPO_CARGA, QT_CARGA, ID_MERCADORIA, QT_PESO, QT_METRAGEM, DS_OBS, ID_TIPO_CONTAINER) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "','" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "','" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "','" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "'," + dados.ID_STATUS + "," + dados.ID_TIPO_CARGA + "," + dados.QT_CARGA + "," + dados.ID_MERCADORIA + "," + dados.QT_PESO + "," + dados.QT_METRAGEM.ToString().Replace(",",".") +",'" + dados.DS_OBS + "',"+dados.ID_TIPO_CONTAINER+")";
+            SQL = "INSERT INTO TB_ATENDIMENTO_NEGADO (DT_ATENDIMENTO_NEGADO, ID_PARCEIRO_INSIDE, ID_VENDEDOR, ID_PARCEIRO_CLIENTE, ";
+            SQL += "ID_SERVICO, ID_TIPO_ESTUFAGEM, ID_PORTO_ORIGEM, ID_PORTO_DESTINO, ID_INCOTERM, ID_STATUS, ID_TIPO_CARGA, QT_CARGA, ";
+            SQL += "ID_MERCADORIA, QT_PESO, QT_METRAGEM, DS_OBS, ID_TIPO_CONTAINER) VALUES('" + dados.DT_ATENDIMENTO_NEGADO + "', ";
+            SQL += " '" + dados.ID_PARCEIRO_INSIDE + "','" + dados.ID_VENDEDOR + "','" + dados.ID_PARCEIRO_CLIENTE + "', ";
+            SQL += " '" + dados.ID_SERVICO + "','" + dados.ID_TIPO_ESTUFAGEM + "','" + dados.ID_PORTO_ORIGEM + "', ";
+            SQL += " '" + dados.ID_PORTO_DESTINO + "','" + dados.ID_INCOTERM + "'," + dados.ID_STATUS + ", ";
+            SQL += "" + dados.ID_TIPO_CARGA + "," + dados.QT_CARGA + "," + dados.ID_MERCADORIA + "," + dados.QT_PESO + ", ";
+            SQL += "" + dados.QT_METRAGEM.ToString().Replace(",",".") +",'" + dados.DS_OBS + "',"+dados.ID_TIPO_CONTAINER+")";
             DBS.ExecuteScalar(SQL);
 
             return JsonConvert.SerializeObject("1");
@@ -1875,8 +1974,8 @@ namespace ABAINFRA.Web
             {
                 string idPremiacao = listTable.Rows[0]["ID_CABECALHO_COMISSAO_NACIONAL"].ToString();
            
-                SQL = "SELECT ID_PARCEIRO_INDICADOR AS IDAGENTE, DT_COMPETENCIA, NR_QUINZENA, NM_AGENTE AS AGENTE, NR_MASTER AS MBL, NR_HOUSE AS HBL, NM_CLIENTE AS CNEE, NM_TIPO_ESTUFAGEM AS ESTUFAGEM, ";
-                SQL += "VL_COMPRA, MOEDA_COMPRA, VL_CAMBIO, VL_PREMIACAO, MOEDA_PREMIACAO, PC_RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO(" + idPremiacao + ") ORDER BY NM_AGENTE";
+                SQL = "SELECT AGENTE, COMPETENCIA, PROCESSO, INDICADOR, MBL, HBL, CLIENTE, ESTUFAGEM, ";
+                SQL += "MOEDA, VALOR, CAMBIO, PREMIACAO, RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO(" + idPremiacao + ") ORDER BY AGENTE";
                 DataTable listTable2 = new DataTable();
                 listTable2 = DBS.List(SQL);
 

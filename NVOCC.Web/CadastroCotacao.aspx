@@ -1554,7 +1554,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_INCOTERM">
         selectcommand="SELECT ID_USUARIO, NOME FROM TB_USUARIO union SELECT  0, 'Selecione' ORDER BY ID_USUARIO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsClienteFinal" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT ID_CLIENTE_FINAL,NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
+        selectcommand="SELECT ID_CLIENTE_FINAL,SUBSTRING(NM_CLIENTE_FINAL,0,50) +' ('+ NR_CNPJ +')' NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL 
 union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL">
 </asp:SqlDataSource>
         <asp:SqlDataSource ID="dsCliente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -1664,8 +1664,7 @@ union SELECT  0, 'Selecione'  ORDER BY ID_ORIGEM_PAGAMENTO">
 </asp:SqlDataSource>
      <asp:SqlDataSource ID="dsDestinatarioCobranca" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_DESTINATARIO_COBRANCA,NM_DESTINATARIO_COBRANCA from TB_DESTINATARIO_COBRANCA
-union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA
-">
+union SELECT  0, 'Selecione'  ORDER BY ID_DESTINATARIO_COBRANCA">
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsHistoricoCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT top 10

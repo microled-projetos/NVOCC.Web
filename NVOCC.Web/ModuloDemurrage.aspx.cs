@@ -137,20 +137,20 @@ namespace ABAINFRA.Web
 
 
             //SELECT DE DROP DE ENVIO PARA CONTA CORRENTE VENDA
-            SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
-            statusDemurrage = DBS.List(SQL);
-            Session["statusDemurrage"] = statusDemurrage;
-            ddlStatusFaturaContaCorrente.DataSource = Session["statusDemurrage"];
-            ddlStatusFaturaContaCorrente.DataBind();
-            ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
+            //SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_VENDA = 1 AND FL_ATIVO = 1 ";
+            //statusDemurrage = DBS.List(SQL);
+            //Session["statusDemurrage"] = statusDemurrage;
+            //ddlStatusFaturaContaCorrente.DataSource = Session["statusDemurrage"];
+            //ddlStatusFaturaContaCorrente.DataBind();
+            //ddlStatusFaturaContaCorrente.Items.Insert(0, new ListItem("Selecione", ""));
 
             //SELECT DE DROP DE ENVIO PARA CONTA CORRENTE COMPRA
-            SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
-            statusDemurrage = DBS.List(SQL);
-            Session["statusDemurrage"] = statusDemurrage;
-            ddlStatusFaturaContaCorrenteCompra.DataSource = Session["statusDemurrage"];
-            ddlStatusFaturaContaCorrenteCompra.DataBind();
-            ddlStatusFaturaContaCorrenteCompra.Items.Insert(0, new ListItem("Selecione", ""));
+            //SQL = "SELECT * FROM TB_STATUS_DEMURRAGE WHERE FL_COMPRA = 1 AND FL_ATIVO = 1 ";
+            //statusDemurrage = DBS.List(SQL);
+            //Session["statusDemurrage"] = statusDemurrage;
+            //ddlStatusFaturaContaCorrenteCompra.DataSource = Session["statusDemurrage"];
+            //ddlStatusFaturaContaCorrenteCompra.DataBind();
+            //ddlStatusFaturaContaCorrenteCompra.Items.Insert(0, new ListItem("Selecione", ""));
 
         }
         protected void CarregarFiltroFatura()

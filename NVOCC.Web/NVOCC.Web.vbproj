@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 16122021\Publicacao 2\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 23122021 (2)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -385,7 +385,6 @@
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
     <Content Include="DebitNote.aspx" />
-    <Content Include="DebitNote_old.aspx" />
     <Content Include="DemonstrativoRateio.aspx" />
     <Content Include="DemonstrativoRateio.aspx.cs" />
     <Content Include="DemonstrativoRateio.aspx.designer.cs" />
@@ -398,7 +397,6 @@
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
     <Content Include="ImprimirND.aspx" />
-    <Content Include="EmissaoNDFaturamento_old.aspx" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="EstimativaContaPagarReceber.aspx" />
     <Content Include="EstimativaContaPagarReceber.aspx.cs" />
@@ -523,9 +521,7 @@
     <Content Include="RastreioBL.aspx" />
     <Content Include="ReciboDemurrage.aspx" />
     <Content Include="ReciboPagamento.aspx" />
-    <Content Include="ReciboPagamento_old.aspx" />
     <Content Include="ReciboProvisorioServico.aspx" />
-    <Content Include="ReciboProvisorioServico_old.aspx" />
     <Content Include="ContratosFirmados.aspx" />
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
@@ -813,26 +809,13 @@
       <DependentUpon>DebitNote.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="DebitNote_old.aspx.designer.vb">
-      <DependentUpon>DebitNote_old.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DebitNote_old.aspx.vb">
-      <DependentUpon>DebitNote_old.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
+    <Compile Include="Helpers\ExtensoEstrangeira.vb" />
     <Compile Include="ImprimirND.aspx.designer.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
     </Compile>
     <Compile Include="ImprimirND.aspx.vb">
       <DependentUpon>ImprimirND.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="EmissaoNDFaturamento_old.aspx.designer.vb">
-      <DependentUpon>EmissaoNDFaturamento_old.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="EmissaoNDFaturamento_old.aspx.vb">
-      <DependentUpon>EmissaoNDFaturamento_old.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EmissaoND.aspx.designer.vb">
       <DependentUpon>EmissaoND.aspx</DependentUpon>
@@ -1052,26 +1035,12 @@
       <DependentUpon>ReciboPagamento.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="ReciboPagamento_old.aspx.designer.vb">
-      <DependentUpon>ReciboPagamento_old.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ReciboPagamento_old.aspx.vb">
-      <DependentUpon>ReciboPagamento_old.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.designer.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReciboProvisorioServico.aspx.vb">
       <DependentUpon>ReciboProvisorioServico.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="ReciboProvisorioServico_old.aspx.designer.vb">
-      <DependentUpon>ReciboProvisorioServico_old.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ReciboProvisorioServico_old.aspx.vb">
-      <DependentUpon>ReciboProvisorioServico_old.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="RecuperarSenha.aspx.designer.vb">
       <DependentUpon>RecuperarSenha.aspx</DependentUpon>

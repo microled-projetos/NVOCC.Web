@@ -1132,40 +1132,22 @@
                                                 <input id="idFaturaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Processo</label>
                                                 <input id="nrProcessoFaturaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label class="control-label">Cliente</label>
                                                 <input id="nmClienteFaturaContaCorrente" class="form-control nobox" type="text" disabled="disabled" />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label class="control-label">Data Liquidação</label>
                                                 <input id="dtLiquidacaoFaturaContaCorrente" class="form-control" type="date"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            
-                                                <label class="control-label">Status</label>
-                                            <div class="form-group" ID="divStatusContaCorrente">
-                                                <asp:DropDownList ID="ddlStatusFaturaContaCorrente" runat="server" CssClass="form-control" DataTextField="DS_STATUS_DEMURRAGE" DataValueField="ID_STATUS_DEMURRAGE"></asp:DropDownList>
-                                            </div>
-                                            <div class="form-group" ID="divStatusContaCorrenteCompra">
-                                                <asp:DropDownList ID="ddlStatusFaturaContaCorrenteCompra" runat="server" CssClass="form-control" DataTextField="DS_STATUS_DEMURRAGE" DataValueField="ID_STATUS_DEMURRAGE"></asp:DropDownList>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <label class="control-label">Data Status</label>
-                                                <input id="dtStatusFaturaContaCorrente" class="form-control" type="date"/>
                                             </div>
                                         </div>
                                     </div>
@@ -1297,10 +1279,12 @@
                                     <th class="text-center" scope="col">Status Compra</th>                                    
                                     <th class="text-center" scope="col">Id Fatura Compra</th>
                                     <th class="text-center" scope="col">Demurrage Compra</th>
+                                    <th class="text-center" scope="col">Demurrage Compra BRL</th>
                                     <th class="text-center" scope="col">Data Pagamento</th>
                                     <th class="text-center" scope="col">Status Venda</th>
                                     <th class="text-center" scope="col">Id Fatura Venda</th>                                    
                                     <th class="text-center" scope="col">Demurrage Venda</th>
+                                    <th class="text-center" scope="col">Demurrage Venda BRL</th>
                                     <th class="text-center" scope="col">Data Recebimento</th>
                                 </tr>
                             </thead>
@@ -3729,15 +3713,6 @@
                         var dado = dado.d;
                         if (dado == "0") {
                             if (atualizaCambio != 1) {
-                                if (vlCheck == 1) {
-                                    document.getElementById('divStatusContaCorrente').style = 'display:block';
-                                    document.getElementById('divStatusContaCorrenteCompra').style = 'display:none';
-                                }
-                                else {
-                                    document.getElementById('divStatusContaCorrenteCompra').style = 'display:block';
-                                    document.getElementById('divStatusContaCorrente').style = 'display:none';
-                                }
-
                                 $("#modalExportarContaCorrente").modal("show");
                                 $.ajax({
                                     type: "POST",
@@ -3784,19 +3759,11 @@
             var dsStatus = 0;
 
             console.log(vlCheck);
-            if (vlCheck == 1) {
-                dsStatus = document.getElementById("MainContent_ddlStatusFaturaContaCorrente").value;
-            }
-            else {
-                dsStatus = document.getElementById("MainContent_ddlStatusFaturaContaCorrenteCompra").value;
-            }
-
-
-            if (dsStatus != "") {
+            
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/exportarCC",
-                    data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '", dsStatus: "' + dsStatus + '"}',
+                    data: '{idFatura:"' + idFatura + '",dtLiquidacao: "' + dtLiquidacao + '", check: "' + vlCheck + '"}',
                     contentType: "application/json; charset=utf-8",
                     beforeSend: function () {
                     },
@@ -3817,9 +3784,6 @@
                         }
                     }
                 })
-            } else {
-                $("#msgErrExportDado").fadeIn(500).delay(1000).fadeOut(500);
-            }
         }
 
         function estimativaCV() {
@@ -4214,7 +4178,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#grdModuloDemurrage").empty();
-                    $("#grdModuloDemurrage").append("<tr><td colspan='20'><div class='loader text-center'></div></td></tr>");
+                    $("#grdModuloDemurrage").append("<tr><td colspan='22'><div class='loader text-center'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -4223,7 +4187,7 @@
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
                             console.log(dado[i]["QT_DIAS_FREETIME"] + ' - ' + dado[i]["QT_DIAS_FREETIME_CONFIRMA"]);
-                            if (parseInt(dado[i]["QT_DIAS_FREETIME"]) < parseInt(dado[i]["QT_DIAS_FREETIME_CONFIRMA"])) {
+                            if (parseInt(dado[i]["QT_DIAS_FREETIME"]) == parseInt(dado[i]["QT_DIAS_FREETIME_CONFIRMA"])) {
                                 freetime = "<td class='text-center' style='background-color: yellow;'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>";
                             } else {
                                 freetime = "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>"
@@ -4248,10 +4212,12 @@
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
                                     "</tr> ");
                             }
@@ -4271,15 +4237,16 @@
                                     "<td class='text-center'>" + dado[i]["DEVOLUCAO_CNTR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["QT_DIAS_DEMURRAGE_COMPRA"] + "</td>" +
-
                                     "<td class='text-center'>" + dado[i]["DS_OBSERVACAO"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
                                     "</tr> ");
                             }
@@ -4302,10 +4269,12 @@
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE_COMPRA"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_PAGAR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_COMPRA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["PAG_DEMU"] + "</td>" +
                                     "<td class='text-center' title='" + dado[i]["DS_STATUS_DEMURRAGE"] + "' style='max-width: 14ch;'>" + dado[i]["DS_STATUS_DEMURRAGE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ID_DEMURRAGE_RECEBER"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["VL_DEMURRAGE_VENDA_BR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["RECEB_DEMU"] + "</td>" +
                                     "</tr > ");
                             }
@@ -4313,7 +4282,7 @@
                     }
                     else {
                         $("#grdModuloDemurrage").empty();
-                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='20' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
+                        $("#grdModuloDemurrage").append("<tr id='msgEmptyWeek'><td colspan='22' class='alert alert-light text-center'>Resultado não encontrado</td></tr>");
                     }
                 }
             });

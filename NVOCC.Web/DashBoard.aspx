@@ -338,10 +338,23 @@
         }
 
         function processosIndicador() {
+            var pctPI;
+            var pctTI;
+            var pctCI;
+            var pctPE;
+            var pctTE;
+            var pctCE;
+            var pctPA;
+            var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
+            if (instrEmbarque.checked) {
+                instrEmbarque = "1";
+            } else {
+                instrEmbarque = "0";
+            }
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/ProcessosIndicador",
-                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
+                data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque:"' + instrEmbarque + '"  }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -355,28 +368,80 @@
                     $("#tblIndicadorTeusExpoBody").empty();
                     $("#tblIndicadorProcAereoBody").empty();
                     if (data != null) {
+                        console.log(data[0]["TOTAL_PROC_IMP"])
+                        console.log(data[0]["TOTAL_PROC_EXP"])
+                        console.log(data[0]["TOTAL_PROC_AR"])
+                        console.log(data[0]["TOTAL_TEUS_IMP"])
+                        console.log(data[0]["TOTAL_TEUS_EXP"])
+                        console.log(data[0]["TOTAL_CNTR_IMP"])
+                        console.log(data[0]["TOTAL_CNTR_EXP"])
+                        
                         for (var i = 0; i < data.length; i++) {
+
+                            if (data[i]["PROC_IMP"] * 100 == 0) {
+                                pctPI = 0.0;
+                            } else {
+                                pctPI = (data[i]["PROC_IMP"] * 100 / data[0]["TOTAL_PROC_IMP"]).toFixed(2).replace(".",",");
+                            }
+
+                            if (data[i]["CNTR_IMP"] * 100 == 0) {
+                                pctTI = 0.0;
+                            } else {
+                                pctTI = (data[i]["CNTR_IMP"] * 100 / data[0]["TOTAL_CNTR_IMP"]).toFixed(2).replace(".", ",");
+                            }
+
+                            if (data[i]["TEUS_IMP"] * 100 == 0) {
+                                pctCI = 0.0;
+                            } else {
+                                pctCI = (data[i]["TEUS_IMP"] * 100 / data[0]["TOTAL_TEUS_IMP"]).toFixed(2).replace(".", ",");
+                            }
+
+                            if (data[i]["PROC_EXP"] * 100 == 0) {
+                                pctPE = 0.0;
+                            } else {
+                                pctPE = (data[i]["PROC_EXP"] * 100 / data[0]["TOTAL_PROC_EXP"]).toFixed(2).replace(".", ",");
+                            }
+
+                            if (data[i]["CNTR_EXP"] * 100 == 0) {
+                                pctTE = 0.0;
+                            } else {
+                                pctTE = (data[i]["CNTR_EXP"] * 100 / data[0]["TOTAL_CNTR_EXP"]).toFixed(2).replace(".", ",");
+                            }
+
+                            if (data[i]["TEUS_EXP"] * 100 == 0) {
+                                pctCE = 0.0;
+                            } else {
+                                pctCE = (data[i]["TEUS_EXP"] * 100 / data[0]["TOTAL_TEUS_EXP"]).toFixed(2).replace(".", ",");
+                            }
+
+                            if (data[i]["PROC_AR"] * 100 == 0) {
+                                pctPA = 0.0;
+                            } else {
+                                pctPA = (data[i]["PROC_AR"] * 100 / data[0]["TOTAL_PROC_AR"]).toFixed(2).replace(".", ",");
+                            }
+
+
                             $("#tblIndicadorProcImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_IMP"] + "</td>" +
-                                "<td class='text-center'>" + parseFloat(data[0]["TOTAL"]) * parseFloat(data[i]["PROC_IMP"]) / 100.00 + " %</td></tr>");
+                                "<td class='text-center'>" + pctPI + " %</td></tr>");
                             $("#tblIndicadorCNTRImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_IMP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["CNTR_IMP"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctTI + " %</td></tr>");
                             $("#tblIndicadorTeusImpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["TEUS_IMP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["TEUS_IMP"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctCI + " %</td></tr>");
                             $("#tblIndicadorProcExpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_EXP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["PROC_EXP"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctPE + " %</td></tr>");
                             $("#tblIndicadorCNTRExpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["CNTR_EXP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["CNTR_EXP"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctTE + " %</td></tr>");
                             $("#tblIndicadorTeusExpoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["TEUS_EXP"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["TEUS_EXP"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctCE + " %</td></tr>");
                             $("#tblIndicadorProcAereoBody").append("<tr style='padding: 5px 10px !important;'><td class='text-center' title='" + data[i]["VENDEDOR"] +"' style='max-width: 10ch'> " + data[i]["VENDEDOR"] + "</td>" +
                                 "<td class='text-center'>" + data[i]["PROC_AR"] + "</td>" +
-                                "<td class='text-center'>" + data[i]["PROC_AR"] + " %</td></tr>");
+                                "<td class='text-center'>" + pctPA + " %</td></tr>");
                         }
                     }
                     else {

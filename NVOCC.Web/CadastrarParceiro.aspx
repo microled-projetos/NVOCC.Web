@@ -132,8 +132,8 @@
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Inscrição Estadual:</label>
-                                        <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="form-control inteiro" MaxLength="18"></asp:TextBox>
+                                        <label class="control-label">Inscrição Estadual:</label><asp:label ID="Label1"  runat="server" style="color:red" >*</asp:label>
+                                        <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="form-control" MaxLength="18"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">
@@ -728,7 +728,7 @@
         </div>
 
 <asp:SqlDataSource ID="dsCidades" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand=" SELECT ID_CIDADE,upper( NM_CIDADE)NM_CIDADE FROM [dbo].[TB_CIDADE] #FILTRO union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] Order by NM_CIDADE">
+        selectcommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE">
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
