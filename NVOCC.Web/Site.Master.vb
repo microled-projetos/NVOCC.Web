@@ -250,7 +250,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuComercial.Visible = False
             End If
 
-            If mnModuloOperacional.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False Then
+            If mnOperacionalListagemBL.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False Then
                 MenuOperacao.Visible = False
             End If
 
