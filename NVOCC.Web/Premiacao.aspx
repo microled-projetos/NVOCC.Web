@@ -49,13 +49,12 @@
                                                 <th class="text-center" scope="col">AGENTE</th>
                                                 <th class="text-center" scope="col">MBL</th>
                                                 <th class="text-center" scope="col">HBL</th>
-                                                <th class="text-center" scope="col">CNEE</th>
+                                                <th class="text-center" scope="col">INDICADOR</th>
                                                 <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">VALOR COMPRA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">TAXA CONVERSÃO</th>
                                                 <th class="text-center" scope="col">PREMIAÇÃO</th>
-                                                <th class="text-center" scope="col">MOEDA</th>
                                                 <th class="text-center" scope="col">% RATEIO</th>
                                             </tr>
                                         </thead>
@@ -117,10 +116,10 @@
                             doc.text("RATEAMENTO DA PREMIÇÃO", 120, 7);
                             doc.setFontSize(9);
                             doc.setFontStyle("normal");
-                            doc.text("COMPETÊNCIA - " + dado[0]["DT_COMPETENCIA"].substr(0, 2) + "/" + dado[0]["DT_COMPETENCIA"].substr(2, dado[0]["DT_COMPETENCIA"].length) +" - QUINZENA -" + dado[0]["NR_QUINZENA"], 120, 12);
+                            doc.text("COMPETÊNCIA - " + dado[0]["COMPETENCIA"].substr(0, 2) + "/" + dado[0]["COMPETENCIA"].substr(2, dado[0]["COMPETENCIA"].length), 120, 12);
                             for (let x = 0; x < dado.length; x++) {
-                                if (pcindicador.indexOf(dado[x]["IDAGENTE"]) == -1) {
-                                    pcindicador.push(dado[x]["IDAGENTE"]);
+                                if (pcindicador.indexOf(dado[x]["AGENTE"]) == -1) {
+                                    pcindicador.push(dado[x]["AGENTE"]);
                                 }
                             }
                             console.log(pcindicador);
@@ -145,7 +144,7 @@
                                     idpc = pcindicador[i];
                                 }
                                 for (let z = 0; z < dado.length; z++) {
-                                    if (idpc == dado[z]["IDAGENTE"]) {
+                                    if (idpc == dado[z]["AGENTE"]) {
                                         if (posiv < pageHeight - 10) {
                                             doc.setFontSize(8);
                                             doc.setFontStyle("normal");
@@ -153,16 +152,15 @@
                                             doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
                                             doc.text(dado[z]["MBL"], posih + 30, posiv);
                                             doc.text(dado[z]["HBL"], posih + 65, posiv);
-                                            doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
+                                            doc.text(dado[z]["INDICADOR"].substr(0, 15), posih + 95, posiv);
                                             doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
-                                            doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
-                                            doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
-                                            doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
-                                            doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
-                                            doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
-                                            doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
-                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
-                                            totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                            doc.text(dado[z]["VALOR"].toFixed(2), posih + 153, posiv);
+                                            doc.text(dado[z]["MOEDA"], posih + 180, posiv);
+                                            doc.text(dado[z]["CAMBIO"].toFixed(5), posih + 200, posiv);
+                                            doc.text(dado[z]["PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
+                                            doc.text(dado[z]["RATEIO"].toString() + '%', posih + 275, posiv);
+                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["PREMIACAO"].toFixed(2));
+                                            totalpc = totalpc + parseFloat(dado[z]["RATEIO"].toFixed());
                                         } else {
                                             doc.addPage();
                                             doc.setFontSize(12);
@@ -170,10 +168,10 @@
                                             doc.text("RATEAMENTO DA PREMIÇÃO", 120, 7);
                                             doc.setFontSize(9);
                                             doc.setFontStyle("normal");
-                                            doc.text("COMPETÊNCIA - " + dado[0]["DT_COMPETENCIA"].substr(0, 2) + "/" + dado[0]["DT_COMPETENCIA"].substr(2, dado[0]["DT_COMPETENCIA"].length) + " - QUINZENA -" + dado[0]["NR_QUINZENA"], 120, 12);
+                                            doc.text("COMPETÊNCIA - " + dado[0]["COMPETENCIA"].substr(0, 2) + "/" + dado[0]["COMPETENCIA"].substr(2, dado[0]["COMPETENCIA"].length), 120, 12);
                                             for (let x = 0; x < dado.length; x++) {
-                                                if (pcindicador.indexOf(dado[x]["IDAGENTE"]) == -1) {
-                                                    pcindicador.push(dado[x]["IDAGENTE"]);
+                                                if (pcindicador.indexOf(dado[x]["AGENTE"]) == -1) {
+                                                    pcindicador.push(dado[x]["AGENTE"]);
                                                 }
                                             }
                                             console.log(pcindicador);
@@ -198,16 +196,15 @@
                                             doc.text(dado[z]["AGENTE"].substr(0, 15), posih, posiv);
                                             doc.text(dado[z]["MBL"], posih + 30, posiv);
                                             doc.text(dado[z]["HBL"], posih + 65, posiv);
-                                            doc.text(dado[z]["CNEE"].substr(0, 15), posih + 95, posiv);
+                                            doc.text(dado[z]["INDICADOR"].substr(0, 15), posih + 95, posiv);
                                             doc.text(dado[z]["ESTUFAGEM"], posih + 130, posiv);
-                                            doc.text(dado[z]["VL_COMPRA"].toFixed(2), posih + 153, posiv);
-                                            doc.text(dado[z]["MOEDA_COMPRA"], posih + 180, posiv);
-                                            doc.text(dado[z]["VL_CAMBIO"].toFixed(5), posih + 200, posiv);
-                                            doc.text(dado[z]["VL_PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
-                                            doc.text(dado[z]["MOEDA_PREMIACAO"], posih + 255, posiv);
-                                            doc.text(dado[z]["PC_RATEIO"].toString() + '%', posih + 275, posiv);
-                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["VL_PREMIACAO"].toFixed(2));
-                                            totalpc = totalpc + parseFloat(dado[z]["PC_RATEIO"].toFixed());
+                                            doc.text(dado[z]["VALOR"].toFixed(2), posih + 153, posiv);
+                                            doc.text(dado[z]["MOEDA"], posih + 180, posiv);
+                                            doc.text(dado[z]["CAMBIO"].toFixed(5), posih + 200, posiv);
+                                            doc.text(dado[z]["PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }), posih + 230, posiv);
+                                            doc.text(dado[z]["RATEIO"].toString() + '%', posih + 275, posiv);
+                                            totalpremiacao = totalpremiacao + parseFloat(dado[z]["PREMIACAO"].toFixed(2));
+                                            totalpc = totalpc + parseFloat(dado[z]["RATEIO"].toFixed());
                                         }
                                     } else {
                                         if (z == dado.length - 1) {
@@ -261,18 +258,17 @@
                                 "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CNEE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VL_COMPRA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_COMPRA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VL_CAMBIO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VL_PREMIACAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_PREMIACAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PC_RATEIO"] + "</td></tr> ");
+                                "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CAMBIO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PREMIACAO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["RATEIO"] + "</td></tr> ");
                         }
                     }
                     else {
-                        $("#grdPremiacaoBody").append("<tr><td colspan='14'><div class='loader text-center'></div></td></tr>");
+                        $("#grdPremiacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                     }
                 }
             });
