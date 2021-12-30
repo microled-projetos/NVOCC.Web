@@ -1544,7 +1544,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsDestinatarioComercial" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_DESTINATARIO_COMERCIAL,NM_DESTINATARIO_COMERCIAL FROM TB_DESTINATARIO_COMERCIAL
-union SELECT  0, 'Selecione' ORDER BY ID_DESTINATARIO_COMERCIAL">
+union SELECT  0, ' Selecione' ORDER BY ID_DESTINATARIO_COMERCIAL">
 </asp:SqlDataSource>
       <asp:SqlDataSource ID="dsIncoterm" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_INCOTERM, cast((CD_INCOTERM)as varchar)+ ' - '+ NM_INCOTERM as NM_INCOTERM FROM TB_INCOTERM 

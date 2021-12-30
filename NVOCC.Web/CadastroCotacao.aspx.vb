@@ -11,17 +11,7 @@
         If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
             Session("estufagem") = 0
             ddlTipoPagamentoTaxa.SelectedValue = 1
-            If ddlDestinatarioComercial.SelectedValue = "" Then
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-            Else
-                If ddlDestinatarioComercial.SelectedValue = 1 Or ddlDestinatarioComercial.SelectedValue = 6 Then
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 4
-
-                Else
-                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-
-                End If
-            End If
+            dsDestinatarioComercial.DataBind()
 
             CarregaCampos()
             VerificaEstufagem()
@@ -149,6 +139,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlTransportadorFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
+
+            If ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 1 Or ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 6 Then
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 4
+
+            Else
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+
+            End If
+
             txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAnalista.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ANALISTA_COTACAO").ToString()

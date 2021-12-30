@@ -44,26 +44,25 @@ Public Class FrmPrincipal
     End Sub
 
     Private Function UsuarioTemAcesso(ByVal NomeMenu As String) As Boolean
-        Dim TipoUsuario As Integer = Banco.TipoUsuario
-        Dim sql As String = "SELECT (SELECT FL_Acessar FROM [dbo].[TB_GRUPO_PERMISSAO] WHERE ID_MENU = M.ID_MENUS AND ID_TIPO_USUARIO = " & Conversions.ToString(TipoUsuario) & "   ) As Acessar FROM [dbo].[TB_MENUS] M WHERE  M.NM_OBJETO = '" & NomeMenu & "' ORDER BY M.NM_MENUS"
+        Dim Usuario As Integer = Banco.UsuarioSistema
+
+        Dim sql As String = "SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 2032 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN( SELECT distinct ID_TIPO_USUARIO from TB_VINCULO_USUARIO where ID_USUARIO =  " & Conversions.ToString(Usuario) & " )"
         Dim Ds As DataTable = New DataTable()
+
         Ds = Banco.List(sql)
 
         If Ds.Rows.Count > 0 Then
 
-            If Not Information.IsDBNull(RuntimeHelpers.GetObjectValue(Ds.Rows(0)("Acessar"))) Then
-
-                If Operators.ConditionalCompareObjectEqual(Ds.Rows(0)("Acessar"), True, TextCompare:=False) Then
-                    Return True
-                End If
-
+            If Ds.Rows(0).Item("QTD") = 0 Then
                 Return False
+            Else
+                Return True
             End If
-
+        Else
             Return False
         End If
 
-        Return False
+
     End Function
 
     Private Sub MnuCadNavios_Click(sender As Object, e As EventArgs) Handles mnNavios.Click
@@ -126,7 +125,7 @@ Public Class FrmPrincipal
             While enumerator.MoveNext()
                 Dim MenuPrincipal As ToolStripMenuItem = CType(enumerator.Current, ToolStripMenuItem)
 
-                If Not UsuarioTemAcesso(MenuPrincipal.Name) Then
+                If Not UsuarioTemAcesso(MenuPrincipal.Name) And MenuPrincipal.Name <> "Mnusair" Then
                     MenuPrincipal.Visible = False
                 Else
                     MenuPrincipal.Visible = True

@@ -301,7 +301,8 @@
                         doc.text("MBL", h + 61, v);
                         doc.text("HBL", h + 88, v);
                         doc.text("Processo", h + 114, v);
-                        doc.text("Invoice/Act Nº", h + 129 , v);
+                        doc.text("Invoice/Act Nº", h + 129, v);
+                        doc.text("Estufagem", h + 157, v)
                         doc.text("Invoice Date", h + 173, v);
                         doc.text("Tx.", h + 191, v);
                         doc.text("Valor Inv.", h + 203, v);
@@ -340,6 +341,7 @@
                                 doc.text("HBL", h + 88, v);
                                 doc.text("Processo", h + 114, v);
                                 doc.text("Invoice/Act Nº", h + 129, v);
+                                doc.text("Estufagem", h + 157, v)
                                 doc.text("Invoice Date", h + 173, v);
                                 doc.text("Tx.", h + 191, v);
                                 doc.text("Valor Inv.", h + 203, v);
@@ -357,6 +359,7 @@
                                 doc.text(dado[i]["NR_HBL"], h + 88, v);
                                 doc.text(dado[i]["NR_PROCESSO"], h + 114, v);
                                 doc.text(dado[i]["NR_INVOICE"], h + 129, v);
+                                doc.text(dado[i]["TPESTUFAGEM"], h + 157, v);
                                 doc.text(dado[i]["DT_INVOICE"], h + 173, v);
                                 doc.text(dado[i]["TX_INVOICE"], h + 191, v);
                                 doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);
@@ -389,6 +392,7 @@
                                 doc.text(dado[i]["NR_HBL"], h + 88, v);
                                 doc.text(dado[i]["NR_PROCESSO"], h + 114, v);
                                 doc.text(dado[i]["NR_INVOICE"], h + 129, v);
+                                doc.text(dado[i]["TPESTUFAGEM"], h + 157, v);
                                 doc.text(dado[i]["DT_INVOICE"], h + 173, v);
                                 doc.text(dado[i]["TX_INVOICE"], h + 191, v);
                                 doc.text(dado[i]["VLINVOICE"] + ' ' + dado[i]["SIGLA"], h + 203, v);

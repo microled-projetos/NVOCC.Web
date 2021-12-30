@@ -96,7 +96,7 @@ Issuance date: <asp:label runat="server" ID="lblDataAtual" class="control-label"
 <div class="linha-colorida2">TOTAL CHARGES</div>
 <div><strong>TOTAL CHARGES:</strong> <asp:label runat="server" ID="lblTotalFinalTaxas" class="control-label" /></div>
 <div><strong>TOTAL FREIGHT:</strong> <asp:label runat="server" ID="lblTotalFinalFrete" class="control-label" /></div>
-<div style="color:red;text-align:right;font-weight:bold">TOTAL FINAL: <asp:label runat="server" ID="lblTotalFinal" class="control-label" /></div>
+<br/><div style="color:red;font-weight:bold">TOTAL FINAL: <asp:label runat="server" ID="lblTotalFinal" class="control-label" /></div>
 <div class="linha-colorida2">Remarks</div>
 <div style="color:red">"Com rela&ccedil;&atilde;o ao Imposto sobre Opera&ccedil;&otilde;es Financeiras, informamos que o mesmo ser&aacute; atualizado de acordo com a taxa de convers&atilde;o do dia
 do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia da proposta."</div>
