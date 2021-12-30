@@ -1253,6 +1253,18 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             window.open('DebitNote.aspx?id=' + ID, '_blank');
         }
 
+        
+
+        function InvoiceCredit() {
+
+
+            var ID = document.getElementById('<%= txtID.ClientID %>').value;
+            console.log(ID);
+
+            window.open('CreditNote.aspx?id=' + ID, '_blank');
+        }
+
+
         function SOA1() { 
             var AGENTE = document.getElementById('<%= ddlAgenteSoa.ClientID %>').value;
             window.open('SOA_I.aspx?ag=' + AGENTE ,'_blank');

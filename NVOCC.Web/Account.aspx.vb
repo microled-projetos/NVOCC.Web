@@ -1013,7 +1013,7 @@ ORDER BY NR_PROCESSO"
 
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_TIPO_EMISSOR FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
+            Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_ACCOUNT_TIPO_EMISSOR,ID_ACCOUNT_TIPO_FATURA FROM TB_ACCOUNT_INVOICE WHERE ID_ACCOUNT_INVOICE = " & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR") = 2 Then
                     Session("DataInicial") = ""
@@ -1022,7 +1022,16 @@ ORDER BY NR_PROCESSO"
                     Session("DataInicial") = txtVencimentoInicial.Text
                     Session("DataFinal") = txtVencimentoFinal.Text
 
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "InvoiceFCA()", True)
+                    If ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_FATURA") = 1 Then
+                        'DEBIT NOTE
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "InvoiceFCA()", True)
+
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_FATURA") = 2 Then
+                        'CREDIT NOTE
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "InvoiceCredit()", True)
+
+                    End If
+
 
                 Else
                     divErro.Visible = True

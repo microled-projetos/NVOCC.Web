@@ -384,6 +384,7 @@
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
+    <Content Include="CreditNote.aspx" />
     <Content Include="DebitNote.aspx" />
     <Content Include="DemonstrativoRateio.aspx" />
     <Content Include="DemonstrativoRateio.aspx.cs" />
@@ -801,6 +802,13 @@
     <Compile Include="ConsultaParceiro.aspx.vb">
       <DependentUpon>ConsultaParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CreditNote.aspx.designer.vb">
+      <DependentUpon>CreditNote.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CreditNote.aspx.vb">
+      <DependentUpon>CreditNote.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="DebitNote.aspx.designer.vb">
       <DependentUpon>DebitNote.aspx</DependentUpon>
