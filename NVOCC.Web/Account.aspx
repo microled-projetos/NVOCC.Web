@@ -15,12 +15,7 @@
             background-color: #e6c3a5;
         }
 
-       /* .Normal {
-            color: black;
-            font-family: verdana;
-            font-size: 8pt;
-            background-color: RED;
-        }*/
+
         .none {
             display: none
         }
@@ -452,20 +447,7 @@
 
                                     </div>
                                         </div>
-                               <%-- <div class="col-sm-2">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS EXTERIOR" ID="btnTaxasExterior" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>
-    <div class="col-sm-3">
-                                    <div class="form-group">
-                               <asp:Button runat="server" Text="TAXAS DECLARADAS" ID="btnTaxasDeclaradas" CssClass="btn btn-block btnn" />
-
-
-                                    </div>
-                                        </div>--%>
+                            
     <div class="col-sm-2">
                                     <div class="form-group">
                                <asp:Button runat="server" Text="COMISSOES" ID="btnComissoes" CssClass="btn btn-block btnn" />
@@ -528,7 +510,6 @@
                    
                                <div class="modal-footer">
                                                             <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharNovaInvoice" text="Close" />
-                                                           <%-- <asp:Button runat="server" CssClass="btn btn-success" Visible="false" ID="btnSalvarNovaInvoice" text="Salvar" />--%>
 
                                                         </div>
                                                     
@@ -889,8 +870,7 @@
                             <Triggers>                    
                                 <asp:AsyncPostBackTrigger ControlID="btnFecharNovaInvoice" />
                                   <asp:AsyncPostBackTrigger ControlID="btnIncluirOutrasTaxas" />
-<%--                                <asp:AsyncPostBackTrigger ControlID="btnTaxasExterior" />
-                                <asp:AsyncPostBackTrigger ControlID="btnDevolucaoFrete" />--%>
+
                                 <asp:AsyncPostBackTrigger ControlID="ddlEmissor" />
                                 <asp:AsyncPostBackTrigger ControlID="txtProc_ou_BL" />
                                 <asp:AsyncPostBackTrigger ControlID="btnGravarCabecalho" />   
@@ -1104,15 +1084,6 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
         </SelectParameters>
     </asp:SqlDataSource>
 
-   <%-- <asp:SqlDataSource ID="dsTaxasExterior" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_ORIGEM  FROM FN_ACCOUNT_TAXAS_EXTERIOR (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
-            <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
-            <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
-        </SelectParameters>
-    </asp:SqlDataSource>--%>
-
     <asp:SqlDataSource ID="dsComissoes" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (@ID_BL , '@GRAU') WHERE ID_MOEDA = @MOEDA AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)">
         <SelectParameters>
@@ -1121,16 +1092,6 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE
             <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
         </SelectParameters>
     </asp:SqlDataSource>
-
-   <%-- <asp:SqlDataSource ID="dsTaxasDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO,CD_DECLARADO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)">
-        <SelectParameters>
-            <asp:ControlParameter Name="ID_BL" Type="string" ControlID="txtID_BL" />
-            <asp:ControlParameter Name="GRAU" Type="string" ControlID="txtGrau" />
-            <asp:ControlParameter Name="MOEDA" Type="Int32" ControlID="ddlMoeda" />
-        </SelectParameters>
-    </asp:SqlDataSource>--%>
-
 
     <asp:SqlDataSource ID="dsTaxasExteriorDeclaradas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_DECLARADAS (@ID_BL , '@GRAU')  WHERE  ID_MOEDA = @MOEDA AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS)
