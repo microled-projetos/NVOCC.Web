@@ -1,7 +1,5 @@
 ﻿Public Class Financeiro
     Inherits System.Web.UI.Page
-
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If Session("Logado") = "False" Or Session("Logado") = Nothing Then
@@ -65,6 +63,7 @@
     Private Sub dgvFinanceiro_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFinanceiro.RowCommand
         divSuccess.Visible = False
         divErro.Visible = False
+        AtualizaGrid()
         If e.CommandName = "Selecionar" Then
             If txtlinha.Text <> "" Then
                 dgvFinanceiro.Rows(txtlinha.Text).CssClass = "Normal"

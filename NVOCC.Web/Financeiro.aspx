@@ -188,6 +188,7 @@
                                             <asp:BoundField DataField="NR_BL_MASTER" HeaderText="MBL" SortExpression="NR_BL_MASTER" />
                                             <asp:BoundField DataField="DT_CHEGADA_MASTER" HeaderText="Chegada" SortExpression="DT_CHEGADA_MASTER" />
                                             <asp:BoundField DataField="NM_PARCEIRO_CLIENTE" HeaderText="Cliente" SortExpression="NM_PARCEIRO_CLIENTE" />
+                                            <asp:BoundField DataField="NM_CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="NM_CLIENTE_FINAL" />
                                             <asp:BoundField DataField="NM_PARCEIRO_TRANSPORTADOR" HeaderText="Transportador" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
                                             <asp:BoundField DataField="QT_TAXAS_PAGAR" HeaderText="Qtd. taxas a Pagar" SortExpression="QT_TAXAS_PAGAR" />
                                             <asp:BoundField DataField="QT_TAXAS_PAGAS" HeaderText="Qtd. taxas Pagas" SortExpression="QT_TAXAS_PAGAS" />
@@ -195,7 +196,7 @@
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER" HeaderText="Qtd. taxas a Receber" SortExpression="QT_TAXAS_RECEBER" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBIDAS" HeaderText="Qtd. Quantidade taxas Recebidas" SortExpression="QT_TAXAS_RECEBIDAS" />
                                             <asp:BoundField DataField="QT_TAXAS_RECEBER_ABERTA" HeaderText="Quantidade taxas (a Receber) em aberto" SortExpression="QT_TAXAS_RECEBER_ABERTA" />
-                                            <asp:BoundField DataField="TIPO_FATURAMENTO" HeaderText="Tipo Faturamento" SortExpression="NM_PARCEIRO_TRANSPORTADOR" />
+                                            <asp:BoundField DataField="TIPO_FATURAMENTO" HeaderText="Tipo Faturamento" SortExpression="TIPO_FATURAMENTO" />
                                             <asp:BoundField DataField="QT_DIAS_FATURAMENTO" HeaderText="Qtd. Dias Faturamento" SortExpression="QT_DIAS_FATURAMENTO" />
                                             <asp:TemplateField HeaderText="">
                                                 <ItemTemplate>

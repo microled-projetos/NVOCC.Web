@@ -128,7 +128,7 @@ Public Class RastreioService
 
                     Dim tokenAPi = GetDadosJsonBL(NR_BL, cnpj, "andre.rodrigues@abainfra.com.br", "185")
 
-                    Dim token_bl_format As String = tokenAPi.token
+                    Dim token_bl_format As String = tokenAPi
 
                     If token_bl_format <> Nothing Then
 

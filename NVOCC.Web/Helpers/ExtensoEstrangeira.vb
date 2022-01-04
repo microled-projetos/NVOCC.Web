@@ -65,13 +65,13 @@
 
                 ' Caso seja 1 não coloca "Dolares" mas sim "Dolar"
                 If number = 1 Then
-                    Return "Um Dolar e " & getDecimal(cent) & "Cents"
+                    Return "Um Dolar e " & getDecimal(cent) & "Centavos"
                     ' Caso o valor seja inferior a 1 euro
                 ElseIf number = 0 Then
-                    Return getDecimal(cent) & "Cents"
+                    Return getDecimal(cent) & "Centavos"
                 Else
                     Return getInteger(number) & " Dolares e " &
-                        getDecimal(cent) & "Cents"
+                        getDecimal(cent) & "Centavos"
                 End If
 
             Else
