@@ -71,6 +71,7 @@
                                                 <th class="text-center" scope="col">HBL</th>
                                                 <th class="text-center" scope="col">PROCESSO</th>
                                                 <th class="text-center" scope="col">INVOICE</th>
+                                                <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
                                                 <th class="text-center" scope="col">DATA INVOICE</th>
                                                 <th class="text-center" scope="col">TAXA INVOICE</th>
                                                 <th class="text-center" scope="col">VALOR INVOICE</th>
@@ -194,7 +195,7 @@
                                 totalInvoiceBrl = totalInvoiceBrl + parseFloat(dado[i]["VLINVOICEBRL"].toFixed(2));
                                 $("#grdInvoiceBody").append("<tr><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_AGENTE"]+"'> " + dado[i]["NM_AGENTE"] + "</td><td class='text-center'>" + dado[i]["DT_QUITACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["NR_CONTRATO"] + "</td><td class='text-center'>" + dado[i]["NR_MBL"] + "</td><td class='text-center'>" + dado[i]["NR_HBL"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'>" + dado[i]["NR_INVOICE"] + "</td><td class='text-center'>" + dado[i]["TPESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["DT_INVOICE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["TX_INVOICE"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["VLINVOICE"].toLocaleString({ style: 'currency', currency: dado[i]["SIGLA"]}) + "</td><td class='text-center'>" + dado[i]["SIGLA"] + "</td><td class='text-center'>" + dado[i]["VLINVOICEBRL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
                                     "<td class='text-center'>" + dado[i]["TX_RECEBIMENTO"].toString().replace(".", ",") + "</td><td class='text-center'>" + dado[i]["DT_RECEBIMENTO"] + "</td><td class='text-center' style='max-width: 20ch;' title='" + dado[i]["NM_IMPORTADOR"] +"'>" + dado[i]["NM_IMPORTADOR"] + "</td></tr>");
                             }

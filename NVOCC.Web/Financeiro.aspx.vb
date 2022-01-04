@@ -63,6 +63,7 @@
     Private Sub dgvFinanceiro_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFinanceiro.RowCommand
         divSuccess.Visible = False
         divErro.Visible = False
+        AtualizaGrid()
         If e.CommandName = "Selecionar" Then
             If txtlinha.Text <> "" Then
                 dgvFinanceiro.Rows(txtlinha.Text).CssClass = "Normal"

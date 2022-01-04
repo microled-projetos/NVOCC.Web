@@ -4895,7 +4895,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
-            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_NOTA_DESPESA_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -4935,6 +4935,8 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs("", 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
                     cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 5);
+
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -4972,7 +4974,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD, CONTA ";
             SQL += "FROM dbo.FN_NOTA_DESPESA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -5009,6 +5011,8 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs("I", 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
+
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -5263,7 +5267,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
-            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_CLI(";
             SQL += "'" + dataI + "','" + dataF + "','" + nota + "'";
             SQL += ") ";
@@ -5309,6 +5313,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs("", 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
                     cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 5);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -5566,7 +5571,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA ";
+            SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, CONTA ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -5608,6 +5613,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvsNum("0", 14, 2);
                     rec[i] += fmtTotvs("I", 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -6522,7 +6528,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
             SQL += "FROM dbo.FN_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6556,7 +6562,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
-
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                 }
                 return JsonConvert.SerializeObject(rec);
             }
@@ -7193,7 +7199,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', " + Session["ID_USUARIO"] + ") ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', 7) ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";
