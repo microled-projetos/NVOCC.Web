@@ -1097,7 +1097,7 @@ Where ID_BL = " & txtID_Master.Text & ")")
                     divErroMaster.Visible = True
                     lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
                 Else
-                    Con.ExecutarQuery("UPDATE TB_BL Set DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
+                    Con.ExecutarQuery("UPDATE TB_BL Set FL_CANCELADO = 1, DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
                     dgvMaster.DataBind()
                     divSuccessMaster.Visible = True
                     lblSuccessMaster.Text = "Item deletado com sucesso!"

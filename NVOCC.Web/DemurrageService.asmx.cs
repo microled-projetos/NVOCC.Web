@@ -2756,7 +2756,7 @@ namespace ABAINFRA.Web
             SQL = "SELECT ISNULL(A.DT_CANCELAMENTO,'') AS DT_CANCELAMENTO, ISNULL(P1.NM_RAZAO,'') AS CLIENTE, ISNULL(P1.ENDERECO,'') AS ENDERECO, ISNULL(P1.NR_ENDERECO,'') AS NR_ENDERECO, ISNULL(C.NM_CIDADE,'') AS NM_CIDADE, ISNULL(FORMAT(A.DT_LANCAMENTO,'dd/MM/yy'),'') AS DT_LANCAMENTO, ISNULL(FORMAT(A.DT_VENCIMENTO,'dd/MM/yy'),'') AS DT_VENCIMENTO, ";
             SQL += "ISNULL(P1.BAIRRO,'') AS BAIRRO, ISNULL(E.NM_ESTADO,'') AS NM_ESTADO, ISNULL(P1.CEP,'') AS CEP, ISNULL(P1.CNPJ,'') AS CNPJ, ISNULL(P1.INSCR_ESTADUAL,'') AS INSCR_ESTADUAL, ISNULL(B.NR_PROCESSO,'') AS NR_PROCESSO, (CASE WHEN S.TP_SERVICO = 'IMP' THEN ISNULL(P2.NM_RAZAO,'') ELSE '' END) AS TRANSPORTADOR, ";
             SQL += "ISNULL(S.NM_SERVICO,'') AS NM_SERVICO, ISNULL(ORIGEM.NM_PORTO,'') AS ORIGEM, ISNULL(DESTINO.NM_PORTO,'') as DESTINO, ISNULL(FORMAT(B.DT_EMBARQUE, 'dd/MM/yyyy'),'') as DT_EMBARQUE, ";
-            SQL += "ISNULL(FORMAT(B.DT_CHEGADA, 'dd/MM/yyyy'),'') AS DT_CHEGADA, isnull(CONVERT(VARCHAR,B.VL_PESO_BRUTO),'') as VL_PESO_BRUTO, isnull(CONVERT(VARCHAR,B.VL_M3),'') AS VL_M3, ISNULL(B.VL_INDICE_VOLUMETRICO,'') AS VL_INDICE_VOLUMETRICO, ";
+            SQL += "ISNULL(FORMAT(B.DT_CHEGADA, 'dd/MM/yyyy'),'') AS DT_CHEGADA, isnull(CONVERT(VARCHAR,B.VL_PESO_BRUTO),'') as VL_PESO_BRUTO, isnull(CONVERT(VARCHAR,B.VL_M3),'') AS VL_M3, ISNULL(CONVERT(VARCHAR,B.VL_INDICE_VOLUMETRICO),'') AS VL_INDICE_VOLUMETRICO, ";
             SQL += "ISNULL(N.NM_NAVIO,'') AS NAVIO, ISNULL(M.NR_BL,'') AS MASTER, ISNULL(B.NR_BL,'') AS HOUSE ";
             SQL += "from TB_DEMURRAGE_FATURA A ";
             SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
@@ -4921,7 +4921,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
                     cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
-                    cli[i] += fmtTotvs("1.01.010", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
@@ -5299,7 +5299,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
                     cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
-                    cli[i] += fmtTotvs("1.01.010", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
@@ -5829,7 +5829,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
                     cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
-                    cli[i] += fmtTotvs("1.01.010", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
@@ -7199,7 +7199,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ISNULL(NM_SUB_CLIENTE, '') AS SUB_CLIENTE, ISNULL(NM_ORIGEM, '') AS  ORIGEM, ";
             SQL += "ISNULL(NM_DESTINO, '') AS DESTINO, ISNULL(NM_VENDEDOR, '') AS VENDEDOR, ISNULL(NM_STATUS_COTACAO, '') AS STATUS_COTACAO, ";
             SQL += "ISNULL(NM_MOTIVO_CANCELAMENTO,'') AS MOTIVO, ISNULL(OB_MOTIVO_CANCELAMENTO,'') AS OBS_MOTIVO ";
-            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', 7) ";
+            SQL += "FROM dbo.FN_COTACAO_ABERTURA('" + dataI + "','" + dataF + "', "+Session["ID_USUARIO"]+") ";
             SQL += "WHERE DT_SOLICITACAO IS NOT NULL ";
             SQL += " " + filter + "";
             SQL += "ORDER BY DT_SOLICITACAO ";

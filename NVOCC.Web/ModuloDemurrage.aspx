@@ -2233,7 +2233,7 @@
                                     $("#vlTaxa").prop('disabled', true);
                                 } else {
                                     $("#vlTaxa").prop('disabled', false);
-                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"].replace(",", ".");
+                                    document.getElementById("vlTaxa").value = dado[0]["vlTaxa"];
                                 }
                             }
                             else {
@@ -3188,7 +3188,7 @@
                                 doc.addImage(bg, 'png', 128, 82, 78, 4);
                                 doc.text(dado[0]["VL_PESO_BRUTO"].toString().replace(".", ","), 129, 85);
                                 doc.addImage(bg, 'png', 128, 87, 78, 4);
-                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toFixed(2), 129, 90);
+                                doc.text(dado[0]["VL_INDICE_VOLUMETRICO"].toString().replace(".",","), 129, 90);
                                 doc.addImage(bg, 'png', 128, 92, 78, 4);
                                 doc.text(dado[0]["VL_M3"].toString().replace(".", ","), 129, 95);
 
