@@ -271,14 +271,12 @@
     <Content Include="BuscaFreteTransportador.aspx" />
     <Content Include="CadastrarEmbarqueHouse.aspx" />
     <Content Include="CadastrarMaster.aspx" />
-    <Content Include="CadastrarOrigemDestino.aspx" />
     <Content Include="CadastrarParceiro.aspx" />
     <Content Include="CadastrarPermissao.aspx" />
     <Content Include="CadastrarSubVendedor.aspx" />
     <Content Include="CadastrarUsuario.aspx" />
     <Content Include="CadastrarUsuarioGrupo.aspx" />
     <Content Include="CadastroCotacao.aspx" />
-    <Content Include="CadastroNavios.aspx" />
     <Content Include="CaixaSaida.aspx" />
     <Content Include="CaixaSaida.aspx.cs" />
     <Content Include="CaixaSaida.aspx.designer.cs" />
@@ -667,13 +665,6 @@
       <DependentUpon>CadastrarMaster.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="CadastrarOrigemDestino.aspx.designer.vb">
-      <DependentUpon>CadastrarOrigemDestino.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CadastrarOrigemDestino.aspx.vb">
-      <DependentUpon>CadastrarOrigemDestino.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="CadastrarParceiro.aspx.designer.vb">
       <DependentUpon>CadastrarParceiro.aspx</DependentUpon>
     </Compile>
@@ -714,13 +705,6 @@
     </Compile>
     <Compile Include="CadastroCotacao.aspx.vb">
       <DependentUpon>CadastroCotacao.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CadastroNavios.aspx.designer.vb">
-      <DependentUpon>CadastroNavios.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CadastroNavios.aspx.vb">
-      <DependentUpon>CadastroNavios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CalcularRecebimento.aspx.designer.vb">
