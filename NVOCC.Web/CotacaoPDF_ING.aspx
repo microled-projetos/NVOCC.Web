@@ -32,11 +32,7 @@
 
 
     </style>
-  <%--   <script>
-         window.onload = function () {
-             window.print();
-         }
-     </script>--%>
+
 </head>
 
 <body style="margin:0;">
@@ -64,7 +60,7 @@ Issuance date: <asp:label runat="server" ID="lblDataAtual" class="control-label"
 <div class="linha-colorida2">Cargo Details</div>
 <strong>Gross weight:</strong> <asp:label runat="server" ID="lblPesoBruto" class="control-label" /><br />
 <strong>Measurement CBM:</strong> <asp:label runat="server" ID="lblM3" class="control-label" /><br /> 
-<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br />
+<strong>Taxed Weight:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" />
 <asp:label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
     <div id="divCargaLCL" style="font-family:Arial;font-size:10px;" runat="server"></div>
      </div></div>
