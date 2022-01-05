@@ -33,11 +33,6 @@
         
 
     </style>
-  <%--   <script>
-         window.onload = function () {
-             window.print();
-         }
-     </script>--%>
 </head>
 
 <body style="margin:0;">
@@ -65,7 +60,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <div class="linha-colorida2">Detalhes da carga</div>
 <strong>Peso bruto:</strong> <asp:label runat="server" ID="lblPesoBruto" class="control-label" /><br />
 <strong>Volume m3:</strong> <asp:label runat="server" ID="lblM3" class="control-label" /><br /> 
-<strong>Peso taxado:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" /><br />
+<strong>Peso taxado:</strong> <asp:label runat="server" ID="lblPesoTaxado" class="control-label" />
 <asp:label runat="server" ID="lblTipoCargaLCL" class="control-label" /><br />
     <div id="divCargaLCL" style="font-family:Arial;font-size:10px;" runat="server"></div></div>
 <div class="linha-colorida2">INCOTERM: <asp:label runat="server" ID="lblINCOTERM" class="control-label" /></div>
@@ -78,9 +73,7 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
                   <asp:label runat="server" ID="lblTipoCargaFCL" class="control-label" /><br />
     <div id="divCargaFCL" style="font-family:Arial;font-size:10px;" runat="server"></div>
 
-<div id="divConteudoDinamico" style="font-family:Arial;font-size:10px;" runat="server">
-    
-
+<div id="divConteudoDinamico" style="font-family:Arial;font-size:10px;" runat="server">   
 </div>
                  <br />
 <div class="linha-colorida2">Detalhes da Cota&ccedil;&atilde;o</div>
@@ -108,8 +101,7 @@ do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia d
                      
     <asp:label runat="server" ID="lblObsCliente" class="control-label"  />           
              <div id="divTexto" runat="server" style="font-family:Arial;font-size:9px;"></div>
-        <asp:label runat="server" ID="lblTexto" class="control-label" />    
-        <br/><br/>           
+    <br/><br/>           
 <asp:label runat="server" ID="lblAnalista" class="control-label" /><br/>
 FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA<br/>
 Tel No.<asp:label runat="server" ID="lblTelefoneAnalista" class="control-label" /> <br/>

@@ -237,7 +237,7 @@ Public Class RastreioHBL
                 Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
                 Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
                 Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL")
-                Response.Redirect("RastreioBL.aspx")
+                Response.Redirect("RastreioHBL.aspx")
 
             End If
         End If

@@ -25,7 +25,6 @@ Public Class GeraPDF
             Dim conteudo As TextReader = New StringReader(html)
 
             Dim fs As New FileStream(Server.MapPath("/Content/PDFAuxiliar.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
-            '    Dim fs As New FileStream(AppContext.BaseDirectory & "/Content/PDFAuxiliar.pdf", FileMode.Create, FileAccess.Write, FileShare.None)
             Dim ms As New MemoryStream()
 
 
@@ -41,7 +40,6 @@ Public Class GeraPDF
             Documento.Close()
 
             Dim reader As New PdfReader(Server.MapPath("/Content/PDFAuxiliar.pdf"))
-            'Dim reader As New PdfReader(AppContext.BaseDirectory & "/Content/PDFAuxiliar.pdf")
 
 
 
@@ -68,7 +66,6 @@ Public Class GeraPDF
 
 
             Dim fs_ As New FileStream(Server.MapPath("/Content/cotacoes/CotacaoPDF_" & NR_COTACAO & ".pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
-            ' Dim fs_ As New FileStream(Server.MapPath("/Content/CotacaoPDF.pdf"), FileMode.Create, FileAccess.Write, FileShare.None)
             Using stamper = New PdfStamper(reader, fs_)
                 Dim contador As Integer = reader.NumberOfPages
                 Dim layer As New PdfLayer("WatermarkLayer", stamper.Writer)
@@ -85,7 +82,6 @@ Public Class GeraPDF
                     cb.SetColorFill(BaseColor.BLACK)
                     cb.BeginText()
                     Dim png As Image = Image.GetInstance(Server.MapPath("/Content/imagens/Capa-proposta-FCA-Log.png"))
-                    ' Dim png As Image = Image.GetInstance(AppContext.BaseDirectory & "/Content/imagens/teste.png")
                     png.SetAbsolutePosition(0, 0)
                     png.Alignment = Image.UNDERLYING
                     cb.AddImage(png)
@@ -104,24 +100,15 @@ Public Class GeraPDF
 
             ElseIf funcao = "i" Then
                 Response.Redirect("~/" & "content/cotacoes/CotacaoPDF_" & NR_COTACAO & ".pdf")
-                ' Response.Redirect("~/" & "content/CotacaoPDF.pdf")
             End If
 
             fs.Close()
             fs_.Close()
             Con.Fechar()
         Catch ex As Exception
-            'stamper.Close()
-
-            'reader.Close()
-
-            'Documento.Close()
-
-            'fs.Close()
-            'fs_.Close()
-
 
             Response.Write("erro: " & ex.Message)
+
         End Try
 
 
