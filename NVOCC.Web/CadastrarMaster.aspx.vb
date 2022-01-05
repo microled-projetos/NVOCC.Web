@@ -36,7 +36,9 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
                 If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
                     'MARITIMO
                     '  btnGravar_BasicoMaritimo.Enabled = False
-                    btnSalvar_CNTRMaritimo.Visible = False
+                    'btnSalvar_CNTRMaritimo.Visible = False
+                    ddlTipoContainer_CNTRMaritimo.Enabled = False
+                    txtTara_CNTRMaritimo.Enabled = False
                     btnNovoCNTRMaritimo.Enabled = False
                     '  btnNovaTaxasMaritimo.Enabled = False
                     ' btnSalvar_TaxasMaritimo.Visible = False
@@ -600,7 +602,8 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         txtLacre_CNTRMaritimo.Text = ""
         txtTara_CNTRMaritimo.Text = ""
         txtFreeTime_CNTRMaritimo.Text = ""
-
+        ddlTipoContainer_CNTRMaritimo.Enabled = True
+        txtTara_CNTRMaritimo.Enabled = True
         mpeCNTRMaritimo.Hide()
     End Sub
 

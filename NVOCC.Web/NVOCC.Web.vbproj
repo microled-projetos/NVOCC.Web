@@ -556,7 +556,6 @@
     <Content Include="EmissaoNDFaturamento.aspx" />
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
-    <Content Include="Content\CotacaoPDF.pdf" />
     <Content Include="Content\PDFAuxiliar.pdf" />
     <Content Include="Content\SOA.pdf" />
     <Content Include="Week.cs" />
@@ -728,7 +727,7 @@
       <DependentUpon>ContatoParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Conexao_oracle.vb" />
+    <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
     <Compile Include="Class\Consignee.vb" />
@@ -772,7 +771,7 @@
       <DependentUpon>ComissaoVendedor.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Conexao_sql.vb" />
+    <Compile Include="Helpers\Conexao_sql.vb" />
     <Compile Include="Conferencia.aspx.designer.vb">
       <DependentUpon>Conferencia.aspx</DependentUpon>
     </Compile>
@@ -816,7 +815,7 @@
       <DependentUpon>EmissaoND.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Excel.vb" />
+    <Compile Include="Helpers\Excel.vb" />
     <Compile Include="Faturamento.aspx.designer.vb">
       <DependentUpon>Faturamento.aspx</DependentUpon>
     </Compile>
@@ -1148,7 +1147,7 @@
       <DependentUpon>TrocarSenha.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="VerificaData.vb" />
+    <Compile Include="Helpers\VerificaData.vb" />
     <Compile Include="ViewSwitcher.ascx.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
