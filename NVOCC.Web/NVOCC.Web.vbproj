@@ -497,6 +497,7 @@
     <Content Include="InvoiceQuitada.aspx.cs" />
     <Content Include="InvoiceQuitada.aspx.designer.cs" />
     <Content Include="ListagemBL.aspx" />
+    <Content Include="ManualNVOCC.html" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
@@ -727,6 +728,7 @@
       <DependentUpon>ContatoParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
