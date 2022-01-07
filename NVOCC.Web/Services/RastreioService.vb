@@ -135,67 +135,67 @@ Public Class RastreioService
                         Con.ExecutarQuery(" UPDATE TB_BL SET BL_TOKEN = '" & token_bl_format & "' WHERE ID_BL = " & idBl)
 
                         Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl_format)
-                        Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
-                        NR_CE = obj.aduana.ce_number
-                        DT_EMISSAO_BL = obj.dates.bl_emission_date
-                        DT_EMBARQUE = obj.dates.loading
-                        DT_PREVISAO_CHEGADA = obj.dates.eta
-                        DT_CHEGADA = obj.dates.operation_date
+                        'Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
+                        'NR_CE = obj.aduana.ce_number
+                        'DT_EMISSAO_BL = obj.dates.bl_emission_date
+                        'DT_EMBARQUE = obj.dates.loading
+                        'DT_PREVISAO_CHEGADA = obj.dates.eta
+                        'DT_CHEGADA = obj.dates.operation_date
 
                         Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
 
-                        If NR_CE <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If NR_CE <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
-                        If DT_EMISSAO_BL <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If DT_EMISSAO_BL <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
-                        If DT_EMBARQUE <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMBARQUE = '" & DT_EMBARQUE & "' where DT_EMBARQUE IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If DT_EMBARQUE <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMBARQUE = '" & DT_EMBARQUE & "' where DT_EMBARQUE IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
-                        If DT_CHEGADA <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET DT_CHEGADA = '" & DT_CHEGADA & "' where DT_CHEGADA IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If DT_CHEGADA <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_CHEGADA = '" & DT_CHEGADA & "' where DT_CHEGADA IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
-                        If DT_PREVISAO_CHEGADA <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET DT_PREVISAO_CHEGADA = '" & DT_PREVISAO_CHEGADA & "' where DT_PREVISAO_CHEGADA IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If DT_PREVISAO_CHEGADA <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_PREVISAO_CHEGADA = '" & DT_PREVISAO_CHEGADA & "' where DT_PREVISAO_CHEGADA IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
                     End If
                 Else
 
                     Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl)
-                    Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
-                    NR_CE = obj.aduana.ce_number
-                    DT_EMISSAO_BL = obj.dates.bl_emission_date
-                    DT_EMBARQUE = obj.dates.loading
-                    DT_PREVISAO_CHEGADA = obj.dates.eta
-                    DT_CHEGADA = obj.dates.operation_date
+                    'Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
+                    'NR_CE = obj.aduana.ce_number
+                    'DT_EMISSAO_BL = obj.dates.bl_emission_date
+                    'DT_EMBARQUE = obj.dates.loading
+                    'DT_PREVISAO_CHEGADA = obj.dates.eta
+                    'DT_CHEGADA = obj.dates.operation_date
 
                     Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
 
-                    If NR_CE <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If NR_CE <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
-                    If DT_EMISSAO_BL <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If DT_EMISSAO_BL <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
-                    If DT_EMBARQUE <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMBARQUE = '" & DT_EMBARQUE & "' where DT_EMBARQUE IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If DT_EMBARQUE <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMBARQUE = '" & DT_EMBARQUE & "' where DT_EMBARQUE IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
-                    If DT_CHEGADA <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET DT_CHEGADA = '" & DT_CHEGADA & "' where DT_CHEGADA IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If DT_CHEGADA <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_CHEGADA = '" & DT_CHEGADA & "' where DT_CHEGADA IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
-                    If DT_PREVISAO_CHEGADA <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET DT_PREVISAO_CHEGADA = '" & DT_PREVISAO_CHEGADA & "' where DT_PREVISAO_CHEGADA IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If DT_PREVISAO_CHEGADA <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_PREVISAO_CHEGADA = '" & DT_PREVISAO_CHEGADA & "' where DT_PREVISAO_CHEGADA IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
                 End If
 
