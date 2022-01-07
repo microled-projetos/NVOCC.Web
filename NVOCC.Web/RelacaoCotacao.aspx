@@ -79,13 +79,6 @@
                                                 <th class="text-center" scope="col">DESTINO</th>
                                                 <th class="text-center" scope="col">VENDEDOR</th>
                                                 <th class="text-center" scope="col">STATUS DA COTAÇÃO</th>
-                                                <th class="text-center" scope="col">VALOR VENDA</th>
-                                                <th class="text-center" scope="col">TIPO CARGA</th>
-                                                <th class="text-center" scope="col">VALOR CARGA</th>
-                                                <th class="text-center" scope="col">PESO</th>
-                                                <th class="text-center" scope="col">METRAGEM</th>
-                                                <th class="text-center" scope="col">QUANTIDADE</th>
-                                                <th class="text-center" scope="col">EMBALAGEM</th>
                                                 <th class="text-center" scope="col">MOTIVO CANCELAMENTO</th>
                                                 <th class="text-center" scope="col">OBS MOTIVO CANCELAMENTO</th>
                                             </tr>
@@ -138,7 +131,7 @@
                                     "<td class='text-center'>" + dado[i]["NR_COTACAO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MODAL"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["INCOTERM"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["SUB_CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] +"'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center' style='max-width: 14ch;' title='" + dado[i]["SUB_CLIENTE"] + "'>" + dado[i]["SUB_CLIENTE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["ORIGEM"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +

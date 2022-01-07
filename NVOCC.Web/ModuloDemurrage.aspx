@@ -4187,7 +4187,7 @@
                         $("#grdModuloDemurrage").empty();
                         for (let i = 0; i < dado.length; i++) {
                             console.log(dado[i]["QT_DIAS_FREETIME"] + ' - ' + dado[i]["QT_DIAS_FREETIME_CONFIRMA"]);
-                            if (parseInt(dado[i]["QT_DIAS_FREETIME"]) == parseInt(dado[i]["QT_DIAS_FREETIME_CONFIRMA"])) {
+                            if (parseInt(dado[i]["QT_DIAS_FREETIME"]) != parseInt(dado[i]["QT_DIAS_FREETIME_CONFIRMA"])) {
                                 freetime = "<td class='text-center' style='background-color: yellow;'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>";
                             } else {
                                 freetime = "<td class='text-center'>" + dado[i]["QT_DIAS_FREETIME_CONFIRMA"] + "</td>"

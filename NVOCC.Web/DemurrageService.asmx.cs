@@ -4912,11 +4912,11 @@ namespace ABAINFRA.Web
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
-                    cli[i] += fmtTotvs("01", 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
-                    cli[i] += fmtTotvs("F", 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
@@ -4926,15 +4926,15 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
                     cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
-                    cli[i] += fmtTotvs("", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TELEX"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 5);
 
                 }
@@ -4996,19 +4996,19 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    rec[i] += fmtTotvs("01", 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
-                    rec[i] += fmtTotvs("", 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCREA"].ToString(), 10);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["IRRF"].ToString(), 14, 2);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvs("I", 1);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["INSS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["COFINS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["CSLL"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["PIS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTROL"].ToString(), 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
@@ -5247,7 +5247,7 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
-            SQL = "SELECT NR_NOTA ";
+            /*SQL = "SELECT NR_NOTA ";
             SQL += "FROM dbo.FN_NOTA_SERVICO(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -5261,7 +5261,7 @@ namespace ABAINFRA.Web
                 SQL += "WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
             }
             SQL += "ORDER BY NR_NOTA ";
-            nota = DBS.ExecuteScalar(SQL);
+            nota = DBS.ExecuteScalar(SQL);*/
 
 
 
@@ -5269,16 +5269,16 @@ namespace ABAINFRA.Web
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
             SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_NOTA_SERVICO_CLI(";
-            SQL += "'" + dataI + "','" + dataF + "','" + nota + "'";
+            SQL += "'" + dataI + "','" + dataF + "',''";
             SQL += ") ";
             if (situacao != "")
             {
                 SQL += " " + situacao + " ";
-                SQL += "AND ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             else
             {
-                SQL += "WHERE ID_CONTA_PAGAR_RECEBER = " + values + " ";
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
 
             DataTable listTable = new DataTable();
@@ -5290,11 +5290,11 @@ namespace ABAINFRA.Web
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
-                    cli[i] += fmtTotvs("01", 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
-                    cli[i] += fmtTotvs("F", 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
@@ -5304,15 +5304,15 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
                     cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
-                    cli[i] += fmtTotvs("", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TELEX"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 5);
                 }
                 return JsonConvert.SerializeObject(cli);
@@ -5376,56 +5376,56 @@ namespace ABAINFRA.Web
                     nota[i] += fmtTotvs(listTable.Rows[i]["DOC"].ToString(), 9);
                     nota[i] += fmtTotvs(listTable.Rows[i]["SERIE"].ToString(), 3);
                     nota[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    nota[i] += fmtTotvs("01", 2);
-                    nota[i] += fmtTotvs("001", 3);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["COND"].ToString(), 3);
                     nota[i] += fmtTotvs(listTable.Rows[i]["DUPL"].ToString(), 9);
                     nota[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     nota[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvs("F", 1);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["FRETE"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["SEGURO"].ToString(), 14, 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["TIPOCLI"].ToString(), 1);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
-                    nota[i] += fmtTotvs("", 9);
-                    nota[i] += fmtTotvs("", 3);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALIPI"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["BASEIPI"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALMERC"].ToString(), 14, 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["NFORI"].ToString(), 9);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["SERIORI"].ToString(), 3);
                     nota[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
-                    nota[i] += fmtTotvs("", 10);
-                    nota[i] += fmtTotvsNum("0", 6, 0);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("0", 9, 2);
-                    nota[i] += fmtTotvsNum("0", 9, 2);
-                    nota[i] += fmtTotvs("", 6);
-                    nota[i] += fmtTotvs("02", 2);
-                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["ESPEC1"].ToString(), 10);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VOLUME1"].ToString(), 6, 0);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["ICMSRET"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["PLIQUI"].ToString(), 9, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["PBRUTO"].ToString(), 9, 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["TRANSP"].ToString(), 6);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["BASEISS"].ToString(), 14, 2);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["VALISS"].ToString(), 14, 2);
-                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALBRUT"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALFAT"].ToString(), 14, 2);
                     nota[i] += fmtTotvs(listTable.Rows[i]["ESPECIE"].ToString(), 5);
                     nota[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP5"].ToString(), 14, 2);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP6"].ToString(), 14, 2);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP5"].ToString(), 14, 2);
                     nota[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP6"].ToString(), 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALINSS"].ToString(), 14, 2);
                     nota[i] += fmtTotvs(listTable.Rows[i]["HORA"].ToString(), 5);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("1", 2, 0);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
-                    nota[i] += fmtTotvsNum("0", 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["BASEINS"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["MOEDA"].ToString(), 2, 0);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALCOFI"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALCSLL"].ToString(), 14, 2);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["VALPIS"].ToString(), 14, 2);
                     nota[i] += fmtTotvs(listTable.Rows[i]["DTDIGIT"].ToString(), 10);
                     nota[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
-                    nota[i] += fmtTotvs("", 20);
-                    nota[i] += fmtTotvs("", 8);
-                    nota[i] += fmtTotvsNum("0", 16, 2);
-                    nota[i] += fmtTotvs("", 50);
-                    nota[i] += fmtTotvs("", 1);
-                    nota[i] += fmtTotvs("", 7);
-                    nota[i] += fmtTotvs("", 2);
-                    nota[i] += fmtTotvs("", 44);
-                    nota[i] += fmtTotvs("", 1);
-                    nota[i] += fmtTotvs("", 8);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["NFELETR"].ToString(), 20);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["EMINFE"].ToString(), 8);
+                    nota[i] += fmtTotvsNum(listTable.Rows[i]["CREDNFE"].ToString(), 16, 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["CODNFE"].ToString(), 50);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["TPNFEXP"].ToString(), 1);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["CLIENT"].ToString(), 7);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["LOJENT"].ToString(), 2);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["CHVNFE"].ToString(), 44);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["TPFRETE"].ToString(), 1);
+                    nota[i] += fmtTotvs(listTable.Rows[i]["HORNFE"].ToString(), 8);
                     nota[i] += fmtTotvs(listTable.Rows[i]["XCNPJ"].ToString(), 14);
                 }
                 return JsonConvert.SerializeObject(nota);
@@ -5486,51 +5486,51 @@ namespace ABAINFRA.Web
                 string[] notite = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    notite[i] += fmtTotvs("02", 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 15);
-                    notite[i] += fmtTotvs("SV", 2);
-                    notite[i] += fmtTotvs("SV", 2);
-                    notite[i] += fmtTotvsNum("1", 14, 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["UM"].ToString(), 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["SEGUM"].ToString(), 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["QUANT"].ToString(), 14, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["PRCVEN"].ToString(), 16, 8);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["TOTAL"].ToString(), 14, 2);
-                    notite[i] += fmtTotvsNum("0", 14, 2);
-                    notite[i] += fmtTotvsNum("0", 14, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["VALIPI"].ToString(), 14, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["VALICM"].ToString(), 14, 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["TES"].ToString(), 3);
                     notite[i] += fmtTotvs(listTable.Rows[i]["CF"].ToString(), 5);
-                    notite[i] += fmtTotvsNum("0", 5, 2);
-                    notite[i] += fmtTotvsNum("0", 10, 3);
-                    notite[i] += fmtTotvs("", 20);
-                    notite[i] += fmtTotvs("", 6);
-                    notite[i] += fmtTotvs("", 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["IPI"].ToString(), 5, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["PESO"].ToString(), 10, 3);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["PEDIDO"].ToString(), 6);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["ITEMPV"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    notite[i] += fmtTotvs("01", 2);
-                    notite[i] += fmtTotvs("01", 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["LOCAL"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["DOC"].ToString(), 9);
                     notite[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
-                    notite[i] += fmtTotvs("", 4);
-                    notite[i] += fmtTotvs("", 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["GRUPO"].ToString(), 4);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["TP"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["SERIE"].ToString(), 3);
-                    notite[i] += fmtTotvsNum("0", 14, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["CUSTO1"].ToString(), 14, 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
-                    notite[i] += fmtTotvs("", 9);
-                    notite[i] += fmtTotvs("", 3);
-                    notite[i] += fmtTotvsNum("0", 14, 5);
-                    notite[i] += fmtTotvs("01", 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["NFORI"].ToString(), 9);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["SERIORI"].ToString(), 3);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["QTDEDEV"].ToString(), 14, 5);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["ITEM"].ToString(), 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["CODISS"].ToString(), 8);
                     notite[i] += fmtTotvs(listTable.Rows[i]["CLASFIS"].ToString(), 3);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP5"].ToString(), 14, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["BASIMP6"].ToString(), 14, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP5"].ToString(), 14, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["VALIMP6"].ToString(), 14, 2);
-                    notite[i] += fmtTotvs("", 4);
-                    notite[i] += fmtTotvsNum("0", 5, 2);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["ITEMORI"].ToString(), 4);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["ALIQINS"].ToString(), 5, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["ALIQISS"].ToString(), 5, 2);
-                    notite[i] += fmtTotvsNum("0", 14, 2);
-                    notite[i] += fmtTotvsNum("0", 14, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["BASEINS"].ToString(), 14, 2);
+                    notite[i] += fmtTotvsNum(listTable.Rows[i]["BASEIPI"].ToString(), 14, 2);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["BASEISS"].ToString(), 14, 2);
-                    notite[i] += fmtTotvs("500", 9);
-                    notite[i] += fmtTotvs("", 15);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["CCUSTO"].ToString(), 9);
+                    notite[i] += fmtTotvs(listTable.Rows[i]["ITEMCC"].ToString(), 15);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["ALQIMP5"].ToString(), 6, 2);
                     notite[i] += fmtTotvs(listTable.Rows[i]["DTDIGIT"].ToString(), 10);
                     notite[i] += fmtTotvsNum(listTable.Rows[i]["VALISS"].ToString(), 14, 2);
@@ -5599,19 +5599,19 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    rec[i] += fmtTotvs("01", 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
-                    rec[i] += fmtTotvs("", 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCREA"].ToString(), 10);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["IRRF"].ToString(), 14, 2);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvs("I", 1);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["INSS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["COFINS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["CSLL"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["PIS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTROL"].ToString(), 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                 }
@@ -5820,11 +5820,11 @@ namespace ABAINFRA.Web
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
-                    cli[i] += fmtTotvs("01", 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
-                    cli[i] += fmtTotvs("F", 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
@@ -5834,15 +5834,15 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
                     cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
-                    cli[i] += fmtTotvs("", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TELEX"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -5900,19 +5900,19 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    rec[i] += fmtTotvs("01", 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
-                    rec[i] += fmtTotvs("", 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCREA"].ToString(), 10);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["IRRF"].ToString(), 14, 2);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvs("I", 1);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["INSS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["COFINS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["CSLL"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["PIS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTROL"].ToString(), 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
 
@@ -6166,11 +6166,11 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 50);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCR"].ToString(), 18);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    cli[i] += fmtTotvs("", 30);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["EMAIL"].ToString(), 30);
                     cli[i] += fmtTotvs(listTable.Rows[i]["DDD"].ToString(), 3);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
-                    cli[i] += fmtTotvs("", 15);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
                 }
                 return JsonConvert.SerializeObject(cli);
@@ -6487,11 +6487,11 @@ namespace ABAINFRA.Web
                     fornec[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 50);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["INSCR"].ToString(), 18);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    fornec[i] += fmtTotvs("", 30);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["EMAIL"].ToString(), 30);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["DDD"].ToString(), 3);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
-                    fornec[i] += fmtTotvs("", 15);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
                 }
                 return JsonConvert.SerializeObject(fornec);
@@ -6793,11 +6793,11 @@ namespace ABAINFRA.Web
                     fornec[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 50);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["INSCR"].ToString(), 18);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    fornec[i] += fmtTotvs("", 30);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["EMAIL"].ToString(), 30);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["DDD"].ToString(), 3);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["CODPAIS"].ToString(), 5);
-                    fornec[i] += fmtTotvs("", 15);
+                    fornec[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     fornec[i] += fmtTotvs(listTable.Rows[i]["SIMPNAC"].ToString(), 1);
                 }
                 return JsonConvert.SerializeObject(fornec);
@@ -7053,29 +7053,29 @@ namespace ABAINFRA.Web
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD"].ToString(), 7);
-                    cli[i] += fmtTotvs("01", 2);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NOME"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["NREDUZ"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["PESSOA"].ToString(), 1);
-                    cli[i] += fmtTotvs("F", 1);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ENDER"].ToString(), 40);
                     cli[i] += fmtTotvs(listTable.Rows[i]["EST"].ToString(), 2);
                     cli[i] += fmtTotvs(listTable.Rows[i]["COD_MUN"].ToString(), 5);
                     cli[i] += fmtTotvs(listTable.Rows[i]["MUN"].ToString(), 15);
-                    cli[i] += fmtTotvs("1.01.010", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["BAIRRO"].ToString(), 30);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CEP"].ToString(), 8);
                     cli[i] += fmtTotvs(listTable.Rows[i]["ATVDA"].ToString(), 7);
                     cli[i] += fmtTotvs(listTable.Rows[i]["TEL"].ToString(), 15);
-                    cli[i] += fmtTotvs("", 10);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["TELEX"].ToString(), 10);
                     cli[i] += fmtTotvs(listTable.Rows[i]["FAX"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTATO"].ToString(), 15);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CGC"].ToString(), 14);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRI"].ToString(), 18);
                     cli[i] += fmtTotvs(listTable.Rows[i]["INSCRM"].ToString(), 18);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
-                    cli[i] += fmtTotvs("", 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -7135,19 +7135,19 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["TIPO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NATUREZ"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["CLIENTE"].ToString(), 7);
-                    rec[i] += fmtTotvs("01", 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["LOJA"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["EMISSAO"].ToString(), 10);
                     rec[i] += fmtTotvs(listTable.Rows[i]["VENCTO"].ToString(), 10);
-                    rec[i] += fmtTotvs("", 10);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["VENCREA"].ToString(), 10);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["VALOR"].ToString(), 17, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["IRRF"].ToString(), 14, 2);
                     rec[i] += fmtTotvsNum(listTable.Rows[i]["ISS"].ToString(), 14, 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["HIST"].ToString(), 40);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvsNum("0", 14, 2);
-                    rec[i] += fmtTotvs("I", 1);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["INSS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["COFINS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["CSLL"].ToString(), 14, 2);
+                    rec[i] += fmtTotvsNum(listTable.Rows[i]["PIS"].ToString(), 14, 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTROL"].ToString(), 1);
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
                 }

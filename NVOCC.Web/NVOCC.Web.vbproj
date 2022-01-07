@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 04012022 (2)\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 07012021\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -497,6 +497,7 @@
     <Content Include="InvoiceQuitada.aspx.cs" />
     <Content Include="InvoiceQuitada.aspx.designer.cs" />
     <Content Include="ListagemBL.aspx" />
+    <Content Include="ManualNVOCC.html" />
     <Content Include="ModuloDemurrage.aspx" />
     <Content Include="ModuloDemurrage.aspx.cs" />
     <Content Include="ModuloDemurrage.aspx.designer.cs" />
@@ -727,6 +728,7 @@
       <DependentUpon>ContatoParceiro.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
     <Compile Include="Class\Aduana.vb" />
     <Compile Include="Class\BL.vb" />
