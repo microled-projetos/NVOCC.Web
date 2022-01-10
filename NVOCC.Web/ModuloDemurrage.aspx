@@ -132,6 +132,20 @@
                                     <div class="row topMarg">
                                         <div class="col-sm-3">
                                             <div class="form-group">
+                                                <label class="control-label">Data Status Compra<span class="required">*</span></label>
+                                                <input id="dtStatusCompra" class="form-control" type="date"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="form-group">
+                                                <label class="control-label">Status Compra<span class="required">*</span></label>
+                                                <asp:DropDownList ID="dsStatusCompra" runat="server" class="form-control" type="text" DataValueField="ID_STATUS_DEMURRAGE" DataTextField="DS_STATUS_DEMURRAGE"></asp:DropDownList>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row topMarg">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
                                                 <label class="control-label">Quantidade Dias de FreeTime</label>
                                                 <input id="qtDiasFreeTime" class="form-control" type="text"/>
                                             </div>
@@ -1877,7 +1891,9 @@
                             document.getElementById('nrContainer').value = dado[0]['NR_CNTR'];
                             document.getElementById('nmCliente').value = dado[0]['CLIENTE'];
                             document.getElementById('MainContent_dsStatus').value = dado[0]["ID_STATUS_DEMURRAGE"];
+                            document.getElementById('MainContent_dsStatusCompra').value = dado[0]["ID_STATUS_DEMURRAGE_COMPRA"];
                             document.getElementById('dtStatus').value = dado[0]['DATA_STATUS_DEMURRAGE'];
+                            document.getElementById('dtStatusCompra').value = dado[0]['DATA_STATUS_DEMURRAGE_COMPRA'];
                             document.getElementById('qtDiasFreeTime').value = dado[0]['QT_DIAS_FREETIME'];
                             document.getElementById('qtDiasFreeTimeConfirm').value = dado[0]['QT_DIAS_FREETIME_CONFIRMA'];
                             document.getElementById('qtDiasDemurrageCompra').value = dado[0]['QT_DIAS_DEMURRAGE_COMPRA'];
@@ -1913,6 +1929,8 @@
         function atualizarContainer() {
             var dtStatus = document.getElementById("dtStatus").value;
             var dsStatus = document.getElementById("MainContent_dsStatus").value;
+            var dtStatusCompra = document.getElementById("dtStatusCompra").value;
+            var dsStatusCompra = document.getElementById("MainContent_dsStatusCompra").value;
             var qtDiasFreeTime = document.getElementById("qtDiasFreeTime").value;
             var obsInfoCont = document.getElementById("obsInfoCont").value;
             var qtDiasFreeTimeConfirm = document.getElementById("qtDiasFreeTimeConfirm").value;
@@ -1921,7 +1939,7 @@
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/atualizarContainer",
-                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '" }',
+                    data: '{idCont:"' + id + '",dtStatus:"' + dtStatus + '",qtDias:"' + qtDiasFreeTime + '",dsStatus: "' + dsStatus + '" ,dsObs:"' + obsInfoCont + '", qtDiasConfirm:"' + qtDiasFreeTimeConfirm + '", qtDiasDemurrageCompra: "' + qtDiasDemurrageCompra + '", dtStatusCompra: "' + dtStatusCompra + '", dsStatusCompra: "' + dsStatusCompra+ '" }',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (dado) {
