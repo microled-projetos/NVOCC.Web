@@ -35,14 +35,24 @@ WHERE A.GRAU ='M' AND DT_EMBARQUE IS NOT NULL AND ID_PARCEIRO_ARMAZEM_DESCARGA =
                     For Each linha As DataRow In dsNVOCC.Tables(0).Rows
 
                         If linha.Item("ID_CNTR_BL").ToString <> 0 Then
-                            'ConOracle.ExecuteScalar("INSERT INTO TB_CNTR_BL ( AUTONUM,ID_CONTEINER,TIPO,ISO,TAMANHO,TARA,LACRE_ORIGEM ) VALUES (SGIPA.SEQ_CNTR_BL.NEXTVAL," & dsNVOCC.Tables(0).Rows(0).Item("NR_CNTR") & "," & dsNVOCC.Tables(0).Rows(0).Item("ID_TIPO_CNTR") & "," & dsNVOCC.Tables(0).Rows(0).Item("ISO") & "," & dsNVOCC.Tables(0).Rows(0).Item("TAMANHO_CONTAINER") & "," & dsNVOCC.Tables(0).Rows(0).Item("VL_PESO_TARA") & "," & dsNVOCC.Tables(0).Rows(0).Item("NR_LACRE") & " )")
-                            ConOracle.ExecuteScalar("INSERT INTO TB_CNTR_BL ( AUTONUM,ID_CONTEINER,TAMANHO,TARA,LACRE_ORIGEM ) VALUES (SGIPA.SEQ_CNTR_BL.NEXTVAL,'" & dsNVOCC.Tables(0).Rows(0).Item("NR_CNTR") & "'," & dsNVOCC.Tables(0).Rows(0).Item("TAMANHO_CONTAINER") & "," & dsNVOCC.Tables(0).Rows(0).Item("VL_PESO_TARA").ToString.Replace(",", ".") & ",'" & dsNVOCC.Tables(0).Rows(0).Item("NR_LACRE") & "' ) ")
-                            dtInsert = ConOracle.Consultar("SELECT SEQ_CNTR_BL.CURRVAL FROM DUAL ")
+                            Dim dtEudmarcoCNTR As DataTable = ConOracle.Consultar("SELECT AUTONUM FROM TB_CNTR_BL WHERE ID_CONTAINER = '" & dsNVOCC.Tables(0).Rows(0).Item("NR_CNTR") & "' ")
 
-                            Dim AUTONUM_CNTRL As String = dtInsert.Rows(0)("CURRVAL").ToString
+                            'VERIFICA SE O CNTR JÁ EXISTE NO BANCO DA EUDMARCO
+                            If dtEudmarcoCNTR.Rows.Count = 0 Then
 
-                            'INSERE AMR CNTR BL
-                            dtInsert = ConOracle.ExecuteScalar("INSERT INTO TB_AMR_CNTR_BL ( AUTONUM,CNTR,BL ) VALUES (SGIPA.SEQ_AMR_CNTR_BL.NEXTVAL," & AUTONUM_BL & "," & AUTONUM_CNTRL & ")")
+                                'ConOracle.ExecuteScalar("INSERT INTO TB_CNTR_BL ( AUTONUM,ID_CONTEINER,TIPO,ISO,TAMANHO,TARA,LACRE_ORIGEM ) VALUES (SGIPA.SEQ_CNTR_BL.NEXTVAL," & dsNVOCC.Tables(0).Rows(0).Item("NR_CNTR") & "," & dsNVOCC.Tables(0).Rows(0).Item("ID_TIPO_CNTR") & "," & dsNVOCC.Tables(0).Rows(0).Item("ISO") & "," & dsNVOCC.Tables(0).Rows(0).Item("TAMANHO_CONTAINER") & "," & dsNVOCC.Tables(0).Rows(0).Item("VL_PESO_TARA") & "," & dsNVOCC.Tables(0).Rows(0).Item("NR_LACRE") & " )")
+                                ConOracle.ExecuteScalar("INSERT INTO TB_CNTR_BL ( AUTONUM,ID_CONTEINER,TAMANHO,TARA,LACRE_ORIGEM ) VALUES (SGIPA.SEQ_CNTR_BL.NEXTVAL,'" & dsNVOCC.Tables(0).Rows(0).Item("NR_CNTR") & "'," & dsNVOCC.Tables(0).Rows(0).Item("TAMANHO_CONTAINER") & "," & dsNVOCC.Tables(0).Rows(0).Item("VL_PESO_TARA").ToString.Replace(",", ".") & ",'" & dsNVOCC.Tables(0).Rows(0).Item("NR_LACRE") & "' ) ")
+                                dtInsert = ConOracle.Consultar("SELECT SEQ_CNTR_BL.CURRVAL FROM DUAL ")
+
+                                Dim AUTONUM_CNTRL As String = dtInsert.Rows(0)("CURRVAL").ToString
+
+                                'INSERE AMR CNTR BL
+                                dtInsert = ConOracle.ExecuteScalar("INSERT INTO TB_AMR_CNTR_BL ( AUTONUM,CNTR,BL ) VALUES (SGIPA.SEQ_AMR_CNTR_BL.NEXTVAL," & AUTONUM_BL & "," & AUTONUM_CNTRL & ")")
+                            Else
+
+                                'INSERE AMR CNTR BL
+                                dtInsert = ConOracle.ExecuteScalar("INSERT INTO TB_AMR_CNTR_BL ( AUTONUM,CNTR,BL ) VALUES (SGIPA.SEQ_AMR_CNTR_BL.NEXTVAL," & AUTONUM_BL & "," & dtEudmarcoCNTR.Rows(0)("AUTONUM").ToString & ")")
+                            End If
                         End If
 
                     Next
