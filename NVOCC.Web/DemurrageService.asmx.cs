@@ -6208,7 +6208,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, ISNULL(FORMAT(EMISSAO,'dd/MM/yyyy'),'') AS EMISSAO, ";
             SQL += "ISNULL(FORMAT(VENCTO,'dd/MM/yyyy'),'') AS VENCTO, ISNULL(FORMAT(VENCREA,'dd/MM/yyyy'),'') AS VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
             SQL += "FROM dbo.FN_INV_DEBIT_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6240,6 +6240,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
 
                 }
                 return JsonConvert.SerializeObject(rec);
@@ -6834,7 +6835,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
             SQL += "FROM dbo.FN_DEMURRAGE_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6868,6 +6869,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
 
                 }
                 return JsonConvert.SerializeObject(rec);
