@@ -617,7 +617,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, ";
-            SQL += "PFCL.QT_DIAS_FREETIME,DFCL.QT_DIAS_DEMURRAGE_COMPRA, PFCL.QT_DIAS_FREETIME_CONFIRMA, PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, ";
+            SQL += "PFCL.QT_DIAS_FREETIME,DFCL.QT_DIAS_DEMURRAGE_COMPRA, PFCL.QT_DIAS_FREETIME_CONFIRMA, PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, PFCL.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(PFCL.DT_STATUS_DEMURRAGE_COMPRA, 'yyyy-MM_dd') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
             SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, ";
             SQL += "PFCL.DS_OBSERVACAO ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
@@ -651,9 +651,9 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra)
+        public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
         {
-            if (dsStatus.ToString() != "")
+            if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
             {
                 string SQL;
                 string flagF;
@@ -693,7 +693,7 @@ namespace ABAINFRA.Web
                 }
 
                 SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
-                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra +"', DT_STATUS_DEMURRAGE_COMPRA = '"+dtStatusCompra+"' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
                 string atualizarContainer = DBS.ExecuteScalar(SQL);
                 return "1";
 
@@ -6208,7 +6208,7 @@ namespace ABAINFRA.Web
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, ISNULL(FORMAT(EMISSAO,'dd/MM/yyyy'),'') AS EMISSAO, ";
             SQL += "ISNULL(FORMAT(VENCTO,'dd/MM/yyyy'),'') AS VENCTO, ISNULL(FORMAT(VENCREA,'dd/MM/yyyy'),'') AS VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
             SQL += "FROM dbo.FN_INV_DEBIT_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6240,6 +6240,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
 
                 }
                 return JsonConvert.SerializeObject(rec);
@@ -6834,7 +6835,7 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT FILIAL, PREFIXO, NUM, PARCELA, TIPO, FORNECE, LOJA, NATUREZ, EMISSAO, VENCTO, VENCREA, ";
-            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD ";
+            SQL += "VALOR, HIST, ITEMCTA, USERS, XPROD, CONTA ";
             SQL += "FROM dbo.FN_DEMURRAGE_PA_REC(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -6868,6 +6869,7 @@ namespace ABAINFRA.Web
                     rec[i] += fmtTotvs(listTable.Rows[i]["ITEMCTA"].ToString(), 15);
                     rec[i] += fmtTotvs(listTable.Rows[i]["USERS"].ToString(), 2);
                     rec[i] += fmtTotvs(listTable.Rows[i]["XPROD"].ToString(), 200);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
 
                 }
                 return JsonConvert.SerializeObject(rec);

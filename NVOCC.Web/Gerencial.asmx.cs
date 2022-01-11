@@ -1975,7 +1975,7 @@ namespace ABAINFRA.Web
                 string idPremiacao = listTable.Rows[0]["ID_CABECALHO_COMISSAO_NACIONAL"].ToString();
            
                 SQL = "SELECT AGENTE, COMPETENCIA, PROCESSO, INDICADOR, MBL, HBL, CLIENTE, ESTUFAGEM, ";
-                SQL += "MOEDA, VALOR, CAMBIO, PREMIACAO, RATEIO FROM FN_INDICADOR_NACIONAL_RATEIO(" + idPremiacao + ") ORDER BY AGENTE";
+                SQL += "MOEDA, VALOR, CAMBIO, PREMIACAO, RATEIO, TOTAL FROM FN_INDICADOR_NACIONAL_RATEIO(" + idPremiacao + ") ORDER BY AGENTE";
                 DataTable listTable2 = new DataTable();
                 listTable2 = DBS.List(SQL);
 

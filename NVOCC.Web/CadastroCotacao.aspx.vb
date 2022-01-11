@@ -8,14 +8,19 @@
 
         End If
 
-        If Not Page.IsPostBack And Request.QueryString("id") <> "" Then
-            Session("estufagem") = 0
-            ddlTipoPagamentoTaxa.SelectedValue = 1
-            dsDestinatarioComercial.DataBind()
 
-            CarregaCampos()
-            VerificaEstufagem()
-            VerificaTransporte()
+        If Request.QueryString("id") <> "" Then
+
+            If Not Page.IsPostBack Then
+                Session("estufagem") = 0
+
+                ddlTipoPagamentoTaxa.SelectedValue = 1
+                dsDestinatarioComercial.DataBind()
+
+                CarregaCampos()
+                VerificaEstufagem()
+                VerificaTransporte()
+            End If
 
         Else
             If txtID.Text = "" And Not Page.IsPostBack Then
@@ -140,7 +145,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
 
-            If ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 1 Or ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 6 Then
+            If (ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 1 Or ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 6) And ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString() <> 0 Then
                 ddlDestinatarioCobrancaTaxa.SelectedValue = 4
 
             Else
@@ -370,7 +375,7 @@ union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
         ddlMoedaCompraTaxa.SelectedValue = 0
         ddlMoedaVendaTaxa.SelectedValue = 0
         ddlTipoPagamentoTaxa.SelectedValue = 1
-        If ddlDestinatarioComercial.SelectedValue = 1 Or ddlDestinatarioComercial.SelectedValue = 6 Then
+        If (ddlDestinatarioComercial.SelectedValue = 1 Or ddlDestinatarioComercial.SelectedValue = 6) And ddlImportador.SelectedValue <> 0 Then
             ddlDestinatarioCobrancaTaxa.SelectedValue = 4
 
         Else
@@ -1080,6 +1085,8 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
                     txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
 
+
+
                     Con.Fechar()
                     divsuccess.Visible = True
                     dgvFrete.DataBind()
@@ -1157,6 +1164,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     If ddlImportador.SelectedValue <> 0 Then
                         ID_DESTINATARIO_COBRANCA = 4
+                        ddlDestinatarioCobrancaTaxa.SelectedValue = 4
                     End If
 
                     Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ID_DESTINATARIO_COBRANCA & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ID_COTACAO_TAXA FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
@@ -3683,7 +3691,7 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
         Dim Con As New Conexao_sql
         Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT  CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT  CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
@@ -4209,7 +4217,7 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
  
  ID_TRANSPORTADOR AS ID_PARCEIRO_EMPRESA, 
  
- CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+ CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA,
@@ -4234,7 +4242,7 @@ FROM TB_COTACAO_TAXA WHERE VL_TAXA_VENDA IS NOT NULL AND VL_TAXA_VENDA <> 0 AND 
  ELSE ID_CLIENTE
  END ID_PARCEIRO_EMPRESA, 
  
- CASE WHEN ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6
+ CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA ,'COTA',

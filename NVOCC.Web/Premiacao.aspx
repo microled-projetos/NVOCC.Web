@@ -47,6 +47,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" scope="col">AGENTE</th>
+                                                <th class="text-center" scope="col">PROCESSO</th>
                                                 <th class="text-center" scope="col">MBL</th>
                                                 <th class="text-center" scope="col">HBL</th>
                                                 <th class="text-center" scope="col">INDICADOR</th>
@@ -56,6 +57,7 @@
                                                 <th class="text-center" scope="col">TAXA CONVERSÃO</th>
                                                 <th class="text-center" scope="col">PREMIAÇÃO</th>
                                                 <th class="text-center" scope="col">% RATEIO</th>
+                                                <th class="text-center" scope="col">TOTAL</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdPremiacaoBody">
@@ -238,6 +240,8 @@
             dtInicial = document.getElementById("txtDtCompentencia").value;
             nota = document.getElementById("txtQuinzena").value;
             dtInicial = dtInicial.toString().replace("/", "");
+            var indicador;
+            var totaldiv;
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarPremiacao",
@@ -246,7 +250,7 @@
                 dataType: "json",
                 beforeSend: function () {
                     $("#grdPremiacaoBody").empty();
-                    $("#grdPremiacaoBody").append("<tr><td colspan='14'><div class='loader text-center'></div></td></tr>");
+                    $("#grdPremiacaoBody").append("<tr><td colspan='12'><div class='loader text-center'></div></td></tr>");
                 },
                 success: function (dado) {
                     var dado = dado.d;
@@ -254,8 +258,14 @@
                     $("#grdPremiacaoBody").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
+                            if (indicador != dado[i]["AGENTE"]) {
+                                totaldiv = "<td class='text-center'>" + dado[i]["TOTAL"] + "</td>";
+                            } else {
+                                totaldiv = "<td class='text-center'></td>";
+                            }
                             $("#grdPremiacaoBody").append("<tr>" +
                                 "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["HBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>" +
@@ -263,12 +273,14 @@
                                 "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CAMBIO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PREMIACAO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["RATEIO"] + "</td></tr> ");
+                                "<td class='text-center'>" + dado[i]["PREMIACAO"] + "</td>" +                                
+                                "<td class='text-center'>" + dado[i]["RATEIO"].toString().replace(".",",") + "</td>" +
+                                totaldiv + "</tr>");
+                            indicador = dado[i]["AGENTE"];
                         }
                     }
                     else {
-                        $("#grdPremiacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        $("#grdPremiacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='12' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                     }
                 }
             });

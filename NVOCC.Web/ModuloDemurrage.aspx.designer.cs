@@ -51,6 +51,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList dsStatus;
 
 		/// <summary>
+		/// Controle dsStatusCompra.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.DropDownList dsStatusCompra;
+
+		/// <summary>
 		/// Controle ddlStatusDevolucao.
 		/// </summary>
 		/// <remarks>
