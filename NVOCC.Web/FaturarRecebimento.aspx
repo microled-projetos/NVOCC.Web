@@ -66,7 +66,7 @@
 
                         <br />
                   
-                                <div runat="server" id="divAuxiliar" visible="false">
+                                <div runat="server" id="divAuxiliar" visible="true">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
@@ -101,6 +101,42 @@
                             </asp:GridView>
                                 </div>
 
+
+
+
+
+                                 <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlEmail" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                                <asp:Panel ID="pnlEmail" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">EMAIL FATURAMENTO</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                    
+                                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" MaxLength="200"></asp:TextBox>
+                                        <small style="color:gray">(Informe 1 ou mais endereços de email's separados por ponto e vírgula)</small>   
+                                         </div>
+                                  
+                           
+                      
+                                                       
+                                                                        
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnProsseguir" text="Prosseguir"/>
+                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close"/>
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+
+
+
+
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvContasReceber" />
@@ -112,10 +148,14 @@
                 </div>
 
 
+
+
             </div>
         </div>
 
+         
 </div>
+
 
    <asp:SqlDataSource ID="dsContasReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R') AND ISNULL(TP_EXPORTACAO,'') = '' AND DT_CANCELAMENTO IS NULL and DT_ENVIO_FATURAMENTO IS NULL"></asp:SqlDataSource>
