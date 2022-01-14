@@ -28,6 +28,7 @@ FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
                     End If
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RPS")) Then
                         lblNumeroRPS.Text = ds.Tables(0).Rows(0).Item("NR_RPS")
+                        Page.Title = "ReciboProvisorioServico_" & ds.Tables(0).Rows(0).Item("NR_RPS")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")) Then

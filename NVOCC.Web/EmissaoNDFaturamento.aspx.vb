@@ -36,6 +36,8 @@ LEFT JOIN TB_BL D ON D.ID_BL = C.ID_BL
 WHERE F.ID_FATURAMENTO = " & ID & "
 GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_FORNECEDOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,DT_EMBARQUE,DT_CHEGADA,ID_NAVIO,NR_BL, VL_PESO_BRUTO,VL_M3,QT_MERCADORIA,D.ID_BL,F.ID_FATURAMENTO,F.NR_NOTA_DEBITO,F.DT_NOTA_DEBITO, D.ID_TIPO_PAGAMENTO, D.ID_PARCEIRO_EXPORTADOR")
                 If ds.Tables(0).Rows.Count > 0 Then
+
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")) Then
                         lblVencimento.Text = ds.Tables(0).Rows(0).Item("DT_VENCIMENTO")
                     End If
@@ -46,7 +48,6 @@ GROUP BY A.ID_CONTA_PAGAR_RECEBER,C.ID_PARCEIRO_EMPRESA,DT_VENCIMENTO,NR_FATURA_
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")) Then
                         lblFatura.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
-                        '  lblTitulo.Text = ds.Tables(0).Rows(0).Item("NR_FATURA_FORNECEDOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ORIGEM")) Then
@@ -203,7 +204,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE isnu
                         Next
                     End If
 
-
+                    Page.Title = "NotaDebito_" & lblFatura.Text
                     Con.Fechar()
                 End If
 

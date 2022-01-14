@@ -32,6 +32,7 @@ FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO =" & ID)
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_RECIBO")) Then
                         lblNumeroRecibo.Text = ds.Tables(0).Rows(0).Item("NR_RECIBO")
+                        Page.Title = "ReciboPagamento_" & ds.Tables(0).Rows(0).Item("NR_RECIBO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CLIENTE")) Then

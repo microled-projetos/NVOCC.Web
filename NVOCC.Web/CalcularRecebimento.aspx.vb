@@ -90,10 +90,10 @@ FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
                         lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
                     End If
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                     Dim DATA As Date
-                    If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) Then
+                    If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) And ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
                         lblErro.Text = "PROCESSO SEM DATA DE CHEGADA CADASTRADA"
                         divErro.Visible = True
                         Exit Sub
