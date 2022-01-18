@@ -66,7 +66,7 @@
 
                         <br />
                   
-                                <div runat="server" id="divAuxiliar" visible="true">
+                                <div runat="server" id="divAuxiliar" visible="false">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
@@ -101,43 +101,6 @@
                             </asp:GridView>
                                 </div>
 
-
-
-
-
-                                 <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
-         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlEmail" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
-                                <asp:Panel ID="pnlEmail" runat="server" CssClass="modalPopup" Style="display: none;">
-                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
-                                                    <div class="modal-content" >
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">EMAIL FATURAMENTO</h5>
-                                                        </div>
-                                                        <div class="modal-body">    
-                    
-                                            <asp:TextBox ID="txtEmail" runat="server" CssClass="txtEmail form-control" MaxLength="200"></asp:TextBox>
-                                        <small style="color:gray">(Informe 1 ou mais endereços de email's separados por ponto e vírgula)</small>   
-                                         </div>
-                                  
-                           
-                      
-                                                       
-                                                                        
-                               <div class="modal-footer">
-                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnProsseguir" text="Prosseguir"/>
-                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close"/>
-                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="Button1" text="teste" OnClientClick="copiarTexto()"/>
-                                                        </div>
-                                                    
-                                                </div>
-      
-                                       </div>     </center>
-                                </asp:Panel>
-
-
-
-
-
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvContasReceber" />
@@ -149,14 +112,10 @@
                 </div>
 
 
-
-
             </div>
         </div>
 
-         
 </div>
-
 
    <asp:SqlDataSource ID="dsContasReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Contas_Receber] WHERE (CD_PR = 'R') AND ISNULL(TP_EXPORTACAO,'') = '' AND DT_CANCELAMENTO IS NULL and DT_ENVIO_FATURAMENTO IS NULL"></asp:SqlDataSource>
@@ -165,66 +124,4 @@
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-    <script>
-    function copiarTexto1() {
-        var textoCopiado = document.getElementById("txtEmail");
-        console.log(textoCopiado);
-        textoCopiado.select();
-        textoCopiado.setSelectionRange(0, 99999)
-        document.execCommand("copy");
-        alert("O texto é: " + textoCopiado.value);
-        }
-
-
-
-
-
-
-
-
-        function copiarTexto() {
-            var textArea = document.getElementById("txtEmail");
-          
-
-            console.log(textArea);
-           
-
-            try {
-                var successful = document.execCommand('copy');
-                var msg = successful ? 'successful' : 'unsuccessful';
-                console.log('Fallback: Copying text command was ' + msg);
-            } catch (err) {
-                console.error('Fallback: Oops, unable to copy', err);
-            }
-
-            document.body.removeChild(textArea);
-        }
-
-        function copyTextToClipboard() {
-            var text = document.getElementById("txtEmail");
-            if (!navigator.clipboard) {
-                fallbackCopyTextToClipboard(text);
-                return;
-            }
-            navigator.clipboard.writeText(text).then(function () {
-                console.log('Async: Copying to clipboard was successful!');
-            }, function (err) {
-                console.error('Async: Could not copy text: ', err);
-            });
-        }
-
-        //var copyBobBtn = document.querySelector('.js-copy-bob-btn'),
-        //    copyJaneBtn = document.querySelector('.js-copy-jane-btn');
-
-        //copyBobBtn.addEventListener('click', function (event) {
-        //    copyTextToClipboard('Bob');
-        //});
-
-
-        //copyJaneBtn.addEventListener('click', function (event) {
-        //    copyTextToClipboard('Jane');
-        //});
-
-
-    </script>
 </asp:Content>
