@@ -1,4 +1,7 @@
-﻿Public Class FaturarRecebimento
+﻿
+Imports System.Windows.Forms
+
+Public Class FaturarRecebimento
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -117,24 +120,24 @@ WHERE EMAIL_NF_ELETRONICA IS NOT NULL AND ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIR
 
         Dim ID As String = txtID.Text
         ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_CONTA_PAGAR_RECEBER] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
-            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+        If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+            divErro.Visible = True
+            lblmsgErro.Text = "Não é possivel enviar este recebimento!"
+        Else
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
+            If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
                 divErro.Visible = True
-                lblmsgErro.Text = "Não é possivel enviar este recebimento!"
+                lblmsgErro.Text = "Recebimento já enviado!"
             Else
-                ds = Con.ExecutarQuery("SELECT COUNT(ID_CONTA_PAGAR_RECEBER)QTD FROM [TB_FATURAMENTO] WHERE DT_CANCELAMENTO IS NULL AND ID_CONTA_PAGAR_RECEBER = " & ID)
-                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
-                    divErro.Visible = True
-                    lblmsgErro.Text = "Recebimento já enviado!"
-                Else
 
-                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
-                    Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1)) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
+                Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1)) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
 
 
-                    Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
-                    Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
+                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
 WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER= " & ID & ")")
                 If dsParceiro.Tables(0).Rows.Count > 0 Then
 
@@ -149,9 +152,9 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
                 txtEmail.Text = ""
 
                 divSuccess.Visible = True
-                    lblmsgSuccess.Text = "Enviado com sucesso!"
-                End If
+                lblmsgSuccess.Text = "Enviado com sucesso!"
             End If
+        End If
 
         dgvContasReceber.DataBind()
 
@@ -162,6 +165,7 @@ WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBE
     End Sub
 
     Private Sub btnFechar_Click(sender As Object, e As EventArgs) Handles btnFechar.Click
+        Clipboard.SetText(txtEmail.Text)
         txtID.Text = ""
         txtEmail.Text = ""
         ModalPopupExtender1.Hide()

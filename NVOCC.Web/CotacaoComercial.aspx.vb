@@ -1893,7 +1893,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                     divErro.Visible = True
@@ -1904,7 +1904,16 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     divErro.Visible = True
                     lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                     Exit Sub
+                ElseIf ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO") < Now.Date Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
+                    Exit Sub
+                ElseIf ValorMinimoPendente(txtID.Text) = True Then
+                    divErro.Visible = True
+                    lblmsgErro.Text = "Cotação contém taxa(s) com valor minimo vazio!"
+                    Exit Sub
                 Else
+
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
                         NumeroProcesso()
                     End If
@@ -1943,6 +1952,38 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
         End If
 
     End Sub
+
+
+
+    Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT 
+VL_TAXA_COMPRA,
+ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
+VL_TAXA_VENDA,
+ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
+From TB_COTACAO_TAXA
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("VL_TAXA_COMPRA") <> 0 And linha.Item("VL_TAXA_COMPRA_MIN") = 0 Then
+                    Return True
+                End If
+                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                    Return True
+                End If
+            Next
+
+        Else
+            Return False
+        End If
+
+        Return False
+    End Function
+
 
     Private Sub lkCancelar_Click(sender As Object, e As EventArgs) Handles lkCancelar.Click
         divSuccess.Visible = False

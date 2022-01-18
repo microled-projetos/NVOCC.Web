@@ -169,10 +169,10 @@
                                             <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
                                             <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
                                             <asp:BoundField DataField="EMAIL_FATURAMENTO" HeaderText="Email Faturamento" SortExpression="EMAIL_FATURAMENTO"/>
-                                            <asp:TemplateField HeaderText="" Visible="false">
+                                            <asp:TemplateField HeaderText="EMAIL_FATURAMENTO">
                                                 <ItemTemplate>
-                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
+                                                    <asp:LinkButton ID="btnVisualizarEmail" runat="server" CssClass="btn btn-link btn-sm"
+                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="VisualizarEmail" Text="Visualizar Email" ></asp:LinkButton>
                                                 </ItemTemplate>
                                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                             </asp:TemplateField>

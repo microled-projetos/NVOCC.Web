@@ -995,9 +995,11 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Apenas cotações com número de processo gerado podem ser colocadas em update!"
 
 
-            'ElseIf ddlAgente.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-            '    diverro.Visible = True
-            '    lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
+        ElseIf ddlAgente.SelectedValue = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
+
+
 
         Else
 
@@ -1041,11 +1043,11 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 Else
 
-                    'If ddlTipoPagamento_Frete.SelectedValue = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-                    '    lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
-                    '    diverro.Visible = True
-                    '    Exit Sub
-                    'End If
+                    If ddlTipoPagamento_Frete.SelectedValue = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                        lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                        diverro.Visible = True
+                        Exit Sub
+                    End If
 
                     Session("estufagem") = ddlEstufagem.SelectedValue
                     Session("transporte") = ddlServico.SelectedValue
@@ -1098,6 +1100,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
             Else
 
+                If (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) And ValorMinimoPendente(txtID.Text) = True Then
+                    diverro.Visible = True
+                    lblmsgErro.Text = "Cotação contém taxa(s) com valor minimo vazio!"
+                    Exit Sub
+                End If
+
+
+
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     diverro.Visible = True
@@ -1106,14 +1116,20 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                 Else
 
-                    'Dim d1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO FROM TB_COTACAO WHERE ID_PARCEIRO = " & txtID.Text)
-                    'If d1.Tables(0).Rows.Count > 1 Then
-                    '    If ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And ddlStatusCotacao.SelectedValue = 9 Then
-                    '        lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
-                    '        diverro.Visible = True
-                    '        Exit Sub
-                    '    End If
-                    'End If
+                    Dim d1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO,DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                    If d1.Tables(0).Rows.Count > 0 Then
+                        If d1.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                            lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
+                            diverro.Visible = True
+                            Exit Sub
+                        End If
+                        If d1.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO") < Now.Date And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                            diverro.Visible = True
+                            lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
+                            Exit Sub
+                        End If
+
+                    End If
 
 
 
@@ -1218,6 +1234,34 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
         End If
     End Sub
 
+    Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT 
+VL_TAXA_COMPRA,
+ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
+VL_TAXA_VENDA,
+ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
+From TB_COTACAO_TAXA
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("VL_TAXA_COMPRA") <> 0 And linha.Item("VL_TAXA_COMPRA_MIN") = 0 Then
+                    Return True
+                End If
+                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                    Return True
+                End If
+            Next
+
+        Else
+            Return False
+        End If
+
+        Return False
+    End Function
     Private Sub btnSalvarFrete_Click(sender As Object, e As EventArgs) Handles btnSalvarFrete.Click
         divErroFrete.Visible = False
         divSuccessFrete.Visible = False
