@@ -569,7 +569,7 @@ namespace ABAINFRA.Web
                 switch (Ativo)
                 {
                     case "1":
-                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
 
 
                         break;
@@ -602,6 +602,99 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
             SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
+            SQL += "" + idFilter + " ";
+            SQL += "" + Ativo + " ";
+            SQL += "" + Finalizado + " ";
+            SQL += "ORDER BY PFCL.DT_CHEGADA";
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string filtrarTabelaDetention(string idFilter, string Filter, string Ativo, string Finalizado)
+        {
+            string SQL;
+            DataTable listTable = new DataTable();
+
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND PFCL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND PFCL.NR_CNTR LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                case "4":
+                    idFilter = "AND P2.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                case "5":
+                    idFilter = "AND PFCL.DS_STATUS_DEMURRAGE LIKE '" + Filter + "%' ";
+                    break;
+                case "6":
+                    idFilter = "AND B.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            if (Ativo == "1" && Finalizado == "1")
+            {
+                Ativo = "";
+                Finalizado = "";
+            }
+            else
+            {
+                switch (Finalizado)
+                {
+                    case "1":
+                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        break;
+                    default:
+                        Finalizado = "";
+                        break;
+                }
+
+                switch (Ativo)
+                {
+                    case "1":
+                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+
+
+                        break;
+                    default:
+                        Ativo = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, B.NR_BL AS MBL, PFCL.NM_TIPO_CONTAINER, PFCL.NR_PROCESSO, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ";
+            SQL += "ISNULL(P2.NM_RAZAO, '') AS TRANSPORTADOR, ISNULL(FORMAT(PFCL.DT_CHEGADA, 'dd/MM/yyyy'), '') AS DT_CHEGADA, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME), '') AS QT_DIAS_FREETIME, ISNULL(CONVERT(VARCHAR,PFCL.QT_DIAS_FREETIME_CONFIRMA),'') AS QT_DIAS_FREETIME_CONFIRMA, ISNULL(FORMAT(DFCL.DT_FINAL_FREETIME, 'dd/MM/yyyy'), '') AS FINAL_FREETIME, ";
+            SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'), '') AS DEVOLUCAO_CNTR, ";
+            SQL += "ISNULL(DFCL.QT_DIAS_DEMURRAGE,'') QT_DIAS_DEMURRAGE, ISNULL(DFCL.QT_DIAS_DEMURRAGE_COMPRA,'')QT_DIAS_DEMURRAGE_COMPRA, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE, PFCL.DS_STATUS_DETENTION, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE, 'dd/MM/yyyy') AS DATA_STATUS_DEMURRAGE_COMPRA, PFCL.DS_STATUS_DETENTION_COMPRA, ";
+            SQL += "ISNULL(PFCL.DS_OBSERVACAO, '') AS DS_OBSERVACAO, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
+            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, FORMAT(DFCL.VL_DEMURRAGE_COMPRA, 'c', 'pt-br')), 'R$', ''), '') AS VL_DEMURRAGE_COMPRA, ";
+            SQL += "ISNULL(FORMAT(DFCL.VL_DEMURRAGE_COMPRA_BR,'C','pt-br'),'') AS VL_DEMURRAGE_COMPRA_BR, ";
+            SQL += "ISNULL(FORMAT(DFCL.DT_PAGAMENTO_DEMURRAGE, 'dd/MM/yyyy'), '') AS PAG_DEMU, ";
+            SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER, ";
+            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR,FORMAT(DFCL.VL_DEMURRAGE_VENDA,'C','pt-br')),'R$',''),'') AS VL_DEMURRAGE_VENDA, ";
+            SQL += "ISNULL(FORMAT(DFCL.VL_DEMURRAGE_VENDA_BR,'C','pt-br'),'') AS VL_DEMURRAGE_VENDA_BR, ";
+            SQL += "ISNULL(FORMAT(DFCL.DT_RECEBIMENTO_DEMURRAGE, 'dd/MM/yyyy'), '') AS RECEB_DEMU ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+            SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
+            SQL += "INNER JOIN TB_BL B ON PFCL.ID_BL_MASTER = B.ID_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_IMPORTADOR = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
+            SQL += "WHERE RIGHT(PFCL.NR_PROCESSO,2) >= 18 ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
             SQL += "" + Finalizado + " ";
@@ -2609,6 +2702,8 @@ namespace ABAINFRA.Web
                     SQL += ",'" + vlDescDemuVenda + "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
+                    SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    string updtDsStatus = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
                 SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -2626,8 +2721,7 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + cntrBl + "' ";
-                string updtDsStatus = DBS.ExecuteScalar(SQL);
+                
             }
             else
             {
@@ -2690,6 +2784,9 @@ namespace ABAINFRA.Web
                     SQL += "'" + parceiroTransportador + "','" + vlDemurrageCompra + "','" + dtCambioCompra + "','" + vlCambioDemuCompra + "','" + vlDemuCompraBR + "' ";
                     SQL += ",'" + vlDescDemuCompra + "','" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
+
+                    SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    string updtDsStatus = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE_COMPRA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
                 SQL += "WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -2707,8 +2804,7 @@ namespace ABAINFRA.Web
                 string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
-                SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + cntrBl + "' ";
-                string updtDsStatus = DBS.ExecuteScalar(SQL);
+                
             }
             return JsonConvert.SerializeObject("OK");
         }
@@ -2795,7 +2891,7 @@ namespace ABAINFRA.Web
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '"+idFatura+"' ";
             SQL += "AND DF.CD_PR = 'R' ";
             SQL += "AND DF.DT_CANCELAMENTO IS NULL ";*/
-            SQL = "SELECT ISNULL(A.NR_CNTR,'') AS NR_CNTR, ISNULL(A.NM_TIPO_CONTAINER,'') AS NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
+            SQL = "SELECT DISTINCT ISNULL(A.NR_CNTR,'') AS NR_CNTR, ISNULL(A.NM_TIPO_CONTAINER,'') AS NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
             SQL += "ISNULL(FORMAT(B.DT_FINAL_FREETIME,'dd/MM/yy'),'') AS FINALFT,ISNULL(A.QT_DIAS_FREETIME,'') AS QT_DIAS_FREETIME, ";
             SQL += "ISNULL(FORMAT(B.DT_INICIAL_DEMURRAGE,'dd/MM/yy'),'') AS INICIALDEM, ISNULL(FORMAT(B.DT_FINAL_DEMURRAGE,'dd/MM/yy'),'') AS FINALDEM, ";
             SQL += "ISNULL(B.QT_DIAS_DEMURRAGE,'') AS QT_DIAS_DEMURRAGE, ISNULL(MD.SIGLA_MOEDA,'') AS SIGLA_MOEDA, ";
@@ -2806,7 +2902,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_DEMURRAGE_VENDA_BR,0) AS VL_DEMURRAGE_VENDA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
-            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL ";
+            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL AND B.ID_BL = A.ID_BL ";
             SQL += "LEFT JOIN TB_DEMURRAGE_FATURA DF ON DF.ID_DEMURRAGE_FATURA = DFI.ID_DEMURRAGE_FATURA ";
             SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_VENDA = MD.ID_MOEDA ";
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -2832,7 +2928,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_DEMURRAGE_COMPRA_BR,0) AS VL_DEMURRAGE_COMPRA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
-            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL ";
+            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL AND B.ID_BL = A..ID_BL ";
             SQL += "LEFT JOIN TB_DEMURRAGE_FATURA DF ON DF.ID_DEMURRAGE_FATURA = DFI.ID_DEMURRAGE_FATURA ";
             SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_COMPRA = MD.ID_MOEDA ";
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -3659,7 +3755,7 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
             string processoNr = listTable.Rows[0]["NR_PROCESSO"].ToString();
 
-            SQL = "SELECT A.NR_CNTR, A.NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
+            SQL = "SELECT DISTINCT A.NR_CNTR, A.NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
             SQL += "ISNULL(FORMAT(B.DT_FINAL_FREETIME,'dd/MM/yy'),'') AS FINALFT,A.QT_DIAS_FREETIME, ";
             SQL += "ISNULL(FORMAT(B.DT_INICIAL_DEMURRAGE,'dd/MM/yy'),'') AS INICIALDEM, ISNULL(FORMAT(B.DT_FINAL_DEMURRAGE,'dd/MM/yy'),'') AS FINALDEM, ";
             SQL += "case when B.QT_DIAS_DEMURRAGE < 1 then '' else convert(varchar,B.QT_DIAS_DEMURRAGE) end QT_DIAS_DEMURRAGE,";
@@ -4334,9 +4430,9 @@ namespace ABAINFRA.Web
             SQL += "BL.NM_RETIRADO_POR_COURRIER, P.NM_RAZAO AS AGENTE, N.NM_NAVIO, FORMAT(BL.DT_PREVISAO_CHEGADA,'yyyy-MM-dd') AS DT_PREVISAO_CHEGADA, FORMAT(BL.DT_CHEGADA,'yyyy-MM-dd') AS DT_CHEGADA, BL.FL_TROCA, ";
             SQL += "BL.NR_FATURA_COURRIER, TP.NM_TIPO_ESTUFAGEM ";
             SQL += "FROM TB_BL BL ";
-            SQL += "JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
-            SQL += "JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
-            SQL += "JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
             SQL += "JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
             SQL += "WHERE BL.ID_BL = '" + id + "' ";
 

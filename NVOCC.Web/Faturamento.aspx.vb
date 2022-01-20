@@ -1207,6 +1207,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Dim intCopias As Short = 1
 
             Try
+                Dim NR_PROCESSO As String = ""
                 Dim NossoNumero As String = ""
                 Dim COD_BANCO As String = ""
                 Dim VL_MULTA As String = ""
@@ -1278,11 +1279,11 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                 Dim i As Integer = 0
                 ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If ds.Tables(0).Rows.Count > 0 Then
-
+                    NR_PROCESSO = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     For Each linhads As DataRow In ds.Tables(0).Rows
                         i = i + 1
                         ''CRIAÇÃO DO TITULO
@@ -1385,8 +1386,8 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     Dim NovoBoleto = New BoletoBancario
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
-                    File.WriteAllBytes(Server.MapPath("/Content/boletos\boleto_" & NossoNumero & ".pdf"), pdf)
-                    txtIDBoleto.Text = NossoNumero
+                    File.WriteAllBytes(Server.MapPath("/Content/boletos\BOLETO " & NR_PROCESSO.Replace("/", "-") & ".pdf"), pdf)
+                    txtIDBoleto.Text = NR_PROCESSO.Replace("/", "-") 'NossoNumero
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirBoleto()", True)
 
                 Next

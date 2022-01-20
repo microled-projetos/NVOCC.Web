@@ -52,6 +52,8 @@ WHERE GRAU = 'C' AND ID_CONTA_PAGAR_RECEBER =  (SELECT ID_CONTA_PAGAR_RECEBER FR
                     If dsProcesso.Tables(0).Rows.Count > 0 Then
                         If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                             lblNRef.Text = dsProcesso.Tables(0).Rows(0).Item("NR_PROCESSO")
+                            Dim processo As String = dsProcesso.Tables(0).Rows(0).Item("NR_PROCESSO")
+                            Page.Title = "RECIBO " & processo.Replace("/", "-")
                         End If
 
                         If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then

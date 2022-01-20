@@ -46,14 +46,15 @@
                                     <table id="grdPremiacao" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">AGENTE</th>
+                                                <th class="text-center" scope="col">COMPETÊNCIA</th>
                                                 <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">INDICADOR</th>
                                                 <th class="text-center" scope="col">MBL</th>
                                                 <th class="text-center" scope="col">HBL</th>
-                                                <th class="text-center" scope="col">INDICADOR</th>
+                                                <th class="text-center" scope="col">AGENTE</th>
                                                 <th class="text-center" scope="col">TIPO ESTUFAGEM</th>
-                                                <th class="text-center" scope="col">VALOR COMPRA</th>
                                                 <th class="text-center" scope="col">MOEDA</th>
+                                                <th class="text-center" scope="col">VALOR COMPRA</th>
                                                 <th class="text-center" scope="col">TAXA CONVERSÃO</th>
                                                 <th class="text-center" scope="col">PREMIAÇÃO</th>
                                                 <th class="text-center" scope="col">% RATEIO</th>
@@ -259,21 +260,22 @@
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
                             if (indicador != dado[i]["AGENTE"]) {
-                                totaldiv = "<td class='text-center'>" + dado[i]["TOTAL"] + "</td>";
+                                totaldiv = "<td class='text-center'>" + dado[i]["TOTAL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>";
                             } else {
                                 totaldiv = "<td class='text-center'></td>";
                             }
                             $("#grdPremiacaoBody").append("<tr>" +
-                                "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["COMPETENCIA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["PROCESSO"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MBL"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["HBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["INDICADOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["AGENTE"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["ESTUFAGEM"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["CAMBIO"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PREMIACAO"] + "</td>" +                                
+                                "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
+                                "<td class='text-center'>" + dado[i]["CAMBIO"].toString().replace(".", ",") + "</td>" +
+                                "<td class='text-center'>" + dado[i]["PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +                                
                                 "<td class='text-center'>" + dado[i]["RATEIO"].toString().replace(".",",") + "</td>" +
                                 totaldiv + "</tr>");
                             indicador = dado[i]["AGENTE"];

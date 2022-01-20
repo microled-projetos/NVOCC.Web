@@ -817,7 +817,7 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             var ID = document.getElementById('<%= txtIDBoleto.ClientID %>').value;
             console.log(ID);
 
-            window.open('CONtent/BOLETOS/BOLETO_'+ ID +'.pdf', '_blank');
+            window.open('Content/boletos/BOLETO '+ ID +'.pdf', '_blank');
         }
 
 
