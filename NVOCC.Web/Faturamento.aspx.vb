@@ -1386,7 +1386,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                     Dim NovoBoleto = New BoletoBancario
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
-                    File.WriteAllBytes(Server.MapPath("/Content/boletos\Boleto_" & NR_PROCESSO.Replace("/", "-") & ".pdf"), pdf)
+                    File.WriteAllBytes(Server.MapPath("/Content/boletos\BOLETO " & NR_PROCESSO.Replace("/", "-") & ".pdf"), pdf)
                     txtIDBoleto.Text = NR_PROCESSO.Replace("/", "-") 'NossoNumero
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirBoleto()", True)
 

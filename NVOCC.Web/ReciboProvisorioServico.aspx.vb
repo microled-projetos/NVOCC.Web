@@ -81,7 +81,7 @@ WHERE GRAU = 'C' AND ID_CONTA_PAGAR_RECEBER =  (SELECT ID_CONTA_PAGAR_RECEBER FR
                         If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
                             lblReferencia.Text = dsProcesso.Tables(0).Rows(0).Item("NR_PROCESSO")
                             Dim processo As String = lblReferencia.Text
-                            Page.Title = "ReciboProvisorioServico_" & processo.Replace("/", "-")
+                            Page.Title = "RPS " & processo.Replace("/", "-")
                         End If
 
                         If Not IsDBNull(dsProcesso.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then

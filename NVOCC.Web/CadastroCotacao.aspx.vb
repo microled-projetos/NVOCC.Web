@@ -1121,11 +1121,33 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                         If d1.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
                             lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                             diverro.Visible = True
+
+                            txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
+
+                            txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
+
                             Exit Sub
                         End If
-                        If d1.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO") < Now.Date And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
+                        If txtValidade.Text < Now.Date And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
                             diverro.Visible = True
                             lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
+
+                            txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
+
+                            txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
+
                             Exit Sub
                         End If
 

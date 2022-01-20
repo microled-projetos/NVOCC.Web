@@ -3,7 +3,7 @@
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Request.QueryString("id") <> "" Then
-            Page.Title = "NotaDebito"
+            Page.Title = "NOTA DE DEBITO"
 
             Dim Con As New Conexao_sql
             Con.Conectar()
@@ -163,7 +163,7 @@ WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
                 If ds.Tables(0).Rows.Count > 0 Then
                     lblProcesso.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     Dim processo As String = lblProcesso.Text
-                    Page.Title = "NOTADEBITO_" & processo.Replace("/", "-")
+                    Page.Title = "NOTA DE DEBITO " & processo.Replace("/", "-")
                 End If
 
                 ds = Con.ExecutarQuery("SELECT convert(varchar,count(A.ID_CNTR_BL)) +' x '+ (SELECT NM_TIPO_CONTAINER FROM TB_TIPO_CONTAINER B WHERE B.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR )CONTAINER from TB_CNTR_BL A INNER JOIN TB_AMR_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL WHERE C.ID_BL IN (  SELECT TOP 1 ID_BL FROM TB_CONTA_PAGAR_RECEBER_ITENS
