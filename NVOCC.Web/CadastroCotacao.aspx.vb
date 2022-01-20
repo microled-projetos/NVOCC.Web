@@ -1140,7 +1140,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                             ddlStatusCotacao.Enabled = False
 
-                            If Session("ID_STATUS") <> 10 Then
+                            If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
                                 NumeroProcesso()
                             Else
 

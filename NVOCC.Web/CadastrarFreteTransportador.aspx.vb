@@ -113,7 +113,7 @@
         Dim ds As DataSet
 
 
-        If ddlTransportador.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or ddlMoeda.SelectedValue = 0 Or ddlTipoCarga.SelectedValue = 0 Or ddlRota.SelectedValue = 0 Or ddlComex.SelectedValue = 0 Or txtTransittimeInicial.Text = "" Or txtTransittimeFinal.Text = "" Or ddlFrequencia.SelectedIndex = 0 Then
+        If ddlTransportador.SelectedValue = 0 Or ddlAgente.SelectedValue = 0 Or ddlOrigem.SelectedValue = 0 Or ddlDestino.SelectedValue = 0 Or ddlMoeda.SelectedValue = 0 Or ddlTipoCarga.SelectedValue = 0 Or ddlRota.SelectedValue = 0 Or ddlComex.SelectedValue = 0 Or txtTransittimeInicial.Text = "" Or txtTransittimeFinal.Text = "" Or ddlFrequencia.SelectedIndex = 0 Or ddlOrigem_Pagamento.SelectedValue = 0 Or ddlViaTransporte.SelectedValue = 0 Then
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 

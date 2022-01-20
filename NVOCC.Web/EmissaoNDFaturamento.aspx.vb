@@ -203,8 +203,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE isnu
                             End If
                         Next
                     End If
-
-                    Page.Title = "NotaDebito_" & lblFatura.Text
+                    Dim processo As String = lblProcesso.Text
+                    Page.Title = "NOTADEBITO_" & processo.Replace("/", "-")
                     Con.Fechar()
                 End If
 
