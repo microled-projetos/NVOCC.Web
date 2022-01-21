@@ -42,10 +42,10 @@
                         Informe seu nome Email
                     </div>
                     <div ID="divErro" class="alert alert-danger" runat="server" visible="false">
-                       Erro ao enviar email
+                      <asp:Label ID="lblErroMsg" runat="server" Text="Erro ao enviar email"></asp:Label>
                     </div>
                     <div ID="divsucesso" class="alert alert-success" runat="server" visible="false">
-                        <asp:Label ID="lblSucessoMsg" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="lblSucessoMsg" runat="server" Text="Email Enviado!"></asp:Label>
                     </div>
 
                     <div class="row">
