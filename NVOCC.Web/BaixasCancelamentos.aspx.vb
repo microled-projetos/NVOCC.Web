@@ -344,13 +344,14 @@
 
             btnAtualizaCambio.Visible = True
         End If
-        Dim sql As String = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R'  AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74  " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
+
         Using Status = New NotaFiscal.WsNvocc
 
-            Status.StatusBloqueio(sql)
+            Status.StatusBloqueio("SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R'  AND ID_PARCEIRO_ARMAZEM_DESCARGA = 74  " & FILTRO & " ORDER BY DT_VENCIMENTO DESC")
 
         End Using
 
+        Dim sql As String = "SELECT * FROM [View_Baixas_Cancelamentos]  WHERE CD_PR =  'R'  " & FILTRO & " ORDER BY DT_VENCIMENTO DESC"
         dsReceber.SelectCommand = sql
         Session("CSVReceber") = sql
         dgvTaxasReceber.DataBind()

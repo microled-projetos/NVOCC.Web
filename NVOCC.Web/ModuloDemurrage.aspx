@@ -2160,7 +2160,7 @@
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/calcularDemurrageVenda",
-                            data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa.toString().replace(".", "").replace(",", ".") + '", idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
+                            data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa.toString().replace(",", ".") + '", idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             beforeSend: function () {
@@ -2189,7 +2189,7 @@
                         $.ajax({
                             type: "POST",
                             url: "DemurrageService.asmx/calcularDemurrageCompra",
-                            data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa.toString().replace(".", "").replace(",", ".") + '",transportador: "' + transportador + '" ,idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
+                            data: '{idCont:"' + values[conter] + '",vlTaxa: "' + vlTaxa.toString().replace(",", ".") + '",transportador: "' + transportador + '" ,idStatus: "' + idStatus + '", dtStatus: "' + dtStatus + '" }',
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             beforeSend: function () {
