@@ -625,7 +625,7 @@
                                 </div>
                                       
                                             </div> <div class="row"> 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-4" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
