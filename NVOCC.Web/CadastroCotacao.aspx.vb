@@ -1197,13 +1197,13 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     End If
 
-                    If ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15 Then
-                        If TemBL(txtID.Text) = False Then
-                            If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
-                                NumeroProcesso()
-                            End If
-                        End If
-                    End If
+                    'If ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15 Then
+                    '    'If TemBL(txtID.Text) = False Then
+                    '    If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
+                    '        NumeroProcesso()
+                    '    End If
+                    '    'End If
+                    'End If
 
                     'REALIZA UPDATE  
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & txtObsCliente.Text & ", OB_MOTIVO_CANCELAMENTO = " & txtObsCancelamento.Text & ", OB_OPERACIONAL = " & txtObsOperacional.Text & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "' WHERE ID_COTACAO = " & txtID.Text)
@@ -1294,27 +1294,23 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)
 
         Return False
     End Function
-    Function TemBL(ID_COTACAO As Integer) As Boolean
-        Dim Con As New Conexao_sql
-        Con.Conectar()
+    'Function TemBL(ID_COTACAO As Integer) As Boolean
+    '    Dim Con As New Conexao_sql
+    '    Con.Conectar()
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT  count(1)  contar
-                       From TB_BL  WHERE ID_COTACAO = " & ID_COTACAO)
+    '    Dim ds As DataSet = Con.ExecutarQuery("SELECT  count(1)  contar  From TB_BL  WHERE ID_COTACAO = " & ID_COTACAO)
 
-        For Each linha As DataRow In ds.Tables(0).Rows
-            If linha.Item("contar") <> 0 Then
-                Return True
-            End If
-            If linha.Item("contar") = 0 Then
-                Return False
-            End If
-        Next
+    '    For Each linha As DataRow In ds.Tables(0).Rows
+    '        If linha.Item("contar") <> 0 Then
+    '            Return True
+    '        End If
+    '        If linha.Item("contar") = 0 Then
+    '            Return False
+    '        End If
+    '    Next
 
-
-
-
-        Return False
-    End Function
+    '    Return False
+    'End Function
     Private Sub btnSalvarFrete_Click(sender As Object, e As EventArgs) Handles btnSalvarFrete.Click
         divErroFrete.Visible = False
         divSuccessFrete.Visible = False
