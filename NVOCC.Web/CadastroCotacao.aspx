@@ -374,7 +374,8 @@
                                         <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
-                                </div>                                          
+                                </div> 
+                           
                             <div class="row">
 
                                 <div class="col-sm-3 col-sm-offset-6">
@@ -466,7 +467,9 @@
                                          <asp:DropDownList ID="ddlDestinoFrete" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                         </asp:DropDownList>
                                     </div>
-                                </div>                               <div class="col-sm-4">
+                                </div>   
+                                                
+                                             <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Tabela de Frete:</label>
                                          <asp:DropDownList ID="ddlFreteTransportador_Frete" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsFreteTransportador" DataValueField="ID_FRETE_TRANSPORTADOR" >
@@ -621,8 +624,16 @@
                                     </div>
                                 </div>
                                       
-                                            </div>
-                                        <div class="row" id="divMinimosFCL" runat="server">                                            
+                                            </div> <div class="row"> 
+                                                <div class="col-sm-4" style="display:none">
+                                    <div class="form-group">
+                                        <label class="control-label">Final Destination:</label><label runat="server" style="color:red" >*</label>
+                                         <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
+                                        </asp:DropDownList>
+                                    </div>
+                                </div> 
+                                        <div  id="divMinimosFCL" runat="server">  
+                                            
                                   <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Valor Frete (Compra Mínina):</label>
@@ -636,8 +647,9 @@
                                     </div>
                                 </div>                                     
                            </div>
-                   <div class="row">  
+                 
                        
+                      </div>  <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label">Taxas Included:</label>

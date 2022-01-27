@@ -196,7 +196,7 @@ WHERE A.ID_STATUS_COTACAO = 8")
                 lblmsgErro.Text = "Selecione o registro que deseja duplicar!"
             Else
                 Dim numero_cotacao As String = NumeroCotacao()
-                Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO  )    SELECT '" & numero_cotacao & "', GETDATE(), 2, GETDATE(), DT_VALIDADE_COTACAO," & Session("ID_USUARIO") & ", ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NULL, " & Session("ID_USUARIO") & ", ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_COTACAO;
+                Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, DT_VALIDADE_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NR_PROCESSO_GERADO, ID_USUARIO_STATUS,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION  )    SELECT '" & numero_cotacao & "', GETDATE(), 2, GETDATE(), DT_VALIDADE_COTACAO," & Session("ID_USUARIO") & ", ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, NULL, " & Session("ID_USUARIO") & ", ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ESCALA3,ID_PORTO_ORIGEM,QT_TRANSITTIME_INICIAL, QT_TRANSITTIME_FINAL,ID_TIPO_FREQUENCIA, VL_FREQUENCIA, NM_TAXAS_INCLUDED, ID_FRETE_TRANSPORTADOR,VL_TIPO_DIVISAO_FRETE, VL_DIVISAO_FRETE, ID_TIPO_DIVISAO_FRETE,VL_PESO_TAXADO, ID_TIPO_BL, ID_TRANSPORTADOR,ID_TIPO_CARGA,ID_VIA_ROTA,ID_TIPO_ESTUFAGEM,ID_PROCESSO,ID_MOEDA_FRETE,VL_TOTAL_FRETE_COMPRA,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_MIN,ID_PARCEIRO_INDICADOR,FL_FREE_HAND,ID_PARCEIRO_EXPORTADOR,ID_TIPO_PAGAMENTO,TRANSITTIME_TRUCKING_AEREO,ID_PARCEIRO_IMPORTADOR,ID_STATUS_FRETE_AGENTE,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,VL_TOTAL_M3,VL_TOTAL_PESO_BRUTO,FINAL_DESTINATION  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_COTACAO;
 
 INSERT INTO TB_COTACAO_TAXA (ID_COTACAO,
 ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_DESTINATARIO_COBRANCA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA_CALCULADO,ID_MOEDA_VENDA,VL_TAXA_VENDA_CALCULADO,ID_BASE_CALCULO_TAXA,OB_TAXAS,VL_TAXA_VENDA_MIN,VL_TAXA_COMPRA,VL_TAXA_VENDA,VL_TAXA_COMPRA_MIN)    
@@ -1893,7 +1893,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO, NR_PROCESSO_GERADO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                     divErro.Visible = True
@@ -1915,7 +1915,11 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 Else
 
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
+<<<<<<< HEAD
                         If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = "0" Then
+=======
+                        If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = 0 Then
+>>>>>>> devjuliane
                             NumeroProcesso()
                         End If
 
@@ -2277,4 +2281,179 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
         End If
 
     End Sub
+
+    '    Private Sub lkFollowUp_Click(sender As Object, e As EventArgs) Handles lkFollowUp.Click
+    '        divSuccess.Visible = False
+    '        divErro.Visible = False
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+
+    '        If txtID.Text = "" Then
+    '            divErro.Visible = True
+    '            lblmsgErro.Text = "Selecione um registro!"
+    '        Else
+    '            Dim dsVerifica As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO WHERE DT_FOLLOWUP IS NOT NULL AND ID_COTACAO = " & txtID.Text)
+    '            If dsVerifica.Tables(0).Rows(0).Item("QTD") > 0 Then
+    '                divErro.Visible = True
+    '                lblmsgErro.Text = "Follow Up já realizado! "
+    '            Else
+    '                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.NM_RAZAO AS CLIENTE,C.NM_TIPO_ESTUFAGEM,O.NM_PORTO AS ORIGEM,D.NM_PORTO AS DESTINO,I.NM_INCOTERM, NR_COTACAO  FROM TB_COTACAO A 
+    'LEFT JOIN TB_PARCEIRO B ON  B.ID_PARCEIRO = A.ID_CLIENTE
+    'LEFT JOIN TB_TIPO_ESTUFAGEM C ON  C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM
+    'LEFT JOIN TB_PORTO O ON O.ID_PORTO = A.ID_PORTO_ORIGEM
+    'LEFT JOIN TB_PORTO D ON D.ID_PORTO = A.ID_PORTO_DESTINO
+    'LEFT JOIN TB_INCOTERM I ON I.ID_INCOTERM = A.ID_INCOTERM
+    'WHERE ID_COTACAO = " & txtID.Text)
+    '                If ds.Tables(0).Rows(0).Item("QTD") > 0 Then
+    '                End If
+
+    '            End If
+    '        End If
+
+
+    '    End Sub
+
+    'Function processaFila() As Boolean
+    '    Dim sSql As String
+    '    Dim anexos As Attachment()
+    '    Dim envia As Boolean = False
+    '    Dim critica As String = ""
+    '    Dim rsParam As DataSet = Nothing
+    '    Dim rsEmail As DataTable = Nothing
+    '    Dim rsAnexos As DataTable = Nothing
+    '    Dim enderecos As String = ""
+    '    Dim dirEmail As String = ""
+    '    Dim arqExc As List(Of String) = Nothing
+    '    Dim indExc As Long
+    '    Dim nomeArq As String
+    '    Dim validaEnd As String
+
+    '    Dim ends() As String
+    '    Dim Mail As New MailMessage
+    '    Dim smtp As New SmtpClient()
+
+    '    Try
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+
+    '        sSql = "SELECT EMAIL_REMETENTE, END_SMTP, SENHA_REMETENTE, DOMINIO_REMETENTE, EXIGE_SSL, PORTA_SMTP, DIR_EMAIL_GER AS DIR_EMAIL "
+    '        sSql = sSql & " FROM TB_PARAMETROS "
+    '        rsParam = Con.ExecutarQuery(sSql)
+    '        If rsParam.Tables(0).Rows.Count > 0 Then
+
+
+    '            dirEmail = Server.MapPath("/Content/cotacoes/CotacaoPDF_" & txtCotacao.Text & ".pdf")
+
+
+
+    '            Mail = New MailMessage
+    '            Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+    '            Try
+    '                Mail.From = New MailAddress(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString)
+    '            Catch ex As Exception
+    '                critica = "Endereço de envio dos e-mails inválido [" & rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString & "] "
+    '                lblerro.Text = critica
+    '                lblerro.Visible = True
+    '                Return False
+    '            End Try
+
+
+
+    '            Try
+    '                smtp = New SmtpClient(rsParam.Tables(0).Rows(0)("END_SMTP").ToString)
+    '                If rsParam.Tables(0).Rows(0)("EXIGE_SSL").ToString = "1" Then
+    '                    smtp.EnableSsl = True
+    '                Else
+    '                    smtp.EnableSsl = False
+    '                End If
+    '                smtp.Credentials = New System.Net.NetworkCredential(rsParam.Tables(0).Rows(0)("EMAIL_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("SENHA_REMETENTE").ToString, rsParam.Tables(0).Rows(0)("DOMINIO_REMETENTE").ToString)
+    '                smtp.Port = rsParam.Tables(0).Rows(0)("PORTA_SMTP").ToString
+    '            Catch ex As Exception
+    '                critica = "Configurações de envio de e-mail inválidas, contate o suporte!" & Err.Description
+    '                lblerro.Text = critica
+    '                lblerro.Visible = True
+    '                Return False
+
+    '            End Try
+
+    '            'ASSUNTO
+    '            If txtAssunto.Text <> "" Then
+    '                Mail.Subject = txtAssunto.Text
+    '            Else
+    '                Mail.Subject = ""
+    '            End If
+
+    '            'CORPO
+    '            If txtMsg.Text <> "" Then
+    '                Mail.Body = txtMsg.Text
+    '            Else
+    '                Mail.Body = ""
+    '            End If
+
+    '            'Mail.IsBodyHtml = True
+
+    '            enderecos = txtDestinatario.Text
+    '            Dim palavras As String() = enderecos.Split(New String() _
+    '      {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+    '            'exibe o resultado
+    '            For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+    '                Mail.To.Add(palavras(i).ToString)
+
+    '            Next
+
+
+
+
+    '            enderecos = txtCC.Text
+    '            palavras = enderecos.Split(New String() _
+    '      {";"}, StringSplitOptions.RemoveEmptyEntries)
+
+    '            'exibe o resultado
+    '            For i As Integer = 0 To palavras.GetUpperBound(0) Step 1
+    '                Mail.Bcc.Add(palavras(i).ToString)
+    '            Next
+
+
+
+
+    '            nomeArq = Server.MapPath("/Content/cotacoes/CotacaoPDF_" & txtCotacao.Text & ".pdf")
+
+    '            Dim anexo As New Attachment(nomeArq)
+    '            Mail.Attachments.Add(anexo)
+
+    '            Try
+
+    '                smtp.Send(Mail)
+
+    '                smtp.Dispose()
+
+    '            Catch ex As Exception
+    '                critica = "Ocorreu um erro ao enviar o e-mail! Erro:  " & Err.Description
+    '                lblerro.Text = critica
+    '                lblerro.Visible = True
+    '                Err.Clear()
+    '                Return False
+
+    '            End Try
+
+    '        Else
+    '            critica = "Não foi possível acessar As configurações para envio de e-mails, contate o suporte!"
+    '            lblerro.Text = critica
+    '            lblerro.Visible = True
+    '            Return False
+
+    '        End If
+    '    Catch ex As Exception
+    '        critica = "Ocorreu um erro ao realizar o envio de e-mails, contate o suporte!" & vbCrLf & "Erro:  " & Err.Description
+    '        lblerro.Text = critica
+    '        lblerro.Visible = True
+    '        Return False
+
+    '    End Try
+
+    '    Return True
+
+    'End Function
+
 End Class

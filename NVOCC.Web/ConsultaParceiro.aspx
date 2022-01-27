@@ -98,6 +98,13 @@
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                         </asp:TemplateField>
+                                         <asp:TemplateField HeaderText="">
+                                            <ItemTemplate>
+                                                 <asp:linkButton ID="btnDuplicar" title="Duplicar Parceiro" style="display:none"  runat="server" CssClass="btn btn-primary btn-sm" CommandName="Duplicar" OnClientClick="javascript:return confirm('Deseja realmente duplicar este parceiro?');" 
+                                  CommandArgument='<%# Eval("Id") %>'><i class="glyphicon glyphicon-duplicate" style="font-size:medium"></i></asp:linkButton>
+                                            </ItemTemplate>
+                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                        </asp:TemplateField>
                                          <asp:TemplateField HeaderText=""  >
                                             <ItemTemplate>
                                                 <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"

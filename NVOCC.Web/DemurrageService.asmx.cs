@@ -744,6 +744,25 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string infoContainerDevolucaoExp(int idCont)
+        {
+            string SQL;
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, ";
+            SQL += "PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, FORMAT(PFCL.DT_DEVOLUCAO_CNTR,'yyyy-MM-dd') as DT_DEVOLUCAO_CNTR, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, DS_STATUS_DEMURRAGE, ";
+            SQL += "PFCL.DS_OBSERVACAO ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+            SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public string atualizarContainer(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
         {
             if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
@@ -799,12 +818,82 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string atualizarContainerExp(int idCont, string dtStatus, int dsStatus, int qtDias, string dsObs, string qtDiasConfirm, string qtDiasDemurrageCompra, string dtStatusCompra, int dsStatusCompra)
+        {
+            if (dsStatus.ToString() != "" && dsStatusCompra.ToString() != "")
+            {
+                string SQL;
+                string flagF;
+                SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + dsStatus + "' ";
+                DataTable flFinaliza = new DataTable();
+                flFinaliza = DBS.List(SQL);
+                flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
+
+                SQL = "SELECT ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
+                SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER, ";
+                SQL += "ISNULL(FORMAT(DFCL.DT_PAGAMENTO_DEMURRAGE, 'dd/MM/yyyy'), '') AS PAG_DEMU, ";
+                SQL += "ISNULL(FORMAT(DFCL.DT_RECEBIMENTO_DEMURRAGE, 'dd/MM/yyyy'), '') AS RECEB_DEMU ";
+                SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+                SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
+                SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+                SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+                SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+                DataTable faturas = new DataTable();
+                faturas = DBS.List(SQL);
+                string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
+                string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+
+                if (dsStatus == 2)
+                {
+                    flagF = "1";
+                }
+                else
+                {
+                    if (faturaCompra != "" && faturaVenda != "")
+                    {
+                        flagF = "1";
+                    }
+                    else
+                    {
+                        flagF = "0";
+                    }
+                }
+
+                SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + dsStatus + "', QT_DIAS_FREETIME = '" + qtDias + "', QT_DIAS_FREETIME_CONFIRMA = '" + qtDiasConfirm + "', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "', DS_OBSERVACAO = '" + dsObs + "', ID_STATUS_DEMURRAGE_COMPRA = '" + dsStatusCompra + "', DT_STATUS_DEMURRAGE_COMPRA = '" + dtStatusCompra + "' WHERE ID_CNTR_BL = '" + idCont + "' ;  UPDATE TB_CNTR_DEMURRAGE SET QT_DIAS_DEMURRAGE_COMPRA = '" + qtDiasDemurrageCompra + "' WHERE ID_CNTR_BL = '" + idCont + "'   ";
+                string atualizarContainer = DBS.ExecuteScalar(SQL);
+                return "1";
+
+
+            }
+            else
+            {
+                return "2";
+            }
+        }
+
+        [WebMethod]
         public string infoCalculo(string idCont)
         {
             string SQL;
             SQL = "SELECT PFCL.NR_PROCESSO as PROCESSO, P.NM_RAZAO AS CLIENTE, PFCL.ID_PARCEIRO_TRANSPORTADOR AS TRANSPORTADOR ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string infoCalculoExp(string idCont)
+        {
+            string SQL;
+            SQL = "SELECT PFCL.NR_PROCESSO as PROCESSO, P.NM_RAZAO AS CLIENTE, PFCL.ID_PARCEIRO_TRANSPORTADOR AS TRANSPORTADOR ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+            SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "' ";
 
@@ -2054,6 +2143,24 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string listarContainerDevolucaoExp(string nrProcesso)
+        {
+            string SQL;
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, ";
+            SQL += "ISNULL(FORMAT(PFCL.DT_DEVOLUCAO_CNTR, 'dd/MM/yyyy'),'') as DT_DEVOLUCAO_CNTR, ";
+            SQL += "ISNULL(FORMAT(PFCL.DT_STATUS_DEMURRAGE,'dd/MM/yyyy'),'') AS DATA_STATUS_DEMURRAGE, ";
+            SQL += "PFCL.DS_STATUS_DETENTION ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+            SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
+            SQL += "WHERE PFCL.NR_PROCESSO = '" + nrProcesso + "' ";
+            SQL += "AND (DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NULL AND DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NULL) ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
         public string listarFaturas(int check, string filtroFatura, string txtFiltro, string Ativo, string Finalizado)
         {
             DataTable listTable = new DataTable();
@@ -2917,7 +3024,7 @@ namespace ABAINFRA.Web
         public string listarContainerFaturaPrintCompra(string idFatura)
         {
             string SQL;
-            SQL = "SELECT ISNULL(A.NR_CNTR,'') AS NR_CNTR, ISNULL(A.NM_TIPO_CONTAINER,'') AS NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
+            SQL = "SELECT DISTINCT ISNULL(A.NR_CNTR,'') AS NR_CNTR, ISNULL(A.NM_TIPO_CONTAINER,'') AS NM_TIPO_CONTAINER, ISNULL(FORMAT(B.DT_INICIAL_FREETIME,'dd/MM/yy'),'') AS INICIALFT, ";
             SQL += "ISNULL(FORMAT(B.DT_FINAL_FREETIME,'dd/MM/yy'),'') AS FINALFT, ISNULL(A.QT_DIAS_FREETIME,'') AS QT_DIAS_FREETIME, ";
             SQL += "ISNULL(FORMAT(B.DT_INICIAL_DEMURRAGE,'dd/MM/yy'),'') AS INICIALDEM, ISNULL(FORMAT(B.DT_FINAL_DEMURRAGE,'dd/MM/yy'),'') AS FINALDEM, ";
             SQL += "ISNULL(B.QT_DIAS_DEMURRAGE_COMPRA,'') AS QT_DIAS_DEMURRAGE_COMPRA, ISNULL(MD.SIGLA_MOEDA,'') AS SIGLA_MOEDA, ";
@@ -2928,7 +3035,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(B.VL_DEMURRAGE_COMPRA_BR,0) AS VL_DEMURRAGE_COMPRA_BR ";
             SQL += "FROM TB_DEMURRAGE_FATURA_ITENS DFI ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL B ON DFI.ID_CNTR_DEMURRAGE = B.ID_CNTR_DEMURRAGE ";
-            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL AND B.ID_BL = A..ID_BL ";
+            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_FCL A ON B.ID_CNTR_BL = A.ID_CNTR_BL AND B.ID_BL = A.ID_BL ";
             SQL += "LEFT JOIN TB_DEMURRAGE_FATURA DF ON DF.ID_DEMURRAGE_FATURA = DFI.ID_DEMURRAGE_FATURA ";
             SQL += "LEFT JOIN TB_MOEDA MD ON B.ID_MOEDA_DEMURRAGE_COMPRA = MD.ID_MOEDA ";
             SQL += "WHERE DFI.ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
@@ -3638,6 +3745,94 @@ namespace ABAINFRA.Web
                 SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER ";
                 SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
                 SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
+                SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+                SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+                SQL += "WHERE PFCL.ID_CNTR_BL in (" + idCont + ") ";
+                DataTable faturas = new DataTable();
+                faturas = DBS.List(SQL);
+                string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
+                string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+
+                if (dsStatus == "2")
+                {
+                    flagF = "1";
+                }
+                else
+                {
+                    if (faturaCompra != "" && faturaVenda != "")
+                    {
+                        flagF = "1";
+                    }
+                    else
+                    {
+                        flagF = "0";
+                    }
+                }
+
+                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = '" + dtDevolucao + "', ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "' ";
+                SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
+            }
+            string attDevolu = DBS.ExecuteScalar(SQL);
+            return "1";
+        }
+
+        [WebMethod]
+        public string atualizarDevolucaoExp(string idCont, string dtStatus, string dsStatus, string dtDevolucao)
+        {
+            string SQL;
+            string flagF;
+            SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + dsStatus + "' ";
+            DataTable flFinaliza = new DataTable();
+            flFinaliza = DBS.List(SQL);
+            flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
+            switch (dtDevolucao)
+            {
+                case "":
+                    dtDevolucao = "null";
+                    break;
+            }
+            if (dtDevolucao == "null")
+            {
+                SQL = "SELECT ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
+                SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER ";
+                SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+                SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
+                SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+                SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+                SQL += "WHERE PFCL.ID_CNTR_BL in (" + idCont + ") ";
+                DataTable faturas = new DataTable();
+                faturas = DBS.List(SQL);
+                string faturaCompra = faturas.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
+                string faturaVenda = faturas.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+
+                if (dsStatus == "2")
+                {
+                    flagF = "1";
+                }
+                else
+                {
+                    if (faturaCompra != "" && faturaVenda != "")
+                    {
+                        flagF = "1";
+                    }
+                    else
+                    {
+                        flagF = "0";
+                    }
+                }
+
+                SQL = "UPDATE TB_CNTR_BL SET DT_DEVOLUCAO_CNTR = " + dtDevolucao + ", ID_STATUS_DEMURRAGE = '" + dsStatus + "', ";
+                SQL += "DT_STATUS_DEMURRAGE = '" + dtStatus + "' ";
+                SQL += "WHERE ID_CNTR_BL in (" + idCont + ") ";
+            }
+
+            else
+            {
+                SQL = "SELECT ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_PAGAR),'') AS ID_DEMURRAGE_PAGAR, ";
+                SQL += "ISNULL(CONVERT(VARCHAR,DFCL.ID_DEMURRAGE_FATURA_RECEBER),'') AS ID_DEMURRAGE_RECEBER ";
+                SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
+                SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL_EXP DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL AND PFCL.ID_BL = DFCL.ID_BL ";
                 SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
                 SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
                 SQL += "WHERE PFCL.ID_CNTR_BL in (" + idCont + ") ";
@@ -6643,7 +6838,7 @@ namespace ABAINFRA.Web
                 string[] rec = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 4);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
