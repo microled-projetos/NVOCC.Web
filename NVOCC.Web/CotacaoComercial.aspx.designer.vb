@@ -167,6 +167,15 @@ Partial Public Class CotacaoComercial
     Protected WithEvents lkUpdate As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''Controle lkFollowUp.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkFollowUp As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''Controle divPesquisa.
     '''</summary>
     '''<remarks>
