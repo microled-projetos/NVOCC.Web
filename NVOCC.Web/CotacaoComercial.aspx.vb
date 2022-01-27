@@ -1915,6 +1915,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 Else
 
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
+
                         If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = 0 Then
                             NumeroProcesso()
                         End If
