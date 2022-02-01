@@ -274,7 +274,6 @@
         var type = document.getElementById("ddlEstilo").value;
         const graph = document.getElementById("graph");
         $(document).ready(function () {
-            console.log(rgb);
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/CarregarVendedores",
@@ -297,7 +296,6 @@
 
         var ano = new Date().getFullYear();
         for (var i = ano; i >= 2018; i--) {
-            console.log(ano);
             var value = i.toString().substr(2, 2);
             $("#ddlAnoInicial").append("<option value='" + value + "'>" + i + "</option>")
             $("#ddlAnoFinal").append("<option value='" + value + "'>" + i + "</option>")
@@ -368,13 +366,6 @@
                     $("#tblIndicadorTeusExpoBody").empty();
                     $("#tblIndicadorProcAereoBody").empty();
                     if (data != null) {
-                        console.log(data[0]["TOTAL_PROC_IMP"])
-                        console.log(data[0]["TOTAL_PROC_EXP"])
-                        console.log(data[0]["TOTAL_PROC_AR"])
-                        console.log(data[0]["TOTAL_TEUS_IMP"])
-                        console.log(data[0]["TOTAL_TEUS_EXP"])
-                        console.log(data[0]["TOTAL_CNTR_IMP"])
-                        console.log(data[0]["TOTAL_CNTR_EXP"])
                         
                         for (var i = 0; i < data.length; i++) {
 
@@ -565,6 +556,7 @@
         }
 
         function graficoProcessos(processoIMP, processoEXP, processoAR, data) {
+            console.log(processoIMP, processoEXP, processoAR);
             var ctx2 = document.getElementById('pgraph').getContext('2d');
             var myChart2 = new Chart(ctx2, {
                 type: 'bar',
@@ -723,7 +715,7 @@
                     datasets: [
                         {
                             label: 'IMP',
-                            data: [processoIMP[0], processoAR[0], processoEXP[0]],
+                            data: [processoIMP[0], processoEXP[0], processoAR[0]],
                             backgroundColor: rgb,
                         }
                     ]
@@ -854,7 +846,7 @@
                             $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
                             graficoGeral(lineChartPROC, lineChartCNTR, lineChartTEUS, label);
                             graficoCntr(lineChartCNTRIMP, lineChartCNTREXP, label);
-                            graficoProcessos(lineChartPROCIMP, lineChartPROCAR, lineChartPROCEXP, label);
+                            graficoProcessos(lineChartPROCIMP, lineChartPROCEXP, lineChartPROCAR, label);
                             graficoTeus(lineChartTEUSIMP, lineChartTEUSEXP, label);
                             processosIndicador();
                         }
@@ -876,7 +868,7 @@
                             $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
                             graficoGeral(lineChartPROC, lineChartCNTR, lineChartTEUS, label);
                             graficoCntr(lineChartCNTRIMP, lineChartCNTREXP, label);
-                            graficoProcessos(lineChartPROCIMP, lineChartPROCAR, lineChartPROCEXP, label);
+                            graficoProcessos(lineChartPROCIMP, lineChartPROCEXP, lineChartPROCAR, label);
                             graficoTeus(lineChartTEUSIMP, lineChartTEUSEXP, label)
                             processosIndicador();
                         }
@@ -927,7 +919,7 @@
                             $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
                             graficoGeralPizza(lineChartPROC, lineChartCNTR, lineChartTEUS, label);
                             graficoCntrPizza(lineChartCNTRIMP, lineChartCNTREXP, label);
-                            graficoProcessosPizza(lineChartPROCIMP, lineChartPROCAR, lineChartPROCEXP, label);
+                            graficoProcessosPizza(lineChartPROCIMP, lineChartPROCEXP, lineChartPROCAR, label);
                             graficoTeusPizza(lineChartTEUSIMP, lineChartTEUSEXP, label)
                             processosIndicadorPizza();
                         }
@@ -949,7 +941,7 @@
                             $("#teusGraph").append("<canvas id='tGraph' style='width:100%;height: 300px;max-height: 300px''></canvas>");
                             graficoGeralPizza(lineChartPROC, lineChartCNTR, lineChartTEUS, label);
                             graficoCntrPizza(lineChartCNTRIMP, lineChartCNTREXP, label);
-                            graficoProcessosPizza(lineChartPROCIMP, lineChartPROCAR, lineChartPROCEXP, label);
+                            graficoProcessosPizza(lineChartPROCIMP, lineChartPROCEXP, lineChartPROCAR,label);
                             graficoTeusPizza(lineChartTEUSIMP, lineChartTEUSEXP, label)
                             processosIndicadorPizza();
                         }
