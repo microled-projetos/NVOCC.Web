@@ -115,7 +115,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="control-label">Endereços de Email:</label><label runat="server" style="color:red" >*</label> 
-                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Style="max-width: 800px;" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,250);"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de eMail's separados por ponto e vírgula)</small>                       
+                            <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Style="max-width: 800px;" TextMode="MultiLine" Rows="2" onkeyUp="return CheckMaxCount(this,event,500);"></asp:TextBox><small style="color:gray">(Informe 1 ou mais endereços de eMail's separados por ponto e vírgula)</small>                       
                         </div>
                     </div>
                 </div>

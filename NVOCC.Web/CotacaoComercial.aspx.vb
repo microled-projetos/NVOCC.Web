@@ -1962,8 +1962,8 @@ TB_PARAMETROS WHERE EMAIL_FECHAMENTO_COTACAO IS NOT NULL")
     Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
         Dim Con As New Conexao_sql
         Con.Conectar()
-
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT 
+        Dim finaliza As New FinalizaCotacao
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA,
 VL_TAXA_COMPRA,
 ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
 VL_TAXA_VENDA,
@@ -1973,16 +1973,21 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14)")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
-                If linha.Item("VL_TAXA_COMPRA") <> 0 And linha.Item("VL_TAXA_COMPRA_MIN") = 0 Then
-                    Return True
-                End If
-                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
-                    Return True
+                If finaliza.TaxaBloqueada(linha.Item("ID_COTACAO_TAXA"), "COTACAO") = False Then
+
+                    If linha.Item("VL_TAXA_COMPRA") <> 0 And linha.Item("VL_TAXA_COMPRA_MIN") = 0 Then
+                        Return True
+                    End If
+
+                    If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                        Return True
+                    End If
+
                 End If
             Next
         End If
 
-        ds = Con.ExecutarQuery("SELECT 
+        ds = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA,
 VL_TAXA_COMPRA,
 ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
 VL_TAXA_VENDA,
@@ -1992,10 +1997,15 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
-                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
-                    Return True
+                If finaliza.TaxaBloqueada(linha.Item("ID_COTACAO_TAXA"), "COTACAO") = False Then
+
+                    If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                        Return True
+                    End If
+
                 End If
             Next
+
         End If
 
 

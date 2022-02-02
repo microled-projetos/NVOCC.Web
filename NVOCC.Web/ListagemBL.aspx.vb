@@ -1020,23 +1020,31 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Else
             Dim Con As New Conexao_sql
             Con.Conectar()
+            Dim dsAno As DataSet = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA FROM [TB_BL] WHERE ID_BL = " & txtID_Master.Text)
 
-            Dim Rastreio As New RastreioService
-            Rastreio.trackingbl(txtID_Master.Text)
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
-                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
-                    Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                    Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
-                    Session("ID_BL") = txtID_Master.Text
-                    Response.Redirect("RastreioBL.aspx")
+            If dsAno.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 Then
+                Dim Rastreio As New RastreioService
+                Rastreio.trackingbl(txtID_Master.Text)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
+                If ds.Tables(0).Rows.Count > 0 Then
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                        Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                        Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                        Session("ID_BL") = txtID_Master.Text
+                        Response.Redirect("RastreioBL.aspx")
 
-                Else
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                    Else
+                        divErroMaster.Visible = True
+                        lblErroMaster.Text = "BL não cadastrada no Logcomex."
+                    End If
                 End If
-            End If
 
+
+            Else
+
+                divErroMaster.Visible = True
+                lblErroMaster.Text = "Tracking somente para o ano vigente!"
+            End If
         End If
 
     End Sub
@@ -1209,9 +1217,12 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             Con.Conectar()
 
             Dim Rastreio As New RastreioService
-            Rastreio.trackingbl(txtIDHouse.Text)
-            Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
-            If ds.Tables(0).Rows.Count > 0 Then
+            Dim dsAno As DataSet = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA FROM [TB_BL] WHERE ID_BL = " & txtIDHouse.Text)
+
+            If dsAno.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 Then
+
+                Rastreio.trackingbl(txtIDHouse.Text)
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
                     Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
                     Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
@@ -1222,8 +1233,13 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                     divErroHouse.Visible = True
                     lblErroHouse.Text = "BL não cadastrada no Logcomex."
                 End If
-            End If
 
+            Else
+
+                divErroHouse.Visible = True
+                lblErroHouse.Text = "Tracking somente para o ano vigente!"
+            End If
         End If
+
     End Sub
 End Class
