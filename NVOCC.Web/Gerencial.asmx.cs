@@ -45,7 +45,7 @@ namespace ABAINFRA.Web
         public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
-            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
+            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 AND A.NR_CNTR IS NOT NULL ";
             if (vendedor != 0)
             {
                 SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
@@ -180,9 +180,9 @@ namespace ABAINFRA.Web
             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
             SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS CNTR_EXP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS TEUS_EXP ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
@@ -288,9 +288,9 @@ namespace ABAINFRA.Web
             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
             SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS CNTR_EXP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END),0) AS TEUS_EXP ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + "";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
@@ -526,9 +526,9 @@ namespace ABAINFRA.Web
             SQL += "FROM( ";
             SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_EXP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 0 END) AS TEUS_EXP ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "" + CarregaFiltroPizza(anoI, mesI, vendedor, tipo, embarque) + " ";

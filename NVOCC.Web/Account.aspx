@@ -1160,7 +1160,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSourc
 union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 and FL_ATIVO = 1
 union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

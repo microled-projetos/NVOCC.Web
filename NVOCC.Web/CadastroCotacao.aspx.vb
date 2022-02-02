@@ -986,11 +986,11 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
             diverro.Visible = True
 
-        ElseIf v.ValidaData(txtAbertura.Text) = False Then
+        ElseIf v.ValidaData(txtAbertura.Text) = False Or IsDate(txtAbertura.Text) = False Then
             diverro.Visible = True
             lblmsgErro.Text = "A data de abertura é inválida."
 
-        ElseIf v.ValidaData(txtValidade.Text) = False Then
+        ElseIf v.ValidaData(txtValidade.Text) = False Or IsDate(txtValidade.Text) = False Then
             diverro.Visible = True
             lblmsgErro.Text = "A data de validade é inválida."
 
@@ -1138,21 +1138,24 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                             Exit Sub
                         End If
-                        If txtValidade.Text < Now.Date And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
-                            diverro.Visible = True
-                            lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
+                        If txtValidade.Text < Now.Date And (ddlStatusCotacao.SelectedValue = 9) Then
+                            If txtProcessoCotacao.Text = "" Then
+                                diverro.Visible = True
+                                lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
 
-                            txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
-                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
+                                txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
 
-                            txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
-                            txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
+                                txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
 
-                            Exit Sub
+                                Exit Sub
+                            End If
+
                         End If
 
                     End If
@@ -1276,7 +1279,7 @@ ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
 VL_TAXA_VENDA,
 ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
 From TB_COTACAO_TAXA
-WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)")
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14)")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -1287,10 +1290,25 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)
                     Return True
                 End If
             Next
-
-        Else
-            Return False
         End If
+
+        ds = Con.ExecutarQuery("SELECT 
+VL_TAXA_COMPRA,
+ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
+VL_TAXA_VENDA,
+ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
+From TB_COTACAO_TAXA
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                    Return True
+                End If
+            Next
+
+        End If
+
 
         Return False
     End Function

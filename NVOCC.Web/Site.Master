@@ -294,7 +294,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-custom">
             <div>
                 <div class="float-right text-center" style="background-color: #e77817;">
-                    NVOCC 5.0.0
+                    NVOCC 1.0.0
                     <asp:Label CssClass="control-label" runat="server" ID="lblVersion" Visible="false" />
                     - <%= DateTime.Now.Year %>
                 </div>

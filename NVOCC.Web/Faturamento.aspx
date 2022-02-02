@@ -167,7 +167,7 @@
                                             <asp:BoundField DataField="NOSSONUMERO" HeaderText="Nosso Número" SortExpression="NOSSONUMERO" />
                                             <asp:BoundField DataField="ARQ_REM" HeaderText="Remessa" SortExpression="ARQ_REM" />
                                             <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
-                                            <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy}"/>
+                                            <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy HH:mm}"/>
                                             <asp:TemplateField HeaderText="" Visible="false">
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"

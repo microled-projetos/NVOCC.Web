@@ -459,6 +459,7 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                         divErro.Visible = True
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
+                        Exit Sub
                     Else
 
                         Dim ISS As Decimal

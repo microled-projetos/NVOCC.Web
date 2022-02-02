@@ -1893,7 +1893,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                 End If
 
-                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,0)NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
+                ds = Con.ExecutarQuery("SELECT ISNULL(ID_STATUS_COTACAO,0)ID_STATUS_COTACAO,ISNULL(ID_AGENTE_INTERNACIONAL,0)ID_AGENTE_INTERNACIONAL,ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO, ISNULL(NR_PROCESSO_GERADO,'')NR_PROCESSO_GERADO, DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
                 If ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL") = 0 Then
                     divErro.Visible = True
@@ -1904,7 +1904,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     divErro.Visible = True
                     lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                     Exit Sub
-                ElseIf ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO") < Now.Date Then
+                ElseIf ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO") < Now.Date And ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = "" Then
                     divErro.Visible = True
                     lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
                     Exit Sub
@@ -1916,7 +1916,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
                     If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 10 Then
 
-                        If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = 0 Then
+                        If ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") = "" Then
                             NumeroProcesso()
                         End If
 
@@ -1969,7 +1969,7 @@ ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
 VL_TAXA_VENDA,
 ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
 From TB_COTACAO_TAXA
-WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)")
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14)")
         If ds.Tables(0).Rows.Count > 0 Then
 
             For Each linha As DataRow In ds.Tables(0).Rows
@@ -1980,10 +1980,24 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA In (6,7,13,14,37)
                     Return True
                 End If
             Next
-
-        Else
-            Return False
         End If
+
+        ds = Con.ExecutarQuery("SELECT 
+VL_TAXA_COMPRA,
+ISNULL(VL_TAXA_COMPRA_MIN, 0)VL_TAXA_COMPRA_MIN,
+VL_TAXA_VENDA,
+ISNULL(VL_TAXA_VENDA_MIN, 0) VL_TAXA_VENDA_MIN
+From TB_COTACAO_TAXA
+WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
+        If ds.Tables(0).Rows.Count > 0 Then
+
+            For Each linha As DataRow In ds.Tables(0).Rows
+                If linha.Item("VL_TAXA_VENDA") <> 0 And linha.Item("VL_TAXA_VENDA_MIN") = 0 Then
+                    Return True
+                End If
+            Next
+        End If
+
 
         Return False
     End Function
