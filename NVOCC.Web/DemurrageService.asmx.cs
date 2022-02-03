@@ -2573,7 +2573,7 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE = NULL ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2609,7 +2609,7 @@ namespace ABAINFRA.Web
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE DT_COMPETENCIA = '" + idFatura + "' ";
                     string deleteContaPagarReceber = DBS.ExecuteScalar(SQL);
 
-                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', ";
+                    SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_CANCELAMENTO = '" + sqlFormattedDate + "', ID_USUARIO_CANCELAMENTO = '" + Session["ID_USUARIO"] + "', DT_EXPORTACAO_DEMURRAGE_COMPRA = NULL ";
                     SQL += "DS_MOTIVO_CANCELAMENTO = '" + motivoCancelamento + "' WHERE ID_DEMURRAGE_FATURA = '" + idFatura + "' ";
                     string updateFatura = DBS.ExecuteScalar(SQL);
 
@@ -2809,7 +2809,7 @@ namespace ABAINFRA.Web
                     SQL += ",'" + vlDescDemuVenda + "','" + vlDemuLiquidVenda + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
-                    SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
                     string updtDsStatus = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
@@ -2892,7 +2892,7 @@ namespace ABAINFRA.Web
                     SQL += ",'" + vlDescDemuCompra + "','" + vlDemuLiquidCompra + "','" + flIntegraPA + "') ";
                     string insertContaPGI = DBS.ExecuteScalar(SQL);
 
-                    SQL += "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
+                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE_COMPRA = 10 WHERE ID_CNTR_BL = '" + listarContainers.Rows[i]["ID_CNTR_BL"] + "' ";
                     string updtDsStatus = DBS.ExecuteScalar(SQL);
                 }
                 SQL = "UPDATE TB_DEMURRAGE_FATURA SET DT_EXPORTACAO_DEMURRAGE_COMPRA = '" + sqlFormattedDate + "', ID_USUARIO_EXPORTACAO_DEMURRAGE = '" + Session["ID_USUARIO"] + "', ID_CONTA_PAGAR_RECEBER = '" + insertConta + "' ";
@@ -6838,7 +6838,7 @@ namespace ABAINFRA.Web
                 string[] rec = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 4);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 6);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
