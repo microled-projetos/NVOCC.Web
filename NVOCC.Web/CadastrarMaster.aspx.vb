@@ -61,6 +61,16 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
                 End If
 
+                ds2 = Con.ExecutarQuery("SELECT count(*)QTD from TB_BL WHERE ID_BL_MASTER =" & Request.QueryString("id"))
+                If ds2.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    'MARITIMO
+                    btnNovaTaxasMaritimo.Enabled = False
+
+                    'AEREO
+                    btnGravar_BasicoAereo.Enabled = False
+
+                End If
+
 
             End If
 
