@@ -136,7 +136,12 @@ Public Class RastreioService
 
                         Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl_format)
                         Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
-                        NR_CE = obj.aduana.ce_number
+                        If obj.aduana IsNot Nothing Then
+                            If obj.aduana.ce_number IsNot Nothing Then
+                                NR_CE = obj.aduana.ce_number.ToString
+                            End If
+                        End If
+
                         'DT_EMISSAO_BL = obj.dates.bl_emission_date
                         'DT_EMBARQUE = obj.dates.loading
                         'DT_PREVISAO_CHEGADA = obj.dates.eta
@@ -169,7 +174,13 @@ Public Class RastreioService
 
                     Dim trackingBL As String = AtualizarRastreamentoLogComex(token_bl)
                     Dim obj As BL = JsonConvert.DeserializeObject(Of BL)(trackingBL)
-                    NR_CE = obj.aduana.ce_number
+                    If obj.aduana IsNot Nothing Then
+                        If obj.aduana.ce_number IsNot Nothing Then
+                            NR_CE = obj.aduana.ce_number.ToString
+                        End If
+                    End If
+
+
                     'DT_EMISSAO_BL = obj.dates.bl_emission_date
                     'DT_EMBARQUE = obj.dates.loading
                     'DT_PREVISAO_CHEGADA = obj.dates.eta

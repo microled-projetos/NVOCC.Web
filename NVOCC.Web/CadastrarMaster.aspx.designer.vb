@@ -1085,6 +1085,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ckbPremiacao_TaxasMaritimo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle txtCodEmpresa_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodEmpresa_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeEmpresa_TaxasMaritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeEmpresa_TaxasMaritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlEmpresa_TaxasMaritimo.
     '''</summary>
     '''<remarks>

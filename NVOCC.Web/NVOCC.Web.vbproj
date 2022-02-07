@@ -395,6 +395,7 @@
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
+    <Content Include="favicon.ico" />
     <Content Include="ImprimirND.aspx" />
     <Content Include="EmissaoND.aspx" />
     <Content Include="EstimativaContaPagarReceber.aspx" />
@@ -417,7 +418,6 @@
     <Content Include="CotacaoComercial.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="EmailParceiro.aspx" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\fa-brands-400.svg" />
     <Content Include="fonts\fa-regular-400.svg" />
     <Content Include="fonts\fa-solid-900.svg" />

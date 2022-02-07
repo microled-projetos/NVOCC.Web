@@ -140,6 +140,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ckbTranspDedicado As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle txtDataFollowUp.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtDataFollowUp As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtAbertura.
     '''</summary>
     '''<remarks>
@@ -507,6 +516,33 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtObsCancelamento As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefCNEE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefCNEE As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefShipper.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefShipper As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefAuxiliar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefAuxiliar As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnLimpar.

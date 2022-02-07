@@ -54,7 +54,7 @@
         Session("ID_BL_MASTER") = 0
         Dim Con As New Conexao_sql
         Con.Conectar()
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,ID_COTACAO,NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_INDICADOR ,YEAR(DT_ABERTURA)ANO_ABERTURA,
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_SERVICO,ID_BL_MASTER,ID_COTACAO,ISNULL(NR_BL,0)NR_BL,NR_PROCESSO,ID_PARCEIRO_TRANSPORTADOR,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_INDICADOR ,YEAR(DT_ABERTURA)ANO_ABERTURA,
 (SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)NM_RAZAO_CLIENTE,
 ID_PARCEIRO_IMPORTADOR, ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_PORTO_ORIGEM,ID_PORTO_DESTINO, ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_COMISSARIA,ID_PARCEIRO_AGENTE,ID_INCOTERM,FL_FREE_HAND,ID_TIPO_PAGAMENTO,ID_TIPO_CARGA,ID_TIPO_ESTUFAGEM,NR_CE,CONVERT(varchar,DT_CE, 103)DT_CE,OB_REFERENCIA_COMERCIAL,OB_REFERENCIA_AUXILIAR,NM_RESUMO_MERCADORIA,OB_CLIENTE,OB_AGENTE_INTERNACIONAL,OB_COMERCIAL,OB_OPERACIONAL_INTERNA,CD_RASTREAMENTO_HBL,CD_RASTREAMENTO_MBL,ID_PARCEIRO_ARMAZEM_DESEMBARACO,ID_PARCEIRO_RODOVIARIO,(SELECT NR_BL FROM TB_BL WHERE ID_BL = A.ID_BL_MASTER)BL_MASTER,(SELECT DT_CHEGADA FROM TB_BL WHERE TB_BL.ID_BL = A.ID_BL_MASTER)DT_CHEGADA_MASTER,VL_PROFIT_DIVISAO,VL_PROFIT_DIVISAO_CALCULADO,ID_PROFIT_DIVISAO,ISNULL((SELECT B.ID_STATUS_COTACAO FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO),0)ID_STATUS_COTACAO,
 (SELECT B.OB_CLIENTE FROM TB_COTACAO B WHERE B.ID_COTACAO = A.ID_COTACAO)OB_CLIENTE_COTACAO,
@@ -72,7 +72,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTACAO MARITIMA
                     'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(Request.QueryString("id"))
                     End If
@@ -288,7 +288,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
                     'AGENCIAMENTO DE IMPORTACAO AEREO
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(Request.QueryString("id"))
                     End If
@@ -2202,8 +2202,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoMaritimo.Text & " , NR_BL = " & txtHBL_BasicoMaritimo.Text & ", ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoMaritimo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoMaritimo.SelectedValue & ", NR_CE = " & txtCE_BasicoMaritimo.Text & ", DT_CE = " & txtDataCE_BasicoMaritimo.Text & ",  OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoMaritimo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoMaritimo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoMaritimo.Text & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoMaritimo.Checked & "', ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ",ID_SERVICO =" & ddlServico_BasicoMaritimo.SelectedValue & ", GRAU = 'C', ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoMaritimo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoMaritimo.SelectedValue & ", VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoMaritimo.Text & " , VL_CARGA = " & txtValorCarga_BasicoMaritimo.Text & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
 
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(txtID_BasicoMaritimo.Text)
                     End If
@@ -2409,8 +2409,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     'REALIZA UPDATE 
                     Con.ExecutarQuery("UPDATE TB_BL SET NR_PROCESSO = " & txtProcesso_BasicoAereo.Text & " , NR_BL = " & txtHBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoAereo.SelectedValue & ", ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ", ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_CLIENTE = " & ddlCliente_BasicoAereo.SelectedValue & ", ID_PARCEIRO_EXPORTADOR = " & ddlExportador_BasicoAereo.SelectedValue & ", ID_PARCEIRO_COMISSARIA = " & ddlComissaria_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm_BasicoAereo.SelectedValue & ", ID_PARCEIRO_ARMAZEM_DESEMBARACO = " & ddlArmazem_BasicoAereo.SelectedValue & ", ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ", ID_TIPO_CARGA = " & ddlTipoCarga_BasicoAereo.SelectedValue & ", NR_CE = " & txtNumeroCE_BasicoAereo.Text & ", DT_CE = " & txtDataCE_BasicoAereo.Text & ",  OB_REFERENCIA_AUXILIAR =" & txtRefAuxiliar_BasicoAereo.Text & ", OB_REFERENCIA_COMERCIAL = " & txtRefComercial_BasicoAereo.Text & ", NM_RESUMO_MERCADORIA = " & txtResumoMercadoria_BasicoAereo.Text & ",ID_PARCEIRO_RODOVIARIO = " & ddlTranspRod_BasicoAereo.SelectedValue & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador_BasicoAereo.SelectedValue & ",FL_FREE_HAND = '" & ckbFreeHand_BasicoAereo.Checked & "' ,ID_PARCEIRO_INDICADOR = " & ddlIndicador_BasicoAereo.SelectedValue & ",ID_PROFIT_DIVISAO = " & ddlDivisaoProfit_BasicoAereo.SelectedValue & ",VL_PROFIT_DIVISAO = " & txtValorDivisaoProfit_BasicoAereo.Text & ", VL_CARGA = " & txtValorCarga_BasicoAereo.Text & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(txtID_BasicoAereo.Text)
                     End If

@@ -16,16 +16,16 @@ Public Class RastreioBL
 
                     nr_bl.Text = ds.Tables(0).Rows(0).Item("NR_BL")
 
-                    'If data.references.bill_of_lading <> ds.Tables(0).Rows(0).Item("NR_BL") Then
+                    If data.references.bill_of_lading <> ds.Tables(0).Rows(0).Item("NR_BL") Then
 
-                    '    Con.ExecutarQuery("UPDATE TB_BL SET BL_TOKEN = NULL, TRAKING_BL = NULL WHERE ID_BL = " & Request.QueryString("id"))
-                    '    Atualizar()
+                        Con.ExecutarQuery("UPDATE TB_BL SET BL_TOKEN = NULL, TRAKING_BL = NULL WHERE ID_BL = " & Request.QueryString("id"))
+                        Atualizar()
 
 
-                    'Else
+                    Else
 
-                    'Transporte e Logistica
-                    pais_procedencia.Text = data.transport.origin_country
+                        'Transporte e Logistica
+                        pais_procedencia.Text = data.transport.origin_country
                         pais_destino.Text = data.transport.destination_country
                         porto_embarque.Text = data.transport.lading_port
                         porto_embarque.Text = data.transport.origin_port
@@ -180,7 +180,7 @@ Public Class RastreioBL
 
 
 
-                    'End If
+                    End If
                 End If
             End If
         End If
@@ -199,11 +199,7 @@ Public Class RastreioBL
         Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_BL,NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & Request.QueryString("id"))
         If ds.Tables(0).Rows.Count > 0 Then
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-                'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
-                'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL")
-                'Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL")
                 Response.Redirect("RastreioBL.aspx?id=" & Request.QueryString("id"))
-
             End If
         End If
     End Sub

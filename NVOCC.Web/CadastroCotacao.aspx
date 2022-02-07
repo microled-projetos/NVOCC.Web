@@ -86,6 +86,12 @@
                                         <asp:Checkbox ID="ckbTranspDedicado" runat="server" CssClass="form-control" text="&nbsp;&nbsp;TRANSP. DEDICADO" ></asp:Checkbox>
                                     </div>
                                 </div>
+                                 <div class="col-sm-2" style="display:none" >
+                                    <div class="form-group">
+                                        <label class="control-label">Data Follow Up:</label></label>
+                                        <asp:TextBox ID="txtDataFollowUp" runat="server" CssClass="form-control data"></asp:TextBox>                                    
+                                    </div>
+                                </div>
                                 </div>
                             <div class="row">
                                  <div class="col-sm-4">
@@ -372,6 +378,27 @@
                                     <div class="form-group">
                                         <label class="control-label">Obs Motivo Cancelamento:</label>
                                         <asp:TextBox ID="txtObsCancelamento" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                </div> 
+                            <div class="row" style="display:none">
+                                 <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência CNEE:</label>
+                                        <asp:TextBox ID="txtRefCNEE" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência Shipper:</label>
+                                        <asp:TextBox ID="txtRefShipper" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência Auxiliar:</label>
+                                        <asp:TextBox ID="txtRefAuxiliar" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
                                 </div> 

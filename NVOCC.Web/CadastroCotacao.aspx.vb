@@ -59,7 +59,7 @@
         Con.Conectar()
         Dim ds As DataSet
 
-        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ORIGEM,ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,
+        ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ORIGEM,ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,DT_FOLLOWUP,
 CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,
 A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
@@ -124,6 +124,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO")) Then
                 txtDataStatus.Text = ds.Tables(0).Rows(0).Item("DT_STATUS_COTACAO").ToString()
+            End If
+
+            If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_FOLLOWUP")) Then
+                txtDataFollowUp.Text = ds.Tables(0).Rows(0).Item("DT_FOLLOWUP").ToString()
             End If
 
             If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_VALIDADE_COTACAO")) Then
@@ -358,6 +362,7 @@ union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
         txtQtdMercadoria.Text = ""
         txtDsMercadoria.Text = ""
         txtOutrasOBS_Mercadoria.Text = ""
+        txtOBS_Endereco.Text = ""
         txtIDMercadoria.Text = ""
         txtFreteVendaMinima.Text = ""
         txtFreteCompraMinima.Text = ""
@@ -1004,8 +1009,19 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
 
 
-
         Else
+
+            If txtDataFollowUp.Text <> "" Then
+                If v.ValidaData(txtDataFollowUp.Text) = False Or IsDate(txtDataFollowUp.Text) = False Then
+                    lblmsgErro.Text = "Preencha todos os campos obrigatórios na Aba de Informações Básicas."
+                    diverro.Visible = True
+                    Exit Sub
+                Else
+                    txtDataFollowUp.Text = "CONVERT(date,'" & txtDataFollowUp.Text & "',103)"
+                End If
+            Else
+                txtDataFollowUp.Text = "NULL"
+            End If
 
             Dim dsContatos As DataSet = Con.ExecutarQuery("SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & "
 union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
@@ -1015,27 +1031,37 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 Exit Sub
             End If
 
+            Dim ObsCliente As String = ""
+            Dim ObsCancelamento As String = ""
+            Dim ObsOperacional As String = ""
 
             If txtObsCliente.Text = "" Then
-                txtObsCliente.Text = "NULL"
+                ObsCliente = "NULL"
             Else
-                txtObsCliente.Text = "'" & txtObsCliente.Text & "'"
+                ObsCliente = txtObsCliente.Text
+                ObsCliente = ObsCliente.Replace("'", "''")
+                ObsCliente = ObsCliente.Replace(vbNewLine, "<br/>")
+                ObsCliente = "'" & ObsCliente & "'"
             End If
 
             If txtObsCancelamento.Text = "" Then
-                txtObsCancelamento.Text = "NULL"
+                ObsCancelamento = "NULL"
             Else
-                txtObsCancelamento.Text = "'" & txtObsCancelamento.Text & "'"
+                ObsCancelamento = txtObsCancelamento.Text
+                ObsCancelamento = ObsCancelamento.Replace("'", "''")
+                ObsCancelamento = "'" & ObsCancelamento & "'"
             End If
 
             If txtObsOperacional.Text = "" Then
-                txtObsOperacional.Text = "NULL"
+                ObsOperacional = "NULL"
             Else
-                txtObsOperacional.Text = "'" & txtObsOperacional.Text & "'"
+                ObsOperacional = txtObsOperacional.Text
+                ObsOperacional = ObsOperacional.Replace("'", "''")
+                ObsOperacional = "'" & ObsOperacional & "'"
             End If
 
 
-            txtObsCliente.Text = txtObsCliente.Text.Replace(vbNewLine, "<br/>")
+
 
             If txtID.Text = "" Then
 
@@ -1073,7 +1099,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     End If
 
 
-                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & txtObsCliente.Text & "," & txtObsCancelamento.Text & "," & txtObsOperacional.Text & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "') Select SCOPE_IDENTITY() as ID_COTACAO ")
+                    ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO (NR_COTACAO,ID_TIPO_BL, DT_ABERTURA, ID_STATUS_COTACAO, DT_STATUS_COTACAO, ID_ANALISTA_COTACAO, ID_AGENTE_INTERNACIONAL, ID_INCOTERM, ID_TIPO_ESTUFAGEM, ID_DESTINATARIO_COMERCIAL, ID_CLIENTE, ID_CLIENTE_FINAL, ID_CONTATO, ID_SERVICO, ID_VENDEDOR, OB_CLIENTE, OB_MOTIVO_CANCELAMENTO, OB_OPERACIONAL, ID_MOTIVO_CANCELAMENTO, ID_USUARIO_STATUS, DT_VALIDADE_COTACAO,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_INDICADOR,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,FL_LTL,FL_DTA_HUB,FL_TRANSP_DEDICADO,DT_FOLLOWUP) VALUES ('" & txtNumeroCotacao.Text & "'," & ddlTipoBL.SelectedValue & ", getdate(), " & ddlStatusCotacao.SelectedValue & ", Convert(datetime, '" & txtDataStatus.Text & "', 103)," & ddlAnalista.SelectedValue & ", " & ddlAgente.SelectedValue & "," & ddlIncoterm.SelectedValue & "," & ddlEstufagem.SelectedValue & ", " & ddlDestinatarioComercial.SelectedValue & "," & ddlCliente.SelectedValue & "," & ddlClienteFinal.SelectedValue & ", " & ddlContato.SelectedValue & " , " & ddlServico.SelectedValue & " , " & ddlVendedor.SelectedValue & "," & ObsCliente & "," & ObsCancelamento & "," & ObsOperacional & "," & ddlMotivoCancelamento.SelectedValue & "," & ddlUsuarioStatus.SelectedValue & ",Convert(datetime, '" & txtValidade.Text & "', 103),'" & ckbFreeHand.Checked & "'," & ddlStatusFreteAgente.SelectedValue & ", " & ddlIndicador.SelectedValue & "," & ddlExportador.SelectedValue & "," & ddlImportador.SelectedValue & ",'" & ckbLTL.Checked & "','" & ckbDtaHub.Checked & "','" & ckbTranspDedicado.Checked & "'," & txtDataFollowUp.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
 
                     Con.ExecutarQuery("UPDATE TB_PARAMETROS SET NRSEQUENCIALCOTACAO =  " & Session("NR_COTACAO") & ", ANOSEQUENCIALCOTACAO = YEAR(GETDATE())")
 
@@ -1083,15 +1109,18 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                     txtID.Text = ds.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
                     Session("ID_CLIENTE") = ddlCliente.SelectedValue
 
-                    txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                    txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                    txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                    'txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                    'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                    'txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
 
-                    txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                    txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                    txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                    'txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                    'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                    'txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
 
 
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("NULL", "")
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("CONVERT(varchar,'", "")
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("',103)", "")
 
                     Con.Fechar()
                     divsuccess.Visible = True
@@ -1126,14 +1155,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                             lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                             diverro.Visible = True
 
-                            txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                            'txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                            'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                            'txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
                             txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
 
-                            txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                            txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                            txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                            'txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                            'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                            'txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
                             txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
 
                             Exit Sub
@@ -1143,14 +1172,14 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                                 diverro.Visible = True
                                 lblmsgErro.Text = "Cotação com data de validade inferior a data atual!"
 
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                                'txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                                'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                                'txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
                                 txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
 
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                                'txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                                'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                                'txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
                                 txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
 
                                 Exit Sub
@@ -1200,73 +1229,73 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     End If
 
-                    'If ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15 Then
-                    '    'If TemBL(txtID.Text) = False Then
-                    '    If Session("ID_STATUS") <> 10 And txtProcessoCotacao.Text = "" Then
-                    '        NumeroProcesso()
-                    '    End If
-                    '    'End If
-                    'End If
+
 
                     'REALIZA UPDATE  
-                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & txtObsCliente.Text & ", OB_MOTIVO_CANCELAMENTO = " & txtObsCancelamento.Text & ", OB_OPERACIONAL = " & txtObsOperacional.Text & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "' WHERE ID_COTACAO = " & txtID.Text)
+                    Con.ExecutarQuery("UPDATE TB_COTACAO SET ID_STATUS_COTACAO = " & ddlStatusCotacao.SelectedValue & ", DT_VALIDADE_COTACAO = Convert(datetime, '" & txtValidade.Text & "', 103), ID_AGENTE_INTERNACIONAL = " & ddlAgente.SelectedValue & ", ID_INCOTERM = " & ddlIncoterm.SelectedValue & ", ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & ", ID_DESTINATARIO_COMERCIAL = " & ddlDestinatarioComercial.SelectedValue & ", ID_CLIENTE = " & ddlCliente.SelectedValue & ", ID_CLIENTE_FINAL = " & ddlClienteFinal.SelectedValue & ", ID_CONTATO = " & ddlContato.SelectedValue & ", ID_SERVICO = " & ddlServico.SelectedValue & ", ID_VENDEDOR = " & ddlVendedor.SelectedValue & ", OB_CLIENTE = " & ObsCliente & ", OB_MOTIVO_CANCELAMENTO = " & ObsCancelamento & ", OB_OPERACIONAL = " & ObsOperacional & ", ID_MOTIVO_CANCELAMENTO = " & ddlMotivoCancelamento.SelectedValue & ", ID_TIPO_BL = " & ddlTipoBL.SelectedValue & ", FL_FREE_HAND = '" & ckbFreeHand.Checked & "', ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente.SelectedValue & ",ID_PARCEIRO_INDICADOR = " & ddlIndicador.SelectedValue & ", ID_PARCEIRO_EXPORTADOR  = " & ddlExportador.SelectedValue & ", ID_PARCEIRO_IMPORTADOR = " & ddlImportador.SelectedValue & ",FL_LTL = '" & ckbLTL.Checked & "',FL_DTA_HUB = '" & ckbDtaHub.Checked & "',FL_TRANSP_DEDICADO  = '" & ckbTranspDedicado.Checked & "', DT_FOLLOWUP = " & txtDataFollowUp.Text & " WHERE ID_COTACAO = " & txtID.Text)
 
-                                Dim ID_DESTINATARIO_COBRANCA As Integer = 1
+                    If ddlServico.SelectedValue < 3 Then
+                        Dim ID_DESTINATARIO_COBRANCA As Integer = 1
 
-                                If ddlImportador.SelectedValue <> 0 Then
-                                    ID_DESTINATARIO_COBRANCA = 4
-                                    ddlDestinatarioCobrancaTaxa.SelectedValue = 4
-                                End If
-
-                                Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ID_DESTINATARIO_COBRANCA & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ID_COTACAO_TAXA FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
-
-                                Session("estufagem") = ddlEstufagem.SelectedValue
-                                Session("transporte") = ddlServico.SelectedValue
-                                Session("ID_CLIENTE") = ddlCliente.SelectedValue
-                                Session("ID_STATUS") = ddlStatusCotacao.SelectedValue
-
-                                If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
-                                    Dim RotinaUpdate As New RotinaUpdate
-                                    RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
-                                    RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
-                                    RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
-                                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
-                                    If ds2.Tables(0).Rows.Count > 0 Then
-                                        For Each linha As DataRow In ds2.Tables(0).Rows
-                                            RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
-                                        Next
-                                    End If
-                                End If
-
-                                VerificaEstufagem()
-                                VerificaTransporte()
-
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
-                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
-
-                                txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
-                                txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
-                                txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
-                                txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
-
-                                divsuccess.Visible = True
-                                Con.Fechar()
-                                dgvFrete.DataBind()
-
-                                dgvHistoricoFrete.DataBind()
-                                dgvHistoricoCotacao.DataBind()
-
-
-                            End If
-
+                        If ddlImportador.SelectedValue <> 0 Then
+                            ID_DESTINATARIO_COBRANCA = 4
+                            ddlDestinatarioCobrancaTaxa.SelectedValue = 4
                         End If
-                        txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
 
-                        dsFornecedor.DataBind()
-                        ddlFornecedor.DataBind()
+                        Con.ExecutarQuery("UPDATE TB_COTACAO_TAXA SET ID_DESTINATARIO_COBRANCA = " & ID_DESTINATARIO_COBRANCA & " WHERE ISNULL(VL_TAXA_VENDA,0) <> 0 AND ID_COTACAO = " & txtID.Text & " AND ID_COTACAO_TAXA NOT IN (SELECT ID_COTACAO_TAXA FROM View_Taxa_Bloqueada WHERE CD_PR= 'R')")
                     End If
+
+                    Session("estufagem") = ddlEstufagem.SelectedValue
+                    Session("transporte") = ddlServico.SelectedValue
+                    Session("ID_CLIENTE") = ddlCliente.SelectedValue
+                    Session("ID_STATUS") = ddlStatusCotacao.SelectedValue
+
+                    If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                        Dim RotinaUpdate As New RotinaUpdate
+                        RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                        RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
+                        Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
+                        If ds2.Tables(0).Rows.Count > 0 Then
+                            For Each linha As DataRow In ds2.Tables(0).Rows
+                                RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
+                            Next
+                        End If
+                    End If
+
+                    VerificaEstufagem()
+                    VerificaTransporte()
+
+                    'txtObsCliente.Text = txtObsCliente.Text.Replace("'", "")
+                    'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("'", "")
+                    'txtObsOperacional.Text = txtObsOperacional.Text.Replace("'", "")
+                    txtDataCalculo.Text = txtDataCalculo.Text.Replace("'", "")
+
+                    'txtObsCliente.Text = txtObsCliente.Text.Replace("NULL", "")
+                    'txtObsCancelamento.Text = txtObsCancelamento.Text.Replace("NULL", "")
+                    'txtObsOperacional.Text = txtObsOperacional.Text.Replace("NULL", "")
+                    txtDataCalculo.Text = txtDataCalculo.Text.Replace("NULL", "")
+
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("NULL", "")
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("CONVERT(varchar,'", "")
+                    txtDataFollowUp.Text = txtDataFollowUp.Text.Replace("',103)", "")
+
+                    divsuccess.Visible = True
+                    Con.Fechar()
+                    dgvFrete.DataBind()
+
+                    dgvHistoricoFrete.DataBind()
+                    dgvHistoricoCotacao.DataBind()
+
+
+                End If
+
+            End If
+            txtObsCliente.Text = txtObsCliente.Text.Replace("<br/>", vbNewLine)
+
+            dsFornecedor.DataBind()
+            ddlFornecedor.DataBind()
+        End If
     End Sub
 
     Function ValorMinimoPendente(ID_COTACAO As Integer) As Boolean
@@ -1321,23 +1350,7 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
 
         Return False
     End Function
-    'Function TemBL(ID_COTACAO As Integer) As Boolean
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
 
-    '    Dim ds As DataSet = Con.ExecutarQuery("SELECT  count(1)  contar  From TB_BL  WHERE ID_COTACAO = " & ID_COTACAO)
-
-    '    For Each linha As DataRow In ds.Tables(0).Rows
-    '        If linha.Item("contar") <> 0 Then
-    '            Return True
-    '        End If
-    '        If linha.Item("contar") = 0 Then
-    '            Return False
-    '        End If
-    '    Next
-
-    '    Return False
-    'End Function
     Private Sub btnSalvarFrete_Click(sender As Object, e As EventArgs) Handles btnSalvarFrete.Click
         divErroFrete.Visible = False
         divSuccessFrete.Visible = False
@@ -1394,8 +1407,11 @@ WHERE ID_COTACAO = " & ID_COTACAO & " And ID_BASE_CALCULO_TAXA = 37 ")
             If txtIncludedFrete.Text = "" Then
                 TaxasIncluded = " NULL "
             Else
-                TaxasIncluded = " '" & txtIncludedFrete.Text & "' "
-        End If
+                TaxasIncluded = txtIncludedFrete.Text
+                TaxasIncluded = TaxasIncluded.Replace("'", "''")
+                TaxasIncluded = " '" & TaxasIncluded & "' "
+            End If
+
 
             txtPesoTaxadoFrete.Text = txtPesoTaxadoFrete.Text.Replace(".", "")
             txtPesoTaxadoFrete.Text = txtPesoTaxadoFrete.Text.Replace(",", ".")
@@ -1746,22 +1762,31 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
                 txtValorCargaMercadoria.Text = "0"
             End If
 
+            Dim DescMercadoria As String = ""
             If txtDsMercadoria.Text = "" Then
-                txtDsMercadoria.Text = "NULL"
+                DescMercadoria = "NULL"
             Else
-                txtDsMercadoria.Text = "'" & txtDsMercadoria.Text & "'"
+                DescMercadoria = txtDsMercadoria.Text
+                DescMercadoria = DescMercadoria.Replace("'", "''")
+                DescMercadoria = "'" & DescMercadoria & "'"
             End If
 
+            Dim OutrasOBS As String = ""
             If txtOutrasOBS_Mercadoria.Text = "" Then
-                txtOutrasOBS_Mercadoria.Text = "NULL"
+                OutrasOBS = "NULL"
             Else
-                txtOutrasOBS_Mercadoria.Text = "'" & txtOutrasOBS_Mercadoria.Text & "'"
+                OutrasOBS = txtOutrasOBS_Mercadoria.Text
+                OutrasOBS = OutrasOBS.Replace("'", "''")
+                OutrasOBS = "'" & OutrasOBS & "'"
             End If
 
+            Dim OBSEndereco As String = ""
             If txtOBS_Endereco.Text = "" Then
-                txtOBS_Endereco.Text = "NULL"
+                OBSEndereco = "NULL"
             Else
-                txtOBS_Endereco.Text = "'" & txtOBS_Endereco.Text & "'"
+                OBSEndereco = txtOBS_Endereco.Text
+                OBSEndereco = OBSEndereco.Replace("'", "''")
+                OBSEndereco = "'" & OBSEndereco & "'"
             End If
 
             If txtFreteCompraMinima.Text = "" Then
@@ -1816,7 +1841,7 @@ WHERE a.ID_COTACAO = " & txtID.Text & " And a.ID_TIPO_CONTAINER IN (SELECT ID_TI
 
                     'INSERE MERCADORIA
                     Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA ( ID_COTACAO,
-ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,OBS_ENDERECO,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,ID_MOEDA_CARGA) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoriaCalc.Text & "," & txtFreteVendaMercadoriaCalc.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & txtDsMercadoria.Text & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & ", " & txtOBS_Endereco.Text & "," & txtFreteCompraMercadoriaUnitario.Text & "," & txtFreteVendaMercadoriaUnitario.Text & "," & txtOutrasOBS_Mercadoria.Text & "," & ddlMoedaCarga.SelectedValue & ")")
+ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_PESO_BRUTO,VL_M3,DS_MERCADORIA,VL_COMPRIMENTO,VL_LARGURA,VL_ALTURA,VL_CARGA,QT_DIAS_FREETIME,QT_MERCADORIA,VL_FRETE_COMPRA_MIN,VL_FRETE_VENDA_MIN,OBS_ENDERECO,VL_FRETE_COMPRA_UNITARIO,VL_FRETE_VENDA_UNITARIO,OUTRAS_OBS,ID_MOEDA_CARGA) VALUES (" & txtID.Text & "," & ddlMercadoria.SelectedValue & " ," & ddlTipoContainerMercadoria.SelectedValue & "," & txtQtdContainerMercadoria.Text & "," & txtFreteCompraMercadoriaCalc.Text & "," & txtFreteVendaMercadoriaCalc.Text & "," & txtPesoBrutoMercadoria.Text & "," & txtM3Mercadoria.Text & ", " & DescMercadoria & " ," & txtComprimentoMercadoria.Text & ", " & txtLarguraMercadoria.Text & "," & txtAlturaMercadoria.Text & ", " & txtValorCargaMercadoria.Text & "," & txtFreeTimeMercadoria.Text & "," & txtQtdMercadoria.Text & "," & txtFreteCompraMinima.Text & "," & txtFreteVendaMinima.Text & ", " & OBSEndereco & "," & txtFreteCompraMercadoriaUnitario.Text & "," & txtFreteVendaMercadoriaUnitario.Text & "," & OutrasOBS & "," & ddlMoedaCarga.SelectedValue & ")")
 
 
                     ddlMercadoria.SelectedValue = 0
@@ -1876,7 +1901,7 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
 
                     'ALTERA MERCADORIA
                     Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET 
-ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddlTipoContainerMercadoria.SelectedValue & ",QT_CONTAINER = " & txtQtdContainerMercadoria.Text & ",VL_FRETE_COMPRA =  " & txtFreteCompraMercadoriaCalc.Text & ",VL_FRETE_VENDA = " & txtFreteVendaMercadoriaCalc.Text & ",VL_PESO_BRUTO = " & txtPesoBrutoMercadoria.Text & ",VL_M3 = " & txtM3Mercadoria.Text & ",DS_MERCADORIA = " & txtDsMercadoria.Text & ",VL_COMPRIMENTO = " & txtComprimentoMercadoria.Text & ",VL_LARGURA = " & txtLarguraMercadoria.Text & ",VL_ALTURA = " & txtAlturaMercadoria.Text & ",VL_CARGA = " & txtValorCargaMercadoria.Text & " ,QT_DIAS_FREETIME = " & txtFreeTimeMercadoria.Text & " ,VL_FRETE_COMPRA_MIN = " & txtFreteCompraMinima.Text & ",VL_FRETE_VENDA_MIN = " & txtFreteVendaMinima.Text & ",OBS_ENDERECO = " & txtOBS_Endereco.Text & ",OUTRAS_OBS = " & txtOutrasOBS_Mercadoria.Text & ",VL_FRETE_COMPRA_UNITARIO = " & txtFreteCompraMercadoriaUnitario.Text & ",VL_FRETE_VENDA_UNITARIO = " & txtFreteVendaMercadoriaUnitario.Text & ", QT_MERCADORIA = " & txtQtdMercadoria.Text & ", ID_MOEDA_CARGA =" & ddlMoedaCarga.SelectedValue & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
+ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddlTipoContainerMercadoria.SelectedValue & ",QT_CONTAINER = " & txtQtdContainerMercadoria.Text & ",VL_FRETE_COMPRA =  " & txtFreteCompraMercadoriaCalc.Text & ",VL_FRETE_VENDA = " & txtFreteVendaMercadoriaCalc.Text & ",VL_PESO_BRUTO = " & txtPesoBrutoMercadoria.Text & ",VL_M3 = " & txtM3Mercadoria.Text & ",DS_MERCADORIA = " & DescMercadoria & ",VL_COMPRIMENTO = " & txtComprimentoMercadoria.Text & ",VL_LARGURA = " & txtLarguraMercadoria.Text & ",VL_ALTURA = " & txtAlturaMercadoria.Text & ",VL_CARGA = " & txtValorCargaMercadoria.Text & " ,QT_DIAS_FREETIME = " & txtFreeTimeMercadoria.Text & " ,VL_FRETE_COMPRA_MIN = " & txtFreteCompraMinima.Text & ",VL_FRETE_VENDA_MIN = " & txtFreteVendaMinima.Text & ",OBS_ENDERECO = " & OBSEndereco & ",OUTRAS_OBS = " & OutrasOBS & ",VL_FRETE_COMPRA_UNITARIO = " & txtFreteCompraMercadoriaUnitario.Text & ",VL_FRETE_VENDA_UNITARIO = " & txtFreteVendaMercadoriaUnitario.Text & ", QT_MERCADORIA = " & txtQtdMercadoria.Text & ", ID_MOEDA_CARGA =" & ddlMoedaCarga.SelectedValue & " WHERE ID_COTACAO_MERCADORIA = " & txtIDMercadoria.Text)
 
 
 
@@ -1884,14 +1909,14 @@ ID_MERCADORIA = " & ddlMercadoria.SelectedValue & ", ID_TIPO_CONTAINER = " & ddl
 
 
 
-                    txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("NULL", "")
-                    txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("'", "")
+                    'txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("NULL", "")
+                    'txtDsMercadoria.Text = txtDsMercadoria.Text.Replace("'", "")
 
-                    txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("NULL", "")
-                    txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("'", "")
+                    'txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("NULL", "")
+                    'txtOBS_Endereco.Text = txtOBS_Endereco.Text.Replace("'", "")
 
-                    txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("NULL", "")
-                    txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("'", "")
+                    'txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("NULL", "")
+                    'txtOutrasOBS_Mercadoria.Text = txtOutrasOBS_Mercadoria.Text.Replace("'", "")
 
                     txtFreteCompraMercadoriaUnitario.Text = txtFreteCompraMercadoriaUnitario.Text.Replace(".", ",")
                     txtFreteCompraMinima.Text = txtFreteCompraMinima.Text.Replace(".", ",")
@@ -3398,11 +3423,16 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                 txtValorTaxaVendaMin.Text = "0"
             End If
 
+
+            Dim ObsTaxa As String = ""
             If txtObsTaxa.Text = "" Then
-                txtObsTaxa.Text = "NULL"
+                ObsTaxa = "NULL"
             Else
-                txtObsTaxa.Text = "'" & txtObsTaxa.Text & "'"
+                ObsTaxa = txtObsTaxa.Text
+                ObsTaxa = ObsTaxa.Replace("'", "''")
+                ObsTaxa = "'" & ObsTaxa & "'"
             End If
+
 
             If txtIDTaxa.Text = "" Then
 
@@ -3439,7 +3469,7 @@ VL_TAXA_COMPRA_MIN,
 ID_MOEDA_VENDA,
 VL_TAXA_VENDA,
 VL_TAXA_VENDA_MIN,
-OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & "," & txtObsTaxa.Text & ")   Select SCOPE_IDENTITY() as ID_COTACAO_TAXA ")
+OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddlItemDespesaTaxa.SelectedValue & "," & ddlTipoPagamentoTaxa.SelectedValue & "," & ddlOrigemPagamentoTaxa.SelectedValue & ",'" & ckbDeclaradoTaxa.Checked & "','" & ckbProfitTaxa.Checked & "'," & ddlDestinatarioCobrancaTaxa.SelectedValue & "," & ddlBaseCalculoTaxa.SelectedValue & "," & ddlMoedaCompraTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaCompra.Text & "," & OPERADOR & txtValorTaxaCompraMin.Text & "," & ddlMoedaVendaTaxa.SelectedValue & "," & OPERADOR & txtValorTaxaVenda.Text & "," & OPERADOR & txtValorTaxaVendaMin.Text & "," & ObsTaxa & ")   Select SCOPE_IDENTITY() as ID_COTACAO_TAXA ")
                     Dim ID_COTACAO_TAXA = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO_TAXA").ToString()
 
 
@@ -3459,8 +3489,8 @@ OB_TAXAS) VALUES (" & txtID.Text & "," & ddlFornecedor.SelectedValue & "," & ddl
                     txtValorTaxaCompraCalc.Text = ""
                     ckbDeclaradoTaxa.Checked = False
 
-                    txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
-                    txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
+                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
+                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
 
                     Con.Fechar()
                     dgvTaxas.DataBind()
@@ -3509,7 +3539,7 @@ VL_TAXA_COMPRA_MIN = " & OPERADOR & txtValorTaxaCompraMin.Text & ",
 ID_MOEDA_VENDA = " & ddlMoedaVendaTaxa.SelectedValue & ",
 VL_TAXA_VENDA = " & OPERADOR & txtValorTaxaVenda.Text & ",
 VL_TAXA_VENDA_MIN = " & OPERADOR & txtValorTaxaVendaMin.Text & ",
-OB_TAXAS = " & txtObsTaxa.Text & " 
+OB_TAXAS = " & ObsTaxa & " 
 WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
 
                     txtValorTaxaCompra.Text = txtValorTaxaCompra.Text.Replace(".", ",")
@@ -3517,8 +3547,8 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(".", ",")
                     txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", ",")
 
-                    txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
-                    txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
+                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
+                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
 
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
@@ -3811,16 +3841,22 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
         Dim ID_DESTINATARIO_COBRANCA As Integer = 1
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Dim ds As DataSet
 
-        Dim ds As DataSet = Con.ExecutarQuery("SELECT  CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
+        'If ddlServico.SelectedValue > 2 Then
+        '    'EXPO
+        '    ID_DESTINATARIO_COBRANCA = 0
+
+        'Else
+        ds = Con.ExecutarQuery("SELECT  CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
-        If ds.Tables(0).Rows.Count > 0 Then
-            ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
-        End If
-
+            If ds.Tables(0).Rows.Count > 0 Then
+                ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+            End If
+        'End If
 
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
