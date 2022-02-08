@@ -159,12 +159,13 @@ Public Class WsNvocc
             sSql = sSql & " VALUES (" & IDFatura & ",GETDATE(),'" & Funcoes.NNull(rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString, 0) & "') "
             Con.ExecutarQuery(sSql)
 
-            Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & IDFatura & ")"
+            Dim SqlInfo As String = "SELECT NR_PROCESSO,CASE WHEN NR_PROCESSO LIKE '%L%' THEN 1 ELSE 0 END NFDELUCRO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & IDFatura & ")"
             Dim Fatura As String = rsRPS.Tables(0).Rows(0)("NUMERO_RPS").ToString
             Dim Processo As String = ""
             Dim Ref As String = ""
             Dim MASTER As String = ""
             Dim HOUSE As String = ""
+            Dim NFDELUCRO As Integer = 0
             Dim dsInfo As DataSet
             dsInfo = Con.ExecutarQuery(SqlInfo)
             If dsInfo.Tables(0).Rows.Count > 0 Then
@@ -172,10 +173,12 @@ Public Class WsNvocc
                     Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
                     MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
                     HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                    NFDELUCRO = dsInfo.Tables(0).Rows(0)("NFDELUCRO").ToString
                 Else
                     Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
                     MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
                     HOUSE = ""
+                    NFDELUCRO = dsInfo.Tables(0).Rows(0)("NFDELUCRO").ToString
                 End If
             End If
 
@@ -395,12 +398,20 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                No = doc.CreateElement("IssRetido", NFeNamespacte)
-                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    noText = doc.CreateTextNode("1")
-                Else
+
+
+                If NFDELUCRO = 1 Then
+                    No = doc.CreateElement("IssRetido", NFeNamespacte)
                     noText = doc.CreateTextNode("2")
+                Else
+                    No = doc.CreateElement("IssRetido", NFeNamespacte)
+                    If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        noText = doc.CreateTextNode("1")
+                    Else
+                        noText = doc.CreateTextNode("2")
+                    End If
                 End If
+
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
@@ -410,17 +421,26 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 noValServ.AppendChild(No)
 
 
-                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
-                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
-                    No.AppendChild(noText)
-                    noValServ.AppendChild(No)
-                Else
+
+                If NFDELUCRO = 1 Then
                     No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
                     noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
                     No.AppendChild(noText)
                     noValServ.AppendChild(No)
+                Else
+                    If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
+                        No.AppendChild(noText)
+                        noValServ.AppendChild(No)
+                    Else
+                        No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                        noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
+                        No.AppendChild(noText)
+                        noValServ.AppendChild(No)
+                    End If
                 End If
+
 
                 No = doc.CreateElement("BaseCalculo", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
@@ -433,11 +453,16 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
-                If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
-                Else
+                If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                Else
+                    If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
+                    Else
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                    End If
                 End If
+
 
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
@@ -446,28 +471,39 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dfinal As String
 
-                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+                Dim dDescr As String
+                If NFDELUCRO = 1 Then
+                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS"
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode("1701")
+                Else
+                    dDescr = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
 
-                dDescr &= "SENDO: "
-                dDescr &= Funcoes.obtemDescricao(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                dfinal = " Valor aproximado dos tributos R$ "
-                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
-                dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
-                dfinal = Funcoes.tiraCaracEspXML(dfinal)
+                    dDescr &= "SENDO: "
+                    dDescr &= Funcoes.obtemDescricao(rsRPS.Tables(0).Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                    dfinal = " Valor aproximado dos tributos R$ "
+                    dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
+                    dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                    dfinal = Funcoes.tiraCaracEspXML(dfinal)
 
-                dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                dDescr = dDescr.Trim & " " & dfinal
+                    dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                    dDescr = dDescr.Trim & " " & dfinal
 
-                No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
 
+                End If
 
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
 
 
                 No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
-                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                If NFDELUCRO = 1 Then
+                    noText = doc.CreateTextNode("829979910")
+                Else
+                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                End If
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
 
@@ -1094,12 +1130,13 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             GRAVARLOG(rsRPS.Rows(0)("IDFATURA").ToString, "PEGA INFORMAÇOES DO PROCESSO PARA A DISCRIMINACAO")
 
 
-            Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & rsRPS.Rows(0)("IDFATURA").ToString & ")"
+            Dim SqlInfo As String = "SELECT NR_PROCESSO,NR_BL,ISNULL(NR_BL_MASTER,'')NR_BL_MASTER,CASE WHEN NR_PROCESSO LIKE '%L%' THEN 1 ELSE 0 END NFDELUCRO,GRAU FROM View_BL WHERE NR_PROCESSO = (SELECT NR_PROCESSO FROM  View_Faturamento WHERE ID_FATURAMENTO = " & rsRPS.Rows(0)("IDFATURA").ToString & ")"
             Dim Fatura As String = rsRPS.Rows(0)("NUMERO_RPS").ToString
             Dim Processo As String = ""
             Dim Ref As String = ""
             Dim MASTER As String = ""
             Dim HOUSE As String = ""
+            Dim NFDELUCRO As Integer = 0
             Dim dsInfo As DataSet
             dsInfo = Con.ExecutarQuery(SqlInfo)
             If dsInfo.Tables(0).Rows.Count > 0 Then
@@ -1107,10 +1144,12 @@ WHERE ID_FATURAMENTO = " & IDFatura)
                     Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
                     MASTER = dsInfo.Tables(0).Rows(0)("NR_BL_MASTER").ToString
                     HOUSE = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
+                    NFDELUCRO = dsInfo.Tables(0).Rows(0)("NFDELUCRO").ToString
                 Else
                     Processo = dsInfo.Tables(0).Rows(0)("NR_PROCESSO").ToString
                     MASTER = dsInfo.Tables(0).Rows(0)("NR_BL").ToString
                     HOUSE = ""
+                    NFDELUCRO = dsInfo.Tables(0).Rows(0)("NFDELUCRO").ToString
                 End If
             End If
 
@@ -1122,12 +1161,6 @@ WHERE ID_FATURAMENTO = " & IDFatura)
             Dim rsServicos As DataSet
             Dim sSql As String
 
-
-
-            '            ' sSql = "SELECT SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
-            '            SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(VL_ISS,0))  AS VL_LIQUIDO, 
-            'SUM(ISNULL(VL_ISS,0)) VL_ISS,  0 VL_PIS,0 VL_COFINS,0 VL_IR, SUM(ISNULL(VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(VL_IR,0)) AS VL_IMPOSTOS 
-            ' FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_CONTA_PAGAR_RECEBER = (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")) "
 
             sSql = "SELECT 
 SUM(ISNULL(VL_LIQUIDO,0))VALOR, 
@@ -1196,32 +1229,49 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-                No = doc.CreateElement("IssRetido", NFeNamespacte)
-                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    noText = doc.CreateTextNode("1")
-                Else
+
+
+                If NFDELUCRO = 1 Then
+                    No = doc.CreateElement("IssRetido", NFeNamespacte)
                     noText = doc.CreateTextNode("2")
+                    No.AppendChild(noText)
+                    noValServ.AppendChild(No)
+                Else
+                    No = doc.CreateElement("IssRetido", NFeNamespacte)
+                    If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        noText = doc.CreateTextNode("1")
+                    Else
+                        noText = doc.CreateTextNode("2")
+                    End If
+                    No.AppendChild(noText)
+                    noValServ.AppendChild(No)
                 End If
-                No.AppendChild(noText)
-                noValServ.AppendChild(No)
+
 
                 No = doc.CreateElement("ValorIss", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
 
-
-                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
-                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
-                    No.AppendChild(noText)
-                    noValServ.AppendChild(No)
-                Else
+                If NFDELUCRO = 1 Then
                     No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
                     noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
                     No.AppendChild(noText)
                     noValServ.AppendChild(No)
+                Else
+                    If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_ISS").ToString), "0.00").Replace(",", "."))
+                        No.AppendChild(noText)
+                        noValServ.AppendChild(No)
+                    Else
+                        No = doc.CreateElement("ValorIssRetido", NFeNamespacte)
+                        noText = doc.CreateTextNode(Format(Double.Parse(valCsll), "0.00").Replace(",", "."))
+                        No.AppendChild(noText)
+                        noValServ.AppendChild(No)
+                    End If
                 End If
+
 
                 No = doc.CreateElement("BaseCalculo", NFeNamespacte)
                 noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
@@ -1234,11 +1284,16 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
                 No = doc.CreateElement("ValorLiquidoNfse", NFeNamespacte)
-                If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
-                    noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
-                Else
+                If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                Else
+                    If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
+                    Else
+                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                    End If
                 End If
+
 
                 No.AppendChild(noText)
                 noValServ.AppendChild(No)
@@ -1247,20 +1302,28 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dfinal As String
 
-                Dim dDescr As String = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
+                Dim dDescr As String = ""
+                If NFDELUCRO = 1 Then
+                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS"
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode("1701")
+                Else
+                    dDescr = "***Valor que levamos a debito, conforme nossa Fatura n " & Fatura & " | Processo: " & Processo & " | S/Ref: " & Ref & " | MASTER: " & MASTER & " | HOUSE: " & HOUSE & " | "
 
-                dDescr &= "SENDO: "
-                dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
-                dfinal = " Valor aproximado dos tributos R$ "
-                dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
-                dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
-                dfinal = Funcoes.tiraCaracEspXML(dfinal)
+                    dDescr &= "SENDO: "
+                    dDescr &= Funcoes.obtemDescricao(rsRPS.Rows(0)("IDFATURA").ToString,, Cod_Empresa) & Space(20)
+                    dfinal = " Valor aproximado dos tributos R$ "
+                    dfinal = dfinal & Funcoes.NNull(rsServicos.Tables(0).Rows(I)("VL_IMPOSTOS").ToString, 0)
+                    dfinal = dfinal & " (" & Funcoes.aliquotaImpostos() * 100 & "%) conforme LEI 12741/2012"
+                    dfinal = Funcoes.tiraCaracEspXML(dfinal)
 
-                dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
-                dDescr = dDescr.Trim & " " & dfinal
+                    dDescr = Mid(dDescr, 1, 2000 - dfinal.Length)
+                    dDescr = dDescr.Trim & " " & dfinal
 
-                No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    No = doc.CreateElement("ItemListaServico", NFeNamespacte)
+                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+
+                End If
 
 
                 No.AppendChild(noText)
@@ -1268,7 +1331,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
 
                 No = doc.CreateElement("CodigoTributacaoMunicipio", NFeNamespacte)
-                noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                If NFDELUCRO = 1 Then
+                    noText = doc.CreateTextNode("829979910")
+                Else
+                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                End If
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
 
@@ -1453,6 +1520,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
         Dim client As New ginfes2.ServiceGinfesImplClient
+
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)
 
