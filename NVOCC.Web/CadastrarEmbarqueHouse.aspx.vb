@@ -1649,44 +1649,57 @@ WHERE ID_CARGA_BL = " & ID)
                 lblErro_ObsAereo.Text = "Usuário não possui permissão."
 
             Else
+
+                Dim ObsAgente As String = ""
                 If txtObsAgente_ObsAereo.Text = "" Then
-                    txtObsAgente_ObsAereo.Text = "NULL"
+                    ObsAgente = "NULL"
                 Else
-                    txtObsAgente_ObsAereo.Text = "'" & txtObsAgente_ObsAereo.Text & "'"
+                    ObsAgente = txtObsAgente_ObsAereo.Text
+                    ObsAgente = ObsAgente.Replace("'", "''")
+                    ObsAgente = "'" & ObsAgente & "'"
                 End If
 
+                Dim ObsCliente As String = ""
                 If txtObsCliente_ObsAereo.Text = "" Then
-                    txtObsCliente_ObsAereo.Text = "NULL"
+                    ObsCliente = "NULL"
                 Else
-                    txtObsCliente_ObsAereo.Text = "'" & txtObsCliente_ObsAereo.Text & "'"
+                    ObsCliente = txtObsCliente_ObsAereo.Text
+                    ObsCliente = ObsCliente.Replace("'", "''")
+                    ObsCliente = "'" & ObsCliente & "'"
                 End If
 
+                Dim ObsOperacional As String = ""
                 If txtObsOperacional_ObsAereo.Text = "" Then
-                    txtObsOperacional_ObsAereo.Text = "NULL"
+                    ObsOperacional = "NULL"
                 Else
-                    txtObsOperacional_ObsAereo.Text = "'" & txtObsOperacional_ObsAereo.Text & "'"
+                    ObsOperacional = txtObsOperacional_ObsAereo.Text
+                    ObsOperacional = ObsOperacional.Replace("'", "''")
+                    ObsOperacional = "'" & ObsOperacional & "'"
                 End If
 
+                Dim ObsComercial As String = ""
                 If txtObsComercial_ObsAereo.Text = "" Then
-                    txtObsComercial_ObsAereo.Text = "NULL"
+                    ObsComercial = "NULL"
                 Else
-                    txtObsComercial_ObsAereo.Text = "'" & txtObsComercial_ObsAereo.Text & "'"
+                    ObsComercial = txtObsComercial_ObsAereo.Text
+                    ObsComercial = ObsComercial.Replace("'", "''")
+                    ObsComercial = "'" & ObsComercial & "'"
                 End If
 
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = " & txtObsCliente_ObsAereo.Text & ", OB_AGENTE_INTERNACIONAL = " & txtObsAgente_ObsAereo.Text & " , OB_COMERCIAL = " & txtObsComercial_ObsAereo.Text & ",OB_OPERACIONAL_INTERNA = " & txtObsOperacional_ObsAereo.Text & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = " & ObsCliente & ", OB_AGENTE_INTERNACIONAL = " & ObsAgente & " , OB_COMERCIAL = " & ObsComercial & ",OB_OPERACIONAL_INTERNA = " & ObsOperacional & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
                 divSuccess_ObsAereo.Visible = True
 
-                txtObsCliente_ObsAereo.Text = txtObsCliente_ObsAereo.Text.Replace("NULL", "")
-                txtObsCliente_ObsAereo.Text = txtObsCliente_ObsAereo.Text.Replace("'", "")
+                'txtObsCliente_ObsAereo.Text = txtObsCliente_ObsAereo.Text.Replace("NULL", "")
+                'txtObsCliente_ObsAereo.Text = txtObsCliente_ObsAereo.Text.Replace("'", "")
 
-                txtObsAgente_ObsAereo.Text = txtObsAgente_ObsAereo.Text.Replace("NULL", "")
-                txtObsAgente_ObsAereo.Text = txtObsAgente_ObsAereo.Text.Replace("'", "")
+                'txtObsAgente_ObsAereo.Text = txtObsAgente_ObsAereo.Text.Replace("NULL", "")
+                'txtObsAgente_ObsAereo.Text = txtObsAgente_ObsAereo.Text.Replace("'", "")
 
-                txtObsComercial_ObsAereo.Text = txtObsComercial_ObsAereo.Text.Replace("NULL", "")
-                txtObsComercial_ObsAereo.Text = txtObsComercial_ObsAereo.Text.Replace("'", "")
+                'txtObsComercial_ObsAereo.Text = txtObsComercial_ObsAereo.Text.Replace("NULL", "")
+                'txtObsComercial_ObsAereo.Text = txtObsComercial_ObsAereo.Text.Replace("'", "")
 
-                txtObsOperacional_ObsAereo.Text = txtObsOperacional_ObsAereo.Text.Replace("NULL", "")
-                txtObsOperacional_ObsAereo.Text = txtObsOperacional_ObsAereo.Text.Replace("'", "")
+                'txtObsOperacional_ObsAereo.Text = txtObsOperacional_ObsAereo.Text.Replace("NULL", "")
+                'txtObsOperacional_ObsAereo.Text = txtObsOperacional_ObsAereo.Text.Replace("'", "")
 
             End If
 
@@ -1714,44 +1727,56 @@ WHERE ID_CARGA_BL = " & ID)
                 lblErro_ObsMaritimo.Text = "Usuário não possui permissão."
 
             Else
+                Dim ObsAgente As String = ""
                 If txtObsAgente_ObsMaritimo.Text = "" Then
-                    txtObsAgente_ObsMaritimo.Text = "NULL"
+                    ObsAgente = "NULL"
                 Else
-                    txtObsAgente_ObsMaritimo.Text = "'" & txtObsAgente_ObsMaritimo.Text & "'"
+                    ObsAgente = txtObsAgente_ObsMaritimo.Text
+                    ObsAgente = ObsAgente.Replace("'", "''")
+                    ObsAgente = "'" & ObsAgente & "'"
                 End If
 
+                Dim ObsCliente As String = ""
                 If txtObsCliente_ObsMaritimo.Text = "" Then
-                    txtObsCliente_ObsMaritimo.Text = "NULL"
+                    ObsCliente = "NULL"
                 Else
-                    txtObsCliente_ObsMaritimo.Text = "'" & txtObsCliente_ObsMaritimo.Text & "'"
+                    ObsCliente = txtObsCliente_ObsMaritimo.Text
+                    ObsCliente = ObsCliente.Replace("'", "''")
+                    ObsCliente = "'" & ObsCliente & "'"
                 End If
 
+                Dim ObsOperacional As String = ""
                 If txtObsoperacional_ObsMaritimo.Text = "" Then
-                    txtObsoperacional_ObsMaritimo.Text = "NULL"
+                    ObsOperacional = "NULL"
                 Else
-                    txtObsoperacional_ObsMaritimo.Text = "'" & txtObsoperacional_ObsMaritimo.Text & "'"
+                    ObsOperacional = txtObsoperacional_ObsMaritimo.Text
+                    ObsOperacional = ObsOperacional.Replace("'", "''")
+                    ObsOperacional = "'" & ObsOperacional & "'"
                 End If
 
+                Dim ObsComercial As String = ""
                 If txtObsComercial_ObsMaritimo.Text = "" Then
-                    txtObsComercial_ObsMaritimo.Text = "NULL"
+                    ObsComercial = "NULL"
                 Else
-                    txtObsComercial_ObsMaritimo.Text = "'" & txtObsComercial_ObsMaritimo.Text & "'"
+                    ObsComercial = txtObsComercial_ObsMaritimo.Text
+                    ObsComercial = ObsComercial.Replace("'", "''")
+                    ObsComercial = "'" & ObsComercial & "'"
                 End If
 
-                Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = " & txtObsCliente_ObsMaritimo.Text & ", OB_AGENTE_INTERNACIONAL = " & txtObsAgente_ObsMaritimo.Text & " , OB_COMERCIAL = " & txtObsComercial_ObsMaritimo.Text & ",OB_OPERACIONAL_INTERNA = " & txtObsoperacional_ObsMaritimo.Text & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+                Con.ExecutarQuery("UPDATE TB_BL SET OB_CLIENTE = " & ObsCliente & ", OB_AGENTE_INTERNACIONAL = " & ObsAgente & " , OB_COMERCIAL = " & ObsComercial & ",OB_OPERACIONAL_INTERNA = " & ObsOperacional & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
                 divSuccess_ObsMaritimo.Visible = True
 
-                txtObsCliente_ObsMaritimo.Text = txtObsCliente_ObsMaritimo.Text.Replace("NULL", "")
-                txtObsCliente_ObsMaritimo.Text = txtObsCliente_ObsMaritimo.Text.Replace("'", "")
+                'txtObsCliente_ObsMaritimo.Text = txtObsCliente_ObsMaritimo.Text.Replace("NULL", "")
+                'txtObsCliente_ObsMaritimo.Text = txtObsCliente_ObsMaritimo.Text.Replace("'", "")
 
-                txtObsAgente_ObsMaritimo.Text = txtObsAgente_ObsMaritimo.Text.Replace("NULL", "")
-                txtObsAgente_ObsMaritimo.Text = txtObsAgente_ObsMaritimo.Text.Replace("'", "")
+                'txtObsAgente_ObsMaritimo.Text = txtObsAgente_ObsMaritimo.Text.Replace("NULL", "")
+                'txtObsAgente_ObsMaritimo.Text = txtObsAgente_ObsMaritimo.Text.Replace("'", "")
 
-                txtObsComercial_ObsMaritimo.Text = txtObsComercial_ObsMaritimo.Text.Replace("NULL", "")
-                txtObsComercial_ObsMaritimo.Text = txtObsComercial_ObsMaritimo.Text.Replace("'", "")
+                'txtObsComercial_ObsMaritimo.Text = txtObsComercial_ObsMaritimo.Text.Replace("NULL", "")
+                'txtObsComercial_ObsMaritimo.Text = txtObsComercial_ObsMaritimo.Text.Replace("'", "")
 
-                txtObsoperacional_ObsMaritimo.Text = txtObsoperacional_ObsMaritimo.Text.Replace("NULL", "")
-                txtObsoperacional_ObsMaritimo.Text = txtObsoperacional_ObsMaritimo.Text.Replace("'", "")
+                'txtObsoperacional_ObsMaritimo.Text = txtObsoperacional_ObsMaritimo.Text.Replace("NULL", "")
+                'txtObsoperacional_ObsMaritimo.Text = txtObsoperacional_ObsMaritimo.Text.Replace("'", "")
             End If
 
         End If
@@ -2840,10 +2865,15 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
 
+
+
+        Dim ObsTaxa As String = ""
         If txtObs_TaxaAereo.Text = "" Then
-            txtObs_TaxaAereo.Text = "NULL"
+            ObsTaxa = "NULL"
         Else
-            txtObs_TaxaAereo.Text = "'" & txtObs_TaxaAereo.Text & "'"
+            ObsTaxa = txtObs_TaxaAereo.Text
+            ObsTaxa = ObsTaxa.Replace("'", "''")
+            ObsTaxa = "'" & ObsTaxa & "'"
         End If
 
         'If txtBaseCompra_TaxaAereo.Text = "" Then
@@ -2885,8 +2915,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "Não é possivel cadastrar taxas com valores zerados."
             mpeTaxaAereo.Show()
-            txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-            txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+
             txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
             txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
             txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
@@ -2896,8 +2925,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "Preencha os campos obrigatórios!"
             mpeTaxaAereo.Show()
-            txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-            txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+
             txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
             txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
             txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
@@ -2912,8 +2940,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para cadastrar."
                     mpeTaxaAereo.Show()
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+
                     Exit Sub
 
                 Else
@@ -2924,7 +2951,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                     If txtValorCompra_TaxaAereo.Text > 0 Then
                         'INSERE TAXA DE COMPRA
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxaAereo.SelectedValue & "," & ddlDestinatarioCob_TaxaAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtValorCompra_TaxaAereo.Text & "," & txtMinCompra_TaxaAereo.Text & "," & txtObs_TaxaAereo.Text & ",'" & ckbDeclarado_TaxaAereo.Checked & "','" & ckbProfit_TaxaAereo.Checked & "'," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxaAereo.SelectedValue & "," & ddlDestinatarioCob_TaxaAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtValorCompra_TaxaAereo.Text & "," & txtMinCompra_TaxaAereo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaAereo.Checked & "','" & ckbProfit_TaxaAereo.Checked & "'," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                         retorno = Calcula.Calcular(ID_BL_TAXA)
                     End If
@@ -2946,7 +2973,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                         End If
 
                         'INSERE TAXA DE VENDA
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxaAereo.SelectedValue & "," & ddlDestinatarioCob_TaxaAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaVenda_TaxaAereo.SelectedValue & "," & txtValorVenda_TaxaAereo.Text & "," & txtMinVenda_TaxaAereo.Text & "," & txtObs_TaxaAereo.Text & ",'" & ckbDeclarado_TaxaAereo.Checked & "','" & ckbProfit_TaxaAereo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaAereo.Checked & "','R','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxaAereo.SelectedValue & "," & ddlDestinatarioCob_TaxaAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaVenda_TaxaAereo.SelectedValue & "," & txtValorVenda_TaxaAereo.Text & "," & txtMinVenda_TaxaAereo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaAereo.Checked & "','" & ckbProfit_TaxaAereo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaAereo.Checked & "','R','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                         retorno = Calcula.Calcular(ID_BL_TAXA)
@@ -2982,8 +3009,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaAereo2.Visible = True
                     lblErro_TaxaAereo2.Text = "Usuário não possui permissão para alterar."
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-                    txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+
                     txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
                     txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
                     txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
@@ -3002,8 +3028,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         divErro_TaxaAereo2.Visible = True
                         lblErro_TaxaAereo2.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
                         mpeTaxaAereo.Show()
-                        txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-                        txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
+
                         txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
                         txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
                         txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
@@ -3017,23 +3042,20 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         If Session("CD_PR") = "P" Then
 
                             'REALIZA UPDATE TAXA COMPRA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaAereo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtValorCompra_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinCompra_TaxaAereo.Text & ",OB_TAXAS = " & txtObs_TaxaAereo.Text & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaAereo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaAereo.Checked & "', ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_PREMIACAO ='" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaAereo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtValorCompra_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinCompra_TaxaAereo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaAereo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaAereo.Checked & "', ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_PREMIACAO ='" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 0 WHERE ID_BL_TAXA_MASTER IS NULL AND ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
                         ElseIf Session("CD_PR") = "R" Then
 
                             'REALIZA UPDATE TAXA VENDA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaAereo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtValorVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinVenda_TaxaAereo.Text & ",OB_TAXAS = " & txtObs_TaxaAereo.Text & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaAereo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaAereo.Checked & "', ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0,FL_PREMIACAO ='" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaAereo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtValorVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinVenda_TaxaAereo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaAereo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaAereo.Checked & "', ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0,FL_PREMIACAO ='" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
                         End If
 
                         Dim Calcula As New CalculaBL
                         Dim retorno As String = Calcula.Calcular(txtID_TaxaAereo.Text)
 
-
-                        txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("'", "")
-                        txtObs_TaxaAereo.Text = txtObs_TaxaAereo.Text.Replace("NULL", "")
                         txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
                         txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
                         txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
@@ -3167,12 +3189,16 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
         'End If
 
 
-        If txtObs_TaxaMaritimo.Text = "" Then
-            txtObs_TaxaMaritimo.Text = "NULL"
-        Else
-            txtObs_TaxaMaritimo.Text = "'" & txtObs_TaxaMaritimo.Text & "'"
-        End If
 
+
+        Dim ObsTaxa As String = ""
+        If txtObs_TaxaMaritimo.Text = "" Then
+            ObsTaxa = "NULL"
+        Else
+            ObsTaxa = txtObs_TaxaMaritimo.Text
+            ObsTaxa = ObsTaxa.Replace("'", "''")
+            ObsTaxa = "'" & ObsTaxa & "'"
+        End If
 
         txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace("-", "")
 
@@ -3199,8 +3225,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             divErro_TaxaMaritimo2.Visible = True
             lblErro_TaxaMaritimo2.Text = "Não é possivel cadastrar taxas com valores zerados."
             mpeTaxaMaritimo.Show()
-            txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-            txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
             txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
             txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
             txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
@@ -3210,8 +3235,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             divErro_TaxaMaritimo2.Visible = True
             lblErro_TaxaMaritimo2.Text = "Preencha os campos obrigatórios!"
             mpeTaxaMaritimo.Show()
-            txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-            txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
             txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
             txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
             txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")
@@ -3234,8 +3258,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaMaritimo2.Visible = True
                     lblErro_TaxaMaritimo2.Text = "Usuário não possui permissão para cadastrar."
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
                     mpeTaxaMaritimo.Show()
                     txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
                     txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
@@ -3252,7 +3275,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     If txtValorCompra_TaxaMaritimo.Text > 0 Then
                         'INSERE TAXA DE COMPRA
 
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorCompra_TaxaMaritimo.Text & "," & OPERADOR & txtMinCompra_TaxaMaritimo.Text & "," & txtObs_TaxaMaritimo.Text & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & ddlEmpresa_TaxaMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','P','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorCompra_TaxaMaritimo.Text & "," & OPERADOR & txtMinCompra_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & ddlEmpresa_TaxaMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','P','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
 
@@ -3276,7 +3299,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         End If
 
                         'INSERE TAXA DE VENDA
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaVenda_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorVenda_TaxaMaritimo.Text & "," & OPERADOR & txtMinVenda_TaxaMaritimo.Text & "," & txtObs_TaxaMaritimo.Text & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','R','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaVenda_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorVenda_TaxaMaritimo.Text & "," & OPERADOR & txtMinVenda_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','R','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                         retorno = Calcula.Calcular(ID_BL_TAXA)
@@ -3316,8 +3339,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     divErro_TaxaMaritimo2.Visible = True
                     lblErro_TaxaMaritimo2.Text = "Usuário não possui permissão para alterar."
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-                    txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
                     mpeTaxaMaritimo.Show()
                     txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
                     txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
@@ -3335,8 +3357,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
                     If ds1.Tables(0).Rows(0).Item("ID_BL_TAXA") > 0 Then
                         divErro_TaxaMaritimo2.Visible = True
                         lblErro_TaxaMaritimo2.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
-                        txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-                        txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
+
                         mpeTaxaMaritimo.Show()
                         txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
                         txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
@@ -3352,14 +3373,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
                         If Session("CD_PR") = "P" Then
 
                             'REALIZA UPDATE TAXA COMPRA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorCompra_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinCompra_TaxaMaritimo.Text & ",OB_TAXAS = " & txtObs_TaxaMaritimo.Text & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ", FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorCompra_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinCompra_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ", FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 0 WHERE ID_BL_TAXA_MASTER IS NULL AND ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                         ElseIf Session("CD_PR") = "R" Then
 
                             'REALIZA UPDATE TAXA VENDA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorVenda_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinVenda_TaxaMaritimo.Text & ",OB_TAXAS = " & txtObs_TaxaMaritimo.Text & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorVenda_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinVenda_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                         End If
 
@@ -3371,8 +3392,6 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
                         divSuccess_TaxaMaritimo2.Visible = True
 
 
-                        txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("'", "")
-                        txtObs_TaxaMaritimo.Text = txtObs_TaxaMaritimo.Text.Replace("NULL", "")
                         txtValorCompra_TaxaMaritimo.Text = txtValorCompra_TaxaMaritimo.Text.Replace(".", ",")
                         txtValorVenda_TaxaMaritimo.Text = txtValorVenda_TaxaMaritimo.Text.Replace(".", ",")
                         txtMinCompra_TaxaMaritimo.Text = txtMinCompra_TaxaMaritimo.Text.Replace(".", ",")

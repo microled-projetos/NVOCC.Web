@@ -432,14 +432,11 @@
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <asp:Checkbox ID="ckbExportador" runat="server"  autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Exportador" ></asp:Checkbox>
-
                                     </div>
                                 </div>
-                                     <div class="col-sm-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbComissaria" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Comissária" ></asp:Checkbox>
-                       
-
+                                        <asp:Checkbox ID="ckbComissaria" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Comissária" ></asp:Checkbox>                      
                                     </div>
                                 </div>
                                  
@@ -518,7 +515,14 @@
                                 </div>     
                                     
                                
-                        </div>        
+                        </div>
+                <div class="row">
+                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbCNEE" runat="server" CssClass="form-control" text="&nbsp;&nbsp;CNEE" ></asp:Checkbox>
+                                    </div>
+                                </div>                                                               
+                        </div>
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
                                  <div class="row" >
                                 <div class="col-sm-9">
