@@ -1352,17 +1352,16 @@
             values = [];
             var master = document.getElementById("nrMasterBLemail").textContent;
             var corpo = document.getElementById("corpoEmail").value;
+            var corpoformat = corpo.replace(new RegExp('\r?\n', 'g'), '<br>');
             for (let i = 0; i < pacote.length; i++) {
                 values.push(pacote[i].value);
             }
-            console.log(corpo.replace(new RegExp('\r?\n', 'g'), '<br>'));
-            console.log(values)
             if (values.length > 0) {
                 for (let i = 0; i < values.length; i++) {
                     $.ajax({
                         type: "POST",
                         url: "Gerencial.asmx/enviarEmail",
-                        data: '{house:"' + values[i] + '",corpo:"' + corpo.replace(new RegExp('\r?\n', 'g'), '<br>') + '"}',
+                        data: '{house:"' + values[i] + '",corpo:"' + corpoformat.replace(new RegExp('\"', 'g'), '\&#34;') + '"}',
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (dado) {

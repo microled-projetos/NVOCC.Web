@@ -689,7 +689,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Dim finaliza As New FinalizaCotacao
                         If finaliza.TaxaBloqueada(ID, "BL") = True Then
                             divErro_TaxaMaritimo1.Visible = True
-                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
+                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber ou invoice!"
                         Else
 
                             Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
@@ -885,7 +885,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Dim finaliza As New FinalizaCotacao
                         If finaliza.TaxaBloqueada(ID, "BL") = True Then
                             divErro_TaxaMaritimo1.Visible = True
-                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber!"
+                            lblErro_TaxaMaritimo1.Text = "Não foi possível excluir o registro:taxa já enviada para contas a pagar/receber ou invoice!"
                         Else
                             Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
                             lblSuccess_TaxaMaritimo1.Text = "Registro deletado!"
@@ -1081,7 +1081,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Dim finaliza As New FinalizaCotacao
                     If finaliza.TaxaBloqueada(ID, "BL") = True Then
                         divErro_TaxaAereo1.Visible = True
-                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber ou invoice!"
                     Else
 
                         Con.ExecutarQuery("DELETE From TB_BL_TAXA Where ID_BL_TAXA = " & ID)
@@ -1261,7 +1261,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Dim finaliza As New FinalizaCotacao
                     If finaliza.TaxaBloqueada(ID, "BL") = True Then
                         divErro_TaxaAereo1.Visible = True
-                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber!"
+                        lblErro_TaxaAereo1.Text = "Não foi possível excluir o registro: taxa já enviada para contas a pagar/receber ou invoice!"
                     Else
 
 

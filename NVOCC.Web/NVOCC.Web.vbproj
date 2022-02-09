@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 03022022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 09022022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -289,6 +289,12 @@
     <Content Include="Classes\Processos.cs" />
     <Content Include="Classes\Taxas.cs" />
     <Content Include="Classes\Week.cs" />
+    <Content Include="ComissaoTransportadora.aspx" />
+    <Content Include="ComissaoTransportadora.aspx.cs" />
+    <Content Include="ComissaoTransportadora.aspx.designer.cs" />
+    <Content Include="ConferenciaContaCorrente.aspx" />
+    <Content Include="ConferenciaContaCorrente.aspx.cs" />
+    <Content Include="ConferenciaContaCorrente.aspx.designer.cs" />
     <Content Include="ContatoParceiro.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />

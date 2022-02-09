@@ -64,6 +64,9 @@
                                         <tbody id="grdPremiacaoBody">
 
                                         </tbody>
+                                         <tfoot id="grdPremiacaoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+                                             
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -243,6 +246,7 @@
             dtInicial = dtInicial.toString().replace("/", "");
             var indicador;
             var totaldiv;
+            var total = 0;
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarPremiacao",
@@ -257,10 +261,12 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     $("#grdPremiacaoBody").empty();
+                    $("#grdPremiacaoFooter").empty();
                     if (dado != null) {
                         for (let i = 0; i < dado.length; i++) {
                             if (indicador != dado[i]["AGENTE"]) {
-                                totaldiv = "<td class='text-center'>" + dado[i]["TOTAL"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>";
+                                totaldiv = "<td class='text-center'>" + dado[i]["TOTAL"].toString().replace(".", ",") + "</td>";
+                                total = parseFloat(dado[i]["TOTAL"]) + total;
                             } else {
                                 totaldiv = "<td class='text-center'></td>";
                             }
@@ -275,11 +281,12 @@
                                 "<td class='text-center'>" + dado[i]["MOEDA"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
                                 "<td class='text-center'>" + dado[i]["CAMBIO"].toString().replace(".", ",") + "</td>" +
-                                "<td class='text-center'>" + dado[i]["PREMIACAO"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +                                
+                                "<td class='text-center'>" + dado[i]["PREMIACAO"] + "</td>" +                                
                                 "<td class='text-center'>" + dado[i]["RATEIO"].toString().replace(".",",") + "</td>" +
                                 totaldiv + "</tr>");
                             indicador = dado[i]["AGENTE"];
                         }
+                        $("#grdPremiacaoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>Total:</th><th>" + total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>");
                     }
                     else {
                         $("#grdPremiacaoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='12' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");

@@ -121,8 +121,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                     ElseIf linha.Item("ID").ToString() = 2047 And linha.Item("Acessar").ToString() = 0 Then
                         mnContaPagarReceber.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2048 And linha.Item("Acessar").ToString() = 0 Then
-                        mnEstimativaContaPagarReceber1.Visible = False
-                        mnEstimativaContaPagarReceber2.Visible = False
+                        mnEstimativaContaPagarReceber.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2049 And linha.Item("Acessar").ToString() = 0 Then
                         mnAtendimentoNegado.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2050 And linha.Item("Acessar").ToString() = 0 Then
@@ -139,6 +138,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnTOTVSDemurrageRA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2056 And linha.Item("Acessar").ToString() = 0 Then
                         mnTOTVSDemurragePA.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2057 And linha.Item("Acessar").ToString() = 0 Then
+                        mnComissaoTransportadora.Visible = False
                     End If
 
 
@@ -166,10 +167,10 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
             If mnRelacaoCotacao.Visible = False Then
-                MnRelatorioCotacao.Visible = False
+                MenuRelatoriosComercial.Visible = False
             End If
 
-            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MnRelatorioCotacao.Visible = False And mnAtendimentoNegado.Visible = False Then
+            If mnFreteTransportador.Visible = False And mnCotacaoComercial.Visible = False And mnComissaoVendedor.Visible = False And MenuRelatoriosComercial.Visible = False And mnAtendimentoNegado.Visible = False And MenuComissoes2.Visible = False Then
                 MenuComercial.Visible = False
             End If
 
@@ -178,16 +179,11 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False And mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnModuloDemurrage.Visible = False And mnFinanceiro.Visible = False And mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnCaixaSaida.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False Then
-                MenuFinanceiro.Visible = False
-            End If
-
-
             If mnTOTVSServico.Visible = False Then
                 MenuTotvs2.Visible = False
             End If
 
-            If mnTOTVSServico.Visible = False And mnFaturamento.Visible = False Then
+            If MenuTotvs2.Visible = False And mnFaturamento.Visible = False Then
                 MenuFaturamento.Visible = False
             End If
 
@@ -196,8 +192,24 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnEstimativaContaPagarReceber1.Visible = False And mnEstimativaContaPagarReceber2.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False Then
-                MnRelatoriosFinanceiros.Visible = False
+            If mnEstimativaContaPagarReceber.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False Then
+                MenuRelatoriosFinanceiros.Visible = False
+            End If
+
+            If mnAccount.Visible = False And mnFechamentoCambio.Visible = False Then
+                MenuAccount.Visible = False
+            End If
+
+            If mnComissaoIndicadorNacional.Visible = False And mnComissaoIndicadorInternacional.Visible = False And mnComissaoTransportadora.Visible = False Then
+                MenuComissoes.Visible = False
+            End If
+
+            If mnTOTVSCredit.Visible = False And mnTOTVSDebit.Visible = False And mnTOTVSDespesa.Visible = False And mnTOTVSPA.Visible = False And mnTOTVSDemurrageRA.Visible = False And mnTOTVSDemurragePA.Visible = False Then
+                MenuTotvs.Visible = False
+            End If
+
+            If mnFinanceiro.Visible = False And mnModuloDemurrage.Visible = False And MenuAccount.Visible = False And MenuComissoes.Visible = False And MenuTotvs.Visible = False And MenuRelatoriosFinanceiros.Visible = False And mnCaixaSaida.Visible = False Then
+                MenuFinanceiro.Visible = False
             End If
         End If
 

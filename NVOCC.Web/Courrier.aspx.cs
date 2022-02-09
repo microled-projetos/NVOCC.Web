@@ -28,6 +28,7 @@ namespace ABAINFRA.Web
             ddlFiltro.Items.Insert(2, new ListItem("BL Master", "2"));
             ddlFiltro.Items.Insert(3, new ListItem("Cliente", "3"));
             ddlFiltro.Items.Insert(4, new ListItem("Navio", "4"));
+            ddlFiltro.Items.Insert(5, new ListItem("Código Rastreio", "5"));
         }
 
         private void CarregarTipo()

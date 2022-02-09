@@ -185,13 +185,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnComissaoVendedor As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle MnRelatorioCotacao.
+    '''Controle MenuRelatoriosComercial.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents MnRelatorioCotacao As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuRelatoriosComercial As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnRelacaoCotacao.
@@ -329,6 +329,15 @@ Partial Public Class SiteMaster
     Protected WithEvents mnComissaoIndicadorInternacional As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
+    '''Controle mnComissaoTransportadora.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mnComissaoTransportadora As Global.System.Web.UI.HtmlControls.HtmlAnchor
+
+    '''<summary>
     '''Controle MenuTotvs.
     '''</summary>
     '''<remarks>
@@ -392,13 +401,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnTOTVSDemurragePA As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle MnRelatoriosFinanceiros.
+    '''Controle MenuRelatoriosFinanceiros.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents MnRelatoriosFinanceiros As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents MenuRelatoriosFinanceiros As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnContaPagarReceber.
@@ -410,22 +419,13 @@ Partial Public Class SiteMaster
     Protected WithEvents mnContaPagarReceber As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
-    '''Controle mnEstimativaContaPagarReceber1.
+    '''Controle mnEstimativaContaPagarReceber.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents mnEstimativaContaPagarReceber1 As Global.System.Web.UI.HtmlControls.HtmlAnchor
-
-    '''<summary>
-    '''Controle mnEstimativaContaPagarReceber2.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents mnEstimativaContaPagarReceber2 As Global.System.Web.UI.HtmlControls.HtmlAnchor
+    Protected WithEvents mnEstimativaContaPagarReceber As Global.System.Web.UI.HtmlControls.HtmlAnchor
 
     '''<summary>
     '''Controle mnRelatorioInvoice.

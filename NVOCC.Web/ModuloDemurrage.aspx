@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="oFunc">
-                            <button type="button" id="btnEstimativa" class="btn btn-primary" onclick="estimativaCV()" data-toggle="modal" data-target="#modalEstimativa">Estimativa Compra e Venda</button> 
+                            <a href="ConferenciaContaCorrente.aspx" id="btnEstimativa" class="btn btn-primary">Conferencia Conta Corrente</a> 
                             <button type="button" id="btnExportGridAtual" class="btn btn-primary" onclick="exportTableToCSVAtual('members.csv')">Exportar Grid - CSV</button>
                         </div>
                     </div>

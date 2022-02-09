@@ -657,7 +657,7 @@ SELECT ID_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ESCALA1,ID_PORTO_ESCALA2,ID_PORTO_ES
                 Else
                     Dim finaliza As New FinalizaCotacao
                     If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
-                        lblDeleteErroTaxas.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber!"
+                        lblDeleteErroTaxas.Text = "Não foi possível completar ação: taxa já enviada para contas a pagar/receber ou invoice!"
                         divDeleteErroTaxas.Visible = True
                     Else
 
@@ -2009,7 +2009,6 @@ Where A.ID_COTACAO = " & txtID.Text)
         End If
 
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
         '        CÁLCULO DO PESO TAXADO
         Dim PESO_TAXADO As Decimal
@@ -3355,6 +3354,7 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
         End If
 
 
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
 
     End Sub
@@ -4738,7 +4738,7 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                 If check.Checked Then
                     Dim finaliza As New FinalizaCotacao
                     If finaliza.TaxaBloqueada(ID, "COTACAO") = True Then
-                        lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber!"
+                        lblDeleteErroTaxas.Text = "Não foi possível deletar taxas já enviadas para contas a pagar/receber ou invoice!"
                         divDeleteErroTaxas.Visible = True
                     Else
 

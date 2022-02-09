@@ -4581,6 +4581,9 @@ namespace ABAINFRA.Web
                 case "4":
                     idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";
                     break;
+                case "5":
+                    idFilter = "AND BL.CD_RASTREAMENTO_HBL LIKE '" + Filter + "%' OR M.CD_RASTREAMENTO_MBL LIKE '" + Filter + "%' ";
+                    break;
                 default:
                     idFilter = "";
                     break;
@@ -7502,7 +7505,133 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        [WebMethod(EnableSession = true)]
+        public string listarConferenciaContaCorrente(string dataI, string dataF, string filter, string nota)
+        {
+            string SQL;
+            string SQL2;
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
 
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    filter = " WHERE NM_PARCEIRO LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " WHERE NR_PROCESSO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+             
+            SQL = "SELECT NR_PROCESSO, ";
+            SQL += "ISNULL(MAX(CASE WHEN TP_FATURA = 'VENDA' THEN NM_PARCEIRO ELSE '' END ),'') AS CLIENTE, ";
+            SQL += "ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN NM_PARCEIRO ELSE '' END ),'') AS TRANSPORTADOR, ";
+            SQL += "SUM(CASE WHEN TP_FATURA = 'COMPRA' THEN VL_FATURA ELSE 0 END) AS COMPRA, ";
+            SQL += "SUM(CASE WHEN TP_FATURA = 'VENDA' THEN VL_FATURA ELSE 0 END) AS VENDA, ";
+            SQL += "SUM(CASE WHEN TP_FATURA = 'VENDA' THEN VL_FATURA ELSE 0 END) - ";
+            SQL += "SUM(CASE WHEN TP_FATURA = 'COMPRA' THEN VL_FATURA ELSE 0 END) AS PROFIT ";
+            SQL += "FROM FN_DEMURRAGE_FATURAS('"+ dataI + "','" + dataF + "') A ";
+            SQL += "" + filter + "";
+            SQL += "GROUP BY A.NR_PROCESSO ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string listarComissaoTransportadora(string filter, string nota, string parametro)
+        {
+            string SQL;
+            string param;
+			
+            switch (filter)
+            {
+                case "1":
+                    filter = " WHERE TRANSPORTADORA LIKE '%" + nota + "%' ";
+                    break;
+                case "2":
+                    filter = " WHERE NR_PROCESSO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+            }
+
+            if(filter != "")
+			{
+                switch (parametro)
+                {
+                    case "1":
+                        param = "";
+                        break;
+                    case "2":
+                        param = "AND DT_LIQUIDACAO IS NULL ";
+                        break;
+                    case "3":
+                        param = "AND DT_LIQUIDACAO BETWEEN DATEADD(day, -90, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) ";
+                        break;
+                    case "4":
+                        param = "AND DT_LIQUIDACAO BETWEEN DATEADD(day, -180, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) ";
+                        break;
+                    case "5":
+                        param = "AND DT_LIQUIDACAO IS NOT NULL ";
+                        break;
+                    default:
+                        param = "";
+                        break;
+                }
+			}
+			else
+			{
+                switch (parametro)
+                {
+                    case "1":
+                        param = "";
+                        break;
+                    case "2":
+                        param = "WHERE DT_LIQUIDACAO IS NULL ";
+                        break;
+                    case "3":
+                        param = "WHERE DT_LIQUIDACAO BETWEEN DATEADD(day, -90, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) AND DT_LIQUIDACAO IS NOT NULL ";
+                        break;
+                    case "4":
+                        param = "WHERE DT_LIQUIDACAO BETWEEN DATEADD(day, -180, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) AND DT_LIQUIDACAO IS NOT NULL ";
+                        break;
+                    case "5":
+                        param = "WHERE DT_LIQUIDACAO IS NOT NULL ";
+                        break;
+                    default:
+                        param = "";
+                        break;
+                }
+            }
+
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
+            SQL += "ISNULL(TRANSPORTADORA, '') AS TRANSPORTADORA, ";
+            SQL += "ISNULL(ITEM,'') AS ITEM, ";
+            SQL += "ISNULL(NR_NOTA_FISCAL,'') AS NOTA, ";
+            SQL += "ISNULL(FORMAT(DT_NOTA_FISCAL,'dd/MM/yyyy'),'') AS DT_NOTA, ";
+            SQL += "ISNULL(FORMAT(DT_LIQUIDACAO,'dd/MM/yyyy'),'') AS DT_LIQ, ";
+            SQL += "ISNULL(VL_COMISSAO,0) AS COMISSAO ";
+            SQL += "FROM FN_COMISSAO_TRANSPORTADORAS('','') A ";
+            SQL += "" + filter + "";
+            SQL += "" + param + "";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
 
         public static string fmtDecV(double campo, int decimais)
         {
