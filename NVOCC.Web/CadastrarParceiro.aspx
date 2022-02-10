@@ -31,6 +31,11 @@
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
                         </li>
+                       <%-- <li>
+                            <a href="#financeiro" role="tab" data-toggle="tab">
+                                <i class="glyphicon glyphicon-tags" style="padding-right:8px;"></i>Financeiro
+                            </a>
+                        </li>--%>
                     </ul>
 
                     <div class="tab-content">
@@ -729,7 +734,86 @@
                        </div>
 
                      </div>
+                       <%-- <div class="tab-pane fade" id="financeiro" >
+   <br />
+                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+    <ContentTemplate>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Name:</label>
+                                        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Account:</label>
+                                        <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Agency:</label>
+                                        <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
+                                    </div>
+                                </div>
                             </div>
+                            
+                            <div class="row"> 
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Swift:</label>
+                                        <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                    </div>
+                                </div>
+                                  <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Iban Br:</label>
+                                        <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Agreement:</label>
+                                        <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                    </div>
+                                </div>
+                               <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:button  ID="Button3" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"  runat="server" CssClass="btn btn-primary btn-block" Text="Gravar"  />
+                                    </div>
+                                </div>
+                            </div>
+                                                        <div class="linha-colorida">Upload</div>
+            
+        <br />
+                           
+                               <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:FileUpload ID="txtUpload"  CssClass="form-control" runat="server" Visible="true" style="display:block"></asp:FileUpload>                                                                                         
+                                    </div>
+                                </div>
+                                   <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <asp:button  ID="Button1" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');"  runat="server" CssClass="btn btn-success btn-block" Text="Upload"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                grid de upload
+                                
+                            </div>
+
+                       </ContentTemplate>
+</asp:UpdatePanel>   
+
+                    </div>    --%>
+   
+                        </div>
                 
                                                     </div>
                 </div>

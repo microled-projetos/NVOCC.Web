@@ -162,8 +162,8 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")) Then
-                        txtCodTranspRodoviario_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
-                        ddlTranspRodoviario_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                        txtCodTranspRodoviario_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                        ddlTranspRodoviario_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE_INTERNACIONAL")) Then
@@ -337,6 +337,11 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
                         txtCodTransportador_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                         ddlTransportador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")) Then
+                        txtCodTranspRodoviario_Aereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                        ddlTranspRodoviario_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESEMBARACO")) Then
