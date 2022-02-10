@@ -521,11 +521,16 @@
                                     <div class="form-group">
                                         <asp:Checkbox ID="ckbCNEE" runat="server" CssClass="form-control" text="&nbsp;&nbsp;CNEE" ></asp:Checkbox>
                                     </div>
-                                </div>                                                               
-                        </div>
+                                </div> 
+                                <div class="col-sm-4">
+                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Transp. Rodoviário" ></asp:Checkbox>
+                                    </div>
+                                </div>    
+                      </div>
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
-                                 <div class="row" >
-                                <div class="col-sm-9">
+                               <div class="row">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Vendedor:</label><label ID="lblRed2" runat="server" visible="false" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlVendedor" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">

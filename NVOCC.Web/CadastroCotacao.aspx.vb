@@ -4424,6 +4424,35 @@ end ID_ORIGEM_PAGAMENTO
  FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
 
+        '        Dim dsCarga As DataSet
+        '        If ddlEstufagem.SelectedValue = 1 Then
+
+        '            dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
+        ' WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
+        '            If dsCarga.Tables(0).Rows.Count > 0 Then
+        '                Dim QT_CONTAINER As Integer
+        '                For Each linha As DataRow In dsCarga.Tables(0).Rows
+        '                    QT_CONTAINER = linha.Item("QT_CONTAINER")
+
+        '                    For i As Integer = 1 To QT_CONTAINER Step 1
+        '                        Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+        '        WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+        '                    Next
+        '                Next
+        '            Else
+        '                Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
+        ' WHERE ID_COTACAO =  " & txtID.Text)
+        '            End If
+
+
+        '        ElseIf ddlEstufagem.SelectedValue = 2 Then
+
+        '            Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) 
+        'SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & " FROM TB_COTACAO_MERCADORIA
+        ' WHERE ID_COTACAO =  " & txtID.Text)
+
+        '        End If
+
         Dim dsCarga As DataSet
         If ddlEstufagem.SelectedValue = 1 Then
 
@@ -4452,8 +4481,6 @@ SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3
  WHERE ID_COTACAO =  " & txtID.Text)
 
         End If
-
-
     End Sub
 
     Private Sub btnImportar_Click(sender As Object, e As EventArgs) Handles btnImportar.Click

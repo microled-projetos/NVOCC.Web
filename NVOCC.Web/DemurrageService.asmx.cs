@@ -7554,7 +7554,14 @@ namespace ABAINFRA.Web
         {
             string SQL;
             string param;
+            string dataI;
 			
+			
+            DateTime dataInicial = DateTime.Now;
+            string dataF;
+
+            
+
             switch (filter)
             {
                 case "1":
@@ -7568,26 +7575,38 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            if(filter != "")
-			{
+            if (filter != "")
+            {
                 switch (parametro)
                 {
-                    case "1":
+                    case "0":
                         param = "";
+                        dataI = "";
+                        dataF = "";
                         break;
-                    case "2":
+                    case "1":
+                        dataI = "";
+                        dataF = "";
                         param = "AND DT_LIQUIDACAO IS NULL ";
                         break;
+                    case "2":
+                        dataI = dataInicial.AddDays(-90).ToString("dd/MM/yyyy");
+                        dataF = dataInicial.ToString("dd/MM/yyyy");
+                        param = "AND DT_LIQUIDACAO IS NOT NULL ";
+                        break;
                     case "3":
-                        param = "AND DT_LIQUIDACAO BETWEEN DATEADD(day, -90, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) ";
+                        dataI = dataInicial.AddDays(-180).ToString("dd/MM/yyyy");
+                        dataF = dataInicial.ToString("dd/MM/yyyy");
+                        param = "AND DT_LIQUIDACAO IS NOT NULL ";
                         break;
                     case "4":
-                        param = "AND DT_LIQUIDACAO BETWEEN DATEADD(day, -180, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) ";
-                        break;
-                    case "5":
+                        dataI = "";
+                        dataF = "";
                         param = "AND DT_LIQUIDACAO IS NOT NULL ";
                         break;
                     default:
+                        dataI = "";
+                        dataF = "";
                         param = "";
                         break;
                 }
@@ -7596,22 +7615,34 @@ namespace ABAINFRA.Web
 			{
                 switch (parametro)
                 {
-                    case "1":
+                    case "0":
                         param = "";
+                        dataI = "";
+                        dataF = "";
                         break;
-                    case "2":
+                    case "1":
+                        dataI = "";
+                        dataF = "";
                         param = "WHERE DT_LIQUIDACAO IS NULL ";
                         break;
+                    case "2":
+                        dataI = dataInicial.AddDays(-90).ToString("dd/MM/yyyy");
+                        dataF = dataInicial.ToString("dd/MM/yyyy");
+                        param = "WHERE DT_LIQUIDACAO IS NOT NULL ";
+                        break;
                     case "3":
-                        param = "WHERE DT_LIQUIDACAO BETWEEN DATEADD(day, -90, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) AND DT_LIQUIDACAO IS NOT NULL ";
+                        dataI = dataInicial.AddDays(-180).ToString("dd/MM/yyyy");
+                        dataF = dataInicial.ToString("dd/MM/yyyy");
+                        param = "WHERE DT_LIQUIDACAO IS NOT NULL ";
                         break;
                     case "4":
-                        param = "WHERE DT_LIQUIDACAO BETWEEN DATEADD(day, -180, CONVERT (date, GETDATE())) AND CONVERT (date, GETDATE()) AND DT_LIQUIDACAO IS NOT NULL ";
-                        break;
-                    case "5":
+                        dataI = "";
+                        dataF = "";
                         param = "WHERE DT_LIQUIDACAO IS NOT NULL ";
                         break;
                     default:
+                        dataI = "";
+                        dataF = "";
                         param = "";
                         break;
                 }
@@ -7624,7 +7655,7 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(DT_NOTA_FISCAL,'dd/MM/yyyy'),'') AS DT_NOTA, ";
             SQL += "ISNULL(FORMAT(DT_LIQUIDACAO,'dd/MM/yyyy'),'') AS DT_LIQ, ";
             SQL += "ISNULL(VL_COMISSAO,0) AS COMISSAO ";
-            SQL += "FROM FN_COMISSAO_TRANSPORTADORAS('','') A ";
+            SQL += "FROM FN_COMISSAO_TRANSPORTADORAS('" + dataI + "','" + dataF + "', '"+parametro+"') A ";
             SQL += "" + filter + "";
             SQL += "" + param + "";
             DataTable listTable = new DataTable();

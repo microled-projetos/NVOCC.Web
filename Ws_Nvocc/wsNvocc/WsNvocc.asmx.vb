@@ -194,7 +194,8 @@ Public Class WsNvocc
 
 
             ' rsEmpresa = Con.ExecutarQuery("SELECT * FROM TB_EMPRESAS where ID_EMPRESA=" & Cod_Empresa)
-            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO
+FROM TB_EMPRESAS A
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
 WHERE ID_FATURAMENTO = " & IDFatura)
@@ -490,7 +491,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     dDescr = dDescr.Trim & " " & dfinal
 
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                    Else
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    End If
 
                 End If
 
@@ -502,7 +507,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode("829979910")
                 Else
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN_COMISSAO").ToString)
+                    Else
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                    End If
                 End If
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
@@ -908,7 +917,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
             noLoteRPS.Attributes.Append(att)
 
 
-            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' FROM TB_EMPRESAS A
+            rsEmpresa = Con.ExecutarQuery("SELECT CNPJ,NM_RAZAO,IM,NOME_CERTIFICADO,TIPO_RPS,NAT_OPERACAO,SIMPLES,INC_CULTURAL,CIDADE_IBGE,CD_ATIVIDADE_RPS AS 'COD_SERVICO',CD_TRIBUTACAO_RPS AS 'COD_TRIB_MUN' , CD_ATIVIDADE_COMISSAO_RPS AS 'COD_SERVICO_COMISSAO',CD_TRIBUTACAO_COMISSAO_RPS AS 'COD_TRIB_MUN_COMISSAO', FL_INTERMEDIACAO 
+FROM TB_EMPRESAS A
 CROSS JOIN View_Faturamento B 
 LEFT JOIN TB_SERVICO C On C.ID_SERVICO = B.ID_SERVICO
 WHERE ID_FATURAMENTO = " & IDFatura)
@@ -1321,7 +1331,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     dDescr = dDescr.Trim & " " & dfinal
 
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO_COMISSAO").ToString)
+                    Else
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
+                    End If
 
                 End If
 
@@ -1334,7 +1348,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                 If NFDELUCRO = 1 Then
                     noText = doc.CreateTextNode("829979910")
                 Else
-                    noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                    If rsEmpresa.Tables(0).Rows(0)("FL_INTERMEDIACAO").ToString = 1 Then
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN_COMISSAO").ToString)
+                    Else
+                        noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_TRIB_MUN").ToString)
+                    End If
                 End If
                 No.AppendChild(noText)
                 noServicos.AppendChild(No)
@@ -1519,7 +1537,9 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-        Dim client As New ginfes2.ServiceGinfesImplClient
+        'Dim client As New ginfes2.ServiceGinfesImplClient
+
+        Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)

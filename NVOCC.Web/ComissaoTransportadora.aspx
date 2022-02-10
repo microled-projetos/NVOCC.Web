@@ -29,6 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
+                                    
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">Filtro</label>
@@ -50,11 +51,11 @@
                                             <label class="control-label">Filtro</label>
                                             <select id="ddlFilterComissaoTransportadoraParametro" class="form-control">
                                                 <option value="">Selecione</option>
-                                                <option value="1">Todas as comissões</option>
-                                                <option value="2">Comissões a receber</option>
-                                                <option value="3">Comissões recebidas a 90 dias</option>
-                                                <option value="4">Comissões recebidas a 180 dias</option>
-                                                <option value="5">Todas comissões recebidas</option>
+                                                <option value="0">Todas as comissões</option>
+                                                <option value="1">Comissões a receber</option>
+                                                <option value="2">Comissões recebidas a 90 dias</option>
+                                                <option value="3">Comissões recebidas a 180 dias</option>
+                                                <option value="4">Todas comissões recebidas</option>
                                             </select>
                                         </div>
                                     </div>
