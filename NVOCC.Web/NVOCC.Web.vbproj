@@ -401,6 +401,7 @@
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
+    <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="ImprimirND.aspx" />
     <Content Include="EmissaoND.aspx" />
@@ -732,6 +733,13 @@
     </Compile>
     <Compile Include="ContatoParceiro.aspx.vb">
       <DependentUpon>ContatoParceiro.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DadosBancariosAgente.aspx.designer.vb">
+      <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DadosBancariosAgente.aspx.vb">
+      <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />

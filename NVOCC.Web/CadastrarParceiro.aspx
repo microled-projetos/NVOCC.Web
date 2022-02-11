@@ -31,11 +31,11 @@
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
                         </li>
-                       <%-- <li>
+                        <li>
                             <a href="#financeiro" role="tab" data-toggle="tab">
-                                <i class="glyphicon glyphicon-tags" style="padding-right:8px;"></i>Financeiro
+                                <i class="glyphicon glyphicon-tags" style="padding-right:8px;"></i>Dados Bancários
                             </a>
-                        </li>--%>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -456,7 +456,7 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbAgenteInternacional" runat="server" CssClass="form-control" text="&nbsp;Agente Internacional" ></asp:Checkbox>
+                                        <asp:Checkbox ID="ckbAgenteInternacional" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;Agente Internacional" ></asp:Checkbox>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -547,6 +547,9 @@
                             </div>
 
                        </ContentTemplate>
+                                 <Triggers>
+                                                                               <ASP:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
+                            </Triggers>
 </asp:UpdatePanel>   
 
                     </div>    
@@ -734,9 +737,11 @@
                        </div>
 
                      </div>
-                       <%-- <div class="tab-pane fade" id="financeiro" >
-   <br />
-                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                       <div class="tab-pane fade" id="financeiro" >
+   <br />  <asp:label ID="lblDadosBancarios" runat="server" Text="Aba somente para parceiros agente"></asp:label> 
+                           <div  id="divDadosBancarios" runat="server" style="display:none">
+
+                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
     <ContentTemplate>
                             <div class="row">
                                 <div class="col-sm-4">
@@ -803,15 +808,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                grid de upload
-                                
+                            <div class="row">                                
                             </div>
 
-                       </ContentTemplate>
+                       </ContentTemplate> 
 </asp:UpdatePanel>   
-
-                    </div>    --%>
+</div>
+                    </>    
    
                         </div>
                 

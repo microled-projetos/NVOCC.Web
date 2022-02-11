@@ -1094,22 +1094,31 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 lblErroMaster.Text = "Selecione o registro que deseja excluir!"
             Else
 
-                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD From TB_BL Where ID_BL_MASTER = " & txtID_Master.Text & " AND FL_CANCELADO = 0 ")
+                If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "Não é possivel completar ação: Necessário desvincular HBL!"
+                Else
+
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
 From TB_BL_TAXA A 
 INNER Join TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 INNER Join TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE  DT_CANCELAMENTO Is NULL And ID_BL_TAXA_MASTER in (select ID_BL_TAXA
 From TB_BL_TAXA
 Where ID_BL = " & txtID_Master.Text & ")")
-                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
-                Else
-                    Con.ExecutarQuery("UPDATE TB_BL Set FL_CANCELADO = 1, DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
-                    dgvMaster.DataBind()
-                    divSuccessMaster.Visible = True
-                    lblSuccessMaster.Text = "Item deletado com sucesso!"
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErroMaster.Visible = True
+                        lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
+                    Else
+                        Con.ExecutarQuery("UPDATE TB_BL Set FL_CANCELADO = 1, DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
+                        dgvMaster.DataBind()
+                        divSuccessMaster.Visible = True
+                        lblSuccessMaster.Text = "Item deletado com sucesso!"
+                    End If
+
                 End If
+
             End If
         End If
         Con.Fechar()
