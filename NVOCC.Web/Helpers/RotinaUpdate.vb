@@ -847,12 +847,8 @@ WHERE A.ID_COTACAO = " & ID_COTACAO)
             'RefPesoSum = RefPesoSum.Replace(".", ",")
             'RefVolume = RefVolume.Replace(".", ",")
             'RefVolumeSum = RefVolumeSum.Replace(".", ",")
-            Dim dsCarga As DataSet
-            Dim ID_MERCADORIA As Integer = 11
-            dsCarga = Con.ExecutarQuery("SELECT DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
-            If dsCarga.Tables(0).Rows.Count = 1 Then
-                ID_MERCADORIA = dsCarga.Tables(0).Rows(0).Item("ID_MERCADORIA")
-            End If
+
+
 
             If ID_TIPO_ESTUFAGEM = 1 Then
 
@@ -919,7 +915,9 @@ WHERE A.ID_COTACAO = " & ID_COTACAO)
 
                     dsProcesso = Con.ExecutarQuery("SELECT ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CNTR,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
                     dsCotacao = Con.ExecutarQuery("SELECT ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_TIPO_CONTAINER,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
+
                     If dsProcesso.Tables(0).Rows.Count > 0 Then
+
                         If dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString <> dsProcesso.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString Then
                             Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_MERCADORIA = " & dsCotacao.Tables(0).Rows(0).Item("ID_MERCADORIA").ToString & " WHERE ID_BL = " & ID_BL & " AND ID_COTACAO_MERCADORIA = " & ID_COTACAO_MERCADORIA)
                         End If
@@ -976,6 +974,13 @@ WHERE A.ID_COTACAO = " & ID_COTACAO)
                 End If
 
             ElseIf ID_TIPO_ESTUFAGEM = 2 Then
+
+                Dim dsCarga As DataSet
+                Dim ID_MERCADORIA As Integer = 11
+                dsCarga = Con.ExecutarQuery("SELECT DISTINCT ID_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & ID_COTACAO)
+                If dsCarga.Tables(0).Rows.Count = 1 Then
+                    ID_MERCADORIA = dsCarga.Tables(0).Rows(0).Item("ID_MERCADORIA")
+                End If
 
                 dsProcesso = Con.ExecutarQuery("SELECT   ID_EMBALAGEM,ID_MERCADORIA,SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3 FROM TB_CARGA_BL WHERE ID_BL = " & ID_BL)
                 dsCotacao = Con.ExecutarQuery("SELECT  " & ID_MERCADORIA & " as ID_EMBALAGEM, " & ID_MERCADORIA & " as ID_MERCADORIA,SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3 FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO =  " & ID_COTACAO)

@@ -116,11 +116,11 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbAgente.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE")
                 ckbAgenteInternacional.Checked = ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL")
 
-                If ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = "True" Then
-                    divDadosBancarios.Attributes.CssStyle.Add("display", "block")
-                Else
-                    divDadosBancarios.Attributes.CssStyle.Add("display", "none")
-                End If
+                'If ds.Tables(0).Rows(0).Item("FL_AGENTE_INTERNACIONAL") = "True" Then
+                '    divDadosBancarios.Attributes.CssStyle.Add("display", "block")
+                'Else
+                '    divDadosBancarios.Attributes.CssStyle.Add("display", "none")
+                'End If
                 ckbTransportador.Checked = ds.Tables(0).Rows(0).Item("FL_TRANSPORTADOR")
                 ckbComissaria.Checked = ds.Tables(0).Rows(0).Item("FL_COMISSARIA")
                 ckbVendedor.Checked = ds.Tables(0).Rows(0).Item("FL_VENDEDOR")
@@ -1405,11 +1405,11 @@ WHERE ID_PARCEIRO =" & ID)
         Return erro
     End Function
 
-    Private Sub ckbAgenteInternacional_CheckedChanged(sender As Object, e As EventArgs) Handles ckbAgenteInternacional.CheckedChanged
-        If ckbAgenteInternacional.Checked = True Then
-            divDadosBancarios.Attributes.CssStyle.Add("display", "block")
-        Else
-            divDadosBancarios.Attributes.CssStyle.Add("display", "none")
-        End If
-    End Sub
+    'Private Sub ckbAgenteInternacional_CheckedChanged(sender As Object, e As EventArgs) Handles ckbAgenteInternacional.CheckedChanged
+    '    If ckbAgenteInternacional.Checked = True Then
+    '        divDadosBancarios.Attributes.CssStyle.Add("display", "block")
+    '    Else
+    '        divDadosBancarios.Attributes.CssStyle.Add("display", "none")
+    '    End If
+    'End Sub
 End Class
