@@ -533,7 +533,10 @@
                                         <label class="control-label">Código:</label>
                                         <asp:TextBox ID="txtIDTaxa" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>
                                     </div>     
-                                </div><div class="col-sm-4">
+                                </div>
+                                  </div>
+                                   <div class="row">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Frete Transportador:</label>
                                         <asp:TextBox ID="txtFreteTransportadorTaxa" runat="server" Enabled="false" CssClass="form-control" ></asp:TextBox>        </div>
@@ -545,16 +548,17 @@
                                         <asp:DropDownList ID="ddlEstufagemTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataValueField="ID_TIPO_ESTUFAGEM" DataTextField="NM_TIPO_ESTUFAGEM" DataSourceID="dsEstufagem">
                                         </asp:DropDownList>
                                     </div>     
+                                </div> 
+                                       <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Item  Despesa:</label><label runat="server" style="color:red" >*</label>
+                                        <asp:DropDownList ID="ddlItemDespesa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"  ></asp:DropDownList>              </div>
                                 </div>
                             </div>
                             <div class="row">
                                 
 
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Item  Despesa:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlItemDespesa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"  ></asp:DropDownList>              </div>
-                                </div>
+                               
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
@@ -563,8 +567,14 @@
                                 </div><div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Base Calculo Taxa:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlBaseCalculoTaxa" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
+                                        <asp:DropDownList ID="ddlBaseCalculoTaxa" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA">
                                         </asp:DropDownList>                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Qtd. Base de Cálculo:</label>
+                                        <asp:TextBox ID="txtQtdBaseCalculo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">                                
@@ -625,6 +635,7 @@
                                        </div>            
    </ContentTemplate>
 <Triggers>
+    <asp:AsyncPostBackTrigger  ControlID="ddlBaseCalculoTaxa" />
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarTaxa" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharTaxa" />
      </Triggers>  

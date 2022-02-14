@@ -877,6 +877,8 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
      <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
+
+        
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

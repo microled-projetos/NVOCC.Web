@@ -989,57 +989,65 @@ namespace ABAINFRA.Web
                 int d7 = (Int16)listTable.Rows[0]["QT_DIAS_07"];
                 int d8 = (Int16)listTable.Rows[0]["QT_DIAS_08"];
                 int diasDemurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
+                int qtFreetime = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"];
 
                 if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
                 {
-
-                    if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
+                    if (diasDemurrage == 0)
                     {
-                        if (diasDemurrage <= d1)
+                        vlTaxa = 0;
+                    }
+                    else
+                    {
+                        diasDemurrage = diasDemurrage + qtFreetime;
+                        if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
                         {
-                            vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_01"];
-                        }
-                        else if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
-                        {
-                            if (diasDemurrage > d1 && diasDemurrage <= d1 + d2)
+                            if (diasDemurrage <= d1)
                             {
-                                vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_02"];
+                                vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_01"];
                             }
-                            else if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
+                            else if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
                             {
-                                if (diasDemurrage > d1 + d2 && diasDemurrage <= d1 + d2 + d3)
+                                if (diasDemurrage <= d2)
                                 {
-                                    vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_03"];
+                                    vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_02"];
                                 }
-                                else if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
+                                else if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
                                 {
-                                    if (diasDemurrage > d1 + d2 + d3 && diasDemurrage <= d1 + d2 + d3 + d4)
+                                    if (diasDemurrage <= d3)
                                     {
-                                        vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_04"];
+                                        vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_03"];
                                     }
-                                    else if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
+                                    else if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
                                     {
-                                        if (diasDemurrage > d1 + d2 + d3 + d4 && diasDemurrage <= d1 + d2 + d3 + d4 + d5)
+                                        if (diasDemurrage <= d4)
                                         {
-                                            vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_05"];
+                                            vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_04"];
                                         }
-                                        else if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
+                                        else if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
                                         {
-                                            if (diasDemurrage > d1 + d2 + d3 + d4 + d5 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6)
+                                            if (diasDemurrage <= d5)
                                             {
-                                                vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_06"];
+                                                vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_05"];
                                             }
-                                            else if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
+                                            else if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
                                             {
-                                                if (diasDemurrage > d1 + d2 + d3 + d4 + d5 + d6 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7)
+                                                if (diasDemurrage <= d6)
                                                 {
-                                                    vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_07"];
+                                                    vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_06"];
                                                 }
-                                                else if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
+                                                else if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
                                                 {
-                                                    if (diasDemurrage > d1 + d2 + d3 + d4 + d5 + d6 + d7 && diasDemurrage <= d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8)
+                                                    if (diasDemurrage <= d7)
                                                     {
-                                                        vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_08"];
+                                                        vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_07"];
+                                                    }
+                                                    else if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
+                                                    {
+                                                        if (diasDemurrage <= d8)
+                                                        {
+                                                            vlTaxa = (decimal)listTable.Rows[0]["VL_VENDA_08"];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1266,198 +1274,43 @@ namespace ABAINFRA.Web
                 listTable = DBS.List(SQL);
                 string faturaCompra = listTable.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = listTable.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
+                
+                somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
+                vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
 
-                if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
+                SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
+                SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_VENDA, ID_MOEDA_DEMURRAGE_VENDA, VL_TAXA_DEMURRAGE_VENDA, ";
+                SQL += "VL_DEMURRAGE_VENDA, DT_CAMBIO_DEMURRAGE_VENDA, VL_CAMBIO_DEMURRAGE_VENDA, VL_DESCONTO_DEMURRAGE_VENDA, VL_DEMURRAGE_VENDA_BR,QT_DIAS_DEMURRAGE_COMPRA ) VALUES ";
+                SQL += "(" + idCont + ",'" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "','" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', ";
+                SQL += "'" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "','" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "'," + somaDias + ", ";
+                SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + "," + vlTaxa.ToString().Replace(",", ".") + "," + vlDemurr.ToString().Replace(",", ".") + ",null,null,null,null,'" + listTable.Rows[0]["QT_DIAS_DEMURRAGE_COMPRA"] + "')";
+                calcular = DBS.ExecuteScalar(SQL);
+
+                string flagF;
+                SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
+                DataTable flFinaliza = new DataTable();
+                flFinaliza = DBS.List(SQL);
+                flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
+
+                if (idStatus == "2")
                 {
-                    somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
-
-                    SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
-                    SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_VENDA, ID_MOEDA_DEMURRAGE_VENDA, VL_TAXA_DEMURRAGE_VENDA, ";
-                    SQL += "VL_DEMURRAGE_VENDA, DT_CAMBIO_DEMURRAGE_VENDA, VL_CAMBIO_DEMURRAGE_VENDA, VL_DESCONTO_DEMURRAGE_VENDA, VL_DEMURRAGE_VENDA_BR,QT_DIAS_DEMURRAGE_COMPRA ) VALUES ";
-                    SQL += "(" + idCont + ",'" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "','" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', ";
-                    SQL += "'" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "','" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "'," + somaDias + ", ";
-                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + "," + vlTaxa.ToString().Replace(",", ".") + "," + vlDemurr.ToString().Replace(",", ".") + ",null,null,null,null,'" + listTable.Rows[0]["QT_DIAS_DEMURRAGE_COMPRA"] + "')";
-                    calcular = DBS.ExecuteScalar(SQL);
-
-                    string flagF;
-                    SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
-                    DataTable flFinaliza = new DataTable();
-                    flFinaliza = DBS.List(SQL);
-                    flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
-
-                    if (idStatus == "2")
-                    {
-                        flagF = "1";
-                    }
-                    else
-                    {
-                        if (faturaCompra != "" && faturaVenda != "")
-                        {
-                            flagF = "1";
-                        }
-                        else
-                        {
-                            flagF = "0";
-                        }
-                    }
-
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
-                    string atualizarStatus = DBS.ExecuteScalar(SQL);
-
+                    flagF = "1";
                 }
                 else
                 {
-                    int d1 = (Int16)listTable.Rows[0]["QT_DIAS_01"];
-                    int d2 = (Int16)listTable.Rows[0]["QT_DIAS_02"];
-                    int d3 = (Int16)listTable.Rows[0]["QT_DIAS_03"];
-                    int d4 = (Int16)listTable.Rows[0]["QT_DIAS_04"];
-                    int d5 = (Int16)listTable.Rows[0]["QT_DIAS_05"];
-                    int d6 = (Int16)listTable.Rows[0]["QT_DIAS_06"];
-                    int d7 = (Int16)listTable.Rows[0]["QT_DIAS_07"];
-                    int d8 = (Int16)listTable.Rows[0]["QT_DIAS_08"];
-                    int ft = (Int16)listTable.Rows[0]["FreeTimeTab"];
-
-                    somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"];
-                    demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = 0;
-
-                    if (demurrage <= ft)
-                    {
-                        vlDemurr = 0;
-                    }
-                    else
-                    {
-                        if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
-                        {
-                            if (demurrage - d1 <= 0)
-                            {
-                                vlDemurr = demurrage * (decimal)listTable.Rows[0]["VL_VENDA_01"];
-                            }
-                            else
-                            {
-                                demurrage = demurrage - d1;
-                                vlDemurr = d1 * (decimal)listTable.Rows[0]["VL_VENDA_01"];
-                                if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
-                                {
-                                    if (demurrage - d2 <= 0)
-                                    {
-                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_02"]);
-                                    }
-                                    else
-                                    {
-                                        demurrage = demurrage - d2;
-                                        vlDemurr = d2 * (decimal)listTable.Rows[0]["VL_VENDA_02"];
-                                        if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
-                                        {
-                                            if (demurrage - d3 <= 0)
-                                            {
-                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_03"]);
-                                            }
-                                            else
-                                            {
-                                                demurrage = demurrage - d3;
-                                                vlDemurr = d3 * (decimal)listTable.Rows[0]["VL_VENDA_03"];
-                                                if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
-                                                {
-                                                    if (demurrage - d4 <= 0)
-                                                    {
-                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_04"]);
-                                                    }
-                                                    else
-                                                    {
-                                                        demurrage = demurrage - d4;
-                                                        vlDemurr = d4 * (decimal)listTable.Rows[0]["VL_VENDA_04"];
-                                                        if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
-                                                        {
-                                                            if (demurrage - d5 <= 0)
-                                                            {
-                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_05"]);
-                                                            }
-                                                            else
-                                                            {
-                                                                demurrage = demurrage - d5;
-                                                                vlDemurr = d5 * (decimal)listTable.Rows[0]["VL_VENDA_05"];
-                                                                if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
-                                                                {
-                                                                    if (demurrage - d6 <= 0)
-                                                                    {
-                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_06"]);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        demurrage = demurrage - d6;
-                                                                        vlDemurr = d6 * (decimal)listTable.Rows[0]["VL_VENDA_06"];
-                                                                        if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
-                                                                        {
-                                                                            if (demurrage - d7 <= 0)
-                                                                            {
-                                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_07"]);
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                demurrage = demurrage - d7;
-                                                                                vlDemurr = d1 * (decimal)listTable.Rows[0]["VL_VENDA_07"];
-                                                                                if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
-                                                                                {
-                                                                                    if (demurrage - d8 <= 0)
-                                                                                    {
-                                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_08"]);
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        demurrage = demurrage - d8;
-                                                                                        vlDemurr = d8 * (decimal)listTable.Rows[0]["VL_VENDA_08"];
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    SQL = "INSERT INTO TB_CNTR_DEMURRAGE (ID_CNTR_BL, DT_INICIAL_FREETIME, DT_FINAL_FREETIME, DT_INICIAL_DEMURRAGE, ";
-                    SQL += "DT_FINAL_DEMURRAGE, QT_DIAS_DEMURRAGE, DT_CALCULO_DEMURRAGE_VENDA, ID_MOEDA_DEMURRAGE_VENDA, VL_TAXA_DEMURRAGE_VENDA ";
-                    SQL += "VL_DEMURRAGE_VENDA, DT_CAMBIO_DEMURRAGE_VENDA, VL_CAMBIO_DEMURRAGE_VENDA, VL_DESCONTO_DEMURRAGE_VENDA, VL_DEMURRAGE_VENDA_BR, QT_DIAS_DEMURRAGE_COMPRA ) VALUES ";
-                    SQL += "(" + idCont + "," + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "," + listTable.Rows[0]["DT_FINAL_FREETIME"] + ", ";
-                    SQL += "" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "," + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "," + somaDias + ", ";
-                    SQL += "'" + sqlFormattedDate + "'," + listTable.Rows[0]["ID_MOEDA"] + ",0," + vlDemurr.ToString().Replace(",", ".") + ",null,null,null,null," + somaDias + " )";
-                    calcular = DBS.ExecuteScalar(SQL);
-
-                    string flagF;
-                    SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
-                    DataTable flFinaliza = new DataTable();
-                    flFinaliza = DBS.List(SQL);
-                    flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
-
-                    if (idStatus == "2")
+                    if (faturaCompra != "" && faturaVenda != "")
                     {
                         flagF = "1";
                     }
                     else
                     {
-                        if (faturaCompra != "" && faturaVenda != "")
-                        {
-                            flagF = "1";
-                        }
-                        else
-                        {
-                            flagF = "0";
-                        }
+                        flagF = "0";
                     }
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
-                    string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
+
+                SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                string atualizarStatus = DBS.ExecuteScalar(SQL);
+
             }
             else
             {
@@ -1485,196 +1338,41 @@ namespace ABAINFRA.Web
                 string faturaCompra = listTable.Rows[0]["ID_DEMURRAGE_PAGAR"].ToString();
                 string faturaVenda = listTable.Rows[0]["ID_DEMURRAGE_RECEBER"].ToString();
 
+                somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
+                vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
 
-                if (!(Boolean)listTable.Rows[0]["FL_ESCALONADA"])
+                SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_INICIAL_FREETIME = '" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "', ";
+                SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
+                SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + somaDias + ", ";
+                SQL += "DT_CALCULO_DEMURRAGE_VENDA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_VENDA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_VENDA = " + vlTaxa.ToString().Replace(",", ".") + ", ";
+                SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null, QT_DIAS_DEMURRAGE_COMPRA = " + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE_COMPRA"] + " WHERE ID_CNTR_BL = " + idCont + "";
+                calcular = DBS.ExecuteScalar(SQL);
+
+                string flagF;
+                SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
+                DataTable flFinaliza = new DataTable();
+                flFinaliza = DBS.List(SQL);
+                flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
+
+                if (idStatus == "2")
                 {
-                    somaDias = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"] * vlTaxa;
-
-                    SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_INICIAL_FREETIME = '" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "', ";
-                    SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
-                    SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + somaDias + ", ";
-                    SQL += "DT_CALCULO_DEMURRAGE_VENDA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_VENDA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_VENDA = " + vlTaxa.ToString().Replace(",", ".") + ", ";
-                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null, QT_DIAS_DEMURRAGE_COMPRA = " + (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE_COMPRA"] + " WHERE ID_CNTR_BL = " + idCont + "";
-                    calcular = DBS.ExecuteScalar(SQL);
-
-                    string flagF;
-                    SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
-                    DataTable flFinaliza = new DataTable();
-                    flFinaliza = DBS.List(SQL);
-                    flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
-
-                    if (idStatus == "2")
-                    {
-                        flagF = "1";
-                    }
-                    else
-                    {
-                        if (faturaCompra != "" && faturaVenda != "")
-                        {
-                            flagF = "1";
-                        }
-                        else
-                        {
-                            flagF = "0";
-                        }
-                    }
-
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
-                    string atualizarStatus = DBS.ExecuteScalar(SQL);
-
+                    flagF = "1";
                 }
                 else
                 {
-                    int d1 = (Int16)listTable.Rows[0]["QT_DIAS_01"];
-                    int d2 = (Int16)listTable.Rows[0]["QT_DIAS_02"];
-                    int d3 = (Int16)listTable.Rows[0]["QT_DIAS_03"];
-                    int d4 = (Int16)listTable.Rows[0]["QT_DIAS_04"];
-                    int d5 = (Int16)listTable.Rows[0]["QT_DIAS_05"];
-                    int d6 = (Int16)listTable.Rows[0]["QT_DIAS_06"];
-                    int d7 = (Int16)listTable.Rows[0]["QT_DIAS_07"];
-                    int d8 = (Int16)listTable.Rows[0]["QT_DIAS_08"];
-                    int ft = (Int16)listTable.Rows[0]["FreeTimeTab"];
-
-                    somaDias = (Int16)listTable.Rows[0]["QT_DIAS_FREETIME"];
-                    demurrage = (int)listTable.Rows[0]["QT_DIAS_DEMURRAGE"];
-                    vlDemurr = 0;
-
-                    if (demurrage <= ft)
-                    {
-                        vlDemurr = 0;
-                    }
-                    else
-                    {
-                        if (d1.ToString() != "0" && listTable.Rows[0]["QT_DIAS_01"] != null)
-                        {
-                            if (demurrage - d1 <= 0)
-                            {
-                                vlDemurr = demurrage * (decimal)listTable.Rows[0]["VL_VENDA_01"];
-                            }
-                            else
-                            {
-                                demurrage = demurrage - d1;
-                                vlDemurr = d1 * (decimal)listTable.Rows[0]["VL_VENDA_01"];
-                                if (d2.ToString() != "0" && listTable.Rows[0]["QT_DIAS_02"] != null)
-                                {
-                                    if (demurrage - d2 <= 0)
-                                    {
-                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_02"]);
-                                    }
-                                    else
-                                    {
-                                        demurrage = demurrage - d2;
-                                        vlDemurr = d2 * (decimal)listTable.Rows[0]["VL_VENDA_02"];
-                                        if (d3.ToString() != "0" && listTable.Rows[0]["QT_DIAS_03"] != null)
-                                        {
-                                            if (demurrage - d3 <= 0)
-                                            {
-                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_03"]);
-                                            }
-                                            else
-                                            {
-                                                demurrage = demurrage - d3;
-                                                vlDemurr = d3 * (decimal)listTable.Rows[0]["VL_VENDA_03"];
-                                                if (d4.ToString() != "0" && listTable.Rows[0]["QT_DIAS_04"] != null)
-                                                {
-                                                    if (demurrage - d4 <= 0)
-                                                    {
-                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_04"]);
-                                                    }
-                                                    else
-                                                    {
-                                                        demurrage = demurrage - d4;
-                                                        vlDemurr = d4 * (decimal)listTable.Rows[0]["VL_VENDA_04"];
-                                                        if (d5.ToString() != "0" && listTable.Rows[0]["QT_DIAS_05"] != null)
-                                                        {
-                                                            if (demurrage - d5 <= 0)
-                                                            {
-                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_05"]);
-                                                            }
-                                                            else
-                                                            {
-                                                                demurrage = demurrage - d5;
-                                                                vlDemurr = d5 * (decimal)listTable.Rows[0]["VL_VENDA_05"];
-                                                                if (d6.ToString() != "0" && listTable.Rows[0]["QT_DIAS_06"] != null)
-                                                                {
-                                                                    if (demurrage - d6 <= 0)
-                                                                    {
-                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_06"]);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        demurrage = demurrage - d6;
-                                                                        vlDemurr = d6 * (decimal)listTable.Rows[0]["VL_VENDA_06"];
-                                                                        if (d7.ToString() != "0" && listTable.Rows[0]["QT_DIAS_07"] != null)
-                                                                        {
-                                                                            if (demurrage - d7 <= 0)
-                                                                            {
-                                                                                vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_07"]);
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                demurrage = demurrage - d7;
-                                                                                vlDemurr = d1 * (decimal)listTable.Rows[0]["VL_VENDA_07"];
-                                                                                if (d8.ToString() != "0" && listTable.Rows[0]["QT_DIAS_08"] != null)
-                                                                                {
-                                                                                    if (demurrage - d8 <= 0)
-                                                                                    {
-                                                                                        vlDemurr = vlDemurr + (demurrage * (decimal)listTable.Rows[0]["VL_VENDA_08"]);
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        demurrage = demurrage - d8;
-                                                                                        vlDemurr = d8 * (decimal)listTable.Rows[0]["VL_VENDA_08"];
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    SQL = "UPDATE TB_CNTR_DEMURRAGE SET DT_INICIAL_FREETIME = '" + listTable.Rows[0]["DT_INICIAL_FREETIME"] + "', ";
-                    SQL += "DT_FINAL_FREETIME = '" + listTable.Rows[0]["DT_FINAL_FREETIME"] + "', DT_INICIAL_DEMURRAGE = '" + listTable.Rows[0]["DT_INICIAL_DEMURRAGE"] + "', ";
-                    SQL += "DT_FINAL_DEMURRAGE = '" + listTable.Rows[0]["DT_FINAL_DEMURRAGE"] + "', QT_DIAS_DEMURRAGE = " + somaDias + ", ";
-                    SQL += "DT_CALCULO_DEMURRAGE_VENDA = '" + sqlFormattedDate + "', ID_MOEDA_DEMURRAGE_VENDA = " + listTable.Rows[0]["ID_MOEDA"] + ", VL_TAXA_DEMURRAGE_VENDA = 0, ";
-                    SQL += "VL_DEMURRAGE_VENDA = " + vlDemurr.ToString().Replace(",", ".") + ", DT_CAMBIO_DEMURRAGE_VENDA = null, VL_CAMBIO_DEMURRAGE_VENDA = null, VL_DESCONTO_DEMURRAGE_VENDA = null, VL_DEMURRAGE_VENDA_BR = null WHERE ID_CNTR_BL = " + idCont + "";
-                    calcular = DBS.ExecuteScalar(SQL);
-
-                    string flagF;
-                    SQL = "SELECT FL_FINALIZA_DEMURRAGE FROM TB_STATUS_DEMURRAGE WHERE ID_STATUS_DEMURRAGE = '" + idStatus + "' ";
-                    DataTable flFinaliza = new DataTable();
-                    flFinaliza = DBS.List(SQL);
-                    flagF = flFinaliza.Rows[0]["FL_FINALIZA_DEMURRAGE"].ToString();
-
-                    if (idStatus == "2")
+                    if (faturaCompra != "" && faturaVenda != "")
                     {
                         flagF = "1";
                     }
                     else
                     {
-                        if (faturaCompra != "" && faturaVenda != "")
-                        {
-                            flagF = "1";
-                        }
-                        else
-                        {
-                            flagF = "0";
-                        }
+                        flagF = "0";
                     }
-                    SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
-                    string atualizarStatus = DBS.ExecuteScalar(SQL);
                 }
+
+                SQL = "UPDATE TB_CNTR_BL SET ID_STATUS_DEMURRAGE = '" + idStatus + "' ,DT_STATUS_DEMURRAGE = '" + dtStatus + "' WHERE ID_CNTR_BL = " + idCont + " ";
+                string atualizarStatus = DBS.ExecuteScalar(SQL);
+
             }
         }
 
@@ -7539,7 +7237,11 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN TP_FATURA = 'COMPRA' THEN VL_FATURA ELSE 0 END) AS COMPRA, ";
             SQL += "SUM(CASE WHEN TP_FATURA = 'VENDA' THEN VL_FATURA ELSE 0 END) AS VENDA, ";
             SQL += "SUM(CASE WHEN TP_FATURA = 'VENDA' THEN VL_FATURA ELSE 0 END) - ";
-            SQL += "SUM(CASE WHEN TP_FATURA = 'COMPRA' THEN VL_FATURA ELSE 0 END) AS PROFIT ";
+            SQL += "SUM(CASE WHEN TP_FATURA = 'COMPRA' THEN VL_FATURA ELSE 0 END) AS PROFIT, ";
+            SQL += "FORMAT((CASE WHEN LEFT(ISNULL(MAX(CASE WHEN TP_FATURA = 'VENDA' THEN DT_LIQUIDACAO ELSE '' END),''),4) = '1900' ";
+            SQL += "THEN NULL ELSE ISNULL(MAX(CASE WHEN TP_FATURA = 'VENDA' THEN DT_LIQUIDACAO ELSE '' END),'') END),'dd/MM/yyyy') AS DT_LIQUIDACAO, ";
+            SQL += "FORMAT((CASE WHEN LEFT(ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN DT_LIQUIDACAO ELSE '' END), ''), 4) = '1900' ";
+            SQL += "THEN NULL ELSE ISNULL(MAX(CASE WHEN TP_FATURA = 'COMPRA' THEN DT_LIQUIDACAO ELSE '' END),'') END),'dd/MM/yyyy') AS DT_LIQUIDACAO_COMPRA ";
             SQL += "FROM FN_DEMURRAGE_FATURAS('"+ dataI + "','" + dataF + "') A ";
             SQL += "" + filter + "";
             SQL += "GROUP BY A.NR_PROCESSO ";

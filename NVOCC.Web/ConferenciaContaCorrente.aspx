@@ -72,6 +72,8 @@
                                                 <th class="text-center" scope="col">VALOR COMPRA</th>
                                                 <th class="text-center" scope="col">VALOR VENDA</th>
                                                 <th class="text-center" scope="col">PROFIT</th>
+                                                <th class="text-center" scope="col">LIQUIDAÇÃO VENDA</th>
+                                                <th class="text-center" scope="col">LIQUIDAÇÃO COMPRA</th>
                                             </tr>
                                         </thead>
                                         <tbody id="grdConferenciaContaCorrenteBody">
@@ -105,6 +107,8 @@
             var totalC = 0;
             var totalV = 0;
             var profit = 0;
+            var liqV;
+            var liqC;
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
@@ -123,18 +127,32 @@
                         $("#grdConferenciaContaCorrenteFooter").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
+                                if (dado[i]["DT_LIQUIDACAO"] == null) {
+                                    liqV = "";
+                                } else {
+                                    liqV = dado[i]["DT_LIQUIDACAO"];
+                                }
+
+                                if (dado[i]["DT_LIQUIDACAO_COMPRA"] == null) {
+                                    liqC = "";
+                                } else {
+                                    liqC = dado[i]["DT_LIQUIDACAO_COMPRA"];
+                                }
+
                                 $("#grdConferenciaContaCorrenteBody").append("<tr style='word-break: break-word'>" +
                                     "<td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["CLIENTE"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["TRANSPORTADOR"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["COMPRA"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
                                     "<td class='text-center'>" + dado[i]["VENDA"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["PROFIT"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td></tr > ");
+                                    "<td class='text-center'>" + dado[i]["PROFIT"].toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td>" +
+                                    "<td class='text-center'>" + liqV + "</td>" +
+                                    "<td class='text-center'>" + liqC + "</td></tr > ");
                                 totalC = totalC + parseFloat(dado[i]["COMPRA"]);
                                 totalV = totalV + parseFloat(dado[i]["VENDA"]);
                                 profit = profit + parseFloat(dado[i]["PROFIT"]);
                             }
-                            $("#grdConferenciaContaCorrenteFooter").append("<tr><th></th><th></th><th style='text-align:end'>Total:</th><th style='text-align:center'>" + totalC.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th style='text-align:center'>" + totalV.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th style='text-align:center'>" + profit.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>");
+                            $("#grdConferenciaContaCorrenteFooter").append("<tr><th></th><th></th><th style='text-align:end'>Total:</th><th style='text-align:center'>" + totalC.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th style='text-align:center'>" + totalV.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th style='text-align:center'>" + profit.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th></tr>");
                         }
                         else {
                             $("#grdConferenciaContaCorrenteBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='10' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
