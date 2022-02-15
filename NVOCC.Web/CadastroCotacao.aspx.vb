@@ -149,13 +149,22 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
 
-            If (ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 1 Or ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString() = 6) And ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString() <> 0 Then
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 4
 
+            If ds.Tables(0).Rows(0).Item("ID_SERVICO").ToString() > 2 Then
+                'EXPO
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 0
             Else
-                ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+                'IMPO
+                If ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR").ToString() <> 0 Then
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 4
 
+                Else
+                    ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+
+                End If
             End If
+
+
 
             txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
@@ -380,13 +389,20 @@ union SELECT  0, ' Selecione' ORDER BY NM_CLIENTE_FINAL"
         ddlMoedaCompraTaxa.SelectedValue = 0
         ddlMoedaVendaTaxa.SelectedValue = 0
         ddlTipoPagamentoTaxa.SelectedValue = 1
-        If (ddlDestinatarioComercial.SelectedValue = 1 Or ddlDestinatarioComercial.SelectedValue = 6) And ddlImportador.SelectedValue <> 0 Then
-            ddlDestinatarioCobrancaTaxa.SelectedValue = 4
 
+        If ddlServico.SelectedValue > 2 Then
+            'EXPO
+            ddlDestinatarioCobrancaTaxa.SelectedValue = 0
         Else
-            ddlDestinatarioCobrancaTaxa.SelectedValue = 1
-
+            'IMPO
+            If ddlImportador.SelectedValue <> 0 Then
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 4
+            Else
+                ddlDestinatarioCobrancaTaxa.SelectedValue = 1
+            End If
         End If
+
+
         ddlFornecedor.SelectedValue = ddlTransportadorFrete.SelectedValue
         txtValorTaxaCompra.Text = ""
         txtValorTaxaVenda.Text = ""
@@ -1506,7 +1522,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 divSuccessFrete.Visible = True
                 Con.Fechar()
-                'ImportaTaxas()
+
                 If divDeleteTaxas.Visible = True And lblDeleteTaxas.Text = "Ação realizada com sucesso!" Then
                     divInfoFrete.Visible = True
                     lblInfoFrete.Text = "Registros importados automaticamente, favor revisar as taxas da cotação!"
@@ -3458,6 +3474,11 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
 
 
 
+            If txtQtdBaseCalculo.Text = "" Then
+                txtQtdBaseCalculo.Text = "0"
+            End If
+
+
             If txtValorTaxaCompraMin.Text = "" Then
                 txtValorTaxaCompraMin.Text = "0"
             End If
@@ -3595,9 +3616,6 @@ WHERE ID_COTACAO_TAXA = " & txtIDTaxa.Text)
                     txtValorTaxaCompraMin.Text = txtValorTaxaCompraMin.Text.Replace(".", ",")
                     txtValorTaxaVenda.Text = txtValorTaxaVenda.Text.Replace(".", ",")
                     txtValorTaxaVendaMin.Text = txtValorTaxaVendaMin.Text.Replace(".", ",")
-
-                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("NULL", "")
-                    'txtObsTaxa.Text = txtObsTaxa.Text.Replace("'", "")
 
                     divSuccessTaxa.Visible = True
                     Con.Fechar()
@@ -3892,20 +3910,21 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
         Con.Conectar()
         Dim ds As DataSet
 
-        'If ddlServico.SelectedValue > 2 Then
-        '    'EXPO
-        '    ID_DESTINATARIO_COBRANCA = 0
+        If ddlServico.SelectedValue > 2 Then
+            'EXPO
+            ID_DESTINATARIO_COBRANCA = 0
 
-        'Else
-        ds = Con.ExecutarQuery("SELECT  CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
+        Else
+            'IMPO
+            ds = Con.ExecutarQuery("SELECT  CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
 
-        If ds.Tables(0).Rows.Count > 0 Then
-            ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+            If ds.Tables(0).Rows.Count > 0 Then
+                ID_DESTINATARIO_COBRANCA = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COBRANCA")
+            End If
         End If
-        'End If
 
 
         Dim dsTaxas As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)

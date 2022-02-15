@@ -119,8 +119,8 @@
                                 </div>
                                  <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Qtd. DOC/Shipper:</label>
-                                        <asp:TextBox ID="txtQtdDocShipper" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+                                        <label class="control-label">Qtd. Base de cálculo:</label>
+                                        <asp:TextBox ID="txtQtdBaseCalculo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
                                     </div>
                                 </div>
                                 
@@ -251,8 +251,8 @@
                             </div>
                                  <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Qtd. DOC/Shipper:</label>
-                                        <asp:TextBox ID="txtQtdDocShipperNovo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+                                        <label class="control-label">Qtd. Base de Calculo:</label>
+                                        <asp:TextBox ID="txtQtdBaseCalculoNovo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
                                     </div>
                                 </div>
                             </div></div>

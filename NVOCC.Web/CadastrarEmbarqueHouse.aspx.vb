@@ -2910,18 +2910,8 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
 
-        Dim ObsTaxa As String = ""
-        If txtObs_TaxaAereo.Text = "" Then
-            ObsTaxa = "NULL"
-        Else
-            ObsTaxa = txtObs_TaxaAereo.Text
-            ObsTaxa = ObsTaxa.Replace("'", "''")
-            ObsTaxa = "'" & ObsTaxa & "'"
-        End If
 
-        'If txtBaseCompra_TaxaAereo.Text = "" Then
-        '    txtBaseCompra_TaxaAereo.Text = 0
-        'End If
+
 
         If txtMinCompra_TaxaAereo.Text = "" Then
             txtMinCompra_TaxaAereo.Text = 0
@@ -2939,42 +2929,57 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             txtValorVenda_TaxaAereo.Text = 0
         End If
 
-        'txtBaseCompra_TaxaAereo.Text = txtBaseCompra_TaxaAereo.Text.Replace(".", "")
-        'txtBaseCompra_TaxaAereo.Text = txtBaseCompra_TaxaAereo.Text.Replace(",", ".")
 
-        txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", "")
-        txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(",", ".")
+        If txtQtdBaseCalculo_TaxaAereo.Text = "" Then
+            txtQtdBaseCalculo_TaxaAereo.Text = 0
+        End If
 
-        txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", "")
-        txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(",", ".")
 
-        txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", "")
-        txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(",", ".")
 
-        txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", "")
-        txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(",", ".")
 
         If txtValorCompra_TaxaAereo.Text = 0 And txtValorVenda_TaxaAereo.Text = 0 Then
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "Não é possivel cadastrar taxas com valores zerados."
             mpeTaxaAereo.Show()
-
-            txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
-            txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
-            txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
-            txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
             Exit Sub
+
         ElseIf ddlOrigemPagamento_TaxaAereo.SelectedValue = 0 Or ddlTipoPagamento_TaxaAereo.SelectedValue = 0 Then
             divErro_TaxaAereo2.Visible = True
             lblErro_TaxaAereo2.Text = "Preencha os campos obrigatórios!"
             mpeTaxaAereo.Show()
-
-            txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", ",")
-            txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", ",")
-            txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", ",")
-            txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", ",")
             Exit Sub
+
+        ElseIf (ddlBaseCalculo_TaxaAereo.SelectedValue = 38 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 40 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaAereo.Text = 0 Then
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
+            mpeTaxaAereo.Show()
+            Exit Sub
+
         Else
+
+            Dim ObsTaxa As String = ""
+            If txtObs_TaxaAereo.Text = "" Then
+                ObsTaxa = "NULL"
+            Else
+                ObsTaxa = txtObs_TaxaAereo.Text
+                ObsTaxa = ObsTaxa.Replace("'", "''")
+                ObsTaxa = "'" & ObsTaxa & "'"
+            End If
+
+
+            txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(".", "")
+            txtMinCompra_TaxaAereo.Text = txtMinCompra_TaxaAereo.Text.Replace(",", ".")
+
+            txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(".", "")
+            txtValorCompra_TaxaAereo.Text = txtValorCompra_TaxaAereo.Text.Replace(",", ".")
+
+            txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(".", "")
+            txtMinVenda_TaxaAereo.Text = txtMinVenda_TaxaAereo.Text.Replace(",", ".")
+
+            txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(".", "")
+            txtValorVenda_TaxaAereo.Text = txtValorVenda_TaxaAereo.Text.Replace(",", ".")
+
+
             If txtID_TaxaAereo.Text = "" Then
 
 
@@ -3225,6 +3230,10 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
+        If txtQtdBaseCalculo_TaxaMaritimo.Text = "" Then
+            txtQtdBaseCalculo_TaxaMaritimo.Text = 0
+        End If
+
         If txtValorCompra_TaxaMaritimo.Text = 0 And txtValorVenda_TaxaMaritimo.Text = 0 Then
             divErro_TaxaMaritimo2.Visible = True
             lblErro_TaxaMaritimo2.Text = "Não é possivel cadastrar taxas com valores zerados."
@@ -3237,7 +3246,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             mpeTaxaMaritimo.Show()
             Exit Sub
 
-        ElseIf (ddlBaseCalculo_TaxaMaritimo.SelectedValue = 38 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 40 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaMaritimo.Text = "" Then
+        ElseIf (ddlBaseCalculo_TaxaMaritimo.SelectedValue = 38 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 40 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaMaritimo.Text = 0 Then
             divErro_TaxaMaritimo2.Visible = True
             lblErro_TaxaMaritimo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
             mpeTaxaMaritimo.Show()
@@ -4544,6 +4553,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             txtQtdBaseCalculo_TaxaAereo.Enabled = True
         Else
             txtQtdBaseCalculo_TaxaAereo.Enabled = False
+            txtQtdBaseCalculo_TaxaAereo.Text = 0
         End If
     End Sub
 
@@ -4551,6 +4561,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
         If ddlBaseCalculo_TaxaMaritimo.SelectedValue = 38 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 40 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 41 Then
             txtQtdBaseCalculo_TaxaMaritimo.Enabled = True
         Else
+            txtQtdBaseCalculo_TaxaMaritimo.Text = 0
             txtQtdBaseCalculo_TaxaMaritimo.Enabled = False
         End If
     End Sub

@@ -705,6 +705,9 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
         Con.Conectar()
         Dim ds As DataSet
 
+        If txtQtdBaseCalculo.Text = "" Then
+            txtQtdBaseCalculo.Text = 0
+        End If
 
         If txtFreteTransportadorTaxa.Text = "" Then
 
@@ -715,7 +718,7 @@ WHERE C.ID_TABELA_FRETE_TAXA = " & ID)
             lblErroTaxa.Text = "Preencha todos os campos obrigatórios"
             divErroTaxa.Visible = True
 
-        ElseIf (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) And txtQtdBaseCalculo.Text = "" Then
+        ElseIf (ddlBaseCalculoTaxa.SelectedValue = 38 Or ddlBaseCalculoTaxa.SelectedValue = 40 Or ddlBaseCalculoTaxa.SelectedValue = 41) And txtQtdBaseCalculo.Text = 0 Then
             lblErroTaxa.Text = "Necessário informar quantidade para base de calculo selecionada."
             divErroTaxa.Visible = True
 
