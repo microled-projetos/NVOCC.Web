@@ -134,7 +134,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     'AGENCIAMENTO DE IMPORTACAO MARITIMA
                     'AGENCIAMENTO DE EXPORTAÇÃO MARITIMA
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 Then
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2021 Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(Request.QueryString("id"))
                     End If

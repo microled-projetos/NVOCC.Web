@@ -1022,7 +1022,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Con.Conectar()
             Dim dsAno As DataSet = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA FROM [TB_BL] WHERE ID_BL = " & txtID_Master.Text)
 
-            If dsAno.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 Then
+            If dsAno.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2021 Then
                 Dim Rastreio As New RastreioService
                 Rastreio.trackingbl(txtID_Master.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
