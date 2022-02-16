@@ -1881,7 +1881,14 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "')")
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "')")
+                    Else
+
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                    End If
+
                     divSuccess_RefAereo.Visible = True
 
                     txtID_RefAereo.Text = ""
@@ -1898,7 +1905,14 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    Else
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    End If
+
                     divSuccess_RefAereo.Visible = True
                     txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
@@ -1937,8 +1951,14 @@ WHERE ID_CARGA_BL = " & ID)
                     lblErro_RefMaritimo.Text = "Usuário não possui permissão."
 
                 Else
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "')")
+                    Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "')")
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                    End If
+
                     divSuccess_RefMaritimo.Visible = True
                     ddlTipoRefMaritimo.SelectedValue = 0
                     txtRefMaritimo.Text = ""
@@ -1953,7 +1973,14 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    Else
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    End If
+
                     divSuccess_RefMaritimo.Visible = True
 
                     txtID_RefMaritimo.Text = ""

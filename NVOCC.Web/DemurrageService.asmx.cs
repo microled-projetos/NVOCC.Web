@@ -4552,13 +4552,13 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
-            SQL += "LEFT JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
-            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
-            SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == 0)
@@ -4580,18 +4580,46 @@ namespace ABAINFRA.Web
             SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
             SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
             SQL += "FROM TB_ACCOUNT_INVOICE AI ";
-            SQL += "LEFT JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
-            SQL += "LEFT JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
-            SQL += "LEFT JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
-            SQL += "LEFT JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
-            SQL += "LEFT JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
             for (int i = 0; i < invoices.Length; i++)
             {
                 if (i == 0)
                 {
                     SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 2 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+                else
+                {
+                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+            }
+            SQL += " ) UNION ";
+            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(ORIGEM.CD_PORTO,'') as ORIGEM, ISNULL(DESTINO.CD_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL(TRANSPORTADOR.NM_RAZAO,'') AS TRANSPORTADOR,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS DT_PREVISAO_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            for (int i = 0; i < invoices.Length; i++)
+            {
+                if (i == 0)
+                {
+                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
                 }
                 else
                 {
@@ -7482,6 +7510,77 @@ namespace ABAINFRA.Web
             listTable = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarRelatorioContasRecebidasPagas(string dataI, string dataF)
+        {
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NM_ITEM_DESPESA,'') AS ITEM_DESPESA, ";
+            SQL += "ISNULL(DT_LIQUIDACAO_REC,'') AS DT_LIQ_REC, ISNULL(NM_CLIENTE_REC,'') AS CLI_REC, ISNULL(VL_DEVIDO_REC,0) AS DEVIDO_REC, ";
+            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(VL_CAMBIO_REC,0) AS CAMBIO_REC, ISNULL(VL_LIQUIDO_REC,0) AS LIQ_REC, ";
+            SQL += "ISNULL(VL_ISS_REC,0) AS ISS_REC, ISNULL(DT_LIQUIDACAO_PAG,'') AS DT_LIQ_PAG, ISNULL(NM_FORNECEDOR_PAG,'') AS FORNEC_PAG, ";
+            SQL += "ISNULL(VL_DEVIDO_PAG,0) AS DEV_PAG, ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(VL_CAMBIO_PAG,0) AS CAMBIO_PAG, ";
+            SQL += "ISNULL(VL_LIQUIDO_PAG,0) AS LIQ_PAG, ISNULL(VL_ISS_PAG,0) AS ISS_PAG, ISNULL(TP_EXPORTACAO,'') AS TIPO_EXPORT, ";
+            SQL += "ISNULL(DT_EMISSAO,'') AS EMISSAO, ISNULL(FORMAT(DT_VENCIMENTO,'dd/MM/yyyy'),'') AS VENCIMENTO, ";
+            SQL += "ISNULL(TP_FATURAMENTO,'') AS FATURAMENTO, ISNULL(FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS PREV_CHEGADA, ";
+            SQL += "ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS CHEGADA, ISNULL(TP_ESTUFAGEM,'') AS ESTUFAGEM, ";
+            SQL += "ISNULL(NM_CLIENTE_FINAL,'') AS CLI_FINAL, ISNULL(NM_AGENTE,'') AS AGENTE, ISNULL(TP_PAGTO_MASTER,'') AS PAG_MASTER, ";
+            SQL += "ISNULL(TP_PAGTO_HOUSE,'') AS PAG_HOUSE FROM FN_CONTAS_RECEBIDAS_PAGAS_II('"+dataI+"','"+dataF+"') ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            if (listTable != null)
+            {
+                string[] previ = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    previ[i] += listTable.Rows[i]["PROCESSO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["MBL"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ITEM_DESPESA"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DT_LIQ_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CLI_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DEVIDO_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["MOEDA_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CAMBIO_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["LIQ_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ISS_REC"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DT_LIQ_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["FORNEC_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["DEV_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["MOEDA_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CAMBIO_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["LIQ_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ISS_PAG"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["TIPO_EXPORT"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["EMISSAO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["VENCIMENTO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["FATURAMENTO"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["PREV_CHEGADA"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CHEGADA"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["ESTUFAGEM"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["CLI_FINAL"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["AGENTE"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["PAG_MASTER"].ToString() + ";";
+                    previ[i] += listTable.Rows[i]["PAG_HOUSE"].ToString() + ";";
+                }
+                return JsonConvert.SerializeObject(previ);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
         }
 
         [WebMethod]

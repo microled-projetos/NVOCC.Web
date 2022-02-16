@@ -105,6 +105,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnImportar.Visible = False
                 dgvMercadoria.Columns(8).Visible = False
                 dgvTaxas.Columns(11).Visible = False
+                btnGravarReferencia.Visible = False
+                dgvReferencia.Columns(3).Visible = False
+                dgvReferencia.Columns(4).Visible = False
 
             Else
                 btnGravar.Enabled = True
@@ -118,7 +121,9 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 btnImportar.Visible = True
                 dgvMercadoria.Columns(8).Visible = True
                 dgvTaxas.Columns(11).Visible = True
-
+                btnGravarReferencia.Visible = True
+                dgvReferencia.Columns(3).Visible = True
+                dgvReferencia.Columns(4).Visible = True
             End If
             ddlStatusCotacao.SelectedValue = ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO").ToString()
 
@@ -4888,6 +4893,7 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
         Dim Con As New Conexao_sql
         Con.Conectar()
+        Dim ds As DataSet
 
         'Dim RefConsignee As String = ""
         'If txtRefConsignee.Text = "" Then
@@ -4943,16 +4949,46 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             If txtID_Referencia.Text = "" Then
 
                 'INSERT
-                Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "')")
+                If txtProcessoCotacao.Text <> "" Then
+                    ds = Con.ExecutarQuery("Select ID_BL FROM TB_BL WHERE GRAU='C' AND NR_PROCESSO = '" & txtProcessoCotacao.Text & "'")
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO,ID_BL) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_BL") & ")")
+                    Else
+
+                          Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "')")
+                    End If
+
+                Else
+
+                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "')")
+                End If
+
                 divSuccessReferencia.Visible = True
                 dgvReferencia.DataBind()
+                txtID_Referencia.Text = ""
+                txtReferencia.Text = ""
+                ddlTipoReferencia.SelectedValue = 0
 
 
             Else
 
-
                 'UPDATE
-                Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "'  WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                If txtProcessoCotacao.Text <> "" Then
+                    ds = Con.ExecutarQuery("Select ID_BL FROM TB_BL WHERE GRAU='C' AND NR_PROCESSO = '" & txtProcessoCotacao.Text & "'")
+                    If ds.Tables(0).Rows.Count > 0 Then
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "', ID_BL = " & ds.Tables(0).Rows(0).Item("ID_BL") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                    Else
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "'  WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                    End If
+
+                Else
+
+                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "'  WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                End If
+
                 divSuccessReferencia.Visible = True
                 dgvReferencia.DataBind()
                 txtID_Referencia.Text = ""
@@ -5007,5 +5043,14 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             End If
         End If
         Con.Fechar()
+    End Sub
+
+    Private Sub btnLimparReferencia_Click(sender As Object, e As EventArgs) Handles btnLimparReferencia.Click
+        divSuccessReferencia.Visible = False
+        divErroReferencia.Visible = False
+        txtID_Referencia.Text = ""
+        txtReferencia.Text = ""
+        ddlTipoReferencia.SelectedValue = 0
+        dgvReferencia.DataBind()
     End Sub
 End Class
