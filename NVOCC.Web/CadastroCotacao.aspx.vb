@@ -60,7 +60,7 @@
         Dim ds As DataSet
 
         ds = Con.ExecutarQuery("SELECT A.ID_COTACAO,ID_FRETE_TRANSPORTADOR,A.NR_COTACAO,ID_PORTO_DESTINO,ID_PORTO_ORIGEM,ID_TRANSPORTADOR,ID_PARCEIRO_INDICADOR,DT_FOLLOWUP,
-CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,
+CONVERT(varchar,A.DT_ABERTURA,103)DT_ABERTURA,FL_FREE_HAND,ID_STATUS_FRETE_AGENTE,ID_PARCEIRO_EXPORTADOR,ID_PARCEIRO_IMPORTADOR,REF_AUXILIAR,REF_CONSIGNEE,REF_SHIPPER,
 A.ID_STATUS_COTACAO,
 CONVERT(varchar,A.DT_STATUS_COTACAO,103)DT_STATUS_COTACAO,
 CONVERT(varchar,A.DT_VALIDADE_COTACAO,103)DT_VALIDADE_COTACAO,
@@ -164,7 +164,17 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
+            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_AUXILIAR")) Then
+            '    txtRefAuxiliar.Text = ds.Tables(0).Rows(0).Item("REF_AUXILIAR").ToString()
+            'End If
 
+            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_CONSIGNEE")) Then
+            '    txtRefConsignee.Text = ds.Tables(0).Rows(0).Item("REF_CONSIGNEE").ToString()
+            'End If
+
+            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_SHIPPER")) Then
+            '    txtRefShipper.Text = ds.Tables(0).Rows(0).Item("REF_SHIPPER").ToString()
+            'End If
 
             txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
@@ -4393,6 +4403,15 @@ SELECT '" & PROCESSO_FINAL & "','C', " & ddlServico.SelectedValue & ",ID_CLIENTE
         FROM TB_COTACAO_MERCADORIA B WHERE A.ID_COTACAO = B.ID_COTACAO ),FINAL_DESTINATION FROM TB_COTACAO A WHERE A.ID_COTACAO = " & txtID.Text & " Select SCOPE_IDENTITY() as ID_BL ")
         ID_BL = dsBL.Tables(0).Rows(0).Item("ID_BL").ToString()
 
+
+        'INCLUSAO DE REFERENCIA DO CLIENTE
+        'Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE)  SELECT " & ID_BL & ", REF_CONSIGNEE FROM TB_COTACAO A WHERE ID_COTACAO = " & txtID.Text)
+
+
+        'UPDATE INSERINDO ID_BL NASA REFERENCIAS DA COTAÇÃO
+        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_BL = " & ID_BL & " WHERE ID_COTACAO = " & txtID.Text)
+
+
         'TAXAS COMPRAS
         Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,OB_TAXAS,ID_BL,FL_TAXA_TRANSPORTADOR,CD_PR,ID_PARCEIRO_EMPRESA,CD_ORIGEM_INF,ID_COTACAO_TAXA,QTD_BASE_CALCULO ) 
 SELECT ID_ITEM_DESPESA,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA_COMPRA,VL_TAXA_COMPRA,VL_TAXA_COMPRA_CALCULADO,VL_TAXA_COMPRA_MIN,OB_TAXAS," & ID_BL & ",FL_TAXA_TRANSPORTADOR,'P',ID_FORNECEDOR,'COTA',ID_COTACAO_TAXA,QTD_BASE_CALCULO FROM TB_COTACAO_TAXA
@@ -4861,5 +4880,132 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         Else
             txtQtdBaseCalculo.Enabled = False
         End If
+    End Sub
+
+    Private Sub btnGravarReferencia_Click(sender As Object, e As EventArgs) Handles btnGravarReferencia.Click
+        divSuccessReferencia.Visible = False
+        divErroReferencia.Visible = False
+
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
+        'Dim RefConsignee As String = ""
+        'If txtRefConsignee.Text = "" Then
+        '    RefConsignee = "NULL"
+        'Else
+        '    RefConsignee = txtRefConsignee.Text
+        '    RefConsignee = RefConsignee.Replace("'", "''")
+        '    RefConsignee = "'" & RefConsignee & "'"
+        'End If
+
+        'Dim RefAuxiliar As String = ""
+        'If txtRefAuxiliar.Text = "" Then
+        '    RefAuxiliar = "NULL"
+        'Else
+        '    RefAuxiliar = txtRefAuxiliar.Text
+        '    RefAuxiliar = RefAuxiliar.Replace("'", "''")
+        '    RefAuxiliar = "'" & RefAuxiliar & "'"
+        'End If
+
+
+        'Dim RefShipper As String = ""
+        'If txtRefShipper.Text = "" Then
+        '    RefShipper = "NULL"
+        'Else
+        '    RefShipper = txtRefShipper.Text
+        '    RefShipper = RefShipper.Replace("'", "''")
+        '    RefShipper = "'" & RefShipper & "'"
+        'End If
+
+        'Con.ExecutarQuery("UPDATE TB_COTACAO SET REF_AUXILIAR = " & RefAuxiliar & ", REF_CONSIGNEE = " & RefConsignee & " , REF_SHIPPER = " & RefShipper & " WHERE ID_COTACAO = " & txtID.Text)
+        'divSuccessReferencia.Visible = True
+
+        '----------------------------------------------------------------------------------------------
+
+        Dim Referencia As String = ""
+        If txtID.Text = "" Then
+            lblErroReferencia.Text = "Necessário inserir cotação!"
+            divErroReferencia.Visible = True
+        ElseIf txtReferencia.Text = "" Or ddlTipoReferencia.SelectedValue = "0" Then
+            lblErroReferencia.Text = "Preencha todos os campos!"
+            divErroReferencia.Visible = True
+        Else
+            Referencia = txtReferencia.Text
+            Referencia = Referencia.Replace("'", "''")
+            Referencia = "'" & Referencia & "'"
+
+
+
+
+
+
+
+            If txtID_Referencia.Text = "" Then
+
+                'INSERT
+                Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "')")
+                divSuccessReferencia.Visible = True
+                dgvReferencia.DataBind()
+
+
+            Else
+
+
+                'UPDATE
+                Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "'  WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                divSuccessReferencia.Visible = True
+                dgvReferencia.DataBind()
+                txtID_Referencia.Text = ""
+                txtReferencia.Text = ""
+                ddlTipoReferencia.SelectedValue = 0
+
+            End If
+
+
+        End If
+
+
+
+    End Sub
+
+    Private Sub dgvReferencia_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvReferencia.RowCommand
+        divSuccessReferencia.Visible = False
+        divErroReferencia.Visible = False
+        Dim Con As New Conexao_sql
+        Dim ds As DataSet
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+
+
+            Dim ID As String = e.CommandArgument
+
+            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
+            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
+                lblErroReferencia.Text = "Usuário não tem permissão para realizar exclusões"
+                divErroReferencia.Visible = True
+            Else
+                Con.ExecutarQuery("DELETE From TB_REFERENCIA_CLIENTE Where ID_REFERENCIA_CLIENTE = " & ID)
+                lblSuccessReferencia.Text = "Registro deletado!"
+                divSuccessReferencia.Visible = True
+                dgvReferencia.DataBind()
+            End If
+
+        ElseIf e.CommandName = "visualizar" Then
+            Dim ID As String = e.CommandArgument
+
+            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
+WHERE ID_REFERENCIA_CLIENTE = " & ID)
+            If ds.Tables(0).Rows.Count > 0 Then
+
+                txtID_Referencia.Text = ID
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
+                    txtReferencia.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE").ToString
+                    ddlTipoReferencia.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
+                End If
+
+            End If
+        End If
+        Con.Fechar()
     End Sub
 End Class

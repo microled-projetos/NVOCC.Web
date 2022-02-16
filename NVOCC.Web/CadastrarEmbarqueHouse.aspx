@@ -65,7 +65,7 @@
                                 </li>
                                 <li>
                                     <a href="#RefMaritimo" role="tab" data-toggle="tab">
-                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Referência do Cliente
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Referências
                                     </a>
                                 </li>
                             </ul>
@@ -404,21 +404,27 @@
                                 </div>
                                         
                                     </div>
-                                      <div class="row">
-                                           <div class="col-sm-6">
+                                    <div class="row">
+                                           <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label class="control-label">Referência Comercial:</label>
                                                 <asp:TextBox ID="txtRefComercial_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-6">
+                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label class="control-label">Referência Auxiliar:</label>
                                                 <asp:TextBox ID="txtRefAuxiliar_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
+                                          <%--  <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Referência Shipper:</label>
+                                                        <asp:TextBox ID="txtRefShipper_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
 
+                                                    </div>
+                                                </div>--%>
                                 </div>
                                     <div class="row" id="divMercadoriaBL_Maritimo" runat="server" style="display:none">
                                         <div class="col-sm-12">
@@ -1124,13 +1130,27 @@ VENDAS:
                                     <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
                                             <br />
-
-                                            <asp:Label ID="Label11" Style="padding-left: 35px" runat="server">Referência do Cliente:</asp:Label>
-                                            <div class="row linhabotao text-center" style="margin-left: 20px">
+                                               <br />   <br />   <br />
+                                            <div class="row linhabotao">
 
                                                 <div>
-                                                    <div class="col-sm-4" style="border: ridge 1px; margin-left: 10px; padding-top: 20px; padding-bottom: 10px">
+                                                    <div class="col-sm-2">
                                                         <div class="form-group">
+                                                             <label class="control-label">Tipo:</label>
+                                                             <asp:DropDownList ID="ddlTipoRefMaritimo" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
+                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                <asp:ListItem Value="CNEE">CNEE</asp:ListItem>
+                                                <asp:ListItem Value="SHIPPER">SHIPPER</asp:ListItem>
+                                                <asp:ListItem Value="AUXILIAR">AUXILIAR</asp:ListItem>
+                                                <asp:ListItem Value="COMERCIAL">COMERCIAL</asp:ListItem>
+                                            </asp:DropDownList>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                             <label class="control-label">Referência:</label>
                                                             <asp:TextBox ID="txtRefMaritimo" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
 
                                                         </div>
@@ -1170,7 +1190,7 @@ VENDAS:
                                                     <Columns>
 
                                                         <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
-                                                        <asp:BoundField DataField="ID_BL" ReadOnly="true" HeaderText="ID_BL" SortExpression="ID_BL" />
+                                                       <asp:BoundField DataField="TIPO" ReadOnly="true" HeaderText="TIPO" SortExpression="TIPO" />
                                                         <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
                                                         <asp:TemplateField ShowHeader="False">
                                                             <ItemTemplate>
@@ -1231,7 +1251,7 @@ VENDAS:
                                 </li>
                                 <li>
                                     <a href="#RefAereo" role="tab" data-toggle="tab">
-                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Referência do Cliente
+                                        <i class="fa fa-edit" style="padding-right: 8px;"></i>Referências
                                     </a>
                                 </li>
                             </ul>
@@ -1588,7 +1608,7 @@ VENDAS:
                                                
 
                                                
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Referência Comercial:</label>
                                                         <asp:TextBox ID="txtRefComercial_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1596,10 +1616,17 @@ VENDAS:
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Referência Auxiliar:</label>
                                                         <asp:TextBox ID="txtRefAuxiliar_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                               <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Referência Shipper:</label>
+                                                        <asp:TextBox ID="txtRefShipper_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+
                                                     </div>
                                                 </div>
                                                  </div>
@@ -2274,17 +2301,33 @@ VENDAS:
                                         <ContentTemplate>
 
                                             <br />
-                                            <asp:Label ID="Label12" Style="padding-left: 35px" runat="server">Referência do Cliente:</asp:Label>
                                             <div class="row linhabotao text-center" style="margin-left: 20px">
 
                                                 <div>
-                                                    <div class="col-sm-4" style="border: ridge 1px; margin-left: 10px; padding-top: 20px; padding-bottom: 10px">
+                                                    <div class="col-sm-2">
                                                         <div class="form-group">
+                                                             <label class="control-label">Tipo:</label>
+                                                             <asp:DropDownList ID="ddlTipoRefAereo" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
+                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                <asp:ListItem Value="CNEE">CNEE</asp:ListItem>
+                                                <asp:ListItem Value="SHIPPER">SHIPPER</asp:ListItem>
+                                                <asp:ListItem Value="AUXILIAR">AUXILIAR</asp:ListItem>
+                                                <asp:ListItem Value="COMERCIAL">COMERCIAL</asp:ListItem>
+                                            </asp:DropDownList>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                             <label class="control-label">Referência:</label>
                                                             <asp:TextBox ID="txtRefAereo" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
 
                                                         </div>
 
                                                     </div>
+
+
                                                     <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
 
                                                         <div class="form-group">
@@ -2685,7 +2728,7 @@ union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsRefMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE FROM TB_REFERENCIA_CLIENTE WHERE ID_BL = @ID_BL">
+        SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE,ID_COTACAO,TIPO FROM TB_REFERENCIA_CLIENTE WHERE ID_BL = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>

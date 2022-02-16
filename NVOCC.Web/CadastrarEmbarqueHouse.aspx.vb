@@ -216,9 +216,9 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                         txtRefComercial_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_REFERENCIA_COMERCIAL")
                     End If
 
-                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")) Then
-                        txtRefAuxiliar_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")
-                    End If
+                    'If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")) Then
+                    '    txtRefAuxiliar_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")
+                    'End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")) Then
                         txtResumoMercadoria_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")
@@ -1881,11 +1881,13 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "')")
+                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "')")
                     divSuccess_RefAereo.Visible = True
 
+                    txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
-
+                    ddlTipoRefAereo.SelectedValue = 0
+                    dgvRefAereo.DataBind()
                 End If
             Else
 
@@ -1896,10 +1898,11 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
                     divSuccess_RefAereo.Visible = True
-
+                    txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
+                    ddlTipoRefAereo.SelectedValue = 0
                     dgvRefAereo.DataBind()
 
                 End If
@@ -1935,10 +1938,11 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "')")
+                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "')")
                     divSuccess_RefMaritimo.Visible = True
-
+                    ddlTipoRefMaritimo.SelectedValue = 0
                     txtRefMaritimo.Text = ""
+                    txtID_RefMaritimo.Text = ""
                     dgvRefMaritimo.DataBind()
                 End If
             Else
@@ -1949,10 +1953,12 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
                     divSuccess_RefMaritimo.Visible = True
 
+                    txtID_RefMaritimo.Text = ""
                     txtRefMaritimo.Text = ""
+                    ddlTipoRefMaritimo.SelectedValue = 0
                     dgvRefMaritimo.DataBind()
                 End If
             End If
@@ -1965,6 +1971,7 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_RefMaritimo.Visible = False
         txtRefMaritimo.Text = ""
         txtID_RefMaritimo.Text = ""
+        ddlTipoRefMaritimo.SelectedValue = 0
 
     End Sub
 
@@ -1973,6 +1980,7 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_RefAereo.Visible = False
         txtRefAereo.Text = ""
         txtID_RefAereo.Text = ""
+        ddlTipoRefAereo.SelectedValue = 0
 
     End Sub
     Sub LimpaNulo()
@@ -3496,7 +3504,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE
+            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
 WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -3504,6 +3512,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
                     txtRefMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
+                    ddlTipoRefMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
                 End If
 
             End If
@@ -3535,7 +3544,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE
+            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
 WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -3543,6 +3552,7 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
                     txtRefAereo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
+                    ddlTipoRefAereo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
                 End If
 
             End If

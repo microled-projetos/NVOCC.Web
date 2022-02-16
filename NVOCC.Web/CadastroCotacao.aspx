@@ -33,6 +33,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#referencias" role="tab" data-toggle="tab">
+                                <i class="fa fa-edit" style="padding-right:8px;"></i>Referências
+                            </a>
+                        </li>
+                        <li>
                             <a href="#historico" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right:8px;"></i>Histórico
                             </a>
@@ -381,27 +386,7 @@
                                     </div>
                                 </div>
                                 </div> 
-                            <div class="row" style="display:none">
-                                 <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência CNEE:</label>
-                                        <asp:TextBox ID="txtRefCNEE" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                 <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência Shipper:</label>
-                                        <asp:TextBox ID="txtRefShipper" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência Auxiliar:</label>
-                                        <asp:TextBox ID="txtRefAuxiliar" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                </div> 
+                            
                            
                             <div class="row">
 
@@ -1426,7 +1411,137 @@
                                  </div>
                              </div>
                             </div>
- 
+              <div class="tab-pane fade" id="referencias">
+                                    <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
+                                        <ContentTemplate>
+                                           <div class="alert alert-success" id="divSuccessReferencia" runat="server" visible="false">
+                                                <asp:Label ID="lblSuccessReferencia" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                            </div>
+                                            <div class="alert alert-danger" id="divErroReferencia" runat="server" visible="false">
+                                                <asp:Label ID="lblErroReferencia" runat="server"></asp:Label>
+                                            </div>
+                                            <br />
+
+                                          <%--  <div class="row">
+                                 <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência Consignee:</label>
+                                        <asp:TextBox ID="txtRefConsignee" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência Shipper:</label>
+                                        <asp:TextBox ID="txtRefShipper" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-4" >
+                                    <div class="form-group">
+                                        <label class="control-label">Referência Auxiliar:</label>
+                                        <asp:TextBox ID="txtRefAuxiliar" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
+                                    </div>
+                                </div>
+                                </div> 
+                                            <div class="row">
+
+                                                <div class="col-sm-3 col-sm-offset-6">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnLimparReferencia" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <asp:Button ID="btnGravarReferencia" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
+                                                    </div>
+                                                </div>
+                                            </div>--%>
+
+                                               <div class="row linhabotao">
+
+                                                <div>
+                                                     <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                             <label class="control-label">Tipo:</label>
+                                                         
+                                            <asp:DropDownList ID="ddlTipoReferencia" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="15px">
+                                                <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                <asp:ListItem Value="CNEE">CNEE</asp:ListItem>
+                                                <asp:ListItem Value="SHIPPER">SHIPPER</asp:ListItem>
+                                                <asp:ListItem Value="AUXILIAR">AUXILIAR</asp:ListItem>
+                                                <asp:ListItem Value="COMERCIAL">COMERCIAL</asp:ListItem>
+                                            </asp:DropDownList>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                             <label class="control-label">Referência:</label>
+                                                            <asp:TextBox ID="txtReferencia" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
+
+                                                        <div class="form-group">
+                                                            <asp:Button runat="server" Text="Gravar" ID="btnGravarReferencia" CssClass="btn btn-success" />
+
+
+                                                            <asp:Button runat="server" Text="Cancelar" ID="btnLimparReferencia" CssClass="btn btn-danger" />
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <asp:TextBox ID="txtID_Referencia" Style="display: none" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+
+                                            <div class="table-responsive tableFixHead" id="div10" runat="server">
+
+                                                <asp:GridView ID="dgvReferencia" DataKeyNames="ID_REFERENCIA_CLIENTE" DataSourceID="dsReferencia" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                    <Columns>
+
+                                                       <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />                                                      
+                                                       <asp:BoundField DataField="TIPO" ReadOnly="true" HeaderText="TIPO" SortExpression="TIPO" />
+                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA" SortExpression="NR_REFERENCIA_CLIENTE" />
+                                                        <asp:TemplateField ShowHeader="False">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnEditar" runat="server" CausesValidation="False" CommandName="visualizar" CssClass="btn btn-info" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>'><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                            <ControlStyle />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <HeaderStyle CssClass="headerStyle" />
+                                                </asp:GridView>
+                                            </div>
+
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravarReferencia" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnLimparReferencia" />
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvReferencia" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+                                </div>
                     </div>
 
                 </div>
@@ -1437,7 +1552,13 @@
 </div>
 
 
+      <asp:SqlDataSource ID="dsReferencia" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID_REFERENCIA_CLIENTE,ID_BL,NR_REFERENCIA_CLIENTE,ID_COTACAO,TIPO FROM TB_REFERENCIA_CLIENTE WHERE ID_COTACAO = @ID_COTACAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_COTACAO" Type="Int32" ControlID="txtID" />
+        </SelectParameters>
 
+    </asp:SqlDataSource>
 
             <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_COTACAO,NR_COTACAO,

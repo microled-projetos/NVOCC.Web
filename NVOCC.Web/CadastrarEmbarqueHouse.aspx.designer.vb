@@ -1445,13 +1445,13 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents UpdatePanel8 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle Label11.
+    '''Controle ddlTipoRefMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label11 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlTipoRefMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtRefMaritimo.
@@ -2037,6 +2037,15 @@ Partial Public Class CadastrarEmbarqueHouse
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtRefAuxiliar_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefShipper_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefShipper_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle divMercadoriaBL_Aereo.
@@ -2867,13 +2876,13 @@ Partial Public Class CadastrarEmbarqueHouse
     Protected WithEvents UpdatePanel10 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle Label12.
+    '''Controle ddlTipoRefAereo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Label12 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlTipoRefAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtRefAereo.
