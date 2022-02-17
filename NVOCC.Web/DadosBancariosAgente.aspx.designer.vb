@@ -23,6 +23,15 @@ Partial Public Class DadosBancariosAgente
     Protected WithEvents lblRazaoSocial As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle UpdatePanel15.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel15 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
     '''Controle txtID.
     '''</summary>
     '''<remarks>
@@ -149,20 +158,47 @@ Partial Public Class DadosBancariosAgente
     Protected WithEvents btnGravar As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''Controle txtUpload.
+    '''Controle FileUpload1.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtUpload As Global.System.Web.UI.WebControls.FileUpload
+    Protected WithEvents FileUpload1 As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
-    '''Controle Button1.
+    '''Controle btnUpload.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents Button1 As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnUpload As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle UpdatePanel1.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel1 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle txtArquivoSelecionado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtArquivoSelecionado As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle gvArquivos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents gvArquivos As Global.System.Web.UI.WebControls.GridView
 End Class

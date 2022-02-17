@@ -189,8 +189,8 @@ WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
                     If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Há taxas já cadastradas em contas a pagar"
                         divErro.Visible = True
-                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
                         Exit Sub
                     Else
 

@@ -31,11 +31,6 @@
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
                         </li>
-                        <%--<li>
-                            <a href="#financeiro" role="tab" data-toggle="tab">
-                                <i class="glyphicon glyphicon-tags" style="padding-right:8px;"></i>Dados Bancários
-                            </a>
-                        </li>--%>
                     </ul>
 
                     <div class="tab-content">
@@ -217,7 +212,7 @@
                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">Taxas</h5>
+                                                            <h5 class="modal-title">Taxas</h5>
                                                         </div>
                                                         <div class="modal-body">    
                                                              <br/>
@@ -239,10 +234,37 @@
       
                                        </div>     </center>       
      </asp:Panel>
+          <ajaxToolkit:ModalPopupExtender id="mpeDadosBancarios" runat="server" PopupControlID="Panel2" TargetControlID="txtID"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+           <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">DADOS BANCARIOS</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA INSERIR DADOS BANCARIOS PARA ESSE AGENTE?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNaoDadosBancarios" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSimDadosBancarios" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
+
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
-<%--               <asp:AsyncPostBackTrigger ControlID="txtCEP" />--%>
                                               <ASP:AsyncPostBackTrigger ControlID="txtCEP" />
 
 
@@ -531,7 +553,18 @@
                     <div class="form-group">
                                         <asp:Checkbox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Transp. Rodoviário" ></asp:Checkbox>
                                     </div>
-                                </div>    
+                                </div>   
+                    <div id="divDadosBancarios" class="divDadosBancarios" style="display:none" runat="server">
+                           
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                        <asp:button  ID="btnDadodBancariosAgente" runat="server" CssClass="btn btn-primary btn-block" Text="Cadastrar Dados Bancarios do Agente" OnClientClick="DadoBancarios()" />
+                                    </div>
+                                    </div>
+                                </div>
+                         
+                            </div>
                       </div>
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
                                <div class="row">
@@ -545,11 +578,12 @@
                                 </div>
                             </div>
                             </div>
+         
 
                        </ContentTemplate>
-                                 <%--<Triggers>
+                                 <Triggers>
                                                                                <ASP:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
-                            </Triggers>--%>
+                            </Triggers>
 </asp:UpdatePanel>   
 
                     </div>    
@@ -737,86 +771,6 @@
                        </div>
 
                      </div>
-<%--                       <div class="tab-pane fade" id="financeiro" >
-   <br />  <asp:label ID="lblDadosBancarios" runat="server" Text="Aba somente para parceiros agente"></asp:label> 
-                           <div  id="divDadosBancarios" runat="server" style="display:none">
-
-                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-    <ContentTemplate>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Name:</label>
-                                        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Account:</label>
-                                        <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Agency:</label>
-                                        <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row"> 
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Swift:</label>
-                                        <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                                  <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Iban Br:</label>
-                                        <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Agreement:</label>
-                                        <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                               <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:button  ID="Button3" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"  runat="server" CssClass="btn btn-primary btn-block" Text="Gravar"  />
-                                    </div>
-                                </div>
-                            </div>
-                                                        <div class="linha-colorida">Upload</div>
-            
-        <br />
-                           
-                               <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:FileUpload ID="txtUpload"  CssClass="form-control" runat="server" Visible="true" style="display:block"></asp:FileUpload>                                                                                         
-                                    </div>
-                                </div>
-                                   <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:button  ID="Button1" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');"  runat="server" CssClass="btn btn-success btn-block" Text="Upload"  />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">                                
-                            </div>
-
-                       </ContentTemplate> 
-</asp:UpdatePanel>   
-</div>
-                    </>    
-   
-                        </div>--%>
                 
                                                     </div>
                 </div>
@@ -900,6 +854,15 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
              if (tecla != 44 && tecla < 48 || tecla > 57)
                  return false;
          }
-  
+
+
+         function DadoBancarios() {
+
+
+             var ID = document.getElementById('<%= txtID.ClientID %>').value;
+              console.log(ID);
+
+             window.open('DadosBancariosAgente.aspx?id=' + ID, '_blank');
+          }
      </script>
 </asp:Content>

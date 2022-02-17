@@ -1,4 +1,6 @@
-﻿Public Class DadosBancariosAgente
+﻿Imports System.IO
+
+Public Class DadosBancariosAgente
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -13,11 +15,16 @@
 
             Response.Redirect("Default.aspx")
         Else
-            txtID.Text = Request.QueryString("id")
-            CarregaDados(Request.QueryString("id"))
+
+            If Not IsPostBack Then
+                txtID.Text = Request.QueryString("id")
+                CarregaDados(Request.QueryString("id"))
+                CarregaArquivos()
+            End If
+
         End If
 
-        Dim Con As New Conexao_sql
+            Dim Con As New Conexao_sql
         Con.Conectar()
 
         Dim ds As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 7 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -30,7 +37,26 @@
         Con.Fechar()
     End Sub
 
+    Sub CarregaArquivos()
 
+        Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Agente") & txtID.Text
+
+        If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+        Dim caminhoArquivos As String() = Directory.GetFiles(Server.MapPath("~/Content/Arquivos/Agente" & txtID.Text & "/"))
+        Dim arquivos As List(Of ListItem) = New List(Of ListItem)()
+
+            For Each filePath As String In caminhoArquivos
+                arquivos.Add(New ListItem(Path.GetFileName(filePath), filePath))
+            Next
+
+            gvArquivos.DataSource = arquivos
+            gvArquivos.DataBind()
+
+
+    End Sub
     Sub CarregaDados(ID_Parceiro)
         Dim Con As New Conexao_sql
         Dim ds As DataSet
@@ -66,69 +92,69 @@
         Else
 
             Dim Con As New Conexao_sql
-
+            Con.Conectar()
             'update 
 
             Dim filtro As String = ""
             If txtPayment.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " PAYMENT_TO ='" & txtPayment.Text & "' "
             End If
 
             If txtBank.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " BANK_NAME ='" & txtBank.Text & "' "
             End If
 
             If txtSwift.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " SWIFT_CODE ='" & txtSwift.Text & "' "
             End If
 
             If txtAccount.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " ACCOUNT_NUMBER ='" & txtAccount.Text & "' "
             End If
 
             If txtAgency.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " AGENCY ='" & txtAgency.Text & "' "
             End If
 
             If txtRefund.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " REFUND ='" & txtRefund.Text & "' "
             End If
 
             If txtObs.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " OB_BANCARIA ='" & txtObs.Text & "' "
             End If
 
             If txtAgreement.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " AGREEMENT ='" & txtAgreement.Text & "' "
             End If
 
             If txtIban.Text <> "" Then
                 If filtro <> "" Then
-                    filtro = ","
+                    filtro &= ","
                 End If
                 filtro = filtro & " IBAN_BR = '" & txtIban.Text & "' "
             End If
@@ -137,9 +163,82 @@
 
             Con.ExecutarQuery(SQL)
             divSuccess.Visible = True
+            Con.Fechar()
 
         End If
 
     End Sub
 
+    Private Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
+        divErro.Visible = False
+        divSuccess.Visible = False
+
+        If FileUpload1.HasFile Then
+            Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
+            Dim tamanhoArquivo As Long = FileUpload1.PostedFile.ContentLength
+            Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Agente") & txtID.Text
+
+            If Not Directory.Exists(diretorio_arquivos) Then
+                System.IO.Directory.CreateDirectory(diretorio_arquivos)
+            End If
+
+            FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "/" & nomeArquivo)
+            divSuccess.Visible = True
+            CarregaArquivos()
+        Else
+            msgErro.Text = "Por favor, selecione um arquivo a enviar."
+            divErro.Visible = True
+        End If
+
+    End Sub
+
+    Private Sub gvArquivos_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gvArquivos.RowCommand
+
+        divErro.Visible = False
+        divSuccess.Visible = False
+
+        If e.CommandName = "Excluir" Then
+
+            Try
+                Dim caminhoArquivo As String = e.CommandArgument
+                File.Delete(caminhoArquivo)
+
+                divSuccess.Visible = True
+                CarregaArquivos()
+            Catch ex As Exception
+                msgErro.Text = ex.Message
+                divErro.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Visualizar" Then
+            Try
+                Dim caminhoArquivo As String = e.CommandArgument
+                txtArquivoSelecionado.Text = caminhoArquivo.Substring(caminhoArquivo.IndexOf("Content"))
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
+
+            Catch ex As Exception
+                msgErro.Text = ex.Message
+                divErro.Visible = True
+            End Try
+
+        ElseIf e.CommandName = "Download" Then
+
+            Try
+                Dim caminhoArquivo As String = e.CommandArgument
+                Response.ContentType = ContentType
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" & Path.GetFileName(caminhoArquivo))
+                Response.WriteFile(caminhoArquivo)
+                Response.Flush()
+                Response.Close()
+            Catch ex As Exception
+                msgErro.Text = ex.Message
+                divErro.Visible = True
+            End Try
+
+        End If
+
+
+
+
+    End Sub
 End Class

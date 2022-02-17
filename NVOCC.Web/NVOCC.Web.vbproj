@@ -1215,6 +1215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Arquivos\" />
     <Folder Include="Content\boletos\" />
     <Folder Include="Content\cotacoes\" />
     <Folder Include="Content\remessa\" />

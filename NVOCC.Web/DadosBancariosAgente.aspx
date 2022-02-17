@@ -25,7 +25,8 @@
                     </ul>
                      <div class="tab-content">
                         <div class="tab-pane fade active in" id="cadastro">
-
+                            <asp:UpdatePanel ID="UpdatePanel15" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
         <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Style="display:none"></asp:TextBox>
 
                                     <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
@@ -38,25 +39,25 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Payment To:</label>
-                                        <asp:TextBox ID="txtPayment" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                                        <asp:TextBox ID="txtPayment" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Name Bank:</label>
-                                        <asp:TextBox ID="txtBank" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                                        <label class="control-label">Bank Name:</label>
+                                        <asp:TextBox ID="txtBank" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Account:</label>
-                                        <asp:TextBox ID="txtAccount" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                                        <asp:TextBox ID="txtAccount" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="control-label">Agency:</label>
-                                        <asp:TextBox ID="txtAgency" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                                        <asp:TextBox ID="txtAgency" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
@@ -65,25 +66,25 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Swift:</label>
-                                        <asp:TextBox ID="txtSwift" runat="server"  CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                        <asp:TextBox ID="txtSwift" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                                  <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Refund:</label>
-                                        <asp:TextBox ID="txtRefund" runat="server"  CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                        <asp:TextBox ID="txtRefund" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                                   <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Iban Br:</label>
-                                        <asp:TextBox ID="txtIban" runat="server"  CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                        <asp:TextBox ID="txtIban" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Agreement:</label>
-                                        <asp:TextBox ID="txtAgreement" runat="server" CssClass="form-control" MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                        <asp:TextBox ID="txtAgreement" runat="server" MaxLength="100" CssClass="form-control" ></asp:TextBox>
                                     </div>
                                 </div>
                                 </div>
@@ -91,7 +92,7 @@
                                  <div class="col-sm-10">
                                     <div class="form-group">
                                         <label class="control-label">Obs:</label>
-                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" MaxLength="100" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
+                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
                                     </div>
                                 </div>
                                <div class="col-sm-2">
@@ -100,7 +101,15 @@
                                         <asp:button  ID="btnGravar" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"  runat="server" CssClass="btn btn-primary btn-block" Text="Gravar"  />
                                     </div>
                                 </div>
-                            </div>    <br />
+                            </div>  
+                                            
+                                            </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravar" />
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gvArquivos" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+                            </div><br />
                                                         <div class="linha-colorida">Upload</div>
             
         <br />
@@ -108,21 +117,51 @@
                                <div class="row">
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:FileUpload ID="txtUpload"  CssClass="form-control" runat="server" Visible="true" style="display:block"></asp:FileUpload>                                                                                         
+                                        <label>&nbsp;</label> 
+                                        <asp:FileUpload ID="FileUpload1"  CssClass="form-control" runat="server" Visible="true" style="display:block"  onchange="Javascript: VerificaTamanhoArquivo();" ></asp:FileUpload>                                                                                         
                                     </div>
                                 </div>
                                    <div class="col-sm-1">
                                     <div class="form-group">
                                         <label>&nbsp;</label>
-                                        <asp:button  ID="Button1" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');"  runat="server" CssClass="btn btn-success btn-block" Text="Upload"  />
+                                        <asp:button  ID="btnUpload" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');"  runat="server" CssClass="btn btn-success btn-block" Text="Upload"  />
                                     </div>
                                 </div>
                             </div>
+                                 <br />
+                                            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
                             <div class="row">
-                                
+                                 <div class="col-sm-12">
+                                      <asp:TextBox ID="txtArquivoSelecionado" runat="server" style="display:none"></asp:TextBox>
+                                <asp:GridView ID="gvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  CssClass="table table-hover table-condensed table-bordered">
+            <Columns>
+                <asp:BoundField DataField="Text" HeaderText="Nome do Arquivo"/>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkVisualizar" Text="Visualizar"  CommandName="Visualizar" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                    </ItemTemplate>
+                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                </asp:TemplateField>
+                 <asp:TemplateField Visible="false">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkDownload" Text="Download"  CommandName="Download" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkDeleta" Text="Deletar"  OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');"  CommandName="Excluir" CommandArgument='<%# Eval("Value") %>' runat="server"  />
+                    </ItemTemplate>
+                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView></div>
                             </div>
-  
+  </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="gvArquivos" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                             </div>
                         
                         </div>
@@ -135,4 +174,39 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+     function AbrirArquivo() {
+
+
+         var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
+         console.log(Arquivo);
+
+         window.open(Arquivo, '_blank');
+     }
+
+        function VerificaTamanhoArquivo() {
+
+            var btn = document.getElementById('<%= btnUpload.ClientID %>');
+            var fi = document.getElementById('<%= FileUpload1.ClientID %>');
+            var maxFileSize = 4194304; // 4MB -> 4 * 1024 * 1024
+
+            if (fi.files.length > 0) {
+
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                    var fsize = fi.files.item(i).size;
+
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                        btn.style.display = 'none';
+                    }
+
+                }
+            }
+        }
+    </script>
 </asp:Content>

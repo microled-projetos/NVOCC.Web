@@ -460,62 +460,69 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
     End Sub
 
     Private Sub btnIncluirDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnIncluirDevolucaoFrete.Click
+        divinfo.Visible = False
         Dim operador As String = VerificaPositivoNegativo()
         If lblValorFreteDevolucao.Text = "" Then
             lblValorFreteDevolucao.Text = 0
         End If
 
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If ddlTipoDevolucao.SelectedValue <> 0 Then
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                Dim Devolucao As Decimal = 0
+                If check.Checked Then
+                    If ddlTipoDevolucao.SelectedValue = 2 Then
+                        'DEVOLUÇÃO DO FRETE DE COMPRA
+                        Devolucao = ValorCompra
+                    ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+                        'DEVOLUÇÃO DO FRETE DE VENDA
+                        Devolucao = ValorVenda
+                    ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+                        'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                        Devolucao = ValorVenda - ValorCompra
+                    End If
 
-        For Each linha As GridViewRow In dgvDevolucao.Rows
-            Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
-            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
-            Dim Devolucao As Decimal = 0
-            If check.Checked Then
-                Dim Con As New Conexao_sql
-                If ddlTipoDevolucao.SelectedValue = 2 Then
-                    'DEVOLUÇÃO DO FRETE DE COMPRA
-                    Devolucao = ValorCompra
-                ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
-                    'DEVOLUÇÃO DO FRETE DE VENDA
-                    Devolucao = ValorVenda
-                ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
-                    'DEVOLUÇÃO DA DIFERENÇA DE FRETE
-                    Devolucao = ValorVenda - ValorCompra
-                End If
+                    Dim VALOR_STRING As String = Devolucao.ToString
+                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
 
-                Dim VALOR_STRING As String = Devolucao.ToString
-                VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
 (" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
 
-                If ddlTipoInvoice.SelectedValue = 1 Then
-                    'MASTER
-                    Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = " & ID_BL)
-                ElseIf ddlTipoInvoice.SelectedValue = 2 Then
-                    'HOUSE
-                    Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & ")")
                 End If
 
 
+            Next
+
+            If ddlTipoInvoice.SelectedValue = 1 Then
+                'MASTER
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = " & txtID_BL.Text)
+            ElseIf ddlTipoInvoice.SelectedValue = 2 Then
+                'HOUSE
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & ")")
             End If
 
-
-        Next
-
-        ' End If
+            Con.Fechar()
 
 
-        dsDevolucao.DataBind()
-        dgvItensInvoice.DataBind()
-        dgvDevolucao.Visible = False
-        ModalPopupExtender3.Hide()
-        lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
-        divSuccessInvoice.Visible = True
-        ModalPopupExtender2.Show()
-        atualizaTotalInvoice()
+            dsDevolucao.DataBind()
+            dgvItensInvoice.DataBind()
+            dgvDevolucao.Visible = False
+            ModalPopupExtender3.Hide()
+            lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+            divSuccessInvoice.Visible = True
+            ModalPopupExtender2.Show()
+            atualizaTotalInvoice()
+        Else
+            divinfo.Visible = True
+            lblinfo.Text = "Selecione um tipo de devolução!"
+
+        End If
+
     End Sub
 
 
