@@ -1201,7 +1201,6 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja consultar!"
         Else
-            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
