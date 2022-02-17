@@ -33,46 +33,29 @@
     <div class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-truck"></i>TRANSPORTE/LOGISTICA</h5>
+                <h5>TRANSPORTE/LOGISTICA</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h5>PAIS ORIGEM:<asp:Label Font-Bold="true" runat="server" ID="pais_origem"></asp:Label></h5>
                         <h5>PAIS PROCEDENCIA:<asp:Label Font-Bold="true" runat="server" ID="pais_procedencia"></asp:Label></h5>
                         <p class="card-text">PORTO EMBARQUE:<asp:Label Font-Bold="true" runat="server" ID="porto_embarque"></asp:Label></p>
                         <p class="card-text">
                             PORTO ORIGEM:
                             <asp:Label Font-Bold="true" runat="server" ID="porto_origem"></asp:Label>
                         </p>
-                        <p class="card-text">
-                            TERMINAL EMBARQUE:
-                            <asp:Label Font-Bold="true" runat="server" ID="terminal_embarque"></asp:Label>
-                        </p>
                     </div>
                     <div class="col-lg-6">
                         <h5>PAIS DESTINO:
                             <asp:Label Font-Bold="true" runat="server" ID="pais_destino"></asp:Label></h5>
                         <p class="card-text">
-                            <h5>
-                                PORTO DESCARGA: 
-                                <asp:Label Font-Bold="true" runat="server" ID="porto_descarga"></asp:Label></h5>                            
+                            TERMINAL DESCARGA:
+                            <asp:Label Font-Bold="true" runat="server" ID="porto_descarga"></asp:Label>
                         </p>
-
                         <p class="card-text">
                             PORTO DESTINO:
                             <asp:Label Font-Bold="true" runat="server" ID="porto_destino"></asp:Label>
                         </p>
-
-                        <p class="card-text">
-                            TERMINAL DESCARGA:
-                            <asp:Label Font-Bold="true" runat="server" ID="terminal_descarga"></asp:Label>
-                        </p>
-
-                    </div>
-                    <div class="col-lg-12">
-                        <br /><br />
-                        CONTEINERS: <asp:Label Font-Bold="true" runat="server" ID="conteiners"></asp:Label>
                     </div>
                 </div>
             </div>
@@ -80,7 +63,7 @@
            <!--PRINCIPAL -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-map"></i> PRINCIPAL</h5>
+                <h5>PRINCIPAL</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -160,7 +143,7 @@
         <!--ADUANA-->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-file"></i> ADUANA</h5>
+                <h5>ADUANA</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -182,11 +165,11 @@
         <!-- MERCADORIA -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-ship"></i> MERCADORIA</h5>
+                <h5>MERCADORIA</h5>
             </div>
             <div class="panel-body">
                 <div class="panel-heading">
-                    <h6><i class="fa fa-pencil-alt"></i> TOTAIS / VOLUME</h6>
+                    <h6>TOTAIS / VOLUME</h6>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
@@ -218,7 +201,7 @@
             </div>
             <div class="panel-body">
                 <div class="panel-heading">
-                    <h6><i class="fa fa-plus"></i> ITENS </h6>
+                    <h6>ITENS</h6>
                 </div>
                 <div class="row">
                      <div id="divCNTR" runat="server" class="col-lg-12">
@@ -229,7 +212,7 @@
         <!-- ENVOLVIDOS -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-users"></i> ENVOLVIDOS</h5>
+                <h5>ENVOLVIDOS</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -267,7 +250,7 @@
         <!-- DATAS -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-calendar"></i> DATAS</h5>
+                <h5>DATAS</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -322,7 +305,7 @@
          <!-- DOCUMENTOS -->
          <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-file-pdf"></i> DOCUMENTOS</h5>
+                <h5>DOCUMENTOS</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -335,7 +318,7 @@
          <!-- FOLLOWUP -->
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-handshake"></i> FOLLOW UP</h5>
+                <h5>FOLLOW UP</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -354,7 +337,7 @@
     <div class="col-lg-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5><i class="fa fa-pencil-alt"></i> WORKFLOW</h5>
+                <h5>WORKFLOW</h5>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -362,7 +345,7 @@
                         <div id="tracking-pre"></div>
                         <div id="tracking">
                             <div class="text-center tracking-status-intransit" style="background: #d5dce6 !important">
-                                <p class="tracking-status text-tight" style="color:#003663 !important"><i class="fa fa-history"></i> historico</p>
+                                <p class="tracking-status text-tight" style="color:#003663 !important">historico</p>
                             </div>
                             <div id="trakinglist" runat="server" class="tracking-list">
                             </div>

@@ -1011,6 +1011,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
+        'Session("ID_BL") = 0
+        'Session("NR_BL") = 0
+        'Session("TRAKING_BL") = 0
         If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
@@ -1025,7 +1028,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-
+                        'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                        'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                        'Session("ID_BL") = txtID_Master.Text
                         Response.Redirect("RastreioBL.aspx?id=" & txtID_Master.Text)
 
                     Else
@@ -1201,6 +1206,7 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja consultar!"
         Else
+            ' window.open('Conferencia.aspx?bl=&id=' + ID + '&T=' + GRAU, '_blank');
             Response.Redirect("Conferencia.aspx?T=C&bl=" & txtIDHouse.Text)
         End If
     End Sub
@@ -1209,6 +1215,9 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
+        'Session("ID_BL") = 0
+        'Session("NR_BL") = 0
+        'Session("TRAKING_BL") = 0
         If txtIDHouse.Text = "" Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
@@ -1224,7 +1233,10 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 Rastreio.trackingbl(txtIDHouse.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-
+                    'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                    'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                    'Session("ID_BL") = txtIDHouse.Text
+                    'Response.Redirect("RastreioHBL.aspx")
                     Response.Redirect("RastreioHBL.aspx?id=" & txtIDHouse.Text)
 
                 Else
