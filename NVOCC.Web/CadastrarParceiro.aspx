@@ -30,12 +30,7 @@
                             <a href="#email" role="tab" data-toggle="tab">
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
-                        </li>
-                        <%--<li>
-                            <a href="#financeiro" role="tab" data-toggle="tab">
-                                <i class="glyphicon glyphicon-tags" style="padding-right:8px;"></i>Dados Bancários
-                            </a>
-                        </li>--%>
+                        </li>                     
                     </ul>
 
                     <div class="tab-content">
@@ -242,7 +237,6 @@
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
-<%--               <asp:AsyncPostBackTrigger ControlID="txtCEP" />--%>
                                               <ASP:AsyncPostBackTrigger ControlID="txtCEP" />
 
 
@@ -547,9 +541,6 @@
                             </div>
 
                        </ContentTemplate>
-                                 <%--<Triggers>
-                                                                               <ASP:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
-                            </Triggers>--%>
 </asp:UpdatePanel>   
 
                     </div>    
@@ -737,86 +728,9 @@
                        </div>
 
                      </div>
-<%--                       <div class="tab-pane fade" id="financeiro" >
-   <br />  <asp:label ID="lblDadosBancarios" runat="server" Text="Aba somente para parceiros agente"></asp:label> 
-                           <div  id="divDadosBancarios" runat="server" style="display:none">
-
-                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
-    <ContentTemplate>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Name:</label>
-                                        <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Account:</label>
-                                        <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Agency:</label>
-                                        <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control aliquotas" MaxLength="50"></asp:TextBox>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="row"> 
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Swift:</label>
-                                        <asp:TextBox ID="TextBox4" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                                  <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Iban Br:</label>
-                                        <asp:TextBox ID="TextBox6" runat="server"  CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Agreement:</label>
-                                        <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control " MaxLength="6" onkeypress="return nomeFuncao( this , event ) ;"></asp:TextBox>
-                                    </div>
-                                </div>
-                               <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:button  ID="Button3" OnClientClick="javascript:return confirm('Deseja realmente gravar essas informações?');"  runat="server" CssClass="btn btn-primary btn-block" Text="Gravar"  />
-                                    </div>
-                                </div>
-                            </div>
-                                                        <div class="linha-colorida">Upload</div>
-            
-        <br />
-                           
-                               <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:FileUpload ID="txtUpload"  CssClass="form-control" runat="server" Visible="true" style="display:block"></asp:FileUpload>                                                                                         
-                                    </div>
-                                </div>
-                                   <div class="col-sm-1">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <asp:button  ID="Button1" OnClientClick="javascript:return confirm('Deseja realmente realizar o upload?');"  runat="server" CssClass="btn btn-success btn-block" Text="Upload"  />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">                                
-                            </div>
-
-                       </ContentTemplate> 
-</asp:UpdatePanel>   
-</div>
-                    </>    
+                     
    
-                        </div>--%>
+                        </div>
                 
                                                     </div>
                 </div>
@@ -877,8 +791,6 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
      <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
-
-        
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

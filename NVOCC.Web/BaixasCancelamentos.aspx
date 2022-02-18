@@ -168,20 +168,7 @@
                                                 </asp:TemplateField>
                                                 <asp:BoundField DataField="VL_LANCAMENTO" HeaderText="Valor lançamento(R$)" SortExpression="VL_LANCAMENTO" />
                                                 <asp:BoundField DataField="VL_LIQUIDO" HeaderText="Liquido" SortExpression="VL_LIQUIDO" />
-                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />
-
-
-                                               <%-- <asp:TemplateField HeaderText="Bloqueio FCA">
-                                                    <ItemTemplate>
-                                                        <asp:Label ID="lblFL_BLOQUEIO_FCA" runat="server" Text='<%# Eval("FL_BLOQUEIO_FCA") %>'  />
-                                                        <asp:ImageButton ID="btnBloquearFCA" runat="server" CssClass="ImageButton" ToolTip="bloquear" Autopostback="true" src="Content/imagens/bloquear.png" CommandName="BloquearFCA" CommandArgument='<%# Eval("ID_BL") %>'  />
-                                                        <asp:ImageButton ID="btnDesbloquearFCA" runat="server" CssClass="ImageButton" ToolTip="desbloquear" Autopostback="true" src="Content/imagens/desbloquear.png" CommandName="DesbloquearFCA" CommandArgument='<%# Eval("ID_BL") %>' />
-                                            </ItemTemplate>
-                                        </asp:TemplateField>--%>
-
-
-
-                                                
+                                                <asp:BoundField DataField="NOME_USUARIO_LANCAMENTO" HeaderText="Usuário laçamento" SortExpression="NOME_USUARIO_LANCAMENTO" />                                               
 
                                                 <asp:TemplateField HeaderText="Bloqueio Financeiro">
                                                     <ItemTemplate>
