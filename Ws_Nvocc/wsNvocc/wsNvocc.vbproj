@@ -107,10 +107,17 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
+    <None Include="Connected Services\GinfesTeste\configuration91.svcinfo" />
+    <None Include="Connected Services\GinfesTeste\configuration.svcinfo" />
+    <None Include="Connected Services\GinfesTeste\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
     <Content Include="Nfe.xml" />
     <Content Include="Web.config" />
     <Content Include="WsNvocc.asmx" />
     <None Include="Connected Services\ginfes2\ServiceGinfesImplService.wsdl" />
+    <None Include="Connected Services\GinfesTeste\ServiceGinfesImplService.wsdl" />
     <None Include="XSD_WS\cabecalho_v03.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -214,6 +221,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\GinfesTeste\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -280,6 +292,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\ginfes2\" />
+    <WCFMetadataStorage Include="Connected Services\GinfesTeste\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -147,6 +147,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label>
@@ -173,6 +182,15 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorFCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -373,6 +391,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -399,6 +426,15 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorLCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -615,6 +651,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinFCLexpo" runat="server" CssClass="form-control numero">
+                                                                        </asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -641,6 +686,15 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorFCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -841,6 +895,15 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="textTarifaMinLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -867,6 +930,15 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorLCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="textTarifaMinVendaLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1085,6 +1157,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                <asp:TextBox ID="txtTarifaMinAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                </asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -1111,6 +1192,15 @@
                                                                 <div>
                                                                     <asp:CheckBox ID="chkTaxaTransportadorAereoImpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                <asp:TextBox ID="txtTarifaMinVendaAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                </asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1313,6 +1403,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:TextBox ID="txtTarifaMinAereoExpo" runat="server" CssClass="form-control numero">
+                                                                    </asp:TextBox>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
                                                             <div class="col-sm-3">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -1339,6 +1438,15 @@
                                                                     <div>
                                                                         <asp:CheckBox ID="chkTaxaTransportadorAereoExpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:TextBox ID="txtTarifaMinVendaAereoExpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                    </asp:TextBox>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1655,6 +1763,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemFCLimpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemFCLimpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoFCLimpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinFCLimpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraFCLimpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraFCLimpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraFCLimpo').value = data.ID_MOEDA_COMPRA;
@@ -1673,6 +1783,8 @@
                         'MainContent_ddlTipoItemFCLimpo',
                         'MainContent_ddlBaseCalculoFCLimpo',
                         'MainContent_baseCompraFCLimpo',
+                        'MainContent_txtTarifaMinFCLimpo',
+                        'MainContent_txtTarifaMinVendaFCLimpo',
                         'MainContent_txtMoedaCompraFCLimpo',
                         'MainContent_ddlTipoMoedaCompraFCLimpo',
                         'MainContent_txtMoedaVendaFCLimpo',
@@ -1712,6 +1824,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemLCLimpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemLCLimpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoLCLimpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinLCLimpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraLCLimpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraLCLimpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraLCLimpo').value = data.ID_MOEDA_COMPRA;
@@ -1730,6 +1844,8 @@
                         'MainContent_ddlTipoItemLCLimpo',
                         'MainContent_ddlBaseCalculoLCLimpo',
                         'MainContent_baseCompraLCLimpo',
+                        'MainContent_txtTarifaMinLCLimpo',
+                        'MainContent_txtTarifaMinVendaLCLimpo',
                         'MainContent_txtMoedaCompraLCLimpo',
                         'MainContent_ddlTipoMoedaCompraLCLimpo',
                         'MainContent_txtMoedaVendaLCLimpo',
@@ -1769,6 +1885,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemFCLexpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemFCLexpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoFCLexpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinFCLexpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraFCLexpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraFCLexpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraFCLexpo').value = data.ID_MOEDA_COMPRA;
@@ -1787,6 +1905,8 @@
                         'MainContent_ddlTipoItemFCLexpo',
                         'MainContent_ddlBaseCalculoFCLexpo',
                         'MainContent_baseCompraFCLexpo',
+                        'MainContent_txtTarifaMinFCLexpo',
+                        'MainContent_txtTarifaMinVendaFCLexpo',
                         'MainContent_txtMoedaCompraFCLexpo',
                         'MainContent_ddlTipoMoedaCompraFCLexpo',
                         'MainContent_txtMoedaVendaFCLexpo',
@@ -1826,6 +1946,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemLCLexpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemLCLexpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoLCLexpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinLCLexpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraLCLexpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraLCLexpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraLCLexpo').value = data.ID_MOEDA_COMPRA;
@@ -1844,6 +1966,8 @@
                         'MainContent_ddlTipoItemLCLexpo',
                         'MainContent_ddlBaseCalculoLCLexpo',
                         'MainContent_baseCompraLCLexpo',
+                        'MainContent_txtTarifaMinLCLexpo',
+                        'MainContent_txtTarifaMinVendaLCLexpo',
                         'MainContent_txtMoedaCompraLCLexpo',
                         'MainContent_ddlTipoMoedaCompraLCLexpo',
                         'MainContent_txtMoedaVendaLCLexpo',
@@ -1883,6 +2007,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemAereoImpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemAereoImpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoAereoImpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinAereoImpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraAereoImpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraAereoImpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraAereoImpo').value = data.ID_MOEDA_COMPRA;
@@ -1901,6 +2027,8 @@
                         'MainContent_ddlTipoItemAereoImpo',
                         'MainContent_ddlBaseCalculoAereoImpo',
                         'MainContent_baseCompraAereoImpo',
+                        'MainContent_txtTarifaMinAereoImpo',
+                        'MainContent_txtTarifaMinVendaAereoImpo',
                         'MainContent_txtMoedaCompraAereoImpo',
                         'MainContent_ddlTipoMoedaCompraAereoImpo',
                         'MainContent_txtMoedaVendaAereoImpo',
@@ -1940,6 +2068,8 @@
                     document.getElementById('MainContent_txtCodigoTipoItemAereoExpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlTipoItemAereoExpo').value = data.ID_ITEM_DESPESA;
                     document.getElementById('MainContent_ddlBaseCalculoAereoExpo').value = data.ID_BASE_CALCULO_TAXA;
+                    document.getElementById('MainContent_txtTarifaMinAereoExpo').value = data.VL_TARIFA_MINIMA_COMPRA;
+                    document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value = data.VL_TARIFA_MINIMA;
                     document.getElementById('MainContent_baseCompraAereoExpo').value = data.VL_TAXA_COMPRA;
                     document.getElementById('MainContent_txtMoedaCompraAereoExpo').value = data.ID_MOEDA_COMPRA;
                     document.getElementById('MainContent_ddlTipoMoedaCompraAereoExpo').value = data.ID_MOEDA_COMPRA;
@@ -1958,6 +2088,8 @@
                         'MainContent_ddlTipoItemAereoExpo',
                         'MainContent_ddlBaseCalculoAereoExpo',
                         'MainContent_baseCompraAereoExpo',
+                        'MainContent_txtTarifaMinAereoExpo',
+                        'MainContent_txtTarifaMinVendaAereoExpo',
                         'MainContent_txtMoedaCompraAereoExpo',
                         'MainContent_ddlTipoMoedaCompraAereoExpo',
                         'MainContent_txtMoedaVendaAereoExpo',
@@ -1996,6 +2128,8 @@
         var dado = {
         "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLimpo").value,
         "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLimpo").value,
+        "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value,
+        "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value,
         "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLimpo").value,
         "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLimpo").value.replace(',', '.'),
         "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLimpo").value,
@@ -2090,6 +2224,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLimpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLimpo").value,
@@ -2185,6 +2321,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLimpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLimpo").value,
@@ -2279,6 +2417,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLimpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLimpo").value,
@@ -2374,6 +2514,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLexpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLexpo").value,
@@ -2468,6 +2610,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLexpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLexpo").value,
@@ -2563,6 +2707,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLexpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLexpo").value,
@@ -2657,6 +2803,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLexpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLexpo").value,
@@ -2752,6 +2900,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoImpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoImpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoImpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoImpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoImpo").value,
@@ -2846,6 +2996,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoImpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoImpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoImpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoImpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoImpo").value,
@@ -2941,6 +3093,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoExpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoExpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoExpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoExpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoExpo").value,
@@ -3035,6 +3189,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoExpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoExpo").value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value,
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value,
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoExpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoExpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoExpo").value,
@@ -3119,6 +3275,8 @@
                 'MainContent_ddlTipoItemFCLimpo',
                 'MainContent_ddlBaseCalculoFCLimpo',
                 'MainContent_txtMoedaCompraFCLimpo',
+                'MainContent_txtTarifaMinVendaFCLimpo',
+                'MainContent_txtTarifaMinFCLimpo',
                 'MainContent_ddlTipoMoedaCompraFCLimpo',
                 'MainContent_baseCompraFCLimpo',
                 'MainContent_txtMoedaCompraFCLimpo',
@@ -3144,6 +3302,8 @@
                 'MainContent_ddlTipoItemLCLimpo',
                 'MainContent_ddlBaseCalculoLCLimpo',
                 'MainContent_txtMoedaCompraLCLimpo',
+                'MainContent_txtTarifaMinVendaLCLimpo',
+                'MainContent_txtTarifaMinLCLimpo',
                 'MainContent_ddlTipoMoedaCompraLCLimpo',
                 'MainContent_baseCompraLCLimpo',
                 'MainContent_txtMoedaCompraLCLimpo',
@@ -3170,6 +3330,8 @@
             var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                 'MainContent_ddlTipoItemFCLexpo',
                 'MainContent_ddlBaseCalculoFCLexpo',
+                'MainContent_txtTarifaMinFCLexpo',
+                'MainContent_txtTarifaMinVendaFCLexpo',
                 'MainContent_txtMoedaCompraFCLexpo',
                 'MainContent_ddlTipoMoedaCompraFCLexpo',
                 'MainContent_baseCompraFCLexpo',
@@ -3197,6 +3359,8 @@
             var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                 'MainContent_ddlTipoItemLCLexpo',
                 'MainContent_ddlBaseCalculoLCLexpo',
+                'MainContent_txtTarifaMinLCLexpo',
+                'MainContent_txtTarifaMinVendaLCLexpo',
                 'MainContent_txtMoedaCompraLCLexpo',
                 'MainContent_ddlTipoMoedaCompraLCLexpo',
                 'MainContent_baseCompraLCLexpo',
@@ -3224,6 +3388,8 @@
             var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                 'MainContent_ddlTipoItemAereoImpo',
                 'MainContent_ddlBaseCalculoAereoImpo',
+                'MainContent_txtTarifaMinAereoImpo',
+                'MainContent_txtTarifaMinVendaAereoImpo',
                 'MainContent_txtMoedaCompraAereoImpo',
                 'MainContent_ddlTipoMoedaCompraAereoImpo',
                 'MainContent_baseCompraAereoImpo',
@@ -3251,6 +3417,8 @@
             var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                 'MainContent_ddlTipoItemAereoExpo',
                 'MainContent_ddlBaseCalculoAereoExpo',
+                'MainContent_txtTarifaMinAereoExpo',
+                'MainContent_txtTarifaMinVendaAereoExpo',
                 'MainContent_txtMoedaCompraAereoExpo',
                 'MainContent_ddlTipoMoedaCompraAereoExpo',
                 'MainContent_baseCompraAereoExpo',
@@ -3285,6 +3453,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLimpo',
                     'MainContent_ddlTipoItemFCLimpo',
                     'MainContent_ddlBaseCalculoFCLimpo',
+                    'MainContent_txtTarifaMinFCLimpo',
+                    'MainContent_txtTarifaMinVendaFCLimpo',
                     'MainContent_txtMoedaCompraFCLimpo',
                     'MainContent_ddlTipoMoedaCompraFCLimpo',
                     'MainContent_baseCompraFCLimpo',
@@ -3313,6 +3483,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLimpo',
                     'MainContent_ddlTipoItemFCLimpo',
                     'MainContent_ddlBaseCalculoFCLimpo',
+                    'MainContent_txtTarifaMinFCLimpo',
+                    'MainContent_txtTarifaMinVendaFCLimpo',
                     'MainContent_txtMoedaCompraFCLimpo',
                     'MainContent_ddlTipoMoedaCompraFCLimpo',
                     'MainContent_baseCompraFCLimpo',
@@ -3342,6 +3514,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLimpo',
                     'MainContent_ddlTipoItemFCLimpo',
                     'MainContent_ddlBaseCalculoFCLimpo',
+                    'MainContent_txtTarifaMinFCLimpo',
+                    'MainContent_txtTarifaMinVendaFCLimpo',
                     'MainContent_txtMoedaCompraFCLimpo',
                     'MainContent_ddlTipoMoedaCompraFCLimpo',
                     'MainContent_baseCompraFCLimpo',
@@ -3373,6 +3547,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLimpo',
                     'MainContent_ddlTipoItemLCLimpo',
                     'MainContent_ddlBaseCalculoLCLimpo',
+                    'MainContent_txtTarifaMinLCLimpo',
+                    'MainContent_txtTarifaMinVendaLCLimpo',
                     'MainContent_txtMoedaCompraLCLimpo',
                     'MainContent_ddlTipoMoedaCompraLCLimpo',
                     'MainContent_baseCompraLCLimpo',
@@ -3401,6 +3577,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLimpo',
                     'MainContent_ddlTipoItemLCLimpo',
                     'MainContent_ddlBaseCalculoLCLimpo',
+                    'MainContent_txtTarifaMinLCLimpo',
+                    'MainContent_txtTarifaMinVendaLCLimpo',
                     'MainContent_txtMoedaCompraLCLimpo',
                     'MainContent_ddlTipoMoedaCompraLCLimpo',
                     'MainContent_baseCompraLCLimpo',
@@ -3430,6 +3608,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLimpo',
                     'MainContent_ddlTipoItemLCLimpo',
                     'MainContent_ddlBaseCalculoLCLimpo',
+                    'MainContent_txtTarifaMinLCLimpo',
+                    'MainContent_txtTarifaMinVendaLCLimpo',
                     'MainContent_txtMoedaCompraLCLimpo',
                     'MainContent_ddlTipoMoedaCompraLCLimpo',
                     'MainContent_baseCompraLCLimpo',
@@ -3461,6 +3641,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                     'MainContent_ddlTipoItemFCLexpo',
                     'MainContent_ddlBaseCalculoFCLexpo',
+                    'MainContent_txtTarifaMinFCLexpo',
+                    'MainContent_txtTarifaMinVendaFCLexpo',
                     'MainContent_txtMoedaCompraFCLexpo',
                     'MainContent_ddlTipoMoedaCompraFCLexpo',
                     'MainContent_baseCompraFCLexpo',
@@ -3489,6 +3671,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                     'MainContent_ddlTipoItemFCLexpo',
                     'MainContent_ddlBaseCalculoFCLexpo',
+                    'MainContent_txtTarifaMinFCLexpo',
+                    'MainContent_txtTarifaMinVendaFCLexpo',
                     'MainContent_txtMoedaCompraFCLexpo',
                     'MainContent_ddlTipoMoedaCompraFCLexpo',
                     'MainContent_baseCompraFCLexpo',
@@ -3518,6 +3702,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemFCLexpo',
                     'MainContent_ddlTipoItemFCLexpo',
                     'MainContent_ddlBaseCalculoFCLexpo',
+                    'MainContent_txtTarifaMinFCLexpo',
+                    'MainContent_txtTarifaMinVendaFCLexpo',
                     'MainContent_txtMoedaCompraFCLexpo',
                     'MainContent_ddlTipoMoedaCompraFCLexpo',
                     'MainContent_baseCompraFCLexpo',
@@ -3549,6 +3735,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                     'MainContent_ddlTipoItemLCLexpo',
                     'MainContent_ddlBaseCalculoLCLexpo',
+                    'MainContent_txtTarifaMinLCLexpo',
+                    'MainContent_txtTarifaMinVendaLCLexpo',
                     'MainContent_txtMoedaCompraLCLexpo',
                     'MainContent_ddlTipoMoedaCompraLCLexpo',
                     'MainContent_baseCompraLCLexpo',
@@ -3577,6 +3765,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                     'MainContent_ddlTipoItemLCLexpo',
                     'MainContent_ddlBaseCalculoLCLexpo',
+                    'MainContent_txtTarifaMinLCLexpo',
+                    'MainContent_txtTarifaMinVendaLCLexpo',
                     'MainContent_txtMoedaCompraLCLexpo',
                     'MainContent_ddlTipoMoedaCompraLCLexpo',
                     'MainContent_baseCompraLCLexpo',
@@ -3606,6 +3796,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemLCLexpo',
                     'MainContent_ddlTipoItemLCLexpo',
                     'MainContent_ddlBaseCalculoLCLexpo',
+                    'MainContent_txtTarifaMinLCLexpo',
+                    'MainContent_txtTarifaMinVendaLCLexpo',
                     'MainContent_txtMoedaCompraLCLexpo',
                     'MainContent_ddlTipoMoedaCompraLCLexpo',
                     'MainContent_baseCompraLCLexpo',
@@ -3637,6 +3829,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                     'MainContent_ddlTipoItemAereoImpo',
                     'MainContent_ddlBaseCalculoAereoImpo',
+                    'MainContent_txtTarifaMinAereoImpo',
+                    'MainContent_txtTarifaMinVendaAereoImpo',
                     'MainContent_txtMoedaCompraAereoImpo',
                     'MainContent_ddlTipoMoedaCompraAereoImpo',
                     'MainContent_baseCompraAereoImpo',
@@ -3665,6 +3859,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                     'MainContent_ddlTipoItemAereoImpo',
                     'MainContent_ddlBaseCalculoAereoImpo',
+                    'MainContent_txtTarifaMinAereoImpo',
+                    'MainContent_txtTarifaMinVendaAereoImpo',
                     'MainContent_txtMoedaCompraAereoImpo',
                     'MainContent_ddlTipoMoedaCompraAereoImpo',
                     'MainContent_baseCompraAereoImpo',
@@ -3694,6 +3890,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoImpo',
                     'MainContent_ddlTipoItemAereoImpo',
                     'MainContent_ddlBaseCalculoAereoImpo',
+                    'MainContent_txtTarifaMinAereoImpo',
+                    'MainContent_txtTarifaMinVendaAereoImpo',
                     'MainContent_txtMoedaCompraAereoImpo',
                     'MainContent_ddlTipoMoedaCompraAereoImpo',
                     'MainContent_baseCompraAereoImpo',
@@ -3725,6 +3923,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                     'MainContent_ddlTipoItemAereoExpo',
                     'MainContent_ddlBaseCalculoAereoExpo',
+                    'MainContent_txtTarifaMinAereoExpo',
+                    'MainContent_txtTarifaMinVendaAereoExpo',
                     'MainContent_txtMoedaCompraAereoExpo',
                     'MainContent_ddlTipoMoedaCompraAereoExpo',
                     'MainContent_baseCompraAereoExpo',
@@ -3753,6 +3953,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                     'MainContent_ddlTipoItemAereoExpo',
                     'MainContent_ddlBaseCalculoAereoExpo',
+                    'MainContent_txtTarifaMinAereoExpo',
+                    'MainContent_txtTarifaMinVendaAereoExpo',
                     'MainContent_txtMoedaCompraAereoExpo',
                     'MainContent_ddlTipoMoedaCompraAereoExpo',
                     'MainContent_baseCompraAereoExpo',
@@ -3782,6 +3984,8 @@
                 var forms = ['MainContent_txtCodigoTipoItemAereoExpo',
                     'MainContent_ddlTipoItemAereoExpo',
                     'MainContent_ddlBaseCalculoAereoExpo',
+                    'MainContent_txtTarifaMinAereoExpo',
+                    'MainContent_txtTarifaMinVendaAereoExpo',
                     'MainContent_txtMoedaCompraAereoExpo',
                     'MainContent_ddlTipoMoedaCompraAereoExpo',
                     'MainContent_baseCompraAereoExpo',

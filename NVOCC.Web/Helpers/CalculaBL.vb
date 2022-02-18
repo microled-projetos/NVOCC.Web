@@ -11,7 +11,7 @@
 
         If GRAU = "M" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -21,13 +21,15 @@ AND ID_MOEDA <> 0
 AND ISNULL(B.ID_BL_TAXA_MASTER,0) = 0
 AND ISNULL(B.ID_BL_MASTER,0) = 0  
 AND ID_BASE_CALCULO_TAXA <> 1 
-AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL) AND B.ID_BL_TAXA =" & ID_BL_TAXA)
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL)
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS A WHERE A.ID_BL_TAXA IS NOT NULL) 
+AND B.ID_BL_TAXA =" & ID_BL_TAXA)
 
             If ds.Tables(0).Rows.Count > 0 Then
 
                 Dim ID_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
                 Dim VL_TAXA_MIN As Decimal = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
-
+                Dim QTD_BASE_CALCULO As Integer = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO")
 
                 If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 2 Then
                     '% VR DO FRETE
@@ -601,6 +603,11 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     'POR DOCUMENTO
                     Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
 
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 38 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 40 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 41 Then
+                    'POR DOC/SHIPPER   -   POR ENTRADA    -   POR CARGA
+                    Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
+                    Taxa = Taxa * QTD_BASE_CALCULO
+
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 34 Then
                     'POR CNTR 
                     Dim ds1 As DataSet = Con.ExecutarQuery("Select count(ID_CNTR_BL)QTD FROM TB_CNTR_BL WHERE ID_BL_MASTER =" & ID_BL)
@@ -732,7 +739,7 @@ WHERE  FL_DECLARADO = 1  AND CD_PR ='R'  AND A.ID_BL = " & ID_BL & " ")
 
         ElseIf GRAU = "C" Then
 
-            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,
+            ds = Con.ExecutarQuery("SELECT B.ID_BL,isnull(A.ID_INCOTERM,0)ID_INCOTERM,A.ID_SERVICO,B.ID_BL_TAXA, isnull(B.VL_TAXA_MIN,0)VL_TAXA_MIN,isnull(B.VL_TAXA,0)VL_TAXA,B.ID_MOEDA,isnull(B.VL_CAMBIO,0)VL_CAMBIO,B.ID_BASE_CALCULO_TAXA,isnull(A.VL_M3,0)VL_M3,isnull(A.VL_PESO_BRUTO,0)VL_PESO_BRUTO,isnull(B.QTD_BASE_CALCULO,0)QTD_BASE_CALCULO,
 CASE WHEN B.ID_MOEDA = 124 THEN CONVERT(VARCHAR, GETDATE(), 103) ELSE
 (SELECT CONVERT(VARCHAR,MAX(DT_CAMBIO),103) FROM TB_MOEDA_FRETE WHERE ID_MOEDA = B.ID_MOEDA) END DT_CAMBIO
 FROM TB_BL A
@@ -742,11 +749,14 @@ AND ID_MOEDA <> 0
 AND ISNULL(B.ID_BL_TAXA_MASTER,0) = 0
 AND ISNULL(B.ID_BL_MASTER,0) = 0  
 AND ID_BASE_CALCULO_TAXA <> 1 
-AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL) AND B.ID_BL_TAXA = " & ID_BL_TAXA)
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS A INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER= A.ID_CONTA_PAGAR_RECEBER WHERE B.DT_CANCELAMENTO IS NULL  AND ID_BL_TAXA IS NOT NULL) 
+AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS A WHERE A.ID_BL_TAXA IS NOT NULL) 
+AND B.ID_BL_TAXA = " & ID_BL_TAXA)
 
             If ds.Tables(0).Rows.Count > 0 Then
                 Dim ID_BL As String = ds.Tables(0).Rows(0).Item("ID_BL")
                 Dim VL_TAXA_MIN As Decimal = ds.Tables(0).Rows(0).Item("VL_TAXA_MIN")
+                Dim QTD_BASE_CALCULO As Integer = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO")
 
                 If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 2 Then
                     '% VR DO FRETE
@@ -1026,7 +1036,7 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 15 Then
                     '% VR DA MERCADORIA
-                   'Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0)) AS VALOR  FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
+                    'Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_PESO_BRUTO),0)) AS VALOR  FROM TB_CARGA_BL A WHERE A.ID_BL = " & ID_BL)
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_CARGA),0)) AS VALOR FROM TB_BL A WHERE A.ID_BL = " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("VALOR") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
@@ -1288,6 +1298,11 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 29 Then
                     'VALOR POR EMBARQUE- valor fixo digitado
                     Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
+
+                ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 38 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 40 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 41 Then
+                    'POR DOC/SHIPPER   -   POR ENTRADA    -   POR CARGA
+                    Taxa = ds.Tables(0).Rows(0).Item("VL_TAXA").ToString()
+                    Taxa = Taxa * QTD_BASE_CALCULO
 
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 30 Then
                     'POR UNIDADE - quantidade de conteineres do processo

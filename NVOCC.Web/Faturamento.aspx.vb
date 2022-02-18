@@ -821,34 +821,34 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
             Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_NOTA_FISCAL,NR_RPS FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
             If ds.Tables(0).Rows.Count > 0 Then
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                    If PrazosSubstituicao() = False Then
-                        divErro.Visible = True
-                        lblmsgErro.Text = "Nota selecionada não pode ser substituída!"
-                        ModalPopupExtender5.Hide()
-                        Exit Sub
+                    'If PrazosSubstituicao() = False Then
+                    '    divErro.Visible = True
+                    '    lblmsgErro.Text = "Nota selecionada não pode ser substituída!"
+                    '    ModalPopupExtender5.Hide()
+                    '    Exit Sub
 
-                    Else
-                        Try
+                    'Else
+                    Try
 
-                            Dim RPSSubstituida As String = ds.Tables(0).Rows(0).Item("NR_RPS")
+                        Dim RPSSubstituida As String = ds.Tables(0).Rows(0).Item("NR_RPS")
 
-                            Dim NumeracaoDoc As New NumeracaoDoc
-                            Dim RPSNova As String = NumeracaoDoc.Numerar(3)
+                        Dim NumeracaoDoc As New NumeracaoDoc
+                        Dim RPSNova As String = NumeracaoDoc.Numerar(3)
 
 
-                            Dim ConOracle As New Conexao_oracle
-                            ConOracle.Conectar()
-                            Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
-                            Dim SERIE_RPS As String = ""
+                        Dim ConOracle As New Conexao_oracle
+                        ConOracle.Conectar()
+                        Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
+                        Dim SERIE_RPS As String = ""
 
-                            If dt.Rows.Count > 0 Then
-                                SERIE_RPS = dt.Rows(0)("SERIE").ToString
-                            End If
+                        If dt.Rows.Count > 0 Then
+                            SERIE_RPS = dt.Rows(0)("SERIE").ToString
+                        End If
 
-                            Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,NR_RPS,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,SERIE_RPS,ID_PARCEIRO_CLIENTE) SELECT ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,'" & RPSNova & "',NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,'" & SERIE_RPS & "',ID_PARCEIRO_CLIENTE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text & "  SELECT SCOPE_IDENTITY() as ID_FATURAMENTO")
-                            Dim NOVO_FATURAMENTO As String = dsInsert.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                        Dim dsInsert As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,NR_RPS,NR_RECIBO,DT_NOTA_DEBITO,DT_RPS,DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,SERIE_RPS,ID_PARCEIRO_CLIENTE) SELECT ID_CONTA_PAGAR_RECEBER,NR_NOTA_DEBITO,'" & RPSNova & "',NR_RECIBO,DT_NOTA_DEBITO,Getdate(),DT_RECIBO,FL_RPS,VL_NOTA,VL_NOTA_EXTENSO,NM_CLIENTE,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CIDADE,ESTADO,CEP,VL_ISS,'" & SERIE_RPS & "',ID_PARCEIRO_CLIENTE FROM TB_FATURAMENTO WHERE ID_FATURAMENTO =" & txtID.Text & "  SELECT SCOPE_IDENTITY() as ID_FATURAMENTO")
+                        Dim NOVO_FATURAMENTO As String = dsInsert.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
-                            Con.ExecutarQuery("update F 
+                        Con.ExecutarQuery("update F 
                             set 
                             F.NM_CLIENTE = '" & txtRazaoSocial.Text & "',
                             F.COMPL_ENDERECO = '" & txtComplem.Text & "',
@@ -864,7 +864,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             FROM TB_FATURAMENTO F
                             WHERE ID_FATURAMENTO = " & NOVO_FATURAMENTO)
 
-                            Con.ExecutarQuery("update p 
+                        Con.ExecutarQuery("update p 
                             set 
                             P.NM_RAZAO = '" & txtRazaoSocial.Text & "',
                             P.COMPL_ENDERECO = '" & txtComplem.Text & "',
@@ -881,35 +881,35 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                            AND F.ID_FATURAMENTO = " & NOVO_FATURAMENTO)
 
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'SUBSTITUIÇÃO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET DT_CANCELAMENTO = getdate(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = 'SUBSTITUIÇÃO DA NOTA FISCAL' , STATUS_NFE = 3 WHERE ID_FATURAMENTO =" & txtID.Text)
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & RPSNova & "' WHERE ID_NUMERACAO = 5")
-
-
-                            Using GeraRps = New NotaFiscal.WsNvocc
-
-                                Dim consulta = GeraRps.SubstituiNFePrefeitura(RPSSubstituida, RPSNova, 1, "SQL", "NVOCC", NOVO_FATURAMENTO)
-
-                            End Using
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & RPSNova & "' WHERE ID_NUMERACAO = 5")
 
 
+                        Using GeraRps = New NotaFiscal.WsNvocc
+
+                            Dim consulta = GeraRps.SubstituiNFePrefeitura(RPSSubstituida, RPSNova, 1, "SQL", "NVOCC", NOVO_FATURAMENTO)
+
+                        End Using
 
 
-                            txtID.Text = ""
-                            lblmsgSuccess.Text = "RPS enviada para substituição com sucesso!"
-                            divSuccess.Visible = True
-                            divErroSubstituir.Visible = False
-                            dgvFaturamento.DataBind()
-                            ModalPopupExtender5.Hide()
 
-                        Catch ex As Exception
 
-                            divErro.Visible = True
-                            lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                        txtID.Text = ""
+                        lblmsgSuccess.Text = "RPS enviada para substituição com sucesso!"
+                        divSuccess.Visible = True
+                        divErroSubstituir.Visible = False
+                        dgvFaturamento.DataBind()
+                        ModalPopupExtender5.Hide()
 
-                        End Try
+                    Catch ex As Exception
 
-                    End If
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+
+                    End Try
+
+                    ' End If
 
                 Else
                     divErro.Visible = True

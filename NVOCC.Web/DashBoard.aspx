@@ -555,6 +555,60 @@
             });            
         }
 
+        function graficoGeral2(processo, cntr, teus, data) {
+            var ctx = document.getElementById('mainGraph').getContext('2d');
+            console.log(processo, cntr, data);
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data,
+                    datasets: [
+                        {
+                            barThickness: 30,
+                            label: 'Processos',
+                            data: processo,
+                            backgroundColor: rgb[0],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'Container',
+                            data: cntr,
+                            backgroundColor: rgb[1],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'TEUS',
+                            data: teus,
+                            backgroundColor: rgb[2],
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    layout: {
+                        padding: 10
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Processos',
+                            font: { size: 20 }
+                        }
+                    }
+                }
+            });
+        }
+
         function graficoProcessos(processoIMP, processoEXP, processoAR, data) {
             console.log(processoIMP, processoEXP, processoAR);
             var ctx2 = document.getElementById('pgraph').getContext('2d');
@@ -948,7 +1002,7 @@
                     }
                 });
 
-                /*$.ajax({
+                $.ajax({
                     type: "POST",
                     url: "Gerencial.asmx/CarregarProcessosPizza",
                     data: '{anoI:"' + anoInicial.value + '", mesI: "' + mesInicial.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '" }',
@@ -1045,8 +1099,122 @@
                             graficoTeusPizza(lineChartProcesso, lineChartCntr, label)
                         }
                     }
-                });*/
+                });
             }
         }
+        /*function gerarGrafico2() {
+            colorChange();
+            var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
+            if (instrEmbarque.checked) {
+                instrEmbarque = "1";
+            } else {
+                instrEmbarque = "0";
+            }
+            if (type == "bar") {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarProcessos",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque:"' + instrEmbarque + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartPROC = [];
+                        var label = [];
+                        $("#graph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartPROC.push(data[i]["PROCESS"]);
+                                label.push(data[i]["PERIODO"]);
+                            }
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            gerarGrafico3(lineChartPROC, label);
+                        }
+                        else {
+                            lineChartPROC.push(0);
+                            label.push(0);
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            gerarGrafico3(lineChartPROC, label);
+                        }
+                    }
+                });
+            }
+        }
+
+        function gerarGrafico3(lineChartPROC, periodo) {
+            colorChange();
+            var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
+            if (instrEmbarque.checked) {
+                instrEmbarque = "1";
+            } else {
+                instrEmbarque = "0";
+            }
+            if (type == "bar") {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarCntr",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque:"' + instrEmbarque + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartCNTR = [];
+                        var label = [];
+                        $("#graph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartCNTR.push(data[i]["CNTR"]);
+                            }
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            gerarGrafico4(lineChartPROC, lineChartCNTR, periodo);
+                        }
+                        else {
+                            lineChartCNTR.push(0);
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            gerarGrafico4(lineChartPROC, lineChartCNTR,  periodo);
+                        }
+                    }
+                });
+            }
+        }
+
+        function gerarGrafico4(lineChartPROC, lineChartCNTR, periodo) {
+            colorChange();
+            var instrEmbarque = document.getElementById("MainContent_chkInstrEmbarque");
+            if (instrEmbarque.checked) {
+                instrEmbarque = "1";
+            } else {
+                instrEmbarque = "0";
+            }
+            if (type == "bar") {
+                $.ajax({
+                    type: "POST",
+                    url: "Gerencial.asmx/CarregarTEUS",
+                    data: '{anoI:"' + anoInicial.value + '", anoF:"' + anoFinal.value + '", mesI: "' + mesInicial.value + '",mesF: "' + mesFinal.value + '",vendedor: "' + vendedor.value + '",tipo: "' + tipoEstufagem.value + '", embarque:"' + instrEmbarque + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var data = data.d;
+                        data = $.parseJSON(data);
+                        var lineChartTEUS = [];
+                        $("#graph").empty();
+                        if (data != null) {
+                            for (var i = 0; i < data.length; i++) {
+                                lineChartTEUS.push(data[i]["TEUS"]);
+                            }
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeral2(lineChartPROC, lineChartCNTR, lineChartTEUS, periodo)
+                        }
+                        else {
+                            lineChartTEUS.push(0);
+                            $("#graph").append("<canvas id='mainGraph' style='width:100%; height: 300px; max-height: 300px'></canvas>");
+                            graficoGeral2(lineChartPROC, lineChartCNTR, lineChartTEUS, periodo)
+                        }
+                    }
+                });
+            }
+        }*/
     </script>
 </asp:Content>

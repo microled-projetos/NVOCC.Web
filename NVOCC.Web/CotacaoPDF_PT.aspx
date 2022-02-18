@@ -93,15 +93,14 @@ Data emiss&atilde;o: <asp:label runat="server" ID="lblDataAtual" class="control-
 <div class="linha-colorida2">CUSTOS TOTAIS</div>
 <div><strong>TOTAL TAXAS:</strong> <asp:label runat="server" ID="lblTotalFinalTaxas" class="control-label" /></div>
 <div><strong>TOTAL FRETE:</strong> <asp:label runat="server" ID="lblTotalFinalFrete" class="control-label" /></div>
-                <br /> <div style="color:red;font-weight:bold">TOTAL FINAL: <asp:label runat="server" ID="lblTotalFinal" class="control-label" /></div>
+                <br /> <div style="color:red;font-weight:bold">TOTAL FINAL: <asp:label runat="server" ID="lblTotalFinal" class="control-label" /></div><br />
 <div class="linha-colorida2">Observa&ccedil;&otilde;es</div>
 <div style="color:red">"Com rela&ccedil;&atilde;o ao Imposto sobre Opera&ccedil;&otilde;es Financeiras, informamos que o mesmo ser&aacute; atualizado de acordo com a taxa de convers&atilde;o do dia
 do faturamento. Essa poder&aacute; divergir da taxa de convers&atilde;o do dia da proposta."</div>
-<br/>
                      
     <asp:label runat="server" ID="lblObsCliente" class="control-label"  />           
              <div id="divTexto" runat="server" style="font-family:Arial;font-size:9px;"></div>
-    <br/><br/>           
+    <br/>           
 <asp:label runat="server" ID="lblAnalista" class="control-label" /><br/>
 FCA COM&Eacute;RCIO EXTERIOR E LOG&Iacute;STICA LTDA<br/>
 Tel No.<asp:label runat="server" ID="lblTelefoneAnalista" class="control-label" /> <br/>

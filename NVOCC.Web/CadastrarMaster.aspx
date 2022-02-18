@@ -843,7 +843,18 @@
 
                                                                         <asp:CheckBox ID="ckbPremiacao_TaxasMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
                                                                     </div>
-                                                                </div>
+                                                                </div>  <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Empresa:</label>
+                                                <asp:TextBox ID="txtCodEmpresa_TaxasMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Fornecedor:</label>
+                                                <asp:TextBox ID="txtNomeEmpresa_TaxasMaritimo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Fornecedor:</label>
@@ -951,7 +962,8 @@
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxasMaritimo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxasMaritimo" />
-                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxasMaritimo" />                
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxasMaritimo" />     
+                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeEmpresa_TaxasMaritimo" />
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -1751,8 +1763,13 @@ union SELECT 0, 'Selecione' ORDER BY ID_WEEK">
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO]
-union SELECT 0, 'Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeEmpresa_TaxasMaritimo"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodEmpresa_TaxasMaritimo" DefaultValue ="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsServicoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_SERVICO, NM_SERVICO FROM TB_SERVICO WHERE ID_SERVICO IN (1,4)

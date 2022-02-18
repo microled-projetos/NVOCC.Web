@@ -60,7 +60,7 @@
                                       <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" OnClientClick="javascript:return confirm('Deseja realmente rejeitar este registro?');"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
                                      <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                      <asp:LinkButton ID="lkUpdate" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Em Update</asp:LinkButton>
-                                     <asp:LinkButton ID="lkFollowUp" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Follow Up</asp:LinkButton>
+                                     <asp:LinkButton ID="lkFollowUp" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" OnClientClick="javascript:return confirm('Deseja realmente realizar o Follow Up deste registro?');" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Follow Up</asp:LinkButton>
                             </div>
                <br />
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 

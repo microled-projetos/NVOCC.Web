@@ -460,7 +460,7 @@
                                         </asp:TemplateField>
                                          <asp:TemplateField HeaderText="" >
                                         <ItemTemplate>
-                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
+                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
                                                                             Text="Duplicar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate"></i></div></asp:LinkButton>
                                                                     </ItemTemplate>
                                                                                           <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />

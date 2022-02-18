@@ -30,7 +30,7 @@
                             <a href="#email" role="tab" data-toggle="tab">
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
-                        </li>
+                        </li>                     
                     </ul>
 
                     <div class="tab-content">
@@ -237,7 +237,6 @@
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
-<%--               <asp:AsyncPostBackTrigger ControlID="txtCEP" />--%>
                                               <ASP:AsyncPostBackTrigger ControlID="txtCEP" />
 
 
@@ -432,14 +431,11 @@
                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <asp:Checkbox ID="ckbExportador" runat="server"  autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Exportador" ></asp:Checkbox>
-
                                     </div>
                                 </div>
-                                     <div class="col-sm-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <asp:Checkbox ID="ckbComissaria" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Comissária" ></asp:Checkbox>
-                       
-
+                                        <asp:Checkbox ID="ckbComissaria" runat="server" autopostback="true" CssClass="form-control" text="&nbsp;&nbsp;Comissária" ></asp:Checkbox>                      
                                     </div>
                                 </div>
                                  
@@ -518,10 +514,22 @@
                                 </div>     
                                     
                                
-                        </div>        
+                        </div>
+                <div class="row">
+                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbCNEE" runat="server" CssClass="form-control" text="&nbsp;&nbsp;CNEE" ></asp:Checkbox>
+                                    </div>
+                                </div> 
+                                <div class="col-sm-4">
+                    <div class="form-group">
+                                        <asp:Checkbox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Transp. Rodoviário" ></asp:Checkbox>
+                                    </div>
+                                </div>    
+                      </div>
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
-                                 <div class="row" >
-                                <div class="col-sm-9">
+                               <div class="row">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Vendedor:</label><label ID="lblRed2" runat="server" visible="false" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlVendedor" runat="server"  CssClass="form-control" Font-Size="11px"  DataTextField="NM_RAZAO" DataSourceID="dsVendedor"  DataValueField="ID_PARCEIRO">
@@ -720,7 +728,9 @@
                        </div>
 
                      </div>
-                            </div>
+                     
+   
+                        </div>
                 
                                                     </div>
                 </div>

@@ -45,7 +45,7 @@ namespace ABAINFRA.Web
         public string CarregaFiltro(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
-            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 AND A.NR_CNTR IS NOT NULL ";
+            SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
             if (vendedor != 0)
             {
                 SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
@@ -109,6 +109,206 @@ namespace ABAINFRA.Web
             }
             return SQL;
         }
+
+
+        [WebMethod]
+        public string CarregaFiltroProcesso(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+        {
+            string SQL;
+            SQL = "where a.GRAU in ('c') ";
+            if (vendedor != 0)
+            {
+                SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
+            }
+
+            string anof;
+            string periodoi;
+            string periodof;
+
+            if (anoF != "")
+            {
+                anof = anoF;
+            }
+            else
+            {
+                anof = anoI;
+            }
+
+            if (mesI != "")
+            {
+                periodoi = mesI +"/"+ anoI;
+            }
+            else
+            {
+                periodoi = "01/"+ anoI;
+            }
+
+            if (mesF != "")
+            {
+                periodof = mesF +"/"+ anof;
+            }
+            else
+            {
+                periodof = "12/"+anof;
+            }
+
+
+            SQL += " AND RIGHT(A.NR_PROCESSO,5) BETWEEN '" + periodoi + "' AND '" + periodof + "' ";
+
+
+            if (tipo == "1")
+            {
+                SQL += " AND A.ID_TIPO_ESTUFAGEM ='1' ";
+            }
+            else if (tipo == "2")
+            {
+                SQL += " AND A.ID_TIPO_ESTUFAGEM ='2' ";
+            }
+            else if (tipo == "3")
+            {
+                SQL += " AND A.ID_TIPO_ESTUFAGEM IN('1','2') ";
+            }
+          
+
+            if (embarque == "0")
+            {
+                SQL += " AND A.ID_BL_MASTER IS NOT NULL ";
+            }
+            return SQL;
+        }
+
+        [WebMethod]
+        public string CarregaFiltroCntr(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+        {
+            string SQL;
+            SQL = "where C.GRAU in ('c') ";
+            if (vendedor != 0)
+            {
+                SQL += " AND C.ID_PARCEIRO_VENDEDOR = " + vendedor;
+            }
+
+            string anof;
+            string periodoi;
+            string periodof;
+
+            if (anoF != "")
+            {
+                anof = anoF;
+            }
+            else
+            {
+                anof = anoI;
+            }
+
+            if (mesI != "")
+            {
+                periodoi = mesI + "/" + anoI;
+            }
+            else
+            {
+                periodoi = "01/" + anoI;
+            }
+
+            if (mesF != "")
+            {
+                periodof = mesF + "/" + anof;
+            }
+            else
+            {
+                periodof = "12/" + anof;
+            }
+
+
+            SQL += " AND RIGHT(C.NR_PROCESSO,5) BETWEEN '" + periodoi + "' AND '" + periodof + "' ";
+
+
+            if (tipo == "1")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM ='1' ";
+            }
+            else if (tipo == "2")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM ='2' ";
+            }
+            else if (tipo == "3")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM IN('1','2') ";
+            }
+
+
+            if (embarque == "0")
+            {
+                SQL += " AND C.ID_BL_MASTER IS NOT NULL ";
+            }
+            return SQL;
+        }
+
+        [WebMethod]
+        public string CarregaFiltroTeus(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+        {
+            string SQL;
+            SQL = "where C.GRAU in ('c') ";
+            if (vendedor != 0)
+            {
+                SQL += " AND C.ID_PARCEIRO_VENDEDOR = " + vendedor;
+            }
+
+            string anof;
+            string periodoi;
+            string periodof;
+
+            if (anoF != "")
+            {
+                anof = anoF;
+            }
+            else
+            {
+                anof = anoI;
+            }
+
+            if (mesI != "")
+            {
+                periodoi = mesI + "/" + anoI;
+            }
+            else
+            {
+                periodoi = "01/" + anoI;
+            }
+
+            if (mesF != "")
+            {
+                periodof = mesF + "/" + anof;
+            }
+            else
+            {
+                periodof = "12/" + anof;
+            }
+
+
+            SQL += " AND RIGHT(C.NR_PROCESSO,5) BETWEEN '" + periodoi + "' AND '" + periodof + "' ";
+
+
+            if (tipo == "1")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM ='1' ";
+            }
+            else if (tipo == "2")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM ='2' ";
+            }
+            else if (tipo == "3")
+            {
+                SQL += " AND C.ID_TIPO_ESTUFAGEM IN('1','2') ";
+            }
+
+
+            if (embarque == "0")
+            {
+                SQL += " AND C.ID_BL_MASTER IS NOT NULL ";
+            }
+            return SQL;
+        }
+
         /*[WebMethod]
         public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor,string tipo)
         {
@@ -134,24 +334,16 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }*/
 
-        /*[WebMethod]
-        public string CarregarProcessos(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        [WebMethod]
+        public string CarregarProcessos(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
-            SQL = "SELECT  A.MES+'/'+A.ANO as PERIODO, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO , 1, 1) = 'M' THEN 1 else 0 end) IMP, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'A' THEN 1 else 0 end) AR, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'E' THEN 1 else 0 end) EXP ";
-            SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
-            SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
-            SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + " ";
-            SQL += "and B.DT_CANCELAMENTO IS NULL ";
-            SQL += "GROUP BY A.MES, ";
-            SQL += "A.ANO ORDER BY A.ANO, A.MES ";
+            SQL = "select count(*) PROCESS, MAX(RIGHT(a.NR_PROCESSO,5)) AS PERIODO ";
+            SQL += "from tb_bl a ";
+            SQL += "" + CarregaFiltroProcesso(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
+            SQL += "and a.DT_CANCELAMENTO is null ";
+            
 
             DataTable total = new DataTable();
 
@@ -159,35 +351,19 @@ namespace ABAINFRA.Web
 
             return JsonConvert.SerializeObject(total);
         }
-*/
 
         [WebMethod]
-        public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+        public string CarregarCntr(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
-            SQL = "SELECT MES+'/'+ANO as PERIODO, COUNT(NR_PROCESSO) PROC_TOTAL, (SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL ";
-            SQL += "FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ) AS TOTAL, ";
-            SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
-            SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
-            SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
-            SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
-            SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
-            SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
-            SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
-            SQL += "FROM VW_PROCESSO_CONTAINER A ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
-            SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
-            SQL += ") X ";
-            SQL += "GROUP BY MES, ANO ";
+            SQL = "select ISNULL(SUM(CASE WHEN C.ID_TIPO_ESTUFAGEM = 1 THEN 1 ELSE 0 END),0) AS CNTR ";
+            SQL += "from tb_cntr_bl A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
+            SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "" + CarregaFiltroCntr(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " ";
+            SQL += "AND C.DT_CANCELAMENTO IS NULL ";
+
 
             DataTable total = new DataTable();
 
@@ -196,31 +372,61 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(total);
         }
 
-        /*[WebMethod]
-        public string CarregarTeus(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo)
+        [WebMethod]
+        public string CarregarTEUS(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
         {
             string SQL;
 
-            SQL = "SELECT  A.MES+'/'+A.ANO as PERIODO, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'M' THEN isnull(E.QTDE20, 0) * 1 + isnull(E.QTDE40, 0) * 2 else 0 end) IMP, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'E' THEN isnull(E.QTDE20, 0) * 1 + isnull(E.QTDE40, 0) * 2 else 0 end) EXP ";
-            SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
-            SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL ";
-            SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
-            SQL += "LEFT JOIN TB_BL B ON A.ID_BL = B.ID_BL ";
-            SQL += "LEFT JOIN VW_PROCESSO_CONTAINER_TEUS E ON A.ID_BL = E.ID_BL ";
-            SQL += "WHERE B.GRAU IN('C') ";
-            SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo) + " ";
-            SQL += "and B.DT_CANCELAMENTO IS NULL ";
-            SQL += "GROUP BY A.MES, A.ANO ";
-            SQL += "ORDER BY A.ANO, A.MES ";
+            SQL = "SELECT SUM(CASE WHEN C.ID_TIPO_ESTUFAGEM = 1 THEN D.TEU ELSE 0 END) AS TEUS ";
+            SQL += "from tb_cntr_bl A ";
+            SQL += "JOIN TB_AMR_CNTR_BL B ON A.ID_CNTR_BL = B.ID_CNTR_BL ";
+            SQL += "JOIN TB_BL C ON B.ID_BL = C.ID_BL ";
+            SQL += "JOIN TB_TIPO_CONTAINER D ON D.ID_TIPO_CONTAINER = A.ID_TIPO_CNTR ";
+            SQL += ""+ CarregaFiltroTeus(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
+            SQL += "AND C.DT_CANCELAMENTO IS NULL ";
 
             DataTable total = new DataTable();
 
             total = DBS.List(SQL);
 
             return JsonConvert.SerializeObject(total);
-        }*/
+        }
+
+
+        [WebMethod]
+         public string CarregarEstatistica(string anoI, string anoF, string mesI, string mesF, int vendedor, string tipo, string embarque)
+         {
+             string SQL;
+
+             SQL = "SELECT MES+'/'+ANO as PERIODO, COUNT(NR_PROCESSO) PROC_TOTAL, (SELECT COUNT(DISTINCT(NR_PROCESSO)) AS TOTAL ";
+             SQL += "FROM VW_PROCESSO_CONTAINER A ";
+             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ) AS TOTAL, ";
+             SQL += "SUM(CNTR_IMP) + SUM(CNTR_EXP) CNTR_TOTAL, ";
+             SQL += "SUM(TEUS_IMP) + SUM(TEUS_EXP) TEUS_TOTAL, ";
+             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
+             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'A' THEN 1 ELSE 0 END) AS PROC_AR, ";
+             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'E' THEN 1 ELSE 0 END) AS PROC_EXP, ";
+             SQL += "SUM(CNTR_IMP) AS CNTR_IMP, ";
+             SQL += "SUM(CNTR_EXP) AS CNTR_EXP, ";
+             SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
+             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
+             SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
+             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
+             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
+             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
+             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
+             SQL += "FROM VW_PROCESSO_CONTAINER A ";
+             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
+             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
+             SQL += ") X ";
+             SQL += "GROUP BY MES, ANO ";
+
+             DataTable total = new DataTable();
+
+             total = DBS.List(SQL);
+
+             return JsonConvert.SerializeObject(total);
+         }
 
         [WebMethod]
         public string CarregaFiltroPizza(string anoI, string mesI, int vendedor, string tipo, string embarque)
@@ -287,8 +493,8 @@ namespace ABAINFRA.Web
             SQL += "SUM(TEUS_IMP) AS TEUS_IMP, ";
             SQL += "SUM(TEUS_EXP) AS TEUS_EXP ";
             SQL += "FROM( SELECT A.MES, A.ANO, A.NR_PROCESSO, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
-            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END),0) AS CNTR_IMP, ";
+            SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END),0) AS CNTR_EXP, ";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
             SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
@@ -337,8 +543,8 @@ namespace ABAINFRA.Web
             string SQL;
 
             SQL = "SELECT  A.MES+'/'+A.ANO as PERIODO, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'M' THEN isnull(E.QTDE20, 0) + isnull(E.QTDE40, 0) else 0 end) IMP, ";
-            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'E' THEN isnull(E.QTDE20, 0)  + isnull(E.QTDE40, 0) else 0 end) EXP ";
+            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'M' AND A.ID_CNTR_BL IS NOT NULL THEN isnull(E.QTDE20, 0) + isnull(E.QTDE40, 0) else 0 end) IMP, ";
+            SQL += "sum(case when substring(A.NR_PROCESSO, 1, 1) = 'E' AND A.ID_CNTR_BL IS NOT NULL THEN isnull(E.QTDE20, 0)  + isnull(E.QTDE40, 0) else 0 end) EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL A ";
             SQL += "INNER JOIN TB_CNTR_BL C ON A.ID_CNTR_BL = C.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_TIPO_CONTAINER D ON C.ID_TIPO_CNTR = D.ID_TIPO_CONTAINER ";
@@ -471,10 +677,10 @@ namespace ABAINFRA.Web
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_EXP, ";
-            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_IMP, ";
-            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) ";
+            SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_EXP, ";
             SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
@@ -489,8 +695,8 @@ namespace ABAINFRA.Web
             SQL += "SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_EXP ";
             SQL += "FROM( ";
             SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) AS CNTR_EXP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
@@ -525,8 +731,8 @@ namespace ABAINFRA.Web
             SQL += "SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_EXP ";
             SQL += "FROM( ";
             SQL += "SELECT A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_IMP, ";
-            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' THEN 1 ELSE 0 END) AS CNTR_EXP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.NR_CNTR IS NOT NULL THEN 1 ELSE 0 END) AS CNTR_IMP, ";
+            SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.NR_CNTR IS NOT NULL THEN 1 ELSE 0 END) AS CNTR_EXP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";

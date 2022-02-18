@@ -1,6 +1,4 @@
-﻿Imports System.Net
-Imports System.Net.Mail
-Imports Attachment = System.Net.Mail.Attachment
+﻿
 Public Class _Default
     Inherits Page
 

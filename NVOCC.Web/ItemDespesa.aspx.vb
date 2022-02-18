@@ -85,6 +85,13 @@
                 TipoItemDespesa = ddlTipoItemDespesa.SelectedValue
             End If
 
+            Dim FL_RECEITA As Integer = 0
+            If ddlTipoItemDespesa.SelectedValue = 1 Then
+                FL_RECEITA = 1
+            Else
+                FL_RECEITA = 0
+            End If
+
 
             If txtIDItemDespesa.Text = "" Then
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 22 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
@@ -104,7 +111,7 @@
 
 
                     Else
-                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_ITEM_DESPESA] (ID_TIPO_ITEM_DESPESA,NM_ITEM_DESPESA, CD_NATUREZA, FL_ATIVO,FL_INTEGRA_PA,FL_PREMIACAO) VALUES (" & TipoItemDespesa & " , '" & txtNome.Text & "' , " & txtNatureza.Text & " , '" & ckbAtivo.Checked & "', '" & ckbIntegraPA.Checked & "','" & ckbPremiacao.Checked & "')")
+                        Con.ExecutarQuery("INSERT INTO [dbo].[TB_ITEM_DESPESA] (ID_TIPO_ITEM_DESPESA,NM_ITEM_DESPESA, CD_NATUREZA, FL_ATIVO,FL_INTEGRA_PA,FL_PREMIACAO,FL_RECEITA) VALUES (" & TipoItemDespesa & " , '" & txtNome.Text & "' , " & txtNatureza.Text & " , '" & ckbAtivo.Checked & "', '" & ckbIntegraPA.Checked & "','" & ckbPremiacao.Checked & "'," & FL_RECEITA & ")")
                         Con.Fechar()
 
                         divmsg.Visible = True
@@ -133,7 +140,7 @@
                         txtNatureza.Text = ""
 
                     Else
-                        Con.ExecutarQuery("UPDATE [dbo].[TB_ITEM_DESPESA] SET ID_TIPO_ITEM_DESPESA = " & TipoItemDespesa & " , NM_ITEM_DESPESA = '" & txtNome.Text & "' , CD_NATUREZA = " & txtNatureza.Text & " , FL_ATIVO = '" & ckbAtivo.Checked & "' ,FL_INTEGRA_PA = '" & ckbIntegraPA.Checked & "', FL_PREMIACAO = '" & ckbPremiacao.Checked & "' WHERE ID_ITEM_DESPESA = " & txtIDItemDespesa.Text)
+                        Con.ExecutarQuery("UPDATE [dbo].[TB_ITEM_DESPESA] SET ID_TIPO_ITEM_DESPESA = " & TipoItemDespesa & " , NM_ITEM_DESPESA = '" & txtNome.Text & "' , CD_NATUREZA = " & txtNatureza.Text & " , FL_ATIVO = '" & ckbAtivo.Checked & "' ,FL_INTEGRA_PA = '" & ckbIntegraPA.Checked & "', FL_PREMIACAO = '" & ckbPremiacao.Checked & "', FL_RECEITA = " & FL_RECEITA & " WHERE ID_ITEM_DESPESA = " & txtIDItemDespesa.Text)
                         Con.Fechar()
                         txtIDItemDespesa.Text = ""
                         txtNome.Text = ""

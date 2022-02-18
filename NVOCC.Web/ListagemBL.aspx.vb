@@ -1011,6 +1011,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         divSuccessMaster.Visible = False
         divErroMaster.Visible = False
 
+        'Session("ID_BL") = 0
+        'Session("NR_BL") = 0
+        'Session("TRAKING_BL") = 0
         If txtID_Master.Text = "" Then
             divErroMaster.Visible = True
             lblErroMaster.Text = "Selecione o registro que deseja rastrear!"
@@ -1025,7 +1028,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtID_Master.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-
+                        'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                        'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                        'Session("ID_BL") = txtID_Master.Text
                         Response.Redirect("RastreioBL.aspx?id=" & txtID_Master.Text)
 
                     Else
@@ -1089,22 +1094,31 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 lblErroMaster.Text = "Selecione o registro que deseja excluir!"
             Else
 
-                Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
+                Dim ds1 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD From TB_BL Where ID_BL_MASTER = " & txtID_Master.Text & " AND FL_CANCELADO = 0 ")
+                If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    divErroMaster.Visible = True
+                    lblErroMaster.Text = "Não é possivel completar ação: Necessário desvincular HBL!"
+                Else
+
+                    Dim ds2 As DataSet = Con.ExecutarQuery("SELECT count(*)QTD
 From TB_BL_TAXA A 
 INNER Join TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 INNER Join TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE  DT_CANCELAMENTO Is NULL And ID_BL_TAXA_MASTER in (select ID_BL_TAXA
 From TB_BL_TAXA
 Where ID_BL = " & txtID_Master.Text & ")")
-                If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
-                    divErroMaster.Visible = True
-                    lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
-                Else
-                    Con.ExecutarQuery("UPDATE TB_BL Set FL_CANCELADO = 1, DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
-                    dgvMaster.DataBind()
-                    divSuccessMaster.Visible = True
-                    lblSuccessMaster.Text = "Item deletado com sucesso!"
+                    If ds2.Tables(0).Rows(0).Item("QTD") > 0 Then
+                        divErroMaster.Visible = True
+                        lblErroMaster.Text = "Não é possivel completar ação: Taxa já enviada para pagamento/recebimento"
+                    Else
+                        Con.ExecutarQuery("UPDATE TB_BL Set FL_CANCELADO = 1, DT_CANCELAMENTO = GETDATE(), ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & " WHERE ID_BL = " & txtID_Master.Text)
+                        dgvMaster.DataBind()
+                        divSuccessMaster.Visible = True
+                        lblSuccessMaster.Text = "Item deletado com sucesso!"
+                    End If
+
                 End If
+
             End If
         End If
         Con.Fechar()
@@ -1201,6 +1215,9 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
         divSuccessHouse.Visible = False
         divErroHouse.Visible = False
 
+        'Session("ID_BL") = 0
+        'Session("NR_BL") = 0
+        'Session("TRAKING_BL") = 0
         If txtIDHouse.Text = "" Then
             divErroHouse.Visible = True
             lblErroHouse.Text = "Selecione o registro que deseja rastrear!"
@@ -1216,7 +1233,10 @@ WHERE ID_BL=(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_Embarque.Tex
                 Rastreio.trackingbl(txtIDHouse.Text)
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT NR_BL,TRAKING_BL FROM [TB_BL] WHERE NR_BL IS NOT NULL AND ID_BL = " & txtIDHouse.Text)
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("TRAKING_BL")) Then
-
+                    'Session("NR_BL") = ds.Tables(0).Rows(0).Item("NR_BL")
+                    'Session("TRAKING_BL") = ds.Tables(0).Rows(0).Item("TRAKING_BL").ToString
+                    'Session("ID_BL") = txtIDHouse.Text
+                    'Response.Redirect("RastreioHBL.aspx")
                     Response.Redirect("RastreioHBL.aspx?id=" & txtIDHouse.Text)
 
                 Else

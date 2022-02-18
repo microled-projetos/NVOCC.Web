@@ -103,6 +103,8 @@ ISNULL(ID_TIPO_FATURAMENTO,0)ID_TIPO_FATURAMENTO,
 FL_VENDEDOR_DIRETO,
 FL_EQUIPE_INSIDE_SALES,
 FL_SHIPPER,
+FL_CNEE,
+FL_RODOVIARIO,
 OB_COMPLEMENTARES,
 ISNULL(REGRA_ATUALIZACAO,0)REGRA_ATUALIZACAO 
 FROM TB_PARCEIRO 
@@ -121,6 +123,8 @@ WHERE ID_PARCEIRO =" & ID)
                 ckbArmazemDescarga.Checked = ds.Tables(0).Rows(0).Item("FL_ARMAZEM_DESCARGA")
                 ckbPrestador.Checked = ds.Tables(0).Rows(0).Item("FL_PRESTADOR")
                 ckbShipper.Checked = ds.Tables(0).Rows(0).Item("FL_SHIPPER")
+                ckbCNEE.Checked = ds.Tables(0).Rows(0).Item("FL_CNEE")
+                ckbTranspRodoviario.Checked = ds.Tables(0).Rows(0).Item("FL_RODOVIARIO")
                 txtRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_RAZAO").ToString()
                 txtNomeFantasia.Text = ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
                 ddlTipoPessoa.SelectedValue = ds.Tables(0).Rows(0).Item("TP_PESSOA").ToString()
@@ -327,7 +331,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False Then
+        ElseIf ckbImportador.Checked = False And ckbExportador.Checked = False And ckbAgente.Checked = False And ckbComissaria.Checked = False And ckbArmazemDescarga.Checked = False And ckbArmazemDesembaraco.Checked = False And ckbArmazemAtracacao.Checked = False And ckbAgenteInternacional.Checked = False And ckbTransportador.Checked = False And ckbPrestador.Checked = False And ckbVendedor.Checked = False And ckbVendedorDireto.Checked = False And ckbEquipeInsideSales.Checked = False And ckbIndicador.Checked = False And ckbShipper.Checked = False And ckbCNEE.Checked = False And ckbTranspRodoviario.Checked = False Then
             msgErro.Text = "Marque o tipo de parceiro"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -356,7 +360,7 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True) And ddlTipoFaturamento.SelectedValue = 0 Then
+        ElseIf (ckbImportador.Checked = True Or ckbExportador.Checked = True Or ckbAgente.Checked = True Or ckbComissaria.Checked = True Or ckbAgenteInternacional.Checked = True Or ckbIndicador.Checked = True Or ckbShipper.Checked = True Or ckbCNEE.Checked = True Or ckbTranspRodoviario.Checked = True) And ddlTipoFaturamento.SelectedValue = 0 Then
             msgErro.Text = "Informe o tipo de faturamento na aba de Inf. Adicionais!"
             divmsg1.Visible = True
             msgErro.Visible = True
@@ -619,6 +623,8 @@ WHERE ID_PARCEIRO =" & ID)
             FL_VENDEDOR_DIRETO,
             FL_EQUIPE_INSIDE_SALES,
             FL_SHIPPER,
+            FL_CNEE,
+            FL_RODOVIARIO,
             REGRA_ATUALIZACAO
 
             ) 
@@ -678,6 +684,8 @@ WHERE ID_PARCEIRO =" & ID)
             '" & ckbVendedorDireto.Checked & "',
             '" & ckbEquipeInsideSales.Checked & "',
             '" & ckbShipper.Checked & "',
+            '" & ckbCNEE.Checked & "',
+            '" & ckbTranspRodoviario.Checked & "',
             " & ddlRegraAtualizacao.SelectedValue & "
             ) Select SCOPE_IDENTITY() as ID_PARCEIRO ")
 
@@ -1029,6 +1037,8 @@ WHERE ID_PARCEIRO =" & ID)
             FL_EQUIPE_INSIDE_SALES ='" & ckbEquipeInsideSales.Checked & "',
             FL_VENDEDOR_DIRETO ='" & ckbVendedorDireto.Checked & "',
             FL_SHIPPER = '" & ckbShipper.Checked & "',
+            FL_CNEE = '" & ckbCNEE.Checked & "',
+            FL_RODOVIARIO = '" & ckbTranspRodoviario.Checked & "',
             REGRA_ATUALIZACAO = " & ddlRegraAtualizacao.SelectedValue & " 
             where ID_PARCEIRO = " & ID)
                             Session("ID_Parceiro") = ID

@@ -185,12 +185,12 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
                     Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL_TAXA)QTD FROM [TB_CONTA_PAGAR_RECEBER_ITENS] A
 INNER JOIN TB_CONTA_PAGAR_RECEBER B ON B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER
-WHERE DT_CANCELAMENTO IS NULL AND ID_BL_TAXA =" & ID)
+WHERE DT_CANCELAMENTO IS NULL AND ISNULL(B.TP_EXPORTACAO,'') = '' AND ID_BL_TAXA =" & ID)
                     If ds1.Tables(0).Rows(0).Item("QTD") > 0 Then
                         lblErro.Text = "Há taxas já cadastradas em contas a pagar"
                         divErro.Visible = True
-                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
-                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & ID_CONTA_PAGAR_RECEBER)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER =" & ID_CONTA_PAGAR_RECEBER)
                         Exit Sub
                     Else
 

@@ -78,6 +78,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoFCLimpo;
 
 		/// <summary>
+		/// Controle txtTarifaMinFCLimpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinFCLimpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraFCLimpo.
 		/// </summary>
 		/// <remarks>
@@ -112,6 +121,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorFCLimpo;
+
+		/// <summary>
+		/// Controle txtTarifaMinVendaFCLimpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVendaFCLimpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaFCLimpo.
@@ -258,6 +276,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoLCLimpo;
 
 		/// <summary>
+		/// Controle txtTarifaMinLCLimpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinLCLimpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraLCLimpo.
 		/// </summary>
 		/// <remarks>
@@ -292,6 +319,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorLCLimpo;
+
+		/// <summary>
+		/// Controle txtTarifaMinVendaLCLimpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVendaLCLimpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaLCLimpo.
@@ -438,6 +474,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoFCLexpo;
 
 		/// <summary>
+		/// Controle txtTarifaMinFCLexpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinFCLexpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraFCLexpo.
 		/// </summary>
 		/// <remarks>
@@ -472,6 +517,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorFCLexpo;
+
+		/// <summary>
+		/// Controle txtTarifaMinVendaFCLexpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVendaFCLexpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaFCLexpo.
@@ -618,6 +672,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoLCLexpo;
 
 		/// <summary>
+		/// Controle textTarifaMinLCLexpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox textTarifaMinLCLexpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraLCLexpo.
 		/// </summary>
 		/// <remarks>
@@ -652,6 +715,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorLCLexpo;
+
+		/// <summary>
+		/// Controle textTarifaMinVendaLCLexpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox textTarifaMinVendaLCLexpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaLCLexpo.
@@ -798,6 +870,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoAereoImpo;
 
 		/// <summary>
+		/// Controle txtTarifaMinAereoImpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinAereoImpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraAereoImpo.
 		/// </summary>
 		/// <remarks>
@@ -832,6 +913,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorAereoImpo;
+
+		/// <summary>
+		/// Controle txtTarifaMinVendaAereoImpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVendaAereoImpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaAereoImpo.
@@ -978,6 +1068,15 @@ namespace ABAINFRA.Web
 		protected global::System.Web.UI.WebControls.DropDownList ddlBaseCalculoAereoExpo;
 
 		/// <summary>
+		/// Controle txtTarifaMinAereoExpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinAereoExpo;
+
+		/// <summary>
 		/// Controle txtMoedaCompraAereoExpo.
 		/// </summary>
 		/// <remarks>
@@ -1012,6 +1111,15 @@ namespace ABAINFRA.Web
 		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
 		/// </remarks>
 		protected global::System.Web.UI.WebControls.CheckBox chkTaxaTransportadorAereoExpo;
+
+		/// <summary>
+		/// Controle txtTarifaMinVendaAereoExpo.
+		/// </summary>
+		/// <remarks>
+		/// Campo gerado automaticamente.
+		/// Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+		/// </remarks>
+		protected global::System.Web.UI.WebControls.TextBox txtTarifaMinVendaAereoExpo;
 
 		/// <summary>
 		/// Controle txtMoedaVendaAereoExpo.

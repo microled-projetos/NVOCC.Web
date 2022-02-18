@@ -291,7 +291,7 @@ FROM  TB_COTACAO A
             Dim texto As String = ds.Tables(0).Rows(0).Item("TEXTO_COTACAO").ToString
             texto = SubstituiCaracteresEspeciais(texto)
             'divTexto.InnerHtml = "<div style='page-break-after: always;'></div>" & texto
-            divTexto.InnerHtml = "<br/><br/><br/>" & texto
+            divTexto.InnerHtml = "<br/><br/>" & texto
         End If
 
 

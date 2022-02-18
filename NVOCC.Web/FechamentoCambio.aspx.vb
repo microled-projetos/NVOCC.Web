@@ -266,7 +266,7 @@
             'update de liquidacao
 
 
-
+            btnSalvarBaixa.Visible = False
             Dim ds As DataSet = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (ID_CONTA_BANCARIA,
 DT_LANCAMENTO,DT_VENCIMENTO,ID_USUARIO_LANCAMENTO,NR_DOCUMENTO,DS_DOCUMENTO_TRANSACAO, DT_LIQUIDACAO,ID_USUARIO_LIQUIDACAO,CD_PR,TP_EXPORTACAO ) SELECT ID_PARCEIRO_CORRETOR, GETDATE(),CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",NR_CONTRATO,'FECHAMENTO DE CÂMBIO',CONVERT(DATE,'" & txtDataLiquidacaoBaixa.Text & "',103)," & Session("ID_USUARIO") & ",'P','ACC' FROM TB_ACCOUNT_FECHAMENTO WHERE ID_ACCOUNT_FECHAMENTO = " & txtID.Text & "  ;  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER ")
 
@@ -290,6 +290,7 @@ FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACC
             lblSuccess.Text = "Liquidação realizada com sucesso!"
             divSuccess.Visible = True
             dgvFechamento.DataBind()
+            btnSalvarBaixa.Visible = True
         End If
     End Sub
 
