@@ -72,8 +72,7 @@
                                     </div>
                                 </ContentTemplate>
                             <Triggers>
-                                                                <asp:AsyncPostBackTrigger ControlID="btnMontar" />     
-
+                                <asp:AsyncPostBackTrigger ControlID="btnMontar" /> 
                                 <asp:PostBackTrigger ControlID="txtVencimentoBusca" /> 
                             </Triggers>
                         </asp:UpdatePanel>

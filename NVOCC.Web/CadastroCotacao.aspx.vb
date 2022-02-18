@@ -807,6 +807,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
 
             End If
         End If
+
         Con.Fechar()
 
     End Sub
@@ -1503,7 +1504,7 @@ WHERE ID_COTACAO = " & txtID.Text)
 
                 divSuccessFrete.Visible = True
                 Con.Fechar()
-
+                'ImportaTaxas()
                 If divDeleteTaxas.Visible = True And lblDeleteTaxas.Text = "Ação realizada com sucesso!" Then
                     divInfoFrete.Visible = True
                     lblInfoFrete.Text = "Registros importados automaticamente, favor revisar as taxas da cotação!"
@@ -2021,6 +2022,7 @@ Where A.ID_COTACAO = " & txtID.Text)
         End If
 
 
+        Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
         '        CÁLCULO DO PESO TAXADO
         Dim PESO_TAXADO As Decimal
@@ -3366,7 +3368,6 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
         End If
 
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO SET Dt_Calculo_Cotacao = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
 
 
     End Sub
@@ -3860,8 +3861,7 @@ union SELECT  0, '  Selecione' ORDER BY NM_CLIENTE_FINAL"
             ID_DESTINATARIO_COBRANCA = 0
 
         Else
-            'IMPO
-            ds = Con.ExecutarQuery("SELECT  CASE WHEN ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
+            ds = Con.ExecutarQuery("SELECT  CASE WHEN (ID_DESTINATARIO_COMERCIAL = 1 OR  ID_DESTINATARIO_COMERCIAL = 6) AND ISNULL(ID_PARCEIRO_IMPORTADOR,0) <> 0
  THEN 4
  ELSE 1
  END ID_DESTINATARIO_COBRANCA FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
@@ -3895,7 +3895,7 @@ WHEN ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ISNUL
 then (SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO =  " & txtID.Text & " )
 ELSE 0 END ID_FORNECEDOR,
 VL_TARIFA_MINIMA_COMPRA,
-VL_TARIFA_MINIMA 
+VL_TARIFA_MINIMA  
 FROM TB_TAXA_CLIENTE
 WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
                 Next
@@ -4050,7 +4050,7 @@ WHEN ISNULL(FL_TAXA_TRANSPORTADOR,0) = 1
 then (SELECT ID_TRANSPORTADOR FROM TB_COTACAO WHERE ID_COTACAO =  " & txtID.Text & " )
 WHEN ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ISNULL(FL_PREMIACAO,0) = 1 ) 
 then (SELECT ID_PARCEIRO_INDICADOR FROM TB_COTACAO WHERE ID_COTACAO =  " & txtID.Text & " )
-ELSE 0 END ID_FORNECEDOR,
+ELSE 0 END ID_FORNECEDOR ,
 VL_TARIFA_MINIMA_COMPRA,
 VL_TARIFA_MINIMA 
 FROM TB_TAXA_CLIENTE WHERE ID_TIPO_ESTUFAGEM = " & ddlEstufagem.SelectedValue & FILTROCOMEX & FILTROVIA & " AND ID_PARCEIRO = " & ddlCliente.SelectedValue & " AND ID_TAXA_CLIENTE = " & linha.Item("ID_TAXA_CLIENTE"))
@@ -4445,7 +4445,7 @@ end ID_ORIGEM_PAGAMENTO
         If ddlEstufagem.SelectedValue = 1 Then
 
             dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA,QT_CONTAINER FROM TB_COTACAO_MERCADORIA
-         WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
+ WHERE QT_CONTAINER is not null and QT_CONTAINER <> 0 and ID_COTACAO = " & txtID.Text)
             If dsCarga.Tables(0).Rows.Count > 0 Then
                 Dim QT_CONTAINER As Integer
                 For Each linha As DataRow In dsCarga.Tables(0).Rows
@@ -4453,23 +4453,22 @@ end ID_ORIGEM_PAGAMENTO
 
                     For i As Integer = 1 To QT_CONTAINER Step 1
                         Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_TIPO_CNTR,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,isnull(VL_PESO_BRUTO,0)/isnull(QT_CONTAINER,0)VL_PESO_BRUTO,isnull(VL_M3,0)/isnull(QT_CONTAINER,0)VL_M3," & ID_BL & ",ID_TIPO_CONTAINER, ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
-                WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
+        WHERE ID_COTACAO_MERCADORIA =  " & linha.Item("ID_COTACAO_MERCADORIA"))
                     Next
                 Next
             Else
                 Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_BL,ID_COTACAO_MERCADORIA) SELECT ID_MERCADORIA,ID_MERCADORIA,QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO," & ID_BL & ",ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA
-         WHERE ID_COTACAO =  " & txtID.Text)
+ WHERE ID_COTACAO =  " & txtID.Text)
             End If
 
 
         ElseIf ddlEstufagem.SelectedValue = 2 Then
 
             Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (QT_MERCADORIA,VL_PESO_BRUTO,VL_M3,ID_BL) 
-        SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & " FROM TB_COTACAO_MERCADORIA
-         WHERE ID_COTACAO =  " & txtID.Text)
+SELECT SUM(QT_MERCADORIA)QT_MERCADORIA,SUM(VL_PESO_BRUTO)VL_PESO_BRUTO,SUM(VL_M3)VL_M3," & ID_BL & " FROM TB_COTACAO_MERCADORIA
+ WHERE ID_COTACAO =  " & txtID.Text)
 
         End If
-
 
 
     End Sub
