@@ -383,6 +383,42 @@ Partial Public Class CadastrarParceiro
     Protected WithEvents btnSim As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle mpeDadosBancarios.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents mpeDadosBancarios As Global.AjaxControlToolkit.ModalPopupExtender
+
+    '''<summary>
+    '''Controle Panel2.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Panel2 As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''Controle btnNaoDadosBancarios.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnNaoDadosBancarios As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSimDadosBancarios.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSimDadosBancarios As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle UpdatePanel3.
     '''</summary>
     '''<remarks>
@@ -777,6 +813,24 @@ Partial Public Class CadastrarParceiro
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ckbTranspRodoviario As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle divDadosBancarios.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divDadosBancarios As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle btnDadodBancariosAgente.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDadodBancariosAgente As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle divVendedor.
