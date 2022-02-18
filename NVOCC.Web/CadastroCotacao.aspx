@@ -652,10 +652,10 @@
                                 </div>
                                       
                                             </div> <div class="row"> 
-                                                <div class="col-sm-4" style="display:block">
+                                                <div class="col-sm-4" style="display:none">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
+                                         <asp:DropDownList ID="ddlFinalDestination" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                         </asp:DropDownList>
                                     </div>
                                 </div> 
@@ -1091,15 +1091,7 @@
                                         <asp:TextBox ID="txtCotacaoTaxa" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                                     </div>
                                 </div>
-                                     </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Tipo de Item(Despesa):</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"  >
-                                        </asp:DropDownList>
-                                    </div>
-                                </div>
+                                          
                               <div class="col-sm-4">
                                     <div class="form-group">
                                           <label class="control-label"></label>
@@ -1113,7 +1105,7 @@
                                     </div>
                                 </div>          </div>
                                                             <div class="row">           
-                                  <div class="col-sm-6">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Destinatário Cobrança:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlDestinatarioCobrancaTaxa" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA" >
@@ -1121,7 +1113,7 @@
                                     </div>
 
                            </div>
-                           <div class="col-sm-6">
+                           <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Fornecedor:</label> 
                                                                                 <asp:DropDownList ID="ddlFornecedor" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedor" DataValueField="ID_PARCEIRO"></asp:DropDownList>
@@ -1129,29 +1121,30 @@
                                     </div>
 
                         
-                                          </div>   
-                                                              <div class="row">       
-                                  <div class="col-sm-3">
+                                                           
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Base de Cálculo:</label><label runat="server" style="color:red" >*</label>
-                                         <asp:DropDownList ID="ddlBaseCalculoTaxa" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
+                                         <asp:DropDownList ID="ddlBaseCalculoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
                                         </asp:DropDownList>
                                     </div>
-                                </div>                          
-                                    <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Qtd. Base de Cálculo:</label>
-                                        <asp:TextBox ID="txtQtdBaseCalculo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
-                                    </div>
-                                </div>
-                                     <div class="col-sm-3">
+                                </div></div>
+                                 <div class="row">                             
+                                    
+                                     <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Tipo de pagamento:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlTipoPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO" >
                                         </asp:DropDownList>
                                     </div>
-                                </div> 
-                                      <div class="col-sm-3">
+                                </div> <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo de Item(Despesa):</label><label runat="server" style="color:red" >*</label>
+                                         <asp:DropDownList ID="ddlItemDespesaTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"  >
+                                        </asp:DropDownList>
+                                    </div>
+                                </div>
+                                      <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Origem Serviço:</label><label runat="server" style="color:red" >*</label>
                                          <asp:DropDownList ID="ddlOrigemPagamentoTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO">
@@ -1246,7 +1239,7 @@
 <Triggers>
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarTaxa" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharTaxa" />
-     <asp:AsyncPostBackTrigger  ControlID="ddlBaseCalculoTaxa" />
+
      </Triggers>  
      </asp:UpdatePanel>
      </asp:Panel>
@@ -1774,10 +1767,6 @@ union SELECT 0, 'Selecione' FROM TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE
        <SelectParameters>
                 <asp:Parameter Name="cnpj" Type="string"  />
             </SelectParameters>
-</asp:SqlDataSource>
-
-     <asp:SqlDataSource ID="dsFinalDestination" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-      selectcommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE">
 </asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">

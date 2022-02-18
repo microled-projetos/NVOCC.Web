@@ -35,8 +35,79 @@ Public Class RastreioBL
 
                         'Principal
                         status.Text = data.tracking.status_description
+                        Dim estimatedTime As DateTime = Nothing
+                        Dim dataOperacao As DateTime = Nothing
+                        Dim dataEmissao As DateTime = Nothing
+                        Dim dataEmbarque As DateTime = Nothing
+                        Dim dataOperacao2 As DateTime = Nothing
+                        Dim dataETAArmador As DateTime = Nothing
+                        Dim dataUltimaAtualizacao As DateTime = Nothing
+                        Dim dataEmissaoCE As DateTime = Nothing
+                        Dim dataManifesto As DateTime = Nothing
+                        Dim dataPresenca As DateTime = Nothing
+
+
+
+                        If data.dates.eta <> Nothing Then
+                            estimatedTime = data.dates.eta
+                        End If
+
+                        If data.dates.bl_emission_date <> Nothing Then
+                            dataOperacao = data.dates.bl_emission_date
+                            dataEmissao = data.dates.bl_emission_date
+                        End If
+
+                        If data.dates.loading <> Nothing Then
+                            dataEmbarque = data.dates.loading
+                        End If
+
+                        If data.dates.operation_date <> Nothing Then
+                            dataOperacao2 = data.dates.operation_date
+                        End If
+
+                        If data.dates.bl_emission_date <> Nothing Then
+                            dataETAArmador = data.dates.bl_emission_date
+                        End If
+
+                        If data.dates.last_update <> Nothing Then
+                            dataUltimaAtualizacao = data.dates.last_update
+                        End If
+
+                        If data.dates.manifested_at <> Nothing Then
+                            dataManifesto = data.dates.manifested_at
+                        End If
+
+                        If data.dates.last_update <> Nothing Then
+                            dataPresenca = data.dates.last_update
+                        End If
+
+                        If data.dates.emission <> Nothing Then
+                            dataEmissaoCE = data.dates.emission
+                        End If
+
+                        'Transporte e Logistica
+                        pais_procedencia.Text = data.transport.origin_country
+                        pais_origem.Text = data.transport.origin_country
+                        pais_destino.Text = data.transport.destination_country
+
+                        porto_embarque.Text = data.transport.origin_port & " " & data.transport.origin_port_code
+
+
+                        'porto_embarque.Text = data.transport.origin_port
+                        terminal_descarga.Text = data.transport.landing_terminal
+
+                        porto_descarga.Text = data.transport.destination_port
+                        porto_destino.Text = data.transport.destination_port & " " & data.transport.destination_port_code
+                        porto_origem.Text = data.transport.origin_port & " " & data.transport.origin_port_code
+                        terminal_embarque.Text = data.transport.lading_terminal
+
+
+                        conteiners.Text = data.transport.containers
+
+                        'Principal
+                        status.Text = data.tracking.status_description
                         bl.Text = data.references.bill_of_lading
-                        consig_informado.Text = data.tracking.consignee_info '
+                        consig_informado.Text = data.tracking.consignee_info
                         fluxo.Text = data.references.transaction
                         navio.Text = data.transport.vessel_name
                         imo.Text = data.transport.vessel_imo
@@ -44,11 +115,11 @@ Public Class RastreioBL
                         embarque.Text = data.tracking.maritime_type_name
                         tipo.Text = "Maritimo"
                         tipo_carga.Text = data.references.cargo_type
-                        data_operacao.Text = data.dates.bl_emission_date
+                        data_operacao.Text = dataOperacao
                         viagem.Text = data.transport.voyage_number
                         identificador_token.Text = data.references.tracking_token
                         situacao.Text = "Ativo"
-                        eta.Text = data.dates.eta
+                        eta.Text = estimatedTime.ToString("dd/MM/yyyy")
 
                         'ADUANA
                         ce.Text = data.aduana.ce_number
@@ -60,6 +131,7 @@ Public Class RastreioBL
                         teus.Text = data.commodity.teus
                         cntrs.Text = data.commodity.c40
                         total_cntrs.Text = data.commodity.fcl_total
+                        Dim f = data.fcl.Count()
 
                         'ITENS MERCADORIA
                         Dim tabela1 As String = "<table class='table'>"
@@ -75,31 +147,40 @@ Public Class RastreioBL
                         tabela1 &= "</tr>"
                         tabela1 &= "</thead>"
                         tabela1 &= "<tbody>"
-                        For Each item As Itens In data.fcl()
+
+                        If f > 0 Then
+                            For Each item As Itens In data.fcl()
 
 
+                                tabela1 &= "<tr>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.container_number & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.seal_number & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.feet & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.gross_weight_decimal & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.tare_container & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.volume_m3 & "</td>"
+                                tabela1 &= "<td style='padding-left:10px;padding-right:10px'></td>"
+                                tabela1 &= "</tr>"
+                            Next
+                        Else
                             tabela1 &= "<tr>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.container_number & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.seal_number & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.feet & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.gross_weight_decimal & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.tare_container & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'>" & item.volume_m3 & "</td>"
-                            tabela1 &= "<td style='padding-left:10px;padding-right:10px'></td>"
+                            tabela1 &= "<td colspan='6' style='padding-left:10px;padding-right:10px'>Não há dados de retorno</td>"
                             tabela1 &= "</tr>"
-                        Next
+                        End If
+
+
                         tabela1 &= "</tbody>"
                         tabela1 &= "</table>"
                         divCNTR.InnerHtml = tabela1
 
 
                         'ENVOLVIDOS
-                        consignatario.Text = data.logistics.forwarder_name
+                        consignatario.Text = data.tracking.consignee_info
                         armador.Text = data.logistics.carrier_name
                         agente_carga.Text = data.logistics.forwarder_name
                         agencia_maritima.Text = data.logistics.shipping_agency
                         armador_informado.Text = data.logistics.informed_carrier_name '
-                        agente_internacional.Text = data.logistics.forwarder_name_foreign '
+                        agente_internacional.Text = data.logistics.forwarder_name_foreign
 
                         'IMPORTADOR
                         'atividade.Text = data.consignee.activity
@@ -109,15 +190,19 @@ Public Class RastreioBL
 
                         'DATAS
                         data_cadastro.Text = data.dates.created_datetime
-                        data_emissao_bl.Text = data.dates.bl_emission_date
-                        data_embarque.Text = data.dates.loading
-                        data_operacao2.Text = data.dates.operation_date
-                        data_eta_armador.Text = data.dates.shipowner_eta
-                        data_ultima_atualizacao.Text = data.dates.last_update
-                        data_emissao_ce.Text = data.dates.bl_emission_date
-                        data_manifesto.Text = data.dates.manifested_at
-                        data_presenca_carga.Text = data.dates.last_update
-                        eta2.Text = data.dates.eta
+                        data_emissao_bl.Text = dataEmissao.ToString("dd/MM/yyyy")
+                        data_embarque.Text = dataEmbarque.ToString("dd/MM/yyyy")
+                        data_operacao2.Text = dataOperacao2.ToString("dd/MM/yyyy")
+                        data_eta_armador.Text = dataETAArmador.ToString("dd/MM/yyyy")
+
+                        data_ultima_atualizacao.Text = dataUltimaAtualizacao.ToString("dd/MM/yyyy hh:mm")
+                        data_emissao_ce.Text = dataEmissaoCE.ToString("dd/MM/yyyy")
+                        data_manifesto.Text = dataManifesto.ToString("dd/MM/yyyy")
+                        data_presenca_carga.Text = dataPresenca.ToString("dd/MM/yyyy")
+                        eta2.Text = estimatedTime.ToString("dd/MM/yyyy")
+
+
+                        Dim c As Integer = data.documents.Count()
 
                         'DOCUMENTOS
                         Dim tabela As String = "<table class='table'>"
@@ -129,13 +214,20 @@ Public Class RastreioBL
                         tabela &= "<tr>"
                         tabela &= "</thead>"
                         tabela &= "<tbody>"
-                        For Each item As Documentos In data.documents()
+
+                        If c > 0 Then
+                            For Each item As Documentos In data.documents()
+                                tabela &= "<tr>"
+                                tabela &= "<td style='padding-left:10px;padding-right:10px'><a href=" & item.url & ">Baixar Arquivo</a></td>"
+                                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.created_at & "</td>"
+                                tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.name & "</td>"
+                                tabela &= "</tr>"
+                            Next
+                        Else
                             tabela &= "<tr>"
-                            tabela &= "<td style='padding-left:10px;padding-right:10px'><a href=" & item.url & ">Baixar Arquivo</a></td>"
-                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.created_at & "</td>"
-                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & item.name & "</td>"
+                            tabela &= "<td colspan='4' style='padding-left:10px;padding-right:10px'> Não há dados de retorno.</td>"
                             tabela &= "</tr>"
-                        Next
+                        End If
                         tabela &= "</tbody>"
                         tabela &= "</table>"
                         divConteudoDinamico.InnerHtml = tabela
@@ -156,6 +248,7 @@ Public Class RastreioBL
                         Next
                         trakinglist.InnerHtml = traking
                         'FOLLOWUP
+                        Dim countFollowup As Integer = data.follow_ups.Count()
                         Dim tb_folloup As String = "<table class='table'>"
                         tb_folloup &= "<thead>"
                         tb_folloup &= "<tr>"
@@ -165,20 +258,27 @@ Public Class RastreioBL
                         tb_folloup &= "<tr>"
                         tb_folloup &= "</thead>"
                         tb_folloup &= "<tbody>"
-                        For Each item As FollowUps In data.follow_ups
+
+                        If countFollowup > 0 Then
+                            For Each item As FollowUps In data.follow_ups
+                                tb_folloup &= "<tr>"
+                                tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.date_time & "</td>"
+                                tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.comment_history & "</td>"
+                                tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.user & "</td>"
+                                tb_folloup &= "</tr>"
+                            Next
+                        Else
                             tb_folloup &= "<tr>"
-                            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.date_time & "</a></td>"
-                            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.comment_history & "</td>"
-                            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>" & item.user & "</td>"
+                            tb_folloup &= "<td style='padding-left:10px;padding-right:10px'>Não há dados de retorno</td>"
                             tb_folloup &= "</tr>"
-                        Next
+                        End If
+
+
                         tb_folloup &= "</tbody>"
                         tb_folloup &= "</table>"
                         followup.InnerHtml = tb_folloup
 
                         mapa.Attributes.Add("src", "https://www.google.com/maps?saddr=[" & data.transport.origin_country & "]&daddr=[" & data.transport.destination_country & "]&z=2&output=embed")
-
-
 
                     End If
                 End If

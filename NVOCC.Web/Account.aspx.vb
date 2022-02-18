@@ -394,7 +394,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) "
+        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
+WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC')"
 
         dgvDevolucao.DataBind()
         dgvDevolucao.Visible = True
@@ -418,7 +420,9 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsComissoes.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,ISNULL(VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO  FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE VL_TAXA <> 0 AND ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)"
+        dsComissoes.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,ISNULL(VL_TAXA_CALCULADO,0)VL_TAXA_CALCULADO  FROM  FN_ACCOUNT_DEVOLUCAO_COMISSAO (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE VL_TAXA <> 0 AND ID_MOEDA =" & ddlMoeda.SelectedValue & " AND A.ID_BL NOT IN(SELECT ID_BL FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
+WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC')"
 
         dgvComissoes.DataBind()
         dgvComissoes.Visible = True
@@ -440,7 +444,10 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS_NOVA(" & txtID_BL.Text & ", '" & txtGrau.Text & "'," & ddlEmissor.SelectedValue & ", " & ddlTipoFatura.SelectedValue & ")  WHERE ID_PARCEIRO_EMPRESA = " & ddlAgente.SelectedValue & " AND VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsOutrasTaxas.SelectCommand = "SELECT  ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,CD_DECLARADO,DT_RECEBIMENTO FROM  FN_ACCOUNT_OUTRAS_TAXAS_NOVA(" & txtID_BL.Text & ", '" & txtGrau.Text & "'," & ddlEmissor.SelectedValue & ", " & ddlTipoFatura.SelectedValue & ")  WHERE ID_PARCEIRO_EMPRESA = " & ddlAgente.SelectedValue & " AND VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
+WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC')
+ AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
         dgvOutrasTaxas.Visible = True
         dgvOutrasTaxas.DataBind()
@@ -453,52 +460,69 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
     End Sub
 
     Private Sub btnIncluirDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnIncluirDevolucaoFrete.Click
+        divinfo.Visible = False
         Dim operador As String = VerificaPositivoNegativo()
         If lblValorFreteDevolucao.Text = "" Then
             lblValorFreteDevolucao.Text = 0
         End If
 
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If ddlTipoDevolucao.SelectedValue <> 0 Then
+            For Each linha As GridViewRow In dgvDevolucao.Rows
+                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                Dim Devolucao As Decimal = 0
+                If check.Checked Then
+                    If ddlTipoDevolucao.SelectedValue = 2 Then
+                        'DEVOLUÇÃO DO FRETE DE COMPRA
+                        Devolucao = ValorCompra
+                    ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+                        'DEVOLUÇÃO DO FRETE DE VENDA
+                        Devolucao = ValorVenda
+                    ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+                        'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                        Devolucao = ValorVenda - ValorCompra
+                    End If
 
-        For Each linha As GridViewRow In dgvDevolucao.Rows
-            Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
-            Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-            Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
-            Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
-            Dim Devolucao As Decimal = 0
-            If check.Checked Then
-                Dim Con As New Conexao_sql
-                If ddlTipoDevolucao.SelectedValue = 2 Then
-                    'DEVOLUÇÃO DO FRETE DE COMPRA
-                    Devolucao = ValorCompra
-                ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
-                    'DEVOLUÇÃO DO FRETE DE VENDA
-                    Devolucao = ValorVenda
-                ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
-                    'DEVOLUÇÃO DA DIFERENÇA DE FRETE
-                    Devolucao = ValorVenda - ValorCompra
+                    Dim VALOR_STRING As String = Devolucao.ToString
+                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
                 End If
 
-                Dim VALOR_STRING As String = Devolucao.ToString
-                VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
-                Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
-(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
+            Next
+
+            If ddlTipoInvoice.SelectedValue = 1 Then
+                'MASTER
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = " & txtID_BL.Text)
+            ElseIf ddlTipoInvoice.SelectedValue = 2 Then
+                'HOUSE
+                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & ")")
             End If
 
-
-        Next
-
-        ' End If
+            Con.Fechar()
 
 
-        dsDevolucao.DataBind()
-        dgvItensInvoice.DataBind()
-        dgvDevolucao.Visible = False
-        ModalPopupExtender3.Hide()
-        lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
-        divSuccessInvoice.Visible = True
-        ModalPopupExtender2.Show()
-        atualizaTotalInvoice()
+            dsDevolucao.DataBind()
+            dgvItensInvoice.DataBind()
+            dgvDevolucao.Visible = False
+            ModalPopupExtender3.Hide()
+            lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+            divSuccessInvoice.Visible = True
+            ModalPopupExtender2.Show()
+            atualizaTotalInvoice()
+        Else
+            divinfo.Visible = True
+            lblinfo.Text = "Selecione um tipo de devolução!"
+
+        End If
+
     End Sub
 
 
@@ -1028,7 +1052,9 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EM
         divErroInvoice.Visible = False
 
 
-        dsTaxasExteriorDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_MOEDA =" & ddlMoeda.SelectedValue
+        dsTaxasExteriorDeclaradas.SelectCommand = "SELECT ID_BL_TAXA,ID_MOEDA,ID_BL,NR_PROCESSO,SIGLA_MOEDA,ISNULL(VL_TAXA,0)VL_TAXA,NM_ITEM_DESPESA,DT_RECEBIMENTO FROM FN_ACCOUNT_TAXAS_DECLARADAS (" & txtID_BL.Text & ", '" & txtGrau.Text & "')  WHERE VL_TAXA <> 0 AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
+WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC') AND ID_MOEDA =" & ddlMoeda.SelectedValue
 
         dgvTaxasExteriorDeclaradas.DataBind()
         dgvTaxasExteriorDeclaradas.Visible = True

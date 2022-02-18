@@ -779,15 +779,6 @@ Partial Public Class CadastrarFreteTransportador
     Protected WithEvents ddlBaseCalculoTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtQtdBaseCalculo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtQtdBaseCalculo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ddlMoedaCompra.
     '''</summary>
     '''<remarks>
