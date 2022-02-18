@@ -25,12 +25,15 @@
                         <div class="tab-pane fade active in" id="processoExpectGrid">
                             <div class="row topMarg">
                                 <div class="row">
-                                    
+                                    <div class="alert alert-danger text-center" id="msgErrExportContaPagaRecebida">
+                                        Não há registros para a data informada.
+                                    </div>
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
                                         <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="printPagamentosRecebimentos()">Imprimir</button>
+                                        <button type="button" id="btnPrintRelatorioPagamentoRecebimento" class="btn btn-primary" onclick="printRelatorioPagamentosRecebimentos()">Relatório Pagas e Recebidas CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -51,7 +54,7 @@
                                             <label class="control-label">Filtro</label>
                                             <select id="ddlFilterPagamentoRecebimento" class="form-control">
                                                 <option value="">Selecione</option>
-                                                <option value="1">Nr Processo</option>
+                                                <option value="1" selected>Nr Processo</option>
                                                 <option value="2">Cliente</option>
                                                 <option value="3">Fornecedor</option>
                                                 <option value="4">Nº BL Master</option>
@@ -257,7 +260,36 @@
             EstimativaPagamentosRecebimentos();
         }
 
-
+        function printRelatorioPagamentosRecebimentos() {
+            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
+            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            if (dtInicial != "" && dtFinal != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarRelatorioContasRecebidasPagas",
+                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        var rel = [["PROCESSO;MBL;ITEM DESPESA;DATA LIQUIDAÇÃO REC;CLIENTE REC; VALOR DEVIDO REC;MOEDA REC; CAMBIO REC;VALOR LIQUIDO REC; VALOR ISS REC; DATA LIQUIDAÇÃO PAG;FORNECEDOR PAG; VALOR DEVIDO PAG; MOEDA PAG; CAMBIO PAG; VALOR LIQUIDO PAG; VALOR ISS PAG; TIPO EXPORTAÇÃO; DATA EMISSAO; DATA VENCIMENTO; TIPO FATURAMENTO; DATA PREVISÃO DE CHEGADA;DATA CHEGADA; TIPO DE ESTUFAGEM; CLIENTE FINAL; AGENTE;TIPO DE PAGAMENTO MASTER; TIPO PAGAMENTO HOUSE"]];
+                        if (dado != null) {
+                            console.log(dado)
+                            for (let i = 0; i < dado.length; i++) {
+                                rel.push([dado[i]])
+                            }
+                            console.log(rel);
+                            exportRelatorioPagamentosRecebimentosCSV("previsibilidade.csv", rel.join("\n"));
+                        } else {
+                            $("#msgErrExportContaPagaRecebida").fadeIn(500).delay(1000).fadeOut(500);
+                        }
+                    }
+                })
+            } else {
+                $("#msgErrExportContaPagaRecebida").fadeIn(500).delay(1000).fadeOut(500);
+            }
+        }
         //PagamentosRecebimentos
 
         function PagamentosRecebimentos() {
@@ -265,7 +297,10 @@
             var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
             var nota = document.getElementById("txtPagamentoRecebimento").value;
             var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
-            if (dtInicial != "" && dtFinal != "") {
+            if (dtInicial == "" && dtFinal == "") {
+                dtInicial = "1900-01-01";
+                dtFinal = "2900-01-01";
+            }
                 $.ajax({
                     type: "POST",
                     url: "DemurrageService.asmx/listarContasRecebidasPagas",
@@ -294,9 +329,6 @@
                         }
                     }
                 })
-            } else {
-
-            }
         }
 
         function exportContaPrevisibilidadeProcesso(file) {
@@ -337,6 +369,41 @@
                     }
                 }
             })
+        }
+
+        function exportRelatorioPagamentosRecebimentosCSV(file, array) {
+            var csvFile;
+
+            var downloadLink;
+
+
+            // CSV file
+            csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
+
+            // Download link
+            downloadLink = document.createElement("a");
+
+
+            // File name
+            downloadLink.download = file;
+
+
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+
+
+            // Hide download link
+            downloadLink.style.display = "none";
+
+
+
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+
+
+
+            // Click download link
+            downloadLink.click();
         }
 
         function exportContaPrevisibilidadeProcessoCSV(file, array)  {
