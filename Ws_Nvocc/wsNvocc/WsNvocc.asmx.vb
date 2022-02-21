@@ -474,7 +474,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String
                 If NFDELUCRO = 1 Then
-                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS"
+                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode("1701")
                 Else
@@ -1314,7 +1314,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String = ""
                 If NFDELUCRO = 1 Then
-                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS"
+                    dDescr = "Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode("1701")
                 Else
@@ -1537,9 +1537,9 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
         GRAVARLOG(loteNumero, "ANTES DO CLIENT DO GINFES")
 
-        'Dim client As New ginfes2.ServiceGinfesImplClient
+        Dim client As New ginfes2.ServiceGinfesImplClient
 
-        Dim client As New GinfesTeste.ServiceGinfesImplClient
+        'Dim client As New GinfesTeste.ServiceGinfesImplClient
 
         GRAVARLOG(loteNumero, "PROCURA CERTIFICADO DE NOVO")
         client.ClientCredentials.ClientCertificate.Certificate = Funcoes.ObtemCertificado(codEmpresa)(0)

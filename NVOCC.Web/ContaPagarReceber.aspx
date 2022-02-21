@@ -95,6 +95,9 @@
                                         <tbody id="grdPagamentoRecebimentoBody">
 
                                         </tbody>
+                                        <tfoot id="grdPagamentoRecebimentoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+                                             
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -186,6 +189,9 @@
                                         <tbody id="grdEstimativaPagamentoRecebimentoBody">
 
                                         </tbody>
+                                        <tfoot id="grdEstimativaPagamentoRecebimentoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+                                             
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -314,7 +320,10 @@
                     success: function (dado) {
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
+                        var liqrec = 0;
+                        var liqpag = 0;
                         $("#grdPagamentoRecebimentoBody").empty();
+                        $("#grdPagamentoRecebimentoFooter").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
@@ -322,7 +331,16 @@
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO_PAG"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] +"'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
+                                if (dado[i]["VL_LIQUIDO_REC"] != "") {                                    
+                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VL_LIQUIDO_REC"].replace("R$", "").replace(".", "").replace(",", "."));
+                                    console.log(parseFloat(dado[i]["VL_LIQUIDO_REC"].replace("R$", "").replace(",", ".").replace(".", "")))
+                                }
+
+                                if (dado[i]["VL_LIQUIDO_PAG"] != "") {
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VL_LIQUIDO_PAG"].replace("R$", "").replace(".", "").replace(",", "."));
+                                }
                             }
+                            $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
                         }
                         else {
                             $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
@@ -710,7 +728,10 @@
                     success: function (dado) {
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
+                        var liqrec = 0;
+                        var liqpag = 0;
                         $("#grdEstimativaPagamentoRecebimentoBody").empty();
+                        $("#grdEstimativaPagamentoRecebimentoFooter").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
                                 $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
@@ -718,7 +739,16 @@
                                     "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
                                     "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
                                     "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
+                                if (dado[i]["VL_LIQUIDO_REC"] != "") {
+                                    liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VL_LIQUIDO_REC"].replace("R$", "").replace(".", "").replace(",", "."));
+                                    console.log(parseFloat(dado[i]["VL_LIQUIDO_REC"].replace("R$", "").replace(",", ".").replace(".", "")))
+                                }
+
+                                if (dado[i]["VL_LIQUIDO_PAG"] != "") {
+                                    liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VL_LIQUIDO_PAG"].replace("R$", "").replace(".", "").replace(",", "."));
+                                }
                             }
+                            $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
                         }
                         else {
                             $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
