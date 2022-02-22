@@ -118,24 +118,21 @@ WHERE ID_BL_MASTER =  " & ID & " ; INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA
     Sub GridHouse()
 
         Dim sql As String = ""
-        'AGENCIAMENTO DE IMPORTACAO AEREO
-        If rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2"
+        If rdServicoHouse.SelectedValue = 0 Then
+            sql = " SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO NOT IN (1,2,4,5) " 'OUTROS
 
+        ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 1 Then
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 2" 'AGENCIAMENTO DE IMPORTACAO AEREO
 
-            'AGENCIAMENTO DE IMPORTACAO MARITIMA
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 1 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1"
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 1" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
-
-            'AGENCIAMENTO DE EXPORTACAO MARITIMA
         ElseIf rdTransporteHouse.SelectedValue = 1 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4"
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 4" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
 
-
-            'AGENCIAMENTO DE EXPORTAÇÃO AEREO
         ElseIf rdTransporteHouse.SelectedValue = 2 And rdServicoHouse.SelectedValue = 2 Then
-            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5"
+            sql = "SELECT * FROM [dbo].[View_House] WHERE ID_SERVICO = 5" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+
         End If
 
         dsHouse.SelectCommand = sql

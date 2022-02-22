@@ -555,6 +555,7 @@
                                                     <asp:RadioButtonList AutoPostBack="True" ID="rdServicoHouse" runat="server" RepeatDirection="Horizontal">
                                                         <asp:ListItem Value="1" Selected="True">&nbsp;Importação</asp:ListItem>
                                                         <asp:ListItem Value="2">&nbsp;Exportação</asp:ListItem>
+                                                        <asp:ListItem Value="0">&nbsp;Outros</asp:ListItem>
                                                     </asp:RadioButtonList>
                                                 </div>
                                             </div>

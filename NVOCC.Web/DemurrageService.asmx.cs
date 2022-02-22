@@ -7644,11 +7644,13 @@ namespace ABAINFRA.Web
         [WebMethod]
         public string ContaPrevisibilidadeProcesso()
         {
-            string dtstatuscot;
             string dtembarque;
             string dtprevisaochegada;
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
+            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
             string SQL;
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, ISNULL(STATUS_COTACAO,'') AS STATUS_COTACAO, DT_STATUS_COTACAO AS DTSTATUSCOTACAO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_PARCEIRO,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(ARECEBER_BR,0) AS ARECEBERBR, ISNULL(APAGAR_BR,0) AS APAGARBR, ISNULL(SALDO_BR,0) AS SALDOBR FROM FN_CONTAS_PREVISIBILIDADE_PROCESSO(90) ";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ISNULL(NR_BL_MASTER,'') MASTER, ISNULL(NR_BL_HOUSE,'') AS HOUSE, ISNULL(TP_SERVICO,'') TPSERVICO, ISNULL(TP_ESTUFAGEM,'') TPESTUFAGEM, ISNULL(TP_PAGAMENTO_HOUSE,'') TPPAGAMENTOHOUSE, ISNULL(TP_PAGAMENTO_MASTER,'') TPPAGAMENTOMASTER, ISNULL(QT_CNTR_20,0) AS CNTR20, ISNULL(QT_CNTR_40,0) AS CNTR40, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, DT_EMBARQUE AS DTEMBARQUE, DT_PREVISAO_CHEGADA as DTPREVISAOCHEGADA, ISNULL(NM_CLIENTE,'') AS PARCEIRO, ISNULL(CNEE,'') AS CNEE, ISNULL(INDICADOR,'') AS INDICADOR, ISNULL(AGENTE,'') AS AGENTE,ISNULL(VL_RECEBER,0) AS ARECEBERBR, ISNULL(VL_PAGAR,0) AS APAGARBR, ISNULL(VL_SALDO,0) AS SALDOBR FROM FN_PREVISIBILIDADE_PROCESSO('"+ sqlFormattedDate + "','"+sqlFormattedDate2+"') ORDER BY NR_PROCESSO";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -7657,15 +7659,6 @@ namespace ABAINFRA.Web
                 string[] previ = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    if(listTable.Rows[i]["DTSTATUSCOTACAO"] == null)
-					{
-                        dtstatuscot = "";
-					}
-					else
-					{
-                        dtstatuscot = listTable.Rows[i]["DTSTATUSCOTACAO"].ToString();
-                    }
-
                     if (listTable.Rows[i]["DTEMBARQUE"] == null)
                     {
                         dtembarque = "";
@@ -7694,8 +7687,6 @@ namespace ABAINFRA.Web
                     previ[i] += listTable.Rows[i]["CNTR40"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
                     previ[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
-                    previ[i] += listTable.Rows[i]["STATUS_COTACAO"].ToString() + ";";
-                    previ[i] += dtstatuscot + ";";
                     previ[i] += dtembarque + ";";
                     previ[i] += dtprevisaochegada + ";";
                     previ[i] += listTable.Rows[i]["PARCEIRO"].ToString() + ";";

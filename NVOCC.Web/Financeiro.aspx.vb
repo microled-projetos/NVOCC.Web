@@ -127,24 +127,23 @@
 
             End If
 
-            'AGENCIAMENTO DE IMPORTACAO AEREO
-            If rdTransporte.SelectedValue = 2 And rdServico.SelectedValue = 1 Then
-                filtro &= " AND ID_SERVICO = 2"
 
+            If rdServico.SelectedValue = 0 Then
+                filtro &= " AND ID_SERVICO NOT IN (1,2,4,5) " 'OUTROS
 
-                'AGENCIAMENTO DE IMPORTACAO MARITIMA
+            ElseIf rdTransporte.SelectedValue = 2 And rdServico.SelectedValue = 1 Then
+                filtro &= " AND ID_SERVICO = 2" 'AGENCIAMENTO DE IMPORTACAO AEREO
+
             ElseIf rdTransporte.SelectedValue = 1 And rdServico.SelectedValue = 1 Then
-                filtro &= " AND ID_SERVICO = 1"
+                filtro &= " AND ID_SERVICO = 1" 'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
 
-                'AGENCIAMENTO DE EXPORTACAO MARITIMA
             ElseIf rdTransporte.SelectedValue = 1 And rdServico.SelectedValue = 2 Then
-                filtro &= " AND ID_SERVICO = 4"
+                filtro &= " AND ID_SERVICO = 4" 'AGENCIAMENTO DE EXPORTACAO MARITIMA
 
-
-                'AGENCIAMENTO DE EXPORTAÇÃO AEREO
             ElseIf rdTransporte.SelectedValue = 2 And rdServico.SelectedValue = 2 Then
-                filtro &= " AND ID_SERVICO = 5"
+                filtro &= " AND ID_SERVICO = 5" 'AGENCIAMENTO DE EXPORTAÇÃO AEREO
+
             End If
 
 

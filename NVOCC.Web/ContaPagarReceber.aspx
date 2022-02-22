@@ -115,7 +115,7 @@
                                     </div>
                                     <div style="margin-top: 10px;">
                                         <button type="button" id="btnExportContaPrevisibilidadeProcesso" class="btn btn-primary" onclick="exportContaPrevisibilidadeProcesso('PrevisibilidadeProcesso.csv')">GERAR CSV PREVISIBILIDADE</button>
-                                        <button type="button" id="btnPrintContaConferencia" class="btn btn-primary" onclick="exportContaConferenciaProcesso('ContaConferencia.csv')">GERAR CSV CONFERÊNCIA PREVISIBILIDADE</button>
+                                        <!--<button type="button" id="btnPrintContaConferencia" class="btn btn-primary" onclick="exportContaConferenciaProcesso('ContaConferencia.csv')">GERAR CSV CONFERÊNCIA PREVISIBILIDADE</button>-->
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
@@ -359,7 +359,7 @@
                     var dado = dado.d;
                     dado = $.parseJSON(dado);
                     if (dado != null) {
-                        var previProcesso = [["PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR20;CNTR40;ORIGEM;DESTINO;STATUS COTACAO;DATA STATUS COTACAO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;A RECEBER BRL;A PAGAR BRL;SALDO BRL"]];
+                        var previProcesso = [["PROCESSO;MASTER;HOUSE;TIPO SERVICO;TIPO ESTUFAGEM;TIPO PAGAMENTO HOUSE;TIPO PAGAMENTO MASTER;CNTR20;CNTR40;ORIGEM;DESTINO;DATA EMBARQUE;DATA PREVISAO CHEGADA;PARCEIRO;CNEE;INDICADOR;AGENTE;A RECEBER BRL;A PAGAR BRL;SALDO BRL"]];
                         for (let i = 0; i < dado.length; i++) {
                             previProcesso.push([dado[i]]);
                         }
