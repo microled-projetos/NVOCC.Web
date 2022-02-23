@@ -405,14 +405,14 @@
                                         
                                     </div>
                                     <div class="row">
-                                           <div class="col-sm-4">
+                                           <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">Referência Comercial:</label>
                                                 <asp:TextBox ID="txtRefComercial_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
 
-                                         <div class="col-sm-4">
+                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">Referência Auxiliar:</label>
                                                 <asp:TextBox ID="txtRefAuxiliar_BasicoMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -857,7 +857,7 @@ VENDAS:
 
                                             <ajaxToolkit:ModalPopupExtender ID="mpeTaxaMaritimo" runat="server" PopupControlID="Panel3" TargetControlID="btnNovaTaxaMaritimo"></ajaxToolkit:ModalPopupExtender>
 
-                                            <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none">
+<%--                                            <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none">
                                                 <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                                     <ContentTemplate>
                                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -969,12 +969,7 @@ VENDAS:
                                                                                 <asp:DropDownList ID="ddlMoedaCompra_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <%--                                                                <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Valor Base da Compra:</label>
-                                                                        <asp:TextBox ID="txtBaseCompra_TaxaMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>--%>
+                                                                       
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Valor Mínimo de Compra:</label>
@@ -995,12 +990,7 @@ VENDAS:
                                                                                 <asp:DropDownList ID="ddlMoedaVenda_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
-                                                                        <%--<div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Valor Base da Venda:</label>
-                                                                        <asp:TextBox ID="txtBaseVenda_TaxaMaritimo" runat="server"  CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>--%>
+                                                                      
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Valor Mínimo de Venda:</label>
@@ -1040,13 +1030,175 @@ VENDAS:
                                                         <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculo_TaxaMaritimo" />
                                                     </Triggers>
                                                 </asp:UpdatePanel>
-                                            </asp:Panel>
+                                            </asp:Panel>--%>
 
+                                            <asp:Panel ID="Panel3" runat="server" CssClass="modalPopup" Style="display: none">
+                                                <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                                    <ContentTemplate>
+                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Taxa - Maritimo</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="alert alert-success" id="divSuccess_TaxaMaritimo2" runat="server" visible="false">
+                                                                        <asp:Label ID="lblSuccess_TaxaMaritimo2" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                                                    </div>
+                                                                    <div class="alert alert-danger" id="divErro_TaxaMaritimo2" runat="server" visible="false">
+                                                                        <asp:Label ID="lblErro_TaxaMaritimo2" runat="server"></asp:Label>
+                                                                    </div>
+                                                                    <div class="row" style="display: none">
+                                                                        <div class="col-sm-3">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Código:</label>
+                                                                                <asp:TextBox ID="txtID_TaxaMaritimo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Tipo Despesa:</label>
+                                                                                <asp:DropDownList ID="ddlDespesa_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" AutoPostBack="true" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4" style="display: none">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label"></label>
+
+                                                                                <asp:CheckBox ID="ckbPremiacao_TaxaMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label"></label>
+
+                                                                                <asp:CheckBox ID="ckbDeclarado_TaxaMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label"></label>
+                                                                                <asp:CheckBox ID="ckbProfit_TaxaMaritimo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;PROFIT"></asp:CheckBox>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                    <div class="row">
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Tipo de Pagamento:</label><label runat="server" style="color: red">*</label>
+                                                                                <asp:DropDownList ID="ddlTipoPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Origem Serviço:</label><label runat="server" style="color: red">*</label>
+                                                                                <asp:DropDownList ID="ddlOrigemPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Status do pagamento:</label>
+                                                                                <asp:DropDownList ID="ddlStatusPagamento_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_STATUS_PAGAMENTO" DataSourceID="dsStatusPagamento" Enabled="false" DataValueField="ID_STATUS_PAGAMENTO"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Destinatario de Cobrança:</label>
+                                                                                <asp:DropDownList ID="ddlDestinatarioCob_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                               <strong><asp:label cssclass="control-label"  runat="server" ID="lblTipoEmpresa_Maritimo" Text="Fornecedor:"/></strong>
+                                                                                <asp:DropDownList ID="ddlEmpresa_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorMaritimo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Base de cálculo:</label>
+                                                                                <asp:DropDownList ID="ddlBaseCalculo_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" runat="server" id="divCompraMaritimo">
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Moeda de Compra:</label>
+                                                                                <asp:DropDownList ID="ddlMoedaCompra_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Mínimo de Compra:</label>
+                                                                                <asp:TextBox ID="txtMinCompra_TaxaMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor da Compra:</label>
+                                                                                <asp:TextBox ID="txtValorCompra_TaxaMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" runat="server" id="divVendaMaritimo">
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Moeda de Venda:</label>
+                                                                                <asp:DropDownList ID="ddlMoedaVenda_TaxaMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor Mínimo de Venda:</label>
+                                                                                <asp:TextBox ID="txtMinVenda_TaxaMaritimo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Valor da Venda:</label>
+                                                                                <asp:TextBox ID="txtValorVenda_TaxaMaritimo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Observações:</label>
+                                                                                <asp:TextBox ID="txtObs_TaxaMaritimo" runat="server" TextMode="MultiLine" Rows="2" CssClass="form-control" MaxLength="1000"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <asp:Button runat="server" Text="Salvar Taxa" ID="btnSalvar_TaxaMaritimo" CssClass="btn btn-success" />
+                                                                    <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_TaxaMaritimo" Text="Close" />
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </ContentTemplate>
+                                                    <Triggers>
+                                                        <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaMaritimo" />
+                                                        <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaMaritimo" />                                                       
+                                                    </Triggers>
+                                                </asp:UpdatePanel>
+                                            </asp:Panel>
                                         </ContentTemplate>
                                         <Triggers>
                                             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoVendas" />
-                                                                                        <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoCompras" />
-
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaMaritimoCompras" />
                                             <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaMaritimo" />
                                             <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaMaritimo" />
                                         </Triggers>
@@ -1126,7 +1278,7 @@ VENDAS:
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
-                                <div class="tab-pane fade" id="RefMaritimo">
+<%--                                <div class="tab-pane fade" id="RefMaritimo">
                                     <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
                                             <br />
@@ -1191,6 +1343,90 @@ VENDAS:
 
                                                         <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
                                                        <asp:BoundField DataField="TIPO" ReadOnly="true" HeaderText="TIPO" SortExpression="TIPO" />
+                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
+                                                        <asp:TemplateField ShowHeader="False">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="visualizar" CssClass="btn btn-info" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>'><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                            <ControlStyle />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <HeaderStyle CssClass="headerStyle" />
+                                                </asp:GridView>
+                                            </div>
+                                            <br />
+                                            <br />
+
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvRefMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnCancelar_RefMaritimo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravar_RefMaritimo" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+
+
+                                </div>--%>
+
+                                 <div class="tab-pane fade" id="RefMaritimo">
+                                    <asp:UpdatePanel ID="UpdatePanel8" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
+                                            <br />
+
+                                            <asp:Label ID="Label11" Style="padding-left: 35px" runat="server">Referência do Cliente:</asp:Label>
+                                            <div class="row linhabotao text-center" style="margin-left: 20px">
+
+                                                <div>
+                                                    <div class="col-sm-4" style="border: ridge 1px; margin-left: 10px; padding-top: 20px; padding-bottom: 10px">
+                                                        <div class="form-group">
+                                                            <asp:TextBox ID="txtRefMaritimo" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
+
+                                                        <div class="form-group">
+                                                            <asp:Button runat="server" Text="Gravar" ID="btnGravar_RefMaritimo" CssClass="btn btn-success" />
+
+
+                                                            <asp:Button runat="server" Text="Cancelar" ID="btnCancelar_RefMaritimo" CssClass="btn btn-danger" />
+
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <asp:TextBox ID="txtID_RefMaritimo" Style="display: none" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+
+                                            <div class="alert alert-success" id="divSuccess_RefMaritimo" runat="server" visible="false">
+                                                <asp:Label ID="lblSuccess_RefMaritimo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                            </div>
+                                            <div class="alert alert-danger" id="divErro_RefMaritimo" runat="server" visible="false">
+                                                <asp:Label ID="lblErro_RefMaritimo" runat="server"></asp:Label>
+                                            </div>
+
+                                            <div class="table-responsive tableFixHead" id="div10" runat="server">
+
+                                                <asp:GridView ID="dgvRefMaritimo" DataKeyNames="ID_REFERENCIA_CLIENTE" DataSourceID="dsRefMaritimo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                    <Columns>
+
+                                                        <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" ReadOnly="true" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
+                                                        <asp:BoundField DataField="ID_BL" ReadOnly="true" HeaderText="ID_BL" SortExpression="ID_BL" />
                                                         <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="REFERENCIA CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
                                                         <asp:TemplateField ShowHeader="False">
                                                             <ItemTemplate>
@@ -1608,7 +1844,7 @@ VENDAS:
                                                
 
                                                
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Referência Comercial:</label>
                                                         <asp:TextBox ID="txtRefComercial_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1616,19 +1852,19 @@ VENDAS:
                                                     </div>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label class="control-label">Referência Auxiliar:</label>
                                                         <asp:TextBox ID="txtRefAuxiliar_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                               <div class="col-sm-4">
+                                               <%--<div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label class="control-label">Referência Shipper:</label>
                                                         <asp:TextBox ID="txtRefShipper_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
 
                                                     </div>
-                                                </div>
+                                                </div>--%>
                                                  </div>
 
                                             <div class="row" id="divMercadoriaBL_Aereo" runat="server" style="display:none">
@@ -2040,7 +2276,7 @@ VENDAS:
 
                                     <ajaxToolkit:ModalPopupExtender ID="mpeTaxaAereo" runat="server" PopupControlID="Panel4" TargetControlID="btnNovaTaxaAereo"></ajaxToolkit:ModalPopupExtender>
 
-                                    <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none">
+<%--                                    <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none">
                                         <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                             <ContentTemplate>
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -2140,12 +2376,7 @@ VENDAS:
                                                                         <asp:DropDownList ID="ddlMoedaCompra_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <%-- <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Valor Base da Compra:</label>
-                                                                        <asp:TextBox ID="txtBaseCompra_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>--%>
+                                                                
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Mínimo de Compra:</label>
@@ -2167,12 +2398,6 @@ VENDAS:
                                                                         <asp:DropDownList ID="ddlMoedaVenda_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <%-- <div class="col-sm-3">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Valor Base da Venda:</label>
-                                                                        <asp:TextBox ID="txtBaseVenda_TaxaAereo" runat="server"  CssClass="form-control"></asp:TextBox>
-                                                                    </div>
-                                                                </div>--%>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Valor Mínimo de Venda:</label>
@@ -2218,8 +2443,168 @@ VENDAS:
                                                 <asp:AsyncPostBackTrigger ControlID="ddlBaseCalculo_TaxaAereo" />                                                         
                                             </Triggers>
                                         </asp:UpdatePanel>
-                                    </asp:Panel>
+                                    </asp:Panel>--%>
 
+                                     <asp:Panel ID="Panel4" runat="server" CssClass="modalPopup" Style="display: none">
+                                        <asp:UpdatePanel ID="UpdatePanel9" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                            <ContentTemplate>
+                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Taxa - Aereo</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="alert alert-success" id="divSuccess_TaxaAereo2" runat="server" visible="false">
+                                                                <asp:Label ID="lblSuccess_TaxaAereo2" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                                            </div>
+                                                            <div class="alert alert-danger" id="divErro_TaxaAereo2" runat="server" visible="false">
+                                                                <asp:Label ID="lblErro_TaxaAereo2" runat="server"></asp:Label>
+                                                            </div>
+                                                            <div class="row" style="display: none">
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Código:</label>
+                                                                        <asp:TextBox ID="txtID_TaxaAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo de despesa:</label>
+                                                                        <asp:DropDownList ID="ddlDespesa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ITEM_DESPESA" AutoPostBack="true" DataSourceID="dsItemDespesa" DataValueField="ID_ITEM_DESPESA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4" style="display: none">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbPremiacao_TaxaAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbProfit_TaxaAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;PROFIT"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+
+                                                                        <asp:CheckBox ID="ckbDeclarado_TaxaAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Declarado"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tipo Pagamento:</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlTipoPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_PAGAMENTO" DataSourceID="dsTipoPagamento" DataValueField="ID_TIPO_PAGAMENTO"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Origem Serviço:</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:DropDownList ID="ddlOrigemPagamento_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_ORIGEM_PAGAMENTO" DataSourceID="dsOrigemPagamento" DataValueField="ID_ORIGEM_PAGAMENTO"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Destinatário de cobrança:</label>
+                                                                        <asp:DropDownList ID="ddlDestinatarioCob_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_DESTINATARIO_COBRANCA" DataSourceID="dsDestinatarioCobranca" DataValueField="ID_DESTINATARIO_COBRANCA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                            <strong><asp:label cssclass="control-label"  runat="server" ID="lblTipoEmpresa_Aereo" Text="Fornecedor:"/></strong>                         <asp:DropDownList ID="ddlEmpresa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorAereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Base de cálculo:</label>
+                                                                        <asp:DropDownList ID="ddlBaseCalculo_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" runat="server" id="divCompraAereo">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Moeda da compra:</label>
+                                                                        <asp:DropDownList ID="ddlMoedaCompra_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Valor Mínimo de Compra:</label>
+                                                                        <asp:TextBox ID="txtMinCompra_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Valor da Compra:</label>
+                                                                        <asp:TextBox ID="txtValorCompra_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row" runat="server" id="divVendaAereo">
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Moeda de Venda:</label>
+                                                                        <asp:DropDownList ID="ddlMoedaVenda_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"></asp:DropDownList>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Valor Mínimo de Venda:</label>
+                                                                        <asp:TextBox ID="txtMinVenda_TaxaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Valor da Venda:</label>
+                                                                        <asp:TextBox ID="txtValorVenda_TaxaAereo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Observações:</label>
+                                                                        <asp:TextBox ID="txtObs_TaxaAereo" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" MaxLength="1000"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <asp:Button runat="server" Text="Salvar Taxa" ID="btnSalvar_TaxaAereo" CssClass="btn btn-success" />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar_TaxaAereo" Text="Close" />
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </ContentTemplate>
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaAereo" />
+                                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereoCompras" />
+                                                <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxaAereoVendas" />
+                                                <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="txtValorVenda_TaxaAereo" />                                   
+                                            </Triggers>
+                                        </asp:UpdatePanel>
+                                    </asp:Panel>
                                 </div>
                                 <div class="tab-pane fade" id="ObsAereo">
                                     <asp:UpdatePanel ID="updPainel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
@@ -2296,7 +2681,7 @@ VENDAS:
                                         </Triggers>
                                     </asp:UpdatePanel>
                                 </div>
-                                <div class="tab-pane fade" id="RefAereo">
+<%--                                <div class="tab-pane fade" id="RefAereo">
                                     <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                                         <ContentTemplate>
 
@@ -2390,8 +2775,86 @@ VENDAS:
                                     </asp:UpdatePanel>
 
 
-                                </div>
+                                </div>--%>
+                                                                <div class="tab-pane fade" id="RefAereo">
+                                    <asp:UpdatePanel ID="UpdatePanel10" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
 
+                                            <br />
+                                            <asp:Label ID="Label12" Style="padding-left: 35px" runat="server">Referência do Cliente:</asp:Label>
+                                            <div class="row linhabotao text-center" style="margin-left: 20px">
+
+                                                <div>
+                                                    <div class="col-sm-4" style="border: ridge 1px; margin-left: 10px; padding-top: 20px; padding-bottom: 10px">
+                                                        <div class="form-group">
+                                                            <asp:TextBox ID="txtRefAereo" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-sm-1" style="border: ridge 1px; padding-top: 20px; padding-bottom: 10px">
+
+                                                        <div class="form-group">
+                                                            <asp:Button runat="server" Text="Gravar" ID="btnGravar_RefAereo" CssClass="btn btn-success" />
+
+                                                            <asp:Button runat="server" Text="Cancelar" ID="btnCancelar_RefAereo" CssClass="btn btn-danger" />
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <asp:TextBox ID="txtID_RefAereo" Style="display: none" runat="server" CssClass="form-control" Width="550px"></asp:TextBox>
+
+
+                                                </div>
+                                            </div>
+                                            <br />
+
+                                            <div class="table-responsive tableFixHead" id="div15" runat="server">
+
+                                                <div class="alert alert-success" id="divSuccess_RefAereo" runat="server" visible="false">
+                                                    <asp:Label ID="lblSuccess_RefAereo" runat="server" Text="Registro cadastrado/atualizado com sucesso!"></asp:Label>
+                                                </div>
+                                                <div class="alert alert-danger" id="divErro_RefAereo" runat="server" visible="false">
+                                                    <asp:Label ID="lblErro_RefAereo" runat="server"></asp:Label>
+                                                </div>
+                                                <asp:GridView ID="dgvRefAereo" DataKeyNames="ID_REFERENCIA_CLIENTE" DataSourceID="dsRefAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
+                                                    <Columns>
+
+                                                        <asp:BoundField DataField="ID_REFERENCIA_CLIENTE" HeaderText="#" SortExpression="ID_REFERENCIA_CLIENTE" />
+                                                        <asp:BoundField DataField="ID_BL" HeaderText="ID_BL" SortExpression="ID_BL" />
+                                                        <asp:BoundField DataField="NR_REFERENCIA_CLIENTE" HeaderText="NR_REFERENCIA_CLIENTE" SortExpression="NR_REFERENCIA_CLIENTE" />
+                                                        <asp:TemplateField ShowHeader="False">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnEditarParcela" runat="server" CausesValidation="False" CommandName="visualizar" CssClass="btn btn-info" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>'><span class="glyphicon glyphicon-edit"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                            <ControlStyle />
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
+                                                                    OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_REFERENCIA_CLIENTE") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                            <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                    <HeaderStyle CssClass="headerStyle" />
+                                                </asp:GridView>
+                                            </div>
+                                            <br />
+
+
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvRefAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnCancelar_RefAereo" />
+                                            <asp:AsyncPostBackTrigger ControlID="btnGravar_RefAereo" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
+
+
+                                </div>
                             </div>
                         </div>
 
