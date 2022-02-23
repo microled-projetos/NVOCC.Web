@@ -30,7 +30,7 @@
                             <a href="#email" role="tab" data-toggle="tab">
                                 <i class="far fa-calendar-alt" style="padding-right:8px;"></i>Email x Eventos
                             </a>
-                        </li>                     
+                        </li>
                     </ul>
 
                     <div class="tab-content">
@@ -212,7 +212,7 @@
                                            <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="modalMercaoriaNova">Taxas</h5>
+                                                            <h5 class="modal-title">Taxas</h5>
                                                         </div>
                                                         <div class="modal-body">    
                                                              <br/>
@@ -234,6 +234,34 @@
       
                                        </div>     </center>       
      </asp:Panel>
+          <ajaxToolkit:ModalPopupExtender id="mpeDadosBancarios" runat="server" PopupControlID="Panel2" TargetControlID="txtID"  CancelControlID="btnNao"></ajaxToolkit:ModalPopupExtender>
+           <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" style="display:none;" >            
+                                           <center>     <div class=" modal-dialog modal-dialog-centered modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">DADOS BANCARIOS</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                                                             <br/>
+                                   
+                                  
+                            <div class="row">
+                               <h5>DESEJA INSERIR DADOS BANCARIOS PARA ESSE AGENTE?</h5>
+                             </div>
+                           
+                      
+                                                       
+                                                        </div>                     
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-danger" ID="btnNaoDadosBancarios" text="Não" />
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnSimDadosBancarios" text="Sim" />
+                                                        </div>
+                                                    
+                                                </div>
+      
+                                       </div>     </center>       
+     </asp:Panel>
+
         </ContentTemplate> 
                                   <Triggers>
        <asp:PostBackTrigger ControlID="ddlTipoPessoa"  />
@@ -525,7 +553,18 @@
                     <div class="form-group">
                                         <asp:Checkbox ID="ckbTranspRodoviario" runat="server" CssClass="form-control" text="&nbsp;&nbsp;Transp. Rodoviário" ></asp:Checkbox>
                                     </div>
-                                </div>    
+                                </div>   
+                    <div id="divDadosBancarios" class="divDadosBancarios" style="display:none" runat="server">
+                           
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                        <asp:button  ID="btnDadodBancariosAgente" runat="server" CssClass="btn btn-primary btn-block" Text="Cadastrar Dados Bancarios do Agente" OnClientClick="DadoBancarios()" />
+                                    </div>
+                                    </div>
+                                </div>
+                         
+                            </div>
                       </div>
                             <div id="divVendedor" class="divVendedor" style="display:none" runat="server">
                                <div class="row">
@@ -539,8 +578,12 @@
                                 </div>
                             </div>
                             </div>
+         
 
                        </ContentTemplate>
+                                 <Triggers>
+                                                                               <ASP:AsyncPostBackTrigger ControlID="ckbAgenteInternacional" />
+                            </Triggers>
 </asp:UpdatePanel>   
 
                     </div>    
@@ -728,9 +771,6 @@
                        </div>
 
                      </div>
-                     
-   
-                        </div>
                 
                                                     </div>
                 </div>
@@ -791,6 +831,8 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
      <asp:SqlDataSource ID="dsTipoFaturamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="select ID_TIPO_FATURAMENTO,NM_TIPO_FATURAMENTO FROM [dbo].[TB_TIPO_FATURAMENTO] union SELECT  0, 'Selecione' ORDER BY ID_TIPO_FATURAMENTO">
 </asp:SqlDataSource>
+
+        
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
@@ -812,6 +854,15 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
              if (tecla != 44 && tecla < 48 || tecla > 57)
                  return false;
          }
-  
+
+
+         function DadoBancarios() {
+
+
+             var ID = document.getElementById('<%= txtID.ClientID %>').value;
+              console.log(ID);
+
+             window.open('DadosBancariosAgente.aspx?id=' + ID, '_blank');
+          }
      </script>
 </asp:Content>

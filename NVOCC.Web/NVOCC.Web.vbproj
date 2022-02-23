@@ -385,7 +385,6 @@
     <Content Include="Courrier.aspx.cs" />
     <Content Include="Courrier.aspx.designer.cs" />
     <Content Include="CourrierInfo.cs" />
-    <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="DashBoard.aspx" />
     <Content Include="DashBoard.aspx.cs" />
     <Content Include="DashBoard.aspx.designer.cs" />
@@ -402,6 +401,7 @@
     <Content Include="DemurrageVendas.aspx" />
     <Content Include="DemurrageVendas.aspx.cs" />
     <Content Include="DemurrageVendas.aspx.designer.cs" />
+    <Content Include="DadosBancariosAgente.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="ImprimirND.aspx" />
     <Content Include="EmissaoND.aspx" />
@@ -740,6 +740,7 @@
     </Compile>
     <Compile Include="DadosBancariosAgente.aspx.vb">
       <DependentUpon>DadosBancariosAgente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Helpers\AtualizaBancoEudmarco.vb" />
     <Compile Include="Helpers\Conexao_oracle.vb" />
@@ -1214,6 +1215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Arquivos\" />
     <Folder Include="Content\boletos\" />
     <Folder Include="Content\cotacoes\" />
     <Folder Include="Content\remessa\" />

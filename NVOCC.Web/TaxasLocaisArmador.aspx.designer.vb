@@ -221,6 +221,15 @@ Partial Public Class TaxasLocaisArmador
     Protected WithEvents ddlBaseCalculo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtQtdBaseCalculo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdBaseCalculo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnSalvar.
     '''</summary>
     '''<remarks>
@@ -399,6 +408,15 @@ Partial Public Class TaxasLocaisArmador
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlBaseCalculoNovo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtQtdBaseCalculoNovo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtQtdBaseCalculoNovo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnSalvarNovo.
