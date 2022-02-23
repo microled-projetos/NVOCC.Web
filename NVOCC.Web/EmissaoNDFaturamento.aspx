@@ -94,7 +94,7 @@
             </tr>
             <tr>
                 <td>
-                    <strong>ENDEREÇO:</strong>&nbsp;<asp:Label ID="lblEndereco" runat="server" /><asp:Label ID="lblNumero" runat="server" />
+                    <strong>ENDEREÇO:</strong>&nbsp;<asp:Label ID="lblEndereco" runat="server" />&nbsp;<asp:Label ID="lblNumero" runat="server" />
                     <br />
                 </td>
                 <td>

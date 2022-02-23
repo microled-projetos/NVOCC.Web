@@ -147,15 +147,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label>
@@ -169,10 +160,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraFCLimpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -182,15 +180,6 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorFCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -208,10 +197,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Venda</label><label runat="server" style="color: red">*</label>
                                                                         <asp:TextBox ID="baseVendaFCLimpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -391,15 +387,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -413,10 +400,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraLCLimpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -426,15 +420,6 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorLCLimpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinVendaLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -452,10 +437,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Venda</label>
                                                                         <asp:TextBox ID="baseVendaLCLimpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaLCLimpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -651,15 +643,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinFCLexpo" runat="server" CssClass="form-control numero">
-                                                                        </asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -673,10 +656,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraFCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinFCLexpo" runat="server" CssClass="form-control numero">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -686,15 +676,6 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorFCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -712,10 +693,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Venda</label>
                                                                         <asp:TextBox ID="baseVendaFCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaFCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -895,15 +883,6 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="textTarifaMinLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -917,10 +896,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Compra</label>
                                                                         <asp:TextBox ID="baseCompraLCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -930,15 +916,6 @@
                                                                         <div>
                                                                             <asp:CheckBox ID="chkTaxaTransportadorLCLexpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                        <asp:TextBox ID="textTarifaMinVendaLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -956,10 +933,17 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
+                                                                <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Base Venda</label>
                                                                         <asp:TextBox ID="baseVendaLCLexpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                        <asp:TextBox ID="txtTarifaMinVendaLCLexpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                        </asp:TextBox>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1157,15 +1141,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                <asp:TextBox ID="txtTarifaMinAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                </asp:TextBox>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
                                                         <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Moeda Compra</label><label runat="server" style="color: red">*</label>
@@ -1179,10 +1154,17 @@
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Base Compra</label>
                                                                 <asp:TextBox ID="baseCompraAereoImpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                <asp:TextBox ID="txtTarifaMinAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                </asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1192,15 +1174,6 @@
                                                                 <div>
                                                                     <asp:CheckBox ID="chkTaxaTransportadorAereoImpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                <asp:TextBox ID="txtTarifaMinVendaAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                </asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1218,10 +1191,17 @@
                                                                 </asp:DropDownList>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-3">
                                                             <div class="form-group">
                                                                 <label class="control-label">Base Venda</label>
                                                                 <asp:TextBox ID="baseVendaAereoImpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                <asp:TextBox ID="txtTarifaMinVendaAereoImpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                </asp:TextBox>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1401,16 +1381,7 @@
                                                                     </asp:DropDownList>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
-                                                                    <asp:TextBox ID="txtTarifaMinAereoExpo" runat="server" CssClass="form-control numero">
-                                                                    </asp:TextBox>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        </div>                                                       
                                                         <div class="row">
                                                             <div class="col-sm-3">
                                                                 <div class="form-group">
@@ -1425,10 +1396,17 @@
                                                                     </asp:DropDownList>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-3">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Base Compra</label>
                                                                     <asp:TextBox ID="baseCompraAereoExpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Tarífa Mínima Compra</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:TextBox ID="txtTarifaMinAereoExpo" runat="server" CssClass="form-control numero">
+                                                                    </asp:TextBox>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1438,15 +1416,6 @@
                                                                     <div>
                                                                         <asp:CheckBox ID="chkTaxaTransportadorAereoExpo" runat="server" CssClass="form-control noborder" Text="&nbsp;Taxa do Transportador"></asp:CheckBox>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
-                                                                    <asp:TextBox ID="txtTarifaMinVendaAereoExpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
-                                                                    </asp:TextBox>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1464,10 +1433,17 @@
                                                                     </asp:DropDownList>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-6">
+                                                            <div class="col-sm-3">
                                                                 <div class="form-group">
                                                                     <label class="control-label">Base Venda</label>
                                                                     <asp:TextBox ID="baseVendaAereoExpo" runat="server" CssClass="form-control numero"></asp:TextBox>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Tarífa Mínima Venda</label><label runat="server" style="color: red">*</label>
+                                                                    <asp:TextBox ID="txtTarifaMinVendaAereoExpo" runat="server" CssClass="form-control numero" alt="Esse campo serve para saber quem é o parceiro">
+                                                                    </asp:TextBox>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -2128,8 +2104,8 @@
         var dado = {
         "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLimpo").value,
         "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLimpo").value,
-        "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value,
-        "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value,
+        "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value.replace(',', '.'),
+        "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value.replace(',', '.'),
         "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLimpo").value,
         "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLimpo").value.replace(',', '.'),
         "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLimpo").value,
@@ -2224,8 +2200,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLimpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLimpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLimpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLimpo").value,
@@ -2321,8 +2297,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLimpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLimpo").value,
@@ -2417,8 +2393,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLimpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLimpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLimpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLimpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLimpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLimpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLimpo").value,
@@ -2514,8 +2490,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLexpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLexpo").value,
@@ -2610,8 +2586,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemFCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoFCLexpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaFCLexpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinFCLexpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraFCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraFCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaFCLexpo").value,
@@ -2707,8 +2683,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLexpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLexpo").value,
@@ -2803,8 +2779,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemLCLexpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoLCLexpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaLCLexpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinLCLexpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraLCLexpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraLCLexpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaLCLexpo").value,
@@ -2900,8 +2876,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoImpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoImpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoImpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoImpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoImpo").value,
@@ -2996,8 +2972,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoImpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoImpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoImpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoImpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoImpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoImpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoImpo").value,
@@ -3093,8 +3069,8 @@
             var dado = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoExpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoExpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoExpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoExpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoExpo").value,
@@ -3189,8 +3165,8 @@
             var dadoEdit = {
                 "ID_ITEM_DESPESA": document.getElementById("MainContent_txtCodigoTipoItemAereoExpo").value,
                 "ID_BASE_CALCULO_TAXA": document.getElementById("MainContent_ddlBaseCalculoAereoExpo").value,
-                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value,
-                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value,
+                "VL_TARIFA_MINIMA": document.getElementById('MainContent_txtTarifaMinVendaAereoExpo').value.replace(',', '.'),
+                "VL_TARIFA_MINIMA_COMPRA": document.getElementById('MainContent_txtTarifaMinAereoExpo').value.replace(',', '.'),
                 "ID_MOEDA_COMPRA": document.getElementById("MainContent_txtMoedaCompraAereoExpo").value,
                 "VL_TAXA_COMPRA": document.getElementById("MainContent_baseCompraAereoExpo").value.replace(',', '.'),
                 "ID_MOEDA_VENDA": document.getElementById("MainContent_txtMoedaVendaAereoExpo").value,

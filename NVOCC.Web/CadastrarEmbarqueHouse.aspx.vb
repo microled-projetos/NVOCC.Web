@@ -72,6 +72,7 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTACAO MARITIMA
                     'AGENCIAMENTO DE IMPORTACAO MARITIMA
 
+
                     If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(Request.QueryString("id"))
@@ -520,6 +521,232 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     btnCapaMaritimo.Visible = False
                     btnCapaAereo.Visible = True
 
+
+                Else
+
+                    'OUTROS
+
+                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                        Dim Rastreio As New RastreioService
+                        Rastreio.trackingbl(Request.QueryString("id"))
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
+                        txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                        txtIDMaster_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_COTACAO")) Then
+                        Session("ID_COTACAO") = ds.Tables(0).Rows(0).Item("ID_COTACAO")
+                    Else
+                        Session("ID_COTACAO") = 0
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO")) Then
+                        If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 10 Then
+                            btnVisualizarMBL_Maritimo.Enabled = False
+                        End If
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("BL_MASTER")) Then
+                        txtMBL_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("BL_MASTER")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) Then
+                        Session("ID_BL_MASTER") = ds.Tables(0).Rows(0).Item("ID_BL_MASTER")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
+                        txtHBL_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_PROCESSO")) Then
+                        txtProcesso_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                        lblHouse_Titulo.Text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
+                        txtCodTransportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                        ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")) Then
+                        txtCodTranspRodoviario_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                        ddlTranspRodoviario_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_SERVICO")) Then
+                        ddlServico_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_SERVICO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")) Then
+                        txtCodCliente_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
+                        ddlCliente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_CLIENTE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")) Then
+                        txtCodIndicador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
+                        ddlIndicador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_INDICADOR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")) Then
+                        ddlOrigem_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO")) Then
+                        ddlDestino_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_DESTINO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")) Then
+                        txtCodExportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
+                        ddlExportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EXPORTADOR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")) Then
+                        txtCodComissaria_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
+                        ddlComissaria_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_COMISSARIA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")) Then
+                        txtCodImportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
+                        ddlImportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_IMPORTADOR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")) Then
+                        txtCodTranspRodoviario_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                        ddlTranspRodoviario_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_RODOVIARIO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE_INTERNACIONAL")) Then
+                        txtCodAgente_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE_INTERNACIONAL")
+                        ddlAgente_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE_INTERNACIONAL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_INCOTERM")) Then
+                        ddlIncoterm_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_INCOTERM")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("FL_FREE_HAND")) Then
+                        ckbFreeHand_BasicoMaritimo.Checked = ds.Tables(0).Rows(0).Item("FL_FREE_HAND")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")) Then
+                        ddlTipoPagamento_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")) Then
+                        ddlTipoCarga_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")) Then
+                        ddlEstufagem_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM")
+                        If ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 1 Then
+                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
+                            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "none")
+
+                        ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_ESTUFAGEM") = 2 Then
+                            divMercadoriaCNTR_Maritimo.Attributes.CssStyle.Add("display", "block")
+                            divMercadoriaBL_Maritimo.Attributes.CssStyle.Add("display", "block")
+
+                        End If
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_CE")) Then
+                        txtCE_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_CE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CE")) Then
+                        txtDataCE_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("DT_CE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_REFERENCIA_COMERCIAL")) Then
+                        txtRefComercial_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_REFERENCIA_COMERCIAL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")) Then
+                        txtRefAuxiliar_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_REFERENCIA_AUXILIAR")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")) Then
+                        txtResumoMercadoria_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("NM_RESUMO_MERCADORIA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO")) Then
+                        ddlDivisaoProfit_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")) Then
+                        txtValorDivisaoProfit_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")) Then
+                        txtProfitCalculado_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO_CALCULADO")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE")) Then
+                        txtObsCliente_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")) Then
+                        txtObsAgente_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_AGENTE_INTERNACIONAL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_COMERCIAL")) Then
+                        txtObsComercial_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_COMERCIAL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")) Then
+                        txtObsoperacional_ObsMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_INTERNA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")) Then
+                        txtObsCliente_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_CLIENTE_COTACAO")
+                        txtObsCliente_CotacaoMaritimo.Text = txtObsCliente_CotacaoMaritimo.Text.Replace("<br/>", vbNewLine)
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")) Then
+                        txtObsOper_CotacaoMaritimo.Text = ds.Tables(0).Rows(0).Item("OB_OPERACIONAL_COTACAO")
+                        txtObsOper_CotacaoMaritimo.Text = txtObsOper_CotacaoMaritimo.Text.Replace("<br/>", vbNewLine)
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_TIPO_BL")) Then
+                        txtTipoBLMaritimo.Text = ds.Tables(0).Rows(0).Item("NM_TIPO_BL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NM_CLIENTE_FINAL")) Then
+                        txtClienteFinalMaritimo.Text = ds.Tables(0).Rows(0).Item("NM_CLIENTE_FINAL")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("VL_CARGA")) Then
+                        txtValorCarga_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("VL_CARGA")
+                    End If
+
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_CHEGADA_MASTER")) Then
+
+                        btnGravar_BasicoMaritimo.Visible = False
+                        btnLimpar_BasicoMaritimo.Visible = False
+                        btnNovaTaxaMaritimo.Visible = False
+                        btnSalvar_TaxaMaritimo.Visible = False
+                        btnNovaCargaMaritimo.Visible = False
+                        btnSalvar_CargaMaritimo.Visible = False
+
+                        PermissoesEspeciais()
+
+                    End If
+
+                    btnGravar_BasicoAereo.Visible = False
+                    btnLimpar_BasicoAereo.Visible = False
+                    btnNovaTaxaAereo.Visible = False
+                    btnNovaCargaAereo.Visible = False
+                    btnGravar_RefAereo.Visible = False
+                    btnGravar_ObsAereo.Visible = False
+                    btnLimpar_ObsAereo.Visible = False
+
+                    btnCapaAereo.Visible = False
+                    btnCapaMaritimo.Visible = True
                 End If
 
 
