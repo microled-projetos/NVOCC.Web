@@ -785,15 +785,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         End Try
 
 
-
-
-
-
-
-
-
-
-
                     End If
                 Else
                     divErro.Visible = True

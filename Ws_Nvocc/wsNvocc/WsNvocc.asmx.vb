@@ -480,7 +480,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
                 Else
                     If NFDELUCRO = 1 Then
-                        dDescr = "Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
+                        dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                         noText = doc.CreateTextNode("1701")
                     Else
@@ -1327,7 +1327,7 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
                 Else
                     If NFDELUCRO = 1 Then
-                        dDescr = "Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
+                        dDescr = " \n Emitida conforme PA 065598/2021-16 da PMS e Relatórios gerenciais emitidos pelo sistema ERP"
                         No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                         noText = doc.CreateTextNode("1701")
                     Else

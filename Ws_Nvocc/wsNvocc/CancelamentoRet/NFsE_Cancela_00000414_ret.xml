@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns5:CancelarNfseResposta xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns4="http://www.ginfes.com.br/servico_consultar_nfse_envio" xmlns:ns3="http://www.ginfes.com.br/tipos" xmlns:ns5="http://www.ginfes.com.br/servico_cancelar_nfse_resposta" xmlns:ns6="http://www.ginfes.com.br/servico_cancelar_nfse_envio">
+  <ns5:Sucesso>true</ns5:Sucesso>
+  <ns5:DataHora>2022-02-23T11:03:04</ns5:DataHora>
+</ns5:CancelarNfseResposta>

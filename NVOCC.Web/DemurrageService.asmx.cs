@@ -7743,6 +7743,77 @@ namespace ABAINFRA.Web
             }
         }
 
+        [WebMethod]
+        public string listarSaldo(string nota, string filter)
+        {
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
+            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+            string SQL;
+
+            if (nota != "")
+            {
+                switch (filter)
+                {
+                    case "0":
+                        filter = " ";
+                        break;
+                    case "1":
+                        filter = "WHERE NR_PROCESSO LIKE '" + nota + "%' ";
+                        break;
+                    case "2":
+                        filter = "WHERE NM_CLIENTE LIKE '" + nota + "%' ";
+                        break;
+                    case "3":
+                        filter = "WHERE NM_FORNECEDOR LIKE '" + nota + "%' ";
+                        break;
+                    case "4":
+                        filter = "WHERE NR_BL_MASTER LIKE '" + nota + "%' ";
+                        break;
+                }
+			}
+			else
+			{
+                filter = "";
+			}
+
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, ISNULL(TP_SERVICO,'') AS TPSERVICO, ISNULL(ORIGEM,'') AS ORIGEM, ISNULL(DESTINO,'') AS DESTINO, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(TP_ESTUFAGEM, '') AS TPESTUFAGEM, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(VL_SALDO_RECEBER_BR,0) AS RECEBER, ISNULL(VL_SALDO_PAGAR_BR,0) AS PAGAR, ISNULL(VL_SALDO_PROCESSO,0) AS SALDO_PROCESSO, ISNULL(NM_CLIENTE,'') AS CLIENTE, ISNULL(NM_FORNECEDOR,'') AS FORNECEDOR FROM FN_PREVISIBILIDADE_CONFERENCIA_TOTAIS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') "+filter+" ORDER BY NR_PROCESSO";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            if (listTable != null)
+            {
+                return JsonConvert.SerializeObject(listTable);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+        }
+
+        [WebMethod]
+        public string listarConferencia(string nota, string filter)
+        {
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
+            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+            string SQL;
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(NM_ITEM_DESPESA, '') AS ITEM_DESPESA, ISNULL(VL_VENDA,0) AS VENDA, ISNULL(MOEDA_VENDA,'') AS MOEDA_VENDA, ISNULL(VL_COMPRA,0) AS COMPRA, ISNULL(MOEDA_COMPRA,'') AS MOEDA_COMPRA, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(TP_ESTUFAGEM_MASTER,'') AS ESTUFAGEM_MASTER, ISNULL(TP_ESTUFAGEM_HOUSE,'') AS ESTUFAGEM_HOUSE, ISNULL(NM_STATUS_FRETE_AGENTE,'') AS STATUS_FRETE, ISNULL(TP_PROFIT,'') AS TIPO_PROFIT, ISNULL(VL_PROFIT,0) AS  PROFIT FROM FN_PREVISIBILIDADE_CONFERENCIA_ITENS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ORDER BY NR_PROCESSO";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            if (listTable != null)
+            {
+                return JsonConvert.SerializeObject(listTable);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+        }
+
         public static string fmtTotvs2(string campo)
         {
             if (string.IsNullOrEmpty(campo)) { return ";"; }
