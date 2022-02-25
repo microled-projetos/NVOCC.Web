@@ -1705,51 +1705,5 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
 
     End Sub
 
-    Private Sub dgvFaturamento_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvFaturamento.RowCommand
-        If e.CommandName = "Anexo" Then
-            Try
 
-                Dim ID_FATURAMENTO As String = e.CommandArgument
-                Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Faturamento") & ID_FATURAMENTO
-
-                If Directory.Exists(diretorio_arquivos) Then
-                    Dim di As System.IO.DirectoryInfo = New DirectoryInfo(diretorio_arquivos)
-                    For Each file As FileInfo In di.GetFiles()
-                        txtArquivoSelecionado.Text = di.ToString.Substring(di.ToString.IndexOf("Content"))
-                        txtArquivoSelecionado.Text = txtArquivoSelecionado.Text & "/" & file.ToString
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
-                    Next
-                Else
-                    lblmsgErro.Text = "Faturamento selecionado não possui anexo!"
-                    divErro.Visible = True
-                End If
-
-            Catch ex As Exception
-                lblmsgErro.Text = ex.Message
-                divErro.Visible = True
-            End Try
-        End If
-
-    End Sub
-
-    Private Sub dgvFaturamento_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles dgvFaturamento.RowDataBound
-        If e.Row.RowType = DataControlRowType.DataRow Then
-
-            Dim ID_FATURAMENTO As Label = CType(e.Row.FindControl("lblID"), Label)
-            Dim ANEXO As LinkButton = CType(e.Row.FindControl("lnkAnexo"), LinkButton)
-
-
-            Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Faturamento") & ID_FATURAMENTO.Text.ToString
-
-            If Directory.Exists(diretorio_arquivos) Then
-                Dim di As System.IO.DirectoryInfo = New DirectoryInfo(diretorio_arquivos)
-                For Each file As FileInfo In di.GetFiles()
-                    ANEXO.Visible = True
-                Next
-            Else
-                ANEXO.Visible = False
-            End If
-
-        End If
-    End Sub
 End Class

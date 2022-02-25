@@ -23,9 +23,10 @@
                     txtID_BL.Text = Request.QueryString("id")
                     ds1 = Con.ExecutarQuery("SELECT isnull(NR_PROCESSO,'')NR_PROCESSO FROM TB_BL WHERE ID_BL = " & txtID_BL.Text)
                     If ds1.Tables(0).Rows.Count > 0 Then
-                        lblProceso.Text = ds1.Tables(0).Rows(0).Item("NR_PROCESSO")
+                        lblMBL.Text = ds1.Tables(0).Rows(0).Item("NR_PROCESSO")
                     End If
                     txtCambio.Text = Now.Date.ToString("dd-MM-yyyy")
+
                 End If
 
 
@@ -96,9 +97,7 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                         lblErro.Text = "PROCESSO SEM DATA DE CHEGADA CADASTRADA"
                         divErro.Visible = True
                         Exit Sub
-                    End If
-
-                    If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
+                    ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
                         DATA = Now.Date.ToString("dd-MM-yyyy")
 
                     ElseIf ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 2 Then
@@ -445,13 +444,6 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             ds = Con.ExecutarQuery("INSERT INTO TB_CONTA_PAGAR_RECEBER (DT_LANCAMENTO,DT_VENCIMENTO,ID_CONTA_BANCARIA,ID_USUARIO_LANCAMENTO,CD_PR,ID_TIPO_FATURAMENTO,QT_DIAS_FATURAMENTO,VL_ALIQUOTA_ISS) VALUES (GETDATE(),CONVERT(DATE, '" & txtVencimento.Text & "',103),1," & Session("ID_USUARIO") & ",'R',(SELECT ID_TIPO_FATURAMENTO FROM TB_PARCEIRO WHERE ID_PARCEIRO= " & Session("FORNECEDOR") & ")," & lblDiasFaturamento.Text & ", " & ISS_final & ")  Select SCOPE_IDENTITY() as ID_CONTA_PAGAR_RECEBER  ")
             Dim ID_CONTA_PAGAR_RECEBER As String = ds.Tables(0).Rows(0).Item("ID_CONTA_PAGAR_RECEBER")
             lblID_CONTA_PAGAR_RECEBER.Text = ID_CONTA_PAGAR_RECEBER
-
-            If lblProceso.Text <> "" Then
-                If lblProceso.Text.Substring(0, 1) = "L" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = GETDATE(), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER= " & ID_CONTA_PAGAR_RECEBER)
-                End If
-            End If
-
             For Each linha As GridViewRow In dgvTaxas.Rows
                 Dim check As CheckBox = linha.FindControl("ckbSelecionar")
                 If check.Checked Then

@@ -518,6 +518,33 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtObsCancelamento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtRefCNEE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefCNEE As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefShipper.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefShipper As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtRefAuxiliar.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtRefAuxiliar As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle btnLimpar.
     '''</summary>
     '''<remarks>
@@ -1850,123 +1877,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents dgvHistoricoFrete As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''Controle UpdatePanel11.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents UpdatePanel11 As Global.System.Web.UI.UpdatePanel
-
-    '''<summary>
-    '''Controle divSuccessReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divSuccessReferencia As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblSuccessReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblSuccessReferencia As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle divErroReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents divErroReferencia As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle lblErroReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblErroReferencia As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle ddlTipoReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlTipoReferencia As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''Controle txtReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtReferencia As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle btnGravarReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnGravarReferencia As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle btnLimparReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents btnLimparReferencia As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle txtID_Referencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtID_Referencia As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle div10.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents div10 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
-
-    '''<summary>
-    '''Controle dgvReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dgvReferencia As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''Controle dsReferencia.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsReferencia As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
     '''Controle dsCotacao.
     '''</summary>
     '''<remarks>
@@ -2325,13 +2235,4 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsHistoricoFrete As Global.System.Web.UI.WebControls.SqlDataSource
-
-    '''<summary>
-    '''Controle dsFinalDestination.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents dsFinalDestination As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

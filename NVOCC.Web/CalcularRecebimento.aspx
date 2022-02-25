@@ -17,7 +17,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">CALCULAR RECEBIMENTO
-                    <asp:Label runat="server" ID="lblProceso" CssClass="control-label" /></h3>
+                    <asp:Label runat="server" ID="lblMBL" CssClass="control-label" /></h3>
             </div>
             <div class="panel-body">                    <asp:Label runat="server" ID="lblID_CONTA_PAGAR_RECEBER" CssClass="control-label" style="display:none" />
 
