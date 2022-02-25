@@ -8,9 +8,9 @@
                     </h3>
                 </div>
 
-                <div class="panel-body">
+                                <div class="panel-body">
                     <div class="tab-pane fade active in" id="consulta">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
+                          <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="always" ChildrenAsTriggers="True">
                             <ContentTemplate>
 
                                 <div class="alert alert-success" id="divSuccess" runat="server" visible="false">
@@ -66,7 +66,7 @@
 
                         <br />
                   
-                                <div runat="server" id="divAuxiliar" visible="false">
+                                <div runat="server" id="divAuxiliar"  Style="display: none">
                                     <asp:TextBox ID="txtID" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control" Width="50PX"></asp:TextBox>
                                 </div>
@@ -104,17 +104,62 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvContasReceber" />
-                                <asp:AsyncPostBackTrigger ControlID="btnPesquisar" />
+                                <asp:PostBackTrigger ControlID="btnPesquisar" />
                             </Triggers>
                         </asp:UpdatePanel>
+
+
+
+
+                                                         <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" Style="display: none;"></asp:TextBox>
+         <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="pnlEmail" TargetControlID="TextBox2" CancelControlID="TextBox2"></ajaxToolkit:ModalPopupExtender>
+                         <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
+                                        <ContentTemplate>
+                                            <asp:Panel ID="pnlEmail" runat="server" CssClass="modalPopup" Style="display: none;">
+                                    <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content" >
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">EMAIL FATURAMENTO</h5>
+                                                        </div>
+                                                        <div class="modal-body">    
+                    
+                                                          <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label> 
+                                        <asp:FileUpload ID="FileUpload1"  CssClass="form-control" runat="server" Visible="true" style="display:block"  onchange="Javascript: VerificaTamanhoArquivo();" ></asp:FileUpload>                                                                                         
+                                    </div>
+                                </div>
+                            </div>
+                      
+                                     </div>                  
+                                                                        
+                               <div class="modal-footer">
+                                                            <asp:Button runat="server" CssClass="btn btn-success" ID="btnProsseguir" text="Prosseguir"  />
+                                                            <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFechar" text="Close" OnClientClick="FecharUpload();" />                                                       
+                               </div>
+                                                    
+                                                
+      
+                                       </div>     </center>
+                                </asp:Panel>
+
+</ContentTemplate>
+                                        <Triggers>
+                                            <asp:PostBackTrigger ControlID="btnProsseguir" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                     </div>
 
                 </div>
 
 
+
+
             </div>
         </div>
 
+         
 </div>
 
    <asp:SqlDataSource ID="dsContasReceber" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
@@ -124,4 +169,40 @@
         SelectCommand="SELECT ID_PARCEIRO as Id, CNPJ , NM_RAZAO RazaoSocial FROM TB_PARCEIRO #FILTRO ORDER BY ID_PARCEIRO"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
+    <script>
+        function VerificaTamanhoArquivo() {
+
+            var btn = document.getElementById('<%= btnProsseguir.ClientID %>');
+            var fi = document.getElementById('<%= FileUpload1.ClientID %>');
+            var maxFileSize = 4194304; // 4MB -> 4 * 1024 * 1024
+
+            if (fi.files.length > 0) {
+
+                for (var i = 0; i <= fi.files.length - 1; i++) {
+
+                    var fsize = fi.files.item(i).size;
+
+                    if (fsize < maxFileSize) {
+                        btn.style.display = 'block';
+                     
+                    }
+                    else {
+                        alert("Arquivo excede tamanho permitido!");
+                        fi.value = null;
+                       btn.style.display = 'none';
+
+                    }
+
+                }
+            }
+        }
+
+        function FecharUpload() {
+            var fi = document.getElementById('<%= FileUpload1.ClientID %>');
+            var btn = document.getElementById('<%= btnProsseguir.ClientID %>');
+            btn.style.display = 'block';
+            document.getElementById('<%= txtID.ClientID %>').value = "0";
+            fi.value = null;
+        }
+    </script>
 </asp:Content>

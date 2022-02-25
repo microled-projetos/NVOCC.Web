@@ -787,6 +787,8 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
 
                 End If
 
+                CalculoProfit(txtID_BasicoMaritimo.Text)
+
                 lblSuccess_CargaMaritimo1.Text = "Registro deletado!"
                 divSuccess_CargaMaritimo1.Visible = True
                 dgvCargaMaritimo.DataBind()
@@ -1714,6 +1716,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 End If
 
+                CalculoProfit(txtID_BasicoAereo.Text)
 
 
                 lblSuccess_CargaAereo1.Text = "Registro deletado!"
@@ -2988,6 +2991,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     Next
 
                 End If
+                CalculoProfit(txtID_BasicoAereo.Text)
 
 
 
@@ -3031,6 +3035,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     Next
 
                 End If
+
+                CalculoProfit(txtID_BasicoAereo.Text)
+
             End If
 
 
@@ -3201,6 +3208,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
                     End If
 
+                    CalculoProfit(txtID_BasicoMaritimo.Text)
+
+
                     dgvCargaMaritimo.DataBind()
                     Con.Fechar()
                     divSuccess_CargaMaritimo2.Visible = True
@@ -3249,6 +3259,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                         Next
 
                     End If
+
+
+                    CalculoProfit(txtID_BasicoMaritimo.Text)
 
                     divSuccess_CargaMaritimo2.Visible = True
                     Con.Fechar()

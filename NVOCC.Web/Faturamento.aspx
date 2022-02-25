@@ -137,6 +137,7 @@
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
+                                    <asp:TextBox ID="txtArquivoSelecionado" runat="server" Style="display:none"></asp:TextBox>
                                     <asp:GridView ID="dgvFaturamento" DataKeyNames="ID_FATURAMENTO" DataSourceID="dsFaturamento" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" OnSorting="dgvFaturamento_Sorting" EmptyDataText="Nenhum registro encontrado."  PageSize="100">
                                         <Columns>
                                             <asp:TemplateField HeaderText="ID" Visible="False">
@@ -168,13 +169,12 @@
                                             <asp:BoundField DataField="ARQ_REM" HeaderText="Remessa" SortExpression="ARQ_REM" />
                                             <asp:BoundField DataField="NM_TIPO_FATURAMENTO" HeaderText="Tipo de Faturamento" SortExpression="NM_TIPO_FATURAMENTO" />
                                             <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy HH:mm}"/>
-                                            <asp:TemplateField HeaderText="" Visible="false">
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="btnSelecionar" runat="server" CssClass="btn btn-primary btn-sm"
-                                                        CommandArgument='<%# Eval("ID_FATURAMENTO") & "|" & Container.DataItemIndex %>' CommandName="Selecionar" Text="Selecionar" OnClientClick="SalvaPosicao()"></asp:LinkButton>
-                                                </ItemTemplate>
-                                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
-                                            </asp:TemplateField>
+                                              <asp:TemplateField HeaderText="Email" HeaderStyle-ForeColor="#337ab7">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkAnexo" Text="ANEXO"  CommandName="Anexo" CommandArgument='<%# Eval("ID_FATURAMENTO") %>' runat="server"></asp:LinkButton>
+                    </ItemTemplate>
+                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                </asp:TemplateField>
                                            
                                         </Columns>
                                         <HeaderStyle CssClass="headerStyle" />
@@ -869,30 +869,13 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
 
 
 
+        function AbrirArquivo() {
 
 
+            var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
+            console.log(Arquivo);
 
-
-
-
-
-
-
-        function gerarRPS() {
-
-            //$.ajax({
-            //    type: "POST",
-            //    url: "wsNvocc.asmx/IntegraNFePrefeitura",
-            //    data: '{idCont:"' + id + '" }',
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "json",
-            //    success: function (dado) {
-            //        alert("DEU CERTO!");
-
-            //    }
-            //})
-
+            window.open(Arquivo, '_blank');
         }
-
     </script>
 </asp:Content>

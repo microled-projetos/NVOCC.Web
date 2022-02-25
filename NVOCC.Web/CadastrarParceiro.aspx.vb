@@ -11,6 +11,7 @@ Public Class CadastrarParceiro
         divmsg.Visible = False
 
         If Not Page.IsPostBack Then
+            ddlTipoFaturamento.SelectedValue = 1
             CarregaCampos()
         End If
 
