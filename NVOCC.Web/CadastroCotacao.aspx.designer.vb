@@ -1526,15 +1526,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtCotacaoTaxa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle ddlItemDespesaTaxa.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle ckbDeclaradoTaxa.
     '''</summary>
     '''<remarks>
@@ -1580,15 +1571,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlBaseCalculoTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle txtQtdBaseCalculo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtQtdBaseCalculo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle ddlTipoPagamentoTaxa.
     '''</summary>
     '''<remarks>
@@ -1596,6 +1578,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlTipoPagamentoTaxa As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle ddlItemDespesaTaxa.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlItemDespesaTaxa As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlOrigemPagamentoTaxa.

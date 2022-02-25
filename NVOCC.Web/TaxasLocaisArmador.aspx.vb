@@ -37,9 +37,9 @@ Public Class TaxasLocaisArmador
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        If txtQtdBaseCalculo.Text = "" Then
-            txtQtdBaseCalculo.Text = 0
-        End If
+        'If txtQtdBaseCalculo.Text = "" Then
+        '    txtQtdBaseCalculo.Text = 0
+        'End If
 
         If v.ValidaData(txtValidadeInicialTaxa.Text) = False Then
             divErro.Visible = True
@@ -48,9 +48,10 @@ Public Class TaxasLocaisArmador
             divErro.Visible = True
             lblmsgErro.Text = "Preencha os campos obrigatórios."
 
-        ElseIf (ddlBaseCalculo.SelectedValue = 38 Or ddlBaseCalculo.SelectedValue = 40 Or ddlBaseCalculo.SelectedValue = 41) And txtQtdBaseCalculo.Text = 0 Then
-            divErro.Visible = True
-            lblmsgErro.Text = "Necessário informar quantidade para base de cálculo."
+            'ElseIf (ddlBaseCalculo.SelectedValue = 38 Or ddlBaseCalculo.SelectedValue = 40 Or ddlBaseCalculo.SelectedValue = 41) And txtQtdBaseCalculo.Text = 0 Then
+            '    divErro.Visible = True
+            '    lblmsgErro.Text = "Necessário informar quantidade para base de cálculo."
+
         Else
 
 
@@ -84,7 +85,7 @@ Public Class TaxasLocaisArmador
                     Exit Sub
 
                 Else
-                    Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = " & txtValorTaxaLocal.Text & ", DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103), ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & ", QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & " FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
+                    Con.ExecutarQuery("UPDATE TB_TAXA_LOCAL_TRANSPORTADOR SET ID_TRANSPORTADOR = " & ddlTransportadorTaxa.SelectedValue & ",ID_MOEDA =  " & ddlMoeda.SelectedValue & ",ID_BASE_CALCULO =  " & ddlBaseCalculo.SelectedValue & ",ID_PORTO =  " & ddlPortoTaxa.SelectedValue & ",ID_TIPO_COMEX = " & ddlComexTaxa.SelectedValue & ",ID_VIATRANSPORTE = " & ddlViaTransporte.SelectedValue & ",ID_ITEM_DESPESA = " & ddlDespesaTaxa.SelectedValue & ", VL_TAXA_LOCAL_COMPRA = " & txtValorTaxaLocal.Text & ", DT_VALIDADE_INICIAL = convert(date,'" & txtValidadeInicialTaxa.Text & "',103), ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento.SelectedValue & " FROM TB_TAXA_LOCAL_TRANSPORTADOR WHERE ID_TAXA_LOCAL_TRANSPORTADOR = " & txtIDTaxa.Text)
                     lblmsgSuccess.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccess.Visible = True
 
@@ -226,9 +227,9 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
         Dim ds As DataSet
         Dim v As New VerificaData
 
-        If txtQtdBaseCalculoNovo.Text = "" Then
-            txtQtdBaseCalculoNovo.Text = 0
-        End If
+        'If txtQtdBaseCalculoNovo.Text = "" Then
+        '    txtQtdBaseCalculoNovo.Text = 0
+        'End If
 
         If v.ValidaData(txtValidadeInicialTaxaNovo.Text) = False Then
             divErroNovo.Visible = True
@@ -237,9 +238,9 @@ Left Join TB_MOEDA G ON G.ID_MOEDA = A.ID_MOEDA
             divErroNovo.Visible = True
             lblmsgErroNovo.Text = "Preencha os campos obrigatórios."
 
-        ElseIf (ddlBaseCalculoNovo.SelectedValue = 38 Or ddlBaseCalculoNovo.SelectedValue = 40 Or ddlBaseCalculoNovo.SelectedValue = 41) And txtQtdBaseCalculoNovo.Text = 0 Then
-            divErroNovo.Visible = True
-            lblmsgErroNovo.Text = "Necessário informar quantidade para base de cálculo."
+            'ElseIf (ddlBaseCalculoNovo.SelectedValue = 38 Or ddlBaseCalculoNovo.SelectedValue = 40 Or ddlBaseCalculoNovo.SelectedValue = 41) And txtQtdBaseCalculoNovo.Text = 0 Then
+            '    divErroNovo.Visible = True
+            '    lblmsgErroNovo.Text = "Necessário informar quantidade para base de cálculo."
 
         Else
 
@@ -275,7 +276,7 @@ WHERE ID_PORTO = " & ddlPortoTaxaNovo.SelectedValue & " AND ID_TRANSPORTADOR = "
                     End If
 
 
-                    Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO,QTD_BASE_CALCULO) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & "," & txtQtdBaseCalculoNovo.Text & ") ")
+                    Con.ExecutarQuery("INSERT INTO TB_TAXA_LOCAL_TRANSPORTADOR (ID_TRANSPORTADOR,ID_PORTO,ID_TIPO_COMEX,ID_VIATRANSPORTE,ID_ITEM_DESPESA,VL_TAXA_LOCAL_COMPRA,DT_VALIDADE_INICIAL,ID_MOEDA,ID_BASE_CALCULO,ID_ORIGEM_PAGAMENTO) VALUES (" & ddlTransportadorTaxaNovo.SelectedValue & " , " & ddlPortoTaxaNovo.SelectedValue & "," & ddlComexTaxaNovo.SelectedValue & " , " & ddlViaTransporteNovo.SelectedValue & " , " & ddlDespesaTaxaNovo.SelectedValue & ", '" & txtValorTaxaLocalNovo.Text & "', convert(date,'" & txtValidadeInicialTaxaNovo.Text & "',103)," & ddlMoedaNovo.SelectedValue & "," & ddlBaseCalculoNovo.SelectedValue & ", " & ddlOrigemPagamentoNovo.SelectedValue & ") ")
                     lblmsgSuccessNovo.Text = "Registro cadastrado/atualizado com sucesso!"
                     divSuccessNovo.Visible = True
 
@@ -340,7 +341,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         ddlMoeda.SelectedValue = 0
         ddlBaseCalculo.SelectedValue = 0
         ddlOrigemPagamento.SelectedValue = 0
-        txtQtdBaseCalculo.Text = ""
+        '  txtQtdBaseCalculo.Text = ""
 
 
         txtIDTaxaNovo.Text = ""
@@ -354,7 +355,7 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
         ddlMoedaNovo.SelectedValue = 0
         ddlBaseCalculoNovo.SelectedValue = 0
         ddlOrigemPagamentoNovo.SelectedValue = 0
-        txtQtdBaseCalculoNovo.Text = ""
+        ' txtQtdBaseCalculoNovo.Text = ""
 
     End Sub
     Private Sub dgvTaxas_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvTaxas.RowCommand
@@ -385,13 +386,13 @@ END) = " & ddlPortoTaxaNovo.SelectedValue & "
                 ddlMoeda.SelectedValue = ds.Tables(0).Rows(0).Item("ID_MOEDA")
                 ddlBaseCalculo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                 ddlOrigemPagamento.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                ' txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
 
-                If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 38 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 40 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 41 Then
-                    txtQtdBaseCalculo.Enabled = True
-                Else
-                    txtQtdBaseCalculo.Enabled = False
-                End If
+                'If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 38 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 40 Or ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO") = 41 Then
+                '    txtQtdBaseCalculo.Enabled = True
+                'Else
+                '    txtQtdBaseCalculo.Enabled = False
+                'End If
 
             End If
             Con.Fechar()
@@ -550,7 +551,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        '  txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
                     End If
 
                 ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
@@ -571,7 +572,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        ' txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
                     End If
                 End If
 
@@ -633,7 +634,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        '  txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
 
                     End If
 
@@ -655,7 +656,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        '  txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
 
                     End If
                 End If
@@ -810,21 +811,21 @@ INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO WHERE B.ID_STATUS_COTACAO
         Pesquisa()
     End Sub
 
-    Private Sub ddlBaseCalculoNovo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlBaseCalculoNovo.SelectedIndexChanged
-        If ddlBaseCalculoNovo.SelectedValue = 38 Or ddlBaseCalculoNovo.SelectedValue = 40 Or ddlBaseCalculoNovo.SelectedValue = 41 Then
-            txtQtdBaseCalculoNovo.Enabled = True
-        Else
-            txtQtdBaseCalculoNovo.Enabled = False
-            txtQtdBaseCalculoNovo.Text = ""
-        End If
-    End Sub
+    'Private Sub ddlBaseCalculoNovo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlBaseCalculoNovo.SelectedIndexChanged
+    '    If ddlBaseCalculoNovo.SelectedValue = 38 Or ddlBaseCalculoNovo.SelectedValue = 40 Or ddlBaseCalculoNovo.SelectedValue = 41 Then
+    '        txtQtdBaseCalculoNovo.Enabled = True
+    '    Else
+    '        txtQtdBaseCalculoNovo.Enabled = False
+    '        txtQtdBaseCalculoNovo.Text = ""
+    '    End If
+    'End Sub
 
-    Private Sub ddlBaseCalculo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlBaseCalculo.SelectedIndexChanged
-        If ddlBaseCalculo.SelectedValue = 38 Or ddlBaseCalculo.SelectedValue = 40 Or ddlBaseCalculo.SelectedValue = 41 Then
-            txtQtdBaseCalculo.Enabled = True
-        Else
-            txtQtdBaseCalculo.Enabled = False
-            txtQtdBaseCalculo.Text = ""
-        End If
-    End Sub
+    'Private Sub ddlBaseCalculo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlBaseCalculo.SelectedIndexChanged
+    '    If ddlBaseCalculo.SelectedValue = 38 Or ddlBaseCalculo.SelectedValue = 40 Or ddlBaseCalculo.SelectedValue = 41 Then
+    '        txtQtdBaseCalculo.Enabled = True
+    '    Else
+    '        txtQtdBaseCalculo.Enabled = False
+    '        txtQtdBaseCalculo.Text = ""
+    '    End If
+    'End Sub
 End Class
