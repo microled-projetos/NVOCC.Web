@@ -4809,7 +4809,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string integrarTOTVSDespesa(string dataI, string dataF, string situacao, string nota)
+        public string integrarTOTVSDespesa(string dataI, string dataF, string situacao, string nota, string values)
         {
             DateTime myDateTime = DateTime.Now;
             string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
@@ -4846,11 +4846,21 @@ namespace ABAINFRA.Web
                 if (situacao != "")
                 {
                     SQL += "AND " + situacao + "";
+                    SQL += "AND ID_CONTA_PAGAR_RECEBER IN ("+ values + ") ";
+				}
+				else
+				{
+                    SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
                 }
             }
             else if (situacao != "")
             {
                 SQL += "WHERE " + situacao + "";
+                SQL += "AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+			}
+			else
+			{
+                SQL += "WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += "ORDER BY NR_NOTA ";
 
@@ -4890,7 +4900,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaDespesaCLI(string dataI, string dataF, string situacao)
+        public string listarTOTVSNotaDespesaCLI(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -4922,7 +4932,12 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                //SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
+			/*else
+			{
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+            }*/
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
@@ -4969,7 +4984,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarTOTVSNotaDespesaREC(string dataI, string dataF, string situacao)
+        public string listarTOTVSNotaDespesaREC(string dataI, string dataF, string situacao, string values)
         {
             switch (situacao)
             {
@@ -5001,6 +5016,11 @@ namespace ABAINFRA.Web
             if (situacao != "")
             {
                 SQL += " WHERE " + situacao + " ";
+                SQL += " AND ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
+			}
+			else
+			{
+                SQL += " WHERE ID_CONTA_PAGAR_RECEBER IN (" + values + ") ";
             }
             SQL += " ORDER BY ITEMCTA ";
             DataTable listTable = new DataTable();
@@ -5824,7 +5844,7 @@ namespace ABAINFRA.Web
             string SQL;
             SQL = "SELECT COD, LOJA, NOME, NREDUZ, PESSOA, TIPO, ENDER, ";
             SQL += "EST, COD_MUN, MUN, NATUREZ, BAIRRO, CEP, ATVDA, TEL, TELEX, FAX, CONTATO, ";
-            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT ";
+            SQL += "CGC, INSCRI, INSCRM, CONTA, RECISS, CONT, PAIS ";
             SQL += "FROM dbo.FN_INV_CREDIT_CLI(";
             SQL += "'" + dataI + "','" + dataF + "'";
             SQL += ") ";
@@ -5863,6 +5883,7 @@ namespace ABAINFRA.Web
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONTA"].ToString(), 20);
                     cli[i] += fmtTotvs(listTable.Rows[i]["RECISS"].ToString(), 1);
                     cli[i] += fmtTotvs(listTable.Rows[i]["CONT"].ToString(), 20);
+                    cli[i] += fmtTotvs(listTable.Rows[i]["PAIS"].ToString(), 3);
                 }
                 return JsonConvert.SerializeObject(cli);
             }
@@ -7487,10 +7508,10 @@ namespace ABAINFRA.Web
                     nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
                 case "2":
-                    nota = "AND NM_CLIENTE_REC LIKE '" + nota + "%' ";
+                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
                     break;
                 case "3":
-                    nota = "AND NM_FORNECEDOR_PAG LIKE '" + nota + "%' ";
+                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
                     break;
                 case "4":
                     nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
@@ -7500,12 +7521,18 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            SQL = "SELECT NR_PROCESSO, NR_BL_MASTER AS MBL, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO_REC,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ";
-            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_REC,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_LIQUIDACAO_PAG,'dd/MM/yyyy'),'') AS DT_LIQUIDACAO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_PAG,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_RECEBIDAS_PAGAS('" + dataI + "','" + dataF + "') ";
-            SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NR_BL_MASTER, '') AS MBL, ";
+            SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_RECEBIMENTO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO_REC, ";
+            SQL += "ISNULL(NM_CLIENTE, '') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR, VL_RECEBIDO), '') AS VL_DEVIDO_REC, ";
+            SQL += "ISNULL(MOEDA_RECEBIDO, '') AS MOEDA_REC, ISNULL(REPLACE(CONVERT(VARCHAR, REPLACE(FORMAT(VL_CAMBIO_RECEBIMENTO, 'C5', 'PT-BR'), 'R $', '')), '.', ','), '') AS VL_CAMBIO_REC, ";
+            SQL += "ISNULL(VL_RECEBIDO_BR, 0) AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_PAGAMENTO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO_PAG, ";
+            SQL += "ISNULL(NM_FORNECEDOR, '') AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR, VL_PAGO), '') AS VL_DEVIDO_PAG, ";
+            SQL += "ISNULL(MOEDA_PAGO, '') AS MOEDA_PAG, ";
+            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, REPLACE(FORMAT(VL_CAMBIO_PAGAMENTO, 'C5', 'PT-BR'), 'R$', '')), '.', ','),'') AS VL_CAMBIO_PAG, ";
+            SQL += "ISNULL(VL_PAGO_BR, 0) AS VL_LIQUIDO_PAG FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
+            SQL += "WHERE (ISNULL(VL_RECEBIDO,0)<> 0 OR ISNULL(VL_PAGO,0)<> 0) ";
             SQL += "" + nota + "";
-            SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
+            SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -7584,7 +7611,7 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarContasAReceberAPagar(string filterby, string dataI, string dataF, string nota, string filter)
+        public string listarContasAReceberAPagar(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
 
@@ -7616,25 +7643,26 @@ namespace ABAINFRA.Web
                     nota = "";
                     break;
             }
-
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NM_ITEM_DESPESA,'') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_CAMBIO_REC,'dd/MM/yyyy'),'') AS DT_CAMBIO_REC, ISNULL(NM_CLIENTE_REC,'') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_REC),'') AS VL_DEVIDO_REC, ISNULL(TP_SERVICO,'') AS TP_SERVICO, ";
-            switch (filterby)
-            {
-                case "1":
-                    SQL += " ISNULL(FORMAT(DT_EMBARQUE,'dd/MM/yyyy'),'') AS DATA, ";
-                    break;
-                case "2":
-                    SQL += " ISNULL(FORMAT(DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DATA, ";
-                    break;
-                case "3":
-                    SQL += " ISNULL(FORMAT(DT_CHEGADA,'dd/MM/yyyy'),'') AS DATA, ";
-                    break;
-            }
-            SQL += "ISNULL(MOEDA_REC,'') AS MOEDA_REC, NR_BL_MASTER AS MBL, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_REC,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_REC, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_REC,'C','PT-BR')),'') AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_CAMBIO_PAG,'dd/MM/yyyy'),'') AS DT_CAMBIO_PAG, ISNULL(NM_FORNECEDOR_PAG,'')AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR,VL_DEVIDO_PAG),'') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAG,'') AS MOEDA_PAG, ISNULL(REPLACE(CONVERT(VARCHAR,REPLACE(FORMAT(VL_CAMBIO_PAG,'C5','PT-BR'),'R$','')),'.',','),'') AS VL_CAMBIO_PAG, ISNULL(CONVERT(VARCHAR,FORMAT(VL_LIQUIDO_PAG,'C','PT-BR')),'') AS VL_LIQUIDO_PAG FROM dbo.FN_CONTAS_ARECEBER_APAGAR('" + dataI + "','" + dataF + "'," + filterby + ") ";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS PROCESSO, ";
+            SQL += "ISNULL(NR_BL_MASTER, '') AS MBL, ";
+            SQL += "ISNULL(TP_SERVICO, '') AS SERVICO, ";
+            SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ";
+            SQL += "ISNULL(NM_CLIENTE, '') AS CLIENTE, ";
+            SQL += "ISNULL(VL_SALDO_RECEBER, 0) AS DEVIDO_REC, ";
+            SQL += "ISNULL(MOEDA_SALDO_RECEBER, '') AS MOEDA_REC, ";
+            SQL += "ISNULL(VL_CAMBIO_SALDO_RECEBER, 0) AS CAMBIO_REC, ";
+            SQL += "ISNULL(FORMAT(DT_CAMBIO_SALDO_RECEBER, 'dd/MM/yyyy'), '') AS DT_CAMBIO_REC, ";
+            SQL += "ISNULL(VL_SALDO_RECEBER_BR, 0) AS RECEBER, ";
+            SQL += "ISNULL(NM_FORNECEDOR, '') AS FORNECEDOR, ";
+            SQL += "ISNULL(VL_SALDO_PAGAR, 0) DEVIDO_PAG, ";
+            SQL += "ISNULL(MOEDA_SALDO_PAGAR, '') AS MOEDA_PAG, ";
+            SQL += "ISNULL(VL_CAMBIO_SALDO_PAGAR, 0) AS CAMBIO_PAGAR, ";
+            SQL += "ISNULL(FORMAT(DT_CAMBIO_SALDO_PAGAR, 'dd/MM/yyyy'), '') AS DT_CAMBIO_PAG, ";
+            SQL += "ISNULL(VL_SALDO_PAGAR_BR, 0) AS PAGAR ";
+            SQL += "FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
             SQL += "WHERE RIGHT(NR_PROCESSO,2) >= 18 ";
             SQL += "" + nota + "";
-            SQL += "ORDER BY NR_PROCESSO, ID_ITEM_DESPESA ";
+            SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
 
@@ -7799,7 +7827,31 @@ namespace ABAINFRA.Web
             string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
             string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
             string SQL;
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(NM_ITEM_DESPESA, '') AS ITEM_DESPESA, ISNULL(VL_VENDA,0) AS VENDA, ISNULL(MOEDA_VENDA,'') AS MOEDA_VENDA, ISNULL(VL_COMPRA,0) AS COMPRA, ISNULL(MOEDA_COMPRA,'') AS MOEDA_COMPRA, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(TP_ESTUFAGEM_MASTER,'') AS ESTUFAGEM_MASTER, ISNULL(TP_ESTUFAGEM_HOUSE,'') AS ESTUFAGEM_HOUSE, ISNULL(NM_STATUS_FRETE_AGENTE,'') AS STATUS_FRETE, ISNULL(TP_PROFIT,'') AS TIPO_PROFIT, ISNULL(VL_PROFIT,0) AS  PROFIT FROM FN_PREVISIBILIDADE_CONFERENCIA_ITENS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') ORDER BY NR_PROCESSO";
+
+            if (nota != "")
+            {
+                switch (filter)
+                {
+                    case "0":
+                        filter = " ";
+                        break;
+                    case "1":
+                        filter = "WHERE NR_PROCESSO LIKE '" + nota + "%' ";
+                        break;
+                    case "2":
+                        filter = "WHERE NR_BL_MASTER LIKE '" + nota + "%' ";
+                        break;
+                    case "3":
+                        filter = "WHERE NR_BL_HOUSE LIKE '" + nota + "%' ";
+                        break;
+                }
+            }
+            else
+            {
+                filter = "";
+            }
+
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') PROCESSO, ISNULL(NR_BL_MASTER,'') AS MBL, ISNULL(NR_BL_HOUSE,'') AS HBL, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS CHEGADA, ISNULL(NM_ITEM_DESPESA, '') AS ITEM_DESPESA, ISNULL(VL_VENDA,0) AS VENDA, ISNULL(MOEDA_VENDA,'') AS MOEDA_VENDA, ISNULL(VL_COMPRA,0) AS COMPRA, ISNULL(MOEDA_COMPRA,'') AS MOEDA_COMPRA, ISNULL(FREE_HAND,'') AS FREEHAND, ISNULL(TP_ESTUFAGEM_MASTER,'') AS ESTUFAGEM_MASTER, ISNULL(TP_ESTUFAGEM_HOUSE,'') AS ESTUFAGEM_HOUSE, ISNULL(NM_STATUS_FRETE_AGENTE,'') AS STATUS_FRETE, ISNULL(TP_PROFIT,'') AS TIPO_PROFIT, ISNULL(VL_PROFIT,0) AS  PROFIT FROM FN_PREVISIBILIDADE_CONFERENCIA_ITENS('" + sqlFormattedDate + "','" + sqlFormattedDate2 + "') "+filter+" ORDER BY NR_PROCESSO";
 
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
