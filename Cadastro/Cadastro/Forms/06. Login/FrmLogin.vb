@@ -37,7 +37,7 @@ Public Class FrmLogin
 
         Dim Ds As DataTable = New DataTable()
         Dim senha As String = Conversions.ToString(CriptografarSenha(txtSenha.Text))
-        Ds = Banco.List("SELECT ID_USUARIO, ISNULL(FL_ATIVO,0), LOGIN,ID_TIPO_USUARIO FROM TB_USUARIO WHERE LOGIN = '" & txtUsuario.Text.ToUpper() & "' AND SENHA = '" & senha & "' ")
+        Ds = Banco.List("SELECT ID_USUARIO, ISNULL(FL_ATIVO,0), LOGIN,ID_TIPO_USUARIO FROM TB_USUARIO WHERE LOGIN = '" & txtUsuario.Text.ToUpper() & "'")
         If Ds.Rows.Count > 0 Then
 
             Dim x As String = Ds.Rows(0).Item("ID_USUARIO").ToString()
