@@ -500,14 +500,13 @@
                                                 <asp:BoundField DataField="NR_CONTRATO" HeaderText="Nº CONTRATO" SortExpression="NR_CONTRATO" />
                                                 <asp:BoundField DataField="NM_CORRETOR" HeaderText="INST. FINANCEIRA" SortExpression="NM_CORRETOR" />
                                                 <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />
-                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                             <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR" SortExpression="VL_CONTRATO" />             
+                                                <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        <asp:BoundField DataField="VL_CONTRATO" HeaderText="VALOR" SortExpression="VL_CONTRATO" />                         <asp:BoundField DataField="VL_TARIFA_CORRETOR" HeaderText="TARIFA" SortExpression="VL_TARIFA_CORRETOR" />
                                                 <asp:BoundField DataField="DT_FECHAMENTO" HeaderText="DATA FECHAMENTO" SortExpression="DT_FECHAMENTO" />
                                                 <asp:BoundField DataField="DT_TAXA_CAMBIO" HeaderText="DATA CAMBIO" SortExpression="DT_TAXA_CAMBIO" />
                                                 <asp:BoundField DataField="VL_TAXA_CAMBIO" HeaderText="VALOR CAMBIO" SortExpression="VL_TAXA_CAMBIO" />
                                                 <asp:BoundField DataField="VL_CONTRATO_BR" HeaderText="VALOR R$" SortExpression="VL_CONTRATO_BR" />
-                                                                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />
-                                                                                                <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="DATA CANCELAMENTO" SortExpression="DT_CANCELAMENTO" />
-
+                                                <asp:BoundField DataField="DT_LIQUIDACAO" HeaderText="DATA LIQUIDACAO" SortExpression="DT_LIQUIDACAO" />
+                                                <asp:BoundField DataField="DT_CANCELAMENTO" HeaderText="DATA CANCELAMENTO" SortExpression="DT_CANCELAMENTO" />
                                                 <asp:BoundField DataField="DS_MOTIVO_CANCELAMENTO" HeaderText="MOTIVO CANCELAMENTO" SortExpression="DS_MOTIVO_CANCELAMENTO" />
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
@@ -544,7 +543,7 @@
 
     </div>
          <asp:SqlDataSource ID="dsFechamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        selectcommand="SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO FROM [dbo].[View_Fechamento]">
+        selectcommand="SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,VL_TARIFA_CORRETOR FROM [dbo].[View_Fechamento]">
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

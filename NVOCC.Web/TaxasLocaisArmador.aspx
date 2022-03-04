@@ -18,8 +18,7 @@
     <asp:Button runat="server" Text="teste" id="Button1" style="display:none" CssClass="btn btn-success" />
     <asp:Button runat="server" Text="teste" id="Button2" style="display:none" CssClass="btn btn-success" />
 
-
-     <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none" >     
+<asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" style="display:none" >     
      <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
     <ContentTemplate> 
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -76,12 +75,6 @@
                                         <asp:DropDownList ID="ddlComexTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_COMEX" DataSourceID="dsComex" DataValueField="ID_TIPO_COMEX">
                                         </asp:DropDownList>                                    </div>
                                 </div>
-                               <%-- <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Continente:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlContinenteTaxa" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTINENTE" DataSourceID="dsContinente" DataValueField="ID_CONTINENTE">
-                                        </asp:DropDownList>                                    </div>
-                                </div>--%>
                                   <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Item de Despesa:</label><label runat="server" style="color:red" >*</label>
@@ -97,27 +90,32 @@
                             </div>
                             <div class="row">
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor Taxa Local:</label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtValorTaxaLocal" runat="server" CssClass="form-control moeda" ></asp:TextBox>
                                     </div>
                                 </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Moeda:</label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlMoeda" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"  >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Base de calculo:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlBaseCalculo" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
+                                        <asp:DropDownList ID="ddlBaseCalculo" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                 
+                                 <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Qtd. Base de cálculo:</label>
+                                        <asp:TextBox ID="txtQtdBaseCalculo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+                                    </div>
+                                </div>
                                 
                             </div></div>
                                <div class="modal-footer">
@@ -131,23 +129,18 @@
       </ContentTemplate>
  <Triggers>
      <asp:AsyncPostBackTrigger  ControlID="lkProximo" />
-          <asp:AsyncPostBackTrigger  ControlID="lkAnterior" />
-
+          <asp:AsyncPostBackTrigger  ControlID="ddlBaseCalculo" />
+        <asp:AsyncPostBackTrigger  ControlID="lkAnterior" />
             <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvTaxas" />
             <asp:AsyncPostBackTrigger  ControlID="btnSalvar" />
      </Triggers>   
      </asp:UpdatePanel>
      </asp:Panel>
 
- 
-
-
-
-
 
       <ajaxToolkit:ModalPopupExtender id="mpeNovo" runat="server" PopupControlID="Panel2" TargetControlID="btnNovo"  CancelControlID="Button1"></ajaxToolkit:ModalPopupExtender>
      
-   <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" style="display:none" >     
+      <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" style="display:none" >     
          <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
     <ContentTemplate> 
                                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -203,12 +196,6 @@
                                         <asp:DropDownList ID="ddlComexTaxaNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_TIPO_COMEX" DataSourceID="dsComex" DataValueField="ID_TIPO_COMEX">
                                         </asp:DropDownList>                                    </div>
                                 </div>
-                               <%-- <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Continente:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlContinenteTaxaNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CONTINENTE" DataSourceID="dsContinente" DataValueField="ID_CONTINENTE">
-                                        </asp:DropDownList>                                    </div>
-                                </div>--%>
                                   <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Item de Despesa:</label><label runat="server" style="color:red" >*</label>
@@ -224,26 +211,32 @@
                             </div>
                             <div class="row">
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Valor Taxa Local:</label><label runat="server" style="color:red" >*</label>
                                         <asp:TextBox ID="txtValorTaxaLocalNovo" runat="server" CssClass="form-control moeda" ></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Moeda:</label><label runat="server" style="color:red" >*</label>
                                         <asp:DropDownList ID="ddlMoedaNovo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_MOEDA" DataSourceID="dsMoeda" DataValueField="ID_MOEDA"  >
                                         </asp:DropDownList>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Base de calculo:</label><label runat="server" style="color:red" >*</label>
-                                        <asp:DropDownList ID="ddlBaseCalculoNovo" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
+                                        <asp:DropDownList ID="ddlBaseCalculoNovo" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px"  DataTextField="NM_BASE_CALCULO_TAXA" DataSourceID="dsBaseCalculo" DataValueField="ID_BASE_CALCULO_TAXA" >
                                         </asp:DropDownList>
                                     </div>
                             </div>
+                                 <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Qtd. Base de Calculo:</label>
+                                        <asp:TextBox ID="txtQtdBaseCalculoNovo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+                                    </div>
+                                </div>
                             </div></div>
                                <div class="modal-footer">
                                                             <asp:Button runat="server" Text="Salvar Taxa" id="btnSalvarNovo" CssClass="btn btn-success" />
@@ -257,10 +250,11 @@
  <Triggers>
             <asp:AsyncPostBackTrigger  ControlID="btnSalvarNovo" />
                  <asp:AsyncPostBackTrigger  ControlID="btnFecharNovo" />
-      
+                <asp:AsyncPostBackTrigger  ControlID="ddlBaseCalculoNovo" />
+
      </Triggers>   
      </asp:UpdatePanel>
-     </asp:Panel>
+     </asp:Panel> 
                                                                
 
      <asp:Button runat="server" Text="teste" id="Button4" style="display:none" CssClass="btn btn-success" />
@@ -460,8 +454,8 @@
                                         </asp:TemplateField>
                                          <asp:TemplateField HeaderText="" >
                                         <ItemTemplate>
-                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
-                                                                            Text="Duplicar" CssClass="btn btn-warning btn-sm"><i class="glyphicon glyphicon-duplicate"></i></div></asp:LinkButton>
+                                                                        <asp:LinkButton ID="btnDuplicar" runat="server" CausesValidation="False" CommandName="Duplicar" CommandArgument='<%# Eval("ID_TAXA_LOCAL_TRANSPORTADOR") %>'
+                                                                            Text="Duplicar" CssClass="btn btn-warning btn-sm" OnClientClick="javascript:return confirm('Deseja realmente duplicar este registro?');" ><i class="glyphicon glyphicon-duplicate"></i></div></asp:LinkButton>
                                                                     </ItemTemplate>
                                                                                           <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
 

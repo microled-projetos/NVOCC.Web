@@ -1,4 +1,5 @@
-﻿Public Class FechamentoCambio
+﻿Imports System.Math
+Public Class FechamentoCambio
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -41,7 +42,7 @@
 
 
 
-        dsFechamento.SelectCommand = "SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO FROM [dbo].[View_Fechamento]" & filtro
+        dsFechamento.SelectCommand = "SELECT distinct ID_ACCOUNT_FECHAMENTO,NR_CONTRATO,NM_CORRETOR,NM_AGENTE,SIGLA_MOEDA,VL_CONTRATO,VL_CONTRATO_BR,CONVERT(VARCHAR,DT_FECHAMENTO,103)DT_FECHAMENTO,CONVERT(VARCHAR,DT_TAXA_CAMBIO,103)DT_TAXA_CAMBIO,VL_TAXA_CAMBIO,CONVERT(VARCHAR,DT_LIQUIDACAO,103)DT_LIQUIDACAO,CONVERT(VARCHAR,DT_CANCELAMENTO,103)DT_CANCELAMENTO,DS_MOTIVO_CANCELAMENTO,VL_TARIFA_CORRETOR FROM [dbo].[View_Fechamento]" & filtro
 
         dgvFechamento.DataBind()
         divTotalInvoices.Visible = True
@@ -301,6 +302,13 @@ FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACC
         divErro.Visible = False
         divSuccess.Visible = False
 
+        If txtTarifaNovo.Text = "" Then
+            txtTarifaNovo.Text = 0
+        End If
+
+        If txtIOFNovo.Text = "" Then
+            txtIOFNovo.Text = "0"
+        End If
 
         If txtValorNovo.Text = "" Then
             divErroNovoFechamento.Visible = True
@@ -318,6 +326,7 @@ FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACC
 
         Dim ValorNovo As Decimal = txtValorNovo.Text
         Dim ValorTotalInvoices As Decimal = lblValorTotalInvoices.Text
+
 
         If ddlAgenteNovo.SelectedValue = 0 Or ddlMoedaNovo.SelectedValue = 0 Or ddlCorretorNovo.SelectedValue = 0 Or txtContratoNovo.Text = "" Or
             txtDataFechamentoNovo.Text = "" Or txtValorNovo.Text = "" Or
@@ -337,13 +346,7 @@ FROM TB_ACCOUNT_INVOICE_ITENS A WHERE ID_ACCOUNT_INVOICE =" & linha.Item("ID_ACC
             ModalPopupExtender3.Show()
             Exit Sub
         Else
-            If txtTarifaNovo.Text = "" Then
-                txtTarifaNovo.Text = "0"
-            End If
 
-            If txtIOFNovo.Text = "" Then
-                txtIOFNovo.Text = "0"
-            End If
 
             txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(".", "")
             txtTarifaNovo.Text = txtTarifaNovo.Text.Replace(",", ".")
@@ -454,9 +457,15 @@ WHERE (A.DT_FECHAMENTO IS NULL OR A.DT_FECHAMENTO IS NOT NULL AND DT_CANCELAMENT
     End Sub
 
     Function VerificaValorReal() As Boolean
-        Dim ValorCambio As Decimal = txtValorNovo.Text * txtCambioNovo.Text
+        Dim ValorEstrangeiro As Decimal = txtValorNovo.Text
+        Dim ValorTarifa As Decimal = txtTarifaNovo.Text
+        Dim ValorCambio As Decimal = Math.Abs(ValorEstrangeiro) - Math.Abs(ValorTarifa)
+        ValorCambio = ValorCambio * txtCambioNovo.Text
         Dim valorBrNovo As Decimal = txtValorBRNovo.Text
-        If txtValorBRNovo.Text = ValorCambio Then
+        valorBrNovo = Math.Abs(valorBrNovo)
+        ValorCambio = FormatNumber(ValorCambio, 2)
+
+        If valorBrNovo = ValorCambio Then
             Return True
         Else
             Dim diferenca As Decimal = txtValorBRNovo.Text - ValorCambio

@@ -93,8 +93,8 @@ GROUP BY B.ID_ACCOUNT_INVOICE,B.NR_INVOICE,ORIGEM,DESTINO,NR_BL,GRAU,DT_EMBARQUE
                 ElseIf linhadados("GRAU") = "C" Then
                     tabela &= "<td>" & linhadados("TIPO_PAGAMENTO_MASTER") & "</td>"
                     tabela &= "<td>" & linhadados("NR_BL_MASTER") & "</td>"
-                    tabela &= "<td>" & linhadados("NR_BL") & "</td>"
                     tabela &= "<td>" & linhadados("TIPO_PAGAMENTO") & "</td>"
+                    tabela &= "<td>" & linhadados("NR_BL") & "</td>"
                 End If
 
                 tabela &= "<td>" & linhadados("NR_INVOICE") & "</td>"

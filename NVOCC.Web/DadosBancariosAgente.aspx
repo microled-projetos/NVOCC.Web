@@ -36,62 +36,78 @@
                                     <asp:Label runat="server"  ID="msgErro" />
                                     </div>
                             <div class="row">
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tax ID:</label>
+                                        <asp:TextBox ID="txtTaxID" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                     <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Agreement Number:</label>
+                                        <asp:TextBox ID="txtAgreement" runat="server" MaxLength="100" CssClass="form-control" ></asp:TextBox>
+                                    </div>
+                                </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Payment To:</label>
                                         <asp:TextBox ID="txtPayment" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+
+                                </div>
+                                 <div class="row">
+                                                                     <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Bank Name:</label>
                                         <asp:TextBox ID="txtBank" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
-                                </div>
-                                <div class="col-sm-2">
+                                </div>                                
+                                    <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Account:</label>
+                                        <label class="control-label">Bank Address:</label>
+                                        <asp:TextBox ID="txtBankAddress" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Account Number:</label>
                                         <asp:TextBox ID="txtAccount" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Agency:</label>
+                                        <label class="control-label">Agency Number:</label>
                                         <asp:TextBox ID="txtAgency" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="row"> 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Swift:</label>
+                                        <label class="control-label">Swift Code:</label>
                                         <asp:TextBox ID="txtSwift" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Refund:</label>
                                         <asp:TextBox ID="txtRefund" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Iban Br:</label>
                                         <asp:TextBox ID="txtIban" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Agreement:</label>
-                                        <asp:TextBox ID="txtAgreement" runat="server" MaxLength="100" CssClass="form-control" ></asp:TextBox>
-                                    </div>
-                                </div>
+                                
                                 </div>
          <div class="row">
                                  <div class="col-sm-10">
                                     <div class="form-group">
-                                        <label class="control-label">Obs:</label>
+                                        <label class="control-label">Observações:</label>
                                         <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
                                     </div>
                                 </div>
@@ -169,7 +185,6 @@
             </div>
        </div>
     </div>
-</div>
     
 
 </asp:Content>

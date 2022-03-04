@@ -517,7 +517,8 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                     btnNovoCNTRMaritimo.Visible = False
 
                 Else
-                    'OUTROS
+                    'OUTROS                   
+
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL")

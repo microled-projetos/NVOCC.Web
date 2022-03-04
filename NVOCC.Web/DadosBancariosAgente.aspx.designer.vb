@@ -68,6 +68,24 @@ Partial Public Class DadosBancariosAgente
     Protected WithEvents msgErro As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtTaxID.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTaxID As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtAgreement.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtAgreement As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtPayment.
     '''</summary>
     '''<remarks>
@@ -84,6 +102,15 @@ Partial Public Class DadosBancariosAgente
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtBank As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtBankAddress.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBankAddress As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtAccount.
@@ -129,15 +156,6 @@ Partial Public Class DadosBancariosAgente
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtIban As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtAgreement.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtAgreement As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtObs.

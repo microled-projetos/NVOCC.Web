@@ -339,7 +339,9 @@ SUM(ISNULL(A.VL_ISS,0)) VL_ISS,
 0 VL_PIS,
 0 VL_COFINS,
 SUM(ISNULL(B.VL_IR_NF,0)) VL_IR, 
-SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(B.VL_IR_NF,0)) AS VL_IMPOSTOS
+SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_IR_NF,0)) AS VL_DESCONTANDO_IR, 
+SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(B.VL_IR_NF,0)) AS VL_IMPOSTOS,
+CASE WHEN SUM(ISNULL(B.VL_IR_NF,0))> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 LEFT JOIN TB_FATURAMENTO B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
 WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & IDFatura & ")"
@@ -460,7 +462,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     If rsRPS.Tables(0).Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Tables(0).Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                         noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
                     Else
-                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                        If rsServicos.Tables(0).Rows(I)("FL_IR").ToString = 1 Then
+                            noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_DESCONTANDO_IR").ToString), "0.00").Replace(",", "."))
+                        Else
+                            noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                        End If
                     End If
                 End If
 
@@ -1186,7 +1192,9 @@ SUM(ISNULL(A.VL_ISS,0)) VL_ISS,
 0 VL_PIS,
 0 VL_COFINS,
 SUM(ISNULL(B.VL_IR_NF,0)) VL_IR, 
-SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(B.VL_IR_NF,0)) AS VL_IMPOSTOS
+SUM(ISNULL(VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_IR_NF,0)) AS VL_DESCONTANDO_IR, 
+SUM(ISNULL(A.VL_ISS,0)) + SUM(ISNULL(VL_PIS,0)) + SUM(ISNULL(VL_COFINS,0)) + SUM(ISNULL(B.VL_IR_NF,0)) AS VL_IMPOSTOS,
+CASE WHEN SUM(ISNULL(B.VL_IR_NF,0))> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_CONTA_PAGAR_RECEBER_ITENS A
 LEFT JOIN TB_FATURAMENTO B ON A.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER
 WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1 ) AND ID_FATURAMENTO IN (" & rsRPS.Rows(0)("IDFATURA").ToString & ")"
@@ -1307,7 +1315,11 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
                     If rsRPS.Rows(0)("CIDADE").ToString.ToUpper.Trim = "SANTOS" And Funcoes.obtemNumero(rsRPS.Rows(0)("CNPJ_CLI").ToString).Length > 11 Then
                         noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_LIQUIDO").ToString), "0.00").Replace(",", "."))
                     Else
-                        noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                        If rsServicos.Tables(0).Rows(I)("FL_IR").ToString = 1 Then
+                            noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VL_DESCONTANDO_IR").ToString), "0.00").Replace(",", "."))
+                        Else
+                            noText = doc.CreateTextNode(Format(Double.Parse(rsServicos.Tables(0).Rows(I)("VALOR").ToString), "0.00").Replace(",", "."))
+                        End If
                     End If
                 End If
 

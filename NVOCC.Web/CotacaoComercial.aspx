@@ -60,7 +60,7 @@
                                       <asp:LinkButton ID="lkRejeitar" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" OnClientClick="javascript:return confirm('Deseja realmente rejeitar este registro?');"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;Rejeitar</asp:LinkButton>
                                      <asp:LinkButton ID="lkRemover" runat="server" OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" ><i  class="glyphicon glyphicon-trash"></i>&nbsp;Remover</asp:LinkButton>
                                      <asp:LinkButton ID="lkUpdate" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Em Update</asp:LinkButton>
-                                     <asp:LinkButton ID="lkFollowUp" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="false" OnClientClick="javascript:return confirm('Deseja realmente realizar o Follow Up deste registro?');" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Follow Up</asp:LinkButton>
+                                     <asp:LinkButton ID="lkFollowUp" runat="server"  CssClass="btn btnn btn-default btn-sm" style="font-size:15px" Visible="true" OnClientClick="javascript:return confirm('Deseja realmente realizar o Follow Up deste registro?');" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;Follow Up</asp:LinkButton>
                             </div>
                <br />
                             <div class="row linhabotao" runat="server" id="divPesquisa" Visible="false" > 
@@ -178,7 +178,7 @@
                                         <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO"/>
                                         <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico"/>
                                         <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente"/>
-                                        <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL"/>                                                                      
+                                        <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL"/>             <asp:BoundField DataField="FOLLOWUP" HeaderText="Follow Up" SortExpression="FOLLOWUP"/>                                                       
                                     </Columns>
                                     <HeaderStyle  CssClass="headerStyle" />
                                 </asp:GridView>
@@ -207,7 +207,7 @@
   
 
    
-        <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        <%--<asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_COTACAO,NR_COTACAO,
 A.ID_PORTO_ORIGEM,
 (SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
@@ -233,9 +233,13 @@ NR_COTACAO,
 DT_ABERTURA,
 ID_STATUS_COTACAO,
 (SELECT NM_STATUS_COTACAO FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO)STATUS,
-(SELECT CD_COR FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO)COR
-
+(SELECT CD_COR FROM TB_STATUS_COTACAO WHERE ID_STATUS_COTACAO = A.ID_STATUS_COTACAO)COR,
+CASE WHEN DT_FOLLOWUP IS NOT NULL THEN 'REALIZADO' ELSE 'NÃO REALIZADO' END FOLLOWUP 
 FROM TB_COTACAO A ORDER BY ID_COTACAO DESC">
+</asp:SqlDataSource>--%>
+
+    <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT * FROM View_Filtro_Cotacao ORDER BY ID_COTACAO DESC">
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsParceiros" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
