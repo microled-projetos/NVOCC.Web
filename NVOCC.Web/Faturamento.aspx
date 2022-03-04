@@ -134,6 +134,9 @@
                                     <asp:TextBox ID="txtID_SERVICO" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtNR_NOTA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtDataNFLucro" runat="server" CssClass="form-control"></asp:TextBox>
+                                     <asp:TextBox ID="txtProcesso" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <asp:TextBox ID="txtResultadoPrompt" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
@@ -269,7 +272,7 @@
                                    <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-                            <asp:LinkButton ID="lkGerarRPS" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
+                            <asp:LinkButton ID="lkGerarRPS" runat="server" onClientclick="myFunction();" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px">Gerar RPS</asp:LinkButton>
 
                                     </div>
                                         </div>
@@ -876,6 +879,38 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
             console.log(Arquivo);
 
             window.open(Arquivo, '_blank');
+        }
+
+       
+        function myFunction() {
+
+            document.getElementById('<%= txtResultadoPrompt.ClientID %>').value = "0";
+            document.getElementById('<%= txtDataNFLucro.ClientID %>').value = "";
+            var Processo = document.getElementById('<%= txtProcesso.ClientID %>').value
+            var Letra = Processo.substring(0, 1);
+            let date = new Date();
+            var Now = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
+
+            console.log(Letra);
+            if (Letra == "L") {
+                var Data = prompt("Data de Emissao:", Now);
+
+                if (Data) {
+                    // executa a primeira função de "OK"
+                    console.log("OK");
+                    document.getElementById('<%= txtResultadoPrompt.ClientID %>').value = "1";
+                    if (Data != null) {
+                        document.getElementById('<%= txtDataNFLucro.ClientID %>').value = Data;
+                    }
+                    
+                } else {
+                     // executa a segunda função se "Cancelar"
+                    console.log("Cancelar");
+                    document.getElementById('<%= txtResultadoPrompt.ClientID %>').value = "0";
+                }
+
+            };
+          
         }
     </script>
 </asp:Content>

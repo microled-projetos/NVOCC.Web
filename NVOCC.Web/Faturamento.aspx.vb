@@ -461,78 +461,72 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                             lblmsgErro.Text = "Não foi possivel completar a ação: fatura selecionada não possui item de receita!"
                             divErro.Visible = True
                         Else
-                            Dim NumeracaoDoc As New NumeracaoDoc
-                            Dim numero As String = NumeracaoDoc.Numerar(3)
-                            Dim ValorExtenso As New ValorExtenso
-                            Dim Extenso As String = ValorExtenso.NumeroToExtenso(dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO"))
-                            Dim Valor As String = dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO").ToString
-                            Dim LIQUIDO As Decimal = dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO").ToString
 
-                            Valor = Valor.Replace(".", "")
-                            Valor = Valor.Replace(",", ".")
+                            If txtResultadoPrompt.Text = 0 And txtProcesso.Text.Substring(0, 1) = "L" Then
+                                Exit Sub
 
-
-                            Dim VL_ISS As String = dsVerificaReceita.Tables(0).Rows(0).Item("VL_ISS").ToString
-                            VL_ISS = VL_ISS.Replace(".", "")
-                            VL_ISS = VL_ISS.Replace(",", ".")
+                            Else
 
 
 
-                            Dim ConOracle As New Conexao_oracle
-                            ConOracle.Conectar()
-                            Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
-                            Dim SERIE_RPS As String = ""
+                                Dim NumeracaoDoc As New NumeracaoDoc
+                                Dim numero As String = NumeracaoDoc.Numerar(3)
+                                Dim ValorExtenso As New ValorExtenso
+                                Dim Extenso As String = ValorExtenso.NumeroToExtenso(dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO"))
+                                Dim Valor As String = dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO").ToString
+                                Dim LIQUIDO As Decimal = dsVerificaReceita.Tables(0).Rows(0).Item("VL_LIQUIDO").ToString
 
-                            If dt.Rows.Count > 0 Then
-                                SERIE_RPS = dt.Rows(0)("SERIE").ToString
-                            End If
+                                Valor = Valor.Replace(".", "")
+                                Valor = Valor.Replace(",", ".")
+
+
+                                Dim VL_ISS As String = dsVerificaReceita.Tables(0).Rows(0).Item("VL_ISS").ToString
+                                VL_ISS = VL_ISS.Replace(".", "")
+                                VL_ISS = VL_ISS.Replace(",", ".")
 
 
 
-                            Dim IR As String = 0
+                                Dim ConOracle As New Conexao_oracle
+                                ConOracle.Conectar()
+                                Dim dt As DataTable = ConOracle.Consultar("select SERIE from Sgipa.TB_SERIE_RPS WHERE FLAG_ATIVO = 1 ")
+                                Dim SERIE_RPS As String = ""
 
-                            If Session("FL_ROTINA_IR_ATIVA") = True Then
-
-                                Dim sqlIR As String = ""
-                                If txtID_SERVICO.Text = 1 Or txtID_SERVICO.Text = 4 Then
-                                    'MARITIMO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_MAR = '10.05' AND ID_ITEM_DESPESA IN (
-                                SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
-                                ElseIf txtID_SERVICO.Text = 2 Or txtID_SERVICO.Text = 5 Then
-                                    'AEREO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_AER = '10.05' AND ID_ITEM_DESPESA IN (
-                                SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
-                                Else
-                                    'OUTROS
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE (CD_ISS_AER = '10.05' or CD_ISS_MAR = '10.05')  AND ID_ITEM_DESPESA IN (
-                                SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
+                                If dt.Rows.Count > 0 Then
+                                    SERIE_RPS = dt.Rows(0)("SERIE").ToString
                                 End If
 
-                                Dim dsIR As DataSet = Con.ExecutarQuery(sqlIR)
-                                If dsIR.Tables(0).Rows(0).Item("QTD") > 0 Then
-                                    dsIR = Con.ExecutarQuery("select isnull(SUM(VL_NOTA),0)TOTAL_NOTAS,
-                                isnull(sum(VL_IR_NF),0)IR_ANTERIOR  from tb_faturamento where year(DT_NOTA_FISCAL) = year(getdate()) and month(DT_NOTA_FISCAL) = month(getdate()) and day(DT_NOTA_FISCAL) = day(getdate()) and ID_PARCEIRO_CLIENTE = " & txtID_CLIENTE.Text)
-                                    If dsIR.Tables(0).Rows.Count > 0 Then
-                                        Dim TOTAL_NOTAS As Decimal = dsIR.Tables(0).Rows(0).Item("TOTAL_NOTAS")
-                                        Dim IR_ANTERIOR As Decimal = dsIR.Tables(0).Rows(0).Item("IR_ANTERIOR")
-                                        Dim IR_NOVO As Decimal = 0
 
-                                        If TOTAL_NOTAS > Session("VL_ISENTO_IR_NF") Then
 
-                                            'CALCULA IR E SALVA NA VARIAVEL PARA POSTERIORMENTE FAZER O UPDATE
-                                            IR_NOVO = LIQUIDO / 100
-                                            IR_NOVO = IR_NOVO * Session("VL_PERC_IR_NF")
-                                            IR = IR_NOVO
+                                Dim IR As String = 0
 
-                                            'TIRA IR DO VALOR TOTAL DAS NOTAS
-                                            TOTAL_NOTAS = TOTAL_NOTAS - IR_NOVO
+                                If Session("FL_ROTINA_IR_ATIVA") = True Then
 
-                                            'TIRA IR ANTERIOR DO VALOR TOTAL DE NOTAS COM DESCONTO DO IR NOVO
-                                            TOTAL_NOTAS = TOTAL_NOTAS - IR_ANTERIOR
-                                        Else
+                                    Dim sqlIR As String = ""
+                                    If txtID_SERVICO.Text = 1 Or txtID_SERVICO.Text = 4 Then
+                                        'MARITIMO
+                                        sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_MAR = '10.05' AND ID_ITEM_DESPESA IN (
+                                    SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
+                                    ElseIf txtID_SERVICO.Text = 2 Or txtID_SERVICO.Text = 5 Then
+                                        'AEREO
+                                        sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_AER = '10.05' AND ID_ITEM_DESPESA IN (
+                                    SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
+                                    Else
+                                        'OUTROS
+                                        sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE (CD_ISS_AER = '10.05' or CD_ISS_MAR = '10.05')  AND ID_ITEM_DESPESA IN (
+                                    SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
+                                    End If
 
-                                            LIQUIDO = LIQUIDO + TOTAL_NOTAS
-                                            If LIQUIDO > Session("VL_ISENTO_IR_NF") Then
+                                    Dim dsIR As DataSet = Con.ExecutarQuery(sqlIR)
+                                    If dsIR.Tables(0).Rows(0).Item("QTD") > 0 Then
+                                        dsIR = Con.ExecutarQuery("select isnull(SUM(VL_NOTA),0)TOTAL_NOTAS,
+                                    isnull(sum(VL_IR_NF),0)IR_ANTERIOR  from tb_faturamento where year(DT_NOTA_FISCAL) = year(getdate()) and month(DT_NOTA_FISCAL) = month(getdate()) and day(DT_NOTA_FISCAL) = day(getdate()) and ID_PARCEIRO_CLIENTE = " & txtID_CLIENTE.Text)
+                                        If dsIR.Tables(0).Rows.Count > 0 Then
+                                            Dim TOTAL_NOTAS As Decimal = dsIR.Tables(0).Rows(0).Item("TOTAL_NOTAS")
+                                            Dim IR_ANTERIOR As Decimal = dsIR.Tables(0).Rows(0).Item("IR_ANTERIOR")
+                                            Dim IR_NOVO As Decimal = 0
+
+                                            If TOTAL_NOTAS > Session("VL_ISENTO_IR_NF") Then
+
                                                 'CALCULA IR E SALVA NA VARIAVEL PARA POSTERIORMENTE FAZER O UPDATE
                                                 IR_NOVO = LIQUIDO / 100
                                                 IR_NOVO = IR_NOVO * Session("VL_PERC_IR_NF")
@@ -543,84 +537,107 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
                                                 'TIRA IR ANTERIOR DO VALOR TOTAL DE NOTAS COM DESCONTO DO IR NOVO
                                                 TOTAL_NOTAS = TOTAL_NOTAS - IR_ANTERIOR
+                                            Else
+
+                                                LIQUIDO = LIQUIDO + TOTAL_NOTAS
+                                                If LIQUIDO > Session("VL_ISENTO_IR_NF") Then
+                                                    'CALCULA IR E SALVA NA VARIAVEL PARA POSTERIORMENTE FAZER O UPDATE
+                                                    IR_NOVO = LIQUIDO / 100
+                                                    IR_NOVO = IR_NOVO * Session("VL_PERC_IR_NF")
+                                                    IR = IR_NOVO
+
+                                                    'TIRA IR DO VALOR TOTAL DAS NOTAS
+                                                    TOTAL_NOTAS = TOTAL_NOTAS - IR_NOVO
+
+                                                    'TIRA IR ANTERIOR DO VALOR TOTAL DE NOTAS COM DESCONTO DO IR NOVO
+                                                    TOTAL_NOTAS = TOTAL_NOTAS - IR_ANTERIOR
+                                                End If
                                             End If
+
+
                                         End If
 
+                                        IR = IR.Replace(".", "")
+                                        IR = IR.Replace(",", ".")
 
                                     End If
-
-                                    IR = IR.Replace(".", "")
-                                    IR = IR.Replace(",", ".")
 
                                 End If
 
-                            End If
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "',VL_IR_NF= '" & IR & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
+                                If txtDataNFLucro.Text = "" Then
 
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
-
-                            Try
-                                Using GeraRps = New NotaFiscal.WsNvocc
-
-                                    Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
-
-                                End Using
-
-
-                            Catch ex As Exception
-
-                                divErro.Visible = True
-                                lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
-                                Exit Sub
-
-                            End Try
-
-                            Using GeraRps = New NotaFiscal.WsNvocc
-
-                                Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
-
-                            End Using
-
-
-                            ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
-                            If ds.Tables(0).Rows.Count > 0 Then
-                                If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 2 Then
-                                    divSuccess.Visible = True
-                                    lblmsgSuccess.Text = "RPS gerada com sucesso!"
-                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    dgvFaturamento.DataBind()
-
-                                ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
-                                    divinf.Visible = True
-                                    lblmsginf.Text = "RPS em processamento, por favor aguarde!"
-                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    dgvFaturamento.DataBind()
-
-                                ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
-
-                                    Dim ERRO As String = ""
-                                    Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
-                                    If DS1.Tables(0).Rows.Count > 0 Then
-                                        If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
-                                            ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
-                                        End If
-                                    End If
-                                    lblmsgErro.Text = "Não foi possivel completar a ação!: " & ERRO
-                                    divErro.Visible = True
-                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    dgvFaturamento.DataBind()
-
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = getdate(), NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "',VL_IR_NF= '" & IR & "' WHERE ID_FATURAMENTO =" & txtID.Text)
                                 Else
-                                    lblmsgErro.Text = "Não foi possivel completar a ação!"
-                                    divErro.Visible = True
-                                    dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
-                                    dgvFaturamento.DataBind()
+                                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET STATUS_NFE = 0,DT_RPS = CONVERT(DATE,'" & txtDataNFLucro.Text & "',103), , NR_RPS = '" & numero & "',VL_NOTA = " & Valor & ",VL_NOTA_EXTENSO = '" & Extenso & "', VL_ISS = " & VL_ISS & ", SERIE_RPS = '" & SERIE_RPS & "',VL_IR_NF= '" & IR & "' WHERE ID_FATURAMENTO =" & txtID.Text)
                                 End If
 
+
+
+
+                                Con.ExecutarQuery("UPDATE [dbo].[TB_NUMERACAO] SET NR_RPS = '" & numero & "' WHERE ID_NUMERACAO = 5")
+
+                                'Try
+                                '    Using GeraRps = New NotaFiscal.WsNvocc
+
+                                '        Dim consulta = GeraRps.IntegraNFePrefeitura(numero, 1, "SQL", "NVOCC", 0)
+
+                                '    End Using
+
+
+                                'Catch ex As Exception
+
+                                '    divErro.Visible = True
+                                '    lblmsgErro.Text = "Não foi possivel completar a ação: " & ex.Message
+                                '    Exit Sub
+
+                                'End Try
+
+                                'Using GeraRps = New NotaFiscal.WsNvocc
+
+                                '    Dim consulta = GeraRps.ConsultaNFePrefeitura(txtID.Text, 1, "SQL", "NVOCC")
+
+                                'End Using
+
+
+                                ds = Con.ExecutarQuery("SELECT isnull(STATUS_NFE,0)STATUS_NFE FROM [TB_FATURAMENTO] WHERE ID_FATURAMENTO =" & txtID.Text)
+                                'If ds.Tables(0).Rows.Count > 0 Then
+                                '    If ds.Tables(0).Rows(0).Item("STATUS_NFE") = 2 Then
+                                '        divSuccess.Visible = True
+                                '        lblmsgSuccess.Text = "RPS gerada com sucesso!"
+                                '        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                '        dgvFaturamento.DataBind()
+
+                                '    ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 4 Then
+                                '        divinf.Visible = True
+                                '        lblmsginf.Text = "RPS em processamento, por favor aguarde!"
+                                '        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                '        dgvFaturamento.DataBind()
+
+                                '    ElseIf ds.Tables(0).Rows(0).Item("STATUS_NFE") = 5 Then
+
+                                '        Dim ERRO As String = ""
+                                '        Dim DS1 As DataSet = Con.ExecutarQuery("SELECT CRITICA FROM TB_LOG_NFSE WHERE ID_LOG = (SELECT MAX(ID_LOG)ID_LOG FROM TB_LOG_NFSE WHERE CRITICA IS NOT NULL AND ID_FATURAMENTO = " & txtID.Text & " )")
+                                '        If DS1.Tables(0).Rows.Count > 0 Then
+                                '            If Not IsDBNull(DS1.Tables(0).Rows(0).Item("CRITICA")) Then
+                                '                ERRO = DS1.Tables(0).Rows(0).Item("CRITICA")
+                                '            End If
+                                '        End If
+                                '        lblmsgErro.Text = "Não foi possivel completar a ação!: " & ERRO
+                                '        divErro.Visible = True
+                                '        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                '        dgvFaturamento.DataBind()
+
+                                '    Else
+                                '        lblmsgErro.Text = "Não foi possivel completar a ação!"
+                                '        divErro.Visible = True
+                                '        dsFaturamento.SelectCommand = "Select * FROM [dbo].[View_Faturamento] where NR_RPS = '" & numero & "'"
+                                '        dgvFaturamento.DataBind()
+                                '    End If
+
+                                'End If
+
                             End If
-
-
 
                         End If
                     Else
@@ -1115,6 +1132,7 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     lblProcessoBaixa.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     lblProcessoSubs.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
+                    txtProcesso.text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
