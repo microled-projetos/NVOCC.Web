@@ -474,8 +474,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String
 
-                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Then
-                    dDescr = "Comissão"
+                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
+                    dDescr = "COMISSÃO"
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
                 Else
@@ -1321,8 +1321,8 @@ WHERE ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_R
 
                 Dim dDescr As String = ""
 
-                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Then
-                    dDescr = "Comissão"
+                If rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1014 Or rsEmpresa.Tables(0).Rows(0)("ID_SERVICO").ToString = 1015 Then
+                    dDescr = "COMISSÃO"
                     No = doc.CreateElement("ItemListaServico", NFeNamespacte)
                     noText = doc.CreateTextNode(rsEmpresa.Tables(0).Rows(0)("COD_SERVICO").ToString)
                 Else

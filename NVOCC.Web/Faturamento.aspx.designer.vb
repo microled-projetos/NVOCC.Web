@@ -347,15 +347,6 @@ Partial Public Class Faturamento
     Protected WithEvents lblContador As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Controle txtArquivoSelecionado.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtArquivoSelecionado As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle dgvFaturamento.
     '''</summary>
     '''<remarks>
