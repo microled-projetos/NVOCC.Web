@@ -178,7 +178,7 @@
                                         <asp:BoundField DataField="NR_PROCESSO_GERADO" HeaderText="Nº Processo" SortExpression="NR_PROCESSO_GERADO"/>
                                         <asp:BoundField DataField="Servico" HeaderText="Serviço" SortExpression="Servico"/>
                                         <asp:BoundField DataField="Agente" HeaderText="Agente" SortExpression="Agente"/>
-                                        <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL"/>             <asp:BoundField DataField="FOLLOWUP" HeaderText="Follow Up" SortExpression="FOLLOWUP"/>                                                       
+                                        <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL"/>                                       
                                     </Columns>
                                     <HeaderStyle  CssClass="headerStyle" />
                                 </asp:GridView>

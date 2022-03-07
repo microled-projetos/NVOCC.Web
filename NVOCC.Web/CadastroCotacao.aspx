@@ -32,11 +32,11 @@
                                 <i class="fa fa-edit" style="padding-right:8px;"></i>Taxas
                             </a>
                         </li>
-<%--                        <li>
+                        <li>
                             <a href="#referencias" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right:8px;"></i>Referências
                             </a>
-                        </li>--%>
+                        </li>
                         <li>
                             <a href="#historico" role="tab" data-toggle="tab">
                                 <i class="fa fa-edit" style="padding-right:8px;"></i>Histórico
@@ -422,6 +422,7 @@
 </asp:UpdatePanel>
 
                         </div>
+
 
                         <div class="tab-pane fade" id="frete" >
                              <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
@@ -1409,7 +1410,7 @@
                                  </div>
                              </div>
                             </div>
-              <div class="tab-pane fade" id="referencias" Style="display: none">
+              <div class="tab-pane fade" id="referencias">
                                     <asp:UpdatePanel ID="UpdatePanel11" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="false">
                                         <ContentTemplate>
                                            <div class="alert alert-success" id="divSuccessReferencia" runat="server" visible="false">
@@ -1420,43 +1421,7 @@
                                             </div>
                                             <br />
 
-                                          <%--  <div class="row">
-                                 <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência Consignee:</label>
-                                        <asp:TextBox ID="txtRefConsignee" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                 <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência Shipper:</label>
-                                        <asp:TextBox ID="txtRefShipper" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-sm-4" >
-                                    <div class="form-group">
-                                        <label class="control-label">Referência Auxiliar:</label>
-                                        <asp:TextBox ID="txtRefAuxiliar" runat="server"  CssClass="form-control" MaxLength="1000" Rows="4" TextMode="MultiLine"></asp:TextBox>
-                                    </div>
-                                </div>
-                                </div> 
-                                            <div class="row">
-
-                                                <div class="col-sm-3 col-sm-offset-6">
-                                                    <div class="form-group">
-                                                        <label>&nbsp;</label>
-                                                        <asp:Button ID="btnLimparReferencia" runat="server" CssClass="btn btn-warning btn-block" Text="Limpar Campos" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label>&nbsp;</label>
-                                                        <asp:Button ID="btnGravarReferencia" runat="server" CssClass="btn btn-primary btn-block" Text="Gravar" />
-                                                    </div>
-                                                </div>
-                                            </div>--%>
+                                   
 
                                                <div class="row linhabotao">
 
@@ -1470,7 +1435,6 @@
                                                 <asp:ListItem Value="CNEE">CNEE</asp:ListItem>
                                                 <asp:ListItem Value="SHIPPER">SHIPPER</asp:ListItem>
                                                 <asp:ListItem Value="AUXILIAR">AUXILIAR</asp:ListItem>
-                                                <asp:ListItem Value="COMERCIAL">COMERCIAL</asp:ListItem>
                                             </asp:DropDownList>
 
                                                         </div>

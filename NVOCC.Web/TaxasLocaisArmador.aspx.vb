@@ -537,7 +537,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
                     End If
 
                 ElseIf ProximaLinha > ds.Tables(0).Rows.Count Then
@@ -558,7 +558,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
                     End If
                 End If
 
@@ -620,7 +620,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
 
                     End If
 
@@ -642,7 +642,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         ddlMoeda.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_MOEDA")
                         ddlBaseCalculo.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_BASE_CALCULO")
                         ddlOrigemPagamento.SelectedValue = dsTaxa.Tables(0).Rows(0).Item("ID_ORIGEM_PAGAMENTO")
-                        txtQtdBaseCalculo.Text = ds.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
+                        txtQtdBaseCalculo.Text = dsTaxa.Tables(0).Rows(0).Item("QTD_BASE_CALCULO").ToString()
 
                     End If
                 End If

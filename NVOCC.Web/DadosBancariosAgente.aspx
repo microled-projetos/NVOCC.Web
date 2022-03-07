@@ -108,7 +108,7 @@
                                  <div class="col-sm-10">
                                     <div class="form-group">
                                         <label class="control-label">Observações:</label>
-                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
+                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" MaxLength="1000" ></asp:TextBox>
                                     </div>
                                 </div>
                                <div class="col-sm-2">
@@ -152,21 +152,21 @@
                                       <asp:TextBox ID="txtArquivoSelecionado" runat="server" style="display:none"></asp:TextBox>
                                 <asp:GridView ID="gvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  CssClass="table table-hover table-condensed table-bordered">
             <Columns>
-                <asp:BoundField DataField="Text" HeaderText="Nome do Arquivo"/>
+                <asp:BoundField DataField="Text" HeaderText="Nome do Arquivo" ItemStyle-Font-Size="medium" />
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkVisualizar" Text="Visualizar"  CommandName="Visualizar" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkVisualizar" Text="Visualizar"  CommandName="Visualizar" CommandArgument='<%# Eval("Value") %>' runat="server" Font-Size="medium"></asp:LinkButton>
                     </ItemTemplate>
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                 </asp:TemplateField>
                  <asp:TemplateField Visible="false">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkDownload" Text="Download"  CommandName="Download" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkDownload" Text="Download"  CommandName="Download" CommandArgument='<%# Eval("Value") %>' runat="server" Font-Size="medium"></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkDeleta" Text="Deletar"  OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');"  CommandName="Excluir" CommandArgument='<%# Eval("Value") %>' runat="server"  />
+                        <asp:LinkButton ID="lnkDeleta" Text="Deletar"  OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');"  CommandName="Excluir" CommandArgument='<%# Eval("Value") %>' runat="server"  Font-Size="medium"/>
                     </ItemTemplate>
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                 </asp:TemplateField>

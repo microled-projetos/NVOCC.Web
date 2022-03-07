@@ -623,7 +623,7 @@
                                                                 <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnExcluir" title="Excluir" runat="server" CssClass="btn btn-danger btn-sm" CommandName="Excluir"
-                                                                            OnClientClick="javascript:return confirm('Deseja realmente excluir este registro?');" CommandArgument='<%# Eval("ID_CNTR_BL") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
+                                                                            OnClientClick="javascript:return confirm('Ao deletar este registro todos os vínculos deste container em cargas do house serão deletados também. Deseja continuar?');" CommandArgument='<%# Eval("ID_CNTR_BL") %>' Autopostback="true"><span class="glyphicon glyphicon-trash"  style="font-size:medium"></span></asp:LinkButton>
                                                                     </ItemTemplate>
                                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                                 </asp:TemplateField>

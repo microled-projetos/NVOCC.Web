@@ -1866,6 +1866,7 @@ WHERE ID_CARGA_BL = " & ID)
         ddlMoedaVenda_TaxaAereo.SelectedValue = 0
         ddlEmpresa_TaxaAereo.SelectedValue = 0
         txtValorCompra_TaxaAereo.Text = ""
+        txtQtdBaseCalculo_TaxaMaritimo.Text = ""
         txtValorVenda_TaxaAereo.Text = ""
         txtObs_TaxaAereo.Text = ""
         txtMinCompra_TaxaAereo.Text = ""
@@ -1884,6 +1885,7 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_TaxaMaritimo2.Visible = False
         divSuccess_TaxaMaritimo2.Visible = False
         txtID_TaxaMaritimo.Text = ""
+        txtQtdBaseCalculo_TaxaMaritimo.Text = ""
         ddlStatusPagamento_TaxaMaritimo.SelectedValue = 0
         ddlDespesa_TaxaMaritimo.SelectedValue = 0
         ddlOrigemPagamento_TaxaMaritimo.SelectedValue = 0
@@ -2088,162 +2090,6 @@ WHERE ID_CARGA_BL = " & ID)
         End If
     End Sub
 
-    'Private Sub btnGravar_RefAereo_Click(sender As Object, e As EventArgs) Handles btnGravar_RefAereo.Click
-    '    divSuccess_RefAereo.Visible = False
-    '    divErro_RefAereo.Visible = False
-
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
-    '    Dim ds As DataSet
-
-    '    If txtRefAereo.Text = "" Then
-    '        lblErro_RefAereo.Text = "Preencha o campo de referencia!"
-    '        divErro_RefAereo.Visible = True
-
-    '    ElseIf txtID_BasicoAereo.Text = "" Then
-    '        lblErro_RefAereo.Text = "Antes de inserir referencia é necessário cadastrar as Informações Basicas"
-    '        divErro_RefAereo.Visible = True
-
-    '    Else
-
-    '        If txtID_RefAereo.Text = "" Then
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                divErro_RefAereo.Visible = True
-    '                lblErro_RefAereo.Text = "Usuário não possui permissão."
-
-    '            Else
-
-    '                ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
-    '                If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
-    '                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "')")
-    '                Else
-
-    '                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
-    '                End If
-
-    '                divSuccess_RefAereo.Visible = True
-
-    '                txtID_RefAereo.Text = ""
-    '                txtRefAereo.Text = ""
-    '                ddlTipoRefAereo.SelectedValue = 0
-    '                dgvRefAereo.DataBind()
-    '            End If
-    '        Else
-
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                divErro_RefAereo.Visible = True
-    '                lblErro_RefAereo.Text = "Usuário não possui permissão."
-
-    '            Else
-
-    '                ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
-    '                If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
-    '                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
-    '                Else
-
-    '                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
-    '                End If
-
-    '                divSuccess_RefAereo.Visible = True
-    '                txtID_RefAereo.Text = ""
-    '                txtRefAereo.Text = ""
-    '                ddlTipoRefAereo.SelectedValue = 0
-    '                dgvRefAereo.DataBind()
-
-    '            End If
-    '        End If
-
-    '    End If
-
-    'End Sub
-
-    'Private Sub btnGravar_RefMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_RefMaritimo.Click
-    '    divSuccess_RefMaritimo.Visible = False
-    '    divErro_RefMaritimo.Visible = False
-
-    '    Dim Con As New Conexao_sql
-    '    Con.Conectar()
-    '    Dim ds As DataSet
-
-    '    If txtRefMaritimo.Text = "" Then
-    '        lblErro_RefMaritimo.Text = "Preencha o campo de referencia!"
-    '        divErro_RefMaritimo.Visible = True
-
-    '    ElseIf txtID_BasicoMaritimo.Text = "" Then
-    '        lblErro_RefMaritimo.Text = "Antes de inserir referencia é necessário cadastrar as Informações Basicas"
-    '        divErro_RefMaritimo.Visible = True
-
-    '    Else
-
-    '        If txtID_RefMaritimo.Text = "" Then
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_CADASTRAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                divErro_RefMaritimo.Visible = True
-    '                lblErro_RefMaritimo.Text = "Usuário não possui permissão."
-
-    '            Else
-    '                ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
-    '                If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
-    '                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "')")
-    '                Else
-
-    '                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
-    '                End If
-
-    '                divSuccess_RefMaritimo.Visible = True
-    '                ddlTipoRefMaritimo.SelectedValue = 0
-    '                txtRefMaritimo.Text = ""
-    '                txtID_RefMaritimo.Text = ""
-    '                dgvRefMaritimo.DataBind()
-    '            End If
-    '        Else
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                divErro_RefMaritimo.Visible = True
-    '                lblErro_RefMaritimo.Text = "Usuário não possui permissão."
-
-    '            Else
-
-    '                ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
-    '                If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
-    '                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
-    '                Else
-
-    '                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
-    '                End If
-
-    '                divSuccess_RefMaritimo.Visible = True
-
-    '                txtID_RefMaritimo.Text = ""
-    '                txtRefMaritimo.Text = ""
-    '                ddlTipoRefMaritimo.SelectedValue = 0
-    '                dgvRefMaritimo.DataBind()
-    '            End If
-    '        End If
-
-    '    End If
-    'End Sub
-
-    'Private Sub btnCancelar_RefMaritimo_Click(sender As Object, e As EventArgs) Handles btnCancelar_RefMaritimo.Click
-    '    divSuccess_RefMaritimo.Visible = False
-    '    divErro_RefMaritimo.Visible = False
-    '    txtRefMaritimo.Text = ""
-    '    txtID_RefMaritimo.Text = ""
-    '    ddlTipoRefMaritimo.SelectedValue = 0
-
-    'End Sub
-
-    'Private Sub btnCancelar_RefAereo_Click(sender As Object, e As EventArgs) Handles btnCancelar_RefAereo.Click
-    '    divSuccess_RefAereo.Visible = False
-    '    divErro_RefAereo.Visible = False
-    '    txtRefAereo.Text = ""
-    '    txtID_RefAereo.Text = ""
-    '    ddlTipoRefAereo.SelectedValue = 0
-
-    'End Sub
-
     Private Sub btnGravar_RefAereo_Click(sender As Object, e As EventArgs) Handles btnGravar_RefAereo.Click
         divSuccess_RefAereo.Visible = False
         divErro_RefAereo.Visible = False
@@ -2270,11 +2116,20 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "')")
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "')")
+                    Else
+
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                    End If
+
                     divSuccess_RefAereo.Visible = True
 
+                    txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
-
+                    ddlTipoRefAereo.SelectedValue = 0
+                    dgvRefAereo.DataBind()
                 End If
             Else
 
@@ -2285,10 +2140,18 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
-                    divSuccess_RefAereo.Visible = True
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoAereo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    Else
 
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
+                    End If
+
+                    divSuccess_RefAereo.Visible = True
+                    txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
+                    ddlTipoRefAereo.SelectedValue = 0
                     dgvRefAereo.DataBind()
 
                 End If
@@ -2323,11 +2186,18 @@ WHERE ID_CARGA_BL = " & ID)
                     lblErro_RefMaritimo.Text = "Usuário não possui permissão."
 
                 Else
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "')")
+                    Else
 
-                    Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "')")
+                        Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                    End If
+
                     divSuccess_RefMaritimo.Visible = True
-
+                    ddlTipoRefMaritimo.SelectedValue = 0
                     txtRefMaritimo.Text = ""
+                    txtID_RefMaritimo.Text = ""
                     dgvRefMaritimo.DataBind()
                 End If
             Else
@@ -2338,10 +2208,19 @@ WHERE ID_CARGA_BL = " & ID)
 
                 Else
 
-                    Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    ds = Con.ExecutarQuery("SELECT ISNULL(ID_COTACAO,0)ID_COTACAO FROM TB_BL WHERE ID_BL =" & txtID_BasicoMaritimo.Text)
+                    If ds.Tables(0).Rows(0).Item("ID_COTACAO") = 0 Then
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "' WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    Else
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+                    End If
+
                     divSuccess_RefMaritimo.Visible = True
 
+                    txtID_RefMaritimo.Text = ""
                     txtRefMaritimo.Text = ""
+                    ddlTipoRefMaritimo.SelectedValue = 0
                     dgvRefMaritimo.DataBind()
                 End If
             End If
@@ -2354,6 +2233,7 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_RefMaritimo.Visible = False
         txtRefMaritimo.Text = ""
         txtID_RefMaritimo.Text = ""
+        ddlTipoRefMaritimo.SelectedValue = 0
 
     End Sub
 
@@ -2362,8 +2242,10 @@ WHERE ID_CARGA_BL = " & ID)
         divErro_RefAereo.Visible = False
         txtRefAereo.Text = ""
         txtID_RefAereo.Text = ""
+        ddlTipoRefAereo.SelectedValue = 0
 
     End Sub
+
     Sub LimpaNulo()
         txtResumoMercadoria_BasicoMaritimo.Text = txtResumoMercadoria_BasicoMaritimo.Text.Replace("'", "")
         txtResumoMercadoria_BasicoMaritimo.Text = txtResumoMercadoria_BasicoMaritimo.Text.Replace("NULL", "")
@@ -3329,9 +3211,9 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         End If
 
 
-        'If txtQtdBaseCalculo_TaxaAereo.Text = "" Then
-        '    txtQtdBaseCalculo_TaxaAereo.Text = 0
-        'End If
+        If txtQtdBaseCalculo_TaxaAereo.Text = "" Then
+            txtQtdBaseCalculo_TaxaAereo.Text = 0
+        End If
 
 
 
@@ -3348,12 +3230,17 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             mpeTaxaAereo.Show()
             Exit Sub
 
-            'ElseIf (ddlBaseCalculo_TaxaAereo.SelectedValue = 38 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 40 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaAereo.Text = 0 Then
-            '    divErro_TaxaAereo2.Visible = True
-            '    lblErro_TaxaAereo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
-            '    mpeTaxaAereo.Show()
-            '    Exit Sub
+        ElseIf (ddlBaseCalculo_TaxaAereo.SelectedValue = 38 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 40 Or ddlBaseCalculo_TaxaAereo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaAereo.Text = 0 Then
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
+            mpeTaxaAereo.Show()
+            Exit Sub
 
+        ElseIf txtValorVenda_TaxaAereo.Text <> 0 And ddlDestinatarioCob_TaxaAereo.SelectedValue = 0 Then
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
+            mpeTaxaAereo.Show()
+            Exit Sub
         Else
 
             Dim ObsTaxa As String = ""
@@ -3629,9 +3516,9 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             txtValorVenda_TaxaMaritimo.Text = 0
         End If
 
-        'If txtQtdBaseCalculo_TaxaMaritimo.Text = "" Then
-        '    txtQtdBaseCalculo_TaxaMaritimo.Text = 0
-        'End If
+        If txtQtdBaseCalculo_TaxaMaritimo.Text = "" Then
+            txtQtdBaseCalculo_TaxaMaritimo.Text = 0
+        End If
 
         If txtValorCompra_TaxaMaritimo.Text = 0 And txtValorVenda_TaxaMaritimo.Text = 0 Then
             divErro_TaxaMaritimo2.Visible = True
@@ -3645,12 +3532,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
             mpeTaxaMaritimo.Show()
             Exit Sub
 
-            'ElseIf (ddlBaseCalculo_TaxaMaritimo.SelectedValue = 38 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 40 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaMaritimo.Text = 0 Then
-            '    divErro_TaxaMaritimo2.Visible = True
-            '    lblErro_TaxaMaritimo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
-            '    mpeTaxaMaritimo.Show()
-            '    Exit Sub
+        ElseIf (ddlBaseCalculo_TaxaMaritimo.SelectedValue = 38 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 40 Or ddlBaseCalculo_TaxaMaritimo.SelectedValue = 41) And txtQtdBaseCalculo_TaxaMaritimo.Text = 0 Then
+            divErro_TaxaMaritimo2.Visible = True
+            lblErro_TaxaMaritimo2.Text = "Necessário preencher a quantidade para base de cálculo selecionada!"
+            mpeTaxaMaritimo.Show()
+            Exit Sub
 
+        ElseIf txtValorVenda_TaxaMaritimo.Text <> 0 And ddlDestinatarioCob_TaxaMaritimo.SelectedValue = 0 Then
+            divErro_TaxaAereo2.Visible = True
+            lblErro_TaxaAereo2.Text = "Necessário preencher destinatario cobrança!"
+            mpeTaxaAereo.Show()
+            Exit Sub
         Else
 
 
@@ -3733,7 +3625,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     If txtValorCompra_TaxaMaritimo.Text > 0 Then
                         'INSERE TAXA DE COMPRA
 
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorCompra_TaxaMaritimo.Text & "," & OPERADOR & txtMinCompra_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & ddlEmpresa_TaxaMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','P','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF,QTD_BASE_CALCULO) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaCompra_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorCompra_TaxaMaritimo.Text & "," & OPERADOR & txtMinCompra_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & ddlEmpresa_TaxaMaritimo.SelectedValue & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','P','OPER'," & txtQtdBaseCalculo_TaxaMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
 
@@ -3760,7 +3652,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         End If
 
                         'INSERE TAXA DE VENDA
-                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaVenda_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorVenda_TaxaMaritimo.Text & "," & OPERADOR & txtMinVenda_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','R','OPER') Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                        dstaxa = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_STATUS_PAGAMENTO,ID_DESTINATARIO_COBRANCA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,OB_TAXAS,FL_DECLARADO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,FL_PREMIACAO,CD_PR,CD_ORIGEM_INF,QTD_BASE_CALCULO) VALUES (" & txtID_BasicoMaritimo.Text & "," & ddlDespesa_TaxaMaritimo.SelectedValue & "," & ddlTipoPagamento_TaxaMaritimo.SelectedValue & "," & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & "," & ddlStatusPagamento_TaxaMaritimo.SelectedValue & "," & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & "," & ddlBaseCalculo_TaxaMaritimo.SelectedValue & "," & ddlMoedaVenda_TaxaMaritimo.SelectedValue & "," & OPERADOR & txtValorVenda_TaxaMaritimo.Text & "," & OPERADOR & txtMinVenda_TaxaMaritimo.Text & "," & ObsTaxa & ",'" & ckbDeclarado_TaxaMaritimo.Checked & "','" & ckbProfit_TaxaMaritimo.Checked & "'," & empresa & ",'" & ckbPremiacao_TaxaMaritimo.Checked & "','R','OPER'," & txtQtdBaseCalculo_TaxaMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
                         ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
                         retorno = Calcula.Calcular(ID_BL_TAXA)
@@ -3784,7 +3676,7 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                     txtObs_TaxaMaritimo.Text = ""
                     txtMinCompra_TaxaMaritimo.Text = ""
                     txtMinVenda_TaxaMaritimo.Text = ""
-
+                    txtQtdBaseCalculo_TaxaMaritimo.Text = ""
 
 
 
@@ -3834,14 +3726,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
                         If Session("CD_PR") = "P" Then
 
                             'REALIZA UPDATE TAXA COMPRA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorCompra_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinCompra_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ", FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorCompra_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinCompra_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ", FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "', QTD_BASE_CALCULO  = " & txtQtdBaseCalculo_TaxaMaritimo.Text & " WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET FL_CALCULADO = 0 WHERE ID_BL_TAXA_MASTER IS NULL AND ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                         ElseIf Session("CD_PR") = "R" Then
 
                             'REALIZA UPDATE TAXA VENDA
-                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorVenda_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinVenda_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "'  WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
+                            Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoMaritimo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_TaxaMaritimo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxaMaritimo.SelectedValue & ",ID_DESTINATARIO_COBRANCA = " & ddlDestinatarioCob_TaxaMaritimo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaMaritimo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaMaritimo.SelectedValue & ",VL_TAXA = " & OPERADOR & txtValorVenda_TaxaMaritimo.Text & ",VL_TAXA_MIN = " & OPERADOR & txtMinVenda_TaxaMaritimo.Text & ",OB_TAXAS = " & ObsTaxa & ",FL_DIVISAO_PROFIT = '" & ckbProfit_TaxaMaritimo.Checked & "',FL_DECLARADO  = '" & ckbDeclarado_TaxaMaritimo.Checked & "',ID_PARCEIRO_EMPRESA = " & ddlEmpresa_TaxaMaritimo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO  = '" & ckbPremiacao_TaxaMaritimo.Checked & "', QTD_BASE_CALCULO  = " & txtQtdBaseCalculo_TaxaMaritimo.Text & "  WHERE ID_BL_TAXA = " & txtID_TaxaMaritimo.Text)
 
                         End If
 
@@ -3869,98 +3761,14 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
 
     End Sub
 
-    '    Private Sub dgvRefMaritimo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvRefMaritimo.RowCommand
-    '        divSuccess_RefMaritimo.Visible = False
-    '        divErro_RefMaritimo.Visible = False
-    '        Dim Con As New Conexao_sql
-    '        Dim ds As DataSet
-    '        Con.Conectar()
-    '        If e.CommandName = "Excluir" Then
-
-
-    '            Dim ID As String = e.CommandArgument
-
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                lblErro_RefMaritimo.Text = "Usuário não tem permissão para realizar exclusões"
-    '                divErro_RefMaritimo.Visible = True
-    '            Else
-    '                Con.ExecutarQuery("DELETE From TB_REFERENCIA_CLIENTE Where ID_REFERENCIA_CLIENTE = " & ID)
-    '                lblSuccess_RefMaritimo.Text = "Registro deletado!"
-    '                divSuccess_RefMaritimo.Visible = True
-    '                dgvRefMaritimo.DataBind()
-    '            End If
-
-
-    '        ElseIf e.CommandName = "visualizar" Then
-    '            Dim ID As String = e.CommandArgument
-
-    '            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
-    'WHERE ID_REFERENCIA_CLIENTE = " & ID)
-    '            If ds.Tables(0).Rows.Count > 0 Then
-
-    '                txtID_RefMaritimo.Text = ID
-
-    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
-    '                    txtRefMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
-    '                    ddlTipoRefMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
-    '                End If
-
-    '            End If
-    '        End If
-    '        Con.Fechar()
-    '    End Sub
-    '    Private Sub dgvRefAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvRefAereo.RowCommand
-    '        divSuccess_RefAereo.Visible = False
-    '        divErro_RefAereo.Visible = False
-    '        Dim Con As New Conexao_sql
-    '        Dim ds As DataSet
-    '        Con.Conectar()
-    '        If e.CommandName = "Excluir" Then
-
-
-    '            Dim ID As String = e.CommandArgument
-
-    '            ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1026 AND FL_EXCLUIR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
-    '            If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
-    '                lblErro_RefAereo.Text = "Usuário não tem permissão para realizar exclusões"
-    '                divErro_RefAereo.Visible = True
-    '            Else
-    '                Con.ExecutarQuery("DELETE From TB_REFERENCIA_CLIENTE Where ID_REFERENCIA_CLIENTE = " & ID)
-    '                lblSuccess_RefAereo.Text = "Registro deletado!"
-    '                divSuccess_RefAereo.Visible = True
-    '                dgvRefAereo.DataBind()
-    '            End If
-
-    '        ElseIf e.CommandName = "visualizar" Then
-    '            Dim ID As String = e.CommandArgument
-
-    '            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
-    'WHERE ID_REFERENCIA_CLIENTE = " & ID)
-    '            If ds.Tables(0).Rows.Count > 0 Then
-
-    '                txtID_RefAereo.Text = ID
-
-    '                If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
-    '                    txtRefAereo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
-    '                    ddlTipoRefAereo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
-    '                End If
-
-    '            End If
-    '        End If
-    '        Con.Fechar()
-    '    End Sub
-
     Private Sub dgvRefMaritimo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvRefMaritimo.RowCommand
         divSuccess_RefMaritimo.Visible = False
         divErro_RefMaritimo.Visible = False
-        txtRefMaritimo.Text = ""
-        txtID_RefMaritimo.Text = ""
-
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
         If e.CommandName = "Excluir" Then
+
 
             Dim ID As String = e.CommandArgument
 
@@ -3977,17 +3785,17 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaMaritimo.Text & " and DT_CANCELAMENTO is null 
 
 
         ElseIf e.CommandName = "visualizar" Then
-
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE
-WHERE ID_REFERENCIA_CLIENTE = " & ID)
+            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
+    WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 txtID_RefMaritimo.Text = ID
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
                     txtRefMaritimo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
+                    ddlTipoRefMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
                 End If
 
             End If
@@ -3997,13 +3805,11 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
     Private Sub dgvRefAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvRefAereo.RowCommand
         divSuccess_RefAereo.Visible = False
         divErro_RefAereo.Visible = False
-        txtID_RefAereo.Text = ""
-        txtRefAereo.Text = ""
-
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
         If e.CommandName = "Excluir" Then
+
 
             Dim ID As String = e.CommandArgument
 
@@ -4019,23 +3825,24 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             End If
 
         ElseIf e.CommandName = "visualizar" Then
-
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE from TB_REFERENCIA_CLIENTE
-WHERE ID_REFERENCIA_CLIENTE = " & ID)
+            ds = Con.ExecutarQuery("select NR_REFERENCIA_CLIENTE,TIPO from TB_REFERENCIA_CLIENTE
+    WHERE ID_REFERENCIA_CLIENTE = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
                 txtID_RefAereo.Text = ID
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")) Then
                     txtRefAereo.Text = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE")
+                    ddlTipoRefAereo.SelectedValue = ds.Tables(0).Rows(0).Item("TIPO").ToString
                 End If
 
             End If
         End If
         Con.Fechar()
     End Sub
+
     Sub NumeroProcesso()
         Dim Con As New Conexao_sql
         Con.Conectar()

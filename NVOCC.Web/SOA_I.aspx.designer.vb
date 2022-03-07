@@ -14,6 +14,15 @@ Option Explicit On
 Partial Public Class SOA_I
 
     '''<summary>
+    '''Controle btnCSV.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCSV As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle lblIDINVOICE.
     '''</summary>
     '''<remarks>

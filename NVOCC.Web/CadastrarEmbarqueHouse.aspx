@@ -404,7 +404,7 @@
                                 </div>
                                         
                                     </div>
-                                    <div class="row">
+                                    <div class="row"  style="display:none">
                                            <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">Referência Comercial:</label>
@@ -1131,7 +1131,6 @@ VENDAS:
                                                 <asp:ListItem Value="CNEE">CNEE</asp:ListItem>
                                                 <asp:ListItem Value="SHIPPER">SHIPPER</asp:ListItem>
                                                 <asp:ListItem Value="AUXILIAR">AUXILIAR</asp:ListItem>
-                                                <asp:ListItem Value="COMERCIAL">COMERCIAL</asp:ListItem>
                                             </asp:DropDownList>
 
                                                         </div>

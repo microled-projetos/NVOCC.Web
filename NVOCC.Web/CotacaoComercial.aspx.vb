@@ -2384,16 +2384,16 @@ end ID_ORIGEM_PAGAMENTO
 
 
                         'If processaFila(ds.Tables(0).Rows(0).Item("EMAIL_CONTATO"), Msg, Assunto) = False Then
-                        If processaFila("juliane@microled.com.br", Msg, Assunto) = False Then
+                        If processaFila("tatiane.amorim@fcalog.com", Msg, Assunto) = False Then
                             divSuccess.Visible = False
                             divErro.Visible = True
                         Else
 
-                            Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_FOLLOWUP = GETDATE() WHERE ID_COTACAO = " & txtID.Text)
+                            Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_FOLLOWUP = GETDATE(),ID_STATUS_COTACAO = 14, DT_STATUS_COTACAO = GETDATE() , ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
                             divErro.Visible = False
                             divSuccess.Visible = True
                             lblmsgSuccess.Text = "Follow Up realizado com sucesso!"
-
+                            GRID()
                         End If
 
                     End If
