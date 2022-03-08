@@ -2122,9 +2122,11 @@ WHERE ID_CARGA_BL = " & ID)
                     Else
 
                         Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoAereo.Text & ", '" & txtRefAereo.Text & "', '" & ddlTipoRefAereo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_COTACAO =" & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_BL = " & txtID_BasicoAereo.Text)
                     End If
 
                     divSuccess_RefAereo.Visible = True
+                    lblSuccess_RefAereo.Text = "Registro cadastrado/atualizado com sucesso!"
 
                     txtID_RefAereo.Text = ""
                     txtRefAereo.Text = ""
@@ -2147,6 +2149,7 @@ WHERE ID_CARGA_BL = " & ID)
 
                         Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefAereo.Text & "', TIPO = '" & ddlTipoRefAereo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefAereo.Text)
                     End If
+                    lblSuccess_RefAereo.Text = "Registro cadastrado/atualizado com sucesso!"
 
                     divSuccess_RefAereo.Visible = True
                     txtID_RefAereo.Text = ""
@@ -2192,12 +2195,15 @@ WHERE ID_CARGA_BL = " & ID)
                     Else
 
                         Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_BL,NR_REFERENCIA_CLIENTE,TIPO,ID_COTACAO) VALUES (" & txtID_BasicoMaritimo.Text & ", '" & txtRefMaritimo.Text & "', '" & ddlTipoRefMaritimo.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_COTACAO") & ")")
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_COTACAO =" & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
                     End If
 
                     divSuccess_RefMaritimo.Visible = True
                     ddlTipoRefMaritimo.SelectedValue = 0
                     txtRefMaritimo.Text = ""
                     txtID_RefMaritimo.Text = ""
+                    lblSuccess_RefMaritimo.Text = "Registro cadastrado/atualizado com sucesso!"
                     dgvRefMaritimo.DataBind()
                 End If
             Else
@@ -2214,9 +2220,13 @@ WHERE ID_CARGA_BL = " & ID)
                     Else
 
                         Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = '" & txtRefMaritimo.Text & "', TIPO = '" & ddlTipoRefMaritimo.SelectedValue & "', ID_COTACAO = " & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_RefMaritimo.Text)
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_COTACAO =" & ds.Tables(0).Rows(0).Item("ID_COTACAO") & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text)
+
                     End If
 
                     divSuccess_RefMaritimo.Visible = True
+                    lblSuccess_RefMaritimo.Text = "Registro cadastrado/atualizado com sucesso!"
 
                     txtID_RefMaritimo.Text = ""
                     txtRefMaritimo.Text = ""

@@ -577,7 +577,7 @@
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
-                                                                                               <asp:TemplateField HeaderText="ID" Visible="False">
+                                                <asp:TemplateField HeaderText="ID" Visible="False">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>

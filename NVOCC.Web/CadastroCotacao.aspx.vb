@@ -4907,6 +4907,9 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                     If ds.Tables(0).Rows.Count > 0 Then
 
                         Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO,ID_BL) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "'," & ds.Tables(0).Rows(0).Item("ID_BL") & ")")
+
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_BL =" & ds.Tables(0).Rows(0).Item("ID_BL") & " WHERE ID_COTACAO = " & txtID.Text)
+
                     Else
 
                           Con.ExecutarQuery("INSERT INTO TB_REFERENCIA_CLIENTE (ID_COTACAO,NR_REFERENCIA_CLIENTE,TIPO) VALUES (" & txtID.Text & ", " & Referencia & ",'" & ddlTipoReferencia.SelectedValue & "')")
@@ -4932,6 +4935,8 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
                     If ds.Tables(0).Rows.Count > 0 Then
 
                         Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "', ID_BL = " & ds.Tables(0).Rows(0).Item("ID_BL") & " WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
+                        Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET ID_BL =" & ds.Tables(0).Rows(0).Item("ID_BL") & " WHERE ID_COTACAO = " & txtID.Text)
+
                     Else
 
                         Con.ExecutarQuery("UPDATE TB_REFERENCIA_CLIENTE SET NR_REFERENCIA_CLIENTE = " & Referencia & ", TIPO = '" & ddlTipoReferencia.SelectedValue & "'  WHERE ID_REFERENCIA_CLIENTE = " & txtID_Referencia.Text)
