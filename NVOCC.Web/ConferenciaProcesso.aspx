@@ -1,23 +1,23 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ContaPagarReceber.aspx.cs" Inherits="ABAINFRA.Web.ContaPagarReceber" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ConferenciaProcesso.aspx.cs" Inherits="ABAINFRA.Web.ConferenciaProcesso" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <br />
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Contas Pagar e Receber
+                    <h3 class="panel-title">Conferencia de Processos
                     </h3>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="active" id="tabprocessoExpectGrid">
                             <a href="#processoExpectGrid" id="linkprocessoExcepctGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Contas Pagas e Recebidas
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Totais
                             </a>
                         </li>
                         <li id="tabprocessoEstimativaGrid">
                             <a href="#processoEstimativaGrid" id="linkprocessoEstimativaGrid" role="tab" data-toggle="tab">
-                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Contas a Pagar e Receber 
+                                <i class="fa fa-edit" style="padding-right: 8px;"></i>Analíticos
                             </a>
                         </li>
                     </ul>
@@ -31,31 +31,18 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Pagamento_Recebimento.csv')">Exportar Grid - CSV</button>
-                                        <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="printPagamentosRecebimentos()">Imprimir</button>
-                                        <!--<button type="button" id="btnPrintRelatorioPagamentoRecebimento" class="btn btn-primary" onclick="printRelatorioPagamentosRecebimentos()">Relatório Pagas e Recebidas CSV</button>-->
+                                        <button type="button" id="btnExportSaldo" class="btn btn-primary" onclick="exportCSV('Saldo.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Liquidação Inicial:</label>
-                                            <input id="txtDtInicialPagamentoRecebimento" class="form-control" type="date" required="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">Data Liquidação Final:</label>
-                                            <input id="txtDtFinalPagamentoRecebimento" class="form-control" type="date" required="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
                                             <label class="control-label">Filtro</label>
-                                            <select id="ddlFilterPagamentoRecebimento" class="form-control">
+                                            <select id="ddlFilterSaldo" class="form-control">
                                                 <option value="">Selecione</option>
                                                 <option value="1" selected>Nr Processo</option>
-                                                <option value="2">Parceiro</option>
+                                                <option value="2">Cliente</option>
+                                                <option value="3">Fornecedor</option>
                                                 <option value="4">Nº BL Master</option>
                                             </select>
                                         </div>
@@ -63,34 +50,37 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">*</label>
-                                            <input id="txtPagamentoRecebimento" class="form-control" type="text" />
+                                            <input id="txtSaldo" class="form-control" type="text" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" id="btnConsultarPagamentoRecebimento" onclick="PagamentosRecebimentos()" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsultarSaldo" onclick="Saldo()" class="btn btn-primary">Consultar</button>
                                     </div>
                                 </div> 
                                 <div class="table-responsive fixedDoubleHead topMarg">
-                                    <table id="grdPagamentoRecebimento" class="table tablecont">
+                                    <table id="grdSaldo" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">NR PROCESSO</th>
-                                                <th class="text-center" scope="col">NR BL MASTER</th>
-                                                <th class="text-center" scope="col">ITEM DESPESA</th>
-                                                <th class="text-center" scope="col">DATA LIQUIDAÇÃO</th>
-                                                <th class="text-center" scope="col">PARCEIRO</th>
-                                                <th class="text-center" scope="col">TIPO</th>
-                                                <th class="text-center" scope="col">VALOR</th>
-                                                <th class="text-center" scope="col">MOEDA</th>
-                                                <th class="text-center" scope="col">DATA CAMBIO</th>
-                                                <th class="text-center" scope="col">CAMBIO</th>
-                                                <th class="text-center" scope="col">VALOR BRL</th>
+                                                <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">MBL</th>
+                                                <th class="text-center" scope="col">HBL</th>
+                                                <th class="text-center" scope="col">SERVIÇO</th>
+                                                <th class="text-center" scope="col">ORIGEM</th>
+                                                <th class="text-center" scope="col">DESTINO</th>
+                                                <th class="text-center" scope="col">CHEGADA</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM</th>
+                                                <th class="text-center" scope="col">FREEHAND</th>
+                                                <th class="text-center" scope="col">RECEBER</th>
+                                                <th class="text-center" scope="col">PAGAR</th>
+                                                <th class="text-center" scope="col">SALDO PROCESSO</th>
+                                                <th class="text-center" scope="col">CLIENTE</th>
+                                                <th class="text-center" scope="col">FORNECEDOR</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="grdPagamentoRecebimentoBody">
+                                        <tbody id="grdSaldoBody">
 
                                         </tbody>
-                                        <tfoot id="grdPagamentoRecebimentoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+                                        <tfoot id="grdSaldoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
                                              
                                         </tfoot>
                                     </table>
@@ -105,75 +95,56 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px; flex-direction: column; align-items:center ">
                                     <div>
-                                        <button type="button" id="btnExportEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="exportEstimativaCSV('Pagamento_Recebimento_Estimativa.csv')">Exportar Grid - CSV</button>
-                                        <button type="button" id="btnPrintEstimativaPagamentoRecebimento" class="btn btn-primary" onclick="PrintEstimativaPagamentosRecebimentos()">Imprimir</button>
-                                    </div>
-                                    <div style="margin-top: 10px;">
-                                        <button type="button" id="btnExportContaPrevisibilidadeProcesso" class="btn btn-primary" onclick="exportContaPrevisibilidadeProcesso('PrevisibilidadeProcesso.csv')">GERAR CSV PREVISIBILIDADE</button>
-                                        <!--<button type="button" id="btnPrintContaConferencia" class="btn btn-primary" onclick="exportContaConferenciaProcesso('ContaConferencia.csv')">GERAR CSV CONFERÊNCIA PREVISIBILIDADE</button>-->
+                                        <button type="button" id="btnExportEstimativaSaldo" class="btn btn-primary" onclick="exportEstimativaCSV('Pagamento_Recebimento_Estimativa.csv')">Exportar Grid - CSV</button>
                                     </div>
                                 </div>
                                 <div class="row flexdiv topMarg" style="padding: 0 15px">
                                     <div class="col-sm-2">
                                         <div class="form-group">
-                                            <label class="control-label">Data Inicial:</label>
-                                            <input id="txtDtInicialEstimativaPagamentoRecebimento" class="form-control" type="date" required="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">Data Final:</label>
-                                            <input id="txtDtFinalEstimativaPagamentoRecebimento" class="form-control" type="date" required="required"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
                                             <label class="control-label">Filtro</label>
-                                            <select id="ddlFilterEstimativaPagamentoRecebimento" class="form-control">
+                                            <select id="ddlFilterEstimativaSaldo" class="form-control">
                                                 <option value="">Selecione</option>
                                                 <option value="1">Nr Processo</option>
-                                                <option value="2">Cliente</option>
-                                                <option value="3">Fornecedor</option>
-                                                <option value="4">Nº BL Master</option>
+                                                <option value="2">MBL</option>
+                                                <option value="3">HBL</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label class="control-label">*</label>
-                                            <input id="txtEstimativaPagamentoRecebimento" class="form-control" type="text" />
+                                            <input id="txtEstimativaSaldo" class="form-control" type="text" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="button" id="btnConsultarEstimativaPagamentoRecebimento" onclick="EstimativaPagamentosRecebimentos()" class="btn btn-primary">Consultar</button>
+                                        <button type="button" id="btnConsultarEstimativaSaldo" onclick="EstimativaPagamentosRecebimentos()" class="btn btn-primary">Consultar</button>
                                     </div>
                                 </div> 
                                 <div class="table-responsive fixedDoubleHead topMarg">
-                                    <table id="grdEstimativaPagamentoRecebimento" class="table tablecont">
+                                    <table id="grdEstimativaSaldo" class="table tablecont">
                                         <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">NR PROCESSO</th>
-                                                <th class="text-center" scope="col">NR BL MASTER</th>
-                                                <th class="text-center" scope="col">IMP / EXP</th>
+                                                <th class="text-center" scope="col">PROCESSO</th>
+                                                <th class="text-center" scope="col">MBL</th>
+                                                <th class="text-center" scope="col">HBL</th>
+                                                <th class="text-center" scope="col">CHEGADA</th>
                                                 <th class="text-center" scope="col">ITEM DESPESA</th>
-                                                <th class="text-center" scope="col">CLIENTE (REC)</th>
-                                                <th class="text-center" scope="col">DEVIDO (REC)</th>
-                                                <th class="text-center" scope="col">MOEDA (REC)</th>
-                                                <th class="text-center" scope="col">CAMBIO (REC)</th>
-                                                <th class="text-center" scope="col">DATA CAMBIO (REC)</th>
-                                                <th class="text-center" scope="col">RECEBER (R$)</th>
-                                                <th class="text-center" scope="col">FORNECEDOR (PAG)</th>
-                                                <th class="text-center" scope="col">DEVIDO (PAG)</th>
-                                                <th class="text-center" scope="col">MOEDA (PAG)</th>
-                                                <th class="text-center" scope="col">CAMBIO (PAG)</th>
-                                                <th class="text-center" scope="col">DATA CAMBIO (PAG)</th>
-                                                <th class="text-center" scope="col">PAGAR (R$)</th>
+                                                <th class="text-center" scope="col">VENDA</th>
+                                                <th class="text-center" scope="col">MOEDA VENDA</th>
+                                                <th class="text-center" scope="col">COMPRA</th>
+                                                <th class="text-center" scope="col">MOEDA COMPRA</th>
+                                                <th class="text-center" scope="col">FREEHAND</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM MASTER</th>
+                                                <th class="text-center" scope="col">ESTUFAGEM HOUSE</th>
+                                                <th class="text-center" scope="col">STATUS FRETE AGENTE</th>
+                                                <th class="text-center" scope="col">TIPO PROFIT</th>
+                                                <th class="text-center" scope="col">PROFIT</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="grdEstimativaPagamentoRecebimentoBody">
+                                        <tbody id="grdEstimativaSaldoBody">
 
                                         </tbody>
-                                        <tfoot id="grdEstimativaPagamentoRecebimentoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
+                                        <tfoot id="grdEstimativaSaldoFooter" style="position: sticky !important;bottom: 0;background-color: #e6eefa;">
                                              
                                         </tfoot>
                                     </table>
@@ -198,10 +169,6 @@
         var dia = String(data.getDate()).padStart(2, '0');
         var mes = String(data.getMonth() + 1).padStart(2, '0');
         var ano = data.getFullYear();
-
-        $(document).ready(function () {
-            mudarTitulo();
-        });
 
         function validaDat(data) {
             var date = data;
@@ -238,9 +205,21 @@
             return dateE > dateV ? false : true
         }
 
+        function mudarTitulo() {
+            document.getElementById("dtContaPagarReceber").textContent = "";
+            if (document.getElementById("ddlDataFilter").value == '1') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA EMBARQUE";
+            } else if (document.getElementById("ddlDataFilter").value == '2') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA PREVISÃO CHEGADA";
+            } else if (document.getElementById("ddlDataFilter").value == '3') {
+                document.getElementById("dtContaPagarReceber").textContent = "DATA CHEGADA";
+            }
+            EstimativaPagamentosRecebimentos();
+        }
+
         function printRelatorioPagamentosRecebimentos() {
-            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            var dtInicial = document.getElementById("txtDtInicialSaldo").value;
+            var dtFinal = document.getElementById("txtDtFinalSaldo").value;
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({
                     type: "POST",
@@ -270,54 +249,49 @@
         }
         //PagamentosRecebimentos
 
-        function PagamentosRecebimentos() {
-            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
-            var nota = document.getElementById("txtPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
-            if (dtInicial == "" && dtFinal == "") {
-                dtInicial = "1900-01-01";
-                dtFinal = "2900-01-01";
-            }
+        function Saldo() {
+            var nota = document.getElementById("txtSaldo").value;
+            var filter = document.getElementById("ddlFilterSaldo").value;
                 $.ajax({
                     type: "POST",
-                    url: "DemurrageService.asmx/listarContasRecebidasPagas",
-                    data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
+                    url: "DemurrageService.asmx/listarSaldo",
+                    data: '{nota: "' + nota + '", filter: "' + filter + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     beforeSend: function () {
-                        $("#grdPagamentoRecebimentoBody").empty();
-                        $("#grdPagamentoRecebimentoBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
-                        $("#grdPagamentoRecebimentoFooter").empty();
+                        $("#grdSaldoBody").empty();
+                        $("#grdSaldoBody").append("<tr><td colspan='14'><div class='loader'></div></td></tr>");
+                        $("#grdSaldoFooter").empty();
                     },
                     success: function (dado) {
                         var dado = dado.d;
                         dado = $.parseJSON(dado);
                         var liqrec = 0;
                         var liqpag = 0;
-                        $("#grdPagamentoRecebimentoBody").empty();
-                        $("#grdPagamentoRecebimentoFooter").empty();
+                        var liqsaldo = 0;
+                        var chegada = "";
+                        $("#grdSaldoBody").empty();
+                        $("#grdSaldoFooter").empty();
                         if (dado != null) {
                             for (let i = 0; i < dado.length; i++) {
-                                $("#grdPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["NR_PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["DT_LIQUIDACAO"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_PARCEIRO"] + "'>" + dado[i]["NM_PARCEIRO"] + "</td><td class='text-center'>" + dado[i]["TIPO"] + "</td><td class='text-center'>" + dado[i]["VALOR"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO"] + "</td><td class='text-center'>" + dado[i]["CAMBIO"] + "</td><td class='text-center'>" + dado[i]["VALOR_BR"].toString().replace(".", ",") + "</td></td></tr>");
-                                if (dado[i]["TIPO"].toString() == "PAGO") {
-                                    if (dado[i]["VALOR_BR"] != "") {
-                                        liqpag = parseFloat(liqpag) + parseFloat(dado[i]["VALOR_BR"]);
-                                    }
+                                if (dado[i]["CHEGADA"] == null) {
+                                    chegada = "";
                                 } else {
-                                    if (dado[i]["VALOR_BR"] != "") {
-                                        liqrec = parseFloat(liqrec) + parseFloat(dado[i]["VALOR_BR"]);
-                                    }
+                                    chegada = dado[i]["CHEGADA"];
                                 }
-
-                                
+                                $("#grdSaldoBody").append("<tr><td class='text-center'> " + dado[i]["PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td><td class='text-center'>" + dado[i]["HBL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TPSERVICO"] + "</td><td class='text-center'>" + dado[i]["ORIGEM"] + "</td><td class='text-center'>" + dado[i]["DESTINO"] + "</td>" +
+                                    "<td class='text-center'>" + chegada + "</td><td class='text-center'>" + dado[i]["TPESTUFAGEM"] + "</td><td class='text-center'>" + dado[i]["FREEHAND"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["RECEBER"] + "</td><td class='text-center'>" + dado[i]["PAGAR"] + "</td><td class='text-center'>" + dado[i]["SALDO_PROCESSO"] + "</td>" +
+                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td></tr > ");
+                                liqrec = liqrec + parseFloat(dado[i]["RECEBER"]);
+                                liqpag = liqpag + parseFloat(dado[i]["PAGAR"]);
+                                liqsaldo = liqsaldo + parseFloat(dado[i]["SALDO_PROCESSO"]);
                             }
-                            $("#grdPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'> Recebido: " + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th class='text-center'> Pago: " + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th></tr>")
+                            $("#grdSaldoFooter").append("<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td><td>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td><td>" + liqsaldo.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</td><td></td><td></td></tr>");
                         }
                         else {
-                            $("#grdPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                            $("#grdSaldoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='14' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
                         }
                     }
                 })
@@ -470,10 +444,10 @@
 
         function exportCSV(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#grdPagamentoRecebimento tr");
+            var rows = document.querySelectorAll("#grdSaldo tr");
 
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdPagamentoRecebimento td, #grdPagamentoRecebimento th");
+                var row = [], cols = rows[i].querySelectorAll("#grdSaldo td, #grdSaldo th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);
@@ -507,16 +481,16 @@
         }
 
         function printPagamentosRecebimentos() {
-            var dtInicial = document.getElementById("txtDtInicialPagamentoRecebimento").value;
+            var dtInicial = document.getElementById("txtDtInicialSaldo").value;
             var diaI = dtInicial.substring(8, 10);
             var mesI = dtInicial.substring(5, 7);
             var anoI = dtInicial.substring(0, 4);
-            var dtFinal = document.getElementById("txtDtFinalPagamentoRecebimento").value;
+            var dtFinal = document.getElementById("txtDtFinalSaldo").value;
             var diaF = dtFinal.substring(8, 10);
             var mesF = dtFinal.substring(5, 7);
             var anoF = dtFinal.substring(0, 4);
-            var nota = document.getElementById("txtPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterPagamentoRecebimento").value;
+            var nota = document.getElementById("txtSaldo").value;
+            var filter = document.getElementById("ddlFilterSaldo").value;
             var position = 27;
             var positionv = 28;
             $.ajax({
@@ -683,62 +657,52 @@
 
 
         function EstimativaPagamentosRecebimentos() {
-            $("#modalEstimativaPagamentoRecebimento").modal('show');
-            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
-            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
-            if (dtInicial == "" && dtFinal == "") {
-                dtInicial = "1900-01-01";
-                dtFinal = "2900-01-01";
-            }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                data: '{dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                    $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
-                },
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    var liqrec = 0;
-                    var liqpag = 0;
-                    $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                    $("#grdEstimativaPagamentoRecebimentoFooter").empty();
-                    if (dado != null) {
-                        for (let i = 0; i < dado.length; i++) {
-                            $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["CLIENTE"] + "'>" + dado[i]["CLIENTE"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_REC"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["RECEBER"] + "</td>" +
-                                "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["FORNECEDOR"] + "'>" + dado[i]["FORNECEDOR"] + "</td><td class='text-center'>" + dado[i]["DEVIDO_PAG"] + "</td>" +
-                                "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["CAMBIO_PAGAR"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["PAGAR"] + "</td></tr>");
-                            if (dado[i]["RECEBER"] != "") {
-                                liqrec = parseFloat(liqrec) + parseFloat(dado[i]["RECEBER"]);
-                            }
-
-                            if (dado[i]["PAGAR"] != "") {
-                                liqpag = parseFloat(liqpag) + parseFloat(dado[i]["PAGAR"]);
+            var nota = document.getElementById("txtEstimativaSaldo").value;
+            var filter = document.getElementById("ddlFilterEstimativaSaldo").value;
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarConferencia",
+                    data: '{nota: "' + nota + '", filter: "' + filter + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    beforeSend: function () {
+                        $("#grdEstimativaSaldoBody").empty();
+                        $("#grdEstimativaSaldoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
+                    },
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        var liqrec = 0;
+                        var liqpag = 0;
+                        var profit = 0;
+                        $("#grdEstimativaSaldoBody").empty(); 
+                        if (dado != null) {
+                            for (let i = 0; i < dado.length; i++) {
+                                if (dado[i]["CHEGADA"] == null) {
+                                    chegada = "";
+                                } else {
+                                    chegada = dado[i]["CHEGADA"];
+                                }
+                                $("#grdEstimativaSaldoBody").append("<tr><td class='text-center'>" + dado[i]["PROCESSO"] + "</td><td class='text-center'> " + dado[i]["MBL"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["HBL"] + "</td><td class='text-center'>" + chegada + "</td><td class='text-center'>" + dado[i]["ITEM_DESPESA"] + "</td><td class='text-center'>" + dado[i]["VENDA"] + "</td><td class='text-center'>" + dado[i]["MOEDA_VENDA"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["COMPRA"] + "</td><td class='text-center'>" + dado[i]["MOEDA_COMPRA"] + "</td><td class='text-center'>" + dado[i]["FREEHAND"] + "</td><td class='text-center'>" + dado[i]["ESTUFAGEM_MASTER"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["ESTUFAGEM_HOUSE"] + "</td><td class='text-center' style='max-width: 15ch;' title='"+ dado[i]["STATUS_FRETE"] +"'>" + dado[i]["STATUS_FRETE"] + "</td>" +
+                                    "<td class='text-center'>" + dado[i]["TIPO_PROFIT"] + "</td><td class='text-center'>" + dado[i]["PROFIT"] + "</td></tr>");
                             }
                         }
-                        $("#grdEstimativaPagamentoRecebimentoFooter").append("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqrec.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th><th></th><th></th><th></th><th></th><th></th><th class='text-center'>" + liqpag.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) + "</th></tr>")
+                        else {
+                            $("#grdEstimativaSaldoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
+                        }
                     }
-                    else {
-                        $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                    }
-                }
-            })
+                })
         }
 
         function exportEstimativaCSV(filename) {
             var csv = [];
-            var rows = document.querySelectorAll("#grdEstimativaPagamentoRecebimento tr");
+            var rows = document.querySelectorAll("#grdEstimativaSaldo tr");
 
             for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdEstimativaPagamentoRecebimento td, #grdEstimativaPagamentoRecebimento th");
+                var row = [], cols = rows[i].querySelectorAll("#grdEstimativaSaldo td, #grdEstimativaSaldo th");
 
                 for (var j = 0; j < cols.length; j++)
                     row.push(cols[j].innerText);
@@ -772,11 +736,11 @@
         }
 
         function PrintEstimativaPagamentosRecebimentos() {
-            $("#modalEstimativaPagamentoRecebimento").modal('show');
-            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
-            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
+            $("#modalEstimativaSaldo").modal('show');
+            var dtInicial = document.getElementById("txtDtInicialEstimativaSaldo").value;
+            var dtFinal = document.getElementById("txtDtFinalEstimativaSaldo").value;
+            var nota = document.getElementById("txtEstimativaSaldo").value;
+            var filter = document.getElementById("ddlFilterEstimativaSaldo").value;
             var position = 45;
             if (dtInicial != "" && dtFinal != "") {
                 $.ajax({

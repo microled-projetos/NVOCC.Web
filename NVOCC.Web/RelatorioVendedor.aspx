@@ -3,6 +3,7 @@
      <style>
         #DivImpressao {
             display: block;
+            padding-bottom:50px;
         }
          #imgFundo {
                 display: none;

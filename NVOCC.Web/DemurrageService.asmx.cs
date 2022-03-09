@@ -4315,6 +4315,214 @@ namespace ABAINFRA.Web
             return JsonConvert.SerializeObject(listTable);
         }
 
+        [WebMethod]
+        public string listarCourrierFilterTeste(Filtro dados)
+        {
+            string SQL;
+            SQL = "WHERE SUBSTRING(BL.NR_PROCESSO,10,2)>= '18' ";
+
+            if (dados.BLHOUSE != "")
+            {
+                SQL += "AND BL.NR_BL LIKE '" + dados.BLHOUSE + "%' ";
+
+            }
+
+            if (dados.DTRECEBIMENTOMBLINICIO != "")
+            {
+                if (dados.DTRECEBIMENTOMBLFIM != "")
+                {
+                    SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' AND M.DT_RECEBIMENTO_MBL <= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTRECEBIMENTOMBLFIM != "")
+                {
+                    SQL += "AND M.DT_RECEBIMENTO_MBL >= '" + dados.DTRECEBIMENTOMBLFIM + "' ";
+                }
+            }
+
+            if (dados.DTRECEBIMENTOHBLINICIO != "")
+            {
+                if (dados.DTRECEBIMENTOHBLFIM != "")
+                {
+                    SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLINICIO + "' AND BL.DT_RECEBIMENTO_HBL <= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTRECEBIMENTOHBLFIM != "")
+                {
+                    SQL += "AND BL.DT_RECEBIMENTO_HBL >= '" + dados.DTRECEBIMENTOHBLFIM + "' ";
+                }
+            }
+
+            if (dados.DTRETIRADAINICIO != "")
+            {
+                if (dados.DTRETIRADAFIM != "")
+                {
+                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' AND BL.DT_RETIRADA_COURRIER <= '" + dados.DTRETIRADAFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTRETIRADAFIM != "")
+                {
+                    SQL += "AND BL.DT_RETIRADA_COURRIER >= '" + dados.DTRETIRADAFIM + "' ";
+                }
+            }
+
+            if (dados.PREVISAOCHEGADAINICIO != "")
+            {
+                if (dados.PREVISAOCHEGADAFIM != "")
+                {
+                    SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAINICIO + "' AND BL.DT_PREVISAO_CHEGADA <= '" + dados.PREVISAOCHEGADAFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.PREVISAOCHEGADAFIM != "")
+                {
+                    SQL += "AND BL.DT_PREVISAO_CHEGADA >= '" + dados.PREVISAOCHEGADAFIM + "' ";
+                }
+            }
+
+            if (dados.DTCHEGADAINICIO != "")
+            {
+                if (dados.DTCHEGADAFIM != "")
+                {
+                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' AND BL.DT_CHEGADAL <= '" + dados.DTCHEGADAFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTCHEGADAFIM != "")
+                {
+                    SQL += "AND BL.DT_CHEGADA >= '" + dados.DTCHEGADAFIM + "' ";
+                }
+            }
+
+            if (dados.DTRETIRADAPEROSNALINICIO != "")
+            {
+                if (dados.DTRETIRADAPEROSNALFIM != "")
+                {
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' AND BL.DT_RETIRADA_PERSONAL <= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                }
+                else
+                {
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALINICIO + "' ";
+                }
+            }
+            else
+            {
+                if (dados.DTRETIRADAPEROSNALFIM != "")
+                {
+                    SQL += "AND M.DT_RETIRADA_PERSONAL >= '" + dados.DTRETIRADAPEROSNALFIM + "' ";
+                }
+            }
+
+            if (dados.AGENTE != "")
+            {
+                SQL += "AND P2.NM_RAZAO LIKE '" + dados.AGENTE + "%' ";
+            }
+
+            if (dados.CDRASTREAMENTOHBL != "")
+            {
+                SQL += "AND BL.CD_RASTREAMENTO_HBL LIKE '" + dados.CDRASTREAMENTOHBL + "%' ";
+            }
+
+            if (dados.CDRASTREAMENTOMBL != "")
+            {
+                SQL += "AND M.CD_RASTREAMENTO_MBL LIKE '" + dados.CDRASTREAMENTOMBL + "%' ";
+            }
+
+            if (dados.RETIRADOPOR != "")
+            {
+                SQL += "AND BL.NM_RETIRADO_POR_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
+            }
+
+            if (dados.FATURA != "")
+            {
+                SQL += "AND BL.NR_FATURA_COURRIER LIKE '" + dados.RETIRADOPOR + "%' ";
+            }
+
+            return SQL;
+        }
+
+        [WebMethod]
+        public string listarCourrierTeste(string idFilter, string Filter, string tipo, Filtro dados)
+        {
+            string SQL;
+            switch (idFilter)
+            {
+                case "1":
+                    idFilter = "AND BL.NR_PROCESSO LIKE '" + Filter + "%' ";
+                    break;
+                case "2":
+                    idFilter = "AND M.NR_BL LIKE '" + Filter + "%' ";
+                    break;
+                case "3":
+                    idFilter = "AND P.NM_RAZAO LIKE '" + Filter + "%' ";
+                    break;
+                case "4":
+                    idFilter = "AND N.NM_NAVIO LIKE '" + Filter + "%' ";
+                    break;
+                case "5":
+                    idFilter = "AND BL.CD_RASTREAMENTO_HBL LIKE '" + Filter + "%' OR M.CD_RASTREAMENTO_MBL LIKE '" + Filter + "%' ";
+                    break;
+                default:
+                    idFilter = "";
+                    break;
+            }
+
+            switch (tipo)
+            {
+                case "1":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 1 ";
+                    break;
+                case "0":
+                    tipo = "AND TP.ID_TIPO_ESTUFAGEM = 2 ";
+                    break;
+            }
+
+            SQL = "SELECT ISNULL(BL.NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(M.NR_BL,'') as MASTER, ISNULL(BL.NR_BL,'') AS HOUSE, BL.ID_BL, ISNULL(P.NM_RAZAO,'') AS CLIENTE, ISNULL(FORMAT(M.DT_RECEBIMENTO_MBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_MBL, ";
+            SQL += "ISNULL(M.CD_RASTREAMENTO_MBL,'') AS CD_RASTREAMENTO_MBL, ISNULL(FORMAT(BL.DT_RECEBIMENTO_HBL,'dd/MM/yyyy'),'') AS DT_RECEBIMENTO_HBL, ISNULL(BL.CD_RASTREAMENTO_HBL,'') AS CD_RASTREAMENTO_HBL, ISNULL(FORMAT(BL.DT_RETIRADA_COURRIER,'dd/MM/yyyy'),'') AS DT_RETIRADA_COURRIER, ISNULL(FORMAT(M.DT_RETIRADA_PERSONAL,'dd/MM/yyyy'),'') AS DT_RETIRADA_PERSONAL, ";
+            SQL += "ISNULL(BL.NM_RETIRADO_POR_COURRIER,'') AS NM_RETIRADO_POR_COURRIER, ISNULL(P2.NM_RAZAO,'') AS AGENTE, ISNULL(N.NM_NAVIO,'') AS NM_NAVIO, ISNULL(FORMAT(BL.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA, ISNULL(FORMAT(BL.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA, BL.FL_TROCA, ";
+            SQL += "ISNULL(BL.NR_FATURA_COURRIER,'') AS NR_FATURA_COURRIER, ISNULL(TP.NM_TIPO_ESTUFAGEM,'') AS NM_TIPO_ESTUFAGEM ";
+            SQL += "FROM TB_BL BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON BL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON BL.ID_PARCEIRO_AGENTE_INTERNACIONAL = P2.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_NAVIO N ON BL.ID_NAVIO = N.ID_NAVIO ";
+            SQL += "LEFT JOIN TB_TIPO_ESTUFAGEM TP ON BL.ID_TIPO_ESTUFAGEM = TP.ID_TIPO_ESTUFAGEM ";
+            SQL += "LEFT JOIN TB_BL M on BL.ID_BL_MASTER = M.ID_BL ";
+            SQL += "" + listarCourrierFilterTeste(dados) + " ";
+            SQL += "" + idFilter + "";
+            SQL += "" + tipo + "";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
 
 
         [WebMethod]
@@ -4634,6 +4842,137 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
+        public string imprimirInvoiceExp(string dataI, string dataF, string[] invoices)
+        {
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = anoI + '-' + mesI + '-' + diaI;
+            dataF = anoF + '-' + mesF + '-' + diaF;
+
+            SQL = "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(ORIGEM.CD_PORTO,'') as ORIGEM, ISNULL(DESTINO.CD_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL(TRANSPORTADOR.NM_RAZAO,'') AS TRANSPORTADOR,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS DT_PREVISAO_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL_MASTER ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            for (int i = 0; i < invoices.Length; i++)
+            {
+                if (i == 0)
+                {
+                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 AND (AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+                else
+                {
+                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+            }
+            SQL += " ) UNION ";
+            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(ORIGEM.CD_PORTO,'') as ORIGEM, ISNULL(DESTINO.CD_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL(TRANSPORTADOR.NM_RAZAO,'') AS TRANSPORTADOR,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS DT_PREVISAO_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            for (int i = 0; i < invoices.Length; i++)
+            {
+                if (i == 0)
+                {
+                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 2 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+                else
+                {
+                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+            }
+            SQL += " ) UNION ";
+            SQL += "SELECT ISNULL(AI.NR_INVOICE,'') AS NR_INVOICE, ISNULL(C.NR_PROCESSO,'') AS NR_PROCESSO, ";
+            SQL += "ISNULL(C.NR_BL,'') as HBL, ISNULL(M.NR_BL,'') AS MBL, ISNULL(CLIENTE.NM_RAZAO,'') AS CLIENTE, ISNULL(AGENTE.NM_RAZAO,'') AS AGENTE, ";
+            SQL += "ISNULL(ORIGEM.CD_PORTO,'') as ORIGEM, ISNULL(DESTINO.CD_PORTO,'') AS DESTINO, ";
+            SQL += "ISNULL(TRANSPORTADOR.NM_RAZAO,'') AS TRANSPORTADOR,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_EMBARQUE,'dd/MM/yyyy'),'') AS DT_PREVISAO_EMBARQUE, ";
+            SQL += "ISNULL(FORMAT(C.DT_EMBARQUE,'dd/MM/yyyy'),'') AS DT_EMBARQUE,  ";
+            SQL += "ISNULL(FORMAT(C.DT_PREVISAO_CHEGADA,'dd/MM/yyyy'),'') AS DT_PREVISAO_CHEGADA,  ";
+            SQL += "ISNULL(FORMAT(C.DT_CHEGADA,'dd/MM/yyyy'),'') AS DT_CHEGADA ";
+            SQL += "FROM TB_ACCOUNT_INVOICE AI ";
+            SQL += " JOIN TB_BL C ON AI.ID_BL = C.ID_BL ";
+            SQL += " JOIN TB_BL M ON C.ID_BL_MASTER = M.ID_BL ";
+            SQL += " JOIN TB_PARCEIRO CLIENTE ON C.ID_PARCEIRO_CLIENTE = CLIENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PARCEIRO AGENTE ON AI.ID_PARCEIRO_AGENTE = AGENTE.ID_PARCEIRO ";
+            SQL += " JOIN TB_PORTO ORIGEM ON C.ID_PORTO_ORIGEM = ORIGEM.ID_PORTO ";
+            SQL += " JOIN TB_PORTO DESTINO ON C.ID_PORTO_DESTINO = DESTINO.ID_PORTO ";
+            SQL += " JOIN TB_PARCEIRO TRANSPORTADOR ON C.ID_PARCEIRO_TRANSPORTADOR = TRANSPORTADOR.ID_PARCEIRO ";
+            for (int i = 0; i < invoices.Length; i++)
+            {
+                if (i == 0)
+                {
+                    SQL += " WHERE ID_ACCOUNT_TIPO_INVOICE = 1 AND ( AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+                else
+                {
+                    SQL += " OR AI.ID_ACCOUNT_INVOICE = " + invoices[i] + " ";
+                }
+            }
+            SQL += " ) ";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            if (listTable != null)
+            {
+                string[] conf = new string[listTable.Rows.Count];
+                for (int i = 0; i < listTable.Rows.Count; i++)
+                {
+                    conf[i] += "'"+listTable.Rows[i]["NR_INVOICE"].ToString() + "';";
+                    conf[i] += listTable.Rows[i]["NR_PROCESSO"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["HBL"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["MBL"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["CLIENTE"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["AGENTE"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["ORIGEM"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["DESTINO"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["TRANSPORTADOR"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["DT_PREVISAO_EMBARQUE"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["DT_EMBARQUE"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["DT_PREVISAO_CHEGADA"].ToString() + ";";
+                    conf[i] += listTable.Rows[i]["DT_CHEGADA"].ToString() + ";";
+                }
+                return JsonConvert.SerializeObject(conf);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(null);
+            }
+        }
+
+        
+
+[WebMethod]
         public string listarDemonstrativoRateio(string text, string filter)
         {
             string SQL;
@@ -5007,6 +5346,8 @@ namespace ABAINFRA.Web
             dataF = diaF + '-' + mesF + '-' + anoF;
 
             string SQL;
+            SQL = "EXECUTE DBO.PR_NOTA_DESPESA_NEGATIVO '"+dataI+"','"+dataF+"' ";
+            DBS.ExecuteScalar(SQL);
 
             SQL = "SELECT PREFIXO, NUM, PARCELA, TIPO, NATUREZ, CLIENTE, LOJA, EMISSAO, VENCTO, VENCREA, ";
             SQL += "VALOR, IRRF, ISS, HIST, INSS, COFINS, CSLL, PIS, CONTROL, ITEMCTA, XPROD, CONTA ";
@@ -7491,16 +7832,38 @@ namespace ABAINFRA.Web
         public string listarContasRecebidasPagas(string dataI, string dataF, string nota, string filter)
         {
             string SQL;
+            string diaI;
+            string mesI;
+            string anoI;
+            string diaF;
+            string mesF;
+            string anoF;
 
-            string diaI = dataI.Substring(8, 2);
-            string mesI = dataI.Substring(5, 2);
-            string anoI = dataI.Substring(0, 4);
+            if (dataI != "")
+            {
+                 diaI = dataI.Substring(8, 2);
+                 mesI = dataI.Substring(5, 2);
+                 anoI = dataI.Substring(0, 4);
+                dataI = diaI + '-' + mesI + '-' + anoI;
+			}
+			else
+			{
+                dataI = "01-01-1900";
+			}
 
-            string diaF = dataF.Substring(8, 2);
-            string mesF = dataF.Substring(5, 2);
-            string anoF = dataF.Substring(0, 4);
-            dataI = diaI + '-' + mesI + '-' + anoI;
-            dataF = diaF + '-' + mesF + '-' + anoF;
+            if (dataF != "")
+            {
+                 diaF = dataF.Substring(8, 2);
+                 mesF = dataF.Substring(5, 2);
+                 anoF = dataF.Substring(0, 4);
+                dataF = diaF + '-' + mesF + '-' + anoF;
+			}
+			else
+			{
+                dataF = "01-01-2900";
+			}
+            
+            
 
             switch (filter)
             {
@@ -7508,10 +7871,7 @@ namespace ABAINFRA.Web
                     nota = "AND NR_PROCESSO LIKE '" + nota + "%' ";
                     break;
                 case "2":
-                    nota = "AND NM_CLIENTE LIKE '" + nota + "%' ";
-                    break;
-                case "3":
-                    nota = "AND NM_FORNECEDOR LIKE '" + nota + "%' ";
+                    nota = "AND NM_PARCEIRO LIKE '" + nota + "%' ";
                     break;
                 case "4":
                     nota = "AND NR_BL_MASTER LIKE '" + nota + "%' ";
@@ -7521,16 +7881,13 @@ namespace ABAINFRA.Web
                     break;
             }
 
-            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO, ISNULL(NR_BL_MASTER, '') AS MBL, ";
-            SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_RECEBIMENTO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO_REC, ";
-            SQL += "ISNULL(NM_CLIENTE, '') AS NM_CLIENTE_REC, ISNULL(CONVERT(VARCHAR, VL_RECEBIDO), '') AS VL_DEVIDO_REC, ";
-            SQL += "ISNULL(MOEDA_RECEBIDO, '') AS MOEDA_REC, ISNULL(REPLACE(CONVERT(VARCHAR, REPLACE(FORMAT(VL_CAMBIO_RECEBIMENTO, 'C5', 'PT-BR'), 'R $', '')), '.', ','), '') AS VL_CAMBIO_REC, ";
-            SQL += "ISNULL(VL_RECEBIDO_BR, 0) AS VL_LIQUIDO_REC, ISNULL(FORMAT(DT_PAGAMENTO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO_PAG, ";
-            SQL += "ISNULL(NM_FORNECEDOR, '') AS NM_FORNECEDOR_PAG, ISNULL(CONVERT(VARCHAR, VL_PAGO), '') AS VL_DEVIDO_PAG, ";
-            SQL += "ISNULL(MOEDA_PAGO, '') AS MOEDA_PAG, ";
-            SQL += "ISNULL(REPLACE(CONVERT(VARCHAR, REPLACE(FORMAT(VL_CAMBIO_PAGAMENTO, 'C5', 'PT-BR'), 'R$', '')), '.', ','),'') AS VL_CAMBIO_PAG, ";
-            SQL += "ISNULL(VL_PAGO_BR, 0) AS VL_LIQUIDO_PAG FROM dbo.FN_PREVISIBILIDADE_SALDO('" + dataI + "','" + dataF + "','') "; 
-            SQL += "WHERE (ISNULL(VL_RECEBIDO,0)<> 0 OR ISNULL(VL_PAGO,0)<> 0) ";
+            SQL = "SELECT ISNULL(NR_PROCESSO,'') AS NR_PROCESSO,  ISNULL(NR_BL_MASTER, '') AS MBL, ";
+            SQL += "ISNULL(NM_ITEM_DESPESA, '') AS NM_ITEM_DESPESA, ISNULL(FORMAT(DT_LIQUIDACAO, 'dd/MM/yyyy'), '') AS DT_LIQUIDACAO, ";
+            SQL += "ISNULL(NM_PARCEIRO, '') AS NM_PARCEIRO, ISNULL(TP_MOVIMENTO,'') AS TIPO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA), '') AS VALOR, ";
+            SQL += "ISNULL(MOEDA,'') AS MOEDA, ISNULL(VL_CAMBIO,0) AS CAMBIO, ISNULL(CONVERT(VARCHAR, VL_ITEM_DESPESA_BR), '') AS VALOR_BR, ";
+            SQL += "ISNULL(FORMAT(DT_CAMBIO, 'dd/MM/yyyy'), '') AS DT_CAMBIO ";
+            SQL += "FROM FN_PREVISIBILIDADE_CONTA_CORRENTE('01/01/1900', '01/01/2900') ";
+            SQL += "WHERE CONVERT(DATE, DT_LIQUIDACAO,103) BETWEEN CONVERT(DATE, '" + dataI + "',103) AND CONVERT(DATE, '" + dataF + "',103) ";
             SQL += "" + nota + "";
             SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";
             DataTable listTable = new DataTable();
@@ -7772,12 +8129,35 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarSaldo(string nota, string filter)
-        {
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
-            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+        public string listarSaldo(string nota, string filter, string dataI, string dataF)
+        {   
+            string sqlFormattedDate;
+            string sqlFormattedDate2;
             string SQL;
+
+            if(dataI != "")
+			{
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI+"/"+mesI+"/"+anoI;
+			}
+			else
+			{
+                sqlFormattedDate = "01/01/1900";
+			}
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+            else
+            {
+                sqlFormattedDate2 = "01/01/2900";
+            }
 
             if (nota != "")
             {
@@ -7824,8 +8204,8 @@ namespace ABAINFRA.Web
         public string listarConferencia(string nota, string filter)
         {
             DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.AddDays(1).ToString("dd/MM/yyyy");
-            string sqlFormattedDate2 = myDateTime.AddDays(90).ToString("dd/MM/yyyy");
+            string sqlFormattedDate = "01/01/1900";
+            string sqlFormattedDate2 = "01/01/2900";
             string SQL;
 
             if (nota != "")

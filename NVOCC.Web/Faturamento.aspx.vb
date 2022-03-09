@@ -546,7 +546,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                             End If
                                         End If
 
-
                                     End If
 
                                     IR = IR.Replace(".", "")
@@ -1273,11 +1272,36 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
+                '                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
+                '(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
+                'FROM TB_FATURAMENTO A
+                'WHERE ID_FATURAMENTO IN (" & IDs & ")")
+
+                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_ISS,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) AS VL_DESCONTANDO_IR, 
+VL_BOLETO,
+CNPJ,
+NM_CLIENTE,
+ENDERECO,
+NR_ENDERECO,
+COMPL_ENDERECO,
+CEP,
+CIDADE,
+BAIRRO ,
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
+NR_NOTA_FISCAL,
+'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
+NOSSONUMERO, 
+(SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
+CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_FATURAMENTO A
-WHERE ID_FATURAMENTO IN (" & IDs & ")")
+WHERE ID_FATURAMENTO =" & IDs & " 
+GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF")
+
                 If ds.Tables(0).Rows.Count > 0 Then
+                    Dim VL_BOLETO As String = 0
                     NR_PROCESSO = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     For Each linhads As DataRow In ds.Tables(0).Rows
                         i = i + 1
@@ -1311,51 +1335,59 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Titulo.NossoNumero = NossoNumero
                         Titulo.DataEmissao = Now.Date
                         Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
-                        Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
+
+
+                        If linhads.Item("CIDADE").ToString() = "SANTOS" Then
+
+                            VL_BOLETO = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
+
+                        ElseIf linhads.Item("FL_IR").ToString = 1 Then
+
+                            VL_BOLETO = linhads.Item("VL_DESCONTANDO_IR").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL_DESCONTANDO_IR").ToString()
+
+                        Else
+
+                            VL_BOLETO = linhads.Item("VL").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL").ToString()
+
+                        End If
+
                         Titulo.Aceite = "N"
-                        'Titulo.EspecieDocumento = TipoEspecieDocumento.DM
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DS
                         Titulo.DataDesconto = Now.Date.AddDays(15)
                         Titulo.ValorDesconto = 0
 
-                        '
-                        '
+
                         'PARTE DA MULTA
                         Titulo.DataMulta = Now.Date.AddDays(15)
                         Titulo.PercentualMulta = VL_MULTA
                         Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
                         Titulo.MensagemInstrucoesCaixa = OBS1
-                        'Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
-                        '
+
+
                         'PARTE JUROS DE MORA
                         Titulo.DataJuros = Now.Date.AddDays(15)
                         Titulo.PercentualJurosDia = VL_MORA
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
                         Dim instrucoes As String = OBS2
-                        'Dim instrucoes As String =$"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
                         If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
                             Titulo.MensagemInstrucoesCaixa = instrucoes
                         Else
                             Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
                         End If
-                        '
-                        'Titulo.CodigoInstrucao1 = String.Empty
-                        'Titulo.ComplementoInstrucao1 = String.Empty
 
-                        'Titulo.CodigoInstrucao2 = String.Empty
-                        'Titulo.ComplementoInstrucao2 = String.Empty
 
-                        'Titulo.CodigoInstrucao3 = String.Empty
-                        'Titulo.ComplementoInstrucao3 = String.Empty
                         Titulo.CodigoProtesto = TipoCodigoProtesto.NaoProtestar
                         Titulo.DiasProtesto = 0
                         Titulo.CodigoBaixaDevolucao = TipoCodigoBaixaDevolucao.NaoBaixarNaoDevolver
                         Titulo.DiasBaixaDevolucao = 0
                         Titulo.ValidarDados()
                         objBoletos.Add(Titulo)
-
-                        Dim VL_BOLETO As String = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
-                        VL_BOLETO = VL_BOLETO.Replace(",", ".")
 
                         Dim Dig_NossoNum As String = GeraRemessa.Calculo_DV_NN_Santander(NossoNumero)
                         Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '" & NossoNumero & "', DT_VENCIMENTO_BOLETO = CONVERT(DATE,'" & Titulo.DataVencimento & "',103), DT_EMISSAO_BOLETO = GETDATE(), COD_BANCO = '" & COD_BANCO & "', DIG_NOSSONUM='" & Dig_NossoNum.Replace(" ", "") & "',FL_ENVIADO_REM = 0 WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())

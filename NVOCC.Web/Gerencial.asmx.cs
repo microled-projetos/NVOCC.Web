@@ -46,6 +46,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
+            SQL += "AND B.ID_STATUS_COTACAO NOT IN(7, 8, 11) ";
             if (vendedor != 0)
             {
                 SQL += " AND A.ID_PARCEIRO_VENDEDOR = " + vendedor;
@@ -416,6 +417,7 @@ namespace ABAINFRA.Web
              SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END),0) AS TEUS_IMP,";
              SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
              SQL += "FROM VW_PROCESSO_CONTAINER A ";
+             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
              SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
              SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
              SQL += ") X ";
@@ -594,6 +596,7 @@ namespace ABAINFRA.Web
         {
             string SQL;
             SQL = "WHERE RIGHT(A.NR_PROCESSO,2) >= 18 ";
+            SQL += "AND B.ID_STATUS_COTACAO NOT IN(7, 8, 11) ";
             string periodoi;
             string periodof;
             string anof;
@@ -661,29 +664,36 @@ namespace ABAINFRA.Web
             SQL = "SELECT NM_RAZAO AS VENDEDOR, ";
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'M') TOTAL_PROC_IMP, ";
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'E') TOTAL_PROC_EXP, ";
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'A') TOTAL_PROC_AR, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_IMP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_EXP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_IMP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_EXP, ";
-            SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
+            SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO AND B.ID_STATUS_COTACAO NOT IN (7,8,11) " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
             SQL += "SUM(ISNULL(CNTR_IMP, 0)) +SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_TOTAL, ";
             SQL += "SUM(ISNULL(TEUS_IMP, 0)) +SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_TOTAL, ";
             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
@@ -700,6 +710,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) AS TEUS_IMP, ";
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
+            SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";

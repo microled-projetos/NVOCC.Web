@@ -33,9 +33,23 @@
         Con.Fechar()
     End Sub
 
+    Protected Sub dgvComissoes_Sorting(ByVal sender As Object, ByVal e As GridViewSortEventArgs)
+        divSuccess.Visible = False
+        divErro.Visible = False
+        Dim dt As DataTable = TryCast(Session("TaskTable"), DataTable)
+
+        If dt IsNot Nothing Then
+            dt.DefaultView.Sort = e.SortExpression & " " + GetSortDirection(e.SortExpression)
+            Session("TaskTable") = dt
+            dgvComissoes.DataSource = Session("TaskTable")
+            CarregaGrid()
+            dgvComissoes.HeaderRow.TableSection = TableRowSection.TableHeader
+        End If
+    End Sub
     Private Sub dgvComissoes_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvComissoes.RowCommand
         divSuccess.Visible = False
         divErro.Visible = False
+        CarregaGrid()
 
 
         If e.CommandName = "Selecionar" Then
@@ -122,6 +136,26 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
     Private Sub btnPesquisar_Click(sender As Object, e As EventArgs) Handles btnPesquisar.Click
         CarregaGrid()
     End Sub
+
+    Private Function GetSortDirection(ByVal column As String) As String
+        Dim sortDirection As String = "ASC"
+        Dim sortExpression As String = TryCast(ViewState("SortExpression"), String)
+
+        If sortExpression IsNot Nothing Then
+
+            If sortExpression = column Then
+                Dim lastDirection As String = TryCast(ViewState("SortDirection"), String)
+
+                If (lastDirection IsNot Nothing) AndAlso (lastDirection = "ASC") Then
+                    sortDirection = "DESC"
+                End If
+            End If
+        End If
+
+        ViewState("SortDirection") = sortDirection
+        ViewState("SortExpression") = column
+        Return sortDirection
+    End Function
 
     Sub CarregaGrid()
         divSuccess.Visible = False
@@ -353,7 +387,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                     lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
                     divErroGerarComissao.Visible = True
                 Else
-
+                    btnGerarComissao.Visible = False
                     Dim NOVA_COMPETECIA As String = txtNovaCompetencia.Text
                     NOVA_COMPETECIA = NOVA_COMPETECIA.Replace("/", "")
                     Dim dsInsert As DataSet
@@ -393,7 +427,7 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
                     divErro.Visible = False
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
-
+                    btnGerarComissao.Visible = True
                 End If
             End If
 

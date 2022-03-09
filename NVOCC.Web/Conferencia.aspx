@@ -443,7 +443,7 @@
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsOutrasTaxas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.NM_ITEM_DESPESA,A.SIGLA_MOEDA,A.VL_TAXA,CASE WHEN A.CD_DECLARADO = 'S' THEN 'SIM' ELSE 'NÃO' END CD_DECLARADO,A.DT_RECEBIMENTO,(SELECT VL_CAMBIO FROM FN_TAXA_CAMBIO_RECEBIMENTO (A.ID_BL_TAXA))VL_CAMBIO  FROM FN_ACCOUNT_OUTRAS_TAXAS  (@ID_BL , '@GRAU') A ">
+        SelectCommand="SELECT A.ID_BL_TAXA,A.ID_MOEDA,A.ID_BL,A.NR_PROCESSO,A.NM_ITEM_DESPESA,A.SIGLA_MOEDA,A.VL_TAXA,CASE WHEN A.CD_DECLARADO = 'S' THEN 'SIM' ELSE 'NÃO' END CD_DECLARADO,A.DT_RECEBIMENTO,(SELECT VL_CAMBIO FROM FN_TAXA_CAMBIO_RECEBIMENTO (A.ID_BL_TAXA))VL_CAMBIO  FROM FN_ACCOUNT_OUTRAS_TAXAS_OLD  (@ID_BL , '@GRAU') A ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="string" ControlID="lblID_BL" />
             <asp:ControlParameter Name="GRAU" Type="string" ControlID="lblGrau" />
