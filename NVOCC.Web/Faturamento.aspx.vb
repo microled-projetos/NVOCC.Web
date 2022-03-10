@@ -496,15 +496,15 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 Dim sqlIR As String = ""
                                 If txtID_SERVICO.Text = 1 Or txtID_SERVICO.Text = 4 Then
                                     'MARITIMO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_MAR = '10.05' AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 ElseIf txtID_SERVICO.Text = 2 Or txtID_SERVICO.Text = 5 Then
                                     'AEREO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_AER = '10.05' AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 Else
                                     'OUTROS
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE AND ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE (CD_ISS_AER = '10.05' or CD_ISS_MAR = '10.05') AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 End If
 

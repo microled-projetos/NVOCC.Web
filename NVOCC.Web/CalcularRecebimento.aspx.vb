@@ -427,6 +427,12 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             lblErro.Text = "Não é possivel completar a ação: o valor não pode se zerado!"
             divErro.Visible = True
             Exit Sub
+
+        ElseIf lblAcordo.Text = "" Then
+            lblErro.Text = "É necessário preencher o acordo de câmbio no cadastro do parceiro!"
+            divErro.Visible = True
+            Exit Sub
+
         Else
             If lblDiasFaturamento.Text = "" Then
                 lblDiasFaturamento.Text = 0
