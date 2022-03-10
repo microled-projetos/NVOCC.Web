@@ -140,6 +140,8 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnTOTVSDemurragePA.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2057 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoTransportadora.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2058 And linha.Item("Acessar").ToString() = 0 Then
+                        mnConfereProcesso.Visible = False
                     End If
 
 
@@ -174,10 +176,9 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                 MenuComercial.Visible = False
             End If
 
-            If mnOperacionalListagemBL.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False Then
+            If mnOperacionalListagemBL.Visible = False And mnCourrier.Visible = False And mnConsultarWeek.Visible = False And mnConfereProcesso.Visible = False Then
                 MenuOperacao.Visible = False
             End If
-
 
             If mnTOTVSServico.Visible = False Then
                 MenuTotvs2.Visible = False

@@ -298,6 +298,9 @@
     <Content Include="ConferenciaProcesso.aspx" />
     <Content Include="ConferenciaProcesso.aspx.cs" />
     <Content Include="ConferenciaProcesso.aspx.designer.cs" />
+    <Content Include="ConfereProcesso.aspx" />
+    <Content Include="ConfereProcesso.aspx.cs" />
+    <Content Include="ConfereProcesso.aspx.designer.cs" />
     <Content Include="ContatoParceiro.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />
