@@ -6606,7 +6606,7 @@ namespace ABAINFRA.Web
                 string[] rec = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 4);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
@@ -7235,7 +7235,7 @@ namespace ABAINFRA.Web
                 string[] rec = new string[listTable.Rows.Count];
                 for (int i = 0; i < listTable.Rows.Count; i++)
                 {
-                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 2);
+                    rec[i] += fmtTotvs(listTable.Rows[i]["FILIAL"].ToString(), 4);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PREFIXO"].ToString(), 3);
                     rec[i] += fmtTotvs(listTable.Rows[i]["NUM"].ToString(), 9);
                     rec[i] += fmtTotvs(listTable.Rows[i]["PARCELA"].ToString(), 3);
