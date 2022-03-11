@@ -161,9 +161,12 @@ WHERE CD_PR= 'P' AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue & "AN
             lblErro.Text = "É necessário informar número da fatura!"
             divErro.Visible = True
             Exit Sub
-        ElseIf txtValor.Text = "" Or txtValor.Text = 0 Then
-            lblErro.Text = "É necessário ter um valor para montagem de pagamento"
-            divErro.Visible = True
+            'ElseIf txtValor.Text = "" Or txtValor.Text = 0 Then
+            '    lblErro.Text = "É necessário ter um valor para montagem de pagamento"
+            '    divErro.Visible = True
+            '    Exit Sub
+
+        ElseIf txtCancelaOperacao.Text = 1 Then
             Exit Sub
 
         Else

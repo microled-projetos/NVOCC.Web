@@ -485,8 +485,8 @@
                                      
                                       
                                        <div class="col-sm-12">
-                                            <div class="table-responsive tableFixHead">
-                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
+                                            <div class="table-responsive tableFixHead" Style="max-height: 400px; overflow: auto;">
+                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false"  AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_ACCOUNT_INVOICE_ITENS"  HeaderText="ID" Visible="False" SortExpression="ID_ACCOUNT_INVOICE_ITENS" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
@@ -825,7 +825,7 @@
                                        <div class="col-sm-12">
                                     <div class="form-group">
 
-                                        <div class="table-responsive tableFixHead">
+                                        <div class="TESTE table-responsive tableFixHead" id="TESTE">
                                           <asp:GridView ID="dgvOutrasTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
@@ -1108,8 +1108,8 @@
     <asp:SqlDataSource ID="dsInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,
 case when A.ID_ACCOUNT_TIPO_INVOICE = 2 then
-B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,A.NM_AGENTE,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
-        CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE(CONVERT(varchar,@DATAINICIAL,103),CONVERT(varchar,@DATAFINAL,103))) AS A 
+B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,SUBSTRING(A.NM_AGENTE,0,15)NM_AGENTE,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,
+        CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,SUBSTRING(A.DS_OBSERVACAO,0,50)DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE(CONVERT(varchar,@DATAINICIAL,103),CONVERT(varchar,@DATAFINAL,103))) AS A 
 INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE 
         group by A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_PARCEIRO_AGENTE">
         <SelectParameters>
@@ -1305,7 +1305,7 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
 
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox2.ClientID %>').value;
-            document.getElementById('DivGrid').scrollTop = valor;
+            document.getElementById('TESTE').scrollTop = 130;
         };
     </script>
 </asp:Content>

@@ -20,6 +20,7 @@
                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="False">
                             <ContentTemplate>
                                 <asp:Label runat="server" ID="lbl_ISS" CssClass="control-label" Style="display: none" />
+                                <asp:TextBox ID="txtCancelaOperacao" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtID_BL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
                                 <asp:TextBox ID="txtLinhaBL" Style="display: none" runat="server" CssClass="form-control"></asp:TextBox>
 
@@ -172,7 +173,7 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <br />
-                                            <asp:Button runat="server" Text="Montar Pagamento" ID="btnMontar" CssClass="btn btn-success" />
+                                            <asp:Button runat="server" Text="Montar Pagamento" ID="btnMontar" CssClass="btn btn-success" onClientclick="ConfirmaValorZerado();" />
                                             <asp:Button runat="server" Text="Cancelar" ID="btnCancelar" CssClass="btn btn-danger" />
                                         </div>
                                     </div>
@@ -244,5 +245,27 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CONTA_BANCARIA] ORDER BY ID_CONTA_BAN
             document.getElementById('DivGrid').scrollTop = valor;
         };
 
+
+         function ConfirmaValorZerado() {
+
+             var txtvalor = document.getElementById('<%= txtValor.ClientID %>').value;
+             console.log("valorzerado:" + txtvalor);
+             if (txtvalor == "" || txtvalor == "0" || txtvalor == "R$ 0,00" || txtvalor == "R$ 0" || txtvalor == "0,00") {
+                 var retorno = confirm("Valor zerado. Deseja continuar assim mesmo?");
+                 if (retorno == true) {
+                     console.log("Operação confirmada");
+                     document.getElementById('<%= txtCancelaOperacao.ClientID %>').value = 0;
+                 }
+                 else {
+                     console.log("Você cancelou a operação");
+                     document.getElementById('<%= txtCancelaOperacao.ClientID %>').value = 1;
+                 }
+             }
+             else {
+                     console.log("Nem entrou no if");
+                     document.getElementById('<%= txtCancelaOperacao.ClientID %>').value = 0;
+             }     
+            
+         };
      </script> 
 </asp:Content>

@@ -1877,6 +1877,8 @@ ID_MERCADORIA,ID_TIPO_CONTAINER,QT_CONTAINER,VL_FRETE_COMPRA,VL_FRETE_VENDA,VL_P
                         CalculaCotacao()
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, Session("RefPeso"), Session("RefVolume"), Session("RefPesoSum"), Session("RefVolumeSum"))
+                        ' RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+
                         RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
 
                         Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
