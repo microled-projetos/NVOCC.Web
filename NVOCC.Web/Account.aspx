@@ -485,8 +485,8 @@
                                      
                                       
                                        <div class="col-sm-12">
-                                            <div class="table-responsive tableFixHead" Style="max-height: 400px; overflow: auto;">
-                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false"  AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
+                                            <div class="table-responsive tableFixHead">
+                                     <asp:GridView ID="dgvItensInvoice" DataKeyNames="ID_ACCOUNT_INVOICE_ITENS" DataSourceID="dsItensInvoice" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro vinculado à invoice.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_ACCOUNT_INVOICE_ITENS"  HeaderText="ID" Visible="False" SortExpression="ID_ACCOUNT_INVOICE_ITENS" />
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
@@ -825,7 +825,7 @@
                                        <div class="col-sm-12">
                                     <div class="form-group">
 
-                                        <div class="TESTE table-responsive tableFixHead" id="TESTE">
+                                        <div class="table-responsive tableFixHead">
                                           <asp:GridView ID="dgvOutrasTaxas" DataKeyNames="ID_BL_TAXA" DataSourceID="dsOutrasTaxas" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado."  Visible="false">
                                             <Columns>
                                                  <asp:TemplateField>
@@ -1305,7 +1305,7 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
 
         function EndRequestHandler(sender, args) {
             var valor = document.getElementById('<%= TextBox2.ClientID %>').value;
-            document.getElementById('TESTE').scrollTop = 130;
+            document.getElementById('DivGrid').scrollTop = valor;
         };
     </script>
 </asp:Content>
