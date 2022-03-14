@@ -279,6 +279,12 @@ WHERE ID_PARCEIRO =" & ID)
         Dim ds As DataSet
 
         Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim UF As String = ""
+        Dim dsUf As DataSet = Con.ExecutarQuery("SELECT ISNULL(E.SIGLA_ESTADO,0)UF FROM TB_ESTADO E INNER JOIN TB_CIDADE C ON C.ID_ESTADO = E.ID_ESTADO WHERE C.ID_CIDADE = " & ddlCidade.SelectedValue)
+        If dsUf.Tables(0).Rows.Count > 0 Then
+            UF = dsUf.Tables(0).Rows(0).Item("UF")
+        End If
 
         If txtQtdFaturamento.Text = "" Then
             txtQtdFaturamento.Text = 0
@@ -381,9 +387,14 @@ WHERE ID_PARCEIRO =" & ID)
             msgErro.Text = "Preencha todos os campos obrigatórios."
             divmsg1.Visible = True
             msgErro.Visible = True
+
+        ElseIf ddlTipoPessoa.SelectedValue = 1 And ValidaInscricao(UF, txtInscEstadual.Text) = False Then
+            msgErro.Text = "Inscrição estadual invalida."
+            divmsg1.Visible = True
+            msgErro.Visible = True
         Else
 
-            Con.Conectar()
+
             txtInscEstadual.Text = txtInscEstadual.Text.Replace(".", String.Empty)
             txtInscEstadual.Text = txtInscEstadual.Text.Replace(" ", String.Empty)
             txtInscEstadual.Text = txtInscEstadual.Text.Replace("-", String.Empty)
@@ -1203,6 +1214,21 @@ WHERE ID_PARCEIRO =" & ID)
 
     End Sub
 
+    Function ValidaInscricao(UF As String, Inscr As String)
+        Dim Con As New Conexao_sql
+
+        Con.Conectar()
+        Dim ds As DataSet = Con.ExecutarQuery("SELECT [dbo].[fncValida_Inscricao_Estadual_Geral]('" & UF & "', '" & Inscr & "')Inscricao_Valida")
+        If ds.Tables(0).Rows(0).Item("Inscricao_Valida") = True Then
+
+            Return True
+        Else
+            Return False
+
+        End If
+        Con.Fechar()
+
+    End Function
     Public Sub Limpar(ByVal controlP As Control)
         Dim ctl As Control
 

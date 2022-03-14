@@ -2361,6 +2361,7 @@ end ID_ORIGEM_PAGAMENTO
                 divErro.Visible = True
                 lblmsgErro.Text = "Follow Up já realizado!"
             Else
+                lkFollowUp.Visible = False
                 Dim ds As DataSet = Con.ExecutarQuery("SELECT B.NM_RAZAO AS CLIENTE,C.NM_TIPO_ESTUFAGEM,O.CD_SIGLA AS ORIGEM,D.CD_SIGLA AS DESTINO,I.NM_INCOTERM, NR_COTACAO, J.NM_CONTATO AS CONTATO,isnull(lower(EMAIL_CONTATO),'')EMAIL_CONTATO,K.NM_RAZAO as CNEE
     FROM TB_COTACAO A 
     LEFT JOIN TB_PARCEIRO B ON  B.ID_PARCEIRO = A.ID_CLIENTE
@@ -2405,7 +2406,7 @@ end ID_ORIGEM_PAGAMENTO
             End If
         End If
 
-
+        lkFollowUp.Visible = True
     End Sub
 
     Function processaFila(destinatario As String, msg As String, assunto As String) As Boolean
