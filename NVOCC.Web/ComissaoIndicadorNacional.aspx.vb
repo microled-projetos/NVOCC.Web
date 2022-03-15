@@ -422,7 +422,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             divSuccess.Visible = True
             lblmsgSuccess.Text = "Comissão exportada para o processo com sucesso!"
             CarregaGrid()
-
+            ModalPopupExtender6.Hide()
             ddlContaBancaria.SelectedValue = 0
         End If
 
