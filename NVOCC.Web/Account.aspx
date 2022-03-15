@@ -582,6 +582,11 @@
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID_BL") %>'  />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ID_BL_TAXA" Visible="False">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblTAXA" runat="server" Text='<%# Eval("ID_BL_TAXA") %>'  />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                  <asp:BoundField DataField="NM_ITEM_DESPESA" HeaderText="TAXA" SortExpression="NM_ITEM_DESPESA" />
                                                 <asp:BoundField DataField="SIGLA_MOEDA" HeaderText="MOEDA" SortExpression="SIGLA_MOEDA" />                        

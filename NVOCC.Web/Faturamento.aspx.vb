@@ -316,26 +316,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Exit Sub
 
                     ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                        If lblContador.Text = "" Then
-                            divInfo.Visible = True
-                            lblmsgInfo.Text = "A NOTA FISCAL JÁ FOI GERADA.<br/>CONFIRMA O CANCELAMENTO DA FATURA ASSIM MESMO?"
-                            lblContador.Text = 1
-                            ModalPopupExtender3.Show()
-                            btnSalvarCancelamento.Text = "Confirmar Cancelamento"
-                            Exit Sub
-                        Else
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
-                            Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = NULL WHERE ID_CONTA_PAGAR_RECEBER  IN  (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO  WHERE ID_FATURAMENTO = " & txtID.Text & " )")
-
-                            Con.Fechar()
-                            lblContador.Text = ""
-                            btnSalvarCancelamento.Text = "Salvar"
-                            divInfo.Visible = False
-                            divSuccess.Visible = True
-                            dgvFaturamento.DataBind()
-                            lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
-                        End If
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: A NOTA FISCAL JÁ FOI GERADA!"
+                        Exit Sub
 
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)

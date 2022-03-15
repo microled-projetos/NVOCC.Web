@@ -104,6 +104,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlTransportador_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodTransportador_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodTransportador_Maritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlOrigem_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -176,6 +185,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlArmazemAtracacao_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodArmazemAtracacao_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodArmazemAtracacao_Maritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlArmazemDescarga_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -185,6 +203,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlArmazemDescarga_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtCodArmazemDescarga_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodArmazemDescarga_Maritimo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlAgenciaMaritima_BasicoMaritimo.
     '''</summary>
     '''<remarks>
@@ -192,6 +219,15 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlAgenciaMaritima_BasicoMaritimo As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle txtCodAgenciaMaritima_Maritimo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodAgenciaMaritima_Maritimo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle txtTarifaMasterMin_BasicoMaritimo.

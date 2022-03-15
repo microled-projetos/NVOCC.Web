@@ -178,19 +178,22 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
+                        txtCodTransportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                         ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")) Then
+                        txtCodArmazemAtracacao_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")
                         ddlArmazemAtracacao_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")
-
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")) Then
+                        txtCodArmazemDescarga_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")
                         ddlArmazemDescarga_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")) Then
+                        txtCodAgenciaMaritima_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")
                         ddlAgenciaMaritima_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")
                     End If
 

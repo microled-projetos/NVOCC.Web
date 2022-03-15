@@ -143,7 +143,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
             ddlOrigemFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PORTO_ORIGEM").ToString()
             txtCodTransportador.Text = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             Session("ID_TRANSPORTADOR") = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
-
             ddlTransportadorFrete.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlFornecedor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_TRANSPORTADOR").ToString()
             ddlDestinatarioComercial.SelectedValue = ds.Tables(0).Rows(0).Item("ID_DESTINATARIO_COMERCIAL").ToString()
@@ -163,17 +162,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_STATUS_COTACAO"
                 End If
             End If
 
-            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_AUXILIAR")) Then
-            '    txtRefAuxiliar.Text = ds.Tables(0).Rows(0).Item("REF_AUXILIAR").ToString()
-            'End If
 
-            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_CONSIGNEE")) Then
-            '    txtRefConsignee.Text = ds.Tables(0).Rows(0).Item("REF_CONSIGNEE").ToString()
-            'End If
-
-            'If Not IsDBNull(ds.Tables(0).Rows(0).Item("REF_SHIPPER")) Then
-            '    txtRefShipper.Text = ds.Tables(0).Rows(0).Item("REF_SHIPPER").ToString()
-            'End If
 
             txtCodAgente.Text = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
             ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_AGENTE_INTERNACIONAL").ToString()
@@ -1221,15 +1210,17 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                                 NumeroProcesso()
                             Else
 
-
                                 Dim RotinaUpdate As New RotinaUpdate
                                 RotinaUpdate.UpdateInfoBasicas(txtID.Text, txtProcessoCotacao.Text)
+                                RotinaUpdate.UpdateFrete(txtID.Text, txtProcessoCotacao.Text)
+                                RotinaUpdate.UpdateFreteTaxa(txtID.Text, txtProcessoCotacao.Text)
                                 Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
                                 If ds2.Tables(0).Rows.Count > 0 Then
                                     For Each linha As DataRow In ds2.Tables(0).Rows
                                         RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), txtProcessoCotacao.Text)
                                     Next
                                 End If
+
                             End If
 
 
