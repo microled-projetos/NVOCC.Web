@@ -388,11 +388,14 @@ WHERE ID_PARCEIRO =" & ID)
             divmsg1.Visible = True
             msgErro.Visible = True
 
-        ElseIf ddlTipoPessoa.SelectedValue = 1 And ValidaInscricao(UF, txtInscEstadual.Text) = False Then
-            msgErro.Text = "Inscrição estadual invalida."
-            divmsg1.Visible = True
-            msgErro.Visible = True
+
         Else
+
+
+            If ddlTipoPessoa.SelectedValue = 1 And ValidaInscricao(UF, txtInscEstadual.Text) = False Then
+                lblInformacao.Text = "Averigue a Inscrição Estadual!"
+                divInformativa.Visible = True
+            End If
 
 
             txtInscEstadual.Text = txtInscEstadual.Text.Replace(".", String.Empty)
