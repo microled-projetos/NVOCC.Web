@@ -611,6 +611,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
 
     Private Sub btnIncluirComissoes_Click(sender As Object, e As EventArgs) Handles btnIncluirComissoes.Click
         Dim operador As String = VerificaPositivoNegativo()
+        btnIncluirComissoes.Visible = False
 
         For Each linha As GridViewRow In dgvComissoes.Rows
             Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
@@ -636,10 +637,11 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirComissoes.Visible = True
     End Sub
     Private Sub btnIncluirOutrasTaxas_Click(sender As Object, e As EventArgs) Handles btnIncluirOutrasTaxas.Click
         Dim operador As String = VerificaPositivoNegativo()
-
+        btnIncluirOutrasTaxas.Visible = False
         For Each linha As GridViewRow In dgvOutrasTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -659,6 +661,8 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirOutrasTaxas.Visible = True
+
     End Sub
     Private Sub lkAvisoEmbarque_Click(sender As Object, e As EventArgs) Handles lkAvisoEmbarque.Click
         divErro.Visible = False
@@ -937,25 +941,6 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
                 filtro &= " AND NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'"
             End If
 
-
-
-            '            Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
-            ',NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
-            'CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
-
-            '(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
-            'END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
-
-            '(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
-            'END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
-            '(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-            '(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-            'FROM [dbo].[View_House] A
-            'LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL 
-            ' WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) 
-            '" & filtro & "
-            'ORDER BY NR_PROCESSO"
-
             Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
 ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
 CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
@@ -1179,7 +1164,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
 
     Private Sub btnIncluirTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasExteriorDeclaradas.Click
         Dim operador As String = VerificaPositivoNegativo()
-
+        btnIncluirTaxasExteriorDeclaradas.Visible = False
         For Each linha As GridViewRow In dgvTaxasExteriorDeclaradas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -1199,6 +1184,8 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirTaxasExteriorDeclaradas.Visible = True
+
     End Sub
 
     Private Sub btnFecharTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExteriorDeclaradas.Click
