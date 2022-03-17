@@ -91,7 +91,8 @@
                                 <br />
                                 <br />
                                 <div class="row">
-                                    <div class="table-responsive tableFixHead" runat="server" id="gridPagar">
+                                    <div runat="server" id="gridPagar">
+                                        <div class="DivGridPagar table-responsive tableFixHead" id="DivGridPagar">
                                         <asp:GridView ID="dgvTaxasPagar" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsPagar" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -101,7 +102,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnClick="SalvaPosicaoPagamento()" />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -128,8 +129,10 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
+                                            </div>
                                     </div>
-                                    <div class="table-responsive tableFixHead" runat="server" id="gridReceber">
+                                    <div runat="server" id="gridReceber">
+                                        <div class="DivGridReceber table-responsive tableFixHead" id="DivGridReceber">
                                         <asp:GridView ID="dgvTaxasReceber" DataKeyNames="ID_CONTA_PAGAR_RECEBER" DataSourceID="dsReceber" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="ID" Visible="False">
@@ -139,7 +142,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" runat="server"  AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" AutoPostBack="true" OnClick="SalvaPosicaoRecebimento()"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -204,6 +207,7 @@
                                             </Columns>
                                             <HeaderStyle CssClass="headerStyle" />
                                         </asp:GridView>
+                                            </div>
                                     </div>
 
                                 </div>
@@ -238,10 +242,6 @@
       
                                        </div>     </center>
                                 </asp:Panel>
-
-
-
-
 
                                 <ajaxToolkit:ModalPopupExtender ID="ModalPopupExtender1" runat="server" PopupControlID="Panel2" TargetControlID="btnBaixar" CancelControlID="btnFecharBaixa"></ajaxToolkit:ModalPopupExtender>
                                 <asp:Panel ID="Panel2" runat="server" CssClass="modalPopup" Style="display: none;">
@@ -347,21 +347,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal-ajuda">
-   <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Sobre NVOCC:</h4>
-            </div>
-            <div class="modal-body">
-                <strong>Objetivo:</strong>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-            </div>
-        </div>
-    </div>
-</div>
+    <asp:TextBox ID="TextBox1" Style="display:none" Text="0" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsPagar" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT * FROM [dbo].[View_Baixas_Cancelamentos] WHERE CD_PR =  'P' AND DT_LIQUIDACAO IS NULL ORDER BY DT_VENCIMENTO DESC, NR_FATURA_FORNECEDOR"></asp:SqlDataSource>
 
@@ -372,10 +358,50 @@
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
-     <script>
+     <script type="text/javascript">
+         function SalvaPosicaoPagamento() {
+             var posicao = document.getElementById('DivGridPagar').scrollTop;
+             if (posicao) {
+                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
 
-         $('#ajuda').on("click", function () {
-             $('#modal-ajuda').modal('show');
-         });
+             }
+            else {
+                document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('else:' + posicao);
+
+             }
+         };
+
+         function SalvaPosicaoRecebimento() {
+             var posicao = document.getElementById('DivGridReceber').scrollTop;
+            
+             if (posicao) {
+                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                console.log('if:' + posicao);
+
+             }
+            else {
+                 document.getElementById('<%= TextBox1.ClientID %>').value = posicao;
+                 console.log('else:' + posicao);
+
+             }
+         };    
+
+         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+        function EndRequestHandler(sender, args) {
+            var valor = document.getElementById('<%= TextBox1.ClientID %>').value;
+            if (valor != null) {
+                console.log('entrou:' + valor);
+                if (document.getElementById('DivGridReceber')) {
+                    document.getElementById('DivGridReceber').scrollTop = valor;
+                }
+                if (document.getElementById('DivGridPagar')) {
+                    document.getElementById('DivGridPagar').scrollTop = valor;
+                }                
+            }
+           
+        };
      </script>
 </asp:Content>

@@ -90,7 +90,7 @@ FROM [TB_PARCEIRO] A WHERE ID_PARCEIRO =" & ddlFornecedor.SelectedValue)
                         lbl_ISS.Text = ds.Tables(0).Rows(0).Item("VL_ALIQUOTA_ISS")
                     End If
 
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ID_BL,ID_BL_MASTER,GRAU,ISNULL(ID_SERVICO,0)ID_SERVICO,(SELECT TP_SERVICO FROM TB_SERVICO WHERE ID_SERVICO = A.ID_SERVICO)TP_SERVICO, CASE WHEN GRAU = 'C' THEN (SELECT CASE WHEN DT_CHEGADA < GETDATE() THEN GETDATE() ELSE DT_CHEGADA END FROM TB_BL B WHERE B.ID_BL = A.ID_BL_MASTER) WHEN GRAU = 'M' AND DT_CHEGADA < GETDATE() THEN GETDATE() WHEN GRAU = 'M' THEN DT_CHEGADA END DT_CHEGADA
 FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                     Dim DATA As Date
                     If IsDBNull(ds1.Tables(0).Rows(0).Item("DT_CHEGADA")) And ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
@@ -98,6 +98,11 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
                         divErro.Visible = True
                         Exit Sub
                     End If
+
+                    If IsDBNull(ds1.Tables(0).Rows(0).Item("TP_SERVICO")) Then
+                        lblTpServico.Text = ds1.Tables(0).Rows(0).Item("TP_SERVICO")
+                    End If
+
                     If ds1.Tables(0).Rows(0).Item("ID_SERVICO") <= 2 Then
                         If ds.Tables(0).Rows(0).Item("ID_TIPO_FATURAMENTO") = 1 Then
                             DATA = Now.Date.ToString("dd-MM-yyyy")
@@ -442,11 +447,10 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
             divErro.Visible = True
             Exit Sub
 
-        ElseIf lblAcordo.Text = "" Then
+        ElseIf lblAcordo.Text = "" And lblTpServico.Text <> "" Then
             lblErro.Text = "É necessário preencher o acordo de câmbio no cadastro do parceiro!"
             divErro.Visible = True
             Exit Sub
-
         Else
             If lblDiasFaturamento.Text = "" Then
                 lblDiasFaturamento.Text = 0
@@ -468,7 +472,7 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
 
             If lblProceso.Text <> "" Then
                 If lblProceso.Text.Substring(0, 1) = "L" Then
-                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = GETDATE(), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER= " & ID_CONTA_PAGAR_RECEBER)
+                    Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_LIQUIDACAO = CONVERT(DATE,'" & txtVencimento.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & " WHERE ID_CONTA_PAGAR_RECEBER= " & ID_CONTA_PAGAR_RECEBER)
                 End If
             End If
 

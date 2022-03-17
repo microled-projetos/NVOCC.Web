@@ -32,6 +32,15 @@ Partial Public Class CalcularRecebimento
     Protected WithEvents lblID_CONTA_PAGAR_RECEBER As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle lblTpServico.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblTpServico As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle UpdatePanel5.
     '''</summary>
     '''<remarks>

@@ -354,6 +354,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click
+        btnGerarComissao.Visible = False
         divSuccess.Visible = False
         divErro.Visible = False
         divAtencaoGerarComissao.Visible = False
@@ -387,17 +388,20 @@ FROM            dbo.TB_CABECALHO_COMISSAO_VENDEDOR AS A LEFT OUTER JOIN
                     lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
                     divErroGerarComissao.Visible = True
                 Else
-                    btnGerarComissao.Visible = False
+
                     Dim NOVA_COMPETECIA As String = txtNovaCompetencia.Text
                     NOVA_COMPETECIA = NOVA_COMPETECIA.Replace("/", "")
                     Dim dsInsert As DataSet
                     Dim cabecalho As String
 
-                    If lblCompetenciaSobrepor.Text <> 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & lblCompetenciaSobrepor.Text)
-                        Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & lblCompetenciaSobrepor.Text)
-                        Con.ExecutarQuery("DELETE FROM TB_INSIDE_VENDEDOR WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & lblCompetenciaSobrepor.Text)
-                    End If
+                    Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_VENDEDOR  WHERE ID_CABECALHO_COMISSAO_VENDEDOR 
+IN (SELECT ID_CABECALHO_COMISSAO_VENDEDOR FROM TB_CABECALHO_COMISSAO_VENDEDOR WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "')")
+
+                    Con.ExecutarQuery("DELETE FROM TB_INSIDE_VENDEDOR  WHERE ID_CABECALHO_COMISSAO_VENDEDOR 
+IN (SELECT ID_CABECALHO_COMISSAO_VENDEDOR FROM TB_CABECALHO_COMISSAO_VENDEDOR WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "')")
+
+                    Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_VENDEDOR WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "'")
+
 
                     If lblContasReceber.Text <> 0 Then
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
@@ -427,14 +431,13 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
                     divErro.Visible = False
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
-                    btnGerarComissao.Visible = True
                 End If
             End If
 
         End If
 
 
-
+        btnGerarComissao.Visible = True
         ModalPopupExtender3.Show()
     End Sub
 

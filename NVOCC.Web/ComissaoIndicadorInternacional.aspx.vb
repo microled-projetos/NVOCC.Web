@@ -256,6 +256,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click
+        btnGerarComissao.Visible = False
         divAtencaoGerarComissao.Visible = False
         divSuccessGerarComissao.Visible = False
         divErroGerarComissao.Visible = False
@@ -288,9 +289,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 If dsQtd.Tables(0).Rows.Count = 0 Then
                     lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
                     divErroGerarComissao.Visible = True
-                    'ElseIf Not IsDBNull(dsQtd.Tables(0).Rows(0).Item("DT_PAGAMENTO_EXP")) Then
-                    '    lblErroGerarComissao.Text = "Reprocessamento não permitido: Competencia já exportada!"
-                    '    divErroGerarComissao.Visible = True
+
                 Else
 
                     dsQtd = Con.ExecutarQuery("SELECT ID_PARCEIRO_VENDEDOR,(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_VENDEDOR)NM_RAZAO,
@@ -326,17 +325,19 @@ FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiqu
                         txtObs.Text = "'" & txtObs.Text & "'"
                     End If
 
-                    btnGerarComissao.Visible = False
+
 
                     Dim NOVA_COMPETECIA As String = txtNovaCompetencia.Text
                     NOVA_COMPETECIA = NOVA_COMPETECIA.Replace("/", "")
                     Dim dsInsert As DataSet
                     Dim cabecalho As String
 
-                    If lblCompetenciaSobrepor.Text <> 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL = " & lblCompetenciaSobrepor.Text)
-                        Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL = " & lblCompetenciaSobrepor.Text)
-                    End If
+
+                    Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_INTERNACIONAL WHERE ID_CABECALHO_COMISSAO_INTERNACIONAL 
+IN (SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL FROM TB_CABECALHO_COMISSAO_INTERNACIONAL WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "')")
+
+                    Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_INTERNACIONAL WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "' ")
+
 
                     If lblContasReceber.Text <> 0 Then
                         Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
@@ -353,7 +354,6 @@ FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiqu
 LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR 
 WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
 
-                    btnGerarComissao.Visible = True
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
                     txtObs.Text = txtObs.Text.Replace("NULL", "")
@@ -366,7 +366,7 @@ WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_T
         End If
 
 
-
+        btnGerarComissao.Visible = True
         ModalPopupExtender3.Show()
     End Sub
 

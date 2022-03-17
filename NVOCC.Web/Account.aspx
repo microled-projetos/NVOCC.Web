@@ -22,7 +22,7 @@
 
         .tableFixHead {
             overflow-y: auto;
-            max-height: 400px;
+            max-height: 300px;
             overflow-x: auto;
             max-width: 100%;
         }
@@ -509,7 +509,7 @@
                                         </asp:GridView>
                                                 </div>
                                            </div>
-                                                                </div>
+                                                                </div><br />
                                                             <div class="row">
                                      
                                       
@@ -573,7 +573,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" onclick="SomaDevolucao()"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -674,7 +674,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" onclick="SomaTaxasExteriorDeclaras()" />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -757,7 +757,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" onclick="SomaComissoes()"/>
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -835,7 +835,7 @@
                                             <Columns>
                                                  <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="ckbSelecionar" cheched="True" runat="server" AutoPostBack="true"/>
+                                                        <asp:CheckBox ID="ckbSelecionar" runat="server" onclick="SomaOutrasTaxas()" />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>
@@ -1033,13 +1033,14 @@
                                                     <asp:BoundField DataField="DT_VENCIMENTO" HeaderText="DATA VENCIMENTO" SortExpression="DT_VENCIMENTO" />
                                                     <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                     <asp:BoundField DataField="NR_BL" HeaderText="Nº BL" SortExpression="NR_BL" />
-                                                   <%-- <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />--%>
-                                                         <asp:TemplateField HeaderText="AGENTE" HeaderStyle-ForeColor="#337ab7" HeaderStyle-HorizontalAlign="Center" SortExpression="NM_AGENTE">
-                    <ItemTemplate>
-                            <a href="DadosBancariosAgente.aspx?tipo=a&id=<%# Eval("ID_PARCEIRO_AGENTE") %>" title="AGENTE" target="_blank" > <asp:Label ID="lblAgente" runat="server" Text='<%# Eval("NM_AGENTE") %>' /></a>
-                    </ItemTemplate>
-                     <ItemStyle VerticalAlign="Middle" CssClass="campo-acao" />
-                </asp:TemplateField>
+                                                    <%-- <asp:BoundField DataField="NM_AGENTE" HeaderText="AGENTE" SortExpression="NM_AGENTE" />--%>
+                                                    <asp:TemplateField HeaderText="AGENTE" HeaderStyle-ForeColor="#337ab7" HeaderStyle-HorizontalAlign="Center" SortExpression="NM_AGENTE">
+                                                        <ItemTemplate>
+                                                            <a href="DadosBancariosAgente.aspx?tipo=a&id=<%# Eval("ID_PARCEIRO_AGENTE") %>" title="AGENTE" target="_blank">
+                                                                <asp:Label ID="lblAgente" runat="server" Text='<%# Eval("NM_AGENTE") %>' /></a>
+                                                        </ItemTemplate>
+                                                        <ItemStyle VerticalAlign="Middle" CssClass="campo-acao" />
+                                                    </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="CONFERIDO" SortExpression="FL_CONFERIDO">
                                                         <ItemTemplate>
                                                             <asp:CheckBox ID="ckbConferido" Checked='<%# Eval("FL_CONFERIDO") %>' Enabled="false" runat="server" AutoPostBack="true" />
@@ -1193,7 +1194,7 @@ union SELECT 0, 'Selecione' FROM TB_ACCOUNT_TIPO_FATURA ORDER BY ID_ACCOUNT_TIPO
     <asp:SqlDataSource ID="dsMoeda" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] WHERE ID_MOEDA <> 124 union SELECT 0, 'Selecione' FROM [dbo].[TB_MOEDA] ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
- <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsProcessoPeriodo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
 ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
 CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
@@ -1313,5 +1314,148 @@ WHERE A.ID_ACCOUNT_INVOICE = @ID_ACCOUNT_INVOICE ">
             var valor = document.getElementById('<%= TextBox2.ClientID %>').value;
             document.getElementById('DivGrid').scrollTop = valor;
         };
+
+
+        function SomaOutrasTaxas() {
+            var total = 0;
+            var gridView = document.getElementById('<%= dgvOutrasTaxas.ClientID %>');
+            console.log('1:');
+            for (var i = 1; i < gridView.rows.length; i++) {
+                var inputs = gridView.rows[i].getElementsByTagName('input');
+
+                if (inputs[0].type == "checkbox") {
+                    if (inputs[0].checked) {
+                        console.log("sim");
+                        var auxiliar = i - 1
+                        console.log('auxiliar:' + auxiliar);
+                        var label = 'MainContent_dgvOutrasTaxas_lblValor_' + auxiliar
+
+
+                        total = parseFloat(total) + parseFloat(document.getElementById(label).innerHTML.replace('.', "").replace(',', "."));
+
+                        console.log('calculo:' + total);
+                        document.getElementById('<%= lblTotalOutrasTaxas.ClientID %>').innerHTML = total;
+                    }
+
+                }
+            }
+            document.getElementById('<%= lblTotalOutrasTaxas.ClientID %>').innerHTML = Number(total).toFixed(2);
+        }
+
+
+        function SomaTaxasExteriorDeclaras() {
+            var total = 0;
+            var gridView = document.getElementById('<%= dgvTaxasExteriorDeclaradas.ClientID %>');
+            console.log('1:');
+            for (var i = 1; i < gridView.rows.length; i++) {
+                var inputs = gridView.rows[i].getElementsByTagName('input');
+
+                if (inputs[0].type == "checkbox") {
+                    if (inputs[0].checked) {
+                        console.log("sim");
+                        var auxiliar = i - 1
+                        console.log('auxiliar:' + auxiliar);
+                        var label = 'MainContent_dgvTaxasExteriorDeclaradas_lblValor_' + auxiliar
+
+
+                        total = parseFloat(total) + parseFloat(document.getElementById(label).innerHTML.replace('.', "").replace(',', "."));
+
+                        console.log('calculo:' + total);
+                        document.getElementById('<%= lblTotalExteriorDeclaradas.ClientID %>').innerHTML = total;
+                    }
+
+                }
+            }
+            document.getElementById('<%= lblTotalExteriorDeclaradas.ClientID %>').innerHTML = Number(total).toFixed(2);
+        }
+
+
+        function SomaComissoes() {
+            var total = 0;
+            var gridView = document.getElementById('<%= dgvComissoes.ClientID %>');
+            console.log('1:');
+            for (var i = 1; i < gridView.rows.length; i++) {
+                var inputs = gridView.rows[i].getElementsByTagName('input');
+
+                if (inputs[0].type == "checkbox") {
+                    if (inputs[0].checked) {
+                        console.log("sim");
+                        var auxiliar = i - 1
+                        console.log('auxiliar:' + auxiliar);
+                        var label = 'MainContent_dgvComissoes_lblValor_' + auxiliar
+
+
+                        total = parseFloat(total) + parseFloat(document.getElementById(label).innerHTML.replace('.', "").replace(',', "."));
+
+                        console.log('calculo:' + total);
+                        document.getElementById('<%= lblTotalComissoes.ClientID %>').innerHTML = total;
+                    }
+
+                }
+            }
+            document.getElementById('<%= lblTotalComissoes.ClientID %>').innerHTML = Number(total).toFixed(2);
+        };
+
+
+        function SomaDevolucao() {
+            var gridView = document.getElementById('<%= dgvDevolucao.ClientID %>');
+             var tipodevolucao = document.getElementById('<%= ddlTipoDevolucao.ClientID %>').value;
+             var totalcompra = 0;
+             var totalvenda = 0;
+            var diferenca = 0;
+            console.log('tipodevolucao :' + tipodevolucao);
+             for (var i = 1; i < gridView.rows.length; i++) {
+                 var inputs = gridView.rows[i].getElementsByTagName('input');
+
+                 if (inputs[0].type == "checkbox") {
+                     if (inputs[0].checked) {
+                         var auxiliar = i - 1
+                         var labelcompra = 'MainContent_dgvDevolucao_lblValorCompra_' + auxiliar
+                         var labelvenda = 'MainContent_dgvDevolucao_lblValorVenda_' + auxiliar
+
+
+                         totalcompra = parseFloat(totalcompra) + parseFloat(document.getElementById(labelcompra).innerHTML.replace('.', "").replace(',', "."));
+
+                         totalvenda = parseFloat(totalvenda) + parseFloat(document.getElementById(labelvenda).innerHTML.replace('.', "").replace(',', "."));
+
+
+                     }
+
+                 }
+
+                 diferenca = parseFloat(totalvenda) - parseFloat(totalcompra);
+                
+                 if (tipodevolucao == 2) {
+                     console.log('DEVOLUÇÃO DO FRETE DE COMPRA:');
+                     //DEVOLUÇÃO DO FRETE DE COMPRA
+                     document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                     document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                     document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                 }
+                 else {
+                     if (tipodevolucao == 3) {
+                         console.log('DEVOLUÇÃO DO FRETE DE VENDA:');
+                          //DEVOLUÇÃO DO FRETE DE VENDA
+                          document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                          document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                          document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                          
+                      }
+                      else {
+                         if (tipodevolucao == 4) {
+                             console.log('DEVOLUÇÃO DA DIFERENÇA DE FRETE:');
+                                //DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                                document.getElementById('<%= lblValorFreteDevolucao.ClientID %>').innerHTML = Number(diferenca).toFixed(2);
+                                document.getElementById('<%= lblValorFreteCompra.ClientID %>').innerHTML = Number(totalcompra).toFixed(2);
+                                document.getElementById('<%= lblValorFreteVenda.ClientID %>').innerHTML = Number(totalvenda).toFixed(2);
+                         }
+
+                      }
+
+                  }
+             }
+
+        };
+
     </script>
 </asp:Content>

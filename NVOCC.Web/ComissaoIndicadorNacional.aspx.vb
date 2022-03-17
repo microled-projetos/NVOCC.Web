@@ -147,6 +147,7 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
     End Sub
 
     Private Sub btnGerarComissao_Click(sender As Object, e As EventArgs) Handles btnGerarComissao.Click
+        btnGerarComissao.Visible = False
         divAtencaoGerarComissao.Visible = False
         divSuccessGerarComissao.Visible = False
         divErroGerarComissao.Visible = False
@@ -173,7 +174,6 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                     divErroGerarComissao.Visible = True
                 Else
 
-                    btnGerarComissao.Visible = False
                     If txtObs.Text = "" Then
                         txtObs.Text = "NULL"
                     Else
@@ -185,23 +185,28 @@ FROM            dbo.TB_CABECALHO_COMISSAO_NACIONAL AS A LEFT OUTER JOIN
                     Dim dsInsert As DataSet
                     Dim cabecalho As String
 
-                    If lblCompetenciaSobrepor.Text <> "" And lblCompetenciaSobrepor.Text <> 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_NACIONAL WHERE ID_CABECALHO_COMISSAO_NACIONAL = " & lblCompetenciaSobrepor.Text)
-                        Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE ID_CABECALHO_COMISSAO_NACIONAL = " & lblCompetenciaSobrepor.Text)
+
+                    Con.ExecutarQuery("DELETE FROM TB_DETALHE_COMISSAO_NACIONAL WHERE ID_CABECALHO_COMISSAO_NACIONAL 
+IN (SELECT ID_CABECALHO_COMISSAO_NACIONAL FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "')")
+                    Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_NACIONAL WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "'")
+
+                    'If lblContasReceber.Text <> 0 Then
+                    '    Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+                    '    Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+                    'End If
+                    If lblContasReceber.Text <> 0 Then
+                        divInfoGerarComissao.Visible = True
+                        lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
                     End If
 
-                    If lblContasReceber.Text <> 0 Then
-                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
-                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
-                    End If
 
                     dsInsert = Con.ExecutarQuery("INSERT INTO TB_CABECALHO_COMISSAO_NACIONAL  (DT_COMPETENCIA,NR_QUINZENA,DT_LIQUIDACAO_INICIAL,DT_LIQUIDACAO_FINAL,ID_USUARIO_GERACAO,DT_GERACAO,DS_OBSERVACAO) VALUES('" & NOVA_COMPETECIA & "','" & txtNovaQuinzena.Text & "',CONVERT(DATE,'" & txtLiquidacaoInicial.Text & "',103),CONVERT(DATE,'" & txtLiquidacaoFinal.Text & "',103)," & Session("ID_USUARIO") & ", getdate()," & txtObs.Text & " ) Select SCOPE_IDENTITY() as ID_CABECALHO_COMISSAO_INTERNACIONAL  ")
-                cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
+                    cabecalho = dsInsert.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
 
                     Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_NACIONAL (ID_CABECALHO_COMISSAO_NACIONAL,ID_BL,NR_PROCESSO,ID_PARCEIRO_INDICADOR,ID_BL_TAXA,ID_MOEDA,VL_TAXA,VL_CAMBIO,DT_CAMBIO,VL_COMISSAO,DT_LIQUIDACAO)
-SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MOEDA,VL_TAXA_CALCULADO,VL_CAMBIO,DT_CAMBIO,VL_TAXA_CALCULADO * VL_CAMBIO AS COMISSAO,DT_LIQUIDACAO FROM FN_INDICADOR_NACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL")
+SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MOEDA,VL_TAXA_CALCULADO,VL_CAMBIO,DT_CAMBIO,VL_TAXA_CALCULADO * VL_CAMBIO AS COMISSAO,DT_LIQUIDACAO FROM FN_INDICADOR_NACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "')")
 
-                    btnGerarComissao.Visible = True
+
 
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
@@ -213,7 +218,7 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
             End If
 
         End If
-
+        btnGerarComissao.Visible = True
         ModalPopupExtender3.Show()
     End Sub
 
@@ -277,6 +282,9 @@ SELECT " & cabecalho & ", ID_BL,NR_PROCESSO,ID_PARCEIRO_EMPRESA,ID_BL_TAXA,ID_MO
         txtNovaCompetencia.Text = ""
         txtNovaQuinzena.Text = ""
         ModalPopupExtender3.Hide()
+        divSuccess.Visible = False
+        divErro.Visible = False
+
     End Sub
 
     Private Sub btnAlteraComisaao_Click(sender As Object, e As EventArgs) Handles btnAlteraComisaao.Click

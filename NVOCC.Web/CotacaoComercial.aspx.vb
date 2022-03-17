@@ -506,7 +506,7 @@ WHERE A.ID_COTACAO =" & txtID.Text & " ORDER BY ID_BASE_CALCULO_TAXA")
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 2 Then
                         '% VR DO FRETE
-                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 )QTD
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 as QTD
 FROM TB_COTACAO A
 WHERE A.ID_COTACAO =  " & txtID.Text)
 
@@ -540,9 +540,9 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
 
                     ElseIf linha.Item("ID_BASE_CALCULO_TAXA") = 3 Then
                         'VR DO FRETE
-                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 )QTD
-FROM TB_COTACAO_MERCADORIA A
-WHERE A.ID_COTACAO =  " & txtID.Text)
+                        Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_TOTAL_FRETE_VENDA),0) * 1/100 as QTD
+FROM TB_COTACAO A
+WHERE A.ID_COTACAO =   " & txtID.Text)
 
                         x = ds1.Tables(0).Rows(0).Item("QTD")
                         y = linha.Item("VL_TAXA_COMPRA")
@@ -581,7 +581,7 @@ WHERE A.ID_COTACAO =  " & txtID.Text)
 FROM TB_COTACAO A
 INNER JOIN TB_COTACAO_TAXA B ON B.ID_COTACAO = A.ID_COTACAO
 WHERE B.FL_DECLARADO = 1
-AND B.ID_MOEDA_VENDA = B.ID_MOEDA_VENDA 
+AND A.ID_MOEDA_FRETE = B.ID_MOEDA_VENDA 
 AND A.ID_COTACAO = " & txtID.Text & "
 GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
 
