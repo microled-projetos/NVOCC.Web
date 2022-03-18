@@ -34,7 +34,7 @@
                 End If
 
                 ds1 = Con.ExecutarQuery("SELECT NR_PROCESSO,NM_ITEM_DESPESA FROM [dbo].[View_BL_TAXAS]
-                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0")
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 and ID_DESTINATARIO_COBRANCA <> 3")
                 If ds1.Tables(0).Rows.Count > 0 Then
                     divErro.Visible = True
                     lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DO DESTINATÁRIO DE COBRANÇA!"
