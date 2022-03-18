@@ -1731,9 +1731,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
                 If Directory.Exists(diretorio_arquivos) Then
                     Dim di As System.IO.DirectoryInfo = New DirectoryInfo(diretorio_arquivos)
                     For Each file As FileInfo In di.GetFiles()
-                        txtArquivoSelecionado.Text = di.ToString.Substring(di.ToString.IndexOf("Content"))
-                        txtArquivoSelecionado.Text = txtArquivoSelecionado.Text & "/" & file.ToString
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo(" & ID_FATURAMENTO & ")", True)
                     Next
                 Else
                     lblmsgErro.Text = "Faturamento selecionado não possui anexo!"

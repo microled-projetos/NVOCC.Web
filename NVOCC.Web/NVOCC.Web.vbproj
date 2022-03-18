@@ -265,6 +265,7 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
+    <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
@@ -636,6 +637,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="FaturamentoArquivo.aspx.designer.vb">
+      <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FaturamentoArquivo.aspx.vb">
+      <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="AvisoEmbarque.aspx.designer.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
     </Compile>
