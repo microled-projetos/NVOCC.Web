@@ -545,7 +545,7 @@ WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
         txtContrato.Text = ""
         txtLiquidacao.Text = ""
         ddlContaBancaria.SelectedValue = 0
-
+        txtIDCC.Text = ""
         ModalPopupExtender1.Hide()
 
     End Sub
@@ -581,9 +581,12 @@ WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
 
         Else
 
-            GravaCCProcesso()
+            If txtIDCC.Text = "" Then
+                GravaCCProcesso()
+            End If
 
-            Dim dsVerificacao As DataSet = Con.ExecutarQuery("SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE DT_LIQUIDACAO IS NOT NULL AND ID_CONTA_PAGAR_RECEBER =" & txtIDBaixa.Text)
+
+            Dim dsVerificacao As DataSet = Con.ExecutarQuery("SELECT DT_LIQUIDACAO FROM TB_CONTA_PAGAR_RECEBER WHERE DT_LIQUIDACAO IS NOT NULL AND ID_CONTA_PAGAR_RECEBER =" & txtIDCC.Text)
 
             If dsVerificacao.Tables(0).Rows.Count > 0 And lblContador.Text = "" Then
 
@@ -598,13 +601,13 @@ WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
                 lblContador.Text = ""
                 btnSalvarBaixa.Text = "Baixar"
                 divInfoBaixa.Visible = False
-                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtLiquidacao.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & ", NR_DOCUMENTO = '" & txtContrato.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & txtIDBaixa.Text)
+                Con.ExecutarQuery("UPDATE [dbo].[TB_CONTA_PAGAR_RECEBER] SET [DT_LIQUIDACAO] = CONVERT(DATE,'" & txtLiquidacao.Text & "',103), ID_USUARIO_LIQUIDACAO = " & Session("ID_USUARIO") & ", NR_DOCUMENTO = '" & txtContrato.Text & "' WHERE ID_CONTA_PAGAR_RECEBER =" & txtIDCC.Text)
 
                 For Each linhaMoeda As GridViewRow In dgvMoedas.Rows
                     Dim IDMoeda As String = CType(linhaMoeda.FindControl("lblMoeda"), Label).Text
                     Dim Cambio As String = CType(linhaMoeda.FindControl("txtValorCambio"), TextBox).Text
 
-                    Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_MOEDA = " & IDMoeda & " AND ID_CONTA_PAGAR_RECEBER = " & txtIDBaixa.Text)
+                    Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_CONTA_PAGAR_RECEBER_ITENS FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_MOEDA = " & IDMoeda & " AND ID_CONTA_PAGAR_RECEBER = " & txtIDCC.Text)
 
                     Cambio = Cambio.Replace(".", "")
                     Cambio = Cambio.Replace(",", ".")
@@ -632,6 +635,7 @@ WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
                 lblCompetencia.Text = ""
                 lblQuinzena.Text = ""
                 txtIDBaixa.Text = ""
+                txtIDCC.Text = ""
                 txtContrato.Text = ""
                 txtLiquidacao.Text = ""
                 ddlContaBancaria.SelectedValue = 0
@@ -664,7 +668,7 @@ WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
 
         Con.ExecutarQuery("UPDATE TB_CABECALHO_COMISSAO_INTERNACIONAL SET DT_EXPORTACAO = GETDATE(),ID_USUARIO_EXPORTACAO = " & Session("ID_USUARIO") & " WHERE DT_COMPETENCIA = '" & txtCompetencia.Text.Substring(0, 2) & txtCompetencia.Text.Substring(3, 4) & "' AND NR_QUINZENA = '" & txtQuinzena.Text & "' AND ID_CABECALHO_COMISSAO_INTERNACIONAL = " & txtIDBaixa.Text)
 
-        txtIDBaixa.Text = ID_CONTA_PAGAR_RECEBER
+        txtIDCC.Text = ID_CONTA_PAGAR_RECEBER
 
     End Sub
 
