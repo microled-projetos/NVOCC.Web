@@ -114,7 +114,7 @@ Public Class FrmPrincipal
     End Sub
 
     Private Sub FrmPrincipal_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Text = "FCA - Log :: Cadastro - Versão: " & Application.ProductVersion.ToString()
+        Text = "FCA - Log :: Cadastro - Versão: 23.03.2022.1" '& Application.ProductVersion.ToString()
         Dim enumerator As IEnumerator = Nothing
 
         Try

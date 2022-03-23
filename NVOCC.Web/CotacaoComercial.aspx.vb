@@ -1962,12 +1962,16 @@ WHERE  FL_DECLARADO = 1 AND A.ID_COTACAO = " & txtID.Text & " ")
                     Con.ExecutarQuery("UPDATE TB_COTACAO SET DT_ENVIO_COTACAO = GETDATE(), ID_STATUS_COTACAO = 15, DT_STATUS_COTACAO = GETDATE(), ID_USUARIO_STATUS = " & Session("ID_USUARIO") & "  WHERE ID_COTACAO = " & txtID.Text)
 
                     Dim RotinaUpdate As New RotinaUpdate
+                    RotinaUpdate.UpdateInfoBasicas(txtID.Text, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
+                    RotinaUpdate.UpdateFrete(txtID.Text, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
+                    RotinaUpdate.UpdateFreteTaxa(txtID.Text, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
                     Dim ds2 As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO_TAXA FROM TB_COTACAO_TAXA WHERE ID_COTACAO = " & txtID.Text)
                     If ds2.Tables(0).Rows.Count > 0 Then
                         For Each linha As DataRow In ds2.Tables(0).Rows
                             RotinaUpdate.UpdateTaxas(txtID.Text, linha.Item("ID_COTACAO_TAXA"), ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
                         Next
                     End If
+
                 End If
 
 

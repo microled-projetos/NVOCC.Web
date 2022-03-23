@@ -134,13 +134,27 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
             End If
 
 
-            dsComissao.SelectCommand = "SELECT * FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+            Dim Sql As String = "SELECT * FROM [dbo].[View_Comissao_Internacional] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' AND NR_QUINZENA ='" & txtQuinzena.Text & "' " & filtro & " ORDER BY PARCEIRO_VENDEDOR,NR_PROCESSO"
+            dsComissao.SelectCommand = Sql
             dgvComissoes.DataBind()
             ddlFiltro.SelectedValue = 0
             txtPesquisa.Text = ""
             DivGrid2.Visible = True
             lblCompetencia.Text = txtCompetencia.Text
             lblQuinzena.Text = txtQuinzena.Text
+            Dim Con As New Conexao_sql
+            Con.Conectar()
+            Dim ds As DataSet = Con.ExecutarQuery(Sql)
+            If ds.Tables(0).Rows.Count > 0 Then
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")) Then
+                    txtIDBaixa.Text = ds.Tables(0).Rows(0).Item("ID_CABECALHO_COMISSAO_INTERNACIONAL")
+                Else
+                    txtIDBaixa.Text = ""
+                End If
+            Else
+                txtIDBaixa.Text = ""
+            End If
+            Con.Fechar()
 
         End If
     End Sub
@@ -285,9 +299,9 @@ FROM            dbo.TB_CABECALHO_COMISSAO_INTERNACIONAL AS A LEFT OUTER JOIN
                 lblErroExcluir.Text = "Usuário não tem permissão!"
                 DivExcluir.Visible = True
             Else
-                Dim dsQtd As DataSet = Con.ExecutarQuery("SELECT DT_PAGAMENTO_EXP FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "')")
-                If dsQtd.Tables(0).Rows.Count = 0 Then
-                    lblErroGerarComissao.Text = "Não há processos liquidados nesse período!"
+                Dim dsQtd As DataSet = Con.ExecutarQuery("SELECT COUNT(*)QTD FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL ")
+                If dsQtd.Tables(0).Rows(0).Item("QTD") = 0 Then
+                    lblErroGerarComissao.Text = "Não há processos em aberto para comissão nesse período!"
                     divErroGerarComissao.Visible = True
 
                 Else
@@ -339,11 +353,10 @@ IN (SELECT ID_CABECALHO_COMISSAO_INTERNACIONAL FROM TB_CABECALHO_COMISSAO_INTERN
                     Con.ExecutarQuery("DELETE FROM TB_CABECALHO_COMISSAO_INTERNACIONAL WHERE DT_COMPETENCIA = '" & NOVA_COMPETECIA & "' AND NR_QUINZENA = '" & txtNovaQuinzena.Text & "' ")
 
 
-                    'If lblContasReceber.Text <> 0 Then
-                    '    Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
-                    '    Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
-                    'End If
                     If lblContasReceber.Text <> 0 Then
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+                        Con.ExecutarQuery("DELETE FROM TB_CONTA_PAGAR_RECEBER WHERE ID_CONTA_PAGAR_RECEBER = " & lblContasReceber.Text)
+
                         divInfoGerarComissao.Visible = True
                         lblInfoGerarComissao.Text = "Necessário exportar competência para a conta corrente do processo!"
                     End If
@@ -356,7 +369,7 @@ SELECT " & cabecalho & ",A.ID_BL,A.NR_PROCESSO,A.ID_PARCEIRO_VENDEDOR,QT_CNTR,C.
 QT_CNTR* C.VL_TAXA AS VL_COMISSAO, DT_LIQUIDACAO 
 FROM FN_INDICADOR_INTERNACIONAL('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') A
 LEFT JOIN TB_TAXA_COMISSAO_INDICADOR C ON C.ID_PARCEIRO_VENDEDOR = A.ID_PARCEIRO_VENDEDOR 
-WHERE C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
+WHERE DT_PAGAMENTO_EXP IS NULL AND C.DT_VALIDADE_INICIAL <= GETDATE() AND A.VL_TAXA > 0")
 
                     divSuccessGerarComissao.Visible = True
                     lblSuccessGerarComissao.Text = "Comissão gerada com sucesso!"
