@@ -46,7 +46,10 @@ Public Class FrmPrincipal
     Private Function UsuarioTemAcesso(ByVal NomeMenu As String) As Boolean
         Dim Usuario As Integer = Banco.UsuarioSistema
 
-        Dim sql As String = "SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 21 AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN( SELECT distinct ID_TIPO_USUARIO from TB_VINCULO_USUARIO where ID_USUARIO =  " & Conversions.ToString(Usuario) & " )"
+        Dim sql As String = "SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] A 
+LEFT JOIN TB_MENUS B ON A.ID_MENU=B.ID_MENUS 
+where NM_OBJETO = '" & NomeMenu & "' AND FL_ACESSAR = 1 AND ID_TIPO_USUARIO IN( SELECT distinct ID_TIPO_USUARIO from TB_VINCULO_USUARIO where ID_USUARIO =  " & Conversions.ToString(Usuario) & " )"
+
         Dim Ds As DataTable = New DataTable()
 
         Ds = Banco.List(sql)

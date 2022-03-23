@@ -435,7 +435,7 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
                     SubInside(cabecalho)
                     CarregaGrid()
 
-                    Con.ExecutarQuery("UPDATE TB_DETALHE_COMISSAO_VENDEDOR SET VL_COMISSAO_TOTAL = 0 WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND ID_PARCEIRO_VENDEDOR IN (157,146) ")
+                    ' Con.ExecutarQuery("UPDATE TB_DETALHE_COMISSAO_VENDEDOR SET VL_COMISSAO_TOTAL = 0 WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND ID_PARCEIRO_VENDEDOR IN (157,146) ")
 
                     divErro.Visible = False
                     divSuccessGerarComissao.Visible = True
