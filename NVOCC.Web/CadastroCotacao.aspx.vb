@@ -1037,6 +1037,10 @@ WHERE ID_COTACAO_MERCADORIA = " & ID)
             diverro.Visible = True
             lblmsgErro.Text = "Apenas cotações com agente preechido podem ser aprovadas!"
 
+        ElseIf (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) And txtDataCalculo.Text = "" Then
+            diverro.Visible = True
+            lblmsgErro.Text = "Necessário calcular cotação!"
+            Exit Sub
 
         Else
 
@@ -1161,7 +1165,6 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
                 End If
 
 
-
                 ds = Con.ExecutarQuery("SELECT COUNT(ID_GRUPO_PERMISSAO)QTD FROM [TB_GRUPO_PERMISSAO] where ID_Menu = 1025 AND FL_ATUALIZAR = 1 AND ID_TIPO_USUARIO IN(" & Session("ID_TIPO_USUARIO") & " )")
                 If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
                     diverro.Visible = True
@@ -1172,6 +1175,7 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO")
 
                     Dim d1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(ID_TIPO_PAGAMENTO,0)ID_TIPO_PAGAMENTO,DT_VALIDADE_COTACAO FROM TB_COTACAO WHERE ID_COTACAO = " & txtID.Text)
                     If d1.Tables(0).Rows.Count > 0 Then
+
                         If d1.Tables(0).Rows(0).Item("ID_TIPO_PAGAMENTO") = 0 And (ddlStatusCotacao.SelectedValue = 9 Or ddlStatusCotacao.SelectedValue = 15) Then
                             lblmsgErro.Text = "Apenas cotações com tipo de frete preechido podem ser aprovadas!"
                             diverro.Visible = True
