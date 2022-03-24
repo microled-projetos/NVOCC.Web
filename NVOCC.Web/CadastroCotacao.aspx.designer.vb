@@ -185,6 +185,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlEstufagem As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle ddlIncoterm.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''Controle ckbFreeHand.
     '''</summary>
     '''<remarks>
@@ -212,13 +221,13 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtValidade As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtEnvio.
+    '''Controle ddlStatusCotacao.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents txtEnvio As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents ddlStatusCotacao As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlUsuarioStatus.
@@ -230,15 +239,6 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlUsuarioStatus As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlStatusCotacao.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents ddlStatusCotacao As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
     '''Controle txtDataStatus.
     '''</summary>
     '''<remarks>
@@ -246,6 +246,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtDataStatus As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtEnvio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtEnvio As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle ddlStatusFreteAgente.
@@ -257,13 +266,13 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlStatusFreteAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlIncoterm.
+    '''Controle ddlTipoBL.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlIncoterm As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents ddlTipoBL As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle ddlDestinatarioComercial.
@@ -275,13 +284,31 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlDestinatarioComercial As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''Controle ddlTipoBL.
+    '''Controle txtCodTranspRodoviario.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents ddlTipoBL As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtCodTranspRodoviario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeTranspRodoviario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeTranspRodoviario As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle ddlTranspRodoviario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ddlTranspRodoviario As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
     '''Controle txtCodExportador.
@@ -2343,4 +2370,13 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsFinalDestination As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsRodoviario.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsRodoviario As Global.System.Web.UI.WebControls.SqlDataSource
 End Class

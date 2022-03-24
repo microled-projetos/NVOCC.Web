@@ -559,7 +559,7 @@ namespace ABAINFRA.Web
                 switch (Finalizado)
                 {
                     case "1":
-                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Finalizado = " AND D.FL_FINALIZA_DEMURRAGE=1 AND D1.FL_FINALIZA_DEMURRAGE= 1 ";
                         break;
                     default:
                         Finalizado = "";
@@ -569,7 +569,7 @@ namespace ABAINFRA.Web
                 switch (Ativo)
                 {
                     case "1":
-                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Ativo = " AND (D.FL_FINALIZA_DEMURRAGE != 1 OR D1.FL_FINALIZA_DEMURRAGE != 1) ";
 
 
                         break;
@@ -601,6 +601,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_IMPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
+            SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D1 ON PFCL.ID_STATUS_DEMURRAGE = D1.ID_STATUS_DEMURRAGE ";
             SQL += "WHERE PFCL.DT_CHEGADA IS NOT NULL ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
@@ -8263,6 +8264,80 @@ namespace ABAINFRA.Web
                 return "'" + campo + "';";
             }
             return "'" + campo.Substring(0, tam) + "';";
+        }
+
+        [WebMethod]
+        public string listarComissao()
+        {
+            string SQL;
+
+            SQL = "SELECT ISNULL(COMPETENCIA,'') AS COMPETENCIA, ISNULL(FORMAT(DT_INICIAL,'dd/MM/yyyy'),'') AS DT_INICIAL, ISNULL(FORMAT(DT_FINAL,'dd/MM/yyyy'),'') AS DT_FINAL, ISNULL(VL_COMISSAO,0) AS VL_COMISSAO, ISNULL(VL_COMISSAO_CC,0) AS VL_COMISSAO_CC, ISNULL(FORMAT(DT_EXPORTACAO_CC,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_CC, ISNULL(FORMAT(DT_BAIXA,'dd/MM/yyyy'),'') AS DT_BAIXA FROM VW_COMISSAO_VENDEDOR_CC ORDER BY RIGHT(COMPETENCIA,4) DESC, LEFT(COMPETENCIA,2) DESC";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarComissaoNacional()
+        {
+            string SQL;
+
+            SQL = "SELECT ISNULL(COMPETENCIA,'') AS COMPETENCIA, ISNULL(NR_QUINZENA,'') AS NR_QUINZENA, ISNULL(FORMAT(DT_INICIAL,'dd/MM/yyyy'),'') AS DT_INICIAL, ISNULL(FORMAT(DT_FINAL,'dd/MM/yyyy'),'') AS DT_FINAL, ISNULL(VL_COMISSAO,0) AS VL_COMISSAO, ISNULL(VL_COMISSAO_CC,0) AS VL_COMISSAO_CC, ISNULL(FORMAT(DT_EXPORTACAO_CC,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_CC, ISNULL(FORMAT(DT_BAIXA,'dd/MM/yyyy'),'') AS DT_BAIXA FROM VW_COMISSAO_NACIONAL_CC ORDER BY RIGHT(COMPETENCIA,4) DESC, LEFT(COMPETENCIA,2) DESC, NR_QUINZENA";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarComissaoInternacional()
+        {
+            string SQL;
+
+            SQL = "SELECT ISNULL(COMPETENCIA,'') AS COMPETENCIA, ISNULL(NR_QUINZENA,'') AS NR_QUINZENA, ISNULL(FORMAT(DT_INICIAL,'dd/MM/yyyy'),'') AS DT_INICIAL, ISNULL(FORMAT(DT_FINAL,'dd/MM/yyyy'),'') AS DT_FINAL, ISNULL(VL_COMISSAO,0) AS VL_COMISSAO, ISNULL(VL_COMISSAO_CC,0) AS VL_COMISSAO_CC, ISNULL(VL_COMISSAO_BR,0) AS VL_COMISSAO_BR, ISNULL(FORMAT(DT_EXPORTACAO_CC,'dd/MM/yyyy'),'') AS DT_EXPORTACAO_CC, ISNULL(FORMAT(DT_BAIXA,'dd/MM/yyyy'),'') AS DT_BAIXA FROM VW_COMISSAO_INTERNACIONAL_CC ORDER BY RIGHT(COMPETENCIA,4) DESC, LEFT(COMPETENCIA,2) DESC, NR_QUINZENA";
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string listarTaxasAbertas(string dataI, string dataF, string nota, string filter)
+        {
+            string SQL;
+
+            string diaI = dataI.Substring(8, 2);
+            string mesI = dataI.Substring(5, 2);
+            string anoI = dataI.Substring(0, 4);
+
+            string diaF = dataF.Substring(8, 2);
+            string mesF = dataF.Substring(5, 2);
+            string anoF = dataF.Substring(0, 4);
+            dataI = diaI + '/' + mesI + '/' + anoI;
+            dataF = diaF + '/' + mesF + '/' + anoF;
+
+            switch (filter)
+            {
+                case "1":
+                    nota = "AND NR_PROCESSO LIKE '%" + nota + "%' ";
+                    break;
+                default:
+                    nota = "";
+                    break;
+            }
+
+            SQL = "SELECT NR_PROCESSO, FORMAT(DT_EMBARQUE,'dd/MM/yyyy') AS DT_EMBARQUE, FORMAT(DT_CHEGADA,'dd/MM/yyyy') AS DT_CHEGADA, TP_ESTUFAGEM, NM_ITEM_DESPESA, ";
+            SQL += "VL_RECEBER, MOEDA_RECEBIDO, VL_RECEBIDO, VL_SALDO_RECEBER, ";
+            SQL += "VL_PAGAR, MOEDA_PAGO, VL_PAGO, VL_SALDO_PAGAR ";
+            SQL += "FROM FN_PREVISIBILIDADE_SALDO('" + dataI + "', '" + dataF + "', '') ";
+            SQL += "WHERE(VL_SALDO_RECEBER <> 0 OR VL_SALDO_PAGAR <> 0) ";
+            SQL += "" + nota + "";
+            SQL += "ORDER BY NR_PROCESSO, NM_ITEM_DESPESA ";            
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
         }
     }
 }

@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 11032022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 24032022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -540,6 +540,15 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoInternacional.aspx" />
+    <Content Include="RelatorioComissaoInternacional.aspx.cs" />
+    <Content Include="RelatorioComissaoInternacional.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoNacional.aspx" />
+    <Content Include="RelatorioComissaoNacional.aspx.cs" />
+    <Content Include="RelatorioComissaoNacional.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoVendedores.aspx" />
+    <Content Include="RelatorioComissaoVendedores.aspx.cs" />
+    <Content Include="RelatorioComissaoVendedores.aspx.designer.cs" />
     <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />

@@ -85,7 +85,7 @@
                                 <ul class="dropdown-sub">
                                     <li><a id="mnGruposUsuarios" runat="server" href="CadastrarUsuarioGrupo.aspx">Grupos de Usuários</a></li>
                                     <li><a id="mnPermissoesUsuarios" runat="server" href="CadastrarPermissao.aspx">Permissões</a></li>
-                                    <li><a id="mnUsuarios" runat="server" href="CadastrarUsuario.aspx">Usuários</a></li>
+                                    <li><a id="mnUsuarios" runat="server" href="CadastrarUsuario.aspx">Usuários&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
                                 </ul>
                             </li>
                             <li>
@@ -128,7 +128,7 @@
                                 <a href="#" id="MenuComissoes2" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
                                 <ul class="dropdown-sub" >                                  
                                     <li><a style="font-size: 13px;" href="ComissaoVendedor.aspx" runat="server" id="mnComissaoVendedor">Vendedor</a></li>
-                                    
+                                     <li><a style="font-size: 13px;" href="RelatorioComissaoVendedores.aspx" runat="server" id="mnRelComissaoVendedor">Vendedores Total CC</a></li>     
                                 </ul>
                             </li>
                             <li>
@@ -183,9 +183,11 @@
                             </li>
                             <li>
                                 <a href="#" id="MenuComissoes" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comissões&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" >                                  
+                                <ul class="dropdown-sub" style="min-width:210px !important">                                  
                                     <li><a id="mnComissaoIndicadorNacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorNacional.aspx">Indicador Nacional</a></li>
+                                     <li><a style="font-size: 13px;" href="RelatorioComissaoNacional.aspx" runat="server" id="mnRelComissaoIndicadorNacional">Indicador Nacional Total CC</a></li>
                                      <li><a id="mnComissaoIndicadorInternacional" style="font-size: 13px;" runat="server" href="ComissaoIndicadorInternacional.aspx">Indicador Internacional</a></li>
+                                     <li><a style="font-size: 13px;" href="RelatorioComissaoInternacional.aspx" runat="server" id="mnRelComissaoIndicadorInternacional">Indicador Internacional Total CC</a></li>
                                      <li><a id="mnComissaoTransportadora" style="font-size: 13px;" runat="server" href="ComissaoTransportadora.aspx">Transportadoras</a></li>
                                 </ul>
                             </li>
@@ -202,13 +204,13 @@
                             </li>
                             <li>
                                 <a href="#" id="MenuRelatoriosFinanceiros" runat="server" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios&nbsp;<i class="fa fa-caret-right"></i></a>
-                                <ul class="dropdown-sub" > 
-                                    <li><a style="font-size: 12px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
-                                    <li runat="server"  visible="false"><a style="font-size: 12px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber">Estimativa Contas a Pagar/Receber</a></li>
-                                    <li><a style="font-size: 12px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Aviso de Embarque</a></li>     
-                                    <li><a style="font-size: 12px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
-                                    <li><a style="font-size: 12px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
-                                    <li><a style="font-size: 12px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
+                                <ul class="dropdown-sub" style="min-width:220px !important" > 
+                                    <li><a style="font-size: 13px;" href="ContaPagarReceber.aspx" runat="server" id="mnContaPagarReceber">Contas Pagar e Receber</a></li> 
+                                    <li runat="server"  visible="false"><a style="font-size: 13px;" href="EstimativaContaPagarReceber.aspx" runat="server" id="mnEstimativaContaPagarReceber">Estimativa Contas a Pagar/Receber</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioInvoice.aspx" runat="server" id="mnRelatorioInvoice">Aviso de Embarque</a></li>     
+                                    <li><a style="font-size: 13px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
+                                    <li><a style="font-size: 13px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
+                                    <li><a style="font-size: 13px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
                                 </ul>
                             </li>
                             <li>

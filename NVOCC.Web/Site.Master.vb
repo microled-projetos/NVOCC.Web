@@ -84,10 +84,13 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnFinanceiro.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2029 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoVendedor.Visible = False
+                        mnRelComissaoVendedor.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2030 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoIndicadorNacional.Visible = False
+                        mnRelComissaoIndicadorNacional.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2031 And linha.Item("Acessar").ToString() = 0 Then
                         mnComissaoIndicadorInternacional.Visible = False
+                        mnRelComissaoIndicadorInternacional.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2032 And linha.Item("Acessar").ToString() = 0 Then
                         mnAccount.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2033 And linha.Item("Acessar").ToString() = 0 Then
