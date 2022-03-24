@@ -85,7 +85,7 @@
                                 <ul class="dropdown-sub">
                                     <li><a id="mnGruposUsuarios" runat="server" href="CadastrarUsuarioGrupo.aspx">Grupos de Usuários</a></li>
                                     <li><a id="mnPermissoesUsuarios" runat="server" href="CadastrarPermissao.aspx">Permissões</a></li>
-                                    <li><a id="mnUsuarios" runat="server" href="CadastrarUsuario.aspx">Usuários&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+                                    <li><a id="mnUsuarios" runat="server" href="CadastrarUsuario.aspx">Usuários</a></li>
                                 </ul>
                             </li>
                             <li>
