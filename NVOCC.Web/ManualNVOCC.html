@@ -32,7 +32,6 @@
     </style>
     <script>
         function Buscar() {
-            //window.open('ManualNVOCC.html#div3');
         };
     </script>
 </head>
@@ -53,20 +52,109 @@
             </div>
         </div>
     </nav>
-    <div id="divUsuario" style="margin-top:500px"></div>
-    <div id="divPermissoes" style="margin-top:500px"></div>
-    <div id="divGrupos" style="margin-top:500px"></div>
-    <div id="divParceiros" style="margin-top:500px"></div>
-    <div id="divCambioFCA" style="margin-top:500px"></div>
-    <div id="divCambioParceiros" style="margin-top:500px"></div>
-    <div id="divItensDespesa" style="margin-top:500px"></div>
-    <div id="divTextoCotacao" style="margin-top:500px"></div>
-    <div id="divFreteTransportador" style="margin-top:500px"></div>
-    <div id="divCotacao" style="margin-top:500px"></div>
-    <div id="divComissoes" style="margin-top:500px"></div>
-    <div id="divOperacional" style="margin-top:500px"></div>
-    <div id="divFinanceiro" style="margin-top:500px"></div>
-    <div id="divAccount" style="margin-top:500px"></div>
-    <div id="divFaturamento" style="margin-top:500px"></div>
+
+    <div id="divGrupos" style="margin-top:150px">
+        <h3>Cadastro de Grupos de Usuarios</h3>
+        No cadastro de grupos de usuarios é possível grupos de usuarios onde estes terão permissoes personalizadas.
+    </div>
+
+    <div id="divPermissoes" style="margin-top:500px">
+        <h3>Cadastro de Permissoes</h3>
+        No cadastro de permissoes é possível conceder e retirar permissoes pra grupos de usuarios criados no modulo anterir.
+    </div>   
+    
+    <div id="divUsuario" style="margin-top:500px">
+        <h3>Cadastro de Usuarios</h3>
+        No cadastro de usuarios é possível efetivar o cadastro de todos os usuarios que terão acesso ao sistema, vinculando estes a grupos de acessos com suas devidas permissoes.
+    </div>
+
+    <div id="divParceiros" style="margin-top:500px">
+        <h3>Cadastro de Parceiros</h3>
+        No cadastro de parceiros é possível efetivar o cadastro de todos os
+        intervenientes do processo do agenciamento, seja ele utilizado nas etapas comerciais,
+        operacionais ou financeiras.
+    </div>
+
+    <div id="divCambioFCA" style="margin-top:500px">
+        <h3>Cambio FCA</h3>
+        No cadastro Cambio FCA cadastrar valor de cambio para moedas utilizadas pela FCA.
+    </div>
+
+    <div id="divCambioParceiros" style="margin-top:500px">
+        <h3>Cambio Parceiros</h3>
+        No cadastro Cambio Parceiros cadastrar valor de cambio para moedas utilizadas pelo Armador.
+    </div>
+
+    <div id="divItensDespesa" style="margin-top:500px">
+        <h3>Itens Despesa</h3>
+        No cadastro ItensDespesa é possivel cadastrar taxas que serão utilizadas nos demais modulos do sistema.
+    </div>
+
+    <div id="divFreteTransportador" style="margin-top:500px">
+        <h3>Cadastro de Tabela de Frete</h3>
+        No cadastro da tabela de frete é possível efetivar o cadastro de todas as tabelas de frete dos Armadores/Cias Aéreas nos quais a empresa FCA LOG realizar fechamentos.
+    </div>
+
+    <div id="divTaxasLocais" style="margin-top:500px">
+        <h3>Taxas Locais do Armador</h3>
+        O cadastro de taxas locais será utilizado para realizar o cadastro de todas as taxas locais vinculadas a determinado armador, o botão para realizar o cadastro das taxas locais estará disponível na tela de cadastro de parceiro sempre que  o flag transportador estiver ativo para o cadastro em edição.
+    </div>
+
+    <div id="divCotacao" style="margin-top:500px">
+        <h3>Cadastro de Cotação</h3>
+        No cadastro de cotação é possível efetivar o cadastro de todas as cotações que serão destinadas aos clientes da FCA LOG, o módulo do cadastro em questão será separado em abas:
+        - Informações Básicas: Possibilita o cadastramento do cabeçalho da cotação, nessa tela será informado dados como cliente, agente, serviço, vendedor etc.
+        - Mercadoria/Frete/Taxas: Possibilita o cadastramento/edição de mercadorias, frete importado do tarifário e valores cadastrados na cotação.
+    </div>
+
+    <div id="divTextoCotacao" style="margin-top:500px">
+        <h3>Texto Cotacao</h3>
+        Tela para cadastro de texto padrão da impressão da cotação
+    </div>
+
+    <div id="divComissoes" style="margin-top:500px">
+        <h3>Comissoes</h3>
+        ESTE MÓDULO CONTEMPLA:
+        • Comissoes de Vendedor
+        • Comissoes de Indicador Nacional
+        • Comissoes de Indicador Internacional
+    </div>
+
+    <div id="divOperacional" style="margin-top:500px">
+        <h3>MÓDULO OPERACIONAL</h3>
+        ESTE MÓDULO CONTEMPLA:
+        • Visualização de todos os processos ativos da FCA LOG;
+        • Inserção, edição e remoção de registros de Instrução de Embarque, Master e House.
+        • Inserção, edição e remoção de registros de Taxas, Contêineres e Cargas.
+
+    </div>
+
+    <div id="divFinanceiro" style="margin-top:500px">
+        <h3>MÓDULO FINANCEIRO</h3>
+        CONTAS A PAGAR
+
+        Este módulo será dividido em três partes:
+        • Solicitação de Pagamento
+        • Montagem do Pagamento
+        • Baixas/Cancelamentos
+
+        CONTAS A RECEBER
+
+        Este módulo será dividido em três partes:
+        • Calculo de Recebimento
+        • Emissão de Nota de Débito
+        • Baixas/Cancelamentos
+        • Envio para o Faturamento
+    </div>
+
+    <div id="divAccount" style="margin-top:500px">
+        <h3>Account </h3>
+        Este módulo tem como objetivo, cadastrar e conferir as invoices emitidas pelos agentes internacionais, controlar as remessas de valores ao exterior.
+    </div>
+
+    <div id="divFaturamento" style="margin-top:500px">
+        <h3>Faturamento </h3>
+        Módulo direcionado ao faturamento, onde é possivel emitir Notas de Débito, Recibos de Pagamento, RPS, Notas Fiscais e Boletos.
+    </div>
 </body>
 </html>

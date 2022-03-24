@@ -336,8 +336,8 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EM
 
             dsInvoice.SelectCommand = "SELECT A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,CONVERT(VARCHAR,A.DT_VENCIMENTO,103)DT_VENCIMENTO,CONVERT(VARCHAR,A.DT_INVOICE,103)DT_INVOICE,
 case when A.ID_ACCOUNT_TIPO_INVOICE = 2 then
-B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,A.DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
-INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO,A.ID_ACCOUNT_TIPO_INVOICE"
+B.NR_PROCESSO else '' end NR_PROCESSO,B.NR_BL,SUBSTRING(A.NM_AGENTE,0,15)NM_AGENTE,A.ID_PARCEIRO_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,CONVERT(VARCHAR,A.DT_FECHAMENTO,103)DT_FECHAMENTO,SUBSTRING(A.DS_OBSERVACAO,0,50)DS_OBSERVACAO,(SELECT SUM(ISNULL(VL_TAXA,0)) FROM TB_ACCOUNT_INVOICE_ITENS WHERE ID_ACCOUNT_INVOICE = A.ID_ACCOUNT_INVOICE)VALOR_TOTAL FROM (SELECT * FROM FN_ACCOUNT_INVOICE('" & txtVencimentoInicial.Text & "','" & txtVencimentoFinal.Text & "')) AS A 
+INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_ACCOUNT_INVOICE,A.NR_INVOICE,A.NM_ACCOUNT_TIPO_EMISSOR,A.NM_ACCOUNT_TIPO_FATURA,A.DT_INVOICE,B.NR_PROCESSO,B.NR_BL,A.NM_AGENTE,FL_CONFERIDO,A.NM_ACCOUNT_TIPO_INVOICE,A.SIGLA_MOEDA,A.DT_FECHAMENTO,A.DS_OBSERVACAO,A.DT_VENCIMENTO,A.ID_ACCOUNT_TIPO_INVOICE,A.ID_PARCEIRO_AGENTE"
 
             dgvInvoice.DataBind()
             dgvInvoice.Visible = True
@@ -394,7 +394,7 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by  A.ID_AC
         divSuccessInvoice.Visible = False
         divErroInvoice.Visible = False
 
-        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
+        dsDevolucao.SelectCommand = "SELECT ID_MOEDA,ID_BL_TAXA,ID_BL,NR_PROCESSO,NM_ITEM_DESPESA,SIGLA_MOEDA,ISNULL(VL_COMPRA,0)VL_COMPRA,ISNULL(VL_VENDA,0)VL_VENDA,DT_RECEBIMENTO FROM FN_ACCOUNT_DEVOLUCAO_FRETE (" & txtID_BL.Text & ", '" & txtGrau.Text & "') A WHERE ID_MOEDA =" & ddlMoeda.SelectedValue & " AND ID_BL_TAXA NOT IN(SELECT ID_BL_TAXA FROM TB_ACCOUNT_INVOICE_ITENS  WHERE ID_BL_TAXA IS NOT NULL) AND ID_BL_TAXA NOT IN (SELECT ID_BL_TAXA FROM TB_CONTA_PAGAR_RECEBER_ITENS D
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = D.ID_CONTA_PAGAR_RECEBER 
 WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_EXPORTACAO,'') = 'ACC')"
 
@@ -457,8 +457,75 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         ModalPopupExtender2.Show()
     End Sub
 
+    '    Private Sub btnIncluirDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnIncluirDevolucaoFrete.Click
+    '        divinfo.Visible = False
+    '        Dim operador As String = VerificaPositivoNegativo()
+    '        If lblValorFreteDevolucao.Text = "" Then
+    '            lblValorFreteDevolucao.Text = 0
+    '        End If
+
+    '        Dim Con As New Conexao_sql
+    '        Con.Conectar()
+    '        If ddlTipoDevolucao.SelectedValue <> 0 Then
+    '            For Each linha As GridViewRow In dgvDevolucao.Rows
+    '                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+    '                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+    '                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+    '                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+    '                Dim Devolucao As Decimal = 0
+    '                If check.Checked Then
+    '                    If ddlTipoDevolucao.SelectedValue = 2 Then
+    '                        'DEVOLUÇÃO DO FRETE DE COMPRA
+    '                        Devolucao = ValorCompra
+    '                    ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+    '                        'DEVOLUÇÃO DO FRETE DE VENDA
+    '                        Devolucao = ValorVenda
+    '                    ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
+    '                        'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+    '                        Devolucao = ValorVenda - ValorCompra
+    '                    End If
+
+    '                    Dim VALOR_STRING As String = Devolucao.ToString
+    '                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+
+    '                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+    '(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
+    '                End If
+
+
+    '            Next
+
+    '            If ddlTipoInvoice.SelectedValue = 1 Then
+    '                'MASTER
+    '                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = " & txtID_BL.Text)
+    '            ElseIf ddlTipoInvoice.SelectedValue = 2 Then
+    '                'HOUSE
+    '                Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = (SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & txtID_BL.Text & ")")
+    '            End If
+
+    '            Con.Fechar()
+
+
+    '            dsDevolucao.DataBind()
+    '            dgvItensInvoice.DataBind()
+    '            dgvDevolucao.Visible = False
+    '            ModalPopupExtender3.Hide()
+    '            lblSuccessInvoice.Text = "Inclusão realizada com sucesso!"
+    '            divSuccessInvoice.Visible = True
+    '            ModalPopupExtender2.Show()
+    '            atualizaTotalInvoice()
+    '        Else
+    '            divinfo.Visible = True
+    '            lblinfo.Text = "Selecione um tipo de devolução!"
+
+    '        End If
+
+    '    End Sub
+
     Private Sub btnIncluirDevolucaoFrete_Click(sender As Object, e As EventArgs) Handles btnIncluirDevolucaoFrete.Click
         divinfo.Visible = False
+        btnIncluirDevolucaoFrete.Visible = False
         Dim operador As String = VerificaPositivoNegativo()
         If lblValorFreteDevolucao.Text = "" Then
             lblValorFreteDevolucao.Text = 0
@@ -467,35 +534,53 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         Dim Con As New Conexao_sql
         Con.Conectar()
         If ddlTipoDevolucao.SelectedValue <> 0 Then
-            For Each linha As GridViewRow In dgvDevolucao.Rows
-                Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
-                Dim check As CheckBox = linha.FindControl("ckbSelecionar")
-                Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
-                Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
-                Dim Devolucao As Decimal = 0
-                If check.Checked Then
-                    If ddlTipoDevolucao.SelectedValue = 2 Then
-                        'DEVOLUÇÃO DO FRETE DE COMPRA
-                        Devolucao = ValorCompra
-                    ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
-                        'DEVOLUÇÃO DO FRETE DE VENDA
-                        Devolucao = ValorVenda
-                    ElseIf ddlTipoDevolucao.SelectedValue = 4 Then
-                        'DEVOLUÇÃO DA DIFERENÇA DE FRETE
-                        Devolucao = ValorVenda - ValorCompra
+            If lblValorFreteDevolucao.Text <> 0 Then
+
+                For Each linha As GridViewRow In dgvDevolucao.Rows
+                    Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
+                    Dim ID_BL_TAXA As String = CType(linha.FindControl("lblTaxa"), Label).Text
+                    Dim check As CheckBox = linha.FindControl("ckbSelecionar")
+                    Dim ValorCompra As Decimal = CType(linha.FindControl("lblValorCompra"), Label).Text
+                    Dim ValorVenda As Decimal = CType(linha.FindControl("lblValorVenda"), Label).Text
+                    Dim Devolucao As Decimal = 0
+                    If check.Checked Then
+                        Dim VALOR_STRING As String = 0
+                        If ddlTipoDevolucao.SelectedValue = 4 Then
+
+                            'DEVOLUÇÃO DA DIFERENÇA DE FRETE
+                            Devolucao = ValorVenda - ValorCompra
+                            VALOR_STRING = Devolucao.ToString
+                            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+
+                            Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL ,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+
+                        Else
+                            If ddlTipoDevolucao.SelectedValue = 2 Then
+                                'DEVOLUÇÃO DO FRETE DE COMPRA
+                                Devolucao = ValorCompra
+                            ElseIf ddlTipoDevolucao.SelectedValue = 3 Then
+                                'DEVOLUÇÃO DO FRETE DE VENDA
+                                Devolucao = ValorVenda
+                            End If
+
+                            VALOR_STRING = Devolucao.ToString
+                            VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
+
+                            If VALOR_STRING <> 0 Then
+                                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), " & ID_BL_TAXA & ",(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+                            End If
+                        End If
+
+
+
                     End If
 
-                    Dim VALOR_STRING As String = Devolucao.ToString
-                    VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
 
-                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
-(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_FRETE_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'DF')")
+                Next
 
-                End If
-
-
-            Next
-
+            End If
             If ddlTipoInvoice.SelectedValue = 1 Then
                 'MASTER
                 Con.ExecutarQuery("UPDATE TB_BL SET ID_STATUS_FRETE_AGENTE =  " & ddlTipoDevolucao.SelectedValue & " WHERE ID_BL = " & txtID_BL.Text)
@@ -520,12 +605,13 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
             lblinfo.Text = "Selecione um tipo de devolução!"
 
         End If
+        btnIncluirDevolucaoFrete.Visible = True
 
     End Sub
 
-
     Private Sub btnIncluirComissoes_Click(sender As Object, e As EventArgs) Handles btnIncluirComissoes.Click
         Dim operador As String = VerificaPositivoNegativo()
+        btnIncluirComissoes.Visible = False
 
         For Each linha As GridViewRow In dgvComissoes.Rows
             Dim ID_BL As String = CType(linha.FindControl("lblID"), Label).Text
@@ -551,10 +637,11 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirComissoes.Visible = True
     End Sub
     Private Sub btnIncluirOutrasTaxas_Click(sender As Object, e As EventArgs) Handles btnIncluirOutrasTaxas.Click
         Dim operador As String = VerificaPositivoNegativo()
-
+        btnIncluirOutrasTaxas.Visible = False
         For Each linha As GridViewRow In dgvOutrasTaxas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -574,6 +661,8 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirOutrasTaxas.Visible = True
+
     End Sub
     Private Sub lkAvisoEmbarque_Click(sender As Object, e As EventArgs) Handles lkAvisoEmbarque.Click
         divErro.Visible = False
@@ -736,10 +825,14 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
 
             If check.Checked Then
                 lblTotalOutrasTaxas.Text = Valor + Valor2
+
             End If
             ModalPopupExtender7.Show()
             ModalPopupExtender2.Show()
+
         Next
+
+
     End Sub
 
     Private Sub dgvDevolucao_Load(sender As Object, e As EventArgs) Handles dgvDevolucao.Load
@@ -848,8 +941,6 @@ INNER JOIN TB_BL B ON B.ID_BL = A.ID_BL_INVOICE " & filtro & " group by A.ID_ACC
                 filtro &= " AND NR_PROCESSO = '" & txtProcessoRelatorio.Text & "'"
             End If
 
-
-
             Dim SQL As String = "SELECT NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
 ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO DO FRETE HOUSE',TIPO_ESTUFAGEM,
 CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
@@ -860,12 +951,13 @@ END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORT
 (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
 END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
 (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-FROM [dbo].[View_House] A
-LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL 
+(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,convert(varchar,DT_PREVISAO_EMBARQUE_MASTER,103)DT_PREVISAO_EMBARQUE_MASTER,convert(varchar,DT_EMBARQUE_MASTER,103)DT_EMBARQUE_MASTER,convert(varchar,DT_PREVISAO_CHEGADA_MASTER,103)DT_PREVISAO_CHEGADA_MASTER,convert(varchar,DT_CHEGADA_MASTER,103)DT_CHEGADA_MASTER ,B.VL_CAMBIO,B.DT_LIQUIDACAO
+            FROM [dbo].[View_House] A
+LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL  
  WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) 
 " & filtro & "
 ORDER BY NR_PROCESSO"
+
             Classes.Excel.exportaExcel(SQL, "NVOCC", "ProcessosPeriodo")
         End If
 
@@ -1025,17 +1117,17 @@ ORDER BY NR_PROCESSO"
 
 
             Dim sql As String = "SELECT A.ID_BL,NR_PROCESSO,BL_MASTER,PAGAMENTO_BL_MASTER AS 'TIPO FRETE MASTER'
-,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO FRETE HOUSE',TIPO_ESTUFAGEM,
-CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
+            ,NR_BL AS 'BL_HOUSE',TIPO_PAGAMENTO AS 'TIPO FRETE HOUSE',TIPO_ESTUFAGEM,
+            CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM) = '' THEN ORIGEM ELSE
 
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
-END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
+            (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_ORIGEM)
+            END ORIGEM,CASE WHEN (SELECT ISNULL(CD_SIGLA,'') FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO) = '' THEN DESTINO ELSE
 
-(SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
-END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
-(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
-FROM [dbo].[View_House] A
+            (SELECT CD_SIGLA FROM dbo.TB_PORTO WHERE ID_PORTO = ID_PORTO_DESTINO)
+            END DESTINO,(SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_CLIENTE)CLIENTE,
+            (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_AGENTE_INTERNACIONAL)AGENTE_INTERNACIONAL,
+            (SELECT NM_RAZAO FROM dbo.TB_PARCEIRO WHERE ID_PARCEIRO = ID_PARCEIRO_TRANSPORTADOR)TRANSPORTADOR,DT_PREVISAO_EMBARQUE_MASTER,DT_EMBARQUE_MASTER,DT_PREVISAO_CHEGADA_MASTER,DT_CHEGADA_MASTER , B.VL_CAMBIO,B.DT_LIQUIDACAO
+            FROM [dbo].[View_House] A
 LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EMBARQUE_MASTER,103) BETWEEN CONVERT(DATE,'" & txtEmbarqueInicial.Text & "',103) AND CONVERT(DATE,'" & txtEmbarqueFinal.Text & "',103) " & filtro
             dsProcessoPeriodo.SelectCommand = sql
             dgvProcessoPeriodo.DataBind()
@@ -1072,7 +1164,7 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
 
     Private Sub btnIncluirTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnIncluirTaxasExteriorDeclaradas.Click
         Dim operador As String = VerificaPositivoNegativo()
-
+        btnIncluirTaxasExteriorDeclaradas.Visible = False
         For Each linha As GridViewRow In dgvTaxasExteriorDeclaradas.Rows
             Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
             Dim check As CheckBox = linha.FindControl("ckbSelecionar")
@@ -1092,6 +1184,8 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
         divSuccessInvoice.Visible = True
         ModalPopupExtender2.Show()
         atualizaTotalInvoice()
+        btnIncluirTaxasExteriorDeclaradas.Visible = True
+
     End Sub
 
     Private Sub btnFecharTaxasExteriorDeclaradas_Click(sender As Object, e As EventArgs) Handles btnFecharTaxasExteriorDeclaradas.Click
@@ -1106,5 +1200,6 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
             atualizaTotalExteriorDeclaradas()
         End If
     End Sub
+
 
 End Class

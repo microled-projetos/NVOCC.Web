@@ -178,19 +178,22 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")) Then
+                        txtCodTransportador_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                         ddlTransportador_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")) Then
+                        txtCodArmazemAtracacao_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")
                         ddlArmazemAtracacao_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_ATRACACAO")
-
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")) Then
+                        txtCodArmazemDescarga_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")
                         ddlArmazemDescarga_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_ARMAZEM_DESCARGA")
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")) Then
+                        txtCodAgenciaMaritima_Maritimo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")
                         ddlAgenciaMaritima_BasicoMaritimo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENCIA")
                     End If
 
@@ -1613,6 +1616,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(".", "")
             txtTarifaMasterMin_BasicoMaritimo.Text = txtTarifaMasterMin_BasicoMaritimo.Text.Replace(",", ".")
 
+
+
             If txtCotacao_BasicoMaritimo.Text = "" Then
                 txtCotacao_BasicoMaritimo.Text = 0
             End If
@@ -1629,13 +1634,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 txtNumeroViagem_BasicoMaritimo.Text = "'" & txtNumeroViagem_BasicoMaritimo.Text & "'"
             End If
 
-            If txtCE_BasicoMaritimo.Text = "" Then
-                txtCE_BasicoMaritimo.Text = "NULL"
-                txtDataCE_BasicoMaritimo.Text = "NULL"
-            Else
-                txtCE_BasicoMaritimo.Text = "'" & txtCE_BasicoMaritimo.Text & "'"
-                txtDataCE_BasicoMaritimo.Text = " getdate() "
-            End If
+
 
             If txtTarifaMasterMin_BasicoMaritimo.Text = "" Then
                 txtTarifaMasterMin_BasicoMaritimo.Text = 0
@@ -1793,13 +1792,21 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT COUNT(ID_BL)QTD FROM TB_BL WHERE FL_CANCELADO = 0 AND NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & "")
                     If ds1.Tables(0).Rows(0).Item("QTD") = 0 Then
 
+                        If txtCE_BasicoMaritimo.Text = "" Then
+                            txtCE_BasicoMaritimo.Text = "NULL"
+                            txtDataCE_BasicoMaritimo.Text = "NULL"
+                        Else
+                            txtCE_BasicoMaritimo.Text = "'" & txtCE_BasicoMaritimo.Text & "'"
+                            txtDataCE_BasicoMaritimo.Text = " getdate() "
+                        End If
+
+
                         'INSERE 
                         ds = Con.ExecutarQuery("INSERT INTO TB_BL (GRAU,NR_BL,ID_PARCEIRO_TRANSPORTADOR,ID_PORTO_ORIGEM,ID_PORTO_DESTINO,ID_PARCEIRO_AGENTE_INTERNACIONAL,ID_TIPO_PAGAMENTO,NR_VIAGEM,NR_VIAGEM_1T,NR_VIAGEM_2T,NR_VIAGEM_3T, DT_1T, DT_2T, DT_3T, ID_PORTO_1T,ID_PORTO_2T,ID_PORTO_3T, DT_PREVISAO_EMBARQUE,DT_PREVISAO_CHEGADA,DT_CHEGADA,DT_EMBARQUE,DT_CE,VL_TARIFA_MASTER_MINIMA,NR_CE,ID_SERVICO,ID_PARCEIRO_AGENCIA,ID_TIPO_ESTUFAGEM,DT_EMISSAO_BL,ID_PARCEIRO_ARMAZEM_ATRACACAO,ID_PARCEIRO_ARMAZEM_DESCARGA, ID_NAVIO,ID_NAVIO_1T, ID_NAVIO_2T,ID_NAVIO_3T,DT_ABERTURA,ID_STATUS_FRETE_AGENTE,ID_COTACAO) VALUES ('M'," & txtNumeroBL_BasicoMaritimo.Text & "," & ddlTransportador_BasicoMaritimo.SelectedValue & ", " & ddlOrigem_BasicoMaritimo.SelectedValue & ", " & ddlDestino_BasicoMaritimo.SelectedValue & "," & ddlAgente_BasicoMaritimo.SelectedValue & "," & ddlTipoPagamento_BasicoMaritimo.SelectedValue & "," & txtNumeroViagem_BasicoMaritimo.Text & "," & txtViagem1_BasicoMaritimo.Text & "," & txtViagem2_BasicoMaritimo.Text & "," & txtViagem3_BasicoMaritimo.Text & "," & txtData1_BasicoMaritimo.Text & "," & txtData2_BasicoMaritimo.Text & "," & txtData3_BasicoMaritimo.Text & "," & ddlPorto1_BasicoMaritimo.SelectedValue & "," & ddlPorto2_BasicoMaritimo.SelectedValue & "," & ddlPorto3_BasicoMaritimo.SelectedValue & "," & txtPrevisaoEmbarque_BasicoMaritimo.Text & ", " & txtPrevisaoChegada_BasicoMaritimo.Text & ", " & txtChegada_BasicoMaritimo.Text & ", " & txtEmbarque_BasicoMaritimo.Text & "," & txtDataCE_BasicoMaritimo.Text & ", " & txtTarifaMasterMin_BasicoMaritimo.Text & "," & txtCE_BasicoMaritimo.Text & ", " & ddlServico_BasicoMaritimo.Text & "," & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & ", " & ddlEstufagem_BasicoMaritimo.SelectedValue & "," & txtEmissaoBL_BasicoMaritimo.Text & "," & ddlArmazemAtracacao_BasicoMaritimo.Text & "," & ddlArmazemDescarga_BasicoMaritimo.Text & "," & ID_NAVIO & ", " & ID_NAVIO1 & "," & ID_NAVIO2 & "," & ID_NAVIO3 & ",GETDATE()," & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & "," & txtCotacao_BasicoMaritimo.Text & ") Select SCOPE_IDENTITY() as ID_BL ")
 
                         'PREENCHE SESSÃO E CAMPO DE ID
                         Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
+
 
                         txtID_BasicoMaritimo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
 
@@ -1864,12 +1871,19 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("'", "")
                         txtNumeroBL_BasicoMaritimo.Text = txtNumeroBL_BasicoMaritimo.Text.Replace("NULL", "")
 
+                        If txtNumeroBL_BasicoMaritimo.Text <> "" Then
+                            Dim Rastreio As New RastreioService
+                            Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
+                        End If
+
+
                         Con.Fechar()
                         divSuccess_BasicoMaritimo.Visible = True
                     Else
                         divErro_BasicoMaritimo.Visible = True
                         lblErro_BasicoMaritimo.Text = "Já existe BL cadastrada com este número!"
                     End If
+
                 End If
 
             Else
@@ -1883,11 +1897,22 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 Else
 
 
+
                     'REALIZA UPDATE 
-                    Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ",NR_VIAGEM = " & txtNumeroViagem_BasicoMaritimo.Text & ",NR_VIAGEM_1T = " & txtViagem1_BasicoMaritimo.Text & ",NR_VIAGEM_2T = " & txtViagem2_BasicoMaritimo.Text & ",NR_VIAGEM_3T = " & txtViagem3_BasicoMaritimo.Text & ", DT_1T = " & txtData1_BasicoMaritimo.Text & ", DT_2T = " & txtData2_BasicoMaritimo.Text & ", DT_3T = " & txtData3_BasicoMaritimo.Text & ", ID_PORTO_1T =" & ddlPorto1_BasicoMaritimo.SelectedValue & ",ID_PORTO_3T =" & ddlPorto3_BasicoMaritimo.SelectedValue & ",ID_PORTO_2T =" & ddlPorto2_BasicoMaritimo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoMaritimo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoMaritimo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoMaritimo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoMaritimo.Text & ",DT_EMISSAO_BL = " & txtEmissaoBL_BasicoMaritimo.Text & ",VL_TARIFA_MASTER_MINIMA =  " & txtTarifaMasterMin_BasicoMaritimo.Text & ",NR_CE = " & txtCE_BasicoMaritimo.Text & ",DT_CE = " & txtDataCE_BasicoMaritimo.Text & " ,ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_AGENCIA = " & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & " , ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ", ID_NAVIO = " & ID_NAVIO & " ,ID_NAVIO_1T = " & ID_NAVIO1 & " , ID_NAVIO_2T = " & ID_NAVIO2 & " ,ID_NAVIO_3T =  " & ID_NAVIO3 & ",ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ddlArmazemAtracacao_BasicoMaritimo.Text & ",ID_PARCEIRO_ARMAZEM_DESCARGA = " & ddlArmazemDescarga_BasicoMaritimo.Text & "  , ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                    Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoMaritimo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddlTransportador_BasicoMaritimo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoMaritimo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoMaritimo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoMaritimo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoMaritimo.SelectedValue & ",NR_VIAGEM = " & txtNumeroViagem_BasicoMaritimo.Text & ",NR_VIAGEM_1T = " & txtViagem1_BasicoMaritimo.Text & ",NR_VIAGEM_2T = " & txtViagem2_BasicoMaritimo.Text & ",NR_VIAGEM_3T = " & txtViagem3_BasicoMaritimo.Text & ", DT_1T = " & txtData1_BasicoMaritimo.Text & ", DT_2T = " & txtData2_BasicoMaritimo.Text & ", DT_3T = " & txtData3_BasicoMaritimo.Text & ", ID_PORTO_1T =" & ddlPorto1_BasicoMaritimo.SelectedValue & ",ID_PORTO_3T =" & ddlPorto3_BasicoMaritimo.SelectedValue & ",ID_PORTO_2T =" & ddlPorto2_BasicoMaritimo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoMaritimo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoMaritimo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoMaritimo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoMaritimo.Text & ",DT_EMISSAO_BL = " & txtEmissaoBL_BasicoMaritimo.Text & ",VL_TARIFA_MASTER_MINIMA =  " & txtTarifaMasterMin_BasicoMaritimo.Text & ",ID_SERVICO = " & ddlServico_BasicoMaritimo.SelectedValue & ",ID_PARCEIRO_AGENCIA = " & ddlAgenciaMaritima_BasicoMaritimo.SelectedValue & " , ID_TIPO_ESTUFAGEM = " & ddlEstufagem_BasicoMaritimo.SelectedValue & ", ID_NAVIO = " & ID_NAVIO & " ,ID_NAVIO_1T = " & ID_NAVIO1 & " , ID_NAVIO_2T = " & ID_NAVIO2 & " ,ID_NAVIO_3T =  " & ID_NAVIO3 & ",ID_PARCEIRO_ARMAZEM_ATRACACAO = " & ddlArmazemAtracacao_BasicoMaritimo.Text & ",ID_PARCEIRO_ARMAZEM_DESCARGA = " & ddlArmazemDescarga_BasicoMaritimo.Text & "  , ID_STATUS_FRETE_AGENTE = " & ddlStatusFreteAgente_BasicoMaritimo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
 
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+
+                    If txtCE_BasicoMaritimo.Text <> "" Then
+                        ds = Con.ExecutarQuery("SELECT ISNULL(NR_CE,'')NR_CE, DT_CE FROM TB_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                        If IsDBNull(ds.Tables(0).Rows(0).Item("DT_CE")) And txtCE_BasicoMaritimo.Text <> "" Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET DT_CE = GETDATE(), NR_CE = '" & txtCE_BasicoMaritimo.Text & "' WHERE DT_CE IS NULL AND ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                        ElseIf ds.Tables(0).Rows(0).Item("NR_CE").ToString <> txtCE_BasicoMaritimo.Text Then
+                            Con.ExecutarQuery("UPDATE TB_BL SET DT_CE = GETDATE(), NR_CE = '" & txtCE_BasicoMaritimo.Text & "' WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
+                        End If
+                    End If
+
+                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM TB_BL WHERE ID_BL = " & txtID_BasicoMaritimo.Text & "")
                     If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
                         Dim Rastreio As New RastreioService
                         Rastreio.trackingbl(txtID_BasicoMaritimo.Text)
@@ -2688,10 +2713,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
         Dim ano_atual = Now.Year.ToString.Substring(2)
         Dim SIGLA_PROCESSO As String
         Dim mes_atual As String
-        If Now.Month < 10 Then
-            mes_atual = "0" & Now.Month.ToString
+        If Now.Month <10 Then
+            mes_atual="0" & Now.Month.ToString
         Else
-            mes_atual = Now.Month.ToString
+            mes_atual= Now.Month.ToString
         End If
 
 

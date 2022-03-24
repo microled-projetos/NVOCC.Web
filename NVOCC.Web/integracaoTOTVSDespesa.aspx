@@ -251,36 +251,50 @@
             var dataI = document.getElementById("txtDtEmissaoInicial").value;
             var dataF = document.getElementById("txtDtEmissaoFinal").value;
             var nota = document.getElementById("txtNotaDespesa").value;
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             var situacao;
             if (exporta.checked) {
                 situacao = 0
             } else {
                 situacao = 1
             }
-            $.ajax({
-                type: "POST",
-                url: "DemurrageService.asmx/listarTOTVSNotaDespesa",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota:"' + nota + '"}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (dado) {
-                    var dado = dado.d;
-                    dado = $.parseJSON(dado);
-                    if (dado != null) {
-                        DespesaCLI(dataI, dataF, situacao, nota, clif, recf)
+                $.ajax({
+                    type: "POST",
+                    url: "DemurrageService.asmx/listarTOTVSNotaDespesa",
+                    data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", value:"' + values + '", nota:"' + nota + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (dado) {
+                        var dado = dado.d;
+                        dado = $.parseJSON(dado);
+                        if (dado != null) {
+                            DespesaCLI(dataI, dataF, situacao, nota, clif, recf)
+                        }
+                        else {
+                            $("#msgErrDespCli").fadeIn(500).delay(1000).fadeOut(500);
+                        }
                     }
-                    else {
-                        $("#msgErrDespCli").fadeIn(500).delay(1000).fadeOut(500);
-                    }
-                }
-            })
+                })
         }
 
         function DespesaCLI(dataI, dataF, situacao, nota, clif, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaDespesaCLI",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", values: "'+values+'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -301,10 +315,17 @@
         }
 
         function DespesaREC(dataI, dataF, cli, situacao, nota, clif, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/listarTOTVSNotaDespesaREC",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '"}',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", values: "'+values+'"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {
@@ -325,10 +346,17 @@
         }
 
         function updateContaPagarReceberDespesa(dataI, dataF, cli, rec, situacao, nota, clif, recf) {
+            var exp = document.querySelectorAll("[name=export]:checked");
+            values = [];
+            for (let i = 0; i < exp.length; i++) {
+                if (values.indexOf(exp[i].value) === -1) {
+                    values.push(exp[i].value);
+                }
+            }
             $.ajax({
                 type: "POST",
                 url: "DemurrageService.asmx/integrarTOTVSDespesa",
-                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota:"' + nota + '" }',
+                data: '{dataI:"' + dataI + '",dataF:"' + dataF + '",situacao:"' + situacao + '", nota:"' + nota + '", values: "'+values+'" }',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (dado) {

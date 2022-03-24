@@ -20,7 +20,7 @@
                     <asp:Label runat="server" ID="lblProceso" CssClass="control-label" /></h3>
             </div>
             <div class="panel-body">                    <asp:Label runat="server" ID="lblID_CONTA_PAGAR_RECEBER" CssClass="control-label" style="display:none" />
-
+                <asp:Label runat="server" ID="lblTpServico" Text="" CssClass="control-label" style="display:none" />
                 
                 <div class="tab-content">
                     <div class="tab-pane fade active in">

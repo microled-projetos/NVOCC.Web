@@ -92,6 +92,7 @@
                                             <div class="form-group">
                                                 <label class="control-label">Transportador:</label>
                                                 <asp:DropDownList ID="ddlTransportador_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsTransportador" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                 <asp:TextBox style="display:none" ID="txtCodTransportador_Maritimo" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -149,6 +150,7 @@
                                                 <label class="control-label">Armazém de Atracação:</label>
                                                 <asp:DropDownList ID="ddlArmazemAtracacao_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsArmazemAtracacao" DataValueField="ID_PARCEIRO">
                                                 </asp:DropDownList>
+                                                 <asp:TextBox ID="txtCodArmazemAtracacao_Maritimo" runat="server" style="display:none" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -156,6 +158,7 @@
                                                 <label class="control-label">Armazém de Descarga:</label>
                                                 <asp:DropDownList ID="ddlArmazemDescarga_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsArmazemDescarga" DataValueField="ID_PARCEIRO">
                                                 </asp:DropDownList>
+                                                 <asp:TextBox ID="txtCodArmazemDescarga_Maritimo" style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -163,6 +166,7 @@
                                                 <label class="control-label">Agência Marítima:</label>
                                                 <asp:DropDownList ID="ddlAgenciaMaritima_BasicoMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgenciaMaritima" DataValueField="ID_PARCEIRO">
                                                 </asp:DropDownList>
+                                                  <asp:TextBox ID="txtCodAgenciaMaritima_Maritimo" style="display:none" runat="server" CssClass="form-control"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -1621,16 +1625,28 @@
     </div>
 </div>
     <asp:SqlDataSource ID="dsArmazemDescarga" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_ARMAZEM_DESCARGA = 1
-union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE (FL_ARMAZEM_DESCARGA = 1 or ID_PARCEIRO =  @ID_PARCEIRO)
+union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodArmazemDescarga_Maritimo" DefaultValue="0"/>
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsArmazemAtracacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_ARMAZEM_ATRACACAO = 1
-union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO">
+         <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodArmazemAtracacao_Maritimo" DefaultValue="0"/>
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTransportador" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR = 1
-union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE (FL_TRANSPORTADOR = 1 or ID_PARCEIRO =  @ID_PARCEIRO_TRANSPORTADOR)
+union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO_TRANSPORTADOR" Type="Int32" ControlID="txtCodTransportador_Maritimo" DefaultValue="0"/>
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsStatusPagamento" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_STATUS_PAGAMENTO, NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO
@@ -1780,8 +1796,10 @@ union SELECT 0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSo
 union SELECT 0, 'Selecione' FROM TB_SERVICO ORDER BY ID_SERVICO"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenciaMaritima" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_TRANSPORTADOR = 1
-union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE ((FL_TRANSPORTADOR = 1 OR FL_AGENCIA = 1) or (ID_PARCEIRO =  @ID_PARCEIRO))
+union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"><SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodAgenciaMaritima_Maritimo" DefaultValue ="0" />
+        </SelectParameters></asp:SqlDataSource>
 
 
     <asp:SqlDataSource ID="dsNavios" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"

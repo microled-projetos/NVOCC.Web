@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 23022022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 24032022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -265,6 +265,7 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
+    <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
     <Content Include="BaixasCancelamentos.aspx" />
@@ -295,6 +296,12 @@
     <Content Include="ConferenciaContaCorrente.aspx" />
     <Content Include="ConferenciaContaCorrente.aspx.cs" />
     <Content Include="ConferenciaContaCorrente.aspx.designer.cs" />
+    <Content Include="ConferenciaProcesso.aspx" />
+    <Content Include="ConferenciaProcesso.aspx.cs" />
+    <Content Include="ConferenciaProcesso.aspx.designer.cs" />
+    <Content Include="ConfereProcesso.aspx" />
+    <Content Include="ConfereProcesso.aspx.cs" />
+    <Content Include="ConfereProcesso.aspx.designer.cs" />
     <Content Include="ContatoParceiro.aspx" />
     <Content Include="ClienteFinal.aspx" />
     <Content Include="ComissaoIndicadorInternacional.aspx" />
@@ -533,6 +540,15 @@
     <Content Include="RelacaoCotacao.aspx" />
     <Content Include="RelacaoCotacao.aspx.cs" />
     <Content Include="RelacaoCotacao.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoInternacional.aspx" />
+    <Content Include="RelatorioComissaoInternacional.aspx.cs" />
+    <Content Include="RelatorioComissaoInternacional.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoNacional.aspx" />
+    <Content Include="RelatorioComissaoNacional.aspx.cs" />
+    <Content Include="RelatorioComissaoNacional.aspx.designer.cs" />
+    <Content Include="RelatorioComissaoVendedores.aspx" />
+    <Content Include="RelatorioComissaoVendedores.aspx.cs" />
+    <Content Include="RelatorioComissaoVendedores.aspx.designer.cs" />
     <Content Include="RelatorioFaturamento.aspx" />
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
@@ -630,6 +646,13 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="FaturamentoArquivo.aspx.designer.vb">
+      <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FaturamentoArquivo.aspx.vb">
+      <DependentUpon>FaturamentoArquivo.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="AvisoEmbarque.aspx.designer.vb">
       <DependentUpon>AvisoEmbarque.aspx</DependentUpon>
     </Compile>
@@ -920,7 +943,6 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\CalcularIR.vb" />
     <Compile Include="Helpers\FinalizaCotacao.vb" />
     <Compile Include="Helpers\GeraRemessa.vb" />
     <Compile Include="Helpers\RotinaUpdate.vb" />

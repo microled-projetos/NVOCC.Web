@@ -15,11 +15,28 @@ Public Class GeraPDF
             Dim funcao As String = Request.QueryString("f")
             Dim cotacao As String = Request.QueryString("c")
             Dim Linguagem As String = Request.QueryString("l")
+
             If Linguagem = "p" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_PT.aspx?c=" & cotacao
             ElseIf Linguagem = "i" Then
                 url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_ING.aspx?c=" & cotacao
             End If
+
+            'Dim pagina As New System.Uri(HttpContext.Current.Request.Url.ToString)
+            'If pagina.Scheme = "https" Then
+            '    If Linguagem = "p" Then
+            '        url = "https://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_PT.aspx?c=" & cotacao
+            '    ElseIf Linguagem = "i" Then
+            '        url = "https://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_ING.aspx?c=" & cotacao
+            '    End If
+            'Else
+            '    If Linguagem = "p" Then
+            '        url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_PT.aspx?c=" & cotacao
+            '    ElseIf Linguagem = "i" Then
+            '        url = "http://" & Request.ServerVariables("HTTP_HOST") & "/CotacaoPDF_ING.aspx?c=" & cotacao
+            '    End If
+            'End If
+
 
             Dim html As String = obj.DownloadString(url)
             Dim conteudo As TextReader = New StringReader(html)

@@ -523,6 +523,7 @@
                                         <div class="form-group">
                                             <label class="control-label" style="text-align: left">ID</label>
                                             <asp:TextBox ID="txtIDBaixa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
+                                             <asp:TextBox ID="txtIDCC"  style="display:none" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
                                                             <div class="col-sm-3">

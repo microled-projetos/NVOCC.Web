@@ -134,9 +134,6 @@
                                     <asp:TextBox ID="txtID_SERVICO" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtNR_NOTA" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:TextBox ID="txtlinha" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:TextBox ID="txtDataNFLucro" runat="server" CssClass="form-control"></asp:TextBox>
-                                     <asp:TextBox ID="txtProcesso" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:TextBox ID="txtResultadoPrompt" runat="server" CssClass="form-control"></asp:TextBox>
                                     <asp:Label ID="lblContador" runat="server"></asp:Label>
                                 </div>
                                 <div class="table-responsive tableFixHead DivGrid" id="DivGrid">
@@ -174,7 +171,7 @@
                                             <asp:BoundField DataField="DT_ENVIO_FATURAMENTO" HeaderText="Envio ao Faturamento" SortExpression="DT_ENVIO_FATURAMENTO" DataFormatString="{0:dd/MM/yyyy HH:mm}"/>
                                               <asp:TemplateField HeaderText="Email" HeaderStyle-ForeColor="#337ab7">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkAnexo" Text="ANEXO"  CommandName="Anexo" CommandArgument='<%# Eval("ID_FATURAMENTO") %>' runat="server"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkAnexo" Text="ANEXO"  CommandName="Anexo" CommandArgument='<%# Eval("ID_FATURAMENTO") %>' autopostback="true" runat="server"></asp:LinkButton>
                     </ItemTemplate>
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                 </asp:TemplateField>
@@ -870,18 +867,12 @@ union SELECT  0, ' Selecione' ORDER BY ID_CONTA_BANCARIA"></asp:SqlDataSource>
         };
 
 
+        function AbrirArquivo(ID) {
 
+            console.log(ID);
 
-        function AbrirArquivo() {
+            window.open('FaturamentoArquivo.aspx?id=' + ID, '_blank');
 
-
-            var Arquivo = document.getElementById('<%= txtArquivoSelecionado.ClientID %>').value;
-            console.log(Arquivo);
-
-            window.open(Arquivo, '_blank');
         }
-
-       
-        
     </script>
 </asp:Content>

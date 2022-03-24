@@ -36,63 +36,79 @@
                                     <asp:Label runat="server"  ID="msgErro" />
                                     </div>
                             <div class="row">
+                                 <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Tax ID:</label>
+                                        <asp:TextBox ID="txtTaxID" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                     <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Agreement Number:</label>
+                                        <asp:TextBox ID="txtAgreement" runat="server" MaxLength="100" CssClass="form-control" ></asp:TextBox>
+                                    </div>
+                                </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Payment To:</label>
                                         <asp:TextBox ID="txtPayment" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+
+                                </div>
+                                 <div class="row">
+                                                                     <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Bank Name:</label>
                                         <asp:TextBox ID="txtBank" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                     </div>
-                                </div>
-                                <div class="col-sm-2">
+                                </div>                                
+                                    <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Account:</label>
+                                        <label class="control-label">Bank Address:</label>
+                                        <asp:TextBox ID="txtBankAddress" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Account Number:</label>
                                         <asp:TextBox ID="txtAccount" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-2">
+                                <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label">Agency:</label>
+                                        <label class="control-label">Agency Number:</label>
                                         <asp:TextBox ID="txtAgency" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="row"> 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group">
-                                        <label class="control-label">Swift:</label>
+                                        <label class="control-label">Swift Code:</label>
                                         <asp:TextBox ID="txtSwift" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                 <div class="col-sm-3">
+                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Refund:</label>
                                         <asp:TextBox ID="txtRefund" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="control-label">Iban Br:</label>
                                         <asp:TextBox ID="txtIban" runat="server" MaxLength="100" CssClass="form-control"></asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Agreement:</label>
-                                        <asp:TextBox ID="txtAgreement" runat="server" MaxLength="100" CssClass="form-control" ></asp:TextBox>
-                                    </div>
-                                </div>
+                                
                                 </div>
          <div class="row">
                                  <div class="col-sm-10">
                                     <div class="form-group">
-                                        <label class="control-label">Obs:</label>
-                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" MaxLength="1000" ></asp:TextBox>
+                                        <label class="control-label">Observações:</label>
+                                        <asp:TextBox ID="txtObs" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="2" MaxLength="1000" ></asp:TextBox>
                                     </div>
                                 </div>
                                <div class="col-sm-2">
@@ -136,21 +152,21 @@
                                       <asp:TextBox ID="txtArquivoSelecionado" runat="server" style="display:none"></asp:TextBox>
                                 <asp:GridView ID="gvArquivos" runat="server" AutoGenerateColumns="false" EmptyDataText="Nenhum arquivo enviado"  CssClass="table table-hover table-condensed table-bordered">
             <Columns>
-                <asp:BoundField DataField="Text" HeaderText="Nome do Arquivo"/>
+                <asp:BoundField DataField="Text" HeaderText="Nome do Arquivo" ItemStyle-Font-Size="medium" />
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkVisualizar" Text="Visualizar"  CommandName="Visualizar" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkVisualizar" Text="Visualizar"  CommandName="Visualizar" CommandArgument='<%# Eval("Value") %>' runat="server" Font-Size="medium"></asp:LinkButton>
                     </ItemTemplate>
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                 </asp:TemplateField>
                  <asp:TemplateField Visible="false">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkDownload" Text="Download"  CommandName="Download" CommandArgument='<%# Eval("Value") %>' runat="server"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkDownload" Text="Download"  CommandName="Download" CommandArgument='<%# Eval("Value") %>' runat="server" Font-Size="medium"></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkDeleta" Text="Deletar"  OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');"  CommandName="Excluir" CommandArgument='<%# Eval("Value") %>' runat="server"  />
+                        <asp:LinkButton ID="lnkDeleta" Text="Deletar"  OnClientClick="javascript:return confirm('Deseja realmente excluir este arquivo?');"  CommandName="Excluir" CommandArgument='<%# Eval("Value") %>' runat="server"  Font-Size="medium"/>
                     </ItemTemplate>
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                 </asp:TemplateField>

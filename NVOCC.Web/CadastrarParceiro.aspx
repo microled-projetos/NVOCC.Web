@@ -862,7 +862,7 @@ LEFT JOIN TB_PARCEIRO D ON D.ID_PARCEIRO = ID_PESSOA WHERE ID_PESSOA = @ID">
              var ID = document.getElementById('<%= txtID.ClientID %>').value;
               console.log(ID);
 
-             window.open('DadosBancariosAgente.aspx?id=' + ID, '_blank');
+             window.open('DadosBancariosAgente.aspx?tipo=p&id=' + ID, '_blank');
           }
      </script>
 </asp:Content>

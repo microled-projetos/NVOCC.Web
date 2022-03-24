@@ -1049,6 +1049,15 @@ Partial Public Class ComissaoIndicadorInternacional
     Protected WithEvents txtIDBaixa As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle txtIDCC.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDCC As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtLiquidacao.
     '''</summary>
     '''<remarks>

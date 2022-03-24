@@ -33,7 +33,7 @@ AND B.ID_BL_TAXA =" & ID_BL_TAXA)
 
                 If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 2 Then
                     '% VR DO FRETE
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
         FROM TB_BL A
         WHERE A.ID_BL =  " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
@@ -52,7 +52,7 @@ AND B.ID_BL_TAXA =" & ID_BL_TAXA)
                     Taxa = z.ToString
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 3 Then
                     '% VR DO FRETE
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
         FROM TB_BL A
         WHERE A.ID_BL =  " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
@@ -77,7 +77,7 @@ AND B.ID_BL_TAXA =" & ID_BL_TAXA)
 FROM TB_BL A
 INNER JOIN TB_BL_TAXA B ON B.ID_BL = A.ID_BL
 WHERE B.FL_DECLARADO = 1
-AND B.ID_MOEDA = B.ID_MOEDA
+AND A.ID_MOEDA_FRETE = B.ID_MOEDA
 AND A.ID_BL =" & ID_BL & "
 GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
 
@@ -760,7 +760,7 @@ AND B.ID_BL_TAXA = " & ID_BL_TAXA)
 
                 If ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 2 Then
                     '% VR DO FRETE
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
         FROM TB_BL A
         WHERE A.ID_BL =  " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")
@@ -779,7 +779,7 @@ AND B.ID_BL_TAXA = " & ID_BL_TAXA)
                     Taxa = z.ToString
                 ElseIf ds.Tables(0).Rows(0).Item("ID_BASE_CALCULO_TAXA") = 3 Then
                     '% VR DO FRETE
-                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
+                    Dim ds1 As DataSet = Con.ExecutarQuery("SELECT (ISNULL(SUM(VL_FRETE),0) * 1/100 )QTD
         FROM TB_BL A
         WHERE A.ID_BL =  " & ID_BL)
                     x = ds1.Tables(0).Rows(0).Item("QTD")

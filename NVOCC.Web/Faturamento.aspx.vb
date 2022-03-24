@@ -316,26 +316,10 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                         Exit Sub
 
                     ElseIf Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_NOTA_FISCAL")) Then
-                        If lblContador.Text = "" Then
-                            divInfo.Visible = True
-                            lblmsgInfo.Text = "A NOTA FISCAL JÁ FOI GERADA.<br/>CONFIRMA O CANCELAMENTO DA FATURA ASSIM MESMO?"
-                            lblContador.Text = 1
-                            ModalPopupExtender3.Show()
-                            btnSalvarCancelamento.Text = "Confirmar Cancelamento"
-                            Exit Sub
-                        Else
-                            Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
 
-                            Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = NULL WHERE ID_CONTA_PAGAR_RECEBER  IN  (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO  WHERE ID_FATURAMENTO = " & txtID.Text & " )")
-
-                            Con.Fechar()
-                            lblContador.Text = ""
-                            btnSalvarCancelamento.Text = "Salvar"
-                            divInfo.Visible = False
-                            divSuccess.Visible = True
-                            dgvFaturamento.DataBind()
-                            lblmsgSuccess.Text = "Cancelamento realizado com sucesso!"
-                        End If
+                        divErro.Visible = True
+                        lblmsgErro.Text = "Não foi possivel completar a ação: A NOTA FISCAL JÁ FOI GERADA!"
+                        Exit Sub
 
                     Else
                         Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET [DT_CANCELAMENTO] = getdate() , ID_USUARIO_CANCELAMENTO = " & Session("ID_USUARIO") & ",DS_MOTIVO_CANCELAMENTO = '" & txtObs.Text & "' WHERE ID_FATURAMENTO =" & txtID.Text)
@@ -496,15 +480,15 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                 Dim sqlIR As String = ""
                                 If txtID_SERVICO.Text = 1 Or txtID_SERVICO.Text = 4 Then
                                     'MARITIMO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_MAR = '10.05' AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 ElseIf txtID_SERVICO.Text = 2 Or txtID_SERVICO.Text = 5 Then
                                     'AEREO
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE CD_ISS_AER = '10.05' AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 Else
                                     'OUTROS
-                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA IN (
+                                    sqlIR = "SELECT COUNT(*) QTD FROM TB_ITEM_DESPESA WHERE (CD_ISS_AER = '10.05' or CD_ISS_MAR = '10.05') AND ID_ITEM_DESPESA IN (
                                 SELECT ID_ITEM_DESPESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER IN (SELECT ID_CONTA_PAGAR_RECEBER FROM TB_FATURAMENTO WHERE ID_FATURAMENTO = " & txtID.Text & " )) AND FL_RECEITA = 1 "
                                 End If
 
@@ -545,7 +529,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                                                 TOTAL_NOTAS = TOTAL_NOTAS - IR_ANTERIOR
                                             End If
                                         End If
-
 
                                     End If
 
@@ -637,7 +620,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
 
         End If
     End Sub
-
 
 
     Private Sub lkReenviarRPS_Click(sender As Object, e As EventArgs) Handles lkReenviarRPS.Click
@@ -1116,7 +1098,6 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                     lblProcessoCancelamento.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     lblProcessoBaixa.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     lblProcessoSubs.Text = "PROCESSO: " & ds.Tables(0).Rows(0).Item("NR_PROCESSO")
-                    txtProcesso.text = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     Session("ProcessoFaturamento") = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("PARCEIRO_EMPRESA")) Then
@@ -1275,11 +1256,36 @@ WHERE ID_FATURAMENTO =" & txtID.Text)
                 End If
 
                 Dim i As Integer = 0
-                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
-(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
+                '                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,(Select SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,BAIRRO ,
+                '(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,NR_NOTA_FISCAL, 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, (SELECT NOSSONUMERO FROM TB_FATURAMENTO A WHERE ID_FATURAMENTO IN (" & IDs & "))NOSSONUMERO, (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO  IN (" & IDs & "))NR_PROCESSO 
+                'FROM TB_FATURAMENTO A
+                'WHERE ID_FATURAMENTO IN (" & IDs & ")")
+
+                ds = Con.ExecutarQuery("Select ID_FATURAMENTO,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(B.VL_ISS,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)VL_LIQUIDO,
+(Select SUM(ISNULL(B.VL_LIQUIDO,0)) - SUM(ISNULL(A.VL_IR_NF,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER) AS VL_DESCONTANDO_IR, 
+VL_BOLETO,
+CNPJ,
+NM_CLIENTE,
+ENDERECO,
+NR_ENDERECO,
+COMPL_ENDERECO,
+CEP,
+CIDADE,
+BAIRRO ,
+(SELECT case when B.DT_VENCIMENTO < = getdate() then CONVERT(VARCHAR,getdate()+1,103)  else CONVERT(VARCHAR,B.DT_VENCIMENTO,103)end FROM TB_CONTA_PAGAR_RECEBER B WHERE B.ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER)DT_VENCIMENTO,
+NR_NOTA_FISCAL,
+'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
+NOSSONUMERO, 
+(SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
+CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR 
 FROM TB_FATURAMENTO A
-WHERE ID_FATURAMENTO IN (" & IDs & ")")
+WHERE ID_FATURAMENTO =" & IDs & " 
+GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF")
+
                 If ds.Tables(0).Rows.Count > 0 Then
+                    Dim VL_BOLETO As String = 0
                     NR_PROCESSO = ds.Tables(0).Rows(0).Item("NR_PROCESSO")
                     For Each linhads As DataRow In ds.Tables(0).Rows
                         i = i + 1
@@ -1313,51 +1319,59 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                         Titulo.NossoNumero = NossoNumero
                         Titulo.DataEmissao = Now.Date
                         Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
-                        Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
+
+
+                        If linhads.Item("CIDADE").ToString() = "SANTOS" Then
+
+                            VL_BOLETO = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL_LIQUIDO").ToString()
+
+                        ElseIf linhads.Item("FL_IR").ToString = 1 Then
+
+                            VL_BOLETO = linhads.Item("VL_DESCONTANDO_IR").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL_DESCONTANDO_IR").ToString()
+
+                        Else
+
+                            VL_BOLETO = linhads.Item("VL").ToString().Replace(".", "")
+                            VL_BOLETO = VL_BOLETO.Replace(",", ".")
+                            Titulo.ValorTitulo = linhads.Item("VL").ToString()
+
+                        End If
+
                         Titulo.Aceite = "N"
-                        'Titulo.EspecieDocumento = TipoEspecieDocumento.DM
                         Titulo.EspecieDocumento = TipoEspecieDocumento.DS
                         Titulo.DataDesconto = Now.Date.AddDays(15)
                         Titulo.ValorDesconto = 0
 
-                        '
-                        '
+
                         'PARTE DA MULTA
                         Titulo.DataMulta = Now.Date.AddDays(15)
                         Titulo.PercentualMulta = VL_MULTA
                         Titulo.ValorMulta = Titulo.ValorTitulo * Titulo.PercentualMulta / 100
                         Titulo.MensagemInstrucoesCaixa = OBS1
-                        'Titulo.MensagemInstrucoesCaixa = $"Cobrar multa de {FormatNumber(Titulo.ValorMulta, 2)} após a data de vencimento."
-                        '
+
+
                         'PARTE JUROS DE MORA
                         Titulo.DataJuros = Now.Date.AddDays(15)
                         Titulo.PercentualJurosDia = VL_MORA
                         Titulo.ValorJurosDia = Titulo.ValorTitulo * Titulo.PercentualJurosDia / 100
                         Dim instrucoes As String = OBS2
-                        'Dim instrucoes As String =$"Cobrar juros de {FormatNumber(Titulo.PercentualJurosDia, 2)} por dia."
                         If String.IsNullOrEmpty(Titulo.MensagemInstrucoesCaixa) Then
                             Titulo.MensagemInstrucoesCaixa = instrucoes
                         Else
                             Titulo.MensagemInstrucoesCaixa += Environment.NewLine + instrucoes
                         End If
-                        '
-                        'Titulo.CodigoInstrucao1 = String.Empty
-                        'Titulo.ComplementoInstrucao1 = String.Empty
 
-                        'Titulo.CodigoInstrucao2 = String.Empty
-                        'Titulo.ComplementoInstrucao2 = String.Empty
 
-                        'Titulo.CodigoInstrucao3 = String.Empty
-                        'Titulo.ComplementoInstrucao3 = String.Empty
                         Titulo.CodigoProtesto = TipoCodigoProtesto.NaoProtestar
                         Titulo.DiasProtesto = 0
                         Titulo.CodigoBaixaDevolucao = TipoCodigoBaixaDevolucao.NaoBaixarNaoDevolver
                         Titulo.DiasBaixaDevolucao = 0
                         Titulo.ValidarDados()
                         objBoletos.Add(Titulo)
-
-                        Dim VL_BOLETO As String = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
-                        VL_BOLETO = VL_BOLETO.Replace(",", ".")
 
                         Dim Dig_NossoNum As String = GeraRemessa.Calculo_DV_NN_Santander(NossoNumero)
                         Con.ExecutarQuery("UPDATE [TB_FATURAMENTO] SET VL_BOLETO = '" & VL_BOLETO & "', NOSSONUMERO = '" & NossoNumero & "', DT_VENCIMENTO_BOLETO = CONVERT(DATE,'" & Titulo.DataVencimento & "',103), DT_EMISSAO_BOLETO = GETDATE(), COD_BANCO = '" & COD_BANCO & "', DIG_NOSSONUM='" & Dig_NossoNum.Replace(" ", "") & "',FL_ENVIADO_REM = 0 WHERE ID_FATURAMENTO = " & linhads.Item("ID_FATURAMENTO").ToString())
@@ -1717,9 +1731,7 @@ WHERE ID_FATURAMENTO IN (" & IDs & ")")
                 If Directory.Exists(diretorio_arquivos) Then
                     Dim di As System.IO.DirectoryInfo = New DirectoryInfo(diretorio_arquivos)
                     For Each file As FileInfo In di.GetFiles()
-                        txtArquivoSelecionado.Text = di.ToString.Substring(di.ToString.IndexOf("Content"))
-                        txtArquivoSelecionado.Text = txtArquivoSelecionado.Text & "/" & file.ToString
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo()", True)
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "AbrirArquivo(" & ID_FATURAMENTO & ")", True)
                     Next
                 Else
                     lblmsgErro.Text = "Faturamento selecionado não possui anexo!"

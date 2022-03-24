@@ -27,8 +27,13 @@
                 padding-right:5px !important;
            }
            
+           input[type=submit] {
+                display: none;
+           }
+           
         }
     </style>
+    <asp:Button runat="server" Text="Gerar CSV" id="btnCSV" CssClass="btnCSV btn btn-success"  Style="float:right" />
         <div style="display:none">
     <asp:Label ID="lblIDINVOICE"  runat="server"/>
         <asp:Label ID="lblID_BL"  runat="server"/>

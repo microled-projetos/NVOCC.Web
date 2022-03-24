@@ -149,9 +149,9 @@ Public Class RastreioService
 
                         Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
 
-                        If NR_CE <> "" Then
-                            Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
-                        End If
+                        'If NR_CE <> "" Then
+                        '    Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
+                        'End If
 
                         'If DT_EMISSAO_BL <> "" Then
                         '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)
@@ -188,9 +188,9 @@ Public Class RastreioService
 
                     Con.ExecutarQuery("  UPDATE TB_BL SET TRAKING_BL = '" & trackingBL.ToString().Replace("'", "") & "' where ID_BL =   " & idBl)
 
-                    If NR_CE <> "" Then
-                        Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
-                    End If
+                    'If NR_CE <> "" Then
+                    '    Con.ExecutarQuery("  UPDATE TB_BL SET NR_CE = '" & NR_CE & "' where NR_CE IS NULL AND ID_BL =   " & idBl)
+                    'End If
 
                     'If DT_EMISSAO_BL <> "" Then
                     '    Con.ExecutarQuery("  UPDATE TB_BL SET DT_EMISSAO_BL = '" & DT_EMISSAO_BL & "' where DT_EMISSAO_BL IS NULL AND ID_BL =   " & idBl)

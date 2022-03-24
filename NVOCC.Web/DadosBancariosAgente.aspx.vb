@@ -22,6 +22,13 @@ Public Class DadosBancariosAgente
                 CarregaArquivos()
             End If
 
+            If Request.QueryString("tipo") = "a" Then
+                txtPayment.Enabled = False
+                txtRefund.Enabled = False
+                txtAgreement.Enabled = False
+                txtTaxID.Enabled = False
+            End If
+
         End If
 
             Dim Con As New Conexao_sql
@@ -61,7 +68,7 @@ Public Class DadosBancariosAgente
         Dim Con As New Conexao_sql
         Dim ds As DataSet
         Con.Conectar()
-        ds = Con.ExecutarQuery("SELECT NM_FANTASIA,PAYMENT_TO,BANK_NAME,AGREEMENT,IBAN_BR,SWIFT_CODE,ACCOUNT_NUMBER,AGENCY,REFUND,OB_BANCARIA FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID_Parceiro)
+        ds = Con.ExecutarQuery("SELECT NM_FANTASIA,PAYMENT_TO,BANK_NAME,AGREEMENT,IBAN_BR,SWIFT_CODE,ACCOUNT_NUMBER,AGENCY,REFUND,OB_BANCARIA,BANK_ADDRESS,TAX_ID FROM [dbo].[TB_PARCEIRO] WHERE ID_PARCEIRO = " & ID_Parceiro)
         If ds.Tables(0).Rows.Count > 0 Then
             lblRazaoSocial.Text = ds.Tables(0).Rows(0).Item("NM_FANTASIA").ToString()
             txtPayment.Text = ds.Tables(0).Rows(0).Item("PAYMENT_TO").ToString()
@@ -73,7 +80,8 @@ Public Class DadosBancariosAgente
             txtObs.Text = ds.Tables(0).Rows(0).Item("OB_BANCARIA").ToString()
             txtAgreement.Text = ds.Tables(0).Rows(0).Item("AGREEMENT").ToString()
             txtIban.Text = ds.Tables(0).Rows(0).Item("IBAN_BR").ToString()
-
+            txtTaxID.Text = ds.Tables(0).Rows(0).Item("TAX_ID").ToString()
+            txtBankAddress.Text = ds.Tables(0).Rows(0).Item("BANK_ADDRESS").ToString()
         End If
 
         Con.Fechar()
@@ -157,6 +165,20 @@ Public Class DadosBancariosAgente
                     filtro &= ","
                 End If
                 filtro = filtro & " IBAN_BR = '" & txtIban.Text & "' "
+            End If
+
+            If txtTaxID.Text <> "" Then
+                If filtro <> "" Then
+                    filtro &= ","
+                End If
+                filtro = filtro & " TAX_ID = '" & txtTaxID.Text & "' "
+            End If
+
+            If txtBankAddress.Text <> "" Then
+                If filtro <> "" Then
+                    filtro &= ","
+                End If
+                filtro = filtro & " BANK_ADDRESS = '" & txtBankAddress.Text & "' "
             End If
 
             Dim SQL As String = "UPDATE [dbo].[TB_PARCEIRO] SET " & filtro & "  WHERE ID_PARCEIRO = " & txtID.Text

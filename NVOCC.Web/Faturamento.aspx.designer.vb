@@ -311,33 +311,6 @@ Partial Public Class Faturamento
     Protected WithEvents txtlinha As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle txtDataNFLucro.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtDataNFLucro As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtProcesso.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtProcesso As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle txtResultadoPrompt.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtResultadoPrompt As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle lblContador.
     '''</summary>
     '''<remarks>

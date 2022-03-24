@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="row" style="display: flex; margin:auto; margin-top:10px;">
                                     <div style="margin: auto">
-                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="exportCSV('Invoice.csv')">Exportar Grid - CSV</button>
+                                        <button type="button" id="btnExportPagamentoRecebimento" class="btn btn-primary" onclick="expRelatorioInvoice('Invoice.csv')">Exportar Grid - CSV</button>
                                         <button type="button" id="btnPrintPagamentoRecebimento" class="btn btn-primary" onclick="printPagamentosRecebimentos()">Imprimir</button>
                                     </div>
                                 </div>
@@ -190,40 +190,64 @@
             }
         }
 
-        function exportCSV(filename) {
-            var csv = [];
-            var rows = document.querySelectorAll("#grdInvoice tr");
 
-            for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdInvoice td, #grdInvoice th");
+        
 
-                for (var j = 0; j < cols.length; j++)
-                    row.push(cols[j].innerText);
 
-                csv.push(row.join(";"));
-            }
-
-            // Download CSV file
-            exportTableToCSVPagamentosRecebimentos(csv.join("\n"), filename);
+        function expRelatorioInvoice(file) {
+            var dtInicial = document.getElementById("txtDtInicialVencimentoInvoice").value;
+            var dtFinal = document.getElementById("txtDtFinalVencimentoInvoice").value;
+            $.ajax({
+                type: "POST",
+                url: "DemurrageService.asmx/imprimirInvoiceExp",
+                data: JSON.stringify({ dataI: (dtInicial), dataF: (dtFinal), invoices: (arrayInvoice) }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (dado) {
+                    var dado = dado.d;
+                    dado = $.parseJSON(dado);
+                    if (dado != null) {
+                        var invoices = [["INVOICE;PROCESSO;HBL;MBL;CLIENTE;AGENTE;ORIGEM;DESTINO;TRANSPORTADOR;DATA PREVISÃO EMBARQUE;DATA EMBARQUE;DATA PREVISÃO CHEGADA;DATA CHEGADA"]];
+                        for (let i = 0; i < dado.length; i++) {
+                            invoices.push([dado[i]])
+                        }
+                        exportar(file, invoices.join("\n"));
+                    }
+                }
+            })
         }
 
-        function exportTableToCSVPagamentosRecebimentos(csv, filename) {
+        function exportar(file, array) {
             var csvFile;
 
             var downloadLink;
 
+
             // CSV file
-            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            csvFile = new Blob(["\uFEFF" + array], { type: "text/csv;charset=utf-8;" });
+
             // Download link
             downloadLink = document.createElement("a");
+
+
             // File name
-            downloadLink.download = filename;
+            downloadLink.download = file;
+
+
             // Create a link to the file
             downloadLink.href = window.URL.createObjectURL(csvFile);
+
+
             // Hide download link
             downloadLink.style.display = "none";
+
+
+
             // Add the link to DOM
             document.body.appendChild(downloadLink);
+
+
+
             // Click download link
             downloadLink.click();
         }
@@ -347,13 +371,27 @@
                                 doc.text("EMBARQUE", 243, 27);
                                 doc.text("P. CHEGADA", 261, 27);
                                 doc.text("CHEGADA", 279, 27);
-                                position = 27;
-                                positionv = 28;
+                                position = 27+5;
+                                positionv = 28+5;
+                                doc.setFontStyle("normal");
+                                doc.line(3, positionv, 293, positionv);
+                                doc.text(dado[i]["NR_INVOICE"], 4, position);
+                                doc.text(dado[i]["NR_PROCESSO"], 50, position);
+                                doc.text(dado[i]["HBL"], 68, position);
+                                doc.text(dado[i]["MBL"].substring(0, 20), 103, position);
+                                doc.text(dado[i]["CLIENTE"].substring(0, 12), 133, position);
+                                doc.text(dado[i]["AGENTE"].substring(0, 12), 161, position);
+                                doc.text(dado[i]["ORIGEM"].substring(0, 12), 186, position);
+                                doc.text(dado[i]["DESTINO"], 201, position);
+                                doc.text(dado[i]["TRANSPORTADOR"].substring(0, 15), 214, position);
+                                doc.text(dado[i]["DT_EMBARQUE"], 243, position);
+                                doc.text(dado[i]["DT_PREVISAO_CHEGADA"].substring(0, 15), 261, position);
+                                doc.text(dado[i]["DT_CHEGADA"], 279, position);
                             } else {
                                 position = position + 5;
                                 positionv = positionv + 5;
                                 doc.setFontStyle("normal");
-                                doc.line(3, positionv, 289, positionv);
+                                doc.line(3, positionv, 293, positionv);
                                 doc.text(dado[i]["NR_INVOICE"], 4, position);
                                 doc.text(dado[i]["NR_PROCESSO"], 50, position);
                                 doc.text(dado[i]["HBL"], 68, position);
@@ -394,82 +432,7 @@
         }
 
 
-        function EstimativaPagamentosRecebimentos() {
-            $("#modalEstimativaPagamentoRecebimento").modal('show');
-            var dtInicial = document.getElementById("txtDtInicialEstimativaPagamentoRecebimento").value;
-            var dtFinal = document.getElementById("txtDtFinalEstimativaPagamentoRecebimento").value;
-            var nota = document.getElementById("txtEstimativaPagamentoRecebimento").value;
-            var filter = document.getElementById("ddlFilterEstimativaPagamentoRecebimento").value;
-            if (dtInicial != "" && dtFinal != "") {
-                $.ajax({
-                    type: "POST",
-                    url: "DemurrageService.asmx/listarContasAReceberAPagar",
-                    data: '{filterby: "' + ddlDataFilter.value + '", dataI:"' + dtInicial + '",dataF:"' + dtFinal + '", nota: "' + nota + '", filter: "' + filter + '"}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                        $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td colspan='16'><div class='loader'></div></td></tr>");
-                    },
-                    success: function (dado) {
-                        var dado = dado.d;
-                        dado = $.parseJSON(dado);
-                        $("#grdEstimativaPagamentoRecebimentoBody").empty();
-                        if (dado != null) {
-                            for (let i = 0; i < dado.length; i++) {
-                                $("#grdEstimativaPagamentoRecebimentoBody").append("<tr><td class='text-center'> " + dado[i]["DATA"] + "</td><td class='text-center'>" + dado[i]["NR_PROCESSO"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["TP_SERVICO"] + "</td><td class='text-center'>" + dado[i]["NM_ITEM_DESPESA"] + "</td><td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_CLIENTE_REC"] + "'>" + dado[i]["NM_CLIENTE_REC"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_REC"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA_REC"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_REC"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_REC"] + "</td>" +
-                                    "<td class='text-center' style='max-width: 15ch;' title='" + dado[i]["NM_FORNECEDOR_PAG"] + "'>" + dado[i]["NM_FORNECEDOR_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_DEVIDO_PAG"] + "</td>" +
-                                    "<td class='text-center'>" + dado[i]["MOEDA_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["DT_CAMBIO_PAG"] + "</td><td class='text-center'>" + dado[i]["VL_LIQUIDO_PAG"] + "</td></tr>");
-                            }
-                        }
-                        else {
-                            $("#grdEstimativaPagamentoRecebimentoBody").append("<tr id='msgEmptyDemurrageContainer'><td colspan='16' class='alert alert-light text-center'>Não há nenhum registro</td></tr>");
-                        }
-                    }
-                })
-            } else {
 
-            }
-        }
-
-        function exportEstimativaCSV(filename) {
-            var csv = [];
-            var rows = document.querySelectorAll("#grdEstimativaPagamentoRecebimento tr");
-
-            for (var i = 0; i < rows.length; i++) {
-                var row = [], cols = rows[i].querySelectorAll("#grdEstimativaPagamentoRecebimento td, #grdEstimativaPagamentoRecebimento th");
-
-                for (var j = 0; j < cols.length; j++)
-                    row.push(cols[j].innerText);
-
-                csv.push(row.join(";"));
-            }
-
-            // Download CSV file
-            exportTableToCSVEstimativaPagamentosRecebimentos(csv.join("\n"), filename);
-        }
-
-        function exportTableToCSVEstimativaPagamentosRecebimentos(csv, filename) {
-            var csvFile;
-
-            var downloadLink;
-
-            // CSV file
-            csvFile = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-            // Download link
-            downloadLink = document.createElement("a");
-            // File name
-            downloadLink.download = filename;
-            // Create a link to the file
-            downloadLink.href = window.URL.createObjectURL(csvFile);
-            // Hide download link
-            downloadLink.style.display = "none";
-            // Add the link to DOM
-            document.body.appendChild(downloadLink);
-            // Click download link
-            downloadLink.click();
-        }
+        
     </script>
 </asp:Content>
