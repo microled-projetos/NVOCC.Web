@@ -2845,7 +2845,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             txtComprimento_CargaAereo.Text = 0
         End If
 
-        If Session("ID_BL_MASTER") = "" Then
+        If Session("ID_BL_MASTER") Is Nothing Then
             Session("ID_BL_MASTER") = 0
         End If
 
