@@ -1346,15 +1346,6 @@ Partial Public Class CadastrarMaster
     Protected WithEvents UpdatePanel14 As Global.System.Web.UI.UpdatePanel
 
     '''<summary>
-    '''Controle txtCotacao_BasicoAereo.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtCotacao_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''Controle divSuccess_BasicoAereo.
     '''</summary>
     '''<remarks>
@@ -1958,6 +1949,96 @@ Partial Public Class CadastrarMaster
     Protected WithEvents btnFechar_TaxaAereo As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''Controle UpdatePanel16.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents UpdatePanel16 As Global.System.Web.UI.UpdatePanel
+
+    '''<summary>
+    '''Controle txtCotacao_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCotacao_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle divSuccess_VinculoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divSuccess_VinculoAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle Label5.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label5 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle divErro_VinculoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divErro_VinculoAereo As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle Label6.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents Label6 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Controle dgvNaoVinculadosAereos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvNaoVinculadosAereos As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''Controle btnVincularAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnVincularAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnDesvincularAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnDesvincularAereo As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle dgvVinculadosAereos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dgvVinculadosAereos As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
     '''Controle dsArmazemDescarga.
     '''</summary>
     '''<remarks>
@@ -2127,6 +2208,24 @@ Partial Public Class CadastrarMaster
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents dsNaoVinculadas As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsVinculadosAereos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsVinculadosAereos As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsNaoVinculadosAereos.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsNaoVinculadosAereos As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsWeekAereo.

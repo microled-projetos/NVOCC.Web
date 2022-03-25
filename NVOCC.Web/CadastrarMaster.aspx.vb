@@ -2681,7 +2681,7 @@ AND ID_BL_TAXA NOT IN (SELECT ISNULL(F.ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER
 
                     Con.ExecutarQuery("UPDATE TB_BL_TAXA SET 
 FL_DECLARADO = " & ds.Tables(0).Rows(0).Item("FL_DECLARADO") & "
-WHERE ID_BL IN (SELECT ID_BL FROM TB_BL  WHERE ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & " AND GRAU= 'C')
+WHERE ID_BL IN (SELECT ID_BL FROM TB_BL  WHERE ID_BL_MASTER = " & txtID_BasicoAereo.Text & " AND GRAU= 'C')
 AND ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)
 AND CD_PR='P'
 AND ID_BL_TAXA NOT IN (SELECT ISNULL(F.ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER_ITENS AS F INNER JOIN TB_CONTA_PAGAR_RECEBER AS E ON F.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER WHERE E.DT_CANCELAMENTO IS NULL)")
@@ -2851,5 +2851,65 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
         End If
         txtNomeEmpresa_TaxasMaritimo.Text = txtNomeEmpresa_TaxasMaritimo.Text.Replace("NULL", "")
 
+    End Sub
+
+    Private Sub btnDesvincularAereo_Click(sender As Object, e As EventArgs) Handles btnDesvincularAereo.Click
+        divSuccess_VinculoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        For Each linha As GridViewRow In dgvVinculadosAereos.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            Dim check As CheckBox = linha.FindControl("PROCESSO")
+
+            If check.Checked Then
+
+                Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = NULL WHERE ID_BL = " & ID)
+
+            End If
+        Next
+        Con.Fechar()
+        divSuccess_VinculoAereo.Visible = True
+        dgvNaoVinculadosAereos.DataBind()
+        dgvVinculadosAereos.DataBind()
+
+    End Sub
+
+    Private Sub btnVincularAereo_Click(sender As Object, e As EventArgs) Handles btnVincularAereo.Click
+        divSuccess_VinculoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        For Each linha As GridViewRow In dgvNaoVinculadosAereos.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            Dim check As CheckBox = linha.FindControl("PROCESSO")
+
+            If check.Checked Then
+
+                Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = " & txtID_BasicoAereo.Text & " WHERE ID_BL = " & ID)
+
+                If txtCotacao_BasicoAereo.Text = "" Then
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET ID_COTACAO = (SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & ID & ") WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                    Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
+                    Session("ID_COTACAO") = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                    txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
+
+                ElseIf txtCotacao_BasicoAereo.Text = 0 Then
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET ID_COTACAO = (SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & ID & ") WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                    Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
+                    Session("ID_COTACAO") = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                    txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
+
+                End If
+                AtualizaHouse(2)
+
+            End If
+        Next
+        Con.Fechar()
+        divSuccess_VinculoAereo.Visible = True
+        dgvNaoVinculadosAereos.DataBind()
+        dgvVinculadosAereos.DataBind()
     End Sub
 End Class
