@@ -777,6 +777,8 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         txtCalculoCompra_TaxaAereo.Text = ""
         txtMinimoCompra_TaxaAereo.Text = ""
         txtID_TaxaAereo.Text = ""
+        txtCodEmpresa_TaxasAereo.Text = ""
+        txtNomeEmpresa_TaxasAereo.Text = ""
         'txtCalculoVenda_TaxaAereo.Text = ""
         'txtTaxaVenda_TaxaAereo.Text = ""
         'txtMinimoVenda_TaxaAereo.Text = ""
@@ -1139,7 +1141,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR  from TB_BL_TAXA A
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR,A.ID_BL_TAXA_MASTER  from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID)
@@ -1150,6 +1152,8 @@ WHERE A.ID_BL_TAXA =" & ID)
                     txtID_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL_TAXA")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")) Then
+                    txtCodEmpresa_TaxasAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
+                    ddlEmpresa_TaxaAereo.DataBind()
                     ddlEmpresa_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
                 End If
 
@@ -2841,8 +2845,8 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
-            dsFornecedor.SelectCommand = Sql
-            dsFornecedor.DataBind()
+            dsFornecedorMaritimo.SelectCommand = Sql
+            dsFornecedorMaritimo.DataBind()
             ddlEmpresa_TaxasMaritimo.DataBind()
         End If
         txtNomeEmpresa_TaxasMaritimo.Text = txtNomeEmpresa_TaxasMaritimo.Text.Replace("NULL", "")

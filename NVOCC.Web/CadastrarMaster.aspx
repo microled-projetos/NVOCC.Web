@@ -862,7 +862,7 @@
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Fornecedor:</label>
-                                                                                <asp:DropDownList ID="ddlEmpresa_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedor" DataValueField="ID_PARCEIRO">
+                                                                                <asp:DropDownList ID="ddlEmpresa_TaxasMaritimo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorMaritimo" DataValueField="ID_PARCEIRO">
                                                                                 </asp:DropDownList>
                                                                             </div>
                                                                         </div>
@@ -1468,10 +1468,22 @@
                                                                         <asp:CheckBox ID="ckbPremiacao_TaxaAereo" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Premiação"></asp:CheckBox>
                                                                     </div>
                                                                 </div>
+                                                                        <div class="col-sm-1" style="display:none" >
+                                            <div class="form-group">
+                                                <label class="control-label">Cód Empresa:</label>
+                                                <asp:TextBox ID="txtCodEmpresa_TaxasAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label class="control-label">Busca Fornecedor:</label>
+                                                <asp:TextBox ID="txtNomeEmpresa_TaxasAereo" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
+                                            </div>
+                                        </div>
                                                                         <div class="col-sm-4">
                                                                             <div class="form-group">
                                                                                 <label class="control-label">Fornecedor:</label>
-                                                                                <asp:DropDownList ID="ddlEmpresa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedor" DataValueField="ID_PARCEIRO"></asp:DropDownList>
+                                                                                <asp:DropDownList ID="ddlEmpresa_TaxaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsFornecedorAereo" DataValueField="ID_PARCEIRO"></asp:DropDownList>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1586,7 +1598,8 @@
                                                     <Triggers>
                                                         <asp:AsyncPostBackTrigger ControlID="btnSalvar_TaxaAereo" />
                                                         <asp:AsyncPostBackTrigger ControlID="btnFechar_TaxaAereo" />
-                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />     
+                                                        <asp:AsyncPostBackTrigger ControlID="ddlDespesa_TaxaAereo" />  
+                                                        <asp:AsyncPostBackTrigger ControlID="txtNomeEmpresa_TaxasAereo" />  
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -1728,7 +1741,7 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
 (SELECT NM_STATUS_PAGAMENTO FROM TB_STATUS_PAGAMENTO WHERE ID_STATUS_PAGAMENTO = A.ID_STATUS_PAGAMENTO)STATUS_PAGAMENTO,
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
-CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
+CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,VL_TAXA,
 VL_TAXA_CALCULADO
 FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL">
 
@@ -1778,12 +1791,20 @@ union SELECT 0, 'Selecione' ORDER BY ID_WEEK">
 </SelectParameters>--%>
     </asp:SqlDataSource>
 
-    <asp:SqlDataSource ID="dsFornecedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+    <asp:SqlDataSource ID="dsFornecedorMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
 union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
         <SelectParameters>
             <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeEmpresa_TaxasMaritimo"  DefaultValue ="NULL"  />
             <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodEmpresa_TaxasMaritimo" DefaultValue ="0" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsFornecedorAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        selectcommand="SELECT ID_PARCEIRO,NM_RAZAO,Case when TP_PESSOA = 1 then NM_RAZAO +' - ' + CNPJ when TP_PESSOA = 2 then  NM_RAZAO +' - ' + CPF  else NM_RAZAO + ' (' + CONVERT(VARCHAR,ID_PARCEIRO) + ')' end as Descricao FROM TB_PARCEIRO WHERE (NM_RAZAO  like '%' + @NM_RAZAO + '%' or ID_PARCEIRO =  @ID_PARCEIRO)
+union SELECT  0, '',' Selecione' ORDER BY NM_RAZAO">
+        <SelectParameters>
+            <asp:ControlParameter Name="NM_RAZAO" Type="String" ControlID="txtNomeEmpresa_TaxasAereo"  DefaultValue ="NULL"  />
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="Int32" ControlID="txtCodEmpresa_TaxasAereo" DefaultValue ="0" />
         </SelectParameters>
     </asp:SqlDataSource>
 

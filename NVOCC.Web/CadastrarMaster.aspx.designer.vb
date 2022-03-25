@@ -1832,6 +1832,24 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ckbPremiacao_TaxaAereo As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
+    '''Controle txtCodEmpresa_TaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtCodEmpresa_TaxasAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtNomeEmpresa_TaxasAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtNomeEmpresa_TaxasAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlEmpresa_TaxaAereo.
     '''</summary>
     '''<remarks>
@@ -2129,13 +2147,22 @@ Partial Public Class CadastrarMaster
     Protected WithEvents dsWeekMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''Controle dsFornecedor.
+    '''Controle dsFornecedorMaritimo.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents dsFornecedor As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents dsFornecedorMaritimo As Global.System.Web.UI.WebControls.SqlDataSource
+
+    '''<summary>
+    '''Controle dsFornecedorAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents dsFornecedorAereo As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''Controle dsServicoMaritimo.
