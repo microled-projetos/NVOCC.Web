@@ -53,6 +53,8 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
 
                     'AEREO
+                    btnDesvincularAereo.Visible = False
+                    btnVincularAereo.Visible = False
                     '  btnGravar_BasicoAereo.Enabled = False
                     'btnNovaTaxaAereo.Enabled = False
                     ' btnSalvar_TaxaAereo.Visible = False
@@ -67,7 +69,7 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
                     btnNovaTaxasMaritimo.Enabled = False
 
                     'AEREO
-                    btnGravar_BasicoAereo.Enabled = False
+                    btnNovaTaxaAereo.Enabled = False
 
                 End If
 
@@ -2043,11 +2045,15 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 Else
 
-
+                    Dim ID_BL_TAXA As String
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String
 
                     'REALIZA INSERT TAXA COMPRA
-                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    Dim dstaxa As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
+                    ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
+                    retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                     txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
                     txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
@@ -2099,11 +2105,15 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         Else
 
 
+                            Dim ID_BL_TAXA As String
+                            Dim Calcula As New CalculaBL
+                            Dim retorno As String
 
                             'REALIZA UPDATE TAXA COMPRA
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaCompra_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoCompra_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "', FL_DECLARADO = " & FL_DECLARADO & "WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
-
+                            ID_BL_TAXA = txtID_TaxaAereo.Text
+                            retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                             ''REALIZA UPDATE TAXA VENDA
                             'Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoVenda_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)

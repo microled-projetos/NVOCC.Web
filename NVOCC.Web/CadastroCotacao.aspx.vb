@@ -2233,7 +2233,18 @@ AND A.ID_MOEDA_FRETE = B.ID_MOEDA_VENDA
 AND A.ID_COTACAO = " & txtID.Text & "
 GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
 
-                        x = ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA") / 100
+                        If ds1.Tables(0).Rows.Count > 0 Then
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA")) Then
+                                x = ds1.Tables(0).Rows(0).Item("TOTAL_COMPRA") / 100
+                            Else
+                                x = 0 / 100
+                            End If
+                        Else
+                            x = 0 / 100
+                        End If
+
+
+
                         y = linha.Item("VL_TAXA_COMPRA")
                         z = y * x
                         If COMPRA_MIN < 0 Then
@@ -2248,7 +2259,15 @@ GROUP BY A.ID_COTACAO,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_COMPRA")
 
                         CompraCalc = z.ToString
 
-                        x = ds1.Tables(0).Rows(0).Item("TOTAL_VENDA") / 100
+                        If ds1.Tables(0).Rows.Count > 0 Then
+                            If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL_VENDA")) Then
+                                x = ds1.Tables(0).Rows(0).Item("TOTAL_VENDA") / 100
+                            Else
+                                x = 0 / 100
+                            End If
+                        Else
+                            x = 0 / 100
+                        End If
                         y = linha.Item("VL_TAXA_VENDA")
                         z = y * x
                         If VENDA_MIN < 0 Then
