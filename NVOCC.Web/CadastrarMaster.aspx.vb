@@ -353,10 +353,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                     'AGENCIAMENTO DE IMPORTACAO AEREO
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(Request.QueryString("id"))
-                    End If
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(Request.QueryString("id"))
+                    'End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -1443,8 +1443,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
 
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
+                        'Dim Rastreio As New RastreioService
+                        'Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
 
                         If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
                             Week(2)
@@ -1529,11 +1529,11 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ",ID_STATUS_FRETE_AGENTE =  " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
 
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(txtID_BasicoAereo.Text)
-                    End If
+                    'ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(txtID_BasicoAereo.Text)
+                    'End If
 
 
                     If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
