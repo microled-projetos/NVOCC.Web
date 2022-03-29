@@ -116,14 +116,13 @@ Public Class RastreioService
             ds = Con.ExecutarQuery(" select NR_BL, isnull(BL_TOKEN, '') as BL_TOKEN from tb_bl where ID_BL =  " & idBl)
 
             If ds.Tables(0).Rows.Count > 0 Then
-                NR_BL = ds.Tables(0).Rows(0).Item("NR_BL")
-                token_bl = ds.Tables(0).Rows(0).Item("BL_TOKEN")
-
+                NR_BL = ds.Tables(0).Rows(0).Item("NR_BL").ToString()
+                token_bl = ds.Tables(0).Rows(0).Item("BL_TOKEN").ToString()
 
                 If String.IsNullOrEmpty(token_bl) Then
                     ds = Con.ExecutarQuery("select CNPJ from TB_PARCEIRO where ID_PARCEIRO IN (select ID_PARCEIRO_TRANSPORTADOR from tb_bl where ID_BL =" & idBl & ") ")
                     If ds.Tables(0).Rows.Count > 0 Then
-                        cnpj = ds.Tables(0).Rows(0).Item("CNPJ")
+                        cnpj = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
                     End If
 
                     Dim tokenAPi = GetDadosJsonBL(NR_BL, cnpj, "andre.rodrigues@abainfra.com.br", "185")

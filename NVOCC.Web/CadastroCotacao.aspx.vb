@@ -3750,9 +3750,10 @@ QTD_BASE_CALCULO = " & txtQtdBaseCalculo.Text & "
     Private Sub ddlCliente_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlCliente.SelectedIndexChanged
 
         If ddlCliente.SelectedValue <> 0 Then
+            Session("ID_CLIENTE") = ddlCliente.SelectedValue
             Dim Con As New Conexao_sql
             Con.Conectar()
-            Dim sql As String = "SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & ddlCliente.SelectedValue & " union SELECT  0, '   Selecione' ORDER BY ID_CONTATO"
+            Dim sql As String = "SELECT ID_CONTATO, NM_CONTATO FROM TB_CONTATO WHERE ID_PARCEIRO = " & Session("ID_CLIENTE") & " union SELECT  0, '   Selecione' ORDER BY ID_CONTATO"
             Dim ds As DataSet = Con.ExecutarQuery(sql)
             If ds.Tables(0).Rows.Count > 1 Then
                 dsContato.SelectCommand = sql
