@@ -246,6 +246,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EM
             Return "+"
         End If
     End Function
+
     Sub limpaFormulario()
         txtID.Text = ""
         txtIDInvoice.Text = ""
@@ -623,8 +624,16 @@ WHERE D.ID_BL_TAXA = ID_BL_TAXA AND C.DT_CANCELAMENTO IS NULL  AND ISNULL(C.TP_E
                 Dim VALOR_STRING As String = Valor.ToString
                 VALOR_STRING = VALOR_STRING.ToString.Replace(",", ".")
                 Con.Conectar()
-                Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+
+                If Valor < 0 Then
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
+(" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_COMISSAO_ACCOUNT FROM TB_PARAMETROS)," & VALOR_STRING & ", 'CO')")
+                Else
+                    Con.ExecutarQuery("INSERT INTO TB_ACCOUNT_INVOICE_ITENS(ID_ACCOUNT_INVOICE,ID_BL,ID_BL_MASTER,ID_BL_TAXA,ID_ITEM_DESPESA,VL_TAXA,CD_TIPO_DEVOLUCAO) VALUES
 (" & txtIDInvoice.Text & "," & ID_BL & ",(SELECT ID_BL_MASTER FROM TB_BL WHERE ID_BL = " & ID_BL & "), NULL,(SELECT  ID_ITEM_COMISSAO_ACCOUNT FROM TB_PARAMETROS)," & operador & VALOR_STRING & ", 'CO')")
+                End If
+
+
             End If
 
 

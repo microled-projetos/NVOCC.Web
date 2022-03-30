@@ -80,9 +80,17 @@ WHERE B.FL_DECLARADO = 1
 AND A.ID_MOEDA_FRETE = B.ID_MOEDA
 AND A.ID_BL =" & ID_BL & "
 GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
+                    If ds1.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
+                        Else
+                            x = 0 / 100
+                        End If
+                    Else
+                        x = 0 / 100
+                    End If
 
 
-                    x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -329,9 +337,16 @@ WHERE B.FL_DECLARADO = 1
 AND B.ID_MOEDA = B.ID_MOEDA AND B.ID_TIPO_PAGAMENTO = 1
 AND A.ID_BL =" & ID_BL & "
 GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
+                    If ds1.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
+                        Else
+                            x = 0 / 100
+                        End If
+                    Else
+                        x = 0 / 100
+                    End If
 
-
-                    x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -565,7 +580,7 @@ GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
                     'POR HAWB(AEREO)
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(COUNT(ID_BL),0)QTD
 FROM TB_BL A
-WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (2,5) AND GRAU = 'C' ")
+WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (2,5) AND GRAU = 'C' ")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -584,7 +599,7 @@ WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (2,5) AND GRAU = 'C' ")
                     'POR HBL (MARITIMO)
                     Dim ds1 As DataSet = Con.ExecutarQuery("SELECT ISNULL(COUNT(ID_BL),0)QTD
 FROM TB_BL A
-WHERE A.ID_BL = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
+WHERE A.ID_BL_MASTER = " & ID_BL & " AND ID_SERVICO IN (1,4) AND GRAU = 'C' ")
                     x = ds1.Tables(0).Rows(0).Item("QTD")
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
@@ -807,9 +822,17 @@ WHERE B.FL_DECLARADO = 1
 AND B.ID_MOEDA = B.ID_MOEDA
 AND A.ID_BL =" & ID_BL & "
 GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
+                    If ds1.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
+                        Else
+                            x = 0 / 100
+                        End If
+                    Else
+                        x = 0 / 100
+                    End If
 
 
-                    x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then
@@ -1064,9 +1087,16 @@ WHERE B.FL_DECLARADO = 1
 AND B.ID_MOEDA = B.ID_MOEDA AND B.ID_TIPO_PAGAMENTO = 1
 AND A.ID_BL =" & ID_BL & "
 GROUP BY A.ID_BL,VL_TAXA_CALCULADO")
+                    If ds1.Tables(0).Rows.Count > 0 Then
+                        If Not IsDBNull(ds1.Tables(0).Rows(0).Item("TOTAL")) Then
+                            x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
+                        Else
+                            x = 0 / 100
+                        End If
+                    Else
+                        x = 0 / 100
+                    End If
 
-
-                    x = ds1.Tables(0).Rows(0).Item("TOTAL") / 100
                     y = ds.Tables(0).Rows(0).Item("VL_TAXA")
                     z = y * x
                     If VL_TAXA_MIN < 0 Then

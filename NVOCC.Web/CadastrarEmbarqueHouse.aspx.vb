@@ -303,10 +303,10 @@ FROM TB_BL A where ID_BL =" & Request.QueryString("id"))
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
                     'AGENCIAMENTO DE IMPORTACAO AEREO
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(Request.QueryString("id"))
-                    End If
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(Request.QueryString("id"))
+                    'End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -2782,11 +2782,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                         End If
                     End If
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(txtID_BasicoAereo.Text)
-                    End If
+                    'ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ID_BL_MASTER,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL_MASTER")) And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(txtID_BasicoAereo.Text)
+                    'End If
 
                     CalculoProfit(txtID_BasicoAereo.Text)
 

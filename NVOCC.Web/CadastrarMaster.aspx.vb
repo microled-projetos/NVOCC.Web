@@ -53,6 +53,8 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
 
 
                     'AEREO
+                    btnDesvincularAereo.Visible = False
+                    btnVincularAereo.Visible = False
                     '  btnGravar_BasicoAereo.Enabled = False
                     'btnNovaTaxaAereo.Enabled = False
                     ' btnSalvar_TaxaAereo.Visible = False
@@ -67,7 +69,7 @@ WHERE ID_BL=" & Request.QueryString("id") & ")")
                     btnNovaTaxasMaritimo.Enabled = False
 
                     'AEREO
-                    btnGravar_BasicoAereo.Enabled = False
+                    btnNovaTaxaAereo.Enabled = False
 
                 End If
 
@@ -351,10 +353,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                     'AGENCIAMENTO DE IMPORTACAO AEREO
                     'AGENCIAMENTO DE EXPORTAÇÃO AEREO
 
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(Request.QueryString("id"))
-                    End If
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(Request.QueryString("id"))
+                    'End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_BL")) Then
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL")
@@ -777,6 +779,8 @@ FROM TB_USUARIO where ID_USUARIO =" & Session("ID_USUARIO"))
         txtCalculoCompra_TaxaAereo.Text = ""
         txtMinimoCompra_TaxaAereo.Text = ""
         txtID_TaxaAereo.Text = ""
+        txtCodEmpresa_TaxasAereo.Text = ""
+        txtNomeEmpresa_TaxasAereo.Text = ""
         'txtCalculoVenda_TaxaAereo.Text = ""
         'txtTaxaVenda_TaxaAereo.Text = ""
         'txtMinimoVenda_TaxaAereo.Text = ""
@@ -1139,7 +1143,7 @@ WHERE ID_BL=" & Request.QueryString("id") & " and ID_BL_TAXA = " & ID & ")")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR  from TB_BL_TAXA A
+            ds = Con.ExecutarQuery("select A.ID_BL_TAXA,A.ID_BL,A.ID_ITEM_DESPESA,A.ID_BASE_CALCULO_TAXA,A.VL_TAXA_CALCULADO,A.VL_TAXA,A.VL_TAXA_MIN,A.ID_MOEDA,A.ID_TIPO_PAGAMENTO,A.ID_ORIGEM_PAGAMENTO,A.ID_STATUS_PAGAMENTO,A.ID_PARCEIRO_EMPRESA,B.ID_CONTA_PAGAR_RECEBER_ITENS,c.DT_CANCELAMENTO,A.FL_PREMIACAO,A.CD_PR,A.ID_BL_TAXA_MASTER  from TB_BL_TAXA A
 LEFT JOIN TB_CONTA_PAGAR_RECEBER_ITENS B ON B.ID_BL_TAXA = A.ID_BL_TAXA  
 LEFT JOIN TB_CONTA_PAGAR_RECEBER C ON C.ID_CONTA_PAGAR_RECEBER = B.ID_CONTA_PAGAR_RECEBER 
 WHERE A.ID_BL_TAXA =" & ID)
@@ -1150,6 +1154,8 @@ WHERE A.ID_BL_TAXA =" & ID)
                     txtID_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL_TAXA")
                 End If
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")) Then
+                    txtCodEmpresa_TaxasAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
+                    ddlEmpresa_TaxaAereo.DataBind()
                     ddlEmpresa_TaxaAereo.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_EMPRESA")
                 End If
 
@@ -1437,8 +1443,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                         Session("ID_BL") = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
                         txtID_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
 
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
+                        'Dim Rastreio As New RastreioService
+                        'Rastreio.trackingbl(ds.Tables(0).Rows(0).Item("ID_BL").ToString())
 
                         If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
                             Week(2)
@@ -1523,11 +1529,11 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                     Con.ExecutarQuery("UPDATE TB_BL SET GRAU = 'M',NR_BL = " & txtNumeroBL_BasicoAereo.Text & ",ID_PARCEIRO_TRANSPORTADOR = " & ddltransportador_BasicoAereo.SelectedValue & ",ID_PORTO_ORIGEM = " & ddlOrigem_BasicoAereo.SelectedValue & ",ID_PORTO_DESTINO = " & ddlDestino_BasicoAereo.SelectedValue & ", ID_PARCEIRO_AGENTE_INTERNACIONAL = " & ddlAgente_BasicoAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",NR_VIAGEM = " & txtNumeroVoo_BasicoAereo.Text & ",NR_VIAGEM_1T = " & txtVoo1_BasicoAereo.Text & ",NR_VIAGEM_2T = " & txtVoo2_BasicoAereo.Text & ",NR_VIAGEM_3T = " & txtVoo3_BasicoAereo.Text & ", DT_1T = " & txtDataPrevista1_BasicoAereo.Text & ", DT_2T = " & txtDataPrevista2_BasicoAereo.Text & ", DT_3T = " & txtDataPrevista3_BasicoAereo.Text & ", ID_PORTO_1T =" & ddlAeroporto1_BasicoAereo.SelectedValue & ",ID_PORTO_3T =" & ddlAeroporto3_BasicoAereo.SelectedValue & ",ID_PORTO_2T =" & ddlAeroporto2_BasicoAereo.SelectedValue & ",ID_MOEDA_FRETE = " & ddlMoedaFrete_BasicoAereo.SelectedValue & ", DT_PREVISAO_EMBARQUE =  " & txtPrevisaoEmbarque_BasicoAereo.Text & ",DT_PREVISAO_CHEGADA =" & txtPrevisaoChegada_BasicoAereo.Text & ",DT_CHEGADA =  " & txtChegada_BasicoAereo.Text & ",DT_EMBARQUE =  " & txtEmbarque_BasicoAereo.Text & ",DT_EMISSAO_CONHECIMENTO = " & txtDataConhecimento_BasicoAereo.Text & ",VL_TARIFA_MASTER =  " & txtTarifaMaster_BasicoAereo.Text & ",ID_SERVICO = " & ddlServico_BasicoAereo.SelectedValue & ",ID_STATUS_FRETE_AGENTE =  " & ddlStatusFreteAgente_BasicoAereo.SelectedValue & " WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
 
 
-                    ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
-                    If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
-                        Dim Rastreio As New RastreioService
-                        Rastreio.trackingbl(txtID_BasicoAereo.Text)
-                    End If
+                    'ds = Con.ExecutarQuery("SELECT YEAR(DT_ABERTURA)ANO_ABERTURA,ISNULL(NR_BL,0)NR_BL FROM [TB_BL] WHERE ID_BL = " & txtID_BasicoAereo.Text & "")
+                    'If ds.Tables(0).Rows(0).Item("ANO_ABERTURA") >= 2022 And ds.Tables(0).Rows(0).Item("NR_BL") <> "0" Then
+                    '    Dim Rastreio As New RastreioService
+                    '    Rastreio.trackingbl(txtID_BasicoAereo.Text)
+                    'End If
 
 
                     If ddlWeekAereo.SelectedValue <> Session("ID_WEEK") Then
@@ -2039,11 +2045,15 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
 
                 Else
 
-
+                    Dim ID_BL_TAXA As String
+                    Dim Calcula As New CalculaBL
+                    Dim retorno As String
 
                     'REALIZA INSERT TAXA COMPRA
-                    Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
+                    Dim dstaxa As DataSet = Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_BL,ID_ITEM_DESPESA,ID_TIPO_PAGAMENTO,ID_ORIGEM_PAGAMENTO,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_MIN,ID_PARCEIRO_EMPRESA, FL_PREMIACAO,CD_PR,FL_DECLARADO ) VALUES (" & txtID_BasicoAereo.Text & "," & ddlDespesa_TaxaAereo.SelectedValue & "," & ddlTipoPagamento_TaxaAereo.SelectedValue & "," & ddlOrigemPagamento_TaxasAereo.SelectedValue & "," & ddlBaseCalculo_TaxaAereo.SelectedValue & "," & ddlMoedaCompra_TaxaAereo.SelectedValue & "," & txtTaxaCompra_TaxaAereo.Text & "," & txtMinimoCompra_TaxaAereo.Text & "," & ddlEmpresa_TaxaAereo.SelectedValue & ",'" & ckbPremiacao_TaxaAereo.Checked & "','P', " & FL_DECLARADO & ") Select SCOPE_IDENTITY() as ID_BL_TAXA ")
 
+                    ID_BL_TAXA = dstaxa.Tables(0).Rows(0).Item("ID_BL_TAXA")
+                    retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                     txtTaxaCompra_TaxaAereo.Text = txtTaxaCompra_TaxaAereo.Text.Replace(".", ",")
                     txtMinimoCompra_TaxaAereo.Text = txtMinimoCompra_TaxaAereo.Text.Replace(".", ",")
@@ -2095,11 +2105,15 @@ WHERE A.ID_BL_TAXA =" & txtID_TaxaAereo.Text & " and DT_CANCELAMENTO is null ")
                         Else
 
 
+                            Dim ID_BL_TAXA As String
+                            Dim Calcula As New CalculaBL
+                            Dim retorno As String
 
                             'REALIZA UPDATE TAXA COMPRA
                             Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaCompra_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaCompra_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoCompra_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "', FL_DECLARADO = " & FL_DECLARADO & "WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
 
-
+                            ID_BL_TAXA = txtID_TaxaAereo.Text
+                            retorno = Calcula.Calcular(ID_BL_TAXA, "M")
 
                             ''REALIZA UPDATE TAXA VENDA
                             'Con.ExecutarQuery("UPDATE TB_BL_TAXA SET ID_BL=" & txtID_BasicoAereo.Text & ",ID_ITEM_DESPESA = " & ddlDespesa_TaxaAereo.SelectedValue & ",ID_TIPO_PAGAMENTO = " & ddlTipoPagamento_BasicoAereo.SelectedValue & ",ID_ORIGEM_PAGAMENTO = " & ddlOrigemPagamento_TaxasAereo.SelectedValue & ",ID_BASE_CALCULO_TAXA = " & ddlBaseCalculo_TaxaAereo.SelectedValue & ",ID_MOEDA =" & ddlMoedaVenda_TaxaAereo.SelectedValue & ",VL_TAXA = " & txtTaxaVenda_TaxaAereo.Text & ",VL_TAXA_MIN = " & txtMinimoVenda_TaxaAereo.Text & ", ID_PARCEIRO_EMPRESA =  " & ddlEmpresa_TaxaAereo.SelectedValue & ",FL_CALCULADO = 0, FL_PREMIACAO = '" & ckbPremiacao_TaxaAereo.Checked & "' WHERE ID_BL_TAXA = " & txtID_TaxaAereo.Text)
@@ -2677,7 +2691,7 @@ AND ID_BL_TAXA NOT IN (SELECT ISNULL(F.ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER
 
                     Con.ExecutarQuery("UPDATE TB_BL_TAXA SET 
 FL_DECLARADO = " & ds.Tables(0).Rows(0).Item("FL_DECLARADO") & "
-WHERE ID_BL IN (SELECT ID_BL FROM TB_BL  WHERE ID_BL_MASTER = " & txtID_BasicoMaritimo.Text & " AND GRAU= 'C')
+WHERE ID_BL IN (SELECT ID_BL FROM TB_BL  WHERE ID_BL_MASTER = " & txtID_BasicoAereo.Text & " AND GRAU= 'C')
 AND ID_ITEM_DESPESA = (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)
 AND CD_PR='P'
 AND ID_BL_TAXA NOT IN (SELECT ISNULL(F.ID_BL_TAXA,0) FROM TB_CONTA_PAGAR_RECEBER_ITENS AS F INNER JOIN TB_CONTA_PAGAR_RECEBER AS E ON F.ID_CONTA_PAGAR_RECEBER = E.ID_CONTA_PAGAR_RECEBER WHERE E.DT_CANCELAMENTO IS NULL)")
@@ -2841,11 +2855,71 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
 
         Dim ds As DataSet = Con.ExecutarQuery(Sql)
         If ds.Tables(0).Rows.Count > 0 Then
-            dsFornecedor.SelectCommand = Sql
-            dsFornecedor.DataBind()
+            dsFornecedorMaritimo.SelectCommand = Sql
+            dsFornecedorMaritimo.DataBind()
             ddlEmpresa_TaxasMaritimo.DataBind()
         End If
         txtNomeEmpresa_TaxasMaritimo.Text = txtNomeEmpresa_TaxasMaritimo.Text.Replace("NULL", "")
 
+    End Sub
+
+    Private Sub btnDesvincularAereo_Click(sender As Object, e As EventArgs) Handles btnDesvincularAereo.Click
+        divSuccess_VinculoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        For Each linha As GridViewRow In dgvVinculadosAereos.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            Dim check As CheckBox = linha.FindControl("PROCESSO")
+
+            If check.Checked Then
+
+                Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = NULL WHERE ID_BL = " & ID)
+
+            End If
+        Next
+        Con.Fechar()
+        divSuccess_VinculoAereo.Visible = True
+        dgvNaoVinculadosAereos.DataBind()
+        dgvVinculadosAereos.DataBind()
+
+    End Sub
+
+    Private Sub btnVincularAereo_Click(sender As Object, e As EventArgs) Handles btnVincularAereo.Click
+        divSuccess_VinculoAereo.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        For Each linha As GridViewRow In dgvNaoVinculadosAereos.Rows
+            Dim ID As String = CType(linha.FindControl("lblID"), Label).Text
+
+            Dim check As CheckBox = linha.FindControl("PROCESSO")
+
+            If check.Checked Then
+
+                Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET  [ID_BL_MASTER] = " & txtID_BasicoAereo.Text & " WHERE ID_BL = " & ID)
+
+                If txtCotacao_BasicoAereo.Text = "" Then
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET ID_COTACAO = (SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & ID & ") WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                    Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
+                    Session("ID_COTACAO") = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                    txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
+
+                ElseIf txtCotacao_BasicoAereo.Text = 0 Then
+                    Con.ExecutarQuery("UPDATE [dbo].[TB_BL] SET ID_COTACAO = (SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & ID & ") WHERE ID_BL = " & txtID_BasicoAereo.Text)
+                    Dim dsCotacao As DataSet = Con.ExecutarQuery("SELECT ID_COTACAO FROM TB_BL WHERE ID_BL = " & txtID_BasicoAereo.Text)
+
+                    Session("ID_COTACAO") = dsCotacao.Tables(0).Rows(0).Item("ID_COTACAO").ToString()
+                    txtCotacao_BasicoAereo.Text = Session("ID_COTACAO")
+
+                End If
+                AtualizaHouse(2)
+
+            End If
+        Next
+        Con.Fechar()
+        divSuccess_VinculoAereo.Visible = True
+        dgvNaoVinculadosAereos.DataBind()
+        dgvVinculadosAereos.DataBind()
     End Sub
 End Class
