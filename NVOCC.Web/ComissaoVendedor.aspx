@@ -118,9 +118,8 @@
                                                 <asp:BoundField DataField="NR_PROCESSO" HeaderText="PROCESSO" SortExpression="NR_PROCESSO" />
                                                 <asp:BoundField DataField="NR_NOTAS_FISCAL" HeaderText="NOTA FISCAL" SortExpression="NR_NOTAS_FISCAL" />
                                                 <asp:BoundField DataField="DT_NOTA_FISCAL" HeaderText="DATA NOTA" SortExpression="DT_NOTA_FISCAL" DataFormatString="{0:dd/MM/yyyy}"/>
-                                                <asp:BoundField DataField="TP_SERVICO" HeaderText="IMP/EXP" SortExpression="TP_SERVICO" />
                                                 <asp:BoundField DataField="PARCEIRO_VENDEDOR" HeaderText="VENDEDOR" SortExpression="PARCEIRO_VENDEDOR" />
-                                                <asp:BoundField DataField="TP_VIA" HeaderText="VIA" SortExpression="TP_VIA" />
+                                                <asp:BoundField DataField="ANALISTA_COTACAO" HeaderText="ANALISTA COTAÇÃO" SortExpression="ANALISTA_COTACAO" />
                                                 <asp:BoundField DataField="PARCEIRO_CLIENTE" HeaderText="CLIENTE" SortExpression="PARCEIRO_CLIENTE" />
                                                 <asp:BoundField DataField="TIPO_ESTUFAGEM" HeaderText="ESTUFAGEM" SortExpression="TIPO_ESTUFAGEM" />
                                                 <asp:BoundField DataField="QTD. BL/CNTR" HeaderText="QTD. BL/CNTR" SortExpression="QTD. BL/CNTR" />
@@ -158,17 +157,25 @@
                                     </div>
                                         </div>
                                          </div>
-                                   <div class="row">
+                                <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-<asp:LinkButton ID="lkGerarComissao" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Gerar Comissões</asp:LinkButton>
+<asp:LinkButton ID="lkEquipe" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" href="EquipeInside.aspx" target="_blank" >Equipe Inside</asp:LinkButton>
+                                    </div>
+                                        </div>
+                                         </div>
+                                   
+                                <div class="row">
+                                     <div class="col-sm-10">
+                                    <div class="form-group">                                          
+<asp:LinkButton ID="lkCadastrarSubVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px"  href="CadastrarSubVendedor.aspx" target="_blank" >Sub-Vendedor</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
                                 <div class="row">
                                      <div class="col-sm-10">
                                     <div class="form-group">                                          
-<asp:LinkButton ID="lkCadastrarSubVendedor" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" OnClientClick="CadastrarSub()" >Cadastrar SubVendedor</asp:LinkButton>
+<asp:LinkButton ID="lkGerarComissao" runat="server" CssClass="btn btnn btn-default btn-sm btn-block" Style="font-size: 15px" >Gerar Comissões</asp:LinkButton>
                                     </div>
                                         </div>
                                          </div>
@@ -243,19 +250,12 @@
                                             <center>     <div class=" modal-dialog modal-dialog-centered modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">TABELA DE COMISSÕES</h5>
+                                                            <h5 class="modal-title">TABELA DE COMISSÕES  <asp:TextBox ID="txtIDTabelaTaxa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox></h5>
                                                         </div>
                                                         <div class="modal-body">                                       
                     
                                  <div class="row">
-                                   <div class="col-sm-2">
-                                    <div class="form-group">                                          
-
-                                               <asp:Label ID="Label27" runat="server">ID</asp:Label><br />
-
-                               <asp:TextBox ID="txtIDTabelaTaxa" enabled="false" runat="server" CssClass="form-control"></asp:TextBox>
-                                        </div>
-                                         </div>
+                                  
                                      <div class="col-sm-2">
                                     <div class="form-group">                                          
 
@@ -289,6 +289,14 @@
                                          
                                    </div>          
                                 </div>  
+                                     <div class="col-sm-2">
+                                    <div class="form-group">                                             
+                                <asp:Label ID="Label35" runat="server">Taxa Inside Lider</asp:Label><br />
+
+                               <asp:TextBox ID="txtLider"  runat="server" CssClass="form-control"></asp:TextBox>
+                                         
+                                   </div>          
+                                </div> 
                                                                           <div class="col-sm-2">
                                     <div class="form-group">                                             
                                 <div class="form-group"><asp:Label ID="Label10" runat="server"></asp:Label><br />
@@ -321,6 +329,7 @@
                                             <asp:BoundField DataField="VL_TAXA_LCL" HeaderText="TAXA LCL" SortExpression="VL_TAXA_LCL" />
                                             <asp:BoundField DataField="VL_TAXA_FCL" HeaderText="TAXA FCL" SortExpression="VL_TAXA_FCL" />
                                             <asp:BoundField DataField="VL_TAXA_INSIDE_SALES" HeaderText="TAXA INSIDE SALES" SortExpression="VL_TAXA_INSIDE_SALES" />
+                                            <asp:BoundField DataField="VL_TAXA_INSIDE_LIDER" HeaderText="TAXA INSIDE LIDER" SortExpression="VL_TAXA_INSIDE_LIDER" />
                                      <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
                                                 <asp:linkButton CommandName="Editar"  CommandArgument='<%# Eval("ID_TAXA_COMISSAO_VENDEDORES") %>' runat="server"  CssClass="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-edit" style="font-size:medium"></span></span></asp:linkButton>
@@ -406,7 +415,7 @@
                                 </div>  
       </div>
                                  <div class="row">
-                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                     <div class="col-sm-3" style="border: ridge 1px;">
                                     <div class="form-group">                                          
                                
                                                <asp:Label ID="Label18" runat="server"><strong>Taxa LCL</strong></asp:Label><br />
@@ -414,7 +423,7 @@
 <asp:Label ID="lblLCL" runat="server"/>                                         
                                         </div>
                                          </div>
-                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                     <div class="col-sm-3" style="border: ridge 1px;">
                                     <div class="form-group">                                          
  <asp:Label ID="Label19" runat="server"><strong>Taxa FCL</strong></asp:Label><br />
 
@@ -422,11 +431,18 @@
                                     
                                         </div>
                                          </div>
-                                     <div class="col-sm-4" style="border: ridge 1px;">
+                                     <div class="col-sm-3" style="border: ridge 1px;">
                                     <div class="form-group">                                             
                                 <asp:Label ID="Label20" runat="server"><strong>Taxa Inside Sales</strong></asp:Label><br />
 
 <asp:Label ID="lblInside" runat="server"/>                                         
+                                   </div>          
+                                </div> 
+                                     <div class="col-sm-3" style="border: ridge 1px;">
+                                    <div class="form-group">                                             
+                                <asp:Label ID="Label0" runat="server"><strong>Taxa Inside Lider</strong></asp:Label><br />
+
+<asp:Label ID="lblLider" runat="server"/>                                         
                                    </div>          
                                 </div>  
                                 </div>
@@ -810,7 +826,7 @@
     </div>
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES, VL_TAXA_INSIDE_LIDER FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO,NM_RAZAO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO = 1 AND FL_ATIVO = 1 ORDER BY NM_RAZAO"></asp:SqlDataSource>
@@ -866,8 +882,6 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
             window.open('RelatorioVendedor.aspx?tipo=3&c=' + COMPETENCIA, '_blank');
         }
 
-        function CadastrarSub() {
-            window.open('CadastrarSubVendedor.aspx', '_blank');
-        }
+        
     </script>
 </asp:Content>

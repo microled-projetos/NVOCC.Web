@@ -8,7 +8,7 @@
             Dim linhas As New List(Of String)
 
             For Each col As DataColumn In oDt.Columns
-                colunas.Add(col.ColumnName.Replace("ID", "Id").Replace(";", ","))
+                colunas.Add(col.ColumnName.Replace(";", ","))
             Next
             linhas.Add(String.Join(";", colunas.ToArray()))
             Dim linhaProcessada As List(Of String)
