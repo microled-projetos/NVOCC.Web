@@ -21,6 +21,8 @@
             background-color: #e6c3a5;
         }
     </style>
+
+    
     <div class="row principal">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="panel panel-primary">
@@ -481,7 +483,7 @@
                                                                     </div>
                                                                 </div>
                                <div class="modal-footer"> 
-                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" /> 
+                                   <asp:Button runat="server" Text="Gerar" ID="btnGerarComissao" CssClass="btn btn-success" OnClientClick="MouseWait(); return true;"/> 
                                          <asp:Button runat="server" CssClass="btn btn-secondary" ID="btnFecharGerarComissao" text="Close" />
                                                                  
 
@@ -822,8 +824,8 @@
 
             </div>
         </div>
-
     </div>
+        
     <asp:TextBox ID="TextBox1" Style="display: none" runat="server"></asp:TextBox>
     <asp:SqlDataSource ID="dsTabelaComissao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TAXA_COMISSAO_VENDEDORES,CONVERT(VARCHAR,DT_VALIDADE_INICIAL,103)DT_VALIDADE_INICIAL,VL_TAXA_LCL,VL_TAXA_FCL,VL_TAXA_INSIDE_SALES, VL_TAXA_INSIDE_LIDER FROM TB_TAXA_COMISSAO_VENDEDOR"></asp:SqlDataSource>
@@ -882,6 +884,14 @@ union SELECT 0, ' Selecione' ORDER BY NM_RAZAO"></asp:SqlDataSource>
             window.open('RelatorioVendedor.aspx?tipo=3&c=' + COMPETENCIA, '_blank');
         }
 
+        function MouseWait() {
+            console.log("wait");
+            document.body.style.cursor = "wait";
+        };
+        function MouseDefault() {
+            console.log("default");
+            document.body.style.cursor = "default";
+        };
         
     </script>
 </asp:Content>

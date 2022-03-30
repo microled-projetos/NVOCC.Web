@@ -1,4 +1,7 @@
-﻿Public Class ComissaoVendedor
+﻿
+Imports System.Windows.Input
+
+Public Class ComissaoVendedor
     Inherits System.Web.UI.Page
     Dim filtro As String = ""
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -15,19 +18,6 @@
         If ds.Tables(0).Rows(0).Item("QTD") = 0 Then
 
             Response.Redirect("Default.aspx")
-        Else
-            'If Not Page.IsPostBack Then
-
-            '    If Month(Now.AddMonths(-1)) <= 9 Then
-            '        txtCompetencia.Text = "0" & Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '        txtNovaCompetencia.Text = "0" & Now.Month & "/" & Now.Year
-            '    Else
-            '        txtCompetencia.Text = Month(Now.AddMonths(-1)) & "/" & Now.Year
-            '        lblCompetenciaCCProcesso.Text = txtCompetencia.Text
-            '        txtNovaCompetencia.Text = Now.Month & "/" & Now.Year
-            '    End If
-            'End If
 
         End If
         Con.Fechar()
@@ -457,6 +447,8 @@ FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Tex
 
         btnGerarComissao.Visible = True
         ModalPopupExtender3.Show()
+        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "MouseDefault()", True)
+
     End Sub
 
     Private Sub txtNovaCompetencia_TextChanged(sender As Object, e As EventArgs) Handles txtNovaCompetencia.TextChanged
