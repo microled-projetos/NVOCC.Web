@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class EquipeInside
+Partial Public Class CadastrarEquipe
 
     '''<summary>
     '''Controle UpdatePanel1.
@@ -230,6 +230,15 @@ Partial Public Class EquipeInside
     Protected WithEvents lblErroMontarEquipe As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Controle txtIDEdicao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDEdicao As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtNomeLider.
     '''</summary>
     '''<remarks>
@@ -257,13 +266,31 @@ Partial Public Class EquipeInside
     Protected WithEvents txtIDLider As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle divbtnlider.
+    '''Controle txtNomeEquipe.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents divbtnlider As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    Protected WithEvents txtNomeEquipe As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtTaxaLider.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTaxaLider As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtTaxaEquipe.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtTaxaEquipe As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle btnCadastrarLider.
@@ -273,6 +300,15 @@ Partial Public Class EquipeInside
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents btnCadastrarLider As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''Controle btnSalvarEdicao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnSalvarEdicao As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''Controle divEquipe.

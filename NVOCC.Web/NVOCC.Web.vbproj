@@ -265,7 +265,8 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
-    <Content Include="EquipeInside.aspx" />
+    <Content Include="CadastrarEquipe_OLD.aspx" />
+    <Content Include="CadastrarEquipe.aspx" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -647,11 +648,18 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
-    <Compile Include="EquipeInside.aspx.designer.vb">
-      <DependentUpon>EquipeInside.aspx</DependentUpon>
+    <Compile Include="CadastrarEquipe_OLD.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipe_OLD.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EquipeInside.aspx.vb">
-      <DependentUpon>EquipeInside.aspx</DependentUpon>
+    <Compile Include="CadastrarEquipe_OLD.aspx.vb">
+      <DependentUpon>CadastrarEquipe_OLD.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CadastrarEquipe.aspx.designer.vb">
+      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastrarEquipe.aspx.vb">
+      <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="FaturamentoArquivo.aspx.designer.vb">

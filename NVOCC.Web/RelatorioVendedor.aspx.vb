@@ -79,8 +79,8 @@
 
                 Con.Fechar()
             ElseIf Request.QueryString("tipo") = 2 Then
-
                 Dim tabela As String = ""
+
                 Dim dsVendedores As DataSet = Con.ExecutarQuery("SELECT DISTINCT ID_PARCEIRO_VENDEDOR,PARCEIRO_VENDEDOR FROM [dbo].[View_Comissao_Vendedor] WHERE COMPETENCIA = '" & COMPETENCIA & "'")
 
                 If dsVendedores.Tables(0).Rows.Count > 0 Then
@@ -89,8 +89,7 @@
                         Dim valores As Double = 0
                         If ds.Tables(0).Rows.Count > 0 Then
 
-                            tabela &= "<div style='padding-top:20px'><p>OLÁ," & ds.Tables(0).Rows(0).Item("PARCEIRO_VENDEDOR").ToString() & "</p>
-<p>SEGUE SEU RELATÓRIO DE PREMIAÇÕES REFERENTE A " & ds.Tables(0).Rows(0).Item("COMPETENCIA").ToString() & "</p></div><br/><table style='font-family:Arial;font-size:10px;'><tr>"
+                            tabela &= "<div style='padding-top:20px'><p>OLÁ," & ds.Tables(0).Rows(0).Item("PARCEIRO_VENDEDOR").ToString() & "</p><p>SEGUE SEU RELATÓRIO DE PREMIAÇÕES REFERENTE A " & ds.Tables(0).Rows(0).Item("COMPETENCIA").ToString() & "</p></div><br/><table style='font-family:Arial;font-size:10px;'><tr>"
                             tabela &= "<th style='padding-right:10px'>PROCESSO</th>"
                             tabela &= "<th style='padding-left:10px;padding-right:10px'>NOTA FISCAL</th>"
                             tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>DATA NF</th>"
@@ -120,6 +119,7 @@
 
 
                             Next
+
                             tabela &= "<tr>
 <td style='padding-left:10px;padding-right:10px'></td>
 <td style='padding-left:10px;padding-right:10px'></td>
@@ -136,8 +136,28 @@
                             tabela &= "</table><div style='break-after:page'></div>"
 
                         End If
+
+
                         divConteudoDinamico.InnerHtml = tabela
+
                     Next
+
+
+                    Dim dsResumo As DataSet = Con.ExecutarQuery(" SELECT PARCEIRO_VENDEDOR as NOME, sum (VL_COMISSAO_TOTAL)VL_COMISSAO_TOTAL  FROM View_Comissao_Vendedor  WHERE COMPETENCIA = '" & COMPETENCIA & "' group BY PARCEIRO_VENDEDOR  UNION  SELECT USUARIO, VL_COMISSAO as 'VALOR'  FROM View_Equipes  WHERE COMPETENCIA = '" & COMPETENCIA & "' ORDER BY PARCEIRO_VENDEDOR ASC ")
+                    If dsResumo.Tables(0).Rows.Count > 0 Then
+                        tabela &= "<div style='padding-top:20px'><p>RESUMO DA COMPETENCIA</p></div>"
+                        tabela &= "<table><tr><th class='valor' style='padding-left:10px;padding-right:10px'>NOME</th>"
+                        tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>COMISSAO TOTAL</th></tr>"
+                        For Each linhaResumo As DataRow In dsResumo.Tables(0).Rows
+                            tabela &= "<tr><td style='padding-left:10px;padding-right:10px'>" & linhaResumo("NOME") & "</td>"
+                            tabela &= "<td style='padding-left:10px;padding-right:10px'>" & linhaResumo("VL_COMISSAO_TOTAL") & "</td></tr>"
+                        Next
+                        tabela &= "</table>"
+                    End If
+
+
+                    divResumo.InnerHtml = tabela
+
                 End If
 
 

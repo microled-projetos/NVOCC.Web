@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="EquipeInside.aspx.vb" Inherits="NVOCC.Web.EquipeInside" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/Site.Master" CodeBehind="CadastrarEquipe.aspx.vb" Inherits="NVOCC.Web.CadastrarEquipe" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
         td, th {
@@ -87,7 +87,10 @@
                                                         <asp:Label ID="lblID" runat="server" Text='<%# Eval("ID") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME" />
+                                                <asp:BoundField DataField="NM_EQUIPE" HeaderText="NOME EQUIPE" SortExpression="NM_EQUIPE" />
+                                                <asp:BoundField DataField="NOME" HeaderText="NOME LIDER" SortExpression="NOME" />
+                                                <asp:BoundField DataField="TAXA_LIDER" HeaderText="TAXA LIDER" SortExpression="TAXA_LIDER" />
+                                                <asp:BoundField DataField="TAXA_EQUIPE" HeaderText="TAXA EQUIPE" SortExpression="TAXA_EQUIPE" />
                                               <asp:TemplateField HeaderText="">
                                                                     <ItemTemplate>
                                                                         <asp:LinkButton ID="btnEditar" title="Editar" runat="server" CssClass="btn btn-info btn-sm" CommandName="Editar"
@@ -127,10 +130,10 @@
                                 <div class="alert alert-danger" id="divErroMontarEquipe" runat="server" visible="false">
                                     <asp:Label ID="lblErroMontarEquipe" runat="server"></asp:Label>
                                 </div>
-
+<asp:TextBox ID="txtIDEdicao" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
                            <div class="row" runat="server">
                                 <br />
-                               <div class="col-sm-3">
+                               <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label class="control-label">Busca Lider:</label>
                                                 <asp:TextBox ID="txtNomeLider" runat="server" CssClass="form-control" AutoPostBack="true"></asp:TextBox>
@@ -144,15 +147,38 @@
                                         <asp:TextBox ID="txtIDLider" runat="server" CssClass="form-control" style="display:none" ></asp:TextBox>
                                     </div>
                                 </div>
-                               <div class="col-sm-3"  runat="server" id="divbtnlider">
+                               
+                               </div>
+                                                             <div class="row">
+                                                                 <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Nome Equipe:</label>
+                                                <asp:TextBox ID="txtNomeEquipe" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Taxa Lider:</label>
+                                                <asp:TextBox ID="txtTaxaLider" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                                                 <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label">Taxa Equipe:</label>
+                                                <asp:TextBox ID="txtTaxaEquipe" runat="server" CssClass="form-control"></asp:TextBox>
+                                            </div>
+                                        </div>
+                               <div class="col-sm-2">
                                     <div class="form-group">
                                          <label class="control-label" style="color:white">Lider:</label><br />
-                               <asp:Button runat="server" CssClass="btn btn-success" ID="btnCadastrarLider" text="Cadastrar Lider" />
+                               <asp:Button runat="server" CssClass="btn btn-success" ID="btnCadastrarLider" text="Cadastrar Lider" visible="true" />
+                               <asp:Button runat="server" CssClass="btn btn-success" ID="btnSalvarEdicao" text="Salvar Edição" visible="false" />
                            </div>
 
                                </div>
 
                            </div>
+                                                         <br />     <br /> 
                                 <div class="row" id="divEquipe" runat="server" visible="false" >
                                  <div class="col-sm-1" style="display:none" >
                                             <div class="form-group">
@@ -176,7 +202,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                          <label class="control-label" style="color:white">Membro:</label><br />
-                                         <asp:Button runat="server" CssClass="btn btn-success" ID="btnAdicionarMembro" text="Adicionar Membro" />
+                                         <asp:Button runat="server" CssClass="btn btn-primary" ID="btnAdicionarMembro" text="Adicionar Membro" />
                                     </div>
                                 </div>
                                 <br />     <br /> 
@@ -189,7 +215,7 @@
                                             AutoGenerateColumns="false" EmptyDataText="Nenhum registro encontrado.">
                                             <Columns>
                                                 <asp:BoundField DataField="ID_USUARIO" Visible="False" HeaderText="ID_USUARIO" SortExpression="ID_USUARIO" />
-                                                <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME" />
+                                                <asp:BoundField DataField="NOME" HeaderText="NOME" SortExpression="NOME" />                                                
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>
                                                                  <asp:linkButton ID="btnExcluir" title="Excluir" runat="server"  CssClass="btn btn-danger btn-sm" CommandName="Excluir"
@@ -270,7 +296,7 @@
 
     <asp:SqlDataSource ID="dsEquipeLider" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="select ID,ID_USUARIO,NOME from TB_USUARIO A
-INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_USUARIO = B.ID_USUARIO_MEMBRO_EQUIPE  
+INNER JOIN TB_EQUIPE_MEMBROS B ON A.ID_USUARIO = B.ID_USUARIO_MEMBRO_EQUIPE  
 WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NOME">
           <SelectParameters>
             <asp:ControlParameter Name="ID_USUARIO_LIDER" Type="Int32" ControlID="txtIDLider" />
@@ -278,8 +304,8 @@ WHERE ID_USUARIO_LIDER = @ID_USUARIO_LIDER ORDER BY NOME">
     </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsLideres" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="select ID,ID_USUARIO,NOME from TB_USUARIO A
-INNER JOIN TB_INSIDE_LIDER B ON A.ID_USUARIO = B.ID_USUARIO_LIDER
+        SelectCommand="select ID,ID_USUARIO,NOME,NM_EQUIPE,TAXA_LIDER,TAXA_EQUIPE from TB_USUARIO A
+INNER JOIN TB_EQUIPE_LIDER B ON A.ID_USUARIO = B.ID_USUARIO_LIDER
 ORDER BY NOME">
     </asp:SqlDataSource>
 </asp:Content>

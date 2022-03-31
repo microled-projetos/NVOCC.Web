@@ -38,7 +38,8 @@
           <div id="divConteudoDinamico" runat="server">
         </div>
                                              
-
+        <div id="divResumo" runat="server">
+        </div>
         </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
