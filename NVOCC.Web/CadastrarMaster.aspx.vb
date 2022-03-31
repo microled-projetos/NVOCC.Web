@@ -404,6 +404,8 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_BL")) Then
                         txtNumeroBL_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+                        lblMaster_Titulo.Text = ds.Tables(0).Rows(0).Item("NR_BL")
+
                     End If
 
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("DT_EMISSAO_CONHECIMENTO")) Then

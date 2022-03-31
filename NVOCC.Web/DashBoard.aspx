@@ -317,7 +317,7 @@
             var cor = document.getElementById("ddlCores").value;
             switch (cor) {
                 case "azul":
-                    rgb = ["rgb(0,151,172)","rgb(60,214,230)","rgb(151,234,244)"];
+                    rgb = ["rgb(0,0,128)", "rgb(30,144,255)", "rgb(173,216,230)","rgb(106,90,205)"];
                     break;
                 case "vermelho":
                     rgb = ["rgb(217,90,87)", "rgb(117,76,73)","rgb(167,61,58)"];
@@ -547,7 +547,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Teus, Processos e Qtde. de CNTR por Vendedor',
+                            text: 'Total Geral',
                             font: { size: 20 }
                         }
                     }
@@ -619,23 +619,30 @@
                     datasets: [
                         {
                             barThickness: 30,
-                            label: 'IMP',
+                            label: 'MARÍTIMO IMP',
                             data: processoIMP,
                             backgroundColor: [rgb[0]],
                             borderWidth: 1
                         },
                         {
                             barThickness: 30,
-                            label: 'EXP',
+                            label: 'MARÍTIMO EXP',
                             data: processoEXP,
                             backgroundColor: [rgb[1]],
                             borderWidth: 1
                         },
                         {
                             barThickness: 30,
-                            label: 'AEREO',
+                            label: 'AEREO IMP',
                             data: processoAR,
                             backgroundColor: [rgb[2]],
+                            borderWidth: 1
+                        },
+                        {
+                            barThickness: 30,
+                            label: 'AEREO EXP',
+                            data: ['0'],
+                            backgroundColor: [rgb[3]],
                             borderWidth: 1
                         }
                     ]
@@ -647,7 +654,7 @@
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Qtde. de Processos',
+                            text: 'Processos',
                             font: { size: 20 }
                         }
                     }
@@ -664,14 +671,14 @@
                         datasets: [
                             {
                                 barThickness: 30,
-                                label: 'IMP',
+                                label: 'MARÍTIMO IMP',
                                 data: cntrIMP,
                                 backgroundColor: [rgb[0]],
                                 borderWidth: 1
                             },
                             {
                                 barThickness: 30,
-                                label: 'EXP',
+                                label: 'MARÍRITMO EXP',
                                 data: cntrEXP,
                                 backgroundColor: [rgb[1]],
                                 borderWidth: 1
@@ -685,7 +692,7 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Qtde. de CNTR',
+                                text: 'Container',
                                 font: { size: 20 }
                             }
                         }
@@ -702,14 +709,14 @@
                         datasets: [
                             {
                                 barThickness: 30,
-                                label: 'IMP',
+                                label: ' MARÍTIMO IMP',
                                 data: processo,
                                 backgroundColor: [rgb[0]],
                                 borderWidth: 1
                             },
                             {
                                 barThickness: 30,
-                                label: 'EXP',
+                                label: 'MARÍTIMO EXP',
                                 data: cntr,
                                 backgroundColor: [rgb[1]],
                                 borderWidth: 1

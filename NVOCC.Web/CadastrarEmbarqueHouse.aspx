@@ -768,7 +768,7 @@
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-                                                               <%-- <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
                                                                  <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
@@ -811,7 +811,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                                 <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-<%--                                                                <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
                                                                  <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
@@ -1940,7 +1940,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-<%--                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
                                                         <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
@@ -1983,7 +1983,7 @@ VENDAS:
                                                         <asp:BoundField DataField="TIPO_PAGAMENTO" HeaderText="TIPO DE PAGAMENTO" SortExpression="TIPO_PAGAMENTO" />
                                                         <asp:BoundField DataField="NM_ORIGEM_PAGAMENTO" HeaderText="ORIGEM PAGAMENTO" SortExpression="NM_ORIGEM_PAGAMENTO" />
                                                         <asp:BoundField DataField="DECLARADO" HeaderText="DECLARADO" SortExpression="DECLARADO" />
-<%--                                                        <asp:BoundField DataField="ORIGEM" HeaderText="ORIGEM TAXA" SortExpression="ORIGEM" />--%>
+                                                                 <asp:BoundField DataField="PROFIT" HeaderText="PROFIT" SortExpression="PROFIT" />
                                                         <asp:TemplateField HeaderText="ORIGEM" SortExpression="ORIGEM" >
                     <ItemTemplate>                     
                          <asp:Label ID="lblORIGEM"  runat="server" Text='<%# Eval("ORIGEM") %>'  />
@@ -2755,8 +2755,7 @@ ID_NCM,
 DS_GRUPO_NCM,
 CASE WHEN DS_GRUPO_NCM IS NULL THEN 
 (SELECT NM_NCM FROM TB_NCM WHERE ID_NCM = A.ID_NCM) ELSE DS_GRUPO_NCM END NCM 
-FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
-">
+FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
@@ -2773,14 +2772,14 @@ FROM TB_CARGA_BL A WHERE ID_BL = @ID_BL
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
+CASE WHEN FL_DIVISAO_PROFIT = 1 THEN 'SIM' ELSE  'NÃO' END PROFIT,
 VL_TAXA,
 VL_TAXA_CALCULADO,
 CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
 WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+WHEN ISNULL(ID_BL_TAXA_MASTER,0) <> 0 AND CD_ORIGEM_INF IS NULL THEN 'MASTER'
 ELSE '' END ORIGEM 
-FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
-
-">
+FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
@@ -2797,21 +2796,21 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'P'
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
+CASE WHEN FL_DIVISAO_PROFIT = 1 THEN 'SIM' ELSE  'NÃO' END PROFIT, 
 VL_TAXA,
 VL_TAXA_CALCULADO,
 CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
 WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+WHEN ISNULL(ID_BL_TAXA_MASTER,0) <> 0 AND CD_ORIGEM_INF IS NULL THEN 'MASTER'
 ELSE '' END ORIGEM 
-FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
-
-">
+FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoAereo" />
         </SelectParameters>
     </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsTaxasMaritimoVendas" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_BL_TAXA,
+        SelectCommand="SELECT ID_BL_TAXA, 
         (SELECT substring(NM_RAZAO,0,20) FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_PARCEIRO_EMPRESA)PARCEIRO_EMPRESA,
 (SELECT NM_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE ID_ITEM_DESPESA = A.ID_ITEM_DESPESA)ITEM_DESPESA,
 (SELECT NM_BASE_CALCULO_TAXA FROM TB_BASE_CALCULO_TAXA WHERE ID_BASE_CALCULO_TAXA = A.ID_BASE_CALCULO_TAXA)BASE_CALCULO,
@@ -2821,14 +2820,14 @@ FROM TB_BL_TAXA A WHERE ID_BL =  @ID_BL AND CD_PR = 'R'
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
+CASE WHEN FL_DIVISAO_PROFIT = 1 THEN 'SIM' ELSE  'NÃO' END PROFIT,
 VL_TAXA,
 VL_TAXA_CALCULADO,
 CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
 WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+WHEN ISNULL(ID_BL_TAXA_MASTER,0) <> 0 AND CD_ORIGEM_INF IS NULL THEN 'MASTER'
 ELSE '' END ORIGEM 
-FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
-
-">
+FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'">
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
@@ -2845,14 +2844,14 @@ FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='R'
 (SELECT NM_DESTINATARIO_COBRANCA FROM TB_DESTINATARIO_COBRANCA WHERE ID_DESTINATARIO_COBRANCA = A.ID_DESTINATARIO_COBRANCA)DESTINATARIO_COBRANCA,
 (SELECT NM_ORIGEM_PAGAMENTO FROM TB_ORIGEM_PAGAMENTO WHERE ID_ORIGEM_PAGAMENTO = A.ID_ORIGEM_PAGAMENTO)NM_ORIGEM_PAGAMENTO,
 CASE WHEN FL_DECLARADO = 1 THEN 'SIM' ELSE  'NÃO' END DECLARADO,
+CASE WHEN FL_DIVISAO_PROFIT = 1 THEN 'SIM' ELSE  'NÃO' END PROFIT,
 VL_TAXA,
 VL_TAXA_CALCULADO,
 CASE WHEN CD_ORIGEM_INF = 'COTA' THEN 'COTAÇÃO'
 WHEN CD_ORIGEM_INF = 'OPER' THEN 'OPERACIONAL'
+WHEN ISNULL(ID_BL_TAXA_MASTER,0) <> 0 AND CD_ORIGEM_INF IS NULL THEN 'MASTER'
 ELSE '' END ORIGEM 
-FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'
-
-">
+FROM TB_BL_TAXA A WHERE ID_BL = @ID_BL AND CD_PR ='P'" >
         <SelectParameters>
             <asp:ControlParameter Name="ID_BL" Type="Int32" ControlID="txtID_BasicoMaritimo" />
         </SelectParameters>
