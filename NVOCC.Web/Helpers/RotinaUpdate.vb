@@ -306,18 +306,18 @@ end ID_ORIGEM_PAGAMENTO
 
                 End If
 
-                '            Else
+                ' Else
 
-                '                If ID_TIPO_ESTUFAGEM = 1 Then
-                '                    ID_BASE_CALCULO = 5
-                '                ElseIf ID_TIPO_ESTUFAGEM = 2 Then
-                '                    ID_BASE_CALCULO = 13
-                '                End If
+                'If ID_TIPO_ESTUFAGEM = 1 Then
+                '    ID_BASE_CALCULO = 5
+                'ElseIf ID_TIPO_ESTUFAGEM = 2 Then
+                '    ID_BASE_CALCULO = 13
+                'End If
 
 
 
-                '                FRETE VENDA
-                '                Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
+                ''' FRETE VENDA
+                'Con.ExecutarQuery("INSERT INTO TB_BL_TAXA (ID_ITEM_DESPESA,ID_BASE_CALCULO_TAXA,ID_MOEDA,VL_TAXA,VL_TAXA_CALCULADO,VL_TAXA_MIN,ID_BL,CD_PR,ID_TIPO_PAGAMENTO,FL_DIVISAO_PROFIT,ID_PARCEIRO_EMPRESA,ID_DESTINATARIO_COBRANCA,CD_ORIGEM_INF,ID_ORIGEM_PAGAMENTO)
 
                 ' SELECT (SELECT ID_ITEM_FRETE_MASTER FROM TB_PARAMETROS)," & ID_BASE_CALCULO & ",ID_MOEDA_FRETE,VL_TOTAL_FRETE_VENDA,VL_TOTAL_FRETE_VENDA_CALCULADO,VL_TOTAL_FRETE_VENDA_MIN," & ID_BL & ",'R',ID_TIPO_PAGAMENTO, " & FL_PROFIT_FRETE & " ,
 

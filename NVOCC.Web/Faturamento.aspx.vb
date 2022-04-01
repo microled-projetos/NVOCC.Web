@@ -1754,7 +1754,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
 
 
             Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Faturamento") & ID_FATURAMENTO.Text.ToString
-
+            ANEXO.Visible = False
             If Directory.Exists(diretorio_arquivos) Then
                 Dim di As System.IO.DirectoryInfo = New DirectoryInfo(diretorio_arquivos)
                 For Each file As FileInfo In di.GetFiles()
