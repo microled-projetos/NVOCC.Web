@@ -556,41 +556,6 @@ ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO_VENDEDOR FROM TB_SUB_VENDEDOR WHERE 
         End If
 
     End Sub
-    '    Sub SubInside(cabecalho As Integer)
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-    '        Dim ds As DataSet
-
-    '        Dim TaxaInside As Decimal = lblEquipe.Text
-
-    '        'gravar premiacao
-    '        ds = Con.ExecutarQuery("SELECT ID_BL,(SELECT ID_PARCEIRO_EQUIPE_INSIDE FROM TB_PARAMETROS)ID_PARCEIRO_VENDEDOR,ID_PARCEIRO_CLIENTE,NR_PROCESSO,ID_SERVICO,ID_TIPO_ESTUFAGEM,isnull(ID_ANALISTA_COTACAO,0)ID_ANALISTA_COTACAO FROM FN_VENDEDOR('" & txtLiquidacaoInicial.Text & "','" & txtLiquidacaoFinal.Text & "') WHERE DT_PAGAMENTO_EXP IS NULL AND ID_PARCEIRO_VENDEDOR IN (SELECT ID_PARCEIRO FROM TB_PARCEIRO WHERE FL_VENDEDOR_DIRETO =1 AND FL_ATIVO = 1) AND ID_ANALISTA_COTACAO IN (SELECT ID_USUARIO_MEMBRO_EQUIPE FROM TB_INSIDE_EQUIPE )")
-
-    '        If ds.Tables(0).Rows.Count > 0 Then
-
-    '            Dim TaxaInside_final As String = TaxaInside.ToString.Replace(".", "")
-    '            TaxaInside_final = TaxaInside_final.ToString.Replace(",", ".")
-
-    '            For Each linha As DataRow In ds.Tables(0).Rows
-
-    '                Con.ExecutarQuery("INSERT INTO TB_DETALHE_COMISSAO_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,NR_PROCESSO,ID_BL,ID_SERVICO,ID_PARCEIRO_CLIENTE,ID_PARCEIRO_VENDEDOR,ID_TIPO_ESTUFAGEM,VL_COMISSAO_BASE,VL_COMISSAO_TOTAL,FL_CALC_INSIDE,ID_ANALISTA_COTACAO ) VALUES(" & cabecalho & ",
-    ''" & linha.Item("NR_PROCESSO") & "',
-    '" & linha.Item("ID_BL") & ",
-    '" & linha.Item("ID_SERVICO") & ",
-    '" & linha.Item("ID_PARCEIRO_CLIENTE") & ",
-    '" & linha.Item("ID_PARCEIRO_VENDEDOR") & ",
-    '" & linha.Item("ID_TIPO_ESTUFAGEM") & ",
-    '" & TaxaInside_final & ",
-    '" & TaxaInside_final & ",
-    '1,
-    '" & linha.Item("ID_ANALISTA_COTACAO") & ")")
-
-    '            Next
-
-    '            TabelaInside(cabecalho)
-    '        End If
-
-    '    End Sub
 
     Sub SubEquipe(cabecalho As Integer)
         Dim Con As New Conexao_sql
@@ -899,50 +864,6 @@ ID_USUARIO_LANCAMENTO ,ID_USUARIO_LIQUIDACAO,TP_EXPORTACAO) VALUES('P','" & txtC
     End Sub
 
 
-
-    'Private Sub dsComissao_Selected(sender As Object, e As SqlDataSourceStatusEventArgs) Handles dsComissao.Selected
-    '    Response.Write(Classes.debug.imprimeValoresParametros(e.Command, True))
-    '    Response.End()
-    'End Sub
-
-
-    '    Sub TabelaInside(cabecalho As Integer)
-    '        Dim Con As New Conexao_sql
-    '        Con.Conectar()
-
-    '        Dim ds As DataSet = Con.ExecutarQuery("SELECT ID_ANALISTA_COTACAO,SUM (VL_COMISSAO_TOTAL)VL_COMISSAO_TOTAL FROM TB_DETALHE_COMISSAO_VENDEDOR
-    'WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND FL_CALC_INSIDE = 1 GROUP BY ID_ANALISTA_COTACAO ")
-    '        If ds.Tables(0).Rows.Count > 0 Then
-
-    '            For Each linha As DataRow In ds.Tables(0).Rows
-
-    '                Con.ExecutarQuery("INSERT INTO TB_INSIDE_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,ID_USUARIO_INSIDE,VL_COMISSAO_INSIDE,FL_LIDER ) VALUES(" & cabecalho & "," & linha.Item("ID_ANALISTA_COTACAO") & ", " & linha.Item("VL_COMISSAO_TOTAL").ToString.Replace(".", "").Replace(",", ".") & ",0)")
-
-    '            Next
-
-    '        End If
-
-    '        Dim TaxaLider As Decimal = lblLider.Text
-    '        Dim TaxaLider_final As String = TaxaLider.ToString.Replace(".", "")
-    '        TaxaLider_final = TaxaLider_final.ToString.Replace(",", ".")
-
-    '        ds = Con.ExecutarQuery("SELECT B.ID_USUARIO_LIDER, COUNT(ID_ANALISTA_COTACAO) * " & TaxaLider_final & " as QTD 
-    'FROM TB_DETALHE_COMISSAO_VENDEDOR A
-    'INNER JOIN TB_INSIDE_EQUIPE B ON A.ID_ANALISTA_COTACAO = B.ID_USUARIO_MEMBRO_EQUIPE
-    'INNER JOIN TB_INSIDE_LIDER C ON B.ID_USUARIO_LIDER = C.ID_USUARIO_LIDER
-    'WHERE ID_CABECALHO_COMISSAO_VENDEDOR = " & cabecalho & " AND FL_CALC_INSIDE = 1
-    'GROUP BY B.ID_USUARIO_LIDER")
-    '        If ds.Tables(0).Rows.Count > 0 Then
-
-    '            For Each linha As DataRow In ds.Tables(0).Rows
-
-    '                Con.ExecutarQuery("INSERT INTO TB_INSIDE_VENDEDOR (ID_CABECALHO_COMISSAO_VENDEDOR,ID_USUARIO_INSIDE,VL_COMISSAO_INSIDE,FL_LIDER ) VALUES(" & cabecalho & "," & linha.Item("ID_USUARIO_LIDER") & ", " & linha.Item("QTD").ToString.Replace(",", ".") & ",1)")
-
-    '            Next
-
-    '        End If
-    '    End Sub
-
     Sub TabelaEquipe(cabecalho As Integer)
         Dim Con As New Conexao_sql
         Con.Conectar()
@@ -985,7 +906,7 @@ GROUP BY B.ID_USUARIO_LIDER,TAXA_LIDER")
             lblmsgErro.Text = "É necessario informar a competência."
             divErro.Visible = True
         Else
-            ' Dim SQL As String = "SELECT COMPETENCIA,USUARIO_INSIDE, VL_COMISSAO_INSIDE as 'VALOR',LIDER FROM [dbo].[View_Equipe_Inside] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' ORDER BY LIDER,USUARIO_INSIDE"
+
             Dim SQL As String = "SELECT COMPETENCIA,USUARIO, VL_COMISSAO as 'VALOR',LIDER,NM_EQUIPE AS EQUIPE FROM [dbo].[View_Equipes] WHERE COMPETENCIA = '" & txtCompetencia.Text & "' ORDER BY NM_EQUIPE,LIDER,USUARIO"
 
             Classes.Excel.exportaExcel(SQL, "NVOCC", "Equipes")

@@ -145,8 +145,9 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
                         mnComissaoTransportadora.Visible = False
                     ElseIf linha.Item("ID").ToString() = 2058 And linha.Item("Acessar").ToString() = 0 Then
                         mnConfereProcesso.Visible = False
+                    ElseIf linha.Item("ID").ToString() = 2059 And linha.Item("Acessar").ToString() = 0 Then
+                        mnRelatorioProcessos.Visible = False
                     End If
-
 
 
                 Next
@@ -196,7 +197,7 @@ WHERE C.ID_USUARIO = " & Session("ID_USUARIO") & " AND C.ID_PARCEIRO = " & Sessi
             End If
 
 
-            If mnEstimativaContaPagarReceber.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False Then
+            If mnEstimativaContaPagarReceber.Visible = False And mnContaPagarReceber.Visible = False And mnRelatorioInvoice.Visible = False And mnInvoiceQuitada.Visible = False And mnDemonstrativoRateio.Visible = False And mnPremiacao.Visible = False And mnRelatorioProcessos.Visible = False Then
                 MenuRelatoriosFinanceiros.Visible = False
             End If
 
