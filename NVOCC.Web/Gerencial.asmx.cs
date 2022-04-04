@@ -101,7 +101,7 @@ namespace ABAINFRA.Web
             }
             else if (tipo == "4")
             {
-                SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
+                SQL += " AND C.AP_VIA = 'AER' ";
             }
 
             if (embarque == "0")
@@ -418,6 +418,7 @@ namespace ABAINFRA.Web
              SQL += "ISNULL(SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END),0) AS TEUS_EXP ";
              SQL += "FROM VW_PROCESSO_CONTAINER A ";
              SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+             SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
              SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "";
              SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO ";
              SQL += ") X ";
@@ -629,7 +630,7 @@ namespace ABAINFRA.Web
             }
 
 
-            SQL += " AND A.ANO+A.MES >=" + periodoi + " AND A.ANO+A.MES <=" + periodof;
+            SQL += " AND A.ANO+A.MES >=" + periodoi + " AND A.ANO+A.MES <=" + periodof +" ";
 
 
             if (tipo == "1")
@@ -646,7 +647,7 @@ namespace ABAINFRA.Web
             }
             else if (tipo == "4")
             {
-                SQL += " AND UPPER(VIATRANSPORTE)='AÉREA' ";
+                SQL += " AND C.AP_VIA = 'AER' ";
             }
 
             if (embarque == "0")
@@ -665,35 +666,43 @@ namespace ABAINFRA.Web
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'M') TOTAL_PROC_IMP, ";
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'E') TOTAL_PROC_EXP, ";
             SQL += "(SELECT count(distinct(A.NR_PROCESSO)) AS SOMA ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + "AND ";
             SQL += "SUBSTRING(A.NR_PROCESSO,1,1) = 'A') TOTAL_PROC_AR, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' THEN A.TEU ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_IMP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_TEUS_EXP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'M' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
+            SQL += "JOIN TB_VIATRANSPORTE D ON C.ID_VIATRANSPORTE = D.ID_VIATRANSPORTE ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_IMP, ";
             SQL += "(SELECT SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' AND A.NM_TIPO_ESTUFAGEM = 'FCL' AND A.ID_CNTR_BL IS NOT NULL THEN 1 ELSE 0 END) ";
             SQL += "FROM VW_PROCESSO_CONTAINER A INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += ""+ CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL_CNTR_EXP, ";
-            SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO AND B.ID_STATUS_COTACAO NOT IN (7,8,11) " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
+            SQL += "(SELECT COUNT(DISTINCT(A.NR_PROCESSO)) FROM VW_PROCESSO_CONTAINER A JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO AND B.ID_STATUS_COTACAO NOT IN (7,8,11) " + CarregaFiltroIndicador(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + ") AS TOTAL, ";
             SQL += "SUM(ISNULL(CNTR_IMP, 0)) +SUM(ISNULL(CNTR_EXP, 0)) AS CNTR_TOTAL, ";
             SQL += "SUM(ISNULL(TEUS_IMP, 0)) +SUM(ISNULL(TEUS_EXP, 0)) AS TEUS_TOTAL, ";
             SQL += "SUM(CASE WHEN SUBSTRING(NR_PROCESSO, 1, 1) = 'M' THEN 1 ELSE 0 END) AS PROC_IMP, ";
@@ -711,6 +720,7 @@ namespace ABAINFRA.Web
             SQL += "SUM(CASE WHEN SUBSTRING(A.NR_PROCESSO, 1, 1) = 'E' THEN A.TEU ELSE 0 END) AS TEUS_EXP ";
             SQL += "FROM VW_PROCESSO_CONTAINER A ";
             SQL += "JOIN TB_COTACAO B ON B.ID_COTACAO = A.ID_COTACAO ";
+            SQL += "JOIN TB_SERVICO C ON A.ID_SERVICO = C.ID_SERVICO ";
             SQL += "INNER JOIN TB_PARCEIRO P ON A.ID_PARCEIRO_VENDEDOR = P.ID_PARCEIRO ";
             SQL += "" + CarregaFiltro(anoI, anoF, mesI, mesF, vendedor, tipo, embarque) + " ";
             SQL += "GROUP BY A.MES, A.ANO, A.NR_PROCESSO, P.NM_RAZAO ";
@@ -761,8 +771,32 @@ namespace ABAINFRA.Web
         }
 
         [WebMethod]
-        public string listarProcessos(string nmfilter, string txtfilter, string estufagem, string via, string servico)
+        public string listarProcessos(string nmfilter, string txtfilter, string estufagem, string via, string servico, string dtSiIni, string dtSiFim)
         {
+            if (dtSiIni != "")
+            {
+                string diaI = dtSiIni.Substring(8, 2);
+                string mesI = dtSiIni.Substring(5, 2);
+                string anoI = dtSiIni.Substring(0, 4);
+                dtSiIni = diaI + '/' + mesI + '/' + anoI;
+            }
+			else
+			{
+                dtSiIni = "01/01/1900";
+			}
+
+            if (dtSiFim != "")
+            {
+                string diaF = dtSiFim.Substring(8, 2);
+                string mesF = dtSiFim.Substring(5, 2);
+                string anoF = dtSiFim.Substring(0, 4);
+                dtSiFim = diaF + '/' + mesF + '/' + anoF;
+            }
+            else
+            {
+                dtSiFim = "01/01/2900";
+            }
+
             switch (nmfilter)
             {
                 case "1":
@@ -852,6 +886,7 @@ namespace ABAINFRA.Web
             SQL += "" + estufagem + " ";
             SQL += "" + via + " ";
             SQL += "" + servico + " ";
+            SQL += " AND CONVERT(DATE,A.DT_ABERTURA,103) BETWEEN CONVERT(DATE,'" + dtSiIni + "',103) AND CONVERT(DATE,'" + dtSiFim + "',103) ";
             DataTable listTable = new DataTable();
             listTable = DBS.List(SQL);
             return JsonConvert.SerializeObject(listTable);

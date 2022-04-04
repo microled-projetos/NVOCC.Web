@@ -24,6 +24,20 @@
                                     <button type="button" id="btnExportCSV" class="btn btn-primary" data-toggle="modal" data-target="#modalExportarCSV" onclick="exportTableToCSVAtual('moduloGerencial.csv')">Exportar Arquivo CSV</button>                    
                                 </div>
                             </div>
+                            <div class="row" style="display: flex; margin:auto; margin-top:10px; justify-content:center">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data S.I Inicial<span class="required">*</span></label>
+                                            <input id="dtSiInicio" class="form-control" type="date"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">Data S.I Final<span class="required">*</span></label>
+                                            <input id="dtSiFinal" class="form-control" type="date"/>
+                                        </div>
+                                    </div>
+                            </div>
                             <div class="row topMarg flexdiv">
                                 <div class="col-sm-2">
                                     <div class="form-group">
@@ -134,10 +148,12 @@
             var via = document.getElementById("MainContent_ddlVia").value;
             var servico = document.getElementById("MainContent_ddlServico").value;
             var estufagem = document.getElementById("MainContent_ddlTipoEstufagem").value;
+            var dtSiIni = document.getElementById("dtSiInicio").value;
+            var dtSiFim = document.getElementById("dtSiFinal").value;
             $.ajax({
                 type: "POST",
                 url: "Gerencial.asmx/listarProcessos",
-                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "'+estufagem+'",via:"' + via + '",servico:"' + servico + '"}',
+                data: '{nmfilter:"' + nmfilter + '",txtfilter: "' + txtfilter + '",estufagem: "' + estufagem + '",via:"' + via + '",servico:"' + servico + '", dtSiIni:"' + dtSiIni + '", dtSiFim:"' + dtSiFim + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 beforeSend: function () {

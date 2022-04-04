@@ -125,7 +125,7 @@ Public Class RastreioService
                         cnpj = ds.Tables(0).Rows(0).Item("CNPJ").ToString()
                     End If
 
-                    Dim tokenAPi = GetDadosJsonBL(NR_BL, cnpj, "andre.rodrigues@abainfra.com.br", "185")
+                    Dim tokenAPi = GetDadosJsonBL(NR_BL, cnpj, "", "185")
 
                     Dim token_bl_format As String = tokenAPi
 

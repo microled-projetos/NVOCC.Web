@@ -484,7 +484,7 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
             ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 3 Then
                 'PERCENTUAL A RECEBER
 
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
 
                 x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
                 y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
@@ -497,7 +497,7 @@ WHERE DT_CAMBIO <> Convert(VARCHAR, GETDATE(), 103)")
 
             ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 4 Then
                 'PERCENTUAL A PAGAR
-                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT SUM(VL_TAXA) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL((SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'R' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & ") - (SELECT ISNULL(SUM(VL_TAXA_CALCULADO),0) FROM TB_BL_TAXA WHERE CD_PR = 'P' AND FL_DIVISAO_PROFIT = 1 AND ID_BL = " & txtIDHouse.Text & "),0) AS LUCRO")
 
                 x = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
                 y = dsAuxiliar.Tables(0).Rows(0).Item("LUCRO")
@@ -558,6 +558,51 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 9 Then
+                'POR W/M A RECEBER
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+
+                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
+
+                If x > y Then
+                    x = x
+                Else
+                    x = y
+                End If
+
+                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
+
+
+            ElseIf dsProfit.Tables(0).Rows(0).Item("ID_PROFIT_DIVISAO") = 10 Then
+                'POR W/M A PAGAR
+                Dim dsAuxiliar As DataSet = Con.ExecutarQuery("SELECT ISNULL(VL_PESO_BRUTO,0)VL_PESO_BRUTO,ISNULL(VL_M3,0)VL_M3 FROM TB_BL WHERE ID_BL = " & txtIDHouse.Text)
+
+                x = dsAuxiliar.Tables(0).Rows(0).Item("VL_M3")
+                y = dsAuxiliar.Tables(0).Rows(0).Item("VL_PESO_BRUTO") / 1000
+
+                If x > y Then
+                    x = x
+                Else
+                    x = y
+                End If
+
+                y = dsProfit.Tables(0).Rows(0).Item("VL_PROFIT_DIVISAO")
+
+                z = y * x
+                Profit = z.ToString
+                Profit = Profit.Replace(".", String.Empty).Replace(",", ".")
+
+                Con.ExecutarQuery("UPDATE TB_BL SET VL_PROFIT_DIVISAO_CALCULADO = '" & Profit & "'  WHERE ID_BL = " & txtIDHouse.Text)
+
             End If
         End If
     End Sub
