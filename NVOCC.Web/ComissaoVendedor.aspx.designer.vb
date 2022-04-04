@@ -266,13 +266,13 @@ Partial Public Class ComissaoVendedor
     Protected WithEvents lkTabelaComissoes As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
-    '''Controle lkGerarComissao.
+    '''Controle lkEquipe.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
-    Protected WithEvents lkGerarComissao As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents lkEquipe As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkCadastrarSubVendedor.
@@ -282,6 +282,15 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lkCadastrarSubVendedor As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
+    '''Controle lkGerarComissao.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lkGerarComissao As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
     '''Controle lkAjustarComissao.
@@ -462,24 +471,6 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents txtFCL As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''Controle Label9.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label9 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle txtInsides.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents txtInsides As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''Controle Label10.
@@ -750,24 +741,6 @@ Partial Public Class ComissaoVendedor
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents lblFCL As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle Label20.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents Label20 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Controle lblInside.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents lblInside As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle dgvVendedor.
