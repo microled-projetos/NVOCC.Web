@@ -61,6 +61,9 @@
                     txtIDInvoice.Text = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_INVOICE").ToString()
                     txtID_BL.Text = ds.Tables(0).Rows(0).Item("ID_BL").ToString()
                     txtGrau.Text = ds.Tables(0).Rows(0).Item("GRAU").ToString()
+                    txtIDPARCEIROAGENTE.Text = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE").ToString()
+                    dsAgente.DataBind()
+                    ddlAgente.DataBind()
                     ddlAgente.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_AGENTE").ToString()
                     ddlEmissor.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_EMISSOR").ToString()
                     ddlTipoInvoice.SelectedValue = ds.Tables(0).Rows(0).Item("ID_ACCOUNT_TIPO_INVOICE").ToString()
@@ -252,6 +255,7 @@ LEFT JOIN [VW_PROCESSO_RECEBIDO] B ON A.ID_BL = B.ID_BL WHERE CONVERT(DATE,DT_EM
         txtIDInvoice.Text = ""
         txtID_BL.Text = ""
         txtGrau.Text = ""
+        txtIDPARCEIROAGENTE.Text = 0
         ddlAgente.SelectedValue = 0
         ddlEmissor.SelectedValue = 0
         ddlTipoInvoice.SelectedValue = 0

@@ -145,7 +145,7 @@
 
                     Dim dsResumo As DataSet = Con.ExecutarQuery(" SELECT PARCEIRO_VENDEDOR as NOME, sum (VL_COMISSAO_TOTAL)VL_COMISSAO_TOTAL  FROM View_Comissao_Vendedor  WHERE COMPETENCIA = '" & COMPETENCIA & "' group BY PARCEIRO_VENDEDOR  UNION  SELECT USUARIO, VL_COMISSAO as 'VALOR'  FROM View_Equipes  WHERE COMPETENCIA = '" & COMPETENCIA & "' ORDER BY PARCEIRO_VENDEDOR ASC ")
                     If dsResumo.Tables(0).Rows.Count > 0 Then
-                        tabela &= "<div style='padding-top:20px'><p>RESUMO DA COMPETENCIA</p></div>"
+                        tabela = "<div style='padding-top:20px'><p>RESUMO DA COMPETENCIA</p></div>"
                         tabela &= "<table><tr><th class='valor' style='padding-left:10px;padding-right:10px'>NOME</th>"
                         tabela &= "<th class='valor' style='padding-left:10px;padding-right:10px'>COMISSAO TOTAL</th></tr>"
                         For Each linhaResumo As DataRow In dsResumo.Tables(0).Rows

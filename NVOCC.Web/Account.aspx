@@ -347,7 +347,7 @@
                                     <div class="form-group">
                                            <label class="control-label">Agente:</label><label runat="server" style="color: red">*</label>
                                                 <asp:DropDownList ID="ddlAgente" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_RAZAO" DataSourceID="dsAgente" DataValueField="ID_PARCEIRO"></asp:DropDownList>
-
+                                         <asp:TextBox ID="txtIDPARCEIROAGENTE" Enabled="false" runat="server" CssClass="form-control"  Style="display: none;"></asp:TextBox>
                                     </div>
                                         </div>
                                        <div class="col-sm-2">
@@ -1172,8 +1172,12 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT"></asp:SqlDataSourc
 union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS_FRETE_AGENTE"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgente" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 and FL_ATIVO = 1
-union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
+        SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE (FL_AGENTE_INTERNACIONAL = 1 and FL_ATIVO = 1)
+ or (ID_PARCEIRO =@ID_PARCEIRO) union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO">
+         <SelectParameters>
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="string" ControlID="txtIDPARCEIROAGENTE" />
+             </SelectParameters>
+    </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsAgenteSOA" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE FL_AGENTE_INTERNACIONAL = 1 AND ID_PARCEIRO IN (SELECT DISTINCT ID_PARCEIRO_AGENTE FROM TB_ACCOUNT_INVOICE)
