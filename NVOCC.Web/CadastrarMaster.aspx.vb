@@ -420,6 +420,10 @@ union SELECT 0, 'Selecione' FROM TB_WEEK ORDER BY ID_WEEK"
                         ddltransportador_BasicoAereo.SelectedValue = ds.Tables(0).Rows(0).Item("ID_PARCEIRO_TRANSPORTADOR")
                     End If
 
+                    If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_VIAGEM")) Then
+                        txtNumeroVoo_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_VIAGEM")
+                    End If
+
                     If Not IsDBNull(ds.Tables(0).Rows(0).Item("NR_VIAGEM_1T")) Then
                         txtVoo1_BasicoAereo.Text = ds.Tables(0).Rows(0).Item("NR_VIAGEM_1T")
                     End If

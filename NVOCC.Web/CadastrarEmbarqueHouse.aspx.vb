@@ -1472,6 +1472,7 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     btnSalvar_TaxaAereo.Visible = False
                 End If
 
+                lblTipoEmpresa_Aereo.Text = "Parceiro:"
                 mpeTaxaAereo.Show()
 
             End If
