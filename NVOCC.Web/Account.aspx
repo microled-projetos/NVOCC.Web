@@ -1175,7 +1175,7 @@ union SELECT 0, 'Selecione' FROM [dbo].TB_STATUS_FRETE_AGENTE ORDER BY ID_STATUS
         SelectCommand="SELECT ID_PARCEIRO, NM_RAZAO FROM [dbo].[TB_PARCEIRO] WHERE (FL_AGENTE_INTERNACIONAL = 1 and FL_ATIVO = 1)
  or (ID_PARCEIRO =@ID_PARCEIRO) union SELECT 0, '  Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO">
          <SelectParameters>
-            <asp:ControlParameter Name="ID_PARCEIRO" Type="string" ControlID="txtIDPARCEIROAGENTE" />
+            <asp:ControlParameter Name="ID_PARCEIRO" Type="string" ControlID="txtIDPARCEIROAGENTE" DefaultValue="0" />
              </SelectParameters>
     </asp:SqlDataSource>
 

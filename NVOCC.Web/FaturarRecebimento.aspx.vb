@@ -145,7 +145,12 @@ Public Class FaturarRecebimento
                         System.IO.Directory.CreateDirectory(diretorio_arquivos)
                     End If
 
-                    Dim nomeArquivofinal As String = nomeArquivo.Substring(0, 150)
+                    Dim nomeArquivofinal As String = ""
+                    If nomeArquivo.Length > 150 Then
+                        nomeArquivofinal = nomeArquivo.Substring(0, 150)
+                    Else
+                        nomeArquivofinal = nomeArquivo
+                    End If
                     FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "/" & nomeArquivofinal)
                     divSuccess.Visible = True
 
