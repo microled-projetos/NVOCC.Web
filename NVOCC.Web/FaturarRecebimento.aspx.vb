@@ -120,24 +120,25 @@ Public Class FaturarRecebimento
                 lblmsgErro.Text = "Recebimento já enviado!"
             Else
 
-                Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
+                'Con.ExecutarQuery("UPDATE TB_CONTA_PAGAR_RECEBER SET DT_ENVIO_FATURAMENTO = GETDATE() WHERE ID_CONTA_PAGAR_RECEBER = " & ID)
 
-                Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1)) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
+                'Dim dsFaturamento As DataSet = Con.ExecutarQuery("INSERT INTO TB_FATURAMENTO (ID_CONTA_PAGAR_RECEBER,VL_NOTA) SELECT ID_CONTA_PAGAR_RECEBER, (SELECT SUM(ISNULL(VL_LIQUIDO,0)) FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER = A.ID_CONTA_PAGAR_RECEBER AND ID_ITEM_DESPESA IN (SELECT ID_ITEM_DESPESA FROM TB_ITEM_DESPESA WHERE FL_RECEITA = 1)) VL_NOTA FROM TB_CONTA_PAGAR_RECEBER A WHERE ID_CONTA_PAGAR_RECEBER = " & ID & " ; Select SCOPE_IDENTITY() as ID_FATURAMENTO  ")
 
 
-                Dim ID_FATURAMENTO As String = dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
+                Dim ID_FATURAMENTO As String = 0 'dsFaturamento.Tables(0).Rows(0).Item("ID_FATURAMENTO")
 
-                Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
-                WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER= " & ID & ")")
-                If dsParceiro.Tables(0).Rows.Count > 0 Then
+                'Dim dsParceiro As DataSet = Con.ExecutarQuery("SELECT ID_PARCEIRO,NM_RAZAO,CNPJ,INSCR_ESTADUAL,INSCR_MUNICIPAL,ENDERECO,NR_ENDERECO,COMPL_ENDERECO,BAIRRO,CEP,(SELECT NM_CIDADE FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE)CIDADE,(SELECT NM_ESTADO FROM TB_ESTADO WHERE ID_ESTADO = (SELECT ID_ESTADO FROM TB_CIDADE WHERE ID_CIDADE = A.ID_CIDADE))ESTADO,VL_ALIQUOTA_ISS FROM TB_PARCEIRO A
+                'WHERE ID_PARCEIRO = (SELECT TOP 1 ID_PARCEIRO_EMPRESA FROM TB_CONTA_PAGAR_RECEBER_ITENS WHERE ID_CONTA_PAGAR_RECEBER= " & ID & ")")
+                'If dsParceiro.Tables(0).Rows.Count > 0 Then
 
-                    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET ID_PARCEIRO_CLIENTE = " & dsParceiro.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString & ",NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
-                End If
+                '    Con.ExecutarQuery("UPDATE [dbo].[TB_FATURAMENTO] SET ID_PARCEIRO_CLIENTE = " & dsParceiro.Tables(0).Rows(0).Item("ID_PARCEIRO").ToString & ",NM_CLIENTE = '" & dsParceiro.Tables(0).Rows(0).Item("NM_RAZAO").ToString & "',CNPJ = '" & dsParceiro.Tables(0).Rows(0).Item("CNPJ").ToString & "',INSCR_ESTADUAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_ESTADUAL").ToString & "',INSCR_MUNICIPAL ='" & dsParceiro.Tables(0).Rows(0).Item("INSCR_MUNICIPAL").ToString & "',ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("ENDERECO").ToString & "',NR_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("NR_ENDERECO").ToString & "',COMPL_ENDERECO='" & dsParceiro.Tables(0).Rows(0).Item("COMPL_ENDERECO").ToString & "',BAIRRO='" & dsParceiro.Tables(0).Rows(0).Item("BAIRRO").ToString & "',CEP ='" & dsParceiro.Tables(0).Rows(0).Item("CEP").ToString & "',CIDADE ='" & dsParceiro.Tables(0).Rows(0).Item("CIDADE").ToString & "',ESTADO ='" & dsParceiro.Tables(0).Rows(0).Item("ESTADO").ToString & "' WHERE ID_FATURAMENTO =" & ID_FATURAMENTO)
+                'End If
 
 
 
                 If FileUpload1.HasFile Then
                     Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
+                    Dim fileExtensio As String = Path.GetExtension(FileUpload1.PostedFile.FileName.ToString())
                     Dim tamanhoArquivo As Long = FileUpload1.PostedFile.ContentLength
                     Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Faturamento") & ID_FATURAMENTO
 
@@ -147,7 +148,7 @@ Public Class FaturarRecebimento
 
                     Dim nomeArquivofinal As String = ""
                     If nomeArquivo.Length > 150 Then
-                        nomeArquivofinal = nomeArquivo.Substring(0, 150)
+                        nomeArquivofinal = nomeArquivo.Substring(0, 150) & fileExtensio
                     Else
                         nomeArquivofinal = nomeArquivo
                     End If

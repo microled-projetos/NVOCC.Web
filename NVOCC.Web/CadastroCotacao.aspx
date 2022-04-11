@@ -382,10 +382,16 @@
 
 
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
                                                 <label class="control-label">Data de Calculo:</label>
                                                 <asp:TextBox ID="txtDataCalculo" runat="server" Enabled="false" CssClass="form-control data" MaxLength="18"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label class="control-label" style="color:white">Calcular:</label><br />
+                                               <asp:Button ID="btnCalcular" runat="server" CssClass="btn btn-block btn-info" Text="Calcular" />
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -441,7 +447,8 @@
                                 </ContentTemplate>
 
                                 <Triggers>
-
+                                    
+                                    <asp:PostBackTrigger ControlID="btnCalcular" />
                                     <asp:AsyncPostBackTrigger ControlID="ddlServico" />
                                     <asp:PostBackTrigger ControlID="btnGravar" />
                                     <asp:AsyncPostBackTrigger ControlID="txtNomeCliente" />
@@ -515,16 +522,16 @@
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
-
+                                                                    
+                                                                  
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
                                                                             <label class="control-label">Tabela de Frete:</label>
                                                                             <asp:DropDownList ID="ddlFreteTransportador_Frete" AutoPostBack="true" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="Descricao" DataSourceID="dsFreteTransportador" DataValueField="ID_FRETE_TRANSPORTADOR">
                                                                             </asp:DropDownList>
                                                                         </div>
-                                                                    </div>
-
-                                                                </div>
+                                                                    </div></div>
+                                                                       
                                                                 <div class="row">
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
@@ -681,6 +688,21 @@
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
+                                                                    <div id="divCheckFrete" runat="server">
+                                                                       <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+                                                                        <asp:CheckBox ID="ckFreteDeclarado" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Frete Declarado"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label"></label>
+                                                                        <asp:CheckBox ID="ckFreteProfit" runat="server" CssClass="form-control" Text="&nbsp;&nbsp;Frete Profit"></asp:CheckBox>
+                                                                    </div>
+                                                                </div>
+                                                                 </div>
+                                                             
                                                                     <div id="divMinimosFCL" runat="server">
 
                                                                         <div class="col-sm-4">
@@ -837,6 +859,7 @@
                                                                         </asp:DropDownList>
                                                                     </div>
                                                                 </div>
+                                                                 <div id="divCntr" runat="server">
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Tipo de Container:</label><asp:Label Visible="false" runat="server" ID="RedContainer" Style="color: red">*</asp:Label>
@@ -850,7 +873,7 @@
                                                                         <label class="control-label">Qtd. Container:</label><asp:Label Visible="false" runat="server" ID="RedQTDContainer" Style="color: red">*</asp:Label>
                                                                         <asp:TextBox ID="txtQtdContainerMercadoria" AutoPostBack="true" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
                                                                     </div>
-                                                                </div>
+                                                                </div>  </div>
                                                                 <div class="col-sm-3" id="divQtdMercadoria" runat="server">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Qtd. Mercadoria:</label><asp:Label Visible="false" runat="server" ID="RedQTDMercadoria" Style="color: red">*</asp:Label>
@@ -1626,7 +1649,7 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
         </SelectParameters>

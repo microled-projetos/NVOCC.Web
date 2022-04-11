@@ -187,7 +187,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Bairro:</label><asp:label ID="RedBairro" runat="server" style="color:red" >*</asp:label>
-                                        <asp:TextBox ID="txtBairro" runat="server" CssClass="form-control" MaxLength="50"></asp:TextBox>
+                                        <asp:TextBox ID="txtBairro" runat="server" CssClass="form-control" MaxLength="120"></asp:TextBox>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">

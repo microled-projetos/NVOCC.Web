@@ -673,6 +673,7 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
     End Sub
 
     Private Sub btnFecharAjustaTaxa_Click(sender As Object, e As EventArgs) Handles btnFecharAjustaTaxa.Click
+        divErroAjusta.Visible = False
         mpeAjusta.Hide()
         Pesquisa()
     End Sub
@@ -702,8 +703,34 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
 
                 Dim ds As DataSet = Con.ExecutarQuery("Select NR_COTACAO,ID_STATUS_COTACAO,ID_COTACAO,NR_PROCESSO_GERADO,ID_CLIENTE FROM TB_COTACAO WHERE ID_COTACAO = (SELECT ID_COTACAO FROM TB_COTACAO_TAXA WHERE ID_COTACAO_TAXA = " & ID & " )")
                 If ds.Tables(0).Rows.Count > 0 Then
-                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 15 Then
+                    'If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 12 And ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 9 And ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") <> 15 Then
 
+                    '    txtMsg.Text = "Prezado(a),<br><br>Informamos que houve alteração de valores na taxa <strong>" & ITEM_DESPESA & "</strong> do armador <strong>" & ARMADOR & "</strong>:<br/><br/>Cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " -  Processo " & ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") & " <br/><br/>Valor compra antigo: " & VL_TAXA_COMPRA & " <br/>Valor compra novo: " & lblValorNovo.Text & " <br/><br/>Valor venda antigo: " & VL_TAXA_VENDA & " <br/>Valor venda novo: " & ValorNovoVenda & " <br/>"
+
+                    '    Con.ExecutarQuery("UPDATE [dbo].[TB_COTACAO_TAXA]  SET VL_TAXA_COMPRA = " & lblValorNovo.Text.ToString.Replace(",", ".") & ", VL_TAXA_VENDA = " & ValorNovoVenda.ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID)
+
+                    '    ''EMAIL INTERNO
+                    '    Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL]  (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & ",0,'OP')")
+
+                    '    ''EMAIL CLIENTE
+                    '    'Con.ExecutarQuery("INSERT INTO [dbo].[TB_GER_EMAIL] (ASSUNTO,CORPO,DT_GERACAO,DT_START,IDTIPOAVISO,IDPROCESSO,IDCLIENTE,TPORIGEM) VALUES ('ALTERAÇÃO DE TAXAS DO ARMADOR','" & txtMsg.Text & "',GETDATE(),GETDATE(),13," & ID_BL & "," & ds.Tables(0).Rows(0).Item("ID_CLIENTE") & ",'OP')")
+
+                    '    Dim RotinaUpdate As New RotinaUpdate
+                    '    RotinaUpdate.UpdateTaxas(ds.Tables(0).Rows(0).Item("ID_COTACAO"), ID, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
+
+                    'Else
+                    '    divErroAjusta.Visible = True
+                    '    lblErroAjusta.Text &= "O status da cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " não permite ajustes! <br/>"
+                    'End If
+
+
+
+                    If ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 12 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 9 Or ds.Tables(0).Rows(0).Item("ID_STATUS_COTACAO") = 15 Then
+
+                        divErroAjusta.Visible = True
+                        lblErroAjusta.Text &= "O status da cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " não permite ajustes! <br/>"
+
+                    Else
                         txtMsg.Text = "Prezado(a),<br><br>Informamos que houve alteração de valores na taxa <strong>" & ITEM_DESPESA & "</strong> do armador <strong>" & ARMADOR & "</strong>:<br/><br/>Cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " -  Processo " & ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO") & " <br/><br/>Valor compra antigo: " & VL_TAXA_COMPRA & " <br/>Valor compra novo: " & lblValorNovo.Text & " <br/><br/>Valor venda antigo: " & VL_TAXA_VENDA & " <br/>Valor venda novo: " & ValorNovoVenda & " <br/>"
 
                         Con.ExecutarQuery("UPDATE [dbo].[TB_COTACAO_TAXA]  SET VL_TAXA_COMPRA = " & lblValorNovo.Text.ToString.Replace(",", ".") & ", VL_TAXA_VENDA = " & ValorNovoVenda.ToString.Replace(",", ".") & " WHERE ID_COTACAO_TAXA =" & ID)
@@ -717,9 +744,8 @@ Left Join TB_TIPO_COMEX D ON D.ID_TIPO_COMEX = A.ID_TIPO_COMEX WHERE ID_TRANSPOR
                         Dim RotinaUpdate As New RotinaUpdate
                         RotinaUpdate.UpdateTaxas(ds.Tables(0).Rows(0).Item("ID_COTACAO"), ID, ds.Tables(0).Rows(0).Item("NR_PROCESSO_GERADO"))
 
-                    Else
-                        divErroAjusta.Visible = True
-                        lblErroAjusta.Text &= "O status da cotação " & ds.Tables(0).Rows(0).Item("NR_COTACAO") & " não permite ajustes! <br/>"
+
+
                     End If
 
                 End If

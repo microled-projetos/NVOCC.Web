@@ -1276,7 +1276,7 @@ VENDAS:
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Número do HBL:</label>
+                                                        <label class="control-label">Número HAWB:</label>
                                                         <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1284,7 +1284,7 @@ VENDAS:
                                               
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Número do MBL:</label>
+                                                        <label class="control-label">Número MAWB:</label>
                                                         <asp:TextBox ID="txtMBL_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1355,21 +1355,21 @@ VENDAS:
                                                         <asp:TextBox ID="txtDataCE_BasicoAereo" runat="server" CssClass="form-control data"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2" style="display:none">
                                                     <div class="form-group">
                                                         <label class="control-label">Número CE:</label>
                                                         <asp:TextBox ID="txtNumeroCE_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
 
                                                     </div>
                                                 </div>
-                                                                                            <div class="col-sm-2">
+                                                                                            <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Incoterm:</label>
                                                         <asp:DropDownList ID="ddlIncoterm_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                 <div class="col-sm-2">
+                                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label>
                                          <asp:DropDownList ID="ddlFinalDestination_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
@@ -1778,6 +1778,12 @@ VENDAS:
 <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                                         </asp:DropDownList>
                                                                     </div>
+                                                                     <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Grupo NCM:</label>
+                                                                                <asp:TextBox ID="txtGrupoNCM_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
@@ -2431,7 +2437,7 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_C
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

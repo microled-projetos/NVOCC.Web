@@ -266,6 +266,8 @@
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="Content\imagens\Logo-Global-Sys02.png" />
+    <Content Include="Content\imagens\Logo-Global-Sys02_Prancheta 1.png" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
