@@ -1288,6 +1288,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             txtNumeroBL_BasicoAereo.Text = txtNumeroBL_BasicoAereo.Text.Replace(" ", "")
             txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", "")
             txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(",", ".")
+            txtM3_BasicoAereo.Text = txtM3_BasicoAereo.Text.Replace(".", "")
+            txtM3_BasicoAereo.Text = txtM3_BasicoAereo.Text.Replace(",", ".")
 
             If txtCotacao_BasicoAereo.Text = "" Then
                 txtCotacao_BasicoAereo.Text = 0
@@ -1614,7 +1616,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         End If
 
         txtTarifaMaster_BasicoAereo.Text = txtTarifaMaster_BasicoAereo.Text.Replace(".", ",")
-
+        txtM3_BasicoAereo.Text = txtM3_BasicoAereo.Text.Replace(".", ",")
     End Sub
 
     Private Sub btnGravar_BasicoMaritimo_Click(sender As Object, e As EventArgs) Handles btnGravar_BasicoMaritimo.Click

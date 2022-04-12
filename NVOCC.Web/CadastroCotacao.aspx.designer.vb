@@ -689,6 +689,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlTransportadorFrete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle lblorigem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblorigem As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlOrigemFrete.
     '''</summary>
     '''<remarks>
@@ -696,6 +705,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlOrigemFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lbldestino.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbldestino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle ddlDestinoFrete.

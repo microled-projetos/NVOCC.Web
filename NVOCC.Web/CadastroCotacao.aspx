@@ -510,14 +510,14 @@
                                                                 <div class="row">
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
-                                                                            <label class="control-label">Porto de Origem:</label><label runat="server" style="color: red">*</label>
+                                                                            <asp:label class="control-label" runat="server" ID="lblorigem" Style="font-weight:bold">Porto de Origem:</asp:label><label runat="server" style="color: red">*</label>
                                                                             <asp:DropDownList ID="ddlOrigemFrete" runat="server" CssClass="form-control" AutoPostBack="true" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-4">
                                                                         <div class="form-group">
-                                                                            <label class="control-label">Porto de Destino:</label><label runat="server" style="color: red">*</label>
+                                                                            <asp:label class="control-label" runat="server" ID="lbldestino" Style="font-weight:bold">Porto de Destino:</asp:label><label runat="server" style="color: red">*</label>
                                                                             <asp:DropDownList ID="ddlDestinoFrete" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPorto" DataValueField="ID_PORTO">
                                                                             </asp:DropDownList>
                                                                         </div>
@@ -783,10 +783,10 @@
                                                 <Columns>
                                                     <asp:BoundField DataField="ID_COTACAO" HeaderText="#" Visible="false" SortExpression="ID_TABELA_FRETE_TAXA" />
                                                     <asp:BoundField DataField="NR_COTACAO" HeaderText="Nº Cotação" SortExpression="NR_COTACAO" />
-                                                    <asp:BoundField DataField="Origem" HeaderText="Origem" SortExpression="Origem" />
-                                                    <asp:BoundField DataField="Destino" HeaderText="Destino" SortExpression="Destino" />
+                                                    <asp:BoundField DataField="ORIGEM" HeaderText="Origem" SortExpression="Origem" />
+                                                    <asp:BoundField DataField="DESTINO" HeaderText="Destino" SortExpression="Destino" />
+                                                    <asp:BoundField DataField="TRANSPORTADOR" HeaderText="Transportador" SortExpression="Transportador" />
                                                     <asp:BoundField DataField="CLIENTE_FINAL" HeaderText="Cliente Final" SortExpression="CLIENTE_FINAL" />
-
                                                     <asp:TemplateField HeaderText="">
                                                         <ItemTemplate>
                                                             <asp:LinkButton ID="btnVisualizar" runat="server" CausesValidation="False" CommandName="visualizar" CommandArgument='<%# Eval("ID_COTACAO") %>'
@@ -1588,55 +1588,17 @@
     <asp:SqlDataSource ID="dsCotacao" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_COTACAO,NR_COTACAO,
 A.ID_PORTO_ORIGEM,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) Origem,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ORIGEM) ORIGEM,
 
 A.ID_PORTO_DESTINO, 
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) Destino,
-
-A.ID_PORTO_ESCALA1,
-(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_ESCALA1) Escala,
+(SELECT NM_PORTO FROM TB_PORTO WHERE ID_PORTO = A.ID_PORTO_DESTINO) DESTINO,
 
 A.ID_CLIENTE_FINAL,
 (SELECT NM_CLIENTE_FINAL FROM TB_CLIENTE_FINAL WHERE ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL) CLIENTE_FINAL,
 
-A.QT_TRANSITTIME_INICIAL, A.QT_TRANSITTIME_FINAL, 
-
-A.ID_TIPO_FREQUENCIA,
-(SELECT NM_TIPO_FREQUENCIA FROM TB_TIPO_FREQUENCIA WHERE ID_TIPO_FREQUENCIA = A.ID_TIPO_FREQUENCIA) TIPO_FREQUENCIA,
-
-A.VL_FREQUENCIA, 
-
-A.NM_TAXAS_INCLUDED, 
-
-A.ID_FRETE_TRANSPORTADOR,
-
-A.VL_PESO_TAXADO, 
-
-A.ID_TIPO_BL,
-(SELECT NM_TIPO_BL FROM TB_TIPO_BL WHERE ID_TIPO_BL = A.ID_TIPO_BL) TIPO_BL,
-
-A.ID_MOEDA_FRETE,
-(SELECT NM_MOEDA FROM TB_MOEDA WHERE ID_MOEDA = A.ID_MOEDA_FRETE) MOEDA_FRETE,
-
-A.VL_TOTAL_FRETE_COMPRA, A.VL_TOTAL_FRETE_VENDA, A.VL_TOTAL_FRETE_VENDA_MIN, 
-
-A.ID_TIPO_DIVISAO_FRETE,
-
-A.VL_TIPO_DIVISAO_FRETE, A.VL_DIVISAO_FRETE, 
-
 A.ID_TRANSPORTADOR,
-(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR and FL_TRANSPORTADOR = 1) TRANSPORTADOR,
+(SELECT NM_RAZAO FROM TB_PARCEIRO WHERE ID_PARCEIRO = A.ID_TRANSPORTADOR and FL_TRANSPORTADOR = 1) TRANSPORTADOR
 
-A.ID_TIPO_CARGA,
-(SELECT NM_TIPO_CARGA FROM TB_TIPO_CARGA WHERE ID_TIPO_CARGA = A.ID_TIPO_CARGA) TIPO_CARGA,
-
-A.ID_VIA_ROTA, 
-(SELECT NM_VIA_ROTA FROM TB_VIA_ROTA WHERE ID_VIA_ROTA = A.ID_VIA_ROTA) VIA_ROTA,
-
-A.ID_TIPO_ESTUFAGEM,
-(SELECT NM_TIPO_ESTUFAGEM FROM TB_TIPO_ESTUFAGEM WHERE ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM) TIPO_ESTUFAGEM,
-
-A.ID_PROCESSO
 FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
 
 ">
@@ -1649,7 +1611,7 @@ FROM TB_COTACAO A WHERE ID_COTACAO = @ID_COTACAO
         SelectCommand="SELECT ID_MOEDA, NM_MOEDA FROM [dbo].[TB_MOEDA] union SELECT  0, 'Selecione' ORDER BY ID_MOEDA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPorto" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">
+        SelectCommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = @ID_VIATRANSPORTE union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">
         <SelectParameters>
             <asp:ControlParameter Name="ID_VIATRANSPORTE" Type="Int32" ControlID="txtViaTransporte" DefaultValue="1" />
         </SelectParameters>

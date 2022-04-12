@@ -197,13 +197,15 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
                 divTTAereo.Attributes.CssStyle.Add("display", "block")
                 divCheckFrete.Attributes.CssStyle.Add("display", "block")
                 divCntr.Attributes.CssStyle.Add("display", "none")
-
+                lblorigem.Text = "Aeroporto de Origem"
+                lbldestino.Text = "Aeroporto de Destino"
             Else
                 txtViaTransporte.Text = 1
                 divTTAereo.Attributes.CssStyle.Add("display", "none")
                 divCheckFrete.Attributes.CssStyle.Add("display", "none")
                 divCntr.Attributes.CssStyle.Add("display", "block")
-
+                lblorigem.Text = "Porto de Origem"
+                lbldestino.Text = "Porto de Destino"
             End If
             txtID_Vendedor.Text = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
             dsVendedor.SelectParameters("ID_PARCEIRO").DefaultValue = ds.Tables(0).Rows(0).Item("ID_VENDEDOR").ToString
@@ -4770,11 +4772,15 @@ SELECT  0,'', ' Selecione' FROM TB_PARCEIRO ORDER BY NM_RAZAO"
             divCheckFrete.Attributes.CssStyle.Add("display", "block")
             divTTAereo.Attributes.CssStyle.Add("display", "block")
             divCntr.Attributes.CssStyle.Add("display", "none")
+            lblorigem.Text = "Aeroporto de Origem"
+            lbldestino.Text = "Aeroporto de Destino"
         Else
             txtViaTransporte.Text = 1
             divCheckFrete.Attributes.CssStyle.Add("display", "none")
             divTTAereo.Attributes.CssStyle.Add("display", "none")
             divCntr.Attributes.CssStyle.Add("display", "block")
+            lblorigem.Text = "Porto de Origem"
+            lbldestino.Text = "Porto de Destino"
         End If
     End Sub
 
