@@ -266,6 +266,7 @@
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="Content\imagens\fundo-conteineres.png" />
     <Content Include="Content\imagens\Logo-Background.png" />
     <Content Include="Content\imagens\Logo-Inicio.png" />
     <Content Include="Content\imagens\Logo-Menu.png" />
@@ -578,7 +579,6 @@
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
     <Content Include="Content\PDFAuxiliar.pdf" />
-    <Content Include="Content\SOA.pdf" />
     <Content Include="Week.cs" />
     <Content Include="Bundle.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
