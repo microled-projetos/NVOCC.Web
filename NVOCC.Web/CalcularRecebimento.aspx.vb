@@ -361,6 +361,9 @@ FROM [TB_BL] A WHERE A.ID_BL = " & txtID_BL.Text)
 
 
     Sub grid()
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+
         Dim sqlGrid As String = "SELECT * FROM [dbo].[View_BL_TAXAS]
 WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'R' AND ID_DESTINATARIO_COBRANCA <> 3 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
 
@@ -425,6 +428,19 @@ WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AN
         Next
 
         divConteudo.Visible = True
+
+        Dim ds0 As DataSet = Con.ExecutarQuery(sqlGrid)
+        If ds0.Tables(0).Rows.Count = 0 Then
+            ds0 = Con.ExecutarQuery("select count(*)qtd from tb_bl A
+INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
+WHERE B.ID_STATUS_COTACAO  = 10 AND ID_BL = " & txtID_BL.Text)
+            If ds0.Tables(0).Rows(0).Item("QTD") > 0 Then
+                lblErro.Text = "PROCESSO COM COTAÇÃO EM UPDATE!"
+                divErro.Visible = True
+            End If
+
+        End If
+
     End Sub
     Private Sub btnCalcularRecebimento_Click(sender As Object, e As EventArgs) Handles btnCalcularRecebimento.Click
         divErro.Visible = False
