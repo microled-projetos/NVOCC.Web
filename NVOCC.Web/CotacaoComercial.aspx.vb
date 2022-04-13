@@ -2427,7 +2427,7 @@ end ID_ORIGEM_PAGAMENTO
                 lblmsgErro.Text = "Follow Up já realizado!"
             Else
                 lkFollowUp.Visible = False
-                Dim ds As DataSet = Con.ExecutarQuery("SELECT B.NM_RAZAO AS CLIENTE,C.NM_TIPO_ESTUFAGEM,O.CD_SIGLA AS ORIGEM,D.CD_SIGLA AS DESTINO,I.NM_INCOTERM, NR_COTACAO, J.NM_CONTATO AS CONTATO,isnull(lower(EMAIL_CONTATO),'')EMAIL_CONTATO,K.NM_RAZAO as CNEE
+                Dim ds As DataSet = Con.ExecutarQuery("SELECT ISNULL(M.NM_CLIENTE_FINAL,'')CLIENTE_FINAL,NR_REFERENCIA_CLIENTE, B.NM_RAZAO AS CLIENTE,C.NM_TIPO_ESTUFAGEM,O.CD_SIGLA AS ORIGEM,D.CD_SIGLA AS DESTINO,I.NM_INCOTERM, NR_COTACAO, J.NM_CONTATO AS CONTATO,isnull(lower(EMAIL_CONTATO),'')EMAIL_CONTATO,K.NM_RAZAO as CNEE
     FROM TB_COTACAO A 
     LEFT JOIN TB_PARCEIRO B ON  B.ID_PARCEIRO = A.ID_CLIENTE
     LEFT JOIN TB_TIPO_ESTUFAGEM C ON  C.ID_TIPO_ESTUFAGEM = A.ID_TIPO_ESTUFAGEM
@@ -2436,7 +2436,9 @@ end ID_ORIGEM_PAGAMENTO
     LEFT JOIN TB_INCOTERM I ON I.ID_INCOTERM = A.ID_INCOTERM
     LEFT JOIN TB_CONTATO J ON J.ID_CONTATO = A.ID_CONTATO
     LEFT JOIN TB_PARCEIRO K ON  K.ID_PARCEIRO = A.ID_PARCEIRO_IMPORTADOR
-    WHERE ID_COTACAO = " & txtID.Text)
+	LEFT JOIN VW_REFERENCIA_CLIENTE L ON L.ID_COTACAO = A.ID_COTACAO
+	LEFT JOIN TB_CLIENTE_FINAL M on M.ID_CLIENTE_FINAL = A.ID_CLIENTE_FINAL
+    WHERE A.ID_COTACAO = " & txtID.Text)
                 If ds.Tables(0).Rows.Count > 0 Then
                     If ds.Tables(0).Rows(0).Item("EMAIL_CONTATO") = "" Then
                         divErro.Visible = True
@@ -2444,7 +2446,7 @@ end ID_ORIGEM_PAGAMENTO
                     Else
 
 
-                        Assunto = ds.Tables(0).Rows(0).Item("CLIENTE") & " + " & ds.Tables(0).Rows(0).Item("NM_TIPO_ESTUFAGEM") & " - " & ds.Tables(0).Rows(0).Item("NM_INCOTERM") & " – " & ds.Tables(0).Rows(0).Item("ORIGEM") & "/" & ds.Tables(0).Rows(0).Item("DESTINO") & " / CNEE: " & ds.Tables(0).Rows(0).Item("CNEE") & " / " & ds.Tables(0).Rows(0).Item("CONTATO") & " / COT " & ds.Tables(0).Rows(0).Item("NR_COTACAO")
+                        Assunto = ds.Tables(0).Rows(0).Item("NR_REFERENCIA_CLIENTE") & " + " & ds.Tables(0).Rows(0).Item("NM_TIPO_ESTUFAGEM") & " - " & ds.Tables(0).Rows(0).Item("NM_INCOTERM") & " – " & ds.Tables(0).Rows(0).Item("ORIGEM") & "/" & ds.Tables(0).Rows(0).Item("DESTINO") & " / CNEE: " & ds.Tables(0).Rows(0).Item("CLIENTE_FINAL") & " (" & ds.Tables(0).Rows(0).Item("CLIENTE") & ") / " & ds.Tables(0).Rows(0).Item("CONTATO") & " / COT " & ds.Tables(0).Rows(0).Item("NR_COTACAO")
 
                         Msg = "Ol&aacute; " & ds.Tables(0).Rows(0).Item("CONTATO") & ", Tudo bem?<br/><br/>Estou passando para verificar, se conseguiu analisar nossa cota&ccedil;&atilde;o.<br/>Ainda estamos concorrendo?<br/><br/>Ficamos a disposi&ccedil;&atilde;o, para lhe ajudar a fechar mais este processo.<br/>Contem conosco para o que precisar!"
 
