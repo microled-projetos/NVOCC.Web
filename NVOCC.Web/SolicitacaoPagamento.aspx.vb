@@ -34,7 +34,7 @@
                 End If
 
                 ds1 = Con.ExecutarQuery("SELECT NR_PROCESSO,NM_ITEM_DESPESA FROM [dbo].[View_BL_TAXAS]
-                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'P' AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 and ID_DESTINATARIO_COBRANCA <> 3")
+                WHERE (ID_BL = " & txtID_BL.Text & " OR ID_BL_MASTER = " & txtID_BL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ISNULL(ID_PARCEIRO_EMPRESA,0) = 0 and ID_DESTINATARIO_COBRANCA <> 3")
                 If ds1.Tables(0).Rows.Count > 0 Then
                     divErro.Visible = True
                     lblErro.Text = "EXISTE TAXA SEM IDENTIFICAÇÃO DE FORNECEDOR!"
@@ -59,11 +59,11 @@
 
     Private Sub ddlFornecedor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlFornecedor.SelectedIndexChanged
         If ddlFornecedor.SelectedValue <> 0 Then
-            dsTaxas.SelectCommand = "SELECT * FROM [dbo].[View_BL_TAXAS]
+            Dim sqlGrid As String = "SELECT * FROM [dbo].[View_BL_TAXAS]
 WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO = 0 AND ID_ORIGEM_PAGAMENTO = 1 AND ID_PARCEIRO_EMPRESA = " & ddlFornecedor.SelectedValue
+
             dgvTaxas.DataBind()
-
-
+            dsTaxas.SelectCommand = sqlGrid
             dsTaxas.SelectParameters("ID_BL").DefaultValue = lblID_MBL.Text
             dgvTaxas.DataBind()
             divgrids.Visible = True
@@ -102,6 +102,19 @@ WHERE  (ID_BL_MASTER = " & lblID_MBL.Text & ") AND CD_PR = 'P' AND FL_DECLARADO 
                     dgvMoedas.Visible = True
 
                 End If
+            End If
+
+
+            Dim ds0 As DataSet = Con.ExecutarQuery(sqlGrid)
+            If ds0.Tables(0).Rows.Count = 0 Then
+                ds0 = Con.ExecutarQuery("select count(*)qtd from tb_bl A
+INNER JOIN TB_COTACAO B ON A.ID_COTACAO = B.ID_COTACAO
+WHERE B.ID_STATUS_COTACAO  = 10 AND ID_BL = " & txtID_BL.Text)
+                If ds0.Tables(0).Rows(0).Item("QTD") > 0 Then
+                    lblErro.Text = "PROCESSO COM COTAÇÃO EM UPDATE!"
+                    divErro.Visible = True
+                End If
+
             End If
         End If
 

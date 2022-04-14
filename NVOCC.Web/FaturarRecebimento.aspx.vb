@@ -138,6 +138,7 @@ Public Class FaturarRecebimento
 
                 If FileUpload1.HasFile Then
                     Dim nomeArquivo As String = Path.GetFileName(FileUpload1.PostedFile.FileName)
+                    Dim fileExtensio As String = Path.GetExtension(FileUpload1.PostedFile.FileName.ToString())
                     Dim tamanhoArquivo As Long = FileUpload1.PostedFile.ContentLength
                     Dim diretorio_arquivos As String = Server.MapPath("~/Content/Arquivos/Faturamento") & ID_FATURAMENTO
 
@@ -145,7 +146,12 @@ Public Class FaturarRecebimento
                         System.IO.Directory.CreateDirectory(diretorio_arquivos)
                     End If
 
-                    Dim nomeArquivofinal As String = nomeArquivo.Substring(0, 150)
+                    Dim nomeArquivofinal As String = ""
+                    If nomeArquivo.Length > 150 Then
+                        nomeArquivofinal = nomeArquivo.Substring(0, 150) & fileExtensio
+                    Else
+                        nomeArquivofinal = nomeArquivo
+                    End If
                     FileUpload1.PostedFile.SaveAs(diretorio_arquivos & "/" & nomeArquivofinal)
                     divSuccess.Visible = True
 

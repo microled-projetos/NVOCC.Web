@@ -1276,7 +1276,7 @@ VENDAS:
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Número do HBL:</label>
+                                                        <label class="control-label">HAWB:</label>
                                                         <asp:TextBox ID="txtHBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1284,7 +1284,7 @@ VENDAS:
                                               
                                                 <div class="col-sm-2">
                                                     <div class="form-group">
-                                                        <label class="control-label">Número do MBL:</label>
+                                                        <label class="control-label">MAWB:</label>
                                                         <asp:TextBox ID="txtMBL_BasicoAereo" runat="server" Enabled="false" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1339,13 +1339,13 @@ VENDAS:
 
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Porto de Origem:</label>
+                                                        <label class="control-label">Aeroporto de Origem:</label>
                                                         <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Porto de Destino:</label>
+                                                        <label class="control-label">Aeroporto de Destino:</label>
                                                         <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -1355,21 +1355,21 @@ VENDAS:
                                                         <asp:TextBox ID="txtDataCE_BasicoAereo" runat="server" CssClass="form-control data"></asp:TextBox>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2" style="display:none">
                                                     <div class="form-group">
                                                         <label class="control-label">Número CE:</label>
                                                         <asp:TextBox ID="txtNumeroCE_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
 
                                                     </div>
                                                 </div>
-                                                                                            <div class="col-sm-2">
+                                                                                            <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label class="control-label">Incoterm:</label>
                                                         <asp:DropDownList ID="ddlIncoterm_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_INCOTERM" DataSourceID="dsIncoterm" DataValueField="ID_INCOTERM">
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                 <div class="col-sm-2">
+                                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label">Final Destination:</label>
                                          <asp:DropDownList ID="ddlFinalDestination_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_CIDADE" DataSourceID="dsFinalDestination" DataValueField="ID_CIDADE">
@@ -1687,9 +1687,6 @@ VENDAS:
                                                 <asp:GridView ID="dgvCargaAereo" DataKeyNames="ID_CARGA_BL" DataSourceID="dsCargaAereo" CssClass="table table-hover table-sm grdViewTable" GridLines="None" CellSpacing="-1" runat="server" AutoGenerateColumns="false" Style="max-height: 400px; overflow: auto;" AllowSorting="true" EmptyDataText="Nenhum registro encontrado.">
                                                     <Columns>
                                                         <asp:BoundField DataField="ID_CARGA_BL" HeaderText="#" SortExpression="ID_CARGA_BL" />
-                                                        <asp:BoundField DataField="CONTAINER" HeaderText="Container" SortExpression="CONTAINER" />
-                                                        <asp:BoundField DataField="TIPO_CNTR" HeaderText="Tipo Container" SortExpression="TIPO_CNTR" />   
-                                                        <asp:BoundField DataField="QT_DIAS_FREETIME" HeaderText="FreeTime" SortExpression="QT_DIAS_FREETIME" />
                                                         <asp:BoundField DataField="ID_TIPO_CARGA" HeaderText="Tipo Carga" SortExpression="ID_TIPO_CARGA" />
                                                         <asp:BoundField DataField="QT_MERCADORIA" HeaderText="Qtd. Volume" SortExpression="QT_MERCADORIA" />
                                                         <asp:BoundField DataField="VL_PESO_BRUTO" HeaderText="Peso Bruto" SortExpression="VL_PESO_BRUTO" />
@@ -1775,10 +1772,18 @@ VENDAS:
                                                                     <div class="form-group">
                                                                         <label class="control-label">NCM:</label>
                                                                         <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px">
-<asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                                            <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
                                                                         </asp:DropDownList>
                                                                     </div>
+                                                                     </div>
+                                                                     <div class="col-sm-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Grupo NCM:</label>
+                                                                                <asp:TextBox ID="txtGrupoNCM_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
                                                                 </div>
+                                                            <div class="row">
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Quantidade de Volumes:</label>
@@ -1786,8 +1791,7 @@ VENDAS:
 
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row">
+                                                        
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Bruto:</label>
@@ -2427,11 +2431,11 @@ union SELECT 0, ' Selecione' FROM [dbo].[TB_ITEM_DESPESA] ORDER BY NM_ITEM_DESPE
 union SELECT 0, 'Selecione' FROM [dbo].[TB_BASE_CALCULO_TAXA] ORDER BY ID_BASE_CALCULO_TAXA"></asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '      Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '       Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
     <asp:SqlDataSource ID="dsComex" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
         SelectCommand="SELECT ID_TIPO_COMEX,NM_TIPO_COMEX FROM [dbo].[TB_TIPO_COMEX]

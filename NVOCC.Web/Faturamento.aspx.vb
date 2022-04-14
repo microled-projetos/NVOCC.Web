@@ -1279,7 +1279,7 @@ NR_NOTA_FISCAL,
 'ND ' + NR_NOTA_DEBITO AS NR_NOTA_DEBITO, 
 NOSSONUMERO, 
 (SELECT NR_PROCESSO from View_Faturamento where ID_FATURAMENTO = " & IDs & " )NR_PROCESSO, 
-CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR 
+CASE WHEN ISNULL(A.VL_IR_NF,0)> 0 THEN 1 ELSE 0 END FL_IR, CASE WHEN A.NR_NOTA_FISCAL IS NOT NULL THEN 1 ELSE 0 END FL_NF 
 FROM TB_FATURAMENTO A
 WHERE ID_FATURAMENTO =" & IDs & " 
 GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDERECO,BAIRRO,NR_ENDERECO,COMPL_ENDERECO,CEP,CIDADE,NR_NOTA_FISCAL,NOSSONUMERO,NR_NOTA_DEBITO,VL_IR_NF")
@@ -1321,7 +1321,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
                         Titulo.DataVencimento = linhads.Item("DT_VENCIMENTO")
 
 
-                        If linhads.Item("CIDADE").ToString() = "SANTOS" Then
+                        If linhads.Item("CIDADE").ToString() = "SANTOS" And linhads.Item("FL_NF").ToString = 1 Then
 
                             VL_BOLETO = linhads.Item("VL_LIQUIDO").ToString().Replace(".", "")
                             VL_BOLETO = VL_BOLETO.Replace(",", ".")
@@ -1398,7 +1398,7 @@ GROUP BY ID_FATURAMENTO,ID_CONTA_PAGAR_RECEBER,VL_BOLETO,CNPJ,NM_CLIENTE,ENDEREC
                     NovoBoleto.Boleto = linha
                     Dim pdf = NovoBoleto.MontaBytesPDF(False)
                     File.WriteAllBytes(Server.MapPath("/Content/boletos\BOLETO " & NR_PROCESSO.Replace("/", "-") & ".pdf"), pdf)
-                    txtIDBoleto.Text = NR_PROCESSO.Replace("/", "-") 'NossoNumero
+                    txtIDBoleto.Text = NR_PROCESSO.Replace("/", "-")
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "FuncImprimirBoleto()", True)
 
                 Next

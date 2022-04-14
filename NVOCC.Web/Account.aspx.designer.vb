@@ -509,6 +509,15 @@ Partial Public Class Account
     Protected WithEvents ddlAgente As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtIDPARCEIROAGENTE.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtIDPARCEIROAGENTE As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ddlEmissor.
     '''</summary>
     '''<remarks>

@@ -48,7 +48,7 @@
 
 <body>
     <div class="divFooter">
-        <img class="fundo" id="imgFundo" src="Content/imagens/Fundo_FCA.png" />
+        <img class="fundo" id="imgFundo" src="Content/imagens/Logo-Background.png" />
     </div>
     <nav class="menu1 navbar navbar-default navbar-fixed-top navbar-custom">
         
@@ -70,7 +70,7 @@
 
             <div id="navbar" runat="server" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <img src="Content/imagens/LOGOnegativo.png" />
+                    <img src="Content/imagens/Logo-Menu.png" />
                 </ul>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="Default.aspx" style="color: white"><i class="fa fa-home"></i>&nbsp;Início</a></li>
@@ -211,6 +211,7 @@
                                     <li><a style="font-size: 13px;" href="InvoiceQuitada.aspx" runat="server" id="mnInvoiceQuitada">Invoice Quitada</a></li>
                                     <li><a style="font-size: 13px;" href="DemonstrativoRateio.aspx" runat="server" id="mnDemonstrativoRateio">Demonstrativo Rateio</a></li> 
                                     <li><a style="font-size: 13px;" href="Premiacao.aspx" runat="server" id="mnPremiacao">Premiação Nacional - Rateamento</a></li>
+                                    <li><a style="font-size: 13px;" href="RelatorioProcessos.aspx" runat="server" id="mnRelatorioProcessos">Relatório Processos</a></li>
                                 </ul>
                             </li>
                             <li>

@@ -80,6 +80,7 @@
                                              <asp:ListItem Value="8">Número processo</asp:ListItem>
                                              <asp:ListItem Value="9">Nome Inside</asp:ListItem>
                                             <asp:ListItem Value="10">Cliente Final</asp:ListItem>
+                                            <asp:ListItem Value="11">Via Transporte</asp:ListItem>
                                         </asp:DropDownList>      </div> </div>
                                       <div class="col-sm-3">
                                     <div class="form-group">

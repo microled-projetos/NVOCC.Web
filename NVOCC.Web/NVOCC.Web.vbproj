@@ -52,7 +52,7 @@
   <ItemGroup>
     <Reference Include="ABAINFRA.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\ABAINFRA.Web 31032022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
+      <HintPath>..\..\..\..\ABAINFRA.Web 04042022\Publicacao\bin\ABAINFRA.Web.dll</HintPath>
     </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
@@ -265,8 +265,11 @@
     <Content Include="AtendimentoNegado.aspx" />
     <Content Include="AtendimentoNegado.aspx.cs" />
     <Content Include="AtendimentoNegado.aspx.designer.cs" />
-    <Content Include="CadastrarEquipe_OLD.aspx" />
     <Content Include="CadastrarEquipe.aspx" />
+    <Content Include="Content\imagens\fundo-conteineres.png" />
+    <Content Include="Content\imagens\Logo-Background.png" />
+    <Content Include="Content\imagens\Logo-Inicio.png" />
+    <Content Include="Content\imagens\Logo-Menu.png" />
     <Content Include="FaturamentoArquivo.aspx" />
     <Content Include="AvisoEmbarque.aspx" />
     <Content Include="BaixarComissao.aspx" />
@@ -349,20 +352,10 @@
     <Content Include="Content\imagens\bg.png" />
     <Content Include="Content\imagens\Bloquear.png" />
     <Content Include="Content\imagens\Capa-proposta-FCA-Log.png" />
-    <Content Include="Content\imagens\CABECALHO.png" />
     <Content Include="Content\imagens\Desbloquear.png" />
-    <Content Include="Content\imagens\FCA.png" />
-    <Content Include="Content\imagens\fundo-conteineres.png" />
-    <Content Include="Content\imagens\Fundo_FCA.png" />
-    <Content Include="Content\imagens\LOGOnegativo.png" />
     <Content Include="Content\imagens\minus.png" />
     <Content Include="Content\imagens\plus.png" />
     <Content Include="Content\imagens\search.png" />
-    <Content Include="Content\imagens\seta.png" />
-    <Content Include="Content\imagens\sort_asc.png" />
-    <Content Include="Content\imagens\sort_both.png" />
-    <Content Include="Content\imagens\sort_desc.png" />
-    <Content Include="Content\imagens\teste.png" />
     <Content Include="Content\js\1-basics.js" />
     <Content Include="Content\js\2-output-file.js" />
     <Content Include="Content\js\3-upload.js" />
@@ -555,6 +548,9 @@
     <Content Include="RelatorioInvoice.aspx" />
     <Content Include="RelatorioInvoice.aspx.cs" />
     <Content Include="RelatorioInvoice.aspx.designer.cs" />
+    <Content Include="RelatorioProcessos.aspx" />
+    <Content Include="RelatorioProcessos.aspx.cs" />
+    <Content Include="RelatorioProcessos.aspx.designer.cs" />
     <Content Include="RelatorioVendedor.aspx" />
     <Content Include="RemessaBoletos.aspx" />
     <Content Include="SelecionaPerfil.aspx" />
@@ -583,7 +579,6 @@
     <Content Include="WebService1.asmx" />
     <Content Include="WebService1.asmx.cs" />
     <Content Include="Content\PDFAuxiliar.pdf" />
-    <Content Include="Content\SOA.pdf" />
     <Content Include="Week.cs" />
     <Content Include="Bundle.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -648,13 +643,6 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
-    <Compile Include="CadastrarEquipe_OLD.aspx.designer.vb">
-      <DependentUpon>CadastrarEquipe_OLD.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CadastrarEquipe_OLD.aspx.vb">
-      <DependentUpon>CadastrarEquipe_OLD.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="CadastrarEquipe.aspx.designer.vb">
       <DependentUpon>CadastrarEquipe.aspx</DependentUpon>
     </Compile>

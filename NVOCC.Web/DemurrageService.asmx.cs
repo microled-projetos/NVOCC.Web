@@ -653,7 +653,7 @@ namespace ABAINFRA.Web
                 switch (Finalizado)
                 {
                     case "1":
-                        Finalizado = " AND ((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Finalizado = " AND D.FL_FINALIZA_DEMURRAGE=1 AND D1.FL_FINALIZA_DEMURRAGE= 1 ";
                         break;
                     default:
                         Finalizado = "";
@@ -663,7 +663,7 @@ namespace ABAINFRA.Web
                 switch (Ativo)
                 {
                     case "1":
-                        Ativo = " AND NOT((PFCL.ID_STATUS_DEMURRAGE=2 OR PFCL.ID_STATUS_DEMURRAGE=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_RECEBER IS NOT NULL) AND(PFCL.ID_STATUS_DEMURRAGE_COMPRA = 2 OR PFCL.ID_STATUS_DEMURRAGE_COMPRA=10 OR DFCL.DT_EXPORTACAO_DEMURRAGE_PAGAR IS NOT NULL)) ";
+                        Ativo = " AND (D.FL_FINALIZA_DEMURRAGE != 1 OR D1.FL_FINALIZA_DEMURRAGE != 1) ";
 
 
                         break;
@@ -695,6 +695,7 @@ namespace ABAINFRA.Web
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_IMPORTADOR = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D ON PFCL.ID_STATUS_DEMURRAGE_COMPRA= D.ID_STATUS_DEMURRAGE ";
+            SQL += "LEFT JOIN TB_STATUS_DEMURRAGE D1 ON PFCL.ID_STATUS_DEMURRAGE = D1.ID_STATUS_DEMURRAGE ";
             SQL += "WHERE RIGHT(PFCL.NR_PROCESSO,2) >= 18 ";
             SQL += "" + idFilter + " ";
             SQL += "" + Ativo + " ";
@@ -715,6 +716,25 @@ namespace ABAINFRA.Web
             SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, ";
             SQL += "PFCL.DS_OBSERVACAO ";
             SQL += "FROM VW_PROCESSO_CONTAINER_FCL PFCL ";
+            SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
+            SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
+            SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
+            SQL += "WHERE PFCL.ID_CNTR_BL = '" + idCont + "'";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+            return JsonConvert.SerializeObject(listTable);
+        }
+
+        [WebMethod]
+        public string infoContainerExp(int idCont)
+        {
+            string SQL;
+            SQL = "SELECT PFCL.ID_CNTR_BL as ID_CNTR, PFCL.NR_CNTR, PFCL.NR_PROCESSO, P.NM_RAZAO AS CLIENTE, ";
+            SQL += "PFCL.QT_DIAS_FREETIME,DFCL.QT_DIAS_DEMURRAGE_COMPRA, PFCL.QT_DIAS_FREETIME_CONFIRMA, PFCL.ID_STATUS_DEMURRAGE, DFCL.ID_DEMURRAGE_FATURA_PAGAR, DFCL.ID_DEMURRAGE_FATURA_RECEBER, PFCL.ID_STATUS_DEMURRAGE_COMPRA, FORMAT(PFCL.DT_STATUS_DEMURRAGE_COMPRA, 'yyyy-MM_dd') AS DATA_STATUS_DEMURRAGE_COMPRA, ";
+            SQL += "FORMAT(PFCL.DT_STATUS_DEMURRAGE,'yyyy-MM-dd') AS DATA_STATUS_DEMURRAGE, ";
+            SQL += "PFCL.DS_OBSERVACAO ";
+            SQL += "FROM VW_PROCESSO_CONTAINER_FCL_EXP PFCL ";
             SQL += "LEFT JOIN VW_PROCESSO_DEMURRAGE_FCL DFCL ON PFCL.ID_CNTR_BL = DFCL.ID_CNTR_BL ";
             SQL += "LEFT JOIN TB_PARCEIRO P ON PFCL.ID_PARCEIRO_CLIENTE = P.ID_PARCEIRO ";
             SQL += "LEFT JOIN TB_PARCEIRO P2 ON PFCL.ID_PARCEIRO_TRANSPORTADOR = P2.ID_PARCEIRO ";
@@ -8245,6 +8265,87 @@ namespace ABAINFRA.Web
             {
                 return JsonConvert.SerializeObject(null);
             }
+        }
+        [WebMethod]
+        public string ListarProcessoFinalizado(string dataI, string dataF, string fcl, string lcl, string filter, string text)
+		{
+            string sqlFormattedDate;
+            string sqlFormattedDate2;
+            string SQL;
+            string estufagem;
+
+            if (dataI != "")
+            {
+                string diaI = dataI.Substring(8, 2);
+                string mesI = dataI.Substring(5, 2);
+                string anoI = dataI.Substring(0, 4);
+                sqlFormattedDate = diaI + "/" + mesI + "/" + anoI;
+            }
+            else
+            {
+                sqlFormattedDate = "01/01/1900";
+            }
+
+            if (dataF != "")
+            {
+                string diaF = dataF.Substring(8, 2);
+                string mesF = dataF.Substring(5, 2);
+                string anoF = dataF.Substring(0, 4);
+                sqlFormattedDate2 = diaF + "/" + mesF + "/" + anoF;
+            }
+            else
+            {
+                sqlFormattedDate2 = "01/01/2900";
+            }            
+
+			switch (filter)
+			{
+                case "2":
+                    filter = " AND NR_PROCESSO LIKE '" + text + "%' ";
+                    break;
+                default:
+                    filter = "";
+                    break;
+			}
+
+            if(lcl == "1")
+			{
+                if(fcl == "1")
+				{
+                    estufagem = "";
+				}
+				else
+				{
+                    estufagem = " AND B.NM_TIPO_ESTUFAGEM = 'LCL' ";
+                }
+			}
+			else
+			{
+                if (fcl == "1")
+                {
+                    estufagem = " AND B.NM_TIPO_ESTUFAGEM = 'FCL' ";
+                }
+                else
+                {
+                    estufagem = " AND (B.NM_TIPO_ESTUFAGEM != 'FCL' AND B.NM_TIPO_ESTUFAGEM != 'LCL') ";
+                }
+            }
+
+            SQL = "SELECT NR_PROCESSO, B.NM_TIPO_ESTUFAGEM as NM_TIPO_ESTUFAGEM, ";
+            SQL += "CASE WHEN B.NM_TIPO_ESTUFAGEM = 'FCL' THEN FORMAT(A.DT_FINALIZACAO_PROCESSO,'dd/MM/yyyy') ELSE '' END AS DT_DEMURRAGE_SALDO, ";
+            SQL += "CASE WHEN B.NM_TIPO_ESTUFAGEM = 'LCL' THEN FORMAT(A.DT_FINALIZACAO_PROCESSO,'dd/MM/yyyy') ELSE '' END AS DT_DEV_VAZIO_SALDO ";
+            SQL += "FROM TB_BL A ";
+            SQL += "JOIN TB_TIPO_ESTUFAGEM B ON A.ID_TIPO_ESTUFAGEM = B.ID_TIPO_ESTUFAGEM ";
+            SQL += "WHERE A.DT_FINALIZACAO_PROCESSO IS NOT NULL ";
+            SQL += "" + filter + " ";
+            SQL += "" + estufagem + " ";
+            SQL += " AND CONVERT(DATE,A.DT_FINALIZACAO_PROCESSO,103) BETWEEN CONVERT(DATE,'"+ sqlFormattedDate + "',103) AND CONVERT(DATE,'"+ sqlFormattedDate2 + "',103) ";
+
+            DataTable listTable = new DataTable();
+            listTable = DBS.List(SQL);
+
+            return JsonConvert.SerializeObject(listTable);
+
         }
 
         public static string fmtTotvs2(string campo)

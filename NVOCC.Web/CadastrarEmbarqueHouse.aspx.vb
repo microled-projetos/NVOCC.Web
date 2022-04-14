@@ -1472,6 +1472,7 @@ WHERE ID_BL=" & Session("ID_BL_MASTER") & ")")
                     btnSalvar_TaxaAereo.Visible = False
                 End If
 
+                lblTipoEmpresa_Aereo.Text = "Parceiro:"
                 mpeTaxaAereo.Show()
 
             End If
@@ -1745,7 +1746,7 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
         ElseIf e.CommandName = "visualizar" Then
             Dim ID As String = e.CommandArgument
 
-            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA from TB_CARGA_BL A
+            ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
 
@@ -1756,6 +1757,10 @@ WHERE ID_CARGA_BL = " & ID)
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("QT_MERCADORIA")) Then
                     txtQtdVolume_CargaAereo.Text = ds.Tables(0).Rows(0).Item("QT_MERCADORIA")
+                End If
+
+                If Not IsDBNull(ds.Tables(0).Rows(0).Item("DS_GRUPO_NCM")) Then
+                    txtGrupoNCM_CargaAereo.Text = ds.Tables(0).Rows(0).Item("DS_GRUPO_NCM")
                 End If
 
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_TIPO_CARGA")) Then
@@ -1831,7 +1836,8 @@ WHERE ID_CARGA_BL = " & ID)
         txtPesoBruto_CargaAereo.Text = ""
         txtPesoVolumetrico_CargaAereo.Text = ""
         txtID_CargaAereo.Text = ""
-
+        txtGrupoNCM_CargaAereo.Text = ""
+        txtQtdVolume_CargaAereo.Text = ""
         mpeCargaAereo.Hide()
     End Sub
 
@@ -2822,6 +2828,12 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Dim ds As DataSet
         Dim v As New VerificaData
 
+        If txtGrupoNCM_CargaAereo.Text = "" Then
+            txtGrupoNCM_CargaAereo.Text = "NULL"
+        Else
+            txtGrupoNCM_CargaAereo.Text = "'" & txtGrupoNCM_CargaAereo.Text & "'"
+        End If
+
         If txtPesoBruto_CargaAereo.Text = "" Then
             txtPesoBruto_CargaAereo.Text = 0
         End If
@@ -2897,7 +2909,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
             Else
 
                 'INSERE 
-                ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA) VALUES (" & txtID_BasicoAereo.Text & "," & ddlMercadoria_CargaAereo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaAereo.Text & "," & txtPesoVolumetrico_CargaAereo.Text & ", " & txtAltura_CargaAereo.Text & "," & txtLargura_CargaAereo.Text & "," & txtComprimento_CargaAereo.Text & "," & txtDescMercadoria_CargaAereo.Text & "," & txtQtdVolume_CargaAereo.Text & ") Select SCOPE_IDENTITY() as ID_CARGA_BL ")
+                ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM) VALUES (" & txtID_BasicoAereo.Text & "," & ddlMercadoria_CargaAereo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaAereo.Text & "," & txtPesoVolumetrico_CargaAereo.Text & ", " & txtAltura_CargaAereo.Text & "," & txtLargura_CargaAereo.Text & "," & txtComprimento_CargaAereo.Text & "," & txtDescMercadoria_CargaAereo.Text & "," & txtQtdVolume_CargaAereo.Text & "," & txtGrupoNCM_CargaAereo.Text & " ) Select SCOPE_IDENTITY() as ID_CARGA_BL ")
                 Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
 
@@ -2939,7 +2951,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
 
 
                 'REALIZA UPDATE 
-                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoAereo.Text & ",ID_TIPO_CARGA = " & ddlMercadoria_CargaAereo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaAereo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaAereo.Text & ",VL_ALTURA =" & txtAltura_CargaAereo.Text & ",VL_LARGURA = " & txtLargura_CargaAereo.Text & ",VL_COMPRIMENTO = " & txtComprimento_CargaAereo.Text & ",DS_MERCADORIA = " & txtDescMercadoria_CargaAereo.Text & ", QT_MERCADORIA = " & txtQtdVolume_CargaAereo.Text & " WHERE ID_CARGA_BL = " & txtID_CargaAereo.Text)
+                Con.ExecutarQuery("UPDATE TB_CARGA_BL SET ID_BL = " & txtID_BasicoAereo.Text & ",ID_TIPO_CARGA = " & ddlMercadoria_CargaAereo.SelectedValue & ",ID_NCM = " & ID_NCM & ",VL_PESO_BRUTO = " & txtPesoBruto_CargaAereo.Text & ",VL_M3 = " & txtPesoVolumetrico_CargaAereo.Text & ",VL_ALTURA =" & txtAltura_CargaAereo.Text & ",VL_LARGURA = " & txtLargura_CargaAereo.Text & ",VL_COMPRIMENTO = " & txtComprimento_CargaAereo.Text & ",DS_MERCADORIA = " & txtDescMercadoria_CargaAereo.Text & ", QT_MERCADORIA = " & txtQtdVolume_CargaAereo.Text & ",DS_GRUPO_NCM = " & txtGrupoNCM_CargaAereo.Text & " WHERE ID_CARGA_BL = " & txtID_CargaAereo.Text)
 
 
 
@@ -2969,6 +2981,11 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         End If
         txtDescMercadoria_CargaAereo.Text = txtDescMercadoria_CargaAereo.Text.Replace("'", "")
         txtDescMercadoria_CargaAereo.Text = txtDescMercadoria_CargaAereo.Text.Replace("NULL", "")
+
+        txtGrupoNCM_CargaAereo.Text = txtGrupoNCM_CargaAereo.Text.Replace("'", "")
+        txtGrupoNCM_CargaAereo.Text = txtGrupoNCM_CargaAereo.Text.Replace("NULL", "")
+
+
         txtPesoVolumetrico_CargaAereo.Text = txtPesoVolumetrico_CargaAereo.Text.Replace(".", ",")
 
         txtPesoBruto_CargaAereo.Text = txtPesoBruto_CargaAereo.Text.Replace(".", ",")
@@ -3221,12 +3238,6 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
         Con.Conectar()
         Dim ds As DataSet
         Dim v As New VerificaData
-
-
-
-
-
-
 
 
         If txtMinCompra_TaxaAereo.Text = "" Then

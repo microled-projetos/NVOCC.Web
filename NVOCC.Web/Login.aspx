@@ -23,7 +23,7 @@
                 <div class="panel-heading">
                     <div class="panel-title text-center">
                         <h1 class="title logo">
-                            <img src="Content/imagens/FCA.png" /></h1>
+                            <img src="Content/imagens/Logo-Inicio.png" /></h1>
                     </div>
                 </div>
 

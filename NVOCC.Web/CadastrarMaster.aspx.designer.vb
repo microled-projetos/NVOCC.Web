@@ -1490,6 +1490,15 @@ Partial Public Class CadastrarMaster
     Protected WithEvents ddlWeekAereo As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle txtM3_BasicoAereo.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtM3_BasicoAereo As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle txtTarifaMaster_BasicoAereo.
     '''</summary>
     '''<remarks>

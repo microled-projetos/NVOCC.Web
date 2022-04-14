@@ -509,6 +509,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents txtDataCalculo As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle btnCalcular.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents btnCalcular As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''Controle ddlMotivoCancelamento.
     '''</summary>
     '''<remarks>
@@ -680,6 +689,15 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlTransportadorFrete As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle lblorigem.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lblorigem As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''Controle ddlOrigemFrete.
     '''</summary>
     '''<remarks>
@@ -687,6 +705,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlOrigemFrete As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle lbldestino.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents lbldestino As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Controle ddlDestinoFrete.
@@ -905,6 +932,33 @@ Partial Public Class CadastroCotacao
     Protected WithEvents ddlFinalDestination As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''Controle divCheckFrete.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCheckFrete As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle ckFreteDeclarado.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckFreteDeclarado As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''Controle ckFreteProfit.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ckFreteProfit As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''Controle divMinimosFCL.
     '''</summary>
     '''<remarks>
@@ -1110,6 +1164,15 @@ Partial Public Class CadastroCotacao
     '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
     '''</remarks>
     Protected WithEvents ddlMercadoria As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''Controle divCntr.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Modificar a declaração do campo de movimento do arquivo de designer para o arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents divCntr As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 
     '''<summary>
     '''Controle RedContainer.

@@ -1138,7 +1138,7 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Número BL:</label>
+                                                        <label class="control-label">MAWB:</label>
                                                         <asp:TextBox ID="txtNumeroBL_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
                                                     </div>
                                                 </div>
@@ -1195,13 +1195,13 @@
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Porto de Origem:</label>
+                                                        <label class="control-label">Aeroporto de Origem:</label>
                                                         <asp:DropDownList ID="ddlOrigem_BasicoAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label class="control-label">Porto de Destino:</label>
+                                                        <label class="control-label">Aeroporto de Destino:</label>
                                                         <asp:DropDownList ID="ddlDestino_BasicoAereo" runat="server" AutoPostBack="true" CssClass="form-control" Font-Size="11px" DataTextField="NM_PORTO" DataSourceID="dsPortoAereo" DataValueField="ID_PORTO"></asp:DropDownList>
                                                     </div>
                                                 </div>
@@ -1214,7 +1214,13 @@
 
                                             </div>
                                             <div class="row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Valor M3:</label>
+                                                        <asp:TextBox ID="txtM3_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Tarifa Master:</label>
                                                         <asp:TextBox ID="txtTarifaMaster_BasicoAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1235,7 +1241,7 @@
                                                         </asp:DropDownList>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-2">
                                                     <div class="form-group">
                                                         <label class="control-label">Data de emissão do conhecimento:</label>
                                                         <asp:TextBox ID="txtDataConhecimento_BasicoAereo" runat="server" CssClass="form-control data"></asp:TextBox>
@@ -1788,11 +1794,11 @@ union SELECT 0, 'Selecione' FROM TB_TIPO_PAGAMENTO ORDER BY ID_TIPO_PAGAMENTO"><
 union SELECT 0, ' Selecione' FROM [dbo].[TB_PARCEIRO] ORDER BY NM_RAZAO"></asp:SqlDataSource>
 
    <asp:SqlDataSource ID="dsPortoMaritimo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 1 union SELECT  0, '       Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
 
      <asp:SqlDataSource ID="dsPortoAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
-     selectcommand="SELECT ID_PORTO, NM_PORTO + ' - ' + CONVERT(VARCHAR,CD_PORTO) AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, ' Selecione' ORDER BY NM_PORTO ">             
+     selectcommand="SELECT ID_PORTO, CONVERT(VARCHAR,CD_PORTO) + ' - ' + NM_PORTO AS NM_PORTO FROM [dbo].[TB_PORTO]  WHERE NM_PORTO IS NOT NULL AND ID_VIATRANSPORTE = 4 union SELECT  0, '        Selecione' ORDER BY NM_PORTO ">             
 </asp:SqlDataSource>
 
     <asp:SqlDataSource ID="dsBaseCalculo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
