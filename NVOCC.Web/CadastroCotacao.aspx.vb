@@ -387,6 +387,10 @@ union SELECT  0, 'Selecione' ORDER BY ID_CONTATO"
         txtFreteCompraMercadoriaUnitario.Text = ""
         txtFreteVendaMercadoriaUnitario.Text = ""
         btnAdicionarMedidasAereo.Visible = False
+        txtAlturaMercadoriaAereo.Text = ""
+        txtLarguraMercadoriaAereo.Text = ""
+        txtComprimentoMercadoriaAereo.Text = ""
+        txtQtdCaixasAereo.Text = ""
 
         mpeNovoMercadoria.Hide()
     End Sub
@@ -862,6 +866,7 @@ WHERE A.ID_COTACAO_TAXA = " & ID)
             Else
                 Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA Where ID_COTACAO_MERCADORIA = " & ID)
                 Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA_DIMENSAO Where ID_COTACAO_MERCADORIA = " & ID)
+                sumMedidasAereo(ID)
                 lblDeleteMercadoria.Text = "Registro deletado!"
                 divDeleteMercadoria.Visible = True
                 dgvMercadoria.DataBind()
@@ -4608,14 +4613,19 @@ end ID_ORIGEM_PAGAMENTO
 
             dsCarga = Con.ExecutarQuery("SELECT ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO = " & txtID.Text)
             If dsCarga.Tables(0).Rows.Count > 0 Then
+
                 For Each linha As DataRow In dsCarga.Tables(0).Rows
-                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,QT_MERCADORIA,VL_ALTURA,VL_COMPRIMENTO,VL_LARGURA,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO ) 
-select A.ID_MERCADORIA,A.ID_MERCADORIA,B.QTD_CAIXA,B.VL_ALTURA,B.VL_COMPRIMENTO,B.VL_LARGURA,
-isnull(VL_PESO_BRUTO,0)/(SELECT COUNT(*) FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA = " & linha.Item("ID_COTACAO_MERCADORIA") & " )VL_PESO_BRUTO,
-isnull(VL_M3,0)/(SELECT COUNT(*) FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA = " & linha.Item("ID_COTACAO_MERCADORIA") & " )VL_M3, " & ID_BL & " , A.ID_COTACAO_MERCADORIA, ID 
-from TB_COTACAO_MERCADORIA A
+                    Dim dsInsertCarga As DataSet = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_MERCADORIA,ID_EMBALAGEM,VL_PESO_BRUTO,VL_M3,ID_BL,ID_COTACAO_MERCADORIA) 
+SELECT ID_MERCADORIA, ID_MERCADORIA, VL_PESO_BRUTO, VL_M3, " & ID_BL & " , ID_COTACAO_MERCADORIA FROM TB_COTACAO_MERCADORIA WHERE ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA") & " Select SCOPE_IDENTITY() as ID_CARGA_BL")
+
+                    Dim ID_CARGA_BL As String = dsInsertCarga.Tables(0).Rows(0).Item("ID_CARGA_BL")
+
+                    Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (QTD_CAIXA,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,ID_COTACAO_MERCADORIA,ID_COTACAO_MERCADORIA_DIMENSAO,ID_BL,ID_CARGA_BL) 
+SELECT B.QTD_CAIXA,B.VL_ALTURA,B.VL_COMPRIMENTO,B.VL_LARGURA, A.ID_COTACAO_MERCADORIA, ID , " & ID_BL & " , " & ID_CARGA_BL & "
+FROM TB_COTACAO_MERCADORIA A
 INNER JOIN TB_COTACAO_MERCADORIA_DIMENSAO B ON A.ID_COTACAO_MERCADORIA = B.ID_COTACAO_MERCADORIA AND A.ID_COTACAO = B.ID_COTACAO
-where a.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
+WHERE A.ID_COTACAO_MERCADORIA =" & linha.Item("ID_COTACAO_MERCADORIA"))
+
                 Next
 
 
@@ -5184,27 +5194,27 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
     End Sub
 
     Sub AdicionarMedidasAereo()
-        diverro.Visible = False
-        divsuccess.Visible = False
-        divinfo.Visible = False
+        divErroMercadoria.Visible = False
+        divSuccessMercadoria.Visible = False
+
         Dim Con As New Conexao_sql
         Con.Conectar()
         Dim ds As DataSet
 
 
-        sumMedidasAereo()
+        sumMedidasAereo(txtIDMercadoria.Text)
 
         If txtID.Text = "" Then
-            lblmsgErro.Text = "Necessário inserir cotação na Aba de Informações Básicas."
-            diverro.Visible = True
+            lblErroMercadoria.Text = "Necessário inserir cotação na Aba de Informações Básicas."
+            divErroMercadoria.Visible = True
 
         ElseIf txtIDMercadoria.Text = "" Then
-            lblmsgErro.Text = "Necessário inserir mercadoria."
-            diverro.Visible = True
+            lblErroMercadoria.Text = "Necessário inserir mercadoria."
+            divErroMercadoria.Visible = True
 
         ElseIf txtQtdCaixasAereo.Text = "" Or txtComprimentoMercadoriaAereo.Text = "" Or txtAlturaMercadoriaAereo.Text = "" Or txtLarguraMercadoriaAereo.Text = "" Then
-            lblmsgErro.Text = "Preencha todos os campos de dimensoes!"
-            diverro.Visible = True
+            lblErroMercadoria.Text = "Preencha todos os campos de dimensoes!"
+            divErroMercadoria.Visible = True
 
         Else
 
@@ -5217,11 +5227,15 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(".", "")
             txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(",", ".")
 
-            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID_COTACAO ")
+            ds = Con.ExecutarQuery("INSERT INTO TB_COTACAO_MERCADORIA_DIMENSAO (ID_COTACAO,ID_COTACAO_MERCADORIA, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID.Text & "," & txtIDMercadoria.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ") Select SCOPE_IDENTITY() as ID ")
 
-            sumMedidasAereo()
+            sumMedidasAereo(txtIDMercadoria.Text)
+            If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                Dim RotinaUpdate As New RotinaUpdate
+                RotinaUpdate.InsereDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ds.Tables(0).Rows(0).Item("ID").ToString())
+            End If
 
-            dgvMedidasAereo.Databind()
+            dgvMedidasAereo.DataBind()
             txtAlturaMercadoriaAereo.Text = ""
             txtLarguraMercadoriaAereo.Text = ""
             txtComprimentoMercadoriaAereo.Text = ""
@@ -5231,24 +5245,46 @@ WHERE ID_REFERENCIA_CLIENTE = " & ID)
 
     End Sub
 
-    Sub sumMedidasAereo()
+    Sub sumMedidasAereo(IDMercadoria As String)
         Dim Con As New Conexao_sql
         Con.Conectar()
-        If txtIDMercadoria.Text <> "" Then
+        If IDMercadoria <> "" Then
             Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET QT_MERCADORIA =
-(SELECT SUM(ISNULL(QTD_CAIXA,0))QTD_CAIXA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
+(SELECT SUM(ISNULL(QTD_CAIXA,0))QTD_CAIXA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria & ") WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria)
 
             Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_LARGURA =
-(SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
+(SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria & ") WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria)
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_ALTURA =
-(SELECT SUM(ISNULL(VL_ALTURA,0))VL_ALTURA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
+            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_ALTURA =
+(SELECT SUM(ISNULL(VL_ALTURA,0))VL_ALTURA FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria & ") WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria)
 
-        Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_COMPRIMENTO =
-(SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text & ") WHERE ID_COTACAO_MERCADORIA =  " & txtIDMercadoria.Text)
+            Con.ExecutarQuery("UPDATE TB_COTACAO_MERCADORIA SET VL_COMPRIMENTO =
+(SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_COTACAO_MERCADORIA_DIMENSAO WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria & ") WHERE ID_COTACAO_MERCADORIA =  " & IDMercadoria)
         End If
     End Sub
     Private Sub btnAdicionarMedidasAereo_Click(sender As Object, e As ImageClickEventArgs) Handles btnAdicionarMedidasAereo.Click
         AdicionarMedidasAereo()
+    End Sub
+
+    Private Sub dgvMedidasAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMedidasAereo.RowCommand
+        divSuccessMercadoria.Visible = False
+        divErroMercadoria.Visible = False
+        Dim Con As New Conexao_sql
+        Dim ds As DataSet
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+            Dim ID As String = e.CommandArgument
+
+            Con.ExecutarQuery("DELETE From TB_COTACAO_MERCADORIA_DIMENSAO Where ID = " & ID)
+            sumMedidasAereo(txtIDMercadoria.Text)
+            lblSuccessMercadoria.Text = "Registro deletado!"
+            divSuccessMercadoria.Visible = True
+            dgvMedidasAereo.DataBind()
+            If ddlStatusCotacao.SelectedValue = 10 And txtProcessoCotacao.Text <> "" Then
+                Dim RotinaUpdate As New RotinaUpdate
+                RotinaUpdate.DeletaDimensaoCarga(txtID.Text, txtIDMercadoria.Text, txtProcessoCotacao.Text, ID)
+            End If
+        End If
+
     End Sub
 End Class

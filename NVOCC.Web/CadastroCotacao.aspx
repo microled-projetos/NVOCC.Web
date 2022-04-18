@@ -1022,7 +1022,7 @@
                                                                 <div class="col-sm-1"> 
                                                                     <div class="form-group">
                                                                             <label class="control-label" style="color:white">Adicionar:</label>
-                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" OnClientClick="adicionarTR();" visible="false"/>
+                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server" visible="false"/>
                                                                        </div>    
                                                                 </div>
                                                        <div class="col-sm-12"> 
@@ -1036,7 +1036,7 @@
                                                 <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>
                                                 <asp:TemplateField HeaderText="">
                                                     <ItemTemplate>                                                     
-                                                        <asp:LinkButton runat="server" Text="Excluir" ID="Button2" />
+                                                        <asp:LinkButton runat="server" Text="Excluir" ID="ButtonExcluir" CommandName="Excluir" CommandArgument='<%# Eval("ID") %>' OnClientClick="return confirm('Tem certeza que deseja excluir esse registro?')"  />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
                                                 </asp:TemplateField>                                              
@@ -1115,7 +1115,7 @@
                                             </ContentTemplate>
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarFrete" />
-                                                
+                                              <asp:AsyncPostBackTrigger EventName="RowCommand" ControlID="dgvMedidasAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlEstufagem" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtFreteVendaMercadoriaUnitario" />
                                                 <asp:AsyncPostBackTrigger ControlID="txtQtdContainerMercadoria" />

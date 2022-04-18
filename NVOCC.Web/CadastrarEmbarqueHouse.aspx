@@ -1777,37 +1777,8 @@ VENDAS:
                                                                     </div>
                                                                 </div>
 
-                                                               <%-- <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">NCM:</label>
-                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px" DataTextField="NCM" DataSourceID="dsNCM" DataValueField="ID_NCM"></asp:DropDownList>
-                                                                    </div>
-                                                                </div>--%>
-                                                                 <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">NCM:</label>
-                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px">
-                                                                            <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
-                                                                        </asp:DropDownList>
-                                                                    </div>
-                                                                     </div>
+                                   
                                                                      <div class="col-sm-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label">Grupo NCM:</label>
-                                                                                <asp:TextBox ID="txtGrupoNCM_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
-                                                                            </div>
-                                                                        </div>
-                                                                </div>
-                                                            <div class="row">
-                                                                <div class="col-sm-4">
-                                                                    <div class="form-group">
-                                                                        <label class="control-label">Quantidade de Volumes:</label>
-                                                                        <asp:TextBox ID="txtQtdVolume_CargaAereo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
-
-                                                                    </div>
-                                                                </div>
-                                                        
-                                                                <div class="col-sm-4">
                                                                     <div class="form-group">
                                                                         <label class="control-label">Peso Bruto:</label>
                                                                         <asp:TextBox ID="txtPesoBruto_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
@@ -1820,9 +1791,33 @@ VENDAS:
                                                                     </div>
                                                                 </div>
                                                                 </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-4" style="display:none">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Quantidade de Volumes:</label>
+                                                                        <asp:TextBox ID="txtQtdVolume_CargaAereo" runat="server" CssClass="form-control ApenasNumeros"></asp:TextBox>
+
+                                                                    </div>
+                                                                </div>
+                                                               <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">NCM:</label>
+                                                                        <asp:DropDownList ID="ddlNCM_CargaAereo" runat="server" CssClass="form-control" Font-Size="11px">
+                                                                            <asp:ListItem Value="0" Text="Selecione"></asp:ListItem>
+                                                                        </asp:DropDownList>
+                                                                    </div>
+                                                                     </div>
+                                                                     <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Grupo NCM:</label>
+                                                                                <asp:TextBox ID="txtGrupoNCM_CargaAereo" runat="server" CssClass="form-control"></asp:TextBox>
+                                                                            </div>
+                                                                        </div>
+                                                     
+                                                                </div>
 
                                                              
-                                                            <div class="row">
+                                                            <div class="row" style="display:none">
 
                                                                 <div class="col-sm-4">
                                                                     <div class="form-group">
@@ -1843,6 +1838,59 @@ VENDAS:
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            <div class="row" runat="server" id="divMedidasAereo">
+                                                                <div class="col-sm-2">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Qtd. Caixas:</label>
+                                                                        <asp:TextBox ID="txtQtdCaixasAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Comprimento:</label>
+                                                                        <asp:TextBox ID="txtComprimentoMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Largura:</label>
+                                                                        <asp:TextBox ID="txtLarguraMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Altura:</label>
+                                                                        <asp:TextBox ID="txtAlturaMercadoriaAereo" runat="server" CssClass="form-control" MaxLength="100"></asp:TextBox>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-1"> 
+                                                                    <div class="form-group">
+                                                                            <label class="control-label" style="color:white">Adicionar:</label>
+                                                                            <asp:ImageButton ID="btnAdicionarMedidasAereo" src="Content/imagens/plus.png" runat="server"  visible="false"/>
+                                                                       </div>    
+                                                                </div>
+                                                       <div class="col-sm-12"> 
+                                                                    <div class="table-responsive tableFixHead" Style="max-height: 200px">
+                                                                    <asp:GridView ID="dgvMedidasAereo" CssClass="table table-hover table-sm grdViewTable" DataKeyNames="Id" DataSourceID="dsMedidasAereo" runat="server" Style="max-height: 200px !important; overflow: scroll;" AllowSorting="true" AutoGenerateColumns="false">
+                                            <Columns>
+                                                <asp:BoundField DataField="Id" HeaderText="#" SortExpression="Id" visible="false"/>
+                                                <asp:BoundField DataField="QTD_CAIXA" HeaderText="Qtd. Caixas" ItemStyle-HorizontalAlign="Center"/>
+                                                <asp:BoundField DataField="VL_COMPRIMENTO" HeaderText="Comprimento" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" />
+                                                <asp:BoundField DataField="VL_LARGURA" HeaderText="Largura" ItemStyle-HorizontalAlign="Center"/>
+                                                <asp:BoundField DataField="VL_ALTURA" HeaderText="Altura" ItemStyle-HorizontalAlign="Center"/>
+                                                <asp:TemplateField HeaderText="">
+                                                    <ItemTemplate>                                                     
+                                                        <asp:LinkButton runat="server" Text="Excluir" ID="Button2" />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" CssClass="campo-acao" />
+                                                </asp:TemplateField>                                              
+                                            </Columns>
+                                             <HeaderStyle HorizontalAlign="Center"/>
+                                        </asp:GridView>
+                                        </div>
+                                           </div>
+                                              </div>  
                                                             <div class="row"  id="divMercadoriaCNTR_Aereo" runat="server" style="display:block">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group">
@@ -1914,6 +1962,7 @@ VENDAS:
                                             <Triggers>
                                                 <asp:AsyncPostBackTrigger ControlID="txtNCMFiltro_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvarNCM_CargaAereo" />
+                                                <asp:AsyncPostBackTrigger ControlID="btnAdicionarMedidasAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnSalvar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="btnFechar_CargaAereo" />
                                                 <asp:AsyncPostBackTrigger ControlID="ddlEstufagem_BasicoAereo" />
@@ -2882,6 +2931,25 @@ union SELECT  0, 'Selecione' ORDER BY ID_TIPO_DIVISAO_PROFIT">
          <asp:SqlDataSource ID="dsFinalDestination" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
       selectcommand="SELECT ID_CIDADE,upper( NM_CIDADE) + ' - ' + (SELECT SIGLA_ESTADO FROM TB_ESTADO B WHERE B.ID_ESTADO = A.ID_ESTADO) AS NM_CIDADE FROM [dbo].[TB_CIDADE] A  union SELECT  0 as Id, '  Selecione' as Descricao FROM [dbo].[TB_CIDADE] A Order by NM_CIDADE">
 </asp:SqlDataSource>
+
+    
+    <asp:SqlDataSource ID="dsMedidasAereo" runat="server" ConnectionString="<%$ ConnectionStrings:NVOCC %>"
+        SelectCommand="SELECT ID
+      ,ID_BL
+	  ,ID_CARGA_BL
+      ,ID_COTACAO_MERCADORIA
+      ,ID_COTACAO_MERCADORIA_DIMENSAO
+      ,QTD_CAIXA
+      ,VL_LARGURA
+      ,VL_ALTURA
+      ,VL_COMPRIMENTO
+  FROM TB_CARGA_BL_DIMENSAO 
+    WHERE ID_CARGA_BL = @ID_CARGA_BL">
+        <SelectParameters>
+            <asp:ControlParameter Name="ID_CARGA_BL" Type="Int32" ControlID="txtID_CargaAereo" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Scripts" runat="server">
     <script>

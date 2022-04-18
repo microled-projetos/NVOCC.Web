@@ -1724,6 +1724,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
                 divErro_CargaAereo1.Visible = True
             Else
                 Con.ExecutarQuery("DELETE From TB_CARGA_BL Where ID_CARGA_BL = " & ID)
+                Con.ExecutarQuery("DELETE From TB_CARGA_BL_DIMENSAO Where ID_CARGA_BL = " & ID)
+                sumMedidasAereo(ID)
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
@@ -1757,6 +1759,8 @@ WHERE A.ID_BL_TAXA =" & ID & " and DT_CANCELAMENTO is null ")
             ds = Con.ExecutarQuery("select ID_CARGA_BL,ID_TIPO_CARGA,ID_MERCADORIA,ID_NCM,(select CD_NCM +' - '+ NM_NCM from TB_NCM WHERE ID_NCM = A.ID_NCM)NCM,VL_PESO_BRUTO,VL_M3,ID_EMBALAGEM,DS_GRUPO_NCM,ID_CNTR_BL,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM from TB_CARGA_BL A
 WHERE ID_CARGA_BL = " & ID)
             If ds.Tables(0).Rows.Count > 0 Then
+
+                btnAdicionarMedidasAereo.Visible = True
 
                 'Taxas
                 If Not IsDBNull(ds.Tables(0).Rows(0).Item("ID_CARGA_BL")) Then
@@ -1846,6 +1850,12 @@ WHERE ID_CARGA_BL = " & ID)
         txtID_CargaAereo.Text = ""
         txtGrupoNCM_CargaAereo.Text = ""
         txtQtdVolume_CargaAereo.Text = ""
+        btnAdicionarMedidasAereo.Visible = False
+        txtAlturaMercadoriaAereo.Text = ""
+        txtLarguraMercadoriaAereo.Text = ""
+        txtComprimentoMercadoriaAereo.Text = ""
+        txtQtdCaixasAereo.Text = ""
+
         mpeCargaAereo.Hide()
     End Sub
 
@@ -2919,7 +2929,10 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                 'INSERE 
                 ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL (ID_BL,ID_TIPO_CARGA,ID_NCM,VL_PESO_BRUTO,VL_M3,VL_ALTURA,VL_LARGURA,VL_COMPRIMENTO,DS_MERCADORIA,QT_MERCADORIA,DS_GRUPO_NCM) VALUES (" & txtID_BasicoAereo.Text & "," & ddlMercadoria_CargaAereo.SelectedValue & ", " & ID_NCM & ", " & txtPesoBruto_CargaAereo.Text & "," & txtPesoVolumetrico_CargaAereo.Text & ", " & txtAltura_CargaAereo.Text & "," & txtLargura_CargaAereo.Text & "," & txtComprimento_CargaAereo.Text & "," & txtDescMercadoria_CargaAereo.Text & "," & txtQtdVolume_CargaAereo.Text & "," & txtGrupoNCM_CargaAereo.Text & " ) Select SCOPE_IDENTITY() as ID_CARGA_BL ")
                 Dim ID_CARGA_BL As String = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
+                txtID_CargaAereo.Text = ds.Tables(0).Rows(0).Item("ID_CARGA_BL")
 
+                AdicionarMedidasAereo()
+                btnAdicionarMedidasAereo.Visible = True
 
                 Con.ExecutarQuery("UPDATE TB_BL SET VL_M3 =
 (SELECT SUM(ISNULL(VL_M3,0))VL_M3 FROM TB_CARGA_BL WHERE ID_BL =  " & txtID_BasicoAereo.Text & ") WHERE ID_BL =  " & txtID_BasicoAereo.Text & " ; UPDATE TB_BL SET VL_PESO_BRUTO =
@@ -2936,6 +2949,7 @@ INNER JOIN TB_CNTR_BL B ON B.ID_CNTR_BL=A.ID_CNTR_BL
                     Next
 
                 End If
+
                 CalculoProfit(txtID_BasicoAereo.Text)
 
 
@@ -4911,5 +4925,92 @@ union SELECT 0, 'Selecione' FROM [dbo].[TB_CNTR_BL] ORDER BY ID_CNTR_BL"
             txtQtdBaseCalculo_TaxaMaritimo.Text = 0
             txtQtdBaseCalculo_TaxaMaritimo.Enabled = False
         End If
+    End Sub
+
+    Sub AdicionarMedidasAereo()
+        divErro_CargaAereo2.Visible = False
+        divSuccess_CargaAereo2.Visible = False
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        Dim ds As DataSet
+
+
+        sumMedidasAereo(txtID_BasicoAereo.Text)
+
+        If txtID_BasicoAereo.Text = "" Then
+            lblErro_CargaAereo2.Text = "Necessário inserir dados basicos do processo."
+            divErro_CargaAereo2.Visible = True
+
+        ElseIf txtID_CargaAereo.Text = "" Then
+            lblErro_CargaAereo2.Text = "Necessário inserir carga."
+            divErro_CargaAereo2.Visible = True
+
+        ElseIf txtQtdCaixasAereo.Text = "" Or txtComprimentoMercadoriaAereo.Text = "" Or txtAlturaMercadoriaAereo.Text = "" Or txtLarguraMercadoriaAereo.Text = "" Then
+            lblErro_CargaAereo2.Text = "Preencha todos os campos de dimensoes!"
+            divErro_CargaAereo2.Visible = True
+
+        Else
+
+            txtAlturaMercadoriaAereo.Text = txtAlturaMercadoriaAereo.Text.Replace(".", "")
+            txtAlturaMercadoriaAereo.Text = txtAlturaMercadoriaAereo.Text.Replace(",", ".")
+
+            txtComprimentoMercadoriaAereo.Text = txtComprimentoMercadoriaAereo.Text.Replace(".", "")
+            txtComprimentoMercadoriaAereo.Text = txtComprimentoMercadoriaAereo.Text.Replace(",", ".")
+
+            txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(".", "")
+            txtLarguraMercadoriaAereo.Text = txtLarguraMercadoriaAereo.Text.Replace(",", ".")
+
+            ds = Con.ExecutarQuery("INSERT INTO TB_CARGA_BL_DIMENSAO (ID_BL,ID_CARGA_BL, QTD_CAIXA, VL_LARGURA, VL_ALTURA, VL_COMPRIMENTO) VALUES (" & txtID_BasicoAereo.Text & "," & txtID_CargaAereo.Text & "," & txtQtdCaixasAereo.Text & "," & txtLarguraMercadoriaAereo.Text & "," & txtAlturaMercadoriaAereo.Text & "," & txtComprimentoMercadoriaAereo.Text & ")")
+
+            sumMedidasAereo(txtID_BasicoAereo.Text)
+
+            dgvMedidasAereo.DataBind()
+            txtAlturaMercadoriaAereo.Text = ""
+            txtLarguraMercadoriaAereo.Text = ""
+            txtComprimentoMercadoriaAereo.Text = ""
+            txtQtdCaixasAereo.Text = ""
+        End If
+
+
+    End Sub
+
+    Sub sumMedidasAereo(ID_CargaAereo As String)
+        Dim Con As New Conexao_sql
+        Con.Conectar()
+        If ID_CargaAereo <> "" Then
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET QT_MERCADORIA =
+(SELECT SUM(ISNULL(QTD_CAIXA,0))QTD_CAIXA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
+
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_LARGURA =
+(SELECT SUM(ISNULL(VL_LARGURA,0))VL_LARGURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
+
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_ALTURA =
+(SELECT SUM(ISNULL(VL_ALTURA,0))VL_ALTURA FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
+
+            Con.ExecutarQuery("UPDATE TB_CARGA_BL SET VL_COMPRIMENTO =
+(SELECT SUM(ISNULL(VL_COMPRIMENTO,0))VL_COMPRIMENTO FROM TB_CARGA_BL_DIMENSAO WHERE ID_CARGA_BL =  " & ID_CargaAereo & ") WHERE ID_CARGA_BL =  " & ID_CargaAereo)
+        End If
+    End Sub
+
+    Private Sub btnAdicionarMedidasAereo_Click(sender As Object, e As ImageClickEventArgs) Handles btnAdicionarMedidasAereo.Click
+        AdicionarMedidasAereo()
+    End Sub
+
+    Private Sub dgvMedidasAereo_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles dgvMedidasAereo.RowCommand
+        divErro_CargaAereo2.Visible = False
+        divSuccess_CargaAereo2.Visible = False
+        Dim Con As New Conexao_sql
+        Dim ds As DataSet
+        Con.Conectar()
+        If e.CommandName = "Excluir" Then
+            Dim ID As String = e.CommandArgument
+
+            Con.ExecutarQuery("DELETE From TB_CARGA_BL_DIMENSAO Where ID = " & ID)
+            sumMedidasAereo(txtID_CargaAereo.Text)
+            lblSuccess_CargaAereo2.Text = "Registro deletado!"
+            divSuccess_CargaAereo2.Visible = True
+            dgvMedidasAereo.DataBind()
+        End If
+
     End Sub
 End Class
